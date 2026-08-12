@@ -14,7 +14,9 @@ The system transports the package, not the chat. A target identity such as SB on
 
 The canonical route is:
 
-`Training School -> Audit Depot -> ChatGPT Library -> Project Terminal -> Named Stop -> Native Specialist -> Qualification`
+`Training School -> Audit Depot -> Native Cargo Store -> Project Terminal -> Named Stop -> Native Specialist -> Qualification`
+
+The preferred Native Cargo Store is ChatGPT Library when available.
 
 ### Training School
 
@@ -26,7 +28,9 @@ The school has no authority to mark a native ChatGPT identity qualified.
 
 Candidate output is independently reviewed before admission. The depot verifies source provenance, release manifest, checksums, scope claims, known failures, qualification material, and regression provenance.
 
-Only an admitted release may be routed to a native specialist.
+Admission produces an immutable admission receipt bound to the exact release fingerprint. The receipt records at minimum the release ID, intended stop/function, package fingerprint, audit outcome, and supersession/currentness relationship known at admission time.
+
+Only an admitted release with a matching admission receipt may be routed to a native specialist.
 
 ### Boarding Package
 
@@ -35,6 +39,7 @@ Each admitted release is immutable and self-contained. A package contains at min
 - release ID
 - intended stop / function
 - manifest and package fingerprint
+- audit admission receipt or its exact embedded representation
 - identity capsule
 - exact source anchors and provenance
 - operating invariants and known failure modes
@@ -45,13 +50,15 @@ Each admitted release is immutable and self-contained. A package contains at min
 
 A package must not require GitHub or another external service to interpret its authoritative contents after admission.
 
-### ChatGPT Library
+The package does not become authoritative merely because it exists. Boarding requires the Project Terminal to name the same admitted release and expected fingerprint, and the package must contain the matching audit admission receipt.
 
-The admitted package is stored as a reusable native ChatGPT file when Library support is available.
+### Native Cargo Store
 
-Library is cargo storage, not authority. The immutable package contents and fingerprint establish package identity. Automatic assistant-side Library retrieval is an optimization only, because universal autonomous retrieval by every future specialist chat is not established as a guaranteed product contract.
+The preferred cargo store is ChatGPT Library when available because it allows admitted package files to be reused natively in later chats.
 
-Manual "Add from Library" attachment is the guaranteed fallback handoff.
+Cargo storage is not authority. The immutable package contents, admission receipt, and fingerprint establish package identity, while the Project Terminal identifies which admitted release is current for a stop.
+
+Automatic assistant-side Library retrieval is an optimization only, because universal autonomous retrieval by every future specialist chat is not established as a guaranteed product contract.
 
 ### Project Terminal
 
@@ -64,11 +71,12 @@ It contains routing metadata only, not bulky training knowledge. For each named 
 - current admitted release ID
 - expected package filename or logical identity
 - expected package fingerprint
+- expected admission-receipt identity or fingerprint
 - qualification profile
 - status
 - immediately previous admitted release for rollback when available
 
-The terminal is an index and routing convenience. It is not stronger authority than the immutable release package itself. If the terminal and a verified release package conflict, boarding fails closed until currentness is resolved.
+The terminal is the native current-route registry, not a substitute for the audit receipt. A terminal entry cannot make an unadmitted package authoritative. If the terminal, admission receipt, and package identity do not agree exactly, boarding fails closed until currentness is resolved.
 
 ### Named Stops
 
@@ -84,7 +92,7 @@ The bus is generic orchestration logic. It performs the same bounded sequence fo
 
 1. Resolve the named stop.
 2. Resolve the exact current admitted release.
-3. Verify release ID, intended stop, manifest, fingerprint, admission status, and currentness.
+3. Verify release ID, intended stop, manifest, fingerprint, admission receipt, admission status, and currentness.
 4. Reject stale, wrong-passenger, malformed, unadmitted, or mismatched packages.
 5. Make the exact admitted package available to the native specialist.
 6. Require the specialist to consume the package without promoting proxy scores or model-authored claims beyond their stated epistemic status.
@@ -104,19 +112,20 @@ Automatic pickup is never required for correctness.
 
 ### Manual Fallback
 
-If autonomous retrieval is unavailable, the specialist reports the exact required package identity and fingerprint. The user attaches that package from ChatGPT Library. Boarding then continues from the same verification step.
+If autonomous retrieval is unavailable, the specialist reports the exact required package identity and fingerprint. The user attaches that exact package from ChatGPT Library when available, or uploads the exact admitted package file from another user-controlled copy. Boarding then continues from the same verification step.
 
-This keeps required user effort bounded while preserving an explicit native handoff boundary.
+The fallback therefore depends on possession of the exact fingerprinted package, not on a particular ChatGPT UI feature.
 
 ## Authority and Trust Rules
 
 - External training evidence is not native qualification.
 - Same-model trainer/student/examiner scores are proxy evidence only.
 - The route board cannot make an unadmitted package authoritative.
-- A package cannot self-authorize merely because it exists in Library.
+- A package cannot self-authorize merely because it exists in Library or another cargo store.
+- Audit admission is bound to exact package bytes through the admission receipt and fingerprint.
 - `latest` is not a valid release selector for boarding; boarding is release-pinned.
 - Wrong-stop packages fail closed.
-- Fingerprint or manifest mismatch fails closed.
+- Fingerprint, manifest, or admission-receipt mismatch fails closed.
 - Superseded releases do not silently override the terminal's current admitted release.
 - Rollback is explicit and may target only a previously admitted release.
 - GitHub, Qwen, and other workbench infrastructure disappear from the native runtime dependency graph after admission.
@@ -135,7 +144,7 @@ Only `ADMITTED` or `READY_FOR_BOARDING` packages may be presented for initial na
 
 ## Rollback
 
-Each stop should expose the current admitted release and, when available, the immediately previous admitted release. Rollback is explicit and fingerprint-pinned. Keeping unlimited historical releases in the terminal is unnecessary; historical packages may remain in Library or archival storage without cluttering native routing context.
+Each stop should expose the current admitted release and, when available, the immediately previous admitted release. Rollback is explicit and fingerprint-pinned. Keeping unlimited historical releases in the terminal is unnecessary; historical packages may remain in Library or user-controlled archival storage without cluttering native routing context.
 
 ## Error Handling
 
@@ -143,6 +152,7 @@ Boarding fails closed on:
 
 - missing stop
 - missing release
+- missing or invalid admission receipt
 - unadmitted release
 - stale terminal entry
 - wrong intended identity/function
@@ -161,10 +171,11 @@ The transport layer requires deterministic tests for:
 - wrong passenger rejection
 - stale route-board rejection
 - altered package / checksum rejection
+- forged, missing, or mismatched admission receipt rejection
 - unadmitted package rejection
 - current + rollback resolution
 - automatic retrieval success path
-- manual attachment fallback path
+- manual attachment/upload fallback path
 - no external-runtime dependency after package admission
 - native qualification remains separate from proxy qualification
 - explicit remediation after qualification failure
@@ -187,6 +198,7 @@ school_bus/
   releases/
     <RELEASE_ID>/
       MANIFEST.json
+      ADMISSION_RECEIPT.json
       IDENTITY_CAPSULE.md
       SOURCE_ANCHORS.json
       QUALIFICATION_SET.json
@@ -199,13 +211,13 @@ Native Project surface:
 TRAINING_BUS_TERMINAL.md
 ```
 
-Native Library surface:
+Preferred native cargo surface:
 
 ```text
 BUS_<FUNCTION>_<RELEASE>.md   # or an equivalent immutable package artifact
 ```
 
-The concrete package format may be one file or a compact bundle. The design requirement is self-contained immutable identity, not a particular serialization format.
+The concrete package format may be one file or a compact bundle. The design requirement is self-contained immutable identity and admission evidence, not a particular serialization format or storage UI.
 
 ## Explicit Non-Goals
 
@@ -218,7 +230,8 @@ This design does not:
 - assume one custom Python script per specialist
 - assume autonomous cross-chat message injection
 - assume that every specialist can always retrieve arbitrary Library files without user attachment
+- make ChatGPT Library mandatory for correctness
 
 ## Success Criteria
 
-The design succeeds when a new specialist can be added primarily by declaring a stop and admitting a package, not by cloning transport logic; the exact package routed to that specialist is verifiable and current; the specialist can board through automatic native retrieval or bounded manual attachment; and native qualification remains the only evidence that the actual target identity successfully absorbed the training release.
+The design succeeds when a new specialist can be added primarily by declaring a stop and admitting a package, not by cloning transport logic; the exact package routed to that specialist is verifiable and current; the specialist can board through automatic native retrieval or bounded manual attachment/upload; and native qualification remains the only evidence that the actual target identity successfully absorbed the training release.
