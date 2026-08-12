@@ -141,9 +141,11 @@ def ensure_critical_coverage(curriculum, caps, minimum_observations: int = 2):
             replacement_index = None
             for idx in range(len(repaired) - 1, -1, -1):
                 old_ids = repaired[idx].get("capability_ids", [])
+                if cid in old_ids:
+                    continue
                 safe = True
                 for old_id in old_ids:
-                    if old_id in counts and old_id != cid and counts[old_id] <= minimum_observations:
+                    if old_id in counts and counts[old_id] <= minimum_observations:
                         safe = False
                         break
                 if safe:
