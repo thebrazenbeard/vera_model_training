@@ -2,6 +2,8 @@
 
 Keeps the pedagogical round count intact while bounding context/output so a local
 open-weight model can complete within an ordinary ChatGPT-triggered workflow window.
+This module also installs the conservative V3 evidence/evaluator gates without
+mutating the stable core engine.
 """
 from __future__ import annotations
 
@@ -17,6 +19,7 @@ import quality_gate
 
 _ORIGINAL_SELECT = bootcamp.select_source_segments
 _ORIGINAL_BUILD_CURRICULUM = bootcamp.build_curriculum
+_ORIGINAL_EXAMINE = bootcamp.examine
 _SOURCE_PACK = ""
 
 
@@ -89,14 +92,17 @@ def _capabilities_from_obj(obj):
         if not cid or cid in seen:
             continue
         seen.add(cid)
-        caps.append(bootcamp.Capability(
+        cap = bootcamp.Capability(
             cid,
             str(raw.get("name", cid)).strip(),
             str(raw.get("description", "")).strip(),
             bool(raw.get("critical", False)),
-            evidence_url=str(raw.get("evidence_url", "")).strip(),
-            evidence_quote=str(raw.get("evidence_quote", "")).strip(),
-        ))
+        )
+        # Capability is intentionally not slotted, so V3 evidence metadata can be
+        # attached without changing the stable core dataclass positional API.
+        cap.evidence_url = str(raw.get("evidence_url", "")).strip()
+        cap.evidence_quote = str(raw.get("evidence_quote", "")).strip()
+        caps.append(cap)
     return caps
 
 
@@ -118,6 +124,33 @@ def grounded_build_curriculum(spec, knowledge, caps):
     curriculum = _ORIGINAL_BUILD_CURRICULUM(spec, knowledge, caps)
     curriculum = quality_gate.strengthen_curriculum(curriculum, caps)
     return quality_gate.ensure_critical_coverage(curriculum, caps, minimum_observations=2)
+
+
+def conservative_examine(function: str, knowledge: str, task, answer: str):
+    exam = _ORIGINAL_EXAMINE(function, knowledge, task, answer)
+    corrections = exam.get("corrections") if isinstance(exam.get("corrections"), list) else []
+    if corrections and int(exam.get("score", 0)) > 3:
+        exam["score"] = 3
+    updates = exam.get("capability_updates") if isinstance(exam.get("capability_updates"), dict) else {}
+    bounded = {}
+    for cid, raw_score in updates.items():
+        try:
+            bounded[cid] = min(int(exam.get("score", 0)), max(0, min(4, int(raw_score))))
+        except Exception:
+            continue
+    exam["capability_updates"] = bounded
+    exam["passed"] = bool(exam.get("passed", exam.get("score", 0) >= 3)) and int(exam.get("score", 0)) >= 3
+    return exam
+
+
+def source_only_learned_state(function: str, lessons, caps) -> str:
+    # Same-model examiner lessons/corrections remain visible in TRAINING_AUDIT,
+    # but are not fed into subsequent student rounds as if independently validated.
+    return bootcamp.clamp(
+        f"FUNCTION: {function}\nCAPABILITY PROXY EVIDENCE:\n{bootcamp.capability_snapshot(caps)}\n"
+        "SOURCE-VERIFIED CORRECTIONS: none promoted automatically; consult source evidence.",
+        bootcamp.MAX_STATE_CHARS,
+    )
 
 
 def _normalize_task_text(text: str) -> str:
@@ -167,6 +200,8 @@ bootcamp.llm = bounded_llm
 bootcamp.build_knowledge_pack = grounded_build_knowledge_pack
 bootcamp.build_capabilities = grounded_build_capabilities
 bootcamp.build_curriculum = grounded_build_curriculum
+bootcamp.examine = conservative_examine
+bootcamp.learned_state = source_only_learned_state
 bootcamp.build_transfer_tasks = robust_build_transfer_tasks
 bootcamp.qualify = quality_gate.conservative_qualification
 bootcamp.distill = conservative_distill
