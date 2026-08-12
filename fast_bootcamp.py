@@ -70,9 +70,9 @@ def bounded_llm(system: str, user: str, max_tokens: int = 500, temperature: floa
 def grounded_build_knowledge_pack(function: str, sources: list[str]):
     global _SOURCE_PACK
     _SOURCE_PACK, evidence = bootcamp.build_source_pack(function, sources)
-    prompt = f"FUNCTION: {function}\n<SOURCE_DATA>\n{_SOURCE_PACK}\n</SOURCE_DATA>\nCreate the reusable source-grounded knowledge pack now. Do not add capabilities or claims that are absent from SOURCE_DATA."
-    knowledge = bootcamp.llm(bootcamp.SOURCE_SYNTH_SYSTEM, prompt, max_tokens=700, temperature=0.0)
-    return bootcamp.clamp(knowledge, bootcamp.MAX_KNOWLEDGE_CHARS), evidence
+    # V3 intentionally eliminates a free-form model-authored knowledge summary.
+    # Trainer, Student, and Examiner receive the same bounded source excerpts.
+    return _SOURCE_PACK, evidence
 
 
 def get_source_pack() -> str:
@@ -109,7 +109,7 @@ def _capabilities_from_obj(obj):
 def grounded_build_capabilities(function: str, target: str, knowledge: str):
     obj = bootcamp.json_llm(
         GROUNDED_ARCHITECT_SYSTEM,
-        f"FUNCTION: {function}\nTARGET: {target}\nSOURCE_DATA:\n{_SOURCE_PACK}\nSOURCE-SYNTHESIZED ORIENTATION:\n{knowledge}",
+        f"FUNCTION: {function}\nTARGET: {target}\nSOURCE_DATA:\n{_SOURCE_PACK}\nSOURCE MATERIAL:\n{knowledge}",
         max_tokens=800,
         temperature=0.0,
     )
