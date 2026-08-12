@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import bootcamp
 import fast_bootcamp  # noqa: F401 - installs the bounded, conservative runtime profile
@@ -19,6 +20,9 @@ def main() -> None:
     qual = bootcamp.qualify(spec, caps, audit, transfers, evidence)
     capsule = bootcamp.distill(spec, knowledge, caps, lessons, qual)
     bootcamp.write_outputs(spec, capsule, qual, regressions, audit, transfers, evidence, curriculum)
+    Path("out/SOURCE_EXCERPTS.md").write_text(
+        fast_bootcamp.get_source_pack().strip() + "\n", encoding="utf-8"
+    )
     print(json.dumps({
         "package_outcome": qual.get("outcome", "UNKNOWN"),
         "training_package_ready": bool(qual.get("training_package_ready", False)),

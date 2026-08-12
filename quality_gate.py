@@ -31,6 +31,22 @@ def _tokenize(text: str) -> set[str]:
     return out
 
 
+def _normalize_ws(text: str) -> str:
+    return " ".join(str(text).split())
+
+
+def _source_block(source_pack: str, url: str) -> str:
+    marker = f"<SOURCE url={json.dumps(url)}>"
+    start = source_pack.find(marker)
+    if start < 0:
+        return ""
+    start += len(marker)
+    end = source_pack.find("</SOURCE>", start)
+    if end < 0:
+        return ""
+    return source_pack[start:end]
+
+
 def capability_supported_by_sources(cap, source_pack: str) -> bool:
     raw = cap.__dict__ if hasattr(cap, "__dict__") else dict(cap)
     name_tokens = _tokenize(str(raw.get("name", "")))
@@ -51,11 +67,37 @@ def capability_supported_by_sources(cap, source_pack: str) -> bool:
     return True
 
 
-def filter_source_supported_capabilities(caps, source_pack: str, minimum: int = 3):
-    supported = [cap for cap in caps if capability_supported_by_sources(cap, source_pack)]
+def capability_exact_evidence_supported(cap, source_pack: str) -> bool:
+    raw = cap.__dict__ if hasattr(cap, "__dict__") else dict(cap)
+    url = str(raw.get("evidence_url", "")).strip()
+    quote = _normalize_ws(raw.get("evidence_quote", ""))
+    if not url or len(quote) < 24:
+        return False
+    block = _source_block(source_pack, url)
+    if not block:
+        return False
+    if quote not in _normalize_ws(block):
+        return False
+    return capability_supported_by_sources(raw, block)
+
+
+def filter_source_supported_capabilities(caps, source_pack: str, minimum: int = 3, require_exact: bool = False):
+    predicate = capability_exact_evidence_supported if require_exact else capability_supported_by_sources
+    supported = [cap for cap in caps if predicate(cap, source_pack)]
     if len(supported) < minimum:
         raise ValueError(f"insufficient source-grounded capability coverage: {len(supported)} < {minimum}")
     return supported
+
+
+def normalize_criticality(caps, max_critical: int = 3):
+    kept = 0
+    for cap in caps:
+        if bool(cap.critical) and kept < max_critical:
+            cap.critical = True
+            kept += 1
+        else:
+            cap.critical = False
+    return caps
 
 
 def strengthen_task_rubric(task: dict[str, Any], caps) -> dict[str, Any]:
@@ -84,6 +126,55 @@ def strengthen_curriculum(curriculum, caps):
     return [strengthen_task_rubric(task, caps) for task in curriculum]
 
 
+def ensure_critical_coverage(curriculum, caps, minimum_observations: int = 2):
+    repaired = [dict(task) for task in curriculum]
+    by_id = {c.id: c for c in caps}
+    critical_ids = [c.id for c in caps if c.critical]
+    counts = {cid: sum(cid in task.get("capability_ids", []) for task in repaired) for cid in critical_ids}
+    required_slots = len(critical_ids) * minimum_observations
+    if required_slots > len(repaired):
+        raise ValueError("round budget cannot provide repeated evidence for every critical capability")
+
+    for cid in critical_ids:
+        cap = by_id[cid]
+        while counts[cid] < minimum_observations:
+            replacement_index = None
+            for idx in range(len(repaired) - 1, -1, -1):
+                old_ids = repaired[idx].get("capability_ids", [])
+                if cid in old_ids:
+                    continue
+                safe = True
+                for old_id in old_ids:
+                    if old_id in counts and counts[old_id] <= minimum_observations:
+                        safe = False
+                        break
+                if safe:
+                    replacement_index = idx
+                    break
+            if replacement_index is None:
+                raise ValueError(f"cannot repair repeated critical coverage for {cid}")
+            old = repaired[replacement_index]
+            for old_id in old.get("capability_ids", []):
+                if old_id in counts:
+                    counts[old_id] -= 1
+            replacement = {
+                "task": (
+                    f"Independent evidence scenario for {cap.name}: apply {cap.description}. "
+                    "State the source-supported behavior, one realistic failure mode, and any material uncertainty."
+                ),
+                "capability_ids": [cid],
+                "hidden_rubric": [
+                    f"Correctly apply {cap.name} using only the supplied source evidence.",
+                    "Identify a realistic failure mode or boundary without inventing unsupported behavior.",
+                ],
+                "adversarial": bool(old.get("adversarial", False)),
+                "critical": True,
+            }
+            repaired[replacement_index] = strengthen_task_rubric(replacement, caps)
+            counts[cid] += 1
+    return repaired
+
+
 def capability_status(cap: dict[str, Any]) -> str:
     score = int(cap.get("score", 0) or 0)
     observations = int(cap.get("observations", 0) or 0)
@@ -108,6 +199,9 @@ def conservative_qualification(spec, caps, audit, transfers, evidence) -> dict[s
         cap_records.append({
             "id": raw.get("id"),
             "name": raw.get("name"),
+            "description": raw.get("description", ""),
+            "evidence_url": raw.get("evidence_url", ""),
+            "evidence_quote": raw.get("evidence_quote", ""),
             "proxy_score": int(raw.get("score", 0) or 0),
             "proxy_observations": int(raw.get("observations", 0) or 0),
             "proxy_status": capability_status(raw),
@@ -135,7 +229,7 @@ def conservative_qualification(spec, caps, audit, transfers, evidence) -> dict[s
         "evaluation_type": "EXTERNAL_SEPARATE_CONTEXT_SAME_LOCAL_MODEL",
         "zero_cost": True,
         "training_rounds": int(spec["rounds"]),
-        "source_coverage": "BOUNDED_TO_SUPPLIED_SOURCES",
+        "source_coverage": "BOUNDED_TO_SUPPLIED_SOURCES_WITH_EXACT_CAPABILITY_QUOTES",
         "source_evidence": evidence,
         "capability_proxy_evidence": cap_records,
         "transfer_proxy_scores": transfer_scores,
@@ -147,10 +241,10 @@ def conservative_qualification(spec, caps, audit, transfers, evidence) -> dict[s
         "outcome": "CONDITIONAL PASS" if package_ready else "FAIL",
         "condition": "A fresh native ChatGPT chat must consume the audited capsule and pass native cold/transfer qualification before the identity is called qualified.",
         "remaining_uncertainty": [
-            "Trainer, Student, and Examiner used isolated prompts but the same small local model.",
+            "Trainer, Student, and Examiner used isolated prompts but the same local model.",
             "Proxy scores describe the external simulation, not the native ChatGPT identity.",
             "The source set is bounded and does not establish exhaustive domain coverage.",
-            "Model-synthesized source notes can omit or distort details and require native audit for material claims.",
+            "Examiner corrections are retained as audit hypotheses and are not automatically promoted into the capsule.",
         ],
     }
 
@@ -158,19 +252,30 @@ def conservative_qualification(spec, caps, audit, transfers, evidence) -> dict[s
 def build_capsule(spec, knowledge: str, caps, lessons: list[str], qual: dict[str, Any]) -> str:
     sources = [x.get("url") for x in qual.get("source_evidence", []) if x.get("status") == "ok" and x.get("url")]
     cap_lines = []
+    evidence_lines = []
     provisional = []
     for c in qual.get("capability_proxy_evidence", []):
         status = c["proxy_status"]
-        line = f"- **{c['name']}**: {status}; proxy score {c['proxy_score']}/4 across {c['proxy_observations']} observation(s)."
-        cap_lines.append(line)
+        cap_lines.append(
+            f"- **{c['name']}**: {status}; proxy score {c['proxy_score']}/4 across {c['proxy_observations']} observation(s)."
+        )
+        description = str(c.get("description", "")).strip()
+        quote = str(c.get("evidence_quote", "")).strip()
+        url = str(c.get("evidence_url", "")).strip()
+        if description:
+            evidence_lines.append(f"- **{c['name']}**: {description}")
+            if quote:
+                evidence_lines.append(f"  - Source anchor: “{quote}”")
+            if url:
+                evidence_lines.append(f"  - Source: {url}")
         if status != "PROXY_EVIDENCED":
             provisional.append(c["name"])
 
     gaps = [
         "The supplied source set is bounded and does not establish exhaustive coverage of the function.",
         "External proxy performance does not establish native ChatGPT competence.",
-        "Material source-synthesized claims should be checked against the listed primary sources during native audit.",
-        "Proxy-round lessons and corrections remain in the audit artifact until a native audit decides which are safe to promote.",
+        "Capability descriptions are admitted only with exact source anchors, but the source excerpts remain bounded samples rather than exhaustive documentation.",
+        "Proxy-round examiner corrections remain audit hypotheses and are not automatically promoted into the identity capsule.",
     ]
     if provisional:
         gaps.append("Single-observation or weak proxy capabilities remain provisional: " + ", ".join(provisional) + ".")
@@ -188,10 +293,8 @@ def build_capsule(spec, knowledge: str, caps, lessons: list[str], qual: dict[str
         "## Scope",
         "Training capsule for the designated function, bounded strictly by the supplied source set and external proxy exercises. It does not confer expert status or qualification by itself.",
         "",
-        "## Source-Synthesized Domain Notes",
-        "The following notes were synthesized by the local training model from bounded samples of the listed sources. Treat them as training material requiring source verification for material claims, not as independent authority.",
-        "",
-        knowledge.strip(),
+        "## Source-Grounded Capability Notes",
+        *(evidence_lines or ["- No capability survived exact source-evidence admission."]),
         "",
         "## Proxy Capability Evidence",
         *(cap_lines or ["- No capability evidence was produced."]),
@@ -216,9 +319,9 @@ def write_outputs(spec, capsule: str, qual: dict[str, Any], regressions, audit, 
     (out / "REGRESSION_SET.json").write_text(json.dumps({"identity": spec["identity"], "function": spec["function"], "cases": regressions[-20:]}, indent=2) + "\n", encoding="utf-8")
     (out / "TRAINING_AUDIT.json").write_text(json.dumps({"spec": spec, "source_evidence": evidence, "curriculum": curriculum, "rounds": audit, "transfers": transfers}, indent=2) + "\n", encoding="utf-8")
 
-    caps = "\n".join(
+    cap_summary = "\n".join(
         f"- `{c['id']}`: {c['proxy_status']}; {c['proxy_score']}/4 across {c['proxy_observations']} proxy observation(s)"
         for c in qual.get("capability_proxy_evidence", [])
     )
-    summary = f"""# Bootcamp Package — {spec['identity']}\n\n**Function:** {spec['function']}  \n**Target:** {spec['target']}  \n**Training rounds completed:** {len(audit)}/{spec['rounds']}  \n**Transfer proxy tasks completed:** {len(transfers)}/2  \n**Training package ready:** {qual['training_package_ready']}  \n**Native identity qualification:** **NOT RUN**  \n**Zero-cost invariant:** enforced\n\n## Proxy capability evidence\n\n{caps}\n\n## Qualification boundary\n\n{qual['condition']}\n\n## Identity capsule\n\n{capsule}\n\n## Evidence note\n\nThe external model is a training workbench. Its self/examiner scores cannot qualify the native ChatGPT identity. The detailed audit is retained only in the one-day workflow artifact.\n"""
+    summary = f"""# Bootcamp Package — {spec['identity']}\n\n**Function:** {spec['function']}  \n**Target:** {spec['target']}  \n**Training rounds completed:** {len(audit)}/{spec['rounds']}  \n**Transfer proxy tasks completed:** {len(transfers)}/2  \n**Training package ready:** {qual['training_package_ready']}  \n**Native identity qualification:** **NOT RUN**  \n**Zero-cost invariant:** enforced\n\n## Proxy capability evidence\n\n{cap_summary}\n\n## Qualification boundary\n\n{qual['condition']}\n\n## Identity capsule\n\n{capsule}\n\n## Evidence note\n\nThe external model is a training workbench. Its self/examiner scores cannot qualify the native ChatGPT identity. The detailed audit is retained only in the one-day workflow artifact.\n"""
     (out / "SUMMARY.md").write_text(summary, encoding="utf-8")

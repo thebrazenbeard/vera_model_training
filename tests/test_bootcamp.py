@@ -186,3 +186,98 @@ def test_training_package_not_ready_when_proxy_transfer_or_critical_capability_i
     qual = quality_gate.conservative_qualification(spec, [weak_cap], audit, transfers, [])
     assert qual["training_package_ready"] is False
     assert qual["outcome"] == "FAIL"
+
+
+# V3 quality gates discovered by auditing the first real production artifact.
+
+def test_capability_exact_evidence_requires_verbatim_quote_and_source_url():
+    source_pack = '<SOURCE url="https://supabase.com/docs/guides/queues">\nSupabase Queues is a Postgres-native durable Message Queue system with guaranteed delivery built on the pgmq database extension.\n</SOURCE>'
+    grounded = {
+        "name": "Queues",
+        "description": "Durable Postgres-native queues with guaranteed delivery",
+        "evidence_url": "https://supabase.com/docs/guides/queues",
+        "evidence_quote": "Supabase Queues is a Postgres-native durable Message Queue system with guaranteed delivery",
+    }
+    bad_quote = dict(grounded, evidence_quote="Supabase magically guarantees global exactly-once side effects")
+    bad_url = dict(grounded, evidence_url="https://supabase.com/docs/guides/functions")
+    assert quality_gate.capability_exact_evidence_supported(grounded, source_pack)
+    assert not quality_gate.capability_exact_evidence_supported(bad_quote, source_pack)
+    assert not quality_gate.capability_exact_evidence_supported(bad_url, source_pack)
+
+
+def test_criticality_is_capped_and_curriculum_repairs_repeated_critical_coverage():
+    caps = [bootcamp.Capability(f"c{i}", f"Cap {i}", f"Description {i}", True) for i in range(1, 7)]
+    normalized = quality_gate.normalize_criticality(caps, max_critical=3)
+    assert sum(c.critical for c in normalized) == 3
+    curriculum = [
+        {"task": f"task {i}", "capability_ids": ["c1"], "hidden_rubric": ["specific check"], "adversarial": i >= 8, "critical": True}
+        for i in range(10)
+    ]
+    repaired = quality_gate.ensure_critical_coverage(curriculum, normalized)
+    assert len(repaired) == 10
+    for cap in [c for c in normalized if c.critical]:
+        assert sum(cap.id in task["capability_ids"] for task in repaired) >= 2
+
+
+def test_examiner_cannot_award_robust_4_when_it_reports_corrections(monkeypatch):
+    monkeypatch.setattr(bootcamp, "json_llm", lambda *a, **k: {
+        "score": 4,
+        "passed": True,
+        "critical_failure": False,
+        "capability_updates": {"rls": 4},
+        "corrections": ["Material correction required"],
+        "durable_lesson": "",
+        "regression_case": "",
+        "reason": "Mostly correct but correction required",
+    })
+    exam = bootcamp.examine(
+        "Supabase Platform Specialist",
+        "source evidence",
+        {"task": "RLS task", "capability_ids": ["rls"], "hidden_rubric": ["check"], "critical": True},
+        "student answer",
+    )
+    assert exam["score"] <= 3
+    assert exam["capability_updates"]["rls"] <= 3
+
+
+def test_transfer_generation_retries_duplicate_exam(monkeypatch):
+    caps = [
+        bootcamp.Capability("rls", "RLS", "Row level security", True),
+        bootcamp.Capability("auth", "Auth", "Authentication", True),
+    ]
+    answers = iter([
+        {"rounds": [{"task": "same transfer", "capability_ids": ["rls", "auth"], "hidden_rubric": ["check"], "adversarial": False, "critical": True}]},
+        {"rounds": [{"task": "same transfer", "capability_ids": ["rls", "auth"], "hidden_rubric": ["check"], "adversarial": True, "critical": True}]},
+        {"rounds": [{"task": "different transfer", "capability_ids": ["rls", "auth"], "hidden_rubric": ["check"], "adversarial": True, "critical": True}]},
+    ])
+    calls = []
+    def fake_json_llm(*args, **kwargs):
+        calls.append(1)
+        return next(answers)
+    monkeypatch.setattr(bootcamp, "json_llm", fake_json_llm)
+    tasks = fast_bootcamp.robust_build_transfer_tasks({"function": "Supabase Platform Specialist"}, caps, [])
+    assert [t["task"] for t in tasks] == ["same transfer", "different transfer"]
+    assert len(calls) == 3
+
+
+def test_capsule_uses_source_backed_capability_records_not_freeform_knowledge():
+    spec = {"identity": "SB", "function": "Supabase Platform Specialist", "target": "practitioner"}
+    qual = {
+        "source_evidence": [{"url": "https://supabase.com/docs/guides/queues", "status": "ok"}],
+        "capability_proxy_evidence": [{
+            "id": "queues",
+            "name": "Queues",
+            "description": "Durable Postgres-native queues",
+            "evidence_url": "https://supabase.com/docs/guides/queues",
+            "evidence_quote": "Supabase Queues is a Postgres-native durable Message Queue system with guaranteed delivery",
+            "proxy_score": 4,
+            "proxy_observations": 2,
+            "proxy_status": "PROXY_EVIDENCED",
+            "critical": True,
+        }],
+    }
+    capsule = quality_gate.build_capsule(spec, "UNSUPPORTED HALLUCINATION ABOUT MAGIC BRANCHING", [], [], qual)
+    assert "UNSUPPORTED HALLUCINATION" not in capsule
+    assert "Durable Postgres-native queues" in capsule
+    assert "Supabase Queues is a Postgres-native durable Message Queue system" in capsule
+    assert "https://supabase.com/docs/guides/queues" in capsule
