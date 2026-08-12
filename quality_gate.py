@@ -12,6 +12,8 @@ _GENERIC = {
     "using", "use", "feature", "features", "system", "systems", "integration",
     "implementation", "implementing", "ability", "knowledge", "expertise",
     "experience", "application", "applications", "including", "control",
+    "and", "for", "the", "with", "plus", "from", "into", "through", "about",
+    "across", "between", "within", "without", "their", "these", "those",
 }
 
 
