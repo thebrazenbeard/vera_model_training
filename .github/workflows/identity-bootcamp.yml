@@ -1,0 +1,140 @@
+name: Zero-Cost Identity Bootcamp
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: "Bootcamp YAML spec"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  bootcamp:
+    if: >-
+      ${{
+        github.event.repository.private == false &&
+        (github.event_name == 'workflow_dispatch' || startsWith(github.event.issue.title, '[BOOTCAMP]'))
+      }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      ZERO_COST: "true"
+      MODEL_NAME: "Qwen3-4B-Q4_K_M-local"
+      MODEL_FILE: "Qwen3-4B-Q4_K_M.gguf"
+      MODEL_SHA256: "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5"
+      MODEL_URL: "https://huggingface.co/Qwen/Qwen3-4B-GGUF/resolve/main/Qwen3-4B-Q4_K_M.gguf?download=true"
+      LLM_URL: "http://127.0.0.1:8080/v1/chat/completions"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify zero-cost execution boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${ZERO_COST}" = "true"
+          test "${{ github.event.repository.private }}" = "false"
+          echo "Zero-cost guard passed: public standard runner, no metered model API."
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Syntax check engine
+        run: python -m py_compile bootcamp.py
+
+      - name: Build llama.cpp server
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq cmake build-essential
+          git clone --depth 1 https://github.com/ggerganov/llama.cpp.git llama.cpp
+          cmake -S llama.cpp -B llama.cpp/build -DGGML_NATIVE=OFF -DLLAMA_CURL=OFF -DCMAKE_BUILD_TYPE=Release
+          cmake --build llama.cpp/build --target llama-server -j 4
+
+      - name: Cache local model
+        id: model-cache
+        uses: actions/cache@v4
+        with:
+          path: models
+          key: qwen3-4b-q4km-${{ env.MODEL_SHA256 }}
+
+      - name: Download checksum-pinned local model
+        if: steps.model-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p models
+          curl -L --fail --retry 4 --retry-delay 3 --output "models/${MODEL_FILE}" "${MODEL_URL}"
+
+      - name: Verify model checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "${MODEL_SHA256}  models/${MODEL_FILE}" | sha256sum --check --strict
+
+      - name: Start local inference server
+        shell: bash
+        run: |
+          set -euo pipefail
+          nohup ./llama.cpp/build/bin/llama-server \
+            -m "models/${MODEL_FILE}" \
+            --host 127.0.0.1 \
+            --port 8080 \
+            -c 8192 \
+            -t 4 \
+            > llama-server.log 2>&1 &
+          echo $! > llama-server.pid
+          for i in $(seq 1 90); do
+            if curl -fsS http://127.0.0.1:8080/health >/dev/null; then
+              echo "Local model ready."
+              exit 0
+            fi
+            sleep 2
+          done
+          cat llama-server.log
+          exit 1
+
+      - name: Run adaptive external bootcamp
+        env:
+          BOOTCAMP_SPEC: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.spec }}
+        run: python bootcamp.py
+
+      - name: Upload training artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: identity-bootcamp-${{ github.run_id }}
+          path: |
+            out/
+            llama-server.log
+          if-no-files-found: warn
+          retention-days: 1
+
+      - name: Post compact result to triggering issue
+        if: ${{ success() && github.event_name == 'issues' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: gh issue comment "${ISSUE_NUMBER}" --body-file out/SUMMARY.md
+
+      - name: Post failure marker to triggering issue
+        if: ${{ failure() && github.event_name == 'issues' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        run: |
+          gh issue comment "${ISSUE_NUMBER}" --body "Bootcamp failed closed. No paid fallback was attempted. Workflow run: ${RUN_URL}"
