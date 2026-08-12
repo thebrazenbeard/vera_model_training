@@ -15,6 +15,9 @@ import quality_gate
 
 
 _ORIGINAL_SELECT = bootcamp.select_source_segments
+_ORIGINAL_BUILD_CAPABILITIES = bootcamp.build_capabilities
+_ORIGINAL_BUILD_CURRICULUM = bootcamp.build_curriculum
+_SOURCE_PACK = ""
 
 
 def bounded_select_source_segments(text: str, limit: int = 3000) -> str:
@@ -31,7 +34,7 @@ TOKEN_CAPS = {
     bootcamp.DISTILLER_SYSTEM: 800,
 }
 
-SINGLE_TRANSFER_SYSTEM = """You are TRANSFER EXAM DESIGNER. Create exactly ONE novel practitioner task that combines at least two supplied capabilities and does not reuse the training scenarios. Return ONLY strict JSON: {\"rounds\":[{\"task\":\"...\",\"capability_ids\":[\"...\"],\"hidden_rubric\":[\"short check\"],\"adversarial\":false,\"critical\":true}]}. The second requested exam should contain a tempting false premise or unsafe shortcut."""
+SINGLE_TRANSFER_SYSTEM = """You are TRANSFER EXAM DESIGNER. Create exactly ONE novel practitioner task that combines at least two supplied capabilities and does not reuse the training scenarios. Return ONLY strict JSON: {\"rounds\":[{\"task\":\"...\",\"capability_ids\":[\"...\"],\"hidden_rubric\":[\"specific factual or methodological check\"],\"adversarial\":false,\"critical\":true}]}. The second requested exam should contain a tempting false premise or unsafe shortcut."""
 
 
 def bounded_llm(system: str, user: str, max_tokens: int = 500, temperature: float = 0.2) -> str:
@@ -59,6 +62,24 @@ def bounded_llm(system: str, user: str, max_tokens: int = 500, temperature: floa
     raise RuntimeError(f"bounded local model call failed: {last}")
 
 
+def grounded_build_knowledge_pack(function: str, sources: list[str]):
+    global _SOURCE_PACK
+    _SOURCE_PACK, evidence = bootcamp.build_source_pack(function, sources)
+    prompt = f"FUNCTION: {function}\n<SOURCE_DATA>\n{_SOURCE_PACK}\n</SOURCE_DATA>\nCreate the reusable source-grounded knowledge pack now. Do not add capabilities or claims that are absent from SOURCE_DATA."
+    knowledge = bootcamp.llm(bootcamp.SOURCE_SYNTH_SYSTEM, prompt, max_tokens=650, temperature=0.0)
+    return bootcamp.clamp(knowledge, bootcamp.MAX_KNOWLEDGE_CHARS), evidence
+
+
+def grounded_build_capabilities(function: str, target: str, knowledge: str):
+    caps = _ORIGINAL_BUILD_CAPABILITIES(function, target, knowledge)
+    return quality_gate.filter_source_supported_capabilities(caps, _SOURCE_PACK, minimum=3)
+
+
+def grounded_build_curriculum(spec, knowledge, caps):
+    curriculum = _ORIGINAL_BUILD_CURRICULUM(spec, knowledge, caps)
+    return quality_gate.strengthen_curriculum(curriculum, caps)
+
+
 def robust_build_transfer_tasks(spec, caps, curriculum):
     prior = [task["task"] for task in curriculum]
     tasks = []
@@ -72,6 +93,7 @@ def robust_build_transfer_tasks(spec, caps, curriculum):
         task = bootcamp.validate_curriculum(obj, 1, caps)[0]
         if number == 2:
             task["adversarial"] = True
+        task = quality_gate.strengthen_task_rubric(task, caps)
         tasks.append(task)
         prior.append(task["task"])
     return tasks
@@ -83,6 +105,9 @@ def conservative_distill(spec, knowledge, caps, lessons, qual):
 
 bootcamp.select_source_segments = bounded_select_source_segments
 bootcamp.llm = bounded_llm
+bootcamp.build_knowledge_pack = grounded_build_knowledge_pack
+bootcamp.build_capabilities = grounded_build_capabilities
+bootcamp.build_curriculum = grounded_build_curriculum
 bootcamp.build_transfer_tasks = robust_build_transfer_tasks
 bootcamp.qualify = quality_gate.conservative_qualification
 bootcamp.distill = conservative_distill
