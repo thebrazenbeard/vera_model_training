@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
 from typing import Any
 
 import quality_gate
@@ -7,6 +9,7 @@ import quality_gate
 
 _ORIGINAL_QUALIFY = quality_gate.conservative_qualification
 _ORIGINAL_BUILD_CAPSULE = quality_gate.build_capsule
+_ORIGINAL_WRITE_OUTPUTS = quality_gate.write_outputs
 
 
 def conservative_qualification(spec, caps, audit, transfers, evidence) -> dict[str, Any]:
@@ -57,3 +60,26 @@ def build_capsule(spec, knowledge: str, caps, lessons: list[str], qual: dict[str
         new = f"- **{name}**: MODEL-PROPOSED SCOPE (UNVERIFIED): {description}"
         capsule = capsule.replace(old, new)
     return capsule
+
+
+def write_outputs(spec, capsule, qual, regressions, audit, transfers, evidence, curriculum) -> None:
+    _ORIGINAL_WRITE_OUTPUTS(spec, capsule, qual, regressions, audit, transfers, evidence, curriculum)
+    proposed = [
+        {
+            "case": str(case),
+            "status": "PROPOSED_UNVERIFIED",
+            "provenance": "SAME_LOCAL_MODEL_EXAMINER",
+        }
+        for case in regressions[-20:]
+        if str(case).strip()
+    ]
+    payload = {
+        "identity": spec["identity"],
+        "function": spec["function"],
+        "cases": proposed,
+        "evidence_note": (
+            "These are same-model examiner suggestions retained as hypotheses only. "
+            "They are not validated project regression cases until independently verified."
+        ),
+    }
+    Path("out/REGRESSION_SET.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
