@@ -11,6 +11,7 @@ import time
 import requests
 
 import bootcamp
+import quality_gate
 
 
 _ORIGINAL_SELECT = bootcamp.select_source_segments
@@ -76,9 +77,16 @@ def robust_build_transfer_tasks(spec, caps, curriculum):
     return tasks
 
 
+def conservative_distill(spec, knowledge, caps, lessons, qual):
+    return quality_gate.build_capsule(spec, knowledge, caps, lessons, qual)
+
+
 bootcamp.select_source_segments = bounded_select_source_segments
 bootcamp.llm = bounded_llm
 bootcamp.build_transfer_tasks = robust_build_transfer_tasks
+bootcamp.qualify = quality_gate.conservative_qualification
+bootcamp.distill = conservative_distill
+bootcamp.write_outputs = quality_gate.write_outputs
 
 
 if __name__ == "__main__":
