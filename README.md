@@ -1,32 +1,39 @@
 # VERA Model Training — Zero-Cost Identity Bootcamp
 
-This repository hosts an external identity-training workbench for native ChatGPT Project identities.
+This repository hosts an **optional external training workbench** for native ChatGPT Project identities. The native Project does not depend on this repository for authority, memory, or ordinary operation.
 
 ## Hard invariant: zero monetary cost
 
 The bootcamp must not require metered model APIs or paid compute.
 
-The default engine runs an open-weight GGUF model locally on a **standard GitHub-hosted runner in this public repository**. The workflow fails closed if the repository is private or if `ZERO_COST` is not `true`.
+The default engine runs an open-weight GGUF model locally on a standard GitHub-hosted runner in this public repository. The workflow fails closed if the repository is private or if `ZERO_COST` is not `true`.
 
-No OpenAI API key, Gemini key, Hugging Face inference key, Supabase paid compute, or other paid inference service is required.
+No OpenAI API key, Gemini key, Hugging Face inference key, Supabase paid compute, or other paid inference service is required. There is no paid fallback.
 
-## What this does
+## What a run does
 
-A single bootcamp run performs, externally:
+A single bootcamp run performs externally:
 
-1. source acquisition from user-selected public HTTPS sources;
-2. source-grounded knowledge extraction;
-3. function/capability-map construction;
-4. cold diagnostic;
-5. adaptive Trainer → Student → Examiner rounds;
-6. adversarial rounds;
-7. transfer testing;
-8. distillation into a compact identity capsule;
-9. a qualification record and retained regression set.
+1. bounded acquisition of user-selected public HTTPS sources;
+2. source-grounded knowledge synthesis;
+3. source-support filtering of the proposed capability map;
+4. ten or more Trainer → Student → Examiner proxy rounds;
+5. adversarial exercises and false-premise checks;
+6. two independently generated transfer exercises;
+7. conservative distillation into a compact identity capsule;
+8. a package record, regression set, and detailed one-day audit artifact.
 
-The target native ChatGPT conversation does **not** need the full training transcript. It receives only the distilled capsule and can then undergo a native cold qualification.
+The target native ChatGPT conversation does **not** need the full training transcript.
 
-This is not neural-weight training. The durable transferable product is the compact identity capsule and its qualification evidence.
+This is not neural-weight training. The local Student is a proxy used to exercise and refine the training material. The transferable product is an **auditable training capsule**, not a claim that the native identity magically inherited the local model's scores.
+
+## Qualification boundary
+
+The external workbench may establish that a **training package is ready**. It may not declare the native ChatGPT identity qualified.
+
+Trainer, Student, and Examiner use isolated prompt contexts but the same small local model, so proxy grades are diagnostic evidence only. Capabilities with only one proxy observation are explicitly marked provisional. The source set is always treated as bounded rather than exhaustive.
+
+A fresh native ChatGPT cold/transfer evaluation remains required for PASS, CONDITIONAL PASS, or FAIL of the actual native identity.
 
 ## Trigger
 
@@ -47,31 +54,60 @@ sources:
   - https://supabase.com/docs/guides/database/postgres/row-level-security
 ```
 
-The GitHub issue is the one-turn bridge: ChatGPT can create the issue, the external workflow performs the multi-round work, and ChatGPT can read the result from the issue/workflow artifact without placing every training round into the target chat.
+Only the repository owner can trigger a bootcamp. The issue is the one-turn bridge: ChatGPT can create it, the external workflow performs the multi-round work, and ChatGPT can retrieve and audit the result without placing every training round into the target conversation.
 
 ## Privacy boundary
 
-This repository is public in order to guarantee standard GitHub Actions execution is non-billable. **Do not place private chat transcripts, secrets, personal data, credentials, or confidential source text in bootcamp issues.** Pass only a function specification and public source URLs.
+This repository is public to preserve the zero-cost execution model. **Do not place private chat transcripts, secrets, personal data, credentials, confidential source text, or sensitive identity material in bootcamp issues or source URLs.** Pass only a function specification and public sources.
 
-For a private/sensitive identity, use a different execution mode rather than leaking the subject into a public CI log merely to save a few dollars. Human beings have invented enough security incidents already.
+For private/sensitive material, this public execution mode is not appropriate.
+
+## Source and task guards
+
+- HTTPS sources only.
+- Loopback/private/link-local source addresses are rejected.
+- Capabilities that lack lexical support in the bounded source material are removed before training.
+- Weak generic hidden rubrics are replaced with capability-specific and unsupported-claim checks.
+- Adversarial tasks receive an explicit false-premise/unsafe-shortcut check.
+- Newer runs supersede obsolete in-progress production runs.
 
 ## Output
 
-Each run creates:
+Each successful run creates:
 
 - `IDENTITY_CAPSULE.md`
 - `QUALIFICATION.json`
 - `REGRESSION_SET.json`
+- `TRAINING_AUDIT.json`
 - `SUMMARY.md`
 
-The workflow uploads these as an artifact and posts the compact summary back to the triggering issue.
+The detailed workflow artifact is retained for one day. The compact summary is posted to the triggering issue.
 
-## Default local model
+## Default local inference
 
-`Qwen/Qwen3-4B-GGUF`, `Qwen3-4B-Q4_K_M.gguf` (Apache-2.0), executed through `llama.cpp`.
+- `ggml-org/Qwen3-1.7B-GGUF`
+- `Qwen3-1.7B-Q4_K_M.gguf`
+- executed through a checksum-pinned `llama.cpp` server
+- CPU-bounded prompt/output profile for ordinary GitHub-hosted Linux runners
 
-The model file is checksum-pinned in the workflow.
+Both the model file and llama.cpp archive are checksum-pinned in the workflow.
 
-## Epistemic status
+## Intended native flow
 
-The external examiner uses a separate context but the same underlying local model as Trainer and Student. Therefore the external result is useful evidence, but it is **not treated as independent native-chat qualification**. A fresh native-chat transfer/cold test remains the stronger final gate.
+```text
+native ChatGPT request
+        ↓
+create owner-only [BOOTCAMP] issue
+        ↓
+zero-cost external multi-round workbench
+        ↓
+retrieve package + one-day audit
+        ↓
+native ChatGPT audits material claims against primary sources
+        ↓
+compact audited capsule goes to target identity
+        ↓
+fresh native cold / adversarial / transfer qualification
+```
+
+That final native test, not the local model congratulating itself, is the competence gate.
