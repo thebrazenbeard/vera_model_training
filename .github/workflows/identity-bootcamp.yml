@@ -60,7 +60,7 @@ jobs:
         run: pip install --disable-pip-version-check -r requirements.txt
 
       - name: Syntax check engine
-        run: python -m py_compile bootcamp.py fast_bootcamp.py
+        run: python -m py_compile bootcamp.py fast_bootcamp.py quality_gate.py run_bootcamp.py
 
       - name: Run bootcamp regression tests
         run: python -m pytest -q
@@ -124,7 +124,7 @@ jobs:
       - name: Run adaptive external bootcamp
         env:
           BOOTCAMP_SPEC: ${{ github.event_name == 'issues' && github.event.issue.body || inputs.spec }}
-        run: python fast_bootcamp.py
+        run: python run_bootcamp.py
 
       - name: Upload training artifacts
         if: always()
