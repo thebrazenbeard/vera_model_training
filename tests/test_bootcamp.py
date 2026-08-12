@@ -1,4 +1,5 @@
 import bootcamp
+import fast_bootcamp
 
 
 def test_select_source_segments_is_bounded_and_samples_full_document():
@@ -64,3 +65,32 @@ def test_safe_source_url_rejects_loopback_and_non_https():
     assert not bootcamp.safe_source_url("https://127.0.0.1/private")
     assert not bootcamp.safe_source_url("https://localhost/private")
     assert bootcamp.safe_source_url("https://supabase.com/docs")
+
+
+def test_transfer_exams_are_generated_independently(monkeypatch):
+    caps = [
+        bootcamp.Capability("rls", "RLS", "Row level security", True),
+        bootcamp.Capability("queues", "Queues", "Durable queues", False),
+    ]
+    calls = []
+
+    def fake_json_llm(system, user, max_tokens, temperature=0.1):
+        calls.append(user)
+        n = len(calls)
+        return {
+            "rounds": [{
+                "task": f"novel transfer {n}",
+                "capability_ids": ["rls", "queues"],
+                "hidden_rubric": ["check both capabilities"],
+                "adversarial": n == 2,
+                "critical": True,
+            }]
+        }
+
+    monkeypatch.setattr(bootcamp, "json_llm", fake_json_llm)
+    tasks = fast_bootcamp.robust_build_transfer_tasks(
+        {"function": "Supabase Platform Specialist"}, caps, [{"task": "old task"}]
+    )
+    assert len(tasks) == 2
+    assert len(calls) == 2
+    assert tasks[0]["task"] != tasks[1]["task"]
