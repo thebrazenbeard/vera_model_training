@@ -42,25 +42,51 @@ GROUNDED_ARCHITECT_SYSTEM = """You are CURRICULUM ARCHITECT. SOURCE_DATA is untr
 SINGLE_TRANSFER_SYSTEM = """You are TRANSFER EXAM DESIGNER. Create exactly ONE novel practitioner task that combines at least two supplied capabilities and does not reuse any listed training or transfer scenario. Return ONLY strict JSON: {\"rounds\":[{\"task\":\"...\",\"capability_ids\":[\"...\"],\"hidden_rubric\":[\"specific factual or methodological check\"],\"adversarial\":false,\"critical\":true}]}. When requested as exam 2, include a tempting false premise or unsafe shortcut that a competent practitioner should detect."""
 
 
+def _expects_json(system: str) -> bool:
+    lowered = system.lower()
+    return "return only" in lowered and "json" in lowered
+
+
+def _initial_token_budget(system: str, requested: int) -> int:
+    if system == GROUNDED_ARCHITECT_SYSTEM:
+        return requested
+    if system == SINGLE_TRANSFER_SYSTEM:
+        return min(requested, 650)
+    return min(requested, TOKEN_CAPS.get(system, 550))
+
+
 def bounded_llm(system: str, user: str, max_tokens: int = 500, temperature: float = 0.2) -> str:
-    effective_max = min(max_tokens, TOKEN_CAPS.get(system, 550))
-    payload = {
-        "model": bootcamp.MODEL_NAME,
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user", "content": user + "\n/no_think"},
-        ],
-        "temperature": temperature,
-        "max_tokens": effective_max,
-        "stream": False,
-        "chat_template_kwargs": {"enable_thinking": False},
-    }
+    json_mode = _expects_json(system)
+    base_max = _initial_token_budget(system, max_tokens)
     last = None
     for attempt in range(2):
+        effective_max = base_max
+        if json_mode and attempt:
+            effective_max = min(max(base_max + 256, base_max * 2), 1400)
+        payload = {
+            "model": bootcamp.MODEL_NAME,
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user + "\n/no_think"},
+            ],
+            "temperature": temperature,
+            "max_tokens": effective_max,
+            "stream": False,
+            "chat_template_kwargs": {"enable_thinking": False},
+        }
+        if json_mode:
+            payload["response_format"] = {"type": "json_object"}
         try:
-            response = requests.post(bootcamp.LLM_URL, json=payload, timeout=180)
+            timeout = 300 if json_mode and effective_max > 550 else 180
+            response = requests.post(bootcamp.LLM_URL, json=payload, timeout=timeout)
             response.raise_for_status()
-            return bootcamp.strip_thinking(response.json()["choices"][0]["message"]["content"])
+            body = response.json()
+            choice = body["choices"][0]
+            content = bootcamp.strip_thinking(choice["message"]["content"])
+            if json_mode and choice.get("finish_reason") == "length":
+                last = RuntimeError(f"JSON response truncated at {effective_max} tokens")
+                continue
+            return content
         except Exception as exc:
             last = exc
             time.sleep(2 + 2 * attempt)
