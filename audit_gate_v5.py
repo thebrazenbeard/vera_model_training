@@ -83,3 +83,7 @@ def write_outputs(spec, capsule, qual, regressions, audit, transfers, evidence, 
         ),
     }
     Path("out/REGRESSION_SET.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+# fast_bootcamp assigns bootcamp.write_outputs from quality_gate after importing this module.
+quality_gate.write_outputs = write_outputs
