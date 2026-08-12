@@ -136,3 +136,26 @@ def test_external_proxy_can_only_make_package_ready_not_native_identity_pass():
     assert qual["native_identity_qualification"] == "NOT_RUN"
     assert "external_bootcamp_pass" not in qual
     assert qual["outcome"] == "CONDITIONAL PASS"
+
+
+def test_capability_support_filter_rejects_topics_absent_from_source_pack():
+    source_pack = "Postgres database. Row Level Security policies. Authentication with JWT. Durable queues."
+    supported = bootcamp.Capability("rls", "Row Level Security", "Manage RLS policies for database tables", True)
+    unsupported = bootcamp.Capability("deployment", "Deployment & Branching", "Preview environments and branching strategies", True)
+    assert quality_gate.capability_supported_by_sources(supported, source_pack)
+    assert not quality_gate.capability_supported_by_sources(unsupported, source_pack)
+
+
+def test_generic_hidden_rubric_is_replaced_with_capability_specific_checks():
+    caps = [bootcamp.Capability("rls", "Row Level Security", "Create and reason about table RLS policies", True)]
+    task = {
+        "task": "Diagnose an RLS failure",
+        "capability_ids": ["rls"],
+        "hidden_rubric": ["short check"],
+        "adversarial": True,
+        "critical": True,
+    }
+    repaired = quality_gate.strengthen_task_rubric(task, caps)
+    assert repaired["hidden_rubric"] != ["short check"]
+    assert any("RLS" in item or "Row Level Security" in item for item in repaired["hidden_rubric"])
+    assert any("unsupported" in item.lower() or "false premise" in item.lower() for item in repaired["hidden_rubric"])
