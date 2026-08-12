@@ -57,3 +57,10 @@ def test_validate_curriculum_rejects_unknown_capability():
         assert "unknown capability" in str(exc)
     else:
         raise AssertionError("unknown capability should be rejected")
+
+
+def test_safe_source_url_rejects_loopback_and_non_https():
+    assert not bootcamp.safe_source_url("http://example.com")
+    assert not bootcamp.safe_source_url("https://127.0.0.1/private")
+    assert not bootcamp.safe_source_url("https://localhost/private")
+    assert bootcamp.safe_source_url("https://supabase.com/docs")
