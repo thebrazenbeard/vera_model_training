@@ -57,6 +57,9 @@ jobs:
       - name: Syntax check engine
         run: python -m py_compile bootcamp.py
 
+      - name: Run bootcamp regression tests
+        run: python -m pytest -q
+
       - name: Install checksum-pinned llama.cpp server
         shell: bash
         run: |
