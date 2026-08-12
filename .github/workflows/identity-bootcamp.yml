@@ -14,11 +14,16 @@ permissions:
   contents: read
   issues: write
 
+concurrency:
+  group: identity-bootcamp
+  cancel-in-progress: false
+
 jobs:
   bootcamp:
     if: >-
       ${{
         github.event.repository.private == false &&
+        github.actor == github.repository_owner &&
         (github.event_name == 'workflow_dispatch' || startsWith(github.event.issue.title, '[BOOTCAMP]'))
       }}
     runs-on: ubuntu-latest
