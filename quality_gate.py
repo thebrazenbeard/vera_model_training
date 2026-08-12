@@ -1,8 +1,81 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
+
+
+_GENERIC = {
+    "supabase", "platform", "specialist", "overview", "management", "manage",
+    "using", "use", "feature", "features", "system", "systems", "integration",
+    "implementation", "implementing", "ability", "knowledge", "expertise",
+    "experience", "application", "applications", "including", "control",
+}
+
+
+def _tokenize(text: str) -> set[str]:
+    words = re.findall(r"[a-z0-9]+", text.lower())
+    out = set()
+    for word in words:
+        if len(word) <= 2 or word in _GENERIC:
+            continue
+        if word.endswith("ies") and len(word) > 4:
+            word = word[:-3] + "y"
+        elif word.endswith("s") and len(word) > 4 and not word.endswith("ss"):
+            word = word[:-1]
+        out.add(word)
+    return out
+
+
+def capability_supported_by_sources(cap, source_pack: str) -> bool:
+    raw = cap.__dict__ if hasattr(cap, "__dict__") else dict(cap)
+    name_tokens = _tokenize(str(raw.get("name", "")))
+    description_tokens = _tokenize(str(raw.get("description", "")))
+    source_tokens = _tokenize(source_pack)
+    if not name_tokens:
+        return False
+    name_hits = name_tokens & source_tokens
+    required_name_hits = 1 if len(name_tokens) == 1 else 2
+    if len(name_hits) < required_name_hits:
+        return False
+    descriptive = description_tokens - name_tokens
+    if descriptive and not (descriptive & source_tokens):
+        return False
+    return True
+
+
+def filter_source_supported_capabilities(caps, source_pack: str, minimum: int = 3):
+    supported = [cap for cap in caps if capability_supported_by_sources(cap, source_pack)]
+    if len(supported) < minimum:
+        raise ValueError(f"insufficient source-grounded capability coverage: {len(supported)} < {minimum}")
+    return supported
+
+
+def strengthen_task_rubric(task: dict[str, Any], caps) -> dict[str, Any]:
+    by_id = {c.id: c for c in caps}
+    repaired = dict(task)
+    rubric = [str(x).strip() for x in task.get("hidden_rubric", []) if str(x).strip()]
+    weak = not rubric or all(len(x) < 18 or x.lower() in {"check", "short check", "one check"} for x in rubric)
+    if weak:
+        names = [by_id[cid].name for cid in task.get("capability_ids", []) if cid in by_id]
+        descriptions = [by_id[cid].description for cid in task.get("capability_ids", []) if cid in by_id]
+        rubric = []
+        if names:
+            rubric.append("Correctly address the assigned capability: " + ", ".join(names) + ".")
+        if descriptions:
+            rubric.append("Demonstrate the source-bounded requirement: " + " | ".join(descriptions)[:500])
+    guard = "Do not introduce unsupported facts; explicitly flag assumptions or claims not established by the supplied source evidence."
+    if not any("unsupported" in x.lower() for x in rubric):
+        rubric.append(guard)
+    if task.get("adversarial") and not any("false premise" in x.lower() for x in rubric):
+        rubric.append("Detect and reject any material false premise or unsafe shortcut instead of complying with it.")
+    repaired["hidden_rubric"] = rubric[:5]
+    return repaired
+
+
+def strengthen_curriculum(curriculum, caps):
+    return [strengthen_task_rubric(task, caps) for task in curriculum]
 
 
 def capability_status(cap: dict[str, Any]) -> str:
@@ -74,19 +147,11 @@ def build_capsule(spec, knowledge: str, caps, lessons: list[str], qual: dict[str
         if status != "PROXY_EVIDENCED":
             provisional.append(c["name"])
 
-    lesson_lines = []
-    seen = set()
-    for lesson in lessons[-20:]:
-        normalized = " ".join(str(lesson).split())
-        if not normalized or normalized.lower() in seen:
-            continue
-        seen.add(normalized.lower())
-        lesson_lines.append(f"- {normalized}")
-
     gaps = [
         "The supplied source set is bounded and does not establish exhaustive coverage of the function.",
         "External proxy performance does not establish native ChatGPT competence.",
         "Material source-synthesized claims should be checked against the listed primary sources during native audit.",
+        "Proxy-round lessons and corrections remain in the audit artifact until a native audit decides which are safe to promote.",
     ]
     if provisional:
         gaps.append("Single-observation or weak proxy capabilities remain provisional: " + ", ".join(provisional) + ".")
@@ -111,10 +176,6 @@ def build_capsule(spec, knowledge: str, caps, lessons: list[str], qual: dict[str
         "",
         "## Proxy Capability Evidence",
         *(cap_lines or ["- No capability evidence was produced."]),
-        "",
-        "## External Training Lessons",
-        "These are lessons/corrections retained from the proxy rounds. They remain subordinate to the primary sources.",
-        *(lesson_lines or ["- No durable proxy lesson was admitted."]),
         "",
         "## Source Routing",
         *source_lines,
