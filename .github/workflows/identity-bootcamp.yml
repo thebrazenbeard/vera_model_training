@@ -29,6 +29,9 @@ jobs:
       MODEL_FILE: "Qwen3-4B-Q4_K_M.gguf"
       MODEL_SHA256: "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5"
       MODEL_URL: "https://huggingface.co/Qwen/Qwen3-4B-GGUF/resolve/main/Qwen3-4B-Q4_K_M.gguf?download=true"
+      LLAMA_ARCHIVE: "llama-b10375-bin-ubuntu-x64.tar.gz"
+      LLAMA_ARCHIVE_SHA256: "b6a7ed005240eccd61e1af42debd75b876c639c1416bfa90985fd02618919a88"
+      LLAMA_ARCHIVE_URL: "https://github.com/ggml-org/llama.cpp/releases/download/b10375/llama-b10375-bin-ubuntu-x64.tar.gz"
       LLM_URL: "http://127.0.0.1:8080/v1/chat/completions"
 
     steps:
@@ -54,15 +57,18 @@ jobs:
       - name: Syntax check engine
         run: python -m py_compile bootcamp.py
 
-      - name: Build llama.cpp server
+      - name: Install checksum-pinned llama.cpp server
         shell: bash
         run: |
           set -euo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq cmake build-essential
-          git clone --depth 1 https://github.com/ggerganov/llama.cpp.git llama.cpp
-          cmake -S llama.cpp -B llama.cpp/build -DGGML_NATIVE=OFF -DLLAMA_CURL=OFF -DCMAKE_BUILD_TYPE=Release
-          cmake --build llama.cpp/build --target llama-server -j 4
+          mkdir -p llama-bin
+          curl -L --fail --retry 4 --retry-delay 3 --output "${LLAMA_ARCHIVE}" "${LLAMA_ARCHIVE_URL}"
+          echo "${LLAMA_ARCHIVE_SHA256}  ${LLAMA_ARCHIVE}" | sha256sum --check --strict
+          tar -xzf "${LLAMA_ARCHIVE}" -C llama-bin
+          LLAMA_SERVER="$(find llama-bin -type f -name llama-server -print -quit)"
+          test -n "${LLAMA_SERVER}"
+          chmod +x "${LLAMA_SERVER}"
+          echo "LLAMA_SERVER=${LLAMA_SERVER}" >> "${GITHUB_ENV}"
 
       - name: Cache local model
         id: model-cache
@@ -89,7 +95,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          nohup ./llama.cpp/build/bin/llama-server \
+          nohup "${LLAMA_SERVER}" \
             -m "models/${MODEL_FILE}" \
             --host 127.0.0.1 \
             --port 8080 \
