@@ -172,7 +172,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: gh issue comment "${ISSUE_NUMBER}" --body "Transfer retry bug fixed test-first: RED reproduced the semantic under-generation failure, GREEN passed the new regression tests and full suite, and the fix was committed to main."
+        run: |
+          gh issue comment "${ISSUE_NUMBER}" --body "Transfer retry bug fixed test-first: RED reproduced the semantic under-generation failure, GREEN passed the new regression tests and full suite, and the fix was committed to main."
 
       - name: Post failure
         if: ${{ failure() }}
@@ -180,4 +181,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-        run: gh issue comment "${ISSUE_NUMBER}" --body "Transfer retry fix workflow failed closed. ${RUN_URL}"
+        run: |
+          gh issue comment "${ISSUE_NUMBER}" --body "Transfer retry fix workflow failed closed. ${RUN_URL}"
