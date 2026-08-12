@@ -138,7 +138,7 @@ jobs:
               assert last_error is not None
               raise last_error
           '''
-          new_text, count = re.subn(pattern, replacement.rstrip(), text, flags=re.S)
+          new_text, count = re.subn(pattern, lambda _: replacement.rstrip(), text, flags=re.S)
           if count != 1:
               raise SystemExit(f"expected one build_transfer_tasks replacement, got {count}")
           path.write_text(new_text, encoding="utf-8")
