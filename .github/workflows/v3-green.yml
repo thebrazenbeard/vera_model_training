@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   patch-and-test:
-    if: ${{ github.event.head_commit.message == 'Add one-shot V3 GREEN patch workflow' }}
+    if: ${{ github.event.head_commit.message == 'Repair V3 GREEN patch workflow' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -26,6 +26,7 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
 
           p = Path('bootcamp.py')
           s = p.read_text()
@@ -78,23 +79,22 @@ jobs:
               raise SystemExit('examine postprocess block not found')
           s = s.replace(old, new, 1)
 
-          old = '''        lesson = str(exam.get("durable_lesson", "")).strip()
-              if exam["passed"] and lesson:
-                  lessons.append(clamp(lesson, 500))
-              for correction in exam["corrections"]:
-                  correction = str(correction).strip()
-                  if correction:
-                      lessons.append("CORRECTION: " + clamp(correction, 450))
-              regression = str(exam.get("regression_case", "")).strip()
-          '''
-          new = '''        # Examiner-authored lessons/corrections are retained in the audit only.
-              # They are hypotheses from the same local model, not verified source authority,
-              # so automatically feeding them forward can compound a false correction.
-              regression = str(exam.get("regression_case", "")).strip()
-          '''
-          if old not in s:
-              raise SystemExit('lesson promotion block not found')
-          s = s.replace(old, new, 1)
+          pattern = re.compile(
+              r'        lesson = str\(exam\.get\("durable_lesson", ""\)\)\.strip\(\)\n'
+              r'        if exam\["passed"\] and lesson:\n'
+              r'            lessons\.append\(clamp\(lesson, 500\)\)\n'
+              r'        for correction in exam\["corrections"\]:\n'
+              r'            correction = str\(correction\)\.strip\(\)\n'
+              r'            if correction:\n'
+              r'                lessons\.append\("CORRECTION: " \+ clamp\(correction, 450\)\)\n'
+              r'        regression = str\(exam\.get\("regression_case", ""\)\)\.strip\(\)'
+          )
+          replacement = '''        # Same-model examiner lessons/corrections remain audit hypotheses only.
+                  # Auto-promoting them can compound a false correction across later rounds.
+                  regression = str(exam.get("regression_case", "")).strip()'''
+          s, count = pattern.subn(lambda _: replacement, s, count=1)
+          if count != 1:
+              raise SystemExit(f'lesson promotion block replacement count={count}')
           p.write_text(s)
 
           p = Path('.github/workflows/identity-bootcamp.yml')
