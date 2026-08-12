@@ -128,8 +128,8 @@ def test_external_proxy_can_only_make_package_ready_not_native_identity_pass():
         {"round": 2, "exam": {"critical_failure": False}},
     ]
     transfers = [
-        {"transfer": 1, "exam": {"score": 4, "critical_failure": False}},
-        {"transfer": 2, "exam": {"score": 4, "critical_failure": False}},
+        {"transfer": 1, "task": {"adversarial": False}, "exam": {"score": 4, "critical_failure": False, "corrections": []}},
+        {"transfer": 2, "task": {"adversarial": True}, "exam": {"score": 4, "critical_failure": False, "corrections": []}},
     ]
     qual = quality_gate.conservative_qualification(spec, [cap], audit, transfers, [])
     assert qual["training_package_ready"] is True
