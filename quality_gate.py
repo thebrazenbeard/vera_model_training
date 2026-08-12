@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 from pathlib import Path
 from typing import Any
@@ -11,6 +12,8 @@ _GENERIC = {
     "using", "use", "feature", "features", "system", "systems", "integration",
     "implementation", "implementing", "ability", "knowledge", "expertise",
     "experience", "application", "applications", "including", "control",
+    "and", "for", "the", "with", "plus", "from", "into", "through", "about",
+    "across", "between", "within", "without", "their", "these", "those",
 }
 
 
@@ -40,8 +43,11 @@ def capability_supported_by_sources(cap, source_pack: str) -> bool:
     if len(name_hits) < required_name_hits:
         return False
     descriptive = description_tokens - name_tokens
-    if descriptive and not (descriptive & source_tokens):
-        return False
+    if descriptive:
+        descriptive_hits = descriptive & source_tokens
+        required_descriptive_hits = max(1, math.ceil(len(descriptive) * 0.5))
+        if len(descriptive_hits) < required_descriptive_hits:
+            return False
     return True
 
 
@@ -108,7 +114,19 @@ def conservative_qualification(spec, caps, audit, transfers, evidence) -> dict[s
             "critical": bool(raw.get("critical", False)),
         })
 
-    package_ready = bool(audit) and len(audit) == int(spec["rounds"]) and len(transfers) == 2 and not critical_failures
+    weak_critical = [
+        c["id"] for c in cap_records
+        if c["critical"] and c["proxy_status"] != "PROXY_EVIDENCED"
+    ]
+    transfer_ready = len(transfer_scores) == 2 and all(score >= 3 for score in transfer_scores)
+    package_ready = (
+        bool(audit)
+        and len(audit) == int(spec["rounds"])
+        and len(transfers) == 2
+        and transfer_ready
+        and not critical_failures
+        and not weak_critical
+    )
     return {
         "identity": spec["identity"],
         "function": spec["function"],
@@ -122,6 +140,7 @@ def conservative_qualification(spec, caps, audit, transfers, evidence) -> dict[s
         "capability_proxy_evidence": cap_records,
         "transfer_proxy_scores": transfer_scores,
         "transfer_proxy_average": transfer_average,
+        "weak_critical_capabilities": weak_critical,
         "critical_failures": critical_failures,
         "training_package_ready": package_ready,
         "native_identity_qualification": "NOT_RUN",
