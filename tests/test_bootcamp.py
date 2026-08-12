@@ -159,3 +159,30 @@ def test_generic_hidden_rubric_is_replaced_with_capability_specific_checks():
     assert repaired["hidden_rubric"] != ["short check"]
     assert any("RLS" in item or "Row Level Security" in item for item in repaired["hidden_rubric"])
     assert any("unsupported" in item.lower() or "false premise" in item.lower() for item in repaired["hidden_rubric"])
+
+
+def test_capability_support_filter_rejects_description_smuggling():
+    source_pack = "Configure database roles and permissions for users."
+    smuggled = bootcamp.Capability(
+        "roles_permissions",
+        "Roles & Permissions",
+        "Configure roles and permissions plus billing quotas and preview deployments",
+        True,
+    )
+    assert not quality_gate.capability_supported_by_sources(smuggled, source_pack)
+
+
+def test_training_package_not_ready_when_proxy_transfer_or_critical_capability_is_weak():
+    spec = {"identity": "SB", "function": "Supabase Platform Specialist", "target": "practitioner", "rounds": 2}
+    weak_cap = bootcamp.Capability("rls", "RLS", "Row security", True, score=1, observations=2)
+    audit = [
+        {"round": 1, "exam": {"score": 1, "passed": False, "critical_failure": False}},
+        {"round": 2, "exam": {"score": 1, "passed": False, "critical_failure": False}},
+    ]
+    transfers = [
+        {"transfer": 1, "exam": {"score": 1, "passed": False, "critical_failure": False}},
+        {"transfer": 2, "exam": {"score": 1, "passed": False, "critical_failure": False}},
+    ]
+    qual = quality_gate.conservative_qualification(spec, [weak_cap], audit, transfers, [])
+    assert qual["training_package_ready"] is False
+    assert qual["outcome"] == "FAIL"
