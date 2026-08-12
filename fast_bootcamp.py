@@ -5,6 +5,7 @@ local model can complete within an ordinary ChatGPT-triggered workflow window.
 """
 from __future__ import annotations
 
+import json
 import time
 
 import requests
@@ -28,6 +29,8 @@ TOKEN_CAPS = {
     bootcamp.TRANSFER_SYSTEM: 550,
     bootcamp.DISTILLER_SYSTEM: 800,
 }
+
+SINGLE_TRANSFER_SYSTEM = """You are TRANSFER EXAM DESIGNER. Create exactly ONE novel practitioner task that combines at least two supplied capabilities and does not reuse the training scenarios. Return ONLY strict JSON: {\"rounds\":[{\"task\":\"...\",\"capability_ids\":[\"...\"],\"hidden_rubric\":[\"short check\"],\"adversarial\":false,\"critical\":true}]}. The second requested exam should contain a tempting false premise or unsafe shortcut."""
 
 
 def bounded_llm(system: str, user: str, max_tokens: int = 500, temperature: float = 0.2) -> str:
@@ -55,8 +58,27 @@ def bounded_llm(system: str, user: str, max_tokens: int = 500, temperature: floa
     raise RuntimeError(f"bounded local model call failed: {last}")
 
 
+def robust_build_transfer_tasks(spec, caps, curriculum):
+    prior = [task["task"] for task in curriculum]
+    tasks = []
+    for number in (1, 2):
+        obj = bootcamp.json_llm(
+            SINGLE_TRANSFER_SYSTEM,
+            f"FUNCTION: {spec['function']}\nTRANSFER EXAM NUMBER: {number}\nCAPABILITIES:\n{bootcamp.capability_snapshot(caps)}\nPRIOR TRAINING TASKS (do not reuse):\n{json.dumps(prior)}\nCreate exactly one distinct transfer task. Exam 2 must be adversarial.",
+            max_tokens=500,
+            temperature=0.35,
+        )
+        task = bootcamp.validate_curriculum(obj, 1, caps)[0]
+        if number == 2:
+            task["adversarial"] = True
+        tasks.append(task)
+        prior.append(task["task"])
+    return tasks
+
+
 bootcamp.select_source_segments = bounded_select_source_segments
 bootcamp.llm = bounded_llm
+bootcamp.build_transfer_tasks = robust_build_transfer_tasks
 
 
 if __name__ == "__main__":
