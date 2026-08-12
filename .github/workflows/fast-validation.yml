@@ -1,0 +1,109 @@
+name: Fast Bootcamp Validation
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  validate:
+    if: >-
+      ${{
+        github.event.repository.private == false &&
+        github.actor == github.repository_owner &&
+        startsWith(github.event.issue.title, '[BOOTCAMP-FAST]')
+      }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      ZERO_COST: "true"
+      MODEL_NAME: "Qwen3-1.7B-Q4_K_M-local"
+      MODEL_FILE: "Qwen3-1.7B-Q4_K_M.gguf"
+      MODEL_SHA256: "d2387ca2dbfee2ffabce7120d3770dadca0b293052bc2f0e138fdc940d9bc7b5"
+      MODEL_URL: "https://huggingface.co/ggml-org/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf?download=true"
+      LLAMA_ARCHIVE: "llama-b10375-bin-ubuntu-x64.tar.gz"
+      LLAMA_ARCHIVE_SHA256: "b6a7ed005240eccd61e1af42debd75b876c639c1416bfa90985fd02618919a88"
+      LLAMA_ARCHIVE_URL: "https://github.com/ggml-org/llama.cpp/releases/download/b10375/llama-b10375-bin-ubuntu-x64.tar.gz"
+      LLM_URL: "http://127.0.0.1:8080/v1/chat/completions"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify zero-cost boundary
+        run: |
+          set -euo pipefail
+          test "${ZERO_COST}" = "true"
+          test "${{ github.event.repository.private }}" = "false"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install and test
+        run: |
+          pip install --disable-pip-version-check -r requirements.txt
+          python -m py_compile bootcamp.py fast_bootcamp.py
+          python -m pytest -q
+
+      - name: Install pinned llama.cpp server
+        run: |
+          set -euo pipefail
+          mkdir -p llama-bin
+          curl -L --fail --retry 4 --retry-delay 3 -o "${LLAMA_ARCHIVE}" "${LLAMA_ARCHIVE_URL}"
+          echo "${LLAMA_ARCHIVE_SHA256}  ${LLAMA_ARCHIVE}" | sha256sum --check --strict
+          tar -xzf "${LLAMA_ARCHIVE}" -C llama-bin
+          LLAMA_SERVER="$(find llama-bin -type f -name llama-server -print -quit)"
+          test -n "${LLAMA_SERVER}"
+          chmod +x "${LLAMA_SERVER}"
+          echo "LLAMA_SERVER=${LLAMA_SERVER}" >> "${GITHUB_ENV}"
+
+      - name: Download and verify local model
+        run: |
+          set -euo pipefail
+          mkdir -p models
+          curl -L --fail --retry 4 --retry-delay 3 -o "models/${MODEL_FILE}" "${MODEL_URL}"
+          echo "${MODEL_SHA256}  models/${MODEL_FILE}" | sha256sum --check --strict
+
+      - name: Start local server
+        run: |
+          nohup "${LLAMA_SERVER}" -m "models/${MODEL_FILE}" --host 127.0.0.1 --port 8080 -c 8192 -t 4 > llama-server.log 2>&1 &
+          for i in $(seq 1 90); do
+            curl -fsS http://127.0.0.1:8080/health >/dev/null && exit 0
+            sleep 2
+          done
+          cat llama-server.log
+          exit 1
+
+      - name: Run ten-round bounded bootcamp
+        env:
+          BOOTCAMP_SPEC: ${{ github.event.issue.body }}
+        run: python fast_bootcamp.py
+
+      - name: Upload validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fast-validation-${{ github.run_id }}
+          path: |
+            out/
+            llama-server.log
+          if-no-files-found: warn
+          retention-days: 1
+
+      - name: Post result
+        if: ${{ success() }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: gh issue comment "${ISSUE_NUMBER}" --body-file out/SUMMARY.md
+
+      - name: Post failure
+        if: ${{ failure() }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        run: gh issue comment "${ISSUE_NUMBER}" --body "Fast validation failed closed. No paid fallback was attempted. ${RUN_URL}"
