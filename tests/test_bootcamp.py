@@ -1,5 +1,6 @@
 import bootcamp
 import fast_bootcamp
+import quality_gate
 
 
 def test_select_source_segments_is_bounded_and_samples_full_document():
@@ -94,3 +95,44 @@ def test_transfer_exams_are_generated_independently(monkeypatch):
     assert len(tasks) == 2
     assert len(calls) == 2
     assert tasks[0]["task"] != tasks[1]["task"]
+
+
+def test_single_observation_capability_is_provisional():
+    assert quality_gate.capability_status({"score": 4, "observations": 1}) == "PROVISIONAL_SINGLE_OBSERVATION"
+    assert quality_gate.capability_status({"score": 4, "observations": 2}) == "PROXY_EVIDENCED"
+
+
+def test_capsule_never_promotes_practitioner_to_expert_and_preserves_actual_sources():
+    spec = {"identity": "SB", "function": "Supabase Platform Specialist", "target": "practitioner"}
+    qual = {
+        "source_evidence": [{"url": "https://supabase.com/docs/guides/queues", "status": "ok"}],
+        "capability_proxy_evidence": [{
+            "id": "queues", "name": "Queues", "proxy_score": 4,
+            "proxy_observations": 1, "proxy_status": "PROVISIONAL_SINGLE_OBSERVATION", "critical": True,
+        }],
+    }
+    capsule = quality_gate.build_capsule(spec, "Queues are Postgres-native.", [], [], qual)
+    assert "Expert" not in capsule
+    assert "expert status" in capsule
+    assert "https://supabase.com/docs/guides/queues" in capsule
+    assert "PROVISIONAL_SINGLE_OBSERVATION" in capsule
+    assert "does not establish exhaustive coverage" in capsule
+    assert "Native identity qualification has NOT been run" in capsule
+
+
+def test_external_proxy_can_only_make_package_ready_not_native_identity_pass():
+    spec = {"identity": "SB", "function": "Supabase Platform Specialist", "target": "practitioner", "rounds": 2}
+    cap = bootcamp.Capability("rls", "RLS", "Row security", True, score=4, observations=2)
+    audit = [
+        {"round": 1, "exam": {"critical_failure": False}},
+        {"round": 2, "exam": {"critical_failure": False}},
+    ]
+    transfers = [
+        {"transfer": 1, "exam": {"score": 4, "critical_failure": False}},
+        {"transfer": 2, "exam": {"score": 4, "critical_failure": False}},
+    ]
+    qual = quality_gate.conservative_qualification(spec, [cap], audit, transfers, [])
+    assert qual["training_package_ready"] is True
+    assert qual["native_identity_qualification"] == "NOT_RUN"
+    assert "external_bootcamp_pass" not in qual
+    assert qual["outcome"] == "CONDITIONAL PASS"
