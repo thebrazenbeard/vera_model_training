@@ -30,10 +30,10 @@ jobs:
     timeout-minutes: 180
     env:
       ZERO_COST: "true"
-      MODEL_NAME: "Qwen3-1.7B-Q4_K_M-local"
-      MODEL_FILE: "Qwen3-1.7B-Q4_K_M.gguf"
-      MODEL_SHA256: "d2387ca2dbfee2ffabce7120d3770dadca0b293052bc2f0e138fdc940d9bc7b5"
-      MODEL_URL: "https://huggingface.co/ggml-org/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf?download=true"
+      MODEL_NAME: "Qwen3-4B-Q4_K_M-local"
+      MODEL_FILE: "Qwen3-4B-Q4_K_M.gguf"
+      MODEL_SHA256: "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5"
+      MODEL_URL: "https://huggingface.co/Qwen/Qwen3-4B-GGUF/resolve/main/Qwen3-4B-Q4_K_M.gguf?download=true"
       LLAMA_ARCHIVE: "llama-b10375-bin-ubuntu-x64.tar.gz"
       LLAMA_ARCHIVE_SHA256: "b6a7ed005240eccd61e1af42debd75b876c639c1416bfa90985fd02618919a88"
       LLAMA_ARCHIVE_URL: "https://github.com/ggml-org/llama.cpp/releases/download/b10375/llama-b10375-bin-ubuntu-x64.tar.gz"
@@ -83,7 +83,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: models
-          key: qwen3-17b-q4km-${{ env.MODEL_SHA256 }}
+          key: qwen3-4b-q4km-${{ env.MODEL_SHA256 }}
 
       - name: Download checksum-pinned local model
         if: steps.model-cache.outputs.cache-hit != 'true'
