@@ -109,7 +109,7 @@ def _capabilities_from_obj(obj):
 def grounded_build_capabilities(function: str, target: str, knowledge: str):
     obj = bootcamp.json_llm(
         GROUNDED_ARCHITECT_SYSTEM,
-        f"FUNCTION: {function}\nTARGET: {target}\nSOURCE_DATA:\n{_SOURCE_PACK}\nSOURCE MATERIAL:\n{knowledge}",
+        f"FUNCTION: {function}\nTARGET: {target}\nSOURCE_DATA:\n{_SOURCE_PACK}",
         max_tokens=800,
         temperature=0.0,
     )
