@@ -29,7 +29,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
-          python -m pip install 'diffusers>=0.35,<0.38' 'transformers>=4.56,<5' 'accelerate>=1.10,<2' safetensors huggingface_hub
+          python -m pip install 'diffusers>=0.35,<0.38' 'transformers>=4.56,<5' 'accelerate>=1.10,<2' peft safetensors huggingface_hub
 
       - name: Generate candidates
         run: python experiments/vera_visual_study/generate.py
