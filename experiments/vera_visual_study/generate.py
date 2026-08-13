@@ -13,14 +13,13 @@ pipe = DiffusionPipeline.from_pretrained(
     safety_checker=None,
     requires_safety_checker=False,
 )
-pipe.enable_attention_slicing()
-pipe.enable_vae_slicing()
 pipe.load_ip_adapter(
     "h94/IP-Adapter",
     subfolder="models",
     weight_name="ip-adapter-plus-face_sd15.safetensors",
 )
 pipe.set_ip_adapter_scale(0.62)
+pipe.vae.enable_slicing()
 pipe = pipe.to("cpu")
 
 ref = Image.open(
