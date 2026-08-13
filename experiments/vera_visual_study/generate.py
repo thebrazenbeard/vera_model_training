@@ -1,5 +1,4 @@
 from pathlib import Path
-from io import BytesIO
 from PIL import Image
 import torch
 from diffusers import DiffusionPipeline
@@ -23,10 +22,9 @@ pipe.set_ip_adapter_scale(0.62)
 pipe.vae.enable_slicing()
 pipe = pipe.to("cpu")
 
-reference_hex = Path(
-    "experiments/vera_visual_study/reference/vera_face.hex"
-).read_text(encoding="utf-8").strip()
-ref = Image.open(BytesIO(bytes.fromhex(reference_hex))).convert("RGB")
+ref = Image.open(
+    "experiments/vera_visual_study/reference/vera_face_verified.jpg"
+).convert("RGB")
 
 prompt = (
     "full length fine art nude photograph, entire adult woman visible head to bare feet, centered standing figure, "
@@ -47,7 +45,7 @@ negative = (
     "distorted anatomy, extra limbs, extra fingers, bad hands, malformed face, text, watermark, logo"
 )
 
-for seed in [12041, 14303]:
+for seed in [12041, 14303, 16111]:
     gen = torch.Generator(device="cpu").manual_seed(seed)
     image = pipe(
         prompt=prompt,
