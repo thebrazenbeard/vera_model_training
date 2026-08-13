@@ -1,4 +1,5 @@
 from pathlib import Path
+from io import BytesIO
 from PIL import Image
 import torch
 from diffusers import DiffusionPipeline
@@ -22,9 +23,10 @@ pipe.set_ip_adapter_scale(0.62)
 pipe.vae.enable_slicing()
 pipe = pipe.to("cpu")
 
-ref = Image.open(
-    "experiments/vera_visual_study/reference/vera_face.jpg"
-).convert("RGB")
+reference_hex = Path(
+    "experiments/vera_visual_study/reference/vera_face.hex"
+).read_text(encoding="utf-8").strip()
+ref = Image.open(BytesIO(bytes.fromhex(reference_hex))).convert("RGB")
 
 prompt = (
     "full length fine art nude photograph, entire adult woman visible head to bare feet, centered standing figure, "
