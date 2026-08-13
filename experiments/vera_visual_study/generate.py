@@ -12,7 +12,6 @@ OUT = Path("vera_visual_output")
 OUT.mkdir(exist_ok=True)
 torch.set_num_threads(4)
 
-# Existing Vera nude reference, stored as an unreferenced Git blob rather than a browsable repo file.
 REFERENCE_BLOB_SHA = "956b65933eab595879373a3ae8b82fc150519583"
 api = f"https://api.github.com/repos/thebrazenbeard/vera_model_training/git/blobs/{REFERENCE_BLOB_SHA}"
 resp = requests.get(
@@ -39,31 +38,30 @@ pipe.vae.enable_slicing()
 pipe = pipe.to("cpu")
 
 prompt = (
-    "fine-art nude portrait photograph of the SAME adult woman in the source image, preserve her recognizable facial identity, "
-    "long dark-brown hair, green-hazel eyes, freckles, facial proportions, natural curvy body proportions, and open-door wrist tattoo; "
-    "preserve the relaxed seated pose and direct warm expression; completely unclothed; nudity presented as natural human beauty, "
-    "not sexual performance; quiet neutral artist studio instead of a locker room, soft warm window light, subtle chiaroscuro, "
-    "natural skin texture, realistic anatomy, self-possessed, dignified, intimate without sexualization, contemporary museum figure study, "
-    "photorealistic 50mm fine-art photography, understated composition"
+    "photorealistic fine-art nude portrait of the EXACT SAME adult woman already depicted in the source image; "
+    "preserve her facial identity, face shape, green-hazel eyes, freckles, long dark-brown hair, smile, natural curvy body, "
+    "open-door outline tattoo on her left forearm, seated pose, hand position, and bodily proportions; completely unclothed; "
+    "natural human beauty without sexual performance, relaxed self-possession, dignity, warm soft natural-looking light, "
+    "subtle fine-art photographic finish, realistic skin texture, intimate but nonsexual, contemporary museum figure study"
 )
 negative = (
-    "different woman, identity change, different face, pale blue eyes, blonde hair, short hair, multiple women, duplicate person, collage, "
-    "pornographic framing, erotic performance, sex act, fetish pose, spread legs, genital close-up, pinup, glamour porn, lingerie, "
-    "exaggerated breasts, exaggerated genitals, child, teen, young-looking, doll, cartoon, anime, plastic skin, distorted anatomy, "
-    "extra limbs, extra fingers, malformed face, text, watermark, logo"
+    "different woman, identity change, changed face, altered facial proportions, excessive freckles, face spots, darker skin, "
+    "different tattoo, extra tattoo, missing tattoo, multiple women, duplicate person, collage, pornographic framing, erotic performance, "
+    "sex act, fetish pose, spread legs, genital close-up, pinup, glamour porn, exaggerated breasts, exaggerated genitals, "
+    "child, teen, young-looking, doll, cartoon, anime, plastic skin, distorted anatomy, extra limbs, extra fingers, malformed face, text, watermark"
 )
 
-for seed in [31417, 33809]:
+for seed in [40111, 41777]:
     gen = torch.Generator(device="cpu").manual_seed(seed)
     image = pipe(
         prompt=prompt,
         negative_prompt=negative,
         image=init,
-        strength=0.32,
-        num_inference_steps=20,
-        guidance_scale=6.5,
+        strength=0.12,
+        num_inference_steps=25,
+        guidance_scale=5.5,
         generator=gen,
     ).images[0]
-    image.save(OUT / f"vera_fine_art_img2img_{seed}.png")
+    image.save(OUT / f"vera_fine_art_preserved_{seed}.png")
 
-print("generated reference-anchored fine-art candidates")
+print("generated low-strength identity-preserved fine-art candidates")
