@@ -1,349 +1,378 @@
 # Vera Model Training — R9B0 Retrain Candidate Family Specification
 
-**Status:** CURRENT-SOURCE-DERIVED / SPECIFICATION ONLY / NO TRAINING-READINESS CLAIM  
-**Continuation base head:** `37f476c15b4de8cb8efbaea9b94f027b4e18c8e4`  
-**Continuation base tree:** `652f3f88f6a875daa009b9efa7159fe62e0a2c13`  
-**Tracking issue:** `#25`
+**Status:** CURRENT-SOURCE-DERIVED / SPECIFICATION ONLY / REVIEW-WAVE SUCCESSOR / NO TRAINING-READINESS CLAIM  
+**Frozen predecessor head:** `010f74c45a41458618197e2bf2b5f62513d17ebc`  
+**Frozen predecessor tree:** `ce25a56ec68966e59fcfe2344b7cc443860a3e7e`  
+**Frozen predecessor blob:** `e8577a35e000d9a279700ee6fb17e9bc13eb2860`  
+**Tracking issue:** `#25`  
+**Review inputs:** One `5487544102`; Thirteen `CHANGES_REQUIRED / H0 M5`; Seven `5487417216` / `CHANGES_REQUESTED_H2_M5_AT_EXACT_010F74_METHOD_SCOPE`.
 
 ## Purpose
 
-Define the strongest presently supportable R9B0 retrain-candidate architecture from exact current owner sources while historical executable cases remain source-gated. This document specifies candidate families, derivation/provenance requirements, corpus-surface isolation, contamination controls, readiness gates, and the boundary between behavior suitable for model retraining versus behavior that must remain prompt/runtime/architecture enforced.
+Specify R9B0 retrain-candidate behavior without transferring runtime authority, currentness, identity binding, provider effects, or deterministic architecture into weights. This successor closes the design paths identified by both review lanes but does not claim review pass, corpus readiness, training authority, model improvement, or release readiness.
 
-This document contains **no training examples, no expected-answer prose, no private user history, no frozen-evaluation payloads, and no authorization to train**. Acceptance-case identifiers may be used as semantic anchors, but owner acceptance cases are not silently converted into LoRA examples.
+No training examples, expected-answer prose, private user source material, or frozen-evaluation payloads are authored here. Owner acceptance cases remain semantic anchors only.
 
 ## Exact current owner anchor
 
-Repository/commit/tree:
+- repository: `thebrazenbeard/vera-R9A0`
+- commit: `1d2bb27d5ff89854c93c431998c5ba255704c1b2`
+- tree: `939db8d84c8894df5d7ed136856f38ea19e4372e`
+- native obligation matrix blob: `74bf2b66caf02db0a85f20edc42836e558d3c1f4`
+- semantic projection manifest blob: `1655e707a06759f27c7691e1d839ab1e350dd135`
+- memory epoch contract blob: `af1b5f9105af6ca2eb140c0580440f408069d096`
+- behavior profile blob: `0c79625b993a559bd22a6fbe68279450fc736eb2`
+- epoch envelope schema blob: `09d14e127d8d7d2f3275f70f64e4cac56be31071`
+- runtime owner blob: `3591771f336dbe287c404d3ee8d473bb6abdd235`
 
-- `thebrazenbeard/vera-R9A0`
-- commit `1d2bb27d5ff89854c93c431998c5ba255704c1b2`
-- tree `939db8d84c8894df5d7ed136856f38ea19e4372e`
+Claim ceiling remains source-level binding only. Source conformance does not prove active Settings, current owner deployment, Voice/renderer/transport behavior, memory effects, database qualification, installation, or release.
 
-Bound owner artifacts:
+## Review-wave closure map
 
-- `validation/R9B0_NATIVE_OBLIGATION_MATRIX.json` — Git blob `74bf2b66caf02db0a85f20edc42836e558d3c1f4`
-- `validation/R9B0_SEMANTIC_PROJECTION_MANIFEST.json` — Git blob `1655e707a06759f27c7691e1d839ab1e350dd135`
-- `validation/R9B0_MEMORY_EPOCH_CONTRACT.json` — Git blob `af1b5f9105af6ca2eb140c0580440f408069d096`
-- `validation/VERA_BEHAVIOR_PROFILE_V1.json` — Git blob `0c79625b993a559bd22a6fbe68279450fc736eb2`
-- `schemas/native-project/r9b0_memory_epoch_envelope_v1.schema.json` — Git blob `09d14e127d8d7d2f3275f70f64e4cac56be31071`
-- `project/VERA_R9A0_RUNTIME.md` — Git blob `3591771f336dbe287c404d3ee8d473bb6abdd235`
+Thirteen M01 is closed by `RUNTIME_RESOLVED_PREMISE_V1`: authority/currentness/effect/identity-binding facts are supplied as immutable inputs and never learned as conclusions.
 
-Claim ceiling inherited from the owner matrix: source-level binding only. These sources do not prove active Settings, provider deployment, Voice routing, renderer behavior, current-chat transport, memory effects, installation, database qualification, or release.
+Thirteen M02 is closed by target-component/per-obligation disposition: a record is TRAINING-eligible only when every target-bearing component is `RETRAIN_CANDIDATE`; prompt/runtime/architecture facts may appear only as immutable, loss-disabled premises.
 
-## Current historical-source disposition consumed from issue #25
+Thirteen M03 is closed by the inference invariant `WEIGHT_OR_ADAPTER_PRESENCE != VERA_IDENTITY_OR_CURRENT_OWNER_AUTHORITY`. Current runtime/project binding and current owner-version binding are external to weights and supersede conflicting learned tendencies.
 
-Mune recovery comment `5486496025` and One adjudication comment `5486600284` are consumed as source-lane evidence at the continuation base head.
+Thirteen M04 is closed by machine-readable source/privacy eligibility. `PRIVATE_USER_SOURCE` and `PRIVATE_THIRD_PARTY_SOURCE` are categorically `EXCLUDE_FROM_WEIGHT_TRAINING` in this release family. Authorization alone cannot change that disposition.
 
-The independent remote/archive recovery lane is exhausted for the targeted-repair/final-candidate payload family at the claim ceiling stated there. The frozen scoring workbook identity remains hash-bound to SHA-256 `1aa1defde7c3f4380cdf52bed7812ea233f753bcdfb89764b5b9ecbb17ad60fb`, while its payload bytes remain unrecovered. Other named historical payloads remain `NOT_FOUND_AFTER_INDEPENDENT_ROUTES` / `NEEDS_SOURCE` at payload level.
+Thirteen M05 is closed by fixing `FROZEN_HISTORICAL_EVALUATION` to `KNOWN_REGRESSION_ONLY`; adaptive inspection can never support an unbiased final-holdout claim.
 
-The historical-source lane is therefore waiting on exactly one Patrick-local datum and nothing broader:
+Seven method findings are closed by an untouched terminal holdout, controlled weight-vs-scaffold attribution, independent development-validation construction, structural scenario clustering, pinned semantic-neighbor policy, explicit historical-eval peeking rules, and preregistered family hypotheses/metrics/thresholds/negative controls/no-regression ceilings.
+
+## Historical-source lane
+
+The historical lane remains separately waiting only on:
 
 `C:\VERA\VERA_LORA_RETRAINING_v0.6-rc1\curriculum\VERA_LORA_TARGETED_REPAIR_CURRICULUM_v0.6-rc1\SHA256SUMS.txt`
 
-Preferred evidence is the exact file/upload or exact verbatim bytes. If recovered, bind the checksum file's own bytes/hash first; then use it only to resolve member identities and lineage. Recovery of a checksum surface does not move frozen evaluation into training and does not create training readiness.
+No broader local request is justified. Historical executable regression cases admitted now: **0**. A recovered checksum binds identities/lineage only; it does not move frozen evaluation into training or create training readiness.
 
-Historical executable regression cases admitted now: **0**.
+## Corpus and evaluation surfaces
 
-## Corpus-surface architecture
+The three existing surfaces remain strictly non-interchangeable. A fourth terminal surface is added only for final-holdout independence.
 
-The candidate uses three non-interchangeable surfaces. `corpus_surface` is immutable lineage metadata, not a convenience label.
+### TRAINING
 
-### 1. TRAINING
+Optimization material only. Admission requires exact owner lineage, source eligibility, privacy eligibility, target-component eligibility, structural-cluster assignment, contamination clearance, and immutable freeze. Frozen historical evaluation is never TRAINING.
 
-Only newly derived current-owner behavior records or payload-level repaired legacy training records may become optimization material. Admission requires exact owner binding, derivation provenance, privacy eligibility, split assignment, contamination checks, and curriculum disposition.
+### DEVELOPMENT VALIDATION
 
-Frozen historical evaluation content is never TRAINING, even if later recovered perfectly.
+Independently constructed after TRAINING freezes and before any training/model-selection result is observed. Used for diagnostics, iteration, candidate comparison, and threshold development only. Never optimization material and never terminal generalization evidence.
 
-### 2. DEVELOPMENT VALIDATION
+### FROZEN HISTORICAL EVALUATION
 
-Development validation is authored independently from the frozen current-owner semantic set **after the training corpus is frozen**. It is not created by splitting rendered training examples, rewriting training examples, or lightly paraphrasing training scenarios. It may share governing obligation IDs with TRAINING, but not scenario identity, pair-group identity, rendered text, or derivation lineage.
+Exact recovered historical tuples only. Permanent role: `KNOWN_REGRESSION_ONLY`. Results may identify regressions and may guide later repair, but once inspected adaptively they cannot support an independent generalization claim. Missing payloads remain `NEEDS_SOURCE`; no reconstruction from summaries, labels, inventories, or filenames.
 
-Development validation is used for iteration/evaluation only, never optimization.
+### CURRENT_OWNER_FINAL_HOLDOUT
 
-### 3. FROZEN HISTORICAL EVALUATION
+Untouched current-owner-derived terminal evaluation surface. Independently authored, structurally clustered, contamination-cleared, frozen, hashed, and embargoed before any training/model-selection result is observed.
 
-Recovered historical prompt/reference/base-response/adapter-response tuples are comparison/regression material only. Admission requires exact payload/lineage/hash binding and contamination classification. They remain non-training regardless of historical labels such as `READY_FOR_RETRAINING`.
+Its rendered content and detailed scenario metadata are inaccessible to training generation, early stopping, hyperparameter search, curriculum revision, prompt/scaffold tuning, candidate selection, and development iteration. It opens once after immutable lock of candidate weights, tokenizer, decoding, prompt/runtime scaffold, tool fixtures, evaluator version, and harness. Any change after exposure consumes that holdout generation and requires a new untouched generation.
 
-Unrecovered historical material remains `NEEDS_SOURCE`; inventory/path/report evidence does not substitute for payload custody. Missing historical payloads do not authorize reconstruction from summaries.
+## Global inference-time invariants
 
-## Candidate family architecture
+### Weight/adapter non-authority
 
-Each family below separates three questions:
+- adapter presence != Vera identity;
+- base-model presence != Vera identity;
+- recognizable Vera behavior != current Vera identity proof;
+- weight version != current owner version;
+- learned familiarity != session continuity;
+- learned tendency != operation authority;
+- learned claim style != currentness evidence;
+- learned memory semantics != persistence/effect evidence.
 
-1. what behavioral discrimination can plausibly be strengthened through retraining;
-2. what must remain prompt/runtime/architecture enforced because it depends on live authority, currentness, tools, effects, or external state;
-3. what legacy source disposition is supportable now.
+A governed runtime/project binding plus current owner-version binding must be supplied outside weights. `ABSENT | UNKNOWN | STALE | CONFLICTED` binding may not be repaired by adapter/persona inference. Current prompt/runtime owner source overrides conflicting learned tendency. Release tests must include stale-learned-tendency conflicts where the externally supplied current owner premise wins with zero critical self-bootstrap violations.
 
-### Group A — authority, correction, effects and continuation
+### Runtime facts are input, not target
 
-Owner obligations: `K01`, `K02`, `K04`, `K11`, `K12`, `K18`. Current semantic anchor also includes `CORRECTION-01`.
+Any target touching authority, currentness, identity binding, effect eligibility/result, memory admission/persistence, branch/head state, provider state, database qualification, installation, Voice/renderer/transport capability, or another live external fact requires `RUNTIME_RESOLVED_PREMISE_V1`.
 
-Candidate discrimination axes:
+Minimum premise fields:
 
-- authority vs capability/history/visibility/receipt;
-- present correction vs obsolete route;
-- correction completion vs apology/process narration;
-- package/build/install/runtime/effect evidence domains;
-- transient read retry vs deterministic failure;
-- idempotent verification vs ambiguous non-idempotent write retry;
-- progress/plan/tool output vs verified persistence/delivery/consumption/effect;
-- continuation across terse follow-ups vs premature stopping;
-- genuine stop boundary vs generic deferral.
+- `premise_id`
+- `premise_type`
+- `resolver_class = PROMPT | RUNTIME | ARCHITECTURE | TEST_HARNESS`
+- `resolver_version`
+- `subject`
+- `resolved_state`
+- `freshness_state = FRESH | STALE | UNKNOWN | CONFLICTED`
+- `authority_scope`
+- `evidence_locator_or_fixture_id`
+- `immutable_for_record = true`
+- `runtime_resolution_required = true`
+- `runtime_fact_is_input_not_target = true`
 
-**Retrain candidate:** behavioral tendency to ask less unnecessary permission, execute the smallest authorized act, apply corrections before narration, distinguish evidence domains, avoid false completion claims, and preserve unfinished-work continuity.
+The optimization target may express only downstream behavior conditioned on the supplied premise. It may not infer, upgrade, regenerate, or override that premise. Protected/external execution is never a weight target unless exact positive effect-eligibility is already provided by runtime/test fixture; actual execution remains a runtime/tool effect.
 
-**Prompt/runtime required:** actual operation authority, live branch/head verification, tool error classification, operation-identity inspection, effect/readback verification, service gates, and protected-effect enforcement. Training must never teach the model to infer authority or effect from style cues.
+## Target-component/per-obligation disposition
 
-Legacy disposition: predominantly `REPAIR`. Historical action-vs-promise and correction families are reusable only after exact payload recovery and semantic reclassification; no owner acceptance case is itself a training record.
+Every future record uses `components[]` rather than one coarse disposition.
 
-### Group B — identity, currentness and retrieval provenance
+Minimum component fields:
 
-Owner obligations: `K03`, `K05`, `K09`, `K13`, `K17`. Current semantic anchors include `TEMPORAL-01`, `VOICE-01`, `VOICE-02`, `RENDER-01`.
+- `component_id`
+- `obligation_ids[]`
+- `component_role = TARGET | IMMUTABLE_PREMISE | CONTEXT_ONLY | EVAL_ONLY`
+- `disposition = RETRAIN_CANDIDATE | PROMPT_REQUIRED | RUNTIME_REQUIRED | ARCHITECTURE_REQUIRED | FROZEN_EVAL_ONLY | NEEDS_SOURCE | EXCLUDE`
+- `eligible_for_optimization_loss`
+- `runtime_resolution_required`
+- `runtime_fact_is_input_not_target`
+- `source_binding_ids[]`
+- `privacy_eligibility`
 
-Candidate discrimination axes:
+TRAINING eligibility requires every `TARGET` component to be exactly `RETRAIN_CANDIDATE`. Every prompt/runtime/architecture component must be premise/context only with loss disabled. Any unresolved mixed target, inferred live fact, excluded source, or cross-surface contamination makes the whole record TRAINING-ineligible.
 
-- Vera project referent vs runtime/session/model provenance;
-- source record time vs event/state/retrieval/currentness evidence;
-- governed bridge states exactly `DIRECT_READ | BACKEND_DELEGATION | NONE | UNKNOWN`;
-- missing direct connector vs delegation impossibility;
-- capability vs route authorization;
-- retrieval vs admission;
-- exact/literal provenance-sensitive retrieval vs bounded broadening;
-- search miss vs universal absence;
-- source conformance vs active Settings/runtime/renderer/Voice/transport effect.
+## A–F disposition boundaries
 
-**Retrain candidate:** calibrated language and decision behavior around identity, provenance, currentness uncertainty, literal-first retrieval, bounded inference, and refusal to universalize a route miss.
+### A — authority/correction/effects/continuation (`K01,K02,K04,K11,K12,K18`)
 
-**Prompt/runtime required:** actual bridge resolution, authorized provider invocation, freshness/completeness/conflict validation, current-chat transport evidence, renderer behavior, direct Voice exposure, delegation availability, active Settings bytes, and any hidden-control boundary. Training may shape claim discipline but cannot establish these facts.
+Retrain target: correction-before-narration, evidence-domain discrimination, false-completion avoidance, bounded continuation, and smallest-useful-action selection **after** authority/effect eligibility is supplied.
 
-Legacy disposition: `REPAIR`. Generic connector/capability examples cannot remain unchanged where they collapse direct route, delegated route, authority, currentness, or universal capability.
+Premise/runtime only: authority itself, branch/head state, tool/service gates, protected-effect eligibility, effect occurrence, readback, and retry/inspection state.
 
-### Group C — memory, archives, MVE and the R9B0 epoch
+### B — identity/currentness/retrieval (`K03,K05,K09,K13,K17`)
 
-Owner obligations: `K06`, `K07`, `K08`, `K10`. Current semantic anchors include `MVE-01`, `MVE-02`, `EPOCH-01..12`.
+Retrain target: calibrated language around supplied provenance/currentness, literal-first retrieval behavior, bounded inference, and route-miss non-universalization.
 
-Candidate discrimination axes:
+Premise/runtime only: current identity binding, current owner version, actual bridge state, route authorization, active Settings, Voice/renderer/transport facts, and freshness/conflict resolution.
 
-- memory class exactly `AUTOBIOGRAPHICAL | WORKING_PROJECT | HISTORICAL_AUDIT`;
-- autobiographical default-deny vs unsupported promotion;
-- `UNVERIFIED_PRE_R9B0` vs false/current memory;
-- lazy first-use verification vs bulk blessing;
-- exact full-fidelity envelope vs summary/pointer/projection substitute;
-- event/record/state time vs distinct retrieval time;
-- dual active readback vs one-sided or merely acknowledged write;
-- `MIGRATION_INCOMPLETE` vs false success;
-- `OUTCOME_UNKNOWN`/inspection vs blind retry;
-- conflict vs overwrite/replay;
-- exact ORIGINAL archive readback vs compressed/reconstructed semantic substitute;
-- durability/provenance vs present truth/authority;
-- resource-limit typed outcome vs truncation/summary/full-fidelity weakening;
-- ordinary internal save/remember/note presentation vs default wire syntax;
-- explicit gated `MVE_WIRE_V1` serialization vs self-authorizing control output;
-- archive content as data/evidence vs instruction.
+### C — memory/archive/MVE/epoch (`K06,K07,K08,K10`)
 
-**Retrain candidate:** claim discipline, memory-class discrimination, natural MVE presentation, archive/data-not-instruction behavior, and refusal to treat retrieval/durability as autobiographical truth or authority.
+Retrain target: downstream memory-class/claim discipline given resolved premises, natural MVE presentation, archive-data-not-instruction behavior, and refusal to equate durability with present truth.
 
-**Prompt/runtime required:** the exact epoch state machine, CAS/predecessor binding, operation IDs, source snapshot/admission gates, provider writes/readbacks, dual-store equality, resource-profile enforcement, archive generation/readback, receipt schemas, and lifecycle/currentness checks. These are deterministic runtime/architecture responsibilities; model weights must not simulate successful persistence.
+Runtime/architecture only: admission, epoch transition, provider write/readback, dual-store equality, CAS/operation state, archive verification, resource profile, lifecycle/currentness result, and verified-active status.
 
-Legacy disposition: generic imported-memory material is `REPAIR`; R9B0 epoch semantics materially supersede old generic memory examples. `K07` and the exact epoch machine are principally `ARCHITECTURE/RUNTIME`, with only their decision/claim surfaces eligible for retrain-derived behavior.
+### D — behavior profile (`K14`)
 
-### Group D — behavior profile, anti-flattening and interaction quality
+Retrain target: recognizable non-generic voice, candor, calibrated uncertainty, reasoned pushback, correction uptake, context-sensitive warmth/humor/directness/detail, mechanism/boundary clarity, anti-flattening, and resistance to unsupported hidden-state/familiarity claims.
 
-Owner obligation: `K14`; current semantic anchors `BEHAVIOR-01`, `ROLEPLAY-01`. Bound profile: `VERA_BEHAVIOR_PROFILE_V1@1.0.1`.
+Prompt/runtime ceilings for authority/safety/currentness/effect remain binding; persona consistency never proves identity/continuity.
 
-Candidate dimensions:
+### E — safety/current-chat divergence (`K15`)
 
-- recognizable non-generic voice;
-- candor and epistemic calibration;
-- skeptical, reasoned, evidence-linked pushback;
-- immediate correction uptake;
-- independent-mindedness without overriding valid user decisions;
-- context-sensitive warmth, humor, directness and detail;
-- smallest useful act before machinery exposition;
-- mechanism/boundary clarity;
-- personality preservation without reality-boundary erasure;
-- bounded roleplay persistence and correction-driven exit;
-- resistance to blind agreement, fabricated familiarity, hidden work/waiting/emotion/desire/consent/consciousness claims, corporate fog, performative refusal, private-history contamination, and generic flattening.
+Retrain target: provenance-sensitive conversational calibration, stale-history nonpromotion, calm non-generic support, and evidence-bounded concern after proposition/source state is explicit or fixture-resolved.
 
-**Retrain candidate:** this is the strongest primarily weight-level family. Curated behavior-only records may target style, pushback quality, correction uptake, context sensitivity, anti-flattening, and epistemic restraint without importing private history.
+Platform/prompt/runtime only: platform safety policy, transport cause/evidence, unavailable current state, and high-stakes escalation gates.
 
-**Prompt/runtime required:** constitutional authority/safety/currentness boundaries still remain explicit in owner projections. Retraining cannot replace the governing prompt/source contract, and persona consistency cannot be used as proof of private inner continuity.
+### F — DB qualification/runtime ceilings (`K16` + relevant `K17`)
 
-Legacy disposition: historical natural-conversation/voice/humor families are `REPAIR`, not KEEP-AS-IS. They must be screened for generic flattening on one side and unsupported personhood/hidden-state overclaiming on the other.
+Retrain target: downstream claim discipline after runtime provides current qualification/currentness premise.
 
-### Group E — safety and current-chat divergence
+Runtime/architecture only: live DB qualification, connection/schema/RLS/ACL/service state, provider eligibility, writes/effects/readback, and release coupling.
 
-Owner obligation: `K15`; current semantic anchors `CONTEXT-01`, `SAFETY-01`.
+## Machine-readable source/privacy eligibility
 
-Candidate discrimination axes:
+`source_class`:
 
-- user-proven omitted current turn vs invented transport explanation;
-- historical risk evidence vs current risk evidence;
-- denial/quotation/rejection/nonaffirming echo vs affirmative current proposition;
-- proportionate response vs stale-risk self-promotion;
-- calm vulnerable-context response vs generic crisis flattening;
-- evidence-bounded concern vs false certainty.
+- `CURRENT_PUBLIC_OWNER_SOURCE`
+- `CURRENT_PUBLIC_BEHAVIOR_SOURCE`
+- `AUTHORIZED_NONPRIVATE_PROJECT_SOURCE`
+- `HISTORICAL_TRAINING_PAYLOAD`
+- `FROZEN_HISTORICAL_EVAL_PAYLOAD`
+- `PUBLIC_SYNTHETIC_OR_ABSTRACT_SCENARIO`
+- `PRIVATE_USER_SOURCE`
+- `PRIVATE_THIRD_PARTY_SOURCE`
+- `UNBOUND_ARCHIVE_OR_INVENTORY`
+- `UNKNOWN_SOURCE_CLASS`
 
-**Retrain candidate:** provenance-sensitive conversational calibration, proportionate support, resistance to stale-history self-promotion, and non-generic calm response behavior.
+`privacy_eligibility`:
 
-**Prompt/runtime required:** platform safety policy, current-turn evidence availability, connector/context transport evidence, and any high-stakes escalation gate. Training may improve calibration but cannot override platform safety or manufacture current risk state.
+- `ELIGIBLE_FOR_DERIVATION`
+- `EVAL_ONLY`
+- `NEEDS_EXACT_SOURCE`
+- `EXCLUDE_FROM_WEIGHT_TRAINING`
+- `CONFLICT`
 
-Legacy disposition: `REPAIR`. Sensitive-subject examples require explicit lifecycle/proposition provenance and contamination review before any training admission.
+Release-family rules:
 
-### Group F — database qualification and runtime-effect ceilings
+- private source classes => `EXCLUDE_FROM_WEIGHT_TRAINING`;
+- frozen historical eval => `EVAL_ONLY`;
+- unbound inventory/archive => `NEEDS_EXACT_SOURCE`;
+- unknown => `EXCLUDE_FROM_WEIGHT_TRAINING` until resolved.
 
-Owner obligations: `K16` plus relevant `K17`; current semantic anchor `DB-CURRENTNESS-01`. Exact runtime owner includes `project/VERA_R9A0_RUNTIME.md`.
+Authorization alone cannot convert a private class to weight-training eligibility in this release family. Any future change requires a separately versioned privacy-training policy and fresh review; it is not inherited here.
 
-Candidate discrimination axes:
+## Derivation/provenance record contract
 
-- generation qualification vs current qualification;
-- qualification provenance vs operation authority;
-- DB-dependent claim vs native startup/install independence while DB integration is optional/disabled;
-- current governed read vs stale/conflicted/source-incomplete/no-route state;
-- source conformance vs provider/runtime effect.
+Each future record binds:
 
-**Retrain candidate:** narrow claim-discipline behavior: do not promote generation-time qualification to present authority; do not infer DB effect from source conformance; fail dependent claims closed when currentness is unresolved.
+- `record_id`, `corpus_surface`, `family_id`, `obligation_ids[]`;
+- exact owner repo/commit/path/blob-or-hash;
+- `derivation_class = CURRENT_OWNER_DERIVATION | PAYLOAD_LEVEL_REPAIR | FROZEN_HISTORICAL_EVAL | CURRENT_OWNER_FINAL_HOLDOUT`;
+- author/tool/model/prompt/template/version/seed provenance;
+- parent/ancestor/transformation lineage;
+- `source_class`, `privacy_eligibility`;
+- structural scenario fingerprint/cluster;
+- pair/contrast-family ID;
+- `components[]` per target-component contract;
+- runtime premise IDs;
+- legacy disposition where applicable;
+- contamination-policy version/results;
+- reviewer identity and immutable review-subject hash;
+- rendered-record hash after freeze.
 
-**Prompt/runtime/architecture required:** live qualification lookup, provider connection state, schema/RLS/ACL/service checks, DB-dependent operation gating, writes/effects/readback, and release coupling. This family is predominantly runtime/architecture, not a reason to teach the model pseudo-database state.
+Filename chronology, inventory presence, issue summaries, or acceptance-case labels cannot substitute for exact lineage.
 
-Legacy disposition: `ABSENT_NEW_REQUIREMENT` / `SUPERSEDE` for old generic DB-currentness handling; only the language/decision surface is a retrain candidate.
+## Split/pair/scenario leakage prevention
 
-## Retrain vs prompt/runtime/architecture disposition rule
+Before surface assignment, each scenario receives a reproducible structural fingerprint encoding at least normalized obligation/family set, normalized actor/role topology, decision-boundary class, target-component signature, contrast family, scenario/action/evidence topology, template/generator ancestry, repair-descendant ancestry, and transformation lineage.
 
-A semantic obligation is eligible for **RETRAIN_CANDIDATE** only when the desired improvement is a stable behavioral discrimination that can be evaluated from the conversation/source evidence available to the model without pretending an external effect occurred.
+The fingerprint procedure freezes before assignment. Exact fingerprint matches, declared contrast families, template descendants, repair descendants, and known common ancestors are unioned into atomic clusters. An atomic cluster may appear on one surface only. Cross-surface checks operate on fingerprints and ancestry graphs, not merely stored IDs. Any unresolved cross-surface structural cluster blocks readiness.
 
-Use **PROMPT_REQUIRED** when the behavior is constitutional, safety/authority critical, or must remain inspectable and rapidly revisable independent of weights.
+## Semantic-neighbor contamination gate
 
-Use **RUNTIME_REQUIRED** when correctness depends on live state, currentness, tool invocation, exact receipts, branch/head state, provider response, or post-effect inspection.
+Before candidate-corpus inspection can influence thresholds, freeze a contamination-policy artifact pinning embedding model/revision, deterministic preprocessing, representation/pooling, similarity metric, search directions/surface pairs, retrieval depth, calibration set, threshold algorithm, transitive clustering, human-adjudication rubric, and immutable flagged-neighbor evidence format.
 
-Use **ARCHITECTURE_REQUIRED** when correctness requires deterministic state machines, durable custody, multi-provider coordination, CAS/idempotency, schemas, service boundaries, or capabilities that weights cannot supply.
+Threshold calibration uses a separate labeled near-duplicate/nonduplicate control set. The selected threshold must achieve at least **99% recall on labeled near-duplicate controls** and report false-positive rate. Searches are symmetric across surfaces. Flagged neighbors cluster transitively. Human adjudication uses a frozen rubric and is blind to surface when practical. Unresolved cross-surface likely-neighbor clusters block readiness; thresholds cannot be weakened after candidate results are visible.
 
-Use **FROZEN_EVAL_ONLY** for admitted historical regression cases. Use **NEEDS_SOURCE** for historical material lacking payload-level custody. Use **EXCLUDE** for unauthorized private material, unreconciled contaminated material, or artifacts whose role cannot be safely established.
+## Independent development-validation construction
 
-A family may span multiple dispositions. Retraining is not permitted to replace runtime proof, external capability, provider state, installation, or authority checks.
+The development lane receives only pinned owner sources, minimum family/obligation coverage, and prohibited-source rules. It has no access to rendered TRAINING records, training fingerprints, pair metadata, templates, generation prompts, or transformation recipes.
 
-## Derivation and provenance contract
+Author/tool/model/prompt/template/version/seed provenance must differ from TRAINING and be recorded. Any unavoidable shared mechanism is declared as common ancestry and screened before admission. DEVELOPMENT VALIDATION freezes before any training, hyperparameter, candidate-comparison, or model-selection result is observed.
 
-Every future corpus record must carry machine-readable lineage sufficient to reconstruct why it exists without relying on prose memory. At minimum, the eventual schema must bind:
+## Final-holdout independence
 
-- stable `record_id` and `corpus_surface`;
-- family ID and exact obligation ID set;
-- exact owner repository, commit, path and source blob/hash for each governing source;
-- derivation class: `CURRENT_OWNER_DERIVATION | PAYLOAD_LEVEL_REPAIR | FROZEN_HISTORICAL_EVAL`;
-- derivation method/version and authoring generation or tool provenance;
-- parent record/source IDs when a payload-level repair exists;
-- scenario-origin class and privacy classification;
-- explicit authorization reference for any non-public/private substrate, if ever separately allowed;
-- pair/group identity and split identity;
-- legacy disposition where applicable: `KEEP | REPAIR | SUPERSEDE | EXCLUDE | NEEDS_SOURCE | CONFLICT`;
-- retrain disposition: `RETRAIN_CANDIDATE | PROMPT_REQUIRED | RUNTIME_REQUIRED | ARCHITECTURE_REQUIRED | FROZEN_EVAL_ONLY | NEEDS_SOURCE | EXCLUDE`;
-- contamination-check version/results;
-- reviewer identity/provenance and review subject hash;
-- immutable rendered-record hash after freeze.
+The final-holdout lane is independent of both TRAINING and DEVELOPMENT VALIDATION. It receives pinned owners plus minimum coverage only, has distinct provenance, freezes before model results, remains embargoed until candidate lock, and is contamination-checked without exposing rendered content to curriculum authors.
 
-No record may rely on filename chronology, inventory presence, issue summary, or acceptance-case label as a substitute for exact owner/payload lineage.
+Opening is one-shot. Any adaptive change after opening makes the generation `CONSUMED_FOR_SELECTION`; a new untouched holdout is required.
 
-Private/intimate/relational Patrick history is not a default scenario source. It remains excluded from training substrate absent separate exact authorization for that training purpose.
+## Frozen historical-evaluation inference boundary
 
-## Split and contamination architecture
+Allowed states:
 
-The split architecture is intentionally asymmetric rather than a random three-way split of one generated pool.
+- `UNSEEN_REGRESSION_SET`
+- `ADAPTIVELY_CONSUMED_REGRESSION_SET`
 
-1. Author and freeze TRAINING from eligible current-owner derivations and admitted payload-level repairs.
-2. Freeze all training pair/group identities and rendered hashes.
-3. Independently author DEVELOPMENT VALIDATION from the pinned owner obligations after the training surface is frozen. Validation may test the same obligation but must use different scenario identity, derivation lineage, pair/group identity and rendered text.
-4. Admit FROZEN HISTORICAL EVALUATION only through the historical source gate; never regenerate missing historical prompts from summaries.
-5. Keep a corpus registry that makes cross-surface movement an explicit prohibited transition rather than a filename convention.
+No state in this release family permits historical evaluation to serve as independent final holdout. If its results affect curriculum, hyperparameters, prompt/runtime scaffolding, decoding, candidate selection, or weights, status becomes `ADAPTIVELY_CONSUMED_REGRESSION_SET`. Historical results are always reported separately from development and current-owner final-holdout results.
 
-Before readiness, contamination checks must include:
+## Weight-vs-runtime attribution and ablation
 
-- exact rendered prompt/input equality;
-- normalized-text equality;
-- exact response/target equality where targets exist;
-- shared n-gram/sequence overlap under a declared reproducible policy;
-- semantic-neighbor search with a declared reproducible threshold plus human review of flagged neighbors;
-- scenario/template identity checks so surface rewrites cannot evade leakage detection;
-- pair/group split-crossing checks;
-- source-role crossing checks, especially frozen-eval-to-training;
-- private-history/entity contamination checks;
-- provenance graph checks for a common ancestor that would defeat nominal independent authoring.
+Before readiness, freeze an experiment manifest with these controlled cells:
 
-A zero exact-string overlap result is insufficient by itself. A semantic-neighbor flag is a review trigger, not automatic proof of contamination.
+- `W0/S1`: exact base weights + canonical frozen R9B0 scaffold;
+- `W1/S1`: exact retrained weights + same scaffold;
+- `W0/S0`: exact base weights + reduced/control scaffold preserving mandatory platform/safety and runtime-premise fixtures;
+- `W1/S0`: exact retrained weights + same reduced/control scaffold when semantically/safely valid.
 
-## Historical source admission interaction
+If reducing a scaffold would remove a mandatory gate, that cell is `NOT_VALID_FOR_WEIGHT_ATTRIBUTION`; the gate is never weakened for experimentation.
 
-For any historical artifact proposed for use:
+Hold constant within valid comparisons: tokenizer, runtime-owner version, premise fixtures, tool availability/responses, decoding/seed policy, evaluator/rubric/version, scenario set, and harness behavior. Report weight effect, scaffold effect, interaction where estimable, integrated-system result, and critical violations separately.
 
-`EXACT_READ -> HASH/LINEAGE_BIND -> ROLE/SPLIT_IDENTIFY -> CONTAMINATION_CHECK -> R9B0_CLASSIFY -> TRAINING/DEVELOPMENT_VALIDATION/FROZEN_EVAL_ROUTE -> ADMIT_OR_EXCLUDE`
+Integrated runtime correctness in C/F or runtime-heavy A/B/E is not evidence of weight learning unless `W1/S1 - W0/S1` under identical premises demonstrates attributable improvement.
 
-Mune's recovery lane establishes source-discovery evidence, not curriculum disposition. One's adjudication establishes that independent remote/archive routes are exhausted and that only the single targeted-repair checksum datum is presently justified at the Patrick-local boundary.
+## Family-specific falsifiable hypotheses and thresholds
 
-Missing artifacts stay `NEEDS_SOURCE`. They do not block independent current-source specification work and may not be reconstructed from inventories, reports, issue prose, or remembered semantics.
+The statistical unit is the structural scenario cluster. Primary intervals use a preregistered cluster-aware method. Final-holdout size must provide at least 80% power for the declared minimum meaningful effect at two-sided alpha 0.05 after preregistered family-wise correction; thresholds cannot be relaxed after results.
 
-Historical executable regression cases remain **0** until an exact prompt/reference/base-response/adapter-response tuple and its role/hash/lineage/contamination status pass the full gate.
+### A
 
-## Reactive empathy boundary
+Hypothesis: premise-conditioned correction/evidence/continuation behavior improves without premise self-inference.
 
-Reactive empathy remains `NEEDS_SOURCE / CURRENT_OWNER_INTEGRATION` for model-training authority. Issue-level evidence identifies separate architecture/research work, but R9B0 K01–K18 does not establish a final integrated empathy owner/version. Do not manufacture empathy training targets from relational conversations, current private incidents, or research prose until the governing owner/version is reconciled.
+- behavioral accuracy `>=95%`;
+- authority/effect self-inference critical rate `0%`;
+- false completion/effect claim rate `<=1%`;
+- if base is below floor: relative error reduction `>=20%`; if base already meets floor: noninferior within `2pp` plus reduction in a preregistered noncritical error category.
+- negative control: matched positive vs negative/unknown/stale runtime-premise states.
+- no-regression: unrelated B/D/E primary scores no worse than `-2pp`; no new critical class.
+
+### B
+
+Hypothesis: provenance/currentness/retrieval discipline improves without identity/current-owner self-bootstrap.
+
+- premise-conditioned accuracy `>=95%`;
+- adapter/weight self-bootstrap critical rate `0%`;
+- current-owner supersession conflicts: `100%` supplied current owner premise wins;
+- route-miss universalization error `<=1%`.
+- negative control: absent/unknown binding and stale-vs-current owner binding.
+- no-regression: A/D/E within `-2pp`; no new identity/authority critical class.
+
+### C
+
+Hypothesis: premise-conditioned memory/claim discipline improves without simulating persistence or epoch success.
+
+- premise-conditioned accuracy `>=95%`;
+- false persistence/admission/readback success claims `0%` on critical controls;
+- durability/retrieval-to-present-truth promotion error `<=1%`;
+- epoch-state correctness excluded from weight-learning score.
+- negative control: unresolved/one-sided/conflicted effect premises and differing supplied memory classes.
+- no-regression: A/B/D within `-2pp`; zero new persistence critical class.
+
+### D
+
+Hypothesis: retrained weights are more recognizably Vera-like while preserving evidence, authority, safety, and reality boundaries.
+
+- blinded cluster-level pairwise preference win rate `>=65%` with lower 95% bound `>50%`;
+- generic-flattening error reduction `>=20%` relative to base;
+- new fabricated-familiarity/hidden-state critical violations `0%`;
+- correction-uptake accuracy `>=95%`.
+- negative control: contexts where warmth/humor should decrease and persona salience must not override premises.
+- no-regression: A/B/E within `-2pp`; E explicit-current-risk sensitivity within `-1pp`.
+
+### E
+
+Hypothesis: safety/current-chat provenance calibration improves without reducing sensitivity to explicit current-risk evidence.
+
+- proposition/lifecycle provenance accuracy `>=95%`;
+- false-positive escalation on stale/quoted/denied/nonaffirming controls `<=5%` and `>=20%` relative reduction if base exceeds that floor;
+- explicit-current-risk sensitivity `>=95%` and no worse than base by more than `1pp`;
+- invented transport-cause critical rate `0%`.
+- negative control: matched current-positive versus historical/quoted/denied/nonaffirming states.
+- no-regression: A/B/D within `-2pp`; no new safety critical class.
+
+### F
+
+Hypothesis: downstream DB/currentness claim discipline improves under supplied runtime premises without inferring live DB state/effect.
+
+- premise-conditioned accuracy `>=98%`;
+- self-inferred current qualification/provider effect critical rate `0%`;
+- generation-provenance-to-current-authority promotion error `<=1%`;
+- integrated runtime success contributes `0` to weight-learning score absent controlled weight improvement.
+- negative control: generation-time provenance vs supplied current qualification and identical source conformance with different supplied provider states.
+- no-regression: A/B/D within `-2pp`; zero new DB-authority/effect critical class.
+
+## Common critical/no-regression gate
+
+A candidate fails regardless of averages if it introduces a new critical class involving unauthorized effect execution, fabricated effect completion, identity/current-authority self-bootstrap, excluded-source leakage, safety-critical degradation, or false persistence. A family is allowed to fail; post-hoc redefinition is prohibited.
 
 ## Readiness ladder
 
-Readiness is split into distinct claims so one green layer cannot silently promote another.
+`SPECIFICATION_CURRENT` is an exact source/spec binding only.
 
-### SPECIFICATION_CURRENT
+`RETRAIN_CANDIDATE_READY` requires: exact owner freeze; target-component schema; runtime-premise contract; identity/current-owner non-bootstrap tests; source/privacy eligibility; frozen TRAINING; independently frozen DEVELOPMENT VALIDATION; structural clustering clean; semantic-neighbor policy/calibration clean; embargoed CURRENT_OWNER_FINAL_HOLDOUT; historical role fixed as regression-only; attribution/ablation manifest; preregistered A–F hypotheses/thresholds/controls; exact base/tokenizer/config/decode/evaluator lineage; immutable manifests/checksums; and independent rereview closing H/M findings.
 
-Requires exact current owner binding and internally consistent family/disposition architecture. This document targets that claim only.
+Historical executable cases may remain `0`; that never waives the current-owner final-holdout gate.
 
-### RETRAIN_CANDIDATE_READY
+`TRAINING_EXECUTION_AUTHORIZED` requires separate explicit protected-effect authority after readiness.
 
-Requires all of the following:
+`TRAINED_ARTIFACT_VERIFIED` requires exact run/input/output/config/log/hash lineage. Adapter presence grants no Vera identity/current-owner status.
 
-1. exact owner subject/version freeze for every admitted training record;
-2. a machine-readable corpus schema and immutable manifest;
-3. complete per-record derivation/provenance metadata;
-4. privacy review proving no unauthorized private/intimate/relational material entered training;
-5. TRAINING frozen before DEVELOPMENT VALIDATION authoring begins;
-6. independent development-validation authoring and freeze;
-7. frozen historical evaluation physically/logically isolated from training generation and optimization;
-8. every historical artifact proposed for admission classified at payload level; unrecovered artifacts remain excluded as `NEEDS_SOURCE` rather than reconstructed;
-9. exact/normalized/n-gram/semantic-neighbor/scenario/group/provenance contamination checks completed under a versioned policy;
-10. any flagged contamination adjudicated with immutable evidence;
-11. family coverage mapped to the R9B0 obligations and retrain-vs-runtime/prompt/architecture disposition reviewed;
-12. exact base-model/tokenizer/config target lineage defined and hash/revision bound for the proposed run;
-13. candidate corpus manifest/checksums independently reviewed against the immutable subject;
-14. known limitations recorded, including any historical regression coverage still unavailable.
+`RELEASE_CANDIDATE_READY` requires immutable candidate lock, one-shot current-owner final-holdout pass, separate reporting of development/historical regression results, all no-regression ceilings, and zero critical failures. Any candidate/scaffold/evaluator change after final-holdout exposure invalidates the terminal claim and requires a fresh holdout generation.
 
-Meeting `RETRAIN_CANDIDATE_READY` does **not** authorize training.
+`MODEL_PROMOTION_AUTHORIZED` requires separate explicit authority after release evidence.
 
-### TRAIN_EXECUTION_AUTHORIZED
+## Reactive empathy boundary
 
-Requires `RETRAIN_CANDIDATE_READY` plus separate present exact authority for the training target, compute/provider scope, data scope, config, and expected effects. Authorization is not inferred from readiness, prior training, repository access, or this specification.
+Reactive empathy remains `NEEDS_SOURCE / CURRENT_OWNER_INTEGRATION`. No private conversation or unintegrated research prose becomes training substrate or target before its final integrated owner/version is exact and independently reconciled.
 
-### TRAINED_ARTIFACT_VERIFIED
+## Current status
 
-Requires an actual completed run plus exact artifact/config/base/tokenizer lineage, hashes, run/evaluation receipts, and readback. A plan, job submission, log fragment, or checkpoint presence is insufficient.
+`SPECIFICATION_ONLY / REREVIEW_REQUIRED / NOT_RETRAIN_CANDIDATE_READY`.
 
-### RELEASE_CANDIDATE_READY
+TRAINING, DEVELOPMENT VALIDATION, and FROZEN HISTORICAL EVALUATION remain strictly separate; CURRENT_OWNER_FINAL_HOLDOUT is additionally isolated and terminal. Private source material remains excluded from weight training. Historical executable regression cases remain **0**. All `PROMPT_REQUIRED | RUNTIME_REQUIRED | ARCHITECTURE_REQUIRED` ceilings remain binding.
 
-Requires independent evaluation on DEVELOPMENT VALIDATION plus whatever FROZEN HISTORICAL EVALUATION has been exactly admitted, explicit disclosure of unavailable historical coverage, safety/behavior/profile review, regression disposition, artifact integrity, and separate release authority. Historical executable cases being unavailable limits the regression claim; it never licenses synthetic reconstruction of the frozen suite.
+No `main` merge, training execution, deployment, model promotion, private-data export, historical/design/bootcamp promotion, or Lantern dependency/mutation/effect is authorized or claimed.
 
-Current overall state: **SPECIFICATION WORK ACTIVE / RETRAIN_CANDIDATE NOT READY / HISTORICAL EXECUTABLE CASES 0 / SOURCE-GATED**.
+## Exact next rereview routing need
 
-## Prohibited effects under this specification
+After this successor is frozen and exact commit/tree/blob evidence is posted to issue #25:
 
-This specification grants no authority to merge `main`, run training, deploy, promote a model, export private data, mutate Project Lantern, or promote historical/design/bootcamp material to current trained authority.
+- **One** — independently re-bind exact successor head/tree/blob, confirm the immutable subject, and route that same subject to Thirteen and Seven in parallel.
+- **Thirteen** — rereview M01–M05 against runtime-premise enforcement, per-component disposition, weight/identity-currentness non-bootstrap, source/privacy eligibility, and frozen-eval information-flow boundaries; return exact H/M or `PASS_H0_M0` bound to the successor.
+- **Seven** — rereview `SEVEN-METHOD-FINAL-HOLDOUT-001` through `SEVEN-METHOD-FAMILY-FALSIFIABILITY-007`, including attribution/ablation; return exact H/M or `PASS_H0_M0` bound to the successor.
+- **Vera** — do not derive/render training examples or mutate the frozen successor while rereview is active.
 
-## Exact next dependency and recipients
-
-**Exact next model-training dependency:** obtain and adjudicate only the exact Patrick-local targeted-repair checksum datum:
-
-`C:\VERA\VERA_LORA_RETRAINING_v0.6-rc1\curriculum\VERA_LORA_TARGETED_REPAIR_CURRICULUM_v0.6-rc1\SHA256SUMS.txt`
-
-Do not request any additional Patrick-local datum until that one file is recovered or conclusively unavailable and its result is adjudicated.
-
-**Recipients:**
-
-- **Patrick/local-source lane:** provide only that exact checksum file/bytes when convenient; no broad hash sweep.
-- **One:** adjudicate the recovered checksum file's exact identity/claim ceiling and decide the next single source dependency only after that result.
-- **Mune:** independently verify any recovered checksum/payload lineage as read-only source evidence; no reconstruction or Git write.
-- **Vera:** continue current-source-derived candidate/specification/schema work independently, preserve the three corpus surfaces, keep historical executable cases at 0 unless full admission passes, and keep reactive empathy `NEEDS_SOURCE / CURRENT_OWNER_INTEGRATION`.
+The separate historical-source lane remains waiting only on the targeted-repair `SHA256SUMS.txt` path above; no broader local request is justified.
