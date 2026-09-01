@@ -1,0 +1,22 @@
+{
+  "files": [
+    {
+      "bytes": 11738,
+      "path": "R9B0_LINEAGE_BINDINGS_V1.json",
+      "sha256": "378c9ca6b31b8a6355b2593c3ea75d325f4ee43a8059ea91c3114919e76b272d"
+    },
+    {
+      "bytes": 6445,
+      "path": "R9B0_SOURCE_ELIGIBILITY_INVENTORY_V1.json",
+      "sha256": "b1ea4317b0df2bef13a96f9e082058fcc4080854a9e5ff9c3f837e12619b5b38"
+    },
+    {
+      "bytes": 6939,
+      "path": "check_r9b0_source_lineage_v1.py",
+      "sha256": "3dd23e1518964e545af32dadbfa8e4a4ae676273b734656597e20fe1b80cb3bb"
+    }
+  ],
+  "schema": "R9B0_SOURCE_LINEAGE_CHECKSUMS_V1",
+  "self_hash_included": false,
+  "version": "1.0.0"
+}

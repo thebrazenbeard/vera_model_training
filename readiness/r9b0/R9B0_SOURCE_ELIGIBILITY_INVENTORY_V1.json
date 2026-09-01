@@ -1,0 +1,116 @@
+{
+  "claim_ceiling": "SOURCE_LEVEL_BINDING_ONLY",
+  "owner_anchor": {
+    "commit": "1d2bb27d5ff89854c93c431998c5ba255704c1b2",
+    "repository": "thebrazenbeard/vera-R9A0",
+    "tree": "939db8d84c8894df5d7ed136856f38ea19e4372e"
+  },
+  "policy_invariants": {
+    "authorization_alone_cannot_override_private_exclusion": true,
+    "frozen_historical_evaluation_role": "EVALUATION_REGRESSION_ONLY",
+    "owner_acceptance_prose_is_not_automatically_rendered_neural_training_examples": true,
+    "private_source_classes_categorically_excluded_from_weight_training": true,
+    "source_inventory_does_not_freeze_rendered_corpus": true,
+    "unbound_archive_or_inventory_role": "NEEDS_EXACT_SOURCE"
+  },
+  "schema": "R9B0_SOURCE_ELIGIBILITY_INVENTORY_V1",
+  "source_class_policy": {
+    "AUTHORIZED_NONPRIVATE_PROJECT_SOURCE": "ELIGIBLE_FOR_DERIVATION",
+    "CURRENT_PUBLIC_BEHAVIOR_SOURCE": "ELIGIBLE_FOR_DERIVATION",
+    "CURRENT_PUBLIC_OWNER_SOURCE": "ELIGIBLE_FOR_DERIVATION",
+    "FROZEN_HISTORICAL_EVAL_PAYLOAD": "EVAL_ONLY",
+    "HISTORICAL_TRAINING_PAYLOAD": "NEEDS_EXACT_SOURCE",
+    "PRIVATE_THIRD_PARTY_SOURCE": "EXCLUDE_FROM_WEIGHT_TRAINING",
+    "PRIVATE_USER_SOURCE": "EXCLUDE_FROM_WEIGHT_TRAINING",
+    "PUBLIC_SYNTHETIC_OR_ABSTRACT_SCENARIO": "ELIGIBLE_FOR_DERIVATION",
+    "UNBOUND_ARCHIVE_OR_INVENTORY": "NEEDS_EXACT_SOURCE",
+    "UNKNOWN_SOURCE_CLASS": "EXCLUDE_FROM_WEIGHT_TRAINING"
+  },
+  "sources": [
+    {
+      "allowed_derivation_role": "DERIVE_OBLIGATION_FAMILY_AND_TARGET_COMPONENT_CLASSIFICATION",
+      "blob": "74bf2b66caf02db0a85f20edc42836e558d3c1f4",
+      "commit": "1d2bb27d5ff89854c93c431998c5ba255704c1b2",
+      "path": "validation/R9B0_NATIVE_OBLIGATION_MATRIX.json",
+      "privacy_eligibility": "ELIGIBLE_FOR_DERIVATION",
+      "prohibition": "SOURCE/OWNER/ACCEPTANCE PROSE IS SOURCE EVIDENCE, NOT AN AUTOMATIC RENDERED NEURAL-TRAINING EXAMPLE OR RUNTIME EFFECT",
+      "rendered_neural_training_examples_allowed": false,
+      "repository": "thebrazenbeard/vera-R9A0",
+      "reviewed_role": "CURRENT_NATIVE_OBLIGATION_BINDING_AND_CLASSIFICATION",
+      "source_class": "CURRENT_PUBLIC_OWNER_SOURCE",
+      "source_id": "R9B0_NATIVE_OBLIGATION_MATRIX",
+      "tree": "939db8d84c8894df5d7ed136856f38ea19e4372e"
+    },
+    {
+      "allowed_derivation_role": "DERIVE_SEMANTIC_TARGETS_AND_REGRESSION_CONSTRAINTS_WITHOUT_COPYING_ACCEPTANCE_PROSE_AS_EXAMPLES",
+      "blob": "1655e707a06759f27c7691e1d839ab1e350dd135",
+      "commit": "1d2bb27d5ff89854c93c431998c5ba255704c1b2",
+      "path": "validation/R9B0_SEMANTIC_PROJECTION_MANIFEST.json",
+      "privacy_eligibility": "ELIGIBLE_FOR_DERIVATION",
+      "prohibition": "SOURCE/OWNER/ACCEPTANCE PROSE IS SOURCE EVIDENCE, NOT AN AUTOMATIC RENDERED NEURAL-TRAINING EXAMPLE OR RUNTIME EFFECT",
+      "rendered_neural_training_examples_allowed": false,
+      "repository": "thebrazenbeard/vera-R9A0",
+      "reviewed_role": "CURRENT_SEMANTIC_PROJECTION_AND_ACCEPTANCE_ANCHOR_MANIFEST",
+      "source_class": "CURRENT_PUBLIC_OWNER_SOURCE",
+      "source_id": "R9B0_SEMANTIC_PROJECTION_MANIFEST",
+      "tree": "939db8d84c8894df5d7ed136856f38ea19e4372e"
+    },
+    {
+      "allowed_derivation_role": "DERIVE_MEMORY_EPOCH_SEMANTIC_CONSTRAINTS_AND_RUNTIME_PREMISE_REQUIREMENTS",
+      "blob": "af1b5f9105af6ca2eb140c0580440f408069d096",
+      "commit": "1d2bb27d5ff89854c93c431998c5ba255704c1b2",
+      "path": "validation/R9B0_MEMORY_EPOCH_CONTRACT.json",
+      "privacy_eligibility": "ELIGIBLE_FOR_DERIVATION",
+      "prohibition": "SOURCE/OWNER/ACCEPTANCE PROSE IS SOURCE EVIDENCE, NOT AN AUTOMATIC RENDERED NEURAL-TRAINING EXAMPLE OR RUNTIME EFFECT",
+      "rendered_neural_training_examples_allowed": false,
+      "repository": "thebrazenbeard/vera-R9A0",
+      "reviewed_role": "CURRENT_MEMORY_EPOCH_SOURCE_CONTRACT",
+      "source_class": "CURRENT_PUBLIC_OWNER_SOURCE",
+      "source_id": "R9B0_MEMORY_EPOCH_CONTRACT",
+      "tree": "939db8d84c8894df5d7ed136856f38ea19e4372e"
+    },
+    {
+      "allowed_derivation_role": "DERIVE_NONPRIVATE_BEHAVIORAL_TARGET_PROPERTIES_AND_ANTI_PATTERNS",
+      "blob": "0c79625b993a559bd22a6fbe68279450fc736eb2",
+      "commit": "1d2bb27d5ff89854c93c431998c5ba255704c1b2",
+      "path": "validation/VERA_BEHAVIOR_PROFILE_V1.json",
+      "privacy_eligibility": "ELIGIBLE_FOR_DERIVATION",
+      "prohibition": "SOURCE/OWNER/ACCEPTANCE PROSE IS SOURCE EVIDENCE, NOT AN AUTOMATIC RENDERED NEURAL-TRAINING EXAMPLE OR RUNTIME EFFECT",
+      "rendered_neural_training_examples_allowed": false,
+      "repository": "thebrazenbeard/vera-R9A0",
+      "reviewed_role": "CURRENT_VERSIONED_BEHAVIOR_PROFILE",
+      "source_class": "CURRENT_PUBLIC_BEHAVIOR_SOURCE",
+      "source_id": "VERA_BEHAVIOR_PROFILE_V1",
+      "tree": "939db8d84c8894df5d7ed136856f38ea19e4372e"
+    },
+    {
+      "allowed_derivation_role": "DERIVE_STRUCTURAL_MEMORY_ENVELOPE_CONSTRAINTS_ONLY",
+      "blob": "09d14e127d8d7d2f3275f70f64e4cac56be31071",
+      "commit": "1d2bb27d5ff89854c93c431998c5ba255704c1b2",
+      "path": "schemas/native-project/r9b0_memory_epoch_envelope_v1.schema.json",
+      "privacy_eligibility": "ELIGIBLE_FOR_DERIVATION",
+      "prohibition": "SOURCE/OWNER/ACCEPTANCE PROSE IS SOURCE EVIDENCE, NOT AN AUTOMATIC RENDERED NEURAL-TRAINING EXAMPLE OR RUNTIME EFFECT",
+      "rendered_neural_training_examples_allowed": false,
+      "repository": "thebrazenbeard/vera-R9A0",
+      "reviewed_role": "CURRENT_MEMORY_EPOCH_ENVELOPE_STRUCTURE_SCHEMA",
+      "source_class": "CURRENT_PUBLIC_OWNER_SOURCE",
+      "source_id": "R9B0_MEMORY_EPOCH_ENVELOPE_SCHEMA",
+      "tree": "939db8d84c8894df5d7ed136856f38ea19e4372e"
+    },
+    {
+      "allowed_derivation_role": "BIND_RUNTIME_OWNER_LINEAGE_AND_DERIVE_RUNTIME_PREMISE_CONTRACT_ONLY",
+      "blob": "3591771f336dbe287c404d3ee8d473bb6abdd235",
+      "commit": "1d2bb27d5ff89854c93c431998c5ba255704c1b2",
+      "path": "project/VERA_R9A0_RUNTIME.md",
+      "privacy_eligibility": "ELIGIBLE_FOR_DERIVATION",
+      "prohibition": "SOURCE/OWNER/ACCEPTANCE PROSE IS SOURCE EVIDENCE, NOT AN AUTOMATIC RENDERED NEURAL-TRAINING EXAMPLE OR RUNTIME EFFECT",
+      "rendered_neural_training_examples_allowed": false,
+      "repository": "thebrazenbeard/vera-R9A0",
+      "reviewed_role": "CURRENT_RUNTIME_OWNER_SOURCE",
+      "source_class": "CURRENT_PUBLIC_OWNER_SOURCE",
+      "source_id": "VERA_R9A0_RUNTIME_OWNER",
+      "tree": "939db8d84c8894df5d7ed136856f38ea19e4372e"
+    }
+  ],
+  "version": "1.0.0"
+}
