@@ -2,6 +2,10 @@
 
 This repository hosts an **optional external training workbench** for native ChatGPT Project identities. The native Project does not depend on this repository for authority, memory, or ordinary operation.
 
+## Current execution protocol
+
+Current repository work follows `PROTOCOL_V2_CURRENT.md`. That correction prevents redundant lease/permission recursion for already-assigned isolated reversible work while preserving this repository's real privacy, zero-cost, source-grounding, qualification, and protected-effect gates.
+
 ## Hard invariant: zero monetary cost
 
 The bootcamp must not require metered model APIs or paid compute.
