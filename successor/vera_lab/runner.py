@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import copy
+import random
 from typing import Any, Protocol
 
+from .perturbations import apply_perturbation
 from .scenario import LabScenario, LabTranscript, LabTurn, sha256_json
 
 
@@ -28,25 +30,46 @@ def _require_candidate_digest(model: LabModel) -> str:
     return digest
 
 
+def _scheduled_events(scenario: LabScenario, cycle: int) -> tuple[dict[str, Any], ...]:
+    events = []
+    for event in scenario.perturbations:
+        if event.get("turn_index") == cycle:
+            events.append(copy.deepcopy(event))
+    return tuple(events)
+
+
 def run_scenario(scenario: LabScenario, model: LabModel, runtime: LabRuntime) -> LabTranscript:
     candidate_digest = _require_candidate_digest(model)
     runtime.apply({"kind": "initialize", "state": copy.deepcopy(scenario.initial_state)})
     messages: list[dict[str, str]] = []
     recorded: list[LabTurn] = []
     cycles = min(scenario.turn_budget, len(scenario.user_turns))
+    rng = random.Random(scenario.seed)
 
     for cycle in range(cycles):
+        applied = []
+        for event in _scheduled_events(scenario, cycle):
+            before = runtime.snapshot()
+            after = apply_perturbation(before, event, rng)
+            runtime.apply({"kind": "replace_state", "state": copy.deepcopy(after)})
+            applied.append({
+                "event": event,
+                "before_state_digest": sha256_json(before),
+                "after_state_digest": sha256_json(after),
+            })
+
         user_content = scenario.user_turns[cycle]
         messages.append({"role": "user", "content": user_content})
         state = runtime.snapshot()
         state_digest = sha256_json(state)
+        applied_tuple = tuple(applied)
         recorded.append(
             LabTurn(
                 turn_index=len(recorded),
                 role="user",
                 content=user_content,
                 runtime_state_digest=state_digest,
-                perturbations_applied=(),
+                perturbations_applied=applied_tuple,
                 metadata={"cycle": cycle},
             )
         )
@@ -60,7 +83,7 @@ def run_scenario(scenario: LabScenario, model: LabModel, runtime: LabRuntime) ->
                 role="assistant",
                 content=response,
                 runtime_state_digest=state_digest,
-                perturbations_applied=(),
+                perturbations_applied=applied_tuple,
                 metadata={"cycle": cycle, "messages_before_response": history},
             )
         )
