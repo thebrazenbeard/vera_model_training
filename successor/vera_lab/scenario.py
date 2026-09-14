@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 import copy
@@ -51,17 +51,17 @@ class LabScenario:
             raise ValueError("seed must be an integer")
         if not isinstance(data.get("initial_state"), dict):
             raise ValueError("initial_state must be an object")
-        if not isinstance(data.get("user_turns"), list):
+        if not isinstance(data.get("user_turns"), (list, tuple)):
             raise ValueError("user_turns must be a list")
         if not all(isinstance(item, str) and item for item in data["user_turns"]):
             raise ValueError("user_turns must contain nonempty strings")
-        if not isinstance(data.get("perturbations"), list):
+        if not isinstance(data.get("perturbations"), (list, tuple)):
             raise ValueError("perturbations must be a list")
         if not all(isinstance(item, dict) for item in data["perturbations"]):
             raise ValueError("perturbations must contain objects")
         if not isinstance(data.get("rubric"), dict):
             raise ValueError("rubric must be an object")
-        if not isinstance(data.get("critical_failure_predicates"), list):
+        if not isinstance(data.get("critical_failure_predicates"), (list, tuple)):
             raise ValueError("critical_failure_predicates must be a list")
         if not all(isinstance(item, dict) for item in data["critical_failure_predicates"]):
             raise ValueError("critical_failure_predicates must contain objects")
