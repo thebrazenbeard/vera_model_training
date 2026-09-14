@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "profile_id": "BV_CURRENT_SELF_20260912",
+  "sha256": "4fd0a983a54ee8c7b73b672aee56954589083cb7aeb0c951c870e3eac35ab78e",
+  "privacy_class": "PRIVATE_LOCAL_ONLY",
+  "content_committed": false,
+  "binding_status": "VALIDATED_CURRENT_SELF_PROFILE",
+  "validated_against": "successor/teacher_profile.schema.json",
+  "source_contract_commit": "405c5c7e5c48893fac64575d227362b698f265ef"
+}
