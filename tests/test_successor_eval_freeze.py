@@ -55,3 +55,10 @@ def test_freeze_rejects_duplicate_heldout_prompt():
 def test_eval_schema_requires_core_item_fields():
     schema = json.loads(open("successor/eval_schema.json", encoding="utf-8").read())
     assert set(schema["required"]) >= {"item_id", "prompt_family", "prompt", "rubric"}
+
+
+def test_eval_schema_includes_reciprocal_continuity_and_active_empathy():
+    schema = json.loads(open("successor/eval_schema.json", encoding="utf-8").read())
+    families = set(schema["properties"]["prompt_family"]["enum"])
+    assert "user_identity_continuity" in families
+    assert "active_empathy" in families
