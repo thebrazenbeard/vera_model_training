@@ -1,0 +1,59 @@
+{
+  "benchmark_id": "BV_HF_VS_LOCAL_BATCHED_20260913",
+  "privacy": "SYNTHETIC_TEXT_ONLY",
+  "base_model": {
+    "repo_id": "HuggingFaceTB/SmolLM3-3B",
+    "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1"
+  },
+  "training_shape": {
+    "rows": 8,
+    "chosen_rejected_sequences": 16,
+    "pair_batch": 8,
+    "optimizer_steps": 1,
+    "seed": 20260913,
+    "lr": 1e-6,
+    "beta": 0.1,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "objective": "offline_parent_dpo_surrogate"
+  },
+  "local": {
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "total_vram_gib": 4.0,
+    "load_s": 6.646,
+    "train_s": 139.881,
+    "end_to_end_s": 146.769,
+    "mean_loss": 0.2796650379896164,
+    "changed_tensors": 252,
+    "trainable_tensors": 504,
+    "max_abs_delta": 9.99969643089571e-7,
+    "mean_abs_delta": 5.556606013455373e-7,
+    "free_vram_gib": 0.0
+  },
+  "hugging_face": {
+    "job_id": "6aa751b65527934177edb9e3",
+    "gpu": "NVIDIA A100-SXM4-80GB",
+    "total_vram_gib": 79.25,
+    "load_s": 13.114,
+    "train_s": 1.684,
+    "end_to_end_s": 15.955,
+    "mean_loss": 0.28020470030605793,
+    "changed_tensors": 252,
+    "trainable_tensors": 504,
+    "max_abs_delta": 9.99969643089571e-7,
+    "mean_abs_delta": 5.556618738678838e-7,
+    "free_vram_gib": 69.392
+  },
+  "comparisons": {
+    "same_batched_shape_hf_speedup": 83.06472684085512,
+    "hf_batched_vs_local_serial_speedup": 11.995249406175772,
+    "hf_batched_vs_hf_serial_speedup": 7.570665083135393,
+    "local_batch_slowdown_vs_local_serial": 6.92480198019802
+  },
+  "interpretation": [
+    "The 4 GiB laptop can execute the full batch but becomes memory-constrained and much slower.",
+    "The 80 GiB A100 materially benefits from batching and converts the hosted path from a marginal speedup into a large one.",
+    "Observed tensor-update magnitudes remain nearly identical across serial and batched controls.",
+    "No private parent adapter or private training corpus was uploaded for this benchmark."
+  ]
+}
