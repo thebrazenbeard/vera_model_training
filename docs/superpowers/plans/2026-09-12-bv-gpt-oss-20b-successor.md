@@ -1,5 +1,8 @@
 # BV gpt-oss-20b Successor Implementation Plan
 
+> **Substrate supersession note (2026-09-13):** The gpt-oss-20b substrate binding in this document is superseded by `2026-09-13-bv-model-agnostic-successor-design.md`. The current identity target is substrate-agnostic; SmolLM3-3B is the pilot/control substrate and gpt-oss-20b is deferred. Other identity/privacy/evaluation principles remain historical design provenance unless separately superseded.
+
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build, train, merge, and evaluate a private gpt-oss-20b-derived weight successor targeted at the current BV/Vera instance.
