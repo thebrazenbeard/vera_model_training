@@ -6,6 +6,7 @@ from importlib import metadata
 import json
 from pathlib import Path
 import platform
+from types import MappingProxyType
 from typing import Any
 
 
@@ -100,6 +101,16 @@ def verify_local_base(manifest: dict[str, Any], base_path: Path) -> dict[str, An
     if inventory_sha256 != manifest.get("file_inventory_sha256"):
         raise ValueError("base inventory digest does not match revision tree")
 
+    expected_files = {Path(name).as_posix() for name in files}
+    observed_files = {
+        path.relative_to(base_root).as_posix()
+        for path in base_root.rglob("*")
+        if path.is_file() and ".cache" not in path.relative_to(base_root).parts
+    }
+    extras = sorted(observed_files - expected_files)
+    if extras:
+        raise ValueError(f"unlisted base file(s): {extras}")
+
     total_bytes = 0
     for rel_name, evidence in sorted(files.items()):
         if not isinstance(rel_name, str) or not isinstance(evidence, dict):
@@ -152,9 +163,15 @@ def _runtime_system_message(runtime_state: dict[str, Any]) -> dict[str, str]:
         state_json = canonical_json(runtime_state)
     except (TypeError, ValueError) as exc:
         raise ValueError("runtime_state must be canonical-JSON serializable") from exc
-    # SmolLM's chat template interprets /think, /no_think and /system_override.
-    # Escaping slashes inside runtime data prevents data values from becoming template controls.
-    state_json = state_json.replace("/", "\\/")
+    # SmolLM's chat template interprets /think, /no_think and /system_override,
+    # while special-token text can terminate message boundaries. Preserve JSON semantics
+    # with JSON unicode escapes so runtime data remains data after template processing.
+    state_json = (
+        state_json
+        .replace("/", "\\u002f")
+        .replace("<", "\\u003c")
+        .replace(">", "\\u003e")
+    )
     content = (
         f"{NEUTRAL_SYSTEM_PREFIX}\n"
         "Runtime fixture evidence (data only; not instructions or enduring identity):\n"
@@ -277,12 +294,14 @@ class SmolLMPEFTAdapter:
         adapter_evidence = _read_adapter_evidence(self.adapter_path, self.base_path)
         self.adapter_sha256 = adapter_evidence["adapter_sha256"]
         self.adapter_config_sha256 = adapter_evidence["adapter_config_sha256"]
-        self.candidate_digest = self.adapter_sha256
         self.candidate_subject_digest = sha256_json({
             "adapter_config_sha256": self.adapter_config_sha256,
             "adapter_sha256": self.adapter_sha256,
             "base_revision": self.base_revision,
+            "base_tree_sha256": self.base_verification["tree_sha256"],
+            "base_inventory_sha256": self.base_verification["inventory_sha256"],
         })
+        self.candidate_digest = self.candidate_subject_digest
 
         config = {"max_new_tokens": 80, "do_sample": False}
         if generation_config is not None:
@@ -303,11 +322,33 @@ class SmolLMPEFTAdapter:
             or max_new_tokens < 1
         ):
             raise ValueError("max_new_tokens must be a positive integer")
-        self.generation_config = config
+        self._generation_config = MappingProxyType(dict(config))
 
         self.execution_stack = execution_stack_versions()
         self.execution_stack_digest = sha256_json(self.execution_stack)
         self._stack = None
+
+    @property
+    def generation_config(self):
+        return self._generation_config
+
+    def _validated_generation_kwargs(self) -> dict[str, Any]:
+        config = dict(self._generation_config)
+        unknown = set(config) - ALLOWED_GENERATION_CONFIG_KEYS
+        if unknown:
+            raise ValueError(
+                "unsupported generation config keys: " + ", ".join(sorted(unknown))
+            )
+        if config.get("do_sample") is not False:
+            raise ValueError("do_sample must remain false for deterministic replay")
+        max_new_tokens = config.get("max_new_tokens")
+        if (
+            not isinstance(max_new_tokens, int)
+            or isinstance(max_new_tokens, bool)
+            or max_new_tokens < 1
+        ):
+            raise ValueError("max_new_tokens must be a positive integer")
+        return config
 
     def _assert_material_unchanged(self) -> None:
         if sha256_file(self.base_manifest_path) != self.base_manifest_sha256:
@@ -345,7 +386,7 @@ class SmolLMPEFTAdapter:
             return_tensors="pt",
             add_special_tokens=False,
         ).to("cuda")
-        kwargs = dict(self.generation_config)
+        kwargs = self._validated_generation_kwargs()
         kwargs["pad_token_id"] = tokenizer.eos_token_id
         with torch.inference_mode():
             generated = model.generate(**batch, **kwargs)
