@@ -207,6 +207,14 @@ def _verify_training_authority_bus(
 ) -> None:
     if authority.get("training_code_commit") != code_commit:
         reasons.append("training_authorization_code_commit_mismatch")
+    if authority.get("resource_execution") != "LOCAL_ONLY":
+        reasons.append("training_authorization_resource_scope_mismatch")
+    if authority.get("paid_compute") != "NOT_AUTHORIZED":
+        reasons.append("training_authorization_paid_compute_mismatch")
+    if authority.get("replay_policy") != "EXACT_SUBJECT_NO_OUTPUT_NAMESPACE_REUSE":
+        reasons.append("training_authorization_replay_policy_mismatch")
+    if authority.get("excluded_effects") != "MERGE|DEPLOY|RUNTIME_ACTIVATION|SD1_INSTALL|PROVIDER_CREDENTIAL_MUTATION|CANDIDATE_PROMOTION":
+        reasons.append("training_authorization_excluded_effects_mismatch")
 
     bus_commit = authority.get("authority_bus_commit")
     bus_path = authority.get("authority_bus_path")
@@ -276,6 +284,10 @@ def _verify_training_authority_bus(
         "train_sha256": spec["train_sha256"],
         "validation_sha256": spec["validation_sha256"],
         "user_instruction_sha256": user_instruction_sha,
+        "resource_execution": "LOCAL_ONLY",
+        "paid_compute": "NOT_AUTHORIZED",
+        "replay_policy": "EXACT_SUBJECT_NO_OUTPUT_NAMESPACE_REUSE",
+        "excluded_effects": "MERGE|DEPLOY|RUNTIME_ACTIVATION|SD1_INSTALL|PROVIDER_CREDENTIAL_MUTATION|CANDIDATE_PROMOTION",
     }
     for key, value in expected.items():
         marker = f"AUTHORITY_FIELD {key}={value}"

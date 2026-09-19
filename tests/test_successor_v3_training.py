@@ -201,6 +201,10 @@ def authorize(private: Path, spec: dict):
         f"AUTHORITY_FIELD train_sha256={spec['train_sha256']}",
         f"AUTHORITY_FIELD validation_sha256={spec['validation_sha256']}",
         f"AUTHORITY_FIELD user_instruction_sha256={USER_INSTRUCTION_SHA}",
+        "AUTHORITY_FIELD resource_execution=LOCAL_ONLY",
+        "AUTHORITY_FIELD paid_compute=NOT_AUTHORIZED",
+        "AUTHORITY_FIELD replay_policy=EXACT_SUBJECT_NO_OUTPUT_NAMESPACE_REUSE",
+        "AUTHORITY_FIELD excluded_effects=MERGE|DEPLOY|RUNTIME_ACTIVATION|SD1_INSTALL|PROVIDER_CREDENTIAL_MUTATION|CANDIDATE_PROMOTION",
     ]
     target.write_text("\n".join(lines) + "\n", encoding="utf-8")
     subprocess.check_call(["git", "-C", str(bus), "add", bus_path])
@@ -234,6 +238,10 @@ def authorize(private: Path, spec: dict):
         "corpus_manifest_sha256": spec["corpus_manifest_sha256"],
         "train_sha256": spec["train_sha256"],
         "validation_sha256": spec["validation_sha256"],
+        "resource_execution": "LOCAL_ONLY",
+        "paid_compute": "NOT_AUTHORIZED",
+        "replay_policy": "EXACT_SUBJECT_NO_OUTPUT_NAMESPACE_REUSE",
+        "excluded_effects": "MERGE|DEPLOY|RUNTIME_ACTIVATION|SD1_INSTALL|PROVIDER_CREDENTIAL_MUTATION|CANDIDATE_PROMOTION",
     })
 
 
@@ -567,3 +575,25 @@ def test_dirty_canonical_spec_cannot_repin_authority_root(tmp_path, monkeypatch)
     assert decision.runnable is False
     assert decision.status == "BLOCKED"
     assert "training_spec_not_committed" in decision.reasons
+
+
+def test_training_authority_scope_fields_fail_closed(tmp_path, monkeypatch):
+    repo, private, spec_path, spec = make_subject(tmp_path)
+    authorize(private, spec)
+    auth_path = Path(spec["training_authorization_receipt_path"])
+    auth = json.loads(auth_path.read_text(encoding="utf-8"))
+    auth["resource_execution"] = "HOSTED"
+    auth["paid_compute"] = "AUTHORIZED"
+    auth["replay_policy"] = "REUSABLE"
+    auth["excluded_effects"] = ""
+    write_json(auth_path, auth)
+    fake_git(monkeypatch)
+
+    decision = preflight_v3_training(spec_path, repo_root=repo)
+
+    assert decision.runnable is False
+    assert decision.status == "BLOCKED"
+    assert "training_authorization_resource_scope_mismatch" in decision.reasons
+    assert "training_authorization_paid_compute_mismatch" in decision.reasons
+    assert "training_authorization_replay_policy_mismatch" in decision.reasons
+    assert "training_authorization_excluded_effects_mismatch" in decision.reasons
