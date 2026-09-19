@@ -15,6 +15,10 @@ V3_TRAINING_SCHEMA = "VERA_SUCCESSOR_V3_TRAINING_CONFIG_V1"
 TASK9_READY_SCHEMA = "VERA_SUCCESSOR_V3_TRAINING_READY_RECEIPT_V1"
 TRAINING_AUTH_SCHEMA = "VERA_SUCCESSOR_V3_TRAINING_AUTHORIZATION_V1"
 
+_CANONICAL_V3_SPEC_REL = "successor/v3_training_config.json"
+_CANONICAL_AUTHORITY_BUS_REMOTE = "https://github.com/thebrazenbeard/chat-communication-bus"
+_CANONICAL_AUTHORITY_BUS_BRANCH_REF = "origin/bus/vera-v2"
+
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 
@@ -90,6 +94,45 @@ def _git_show_bytes(repo_root: Path, commit: str, path: str) -> bytes:
     return subprocess.check_output(
         ["git", "-C", str(repo_root), "show", f"{commit}:{path}"],
         stderr=subprocess.STDOUT,
+    )
+
+
+def _read_committed_v3_spec(repo_root: Path, commit: str) -> dict[str, Any]:
+    raw = _git_show_bytes(repo_root, commit, _CANONICAL_V3_SPEC_REL)
+    value = json.loads(raw.decode("utf-8-sig"))
+    if not isinstance(value, dict):
+        raise ValueError("committed V3 training config must be a JSON object")
+    return value
+
+
+def _normalize_github_remote(value: str) -> str:
+    remote = value.strip()
+    if remote.startswith("git@github.com:"):
+        remote = "https://github.com/" + remote[len("git@github.com:"):]
+    if remote.endswith(".git"):
+        remote = remote[:-4]
+    return remote.rstrip("/").lower()
+
+
+def _authority_bus_remote_is_canonical(repo_root: Path) -> bool:
+    try:
+        remote = subprocess.check_output(
+            ["git", "-C", str(repo_root), "remote", "get-url", "origin"],
+            text=True,
+            stderr=subprocess.STDOUT,
+        ).strip()
+    except (OSError, subprocess.CalledProcessError):
+        return False
+    return _normalize_github_remote(remote) == _normalize_github_remote(
+        _CANONICAL_AUTHORITY_BUS_REMOTE
+    )
+
+
+def _refresh_authority_bus(repo_root: Path) -> None:
+    subprocess.check_call(
+        ["git", "-C", str(repo_root), "fetch", "--quiet", "origin", "bus/vera-v2"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
     )
 
 
@@ -193,8 +236,19 @@ def _verify_training_authority_bus(
     if not bus_repo.is_dir():
         reasons.append("training_authority_bus_repo_missing")
         return
-    if not _is_ancestor(bus_repo, bus_commit, branch_ref):
-        reasons.append("training_authority_bus_commit_not_on_bound_branch")
+    if branch_ref != _CANONICAL_AUTHORITY_BUS_BRANCH_REF:
+        reasons.append("training_authority_bus_branch_not_canonical")
+        return
+    if not _authority_bus_remote_is_canonical(bus_repo):
+        reasons.append("training_authority_bus_not_canonical")
+        return
+    try:
+        _refresh_authority_bus(bus_repo)
+    except (OSError, subprocess.CalledProcessError):
+        reasons.append("training_authority_bus_refresh_failed")
+        return
+    if not _is_ancestor(bus_repo, bus_commit, _CANONICAL_AUTHORITY_BUS_BRANCH_REF):
+        reasons.append("training_authority_bus_commit_not_on_fresh_branch")
         return
     try:
         payload = _git_show_bytes(bus_repo, bus_commit, bus_path)
@@ -371,6 +425,17 @@ def preflight_v3_training(
 
     reasons: list[str] = []
     code_commit = _git_head(repo)
+    canonical_spec_path = (repo / _CANONICAL_V3_SPEC_REL).resolve()
+    if spec_path.resolve() != canonical_spec_path:
+        reasons.append("training_spec_not_canonical")
+    try:
+        committed_spec = _read_committed_v3_spec(repo, code_commit)
+    except (OSError, ValueError, json.JSONDecodeError, UnicodeDecodeError, subprocess.CalledProcessError):
+        reasons.append("training_spec_git_readback_failed")
+    else:
+        if _canonical_json(committed_spec) != _canonical_json(spec):
+            reasons.append("training_spec_not_committed")
+
     task9_source_commit = spec["task9_source_commit"]
     if not _is_ancestor(repo, task9_source_commit, code_commit):
         reasons.append("task9_source_not_ancestor_of_training_code")

@@ -130,7 +130,7 @@ def make_subject(tmp_path: Path):
         "task9_pragmatic_registration_receipt_sha256": file_sha(pragmatic_registration),
         "training_authorization_receipt_path": str(private / "training_authorization_receipt.json"),
         "training_authority_bus_repo_path": str(bus),
-        "training_authority_bus_branch_ref": "HEAD",
+        "training_authority_bus_branch_ref": v3._CANONICAL_AUTHORITY_BUS_BRANCH_REF,
         "base_repo_id": base_manifest()["repo_id"],
         "base_revision": base_manifest()["revision"],
         "base_tree_sha256": BASE_TREE,
@@ -159,14 +159,24 @@ def make_subject(tmp_path: Path):
     return repo, private, spec_path, spec
 
 
-def fake_git(monkeypatch):
+def fake_git(monkeypatch, *, trust_external_bus=True):
     monkeypatch.setattr(v3, "_git_head", lambda repo: HEAD)
     monkeypatch.setattr(v3, "_is_ancestor", lambda repo, ancestor, descendant: True)
+    monkeypatch.setattr(
+        v3,
+        "_read_committed_v3_spec",
+        lambda repo, commit: json.loads(
+            (Path(repo) / v3._CANONICAL_V3_SPEC_REL).read_text(encoding="utf-8")
+        ),
+    )
     monkeypatch.setattr(
         v3,
         "_verify_task9_external",
         lambda spec, receipt, reasons: receipt["external_verification_digest"],
     )
+    if trust_external_bus:
+        monkeypatch.setattr(v3, "_authority_bus_remote_is_canonical", lambda repo: True)
+        monkeypatch.setattr(v3, "_refresh_authority_bus", lambda repo: None)
 
 
 def authorize(private: Path, spec: dict):
@@ -511,7 +521,7 @@ def test_bus_authority_must_bind_final_code_head(tmp_path, monkeypatch):
 def test_caller_created_local_bus_cannot_mint_patrick_authority(tmp_path, monkeypatch):
     repo, private, spec_path, spec = make_subject(tmp_path)
     authorize(private, spec)
-    fake_git(monkeypatch)
+    fake_git(monkeypatch, trust_external_bus=False)
 
     decision = preflight_v3_training(spec_path, repo_root=repo)
 
@@ -532,3 +542,21 @@ def test_alternate_v3_spec_path_cannot_repin_authority_root(tmp_path, monkeypatc
     assert decision.runnable is False
     assert decision.status == "BLOCKED"
     assert "training_spec_not_canonical" in decision.reasons
+
+
+def test_dirty_canonical_spec_cannot_repin_authority_root(tmp_path, monkeypatch):
+    repo, private, spec_path, spec = make_subject(tmp_path)
+    authorize(private, spec)
+    committed = json.loads(spec_path.read_text(encoding="utf-8"))
+    fake_git(monkeypatch)
+    monkeypatch.setattr(v3, "_read_committed_v3_spec", lambda repo, commit: committed)
+
+    changed = dict(committed)
+    changed["run_id"] = "VERA_SUCCESSOR_V3_DEV_ATTACKER"
+    write_json(spec_path, changed)
+
+    decision = preflight_v3_training(spec_path, repo_root=repo)
+
+    assert decision.runnable is False
+    assert decision.status == "BLOCKED"
+    assert "training_spec_not_committed" in decision.reasons
