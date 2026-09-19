@@ -341,6 +341,13 @@ def test_committed_task10_config_is_structurally_valid():
     validate_v3_training_config(spec, manifest)
     assert spec["general_rehearsal_fraction"] >= 0.50
     assert spec["assistant_only_loss"] is True
+    assert spec["task9_source_commit"] == "065035bb75d73467b8f9beb5480f5dd56bc0697d"
+    assert spec["task9_ready_receipt_sha256"] == "a67b01897ad03c56be4d6defa5686807615f5ce9095b6df165d3069003f7d9bf"
+    assert spec["corpus_manifest_sha256"] == "838a166bd968976d12bca474adb105e70660a56cd1e29dacbce0ce58262f4de1"
+    assert spec["task9_source_review_receipt_sha256"] == "d2332b9a0739068e7fb992fba257bd7c807da9fa9bbe602898f1980c5364b8fd"
+    assert spec["task9_behavior_review_receipt_sha256"] == "bf4171865a8d894023862913e3b8922ad5bc4967f2b9bc34fb5fc9b20afe9b71"
+    assert spec["task9_radical_registration_receipt_sha256"] == "4a7c90c8075e46c725e1a29b14ec83fecdfa7d87458720f870037f517aba5f2c"
+    assert spec["task9_pragmatic_registration_receipt_sha256"] == "4e6631f343f443cdec9c928430be7b3a97280f60103d71f047d6ade818aea691"
     assert spec["parent_adapter_sha256"] == "94c6af3b16fd8e21305aa69e095e480721d1e31b33a2a40e1e504d59c73cfa7a"
 
 
