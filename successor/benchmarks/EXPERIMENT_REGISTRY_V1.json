@@ -1,0 +1,44 @@
+{
+  "schema": "BV_SUCCESSOR_EXPERIMENT_REGISTRY_V1",
+  "status": "CURRENTNESS_RECONCILED_NO_RESULT_PROMOTION",
+  "observed_pr_head": "76920f6a9b8a6323ea43a391376bf3119e944db9",
+  "historical_pr_body_subject": "c92381a3461b6c9e6fc2118edeaccd4713d04f39",
+  "current_reference_experiment": "BV_HF_VS_LOCAL_BATCHED_20260913",
+  "experiments": [
+    {
+      "experiment_id": "BV_HF_VS_LOCAL_CONTROL_20260913",
+      "path": "successor/benchmarks/hf_vs_local_control_20260913.json",
+      "git_blob": "cf8c28cebf96956d72d66931232ba031824adb45",
+      "workload_class": "SERIAL_FOUR_FORWARD_PASS_CONTROL",
+      "local_train_s": 20.2,
+      "hosted_train_s": 12.749,
+      "reported_training_speedup_x": 1.5844379951368734,
+      "private_parent_or_corpus_transferred": false,
+      "claim_boundary": "hardware/control benchmark only; not lineage equivalence or successor qualification"
+    },
+    {
+      "experiment_id": "BV_HF_VS_LOCAL_BATCHED_20260913",
+      "path": "successor/benchmarks/hf_vs_local_batched_20260913.json",
+      "git_blob": "05427f00eace99afbfff755d429aee5d11a18da8",
+      "workload_class": "BATCHED_8_PAIR_CONTROL",
+      "local_train_s": 139.881,
+      "hosted_train_s": 1.684,
+      "reported_same_shape_speedup_x": 83.06472684085512,
+      "private_parent_or_corpus_transferred": false,
+      "claim_boundary": "same-batched-shape hardware/control benchmark only; not lineage equivalence or successor qualification"
+    }
+  ],
+  "qualification_currentness": {
+    "prior_57_pass_subject": "c92381a3461b6c9e6fc2118edeaccd4713d04f39",
+    "prior_57_pass_current_for_observed_head": false,
+    "observed_head_full_suite_status": "NOT_REQUALIFIED_BY_THIS_REGISTRY",
+    "reason": "Current head contains later source/test/experiment work. Historical exact-head test evidence does not transfer automatically."
+  },
+  "rules": [
+    "Benchmark records are append-only experiment subjects; a summary pointer does not rewrite an older run.",
+    "Different workload shapes are not compared as if they were one repeated experiment.",
+    "Changing current_reference_experiment does not transfer verification or qualification.",
+    "Contradictory or repeated runs remain side-by-side evidence until explicitly reconciled.",
+    "Training or hosted-compute authorization is not granted by this registry."
+  ]
+}
