@@ -1,7 +1,7 @@
 {
   "schema": "VERA_SUCCESSOR_V3_TRAINING_CONFIG_V1",
   "run_id": "VERA_SUCCESSOR_V3_DEV_R1_20260919",
-  "task9_source_commit": "cff9dcb3aa1f06aed3eae37a663d91d3a70ba77a",
+  "task9_source_commit": "065035bb75d73467b8f9beb5480f5dd56bc0697d",
   "task9_ready_receipt_path": "C:\\Vera\\successor\\private\\successor_v3_readiness_20260919\\training_ready_receipt.json",
   "training_authorization_receipt_path": "C:\\Vera\\successor\\private\\successor_v3_readiness_20260919\\training_authorization_receipt.json",
   "base_repo_id": "HuggingFaceTB/SmolLM3-3B",
@@ -18,7 +18,7 @@
   "validation_path": "C:\\Vera\\successor\\private\\successor_v3_readiness_20260919\\validation.jsonl",
   "validation_sha256": "1f2fd6bdb0200527598877cbe60d40857a82d50ba8d8ae3315fa182b75f990c0",
   "corpus_manifest_path": "C:\\Vera\\successor\\private\\successor_v3_readiness_20260919\\corpus_manifest.json",
-  "corpus_manifest_sha256": "54f1d748cd12c9f4adb63c895f8e824b3cdffdcebc36664c97301c0e06a2a96f",
+  "corpus_manifest_sha256": "838a166bd968976d12bca474adb105e70660a56cd1e29dacbce0ce58262f4de1",
   "output_dir": "C:\\Vera\\successor\\private\\successor_v3\\VERA_SUCCESSOR_V3_DEV_R1_20260919",
   "seed": 20260919,
   "learning_rate": 0.000005,
