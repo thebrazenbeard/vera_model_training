@@ -288,3 +288,24 @@ def test_blind_manifest_is_hash_bound_to_registration(tmp_path, monkeypatch):
     assert "blind_manifest_digest_mismatch" in changed.reasons
     assert "blind_item_count_mismatch" in changed.reasons
     assert "blind_item_count_below_70" in changed.reasons
+
+
+def test_source_review_receipt_cannot_substitute_for_behavior_review(tmp_path, monkeypatch):
+    repo, ready, blind, receipts = make_evidence(tmp_path)
+    monkeypatch.setattr(verifier, "_git", lambda *args: HEAD)
+    monkeypatch.setattr(verifier.subprocess, "check_call", lambda *args, **kwargs: 0)
+
+    decision = verifier.verify_local_v3_readiness(
+        repo_root=repo,
+        readiness_dir=ready,
+        blind_dir=blind,
+        training_lane_key="training-lane",
+        vera_lab_source_review_receipt=receipts / "source.json",
+        vera_lab_behavior_review_receipt=receipts / "source.json",
+        radical_registration_receipt=receipts / "radical.json",
+        pragmatic_registration_receipt=receipts / "pragmatic.json",
+    )
+
+    assert decision.verified is False
+    assert decision.status == "HOLD"
+    assert "vera_lab_review_kind_mismatch:BEHAVIOR" in decision.reasons
