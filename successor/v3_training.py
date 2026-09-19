@@ -8,6 +8,8 @@ import re
 import subprocess
 from typing import Any
 
+from successor.v3_readiness_verifier import verify_local_v3_readiness
+
 
 V3_TRAINING_SCHEMA = "VERA_SUCCESSOR_V3_TRAINING_CONFIG_V1"
 TASK9_READY_SCHEMA = "VERA_SUCCESSOR_V3_TRAINING_READY_RECEIPT_V1"
@@ -80,6 +82,153 @@ def _is_ancestor(repo_root: Path, ancestor: str, descendant: str) -> bool:
     return completed.returncode == 0
 
 
+def _sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
+def _git_show_bytes(repo_root: Path, commit: str, path: str) -> bytes:
+    return subprocess.check_output(
+        ["git", "-C", str(repo_root), "show", f"{commit}:{path}"],
+        stderr=subprocess.STDOUT,
+    )
+
+
+def _verify_task9_external(
+    spec: dict[str, Any],
+    task9_receipt: dict[str, Any],
+    reasons: list[str],
+) -> str | None:
+    task9_repo = Path(spec["task9_repo_root"])
+    if not task9_repo.is_dir():
+        reasons.append("task9_repo_root_missing")
+        return None
+    try:
+        observed_task9_head = _git_head(task9_repo)
+    except (OSError, subprocess.CalledProcessError):
+        reasons.append("task9_repo_head_unreadable")
+        return None
+    if observed_task9_head != spec["task9_source_commit"]:
+        reasons.append("task9_repo_head_mismatch")
+
+    receipt_fields = (
+        ("task9_source_review_receipt_path", "task9_source_review_receipt_sha256"),
+        ("task9_behavior_review_receipt_path", "task9_behavior_review_receipt_sha256"),
+        ("task9_radical_registration_receipt_path", "task9_radical_registration_receipt_sha256"),
+        ("task9_pragmatic_registration_receipt_path", "task9_pragmatic_registration_receipt_sha256"),
+    )
+    observed_paths: dict[str, Path] = {}
+    for path_field, sha_field in receipt_fields:
+        path = Path(spec[path_field])
+        observed_paths[path_field] = path
+        if not path.is_file():
+            reasons.append(f"task9_external_receipt_missing:{path_field}")
+            continue
+        if _sha256_file(path) != spec[sha_field]:
+            reasons.append(f"task9_external_receipt_sha256_mismatch:{path_field}")
+
+    if any(reason.startswith("task9_external_receipt_") for reason in reasons):
+        return None
+
+    try:
+        verification = verify_local_v3_readiness(
+            repo_root=task9_repo,
+            readiness_dir=spec["task9_readiness_dir"],
+            blind_dir=spec["task9_blind_dir"],
+            training_lane_key=spec["task9_training_lane_key"],
+            vera_lab_source_review_receipt=observed_paths["task9_source_review_receipt_path"],
+            vera_lab_behavior_review_receipt=observed_paths["task9_behavior_review_receipt_path"],
+            radical_registration_receipt=observed_paths["task9_radical_registration_receipt_path"],
+            pragmatic_registration_receipt=observed_paths["task9_pragmatic_registration_receipt_path"],
+        )
+    except (OSError, ValueError, json.JSONDecodeError, subprocess.CalledProcessError) as exc:
+        reasons.append("task9_external_verification_error:" + type(exc).__name__)
+        return None
+
+    if not verification.verified or verification.status != "VERIFIED":
+        reasons.append("task9_external_verification_not_verified")
+        reasons.extend(
+            f"task9_external:{reason}" for reason in verification.reasons
+        )
+    if task9_receipt.get("external_verification_digest") != verification.evidence_digest:
+        reasons.append("task9_external_verification_digest_mismatch")
+    return verification.evidence_digest
+
+
+def _verify_training_authority_bus(
+    spec: dict[str, Any],
+    authority: dict[str, Any],
+    *,
+    code_commit: str,
+    task9_ready_receipt_sha256: str | None,
+    reasons: list[str],
+) -> None:
+    if authority.get("training_code_commit") != code_commit:
+        reasons.append("training_authorization_code_commit_mismatch")
+
+    bus_commit = authority.get("authority_bus_commit")
+    bus_path = authority.get("authority_bus_path")
+    bus_file_sha = authority.get("authority_bus_file_sha256")
+    user_instruction_sha = authority.get("user_instruction_sha256")
+    if not _is_commit(bus_commit):
+        reasons.append("training_authority_bus_commit_invalid")
+    if not isinstance(bus_path, str) or not bus_path.strip():
+        reasons.append("training_authority_bus_path_missing")
+    if not _is_sha256(bus_file_sha):
+        reasons.append("training_authority_bus_file_sha256_invalid")
+    if not _is_sha256(user_instruction_sha):
+        reasons.append("training_authority_user_instruction_sha256_invalid")
+    if any(
+        reason in {
+            "training_authority_bus_commit_invalid",
+            "training_authority_bus_path_missing",
+            "training_authority_bus_file_sha256_invalid",
+            "training_authority_user_instruction_sha256_invalid",
+        }
+        for reason in reasons
+    ):
+        return
+
+    bus_repo = Path(spec["training_authority_bus_repo_path"])
+    branch_ref = spec["training_authority_bus_branch_ref"]
+    if not bus_repo.is_dir():
+        reasons.append("training_authority_bus_repo_missing")
+        return
+    if not _is_ancestor(bus_repo, bus_commit, branch_ref):
+        reasons.append("training_authority_bus_commit_not_on_bound_branch")
+        return
+    try:
+        payload = _git_show_bytes(bus_repo, bus_commit, bus_path)
+    except (OSError, subprocess.CalledProcessError):
+        reasons.append("training_authority_bus_receipt_unreadable")
+        return
+    if _sha256_bytes(payload) != bus_file_sha:
+        reasons.append("training_authority_bus_file_sha256_mismatch")
+        return
+    if authority.get("authority_ref") != f"bus:{bus_commit}:{bus_path}":
+        reasons.append("training_authority_ref_not_bound_to_bus_receipt")
+
+    text = payload.decode("utf-8")
+    expected = {
+        "authority_kind": "PATRICK_EXPLICIT",
+        "effect": "WEIGHT_CHANGING_TRAINING",
+        "training_code_commit": code_commit,
+        "run_id": spec["run_id"],
+        "task9_source_commit": spec["task9_source_commit"],
+        "task9_ready_receipt_sha256": task9_ready_receipt_sha256,
+        "parent_adapter_sha256": spec["parent_adapter_sha256"],
+        "parent_adapter_config_sha256": spec["parent_adapter_config_sha256"],
+        "parent_candidate_subject_digest": spec["parent_candidate_subject_digest"],
+        "corpus_manifest_sha256": spec["corpus_manifest_sha256"],
+        "train_sha256": spec["train_sha256"],
+        "validation_sha256": spec["validation_sha256"],
+        "user_instruction_sha256": user_instruction_sha,
+    }
+    for key, value in expected.items():
+        marker = f"AUTHORITY_FIELD {key}={value}"
+        if marker not in text:
+            reasons.append(f"training_authority_bus_binding_mismatch:{key}")
+
+
 def _is_sha256(value: Any) -> bool:
     return isinstance(value, str) and bool(_SHA256_RE.fullmatch(value))
 
@@ -94,11 +243,30 @@ def validate_v3_training_config(spec: dict[str, Any], base_manifest: dict[str, A
         "run_id",
         "task9_source_commit",
         "task9_ready_receipt_path",
+        "task9_ready_receipt_sha256",
+        "task9_repo_root",
+        "task9_readiness_dir",
+        "task9_blind_dir",
+        "task9_training_lane_key",
+        "task9_external_verifier_source_commit",
+        "task9_source_review_receipt_path",
+        "task9_source_review_receipt_sha256",
+        "task9_behavior_review_receipt_path",
+        "task9_behavior_review_receipt_sha256",
+        "task9_radical_registration_receipt_path",
+        "task9_radical_registration_receipt_sha256",
+        "task9_pragmatic_registration_receipt_path",
+        "task9_pragmatic_registration_receipt_sha256",
         "training_authorization_receipt_path",
+        "training_authority_bus_repo_path",
+        "training_authority_bus_branch_ref",
         "base_repo_id",
         "base_revision",
+        "base_tree_sha256",
+        "base_inventory_sha256",
         "parent_adapter_path",
         "parent_adapter_sha256",
+        "parent_adapter_config_sha256",
         "parent_candidate_subject_digest",
         "parent_selection_basis",
         "train_path",
@@ -129,9 +297,15 @@ def validate_v3_training_config(spec: dict[str, Any], base_manifest: dict[str, A
         raise ValueError("base repository does not match manifest")
     if spec["base_revision"] != base_manifest.get("revision"):
         raise ValueError("base revision does not match manifest")
-    if not _is_commit(spec["task9_source_commit"]):
-        raise ValueError("task9_source_commit must be exact 40-hex commit")
+    for field in ("task9_source_commit", "task9_external_verifier_source_commit"):
+        if not _is_commit(spec[field]):
+            raise ValueError(f"{field} must be exact 40-hex commit")
     for field in (
+        "task9_ready_receipt_sha256",
+        "task9_source_review_receipt_sha256",
+        "task9_behavior_review_receipt_sha256",
+        "task9_radical_registration_receipt_sha256",
+        "task9_pragmatic_registration_receipt_sha256",
         "parent_adapter_sha256",
         "parent_adapter_config_sha256",
         "parent_candidate_subject_digest",
@@ -145,7 +319,17 @@ def validate_v3_training_config(spec: dict[str, Any], base_manifest: dict[str, A
             raise ValueError(f"{field} must be exact SHA-256")
     for field in (
         "task9_ready_receipt_path",
+        "task9_repo_root",
+        "task9_readiness_dir",
+        "task9_blind_dir",
+        "task9_training_lane_key",
+        "task9_source_review_receipt_path",
+        "task9_behavior_review_receipt_path",
+        "task9_radical_registration_receipt_path",
+        "task9_pragmatic_registration_receipt_path",
         "training_authorization_receipt_path",
+        "training_authority_bus_repo_path",
+        "training_authority_bus_branch_ref",
         "parent_adapter_path",
         "train_path",
         "validation_path",
@@ -190,6 +374,14 @@ def preflight_v3_training(
     task9_source_commit = spec["task9_source_commit"]
     if not _is_ancestor(repo, task9_source_commit, code_commit):
         reasons.append("task9_source_not_ancestor_of_training_code")
+    if not _is_ancestor(
+        repo, spec["task9_external_verifier_source_commit"], code_commit
+    ):
+        reasons.append("task9_external_verifier_not_ancestor_of_training_code")
+
+    output_dir = Path(spec["output_dir"])
+    if output_dir.exists():
+        reasons.append("output_dir_already_exists")
 
     parent_dir = Path(spec["parent_adapter_path"])
     parent_path = parent_dir / "adapter_model.safetensors"
@@ -279,6 +471,8 @@ def preflight_v3_training(
     if task9_sha is None:
         reasons.append("task9_ready_receipt_missing")
     else:
+        if task9_sha != spec["task9_ready_receipt_sha256"]:
+            reasons.append("task9_ready_receipt_sha256_mismatch")
         task9_receipt = _read_json(task9_path)
         if task9_receipt.get("schema") != TASK9_READY_SCHEMA:
             reasons.append("task9_ready_receipt_schema_invalid")
@@ -289,6 +483,12 @@ def preflight_v3_training(
         for field in ("subject_digest", "evidence_digest", "external_verification_digest"):
             if not _is_sha256(task9_receipt.get(field)):
                 reasons.append(f"task9_ready_receipt_invalid:{field}")
+        if (
+            task9_receipt.get("external_verifier_commit")
+            != spec["task9_external_verifier_source_commit"]
+        ):
+            reasons.append("task9_ready_receipt_verifier_commit_mismatch")
+        _verify_task9_external(spec, task9_receipt, reasons)
 
     authority_path = Path(spec["training_authorization_receipt_path"])
     authority_sha = _sha256_file(authority_path) if authority_path.is_file() else None
@@ -323,6 +523,13 @@ def preflight_v3_training(
             reasons.append("training_authorization_train_mismatch")
         if authority.get("validation_sha256") != spec["validation_sha256"]:
             reasons.append("training_authorization_validation_mismatch")
+        _verify_training_authority_bus(
+            spec,
+            authority,
+            code_commit=code_commit,
+            task9_ready_receipt_sha256=task9_sha,
+            reasons=reasons,
+        )
 
     reasons = list(dict.fromkeys(reasons))
     if not reasons:
