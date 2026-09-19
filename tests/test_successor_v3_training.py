@@ -506,3 +506,29 @@ def test_bus_authority_must_bind_final_code_head(tmp_path, monkeypatch):
     decision = preflight_v3_training(spec_path, repo_root=repo)
     assert decision.runnable is False
     assert "training_authorization_code_commit_mismatch" in decision.reasons
+
+
+def test_caller_created_local_bus_cannot_mint_patrick_authority(tmp_path, monkeypatch):
+    repo, private, spec_path, spec = make_subject(tmp_path)
+    authorize(private, spec)
+    fake_git(monkeypatch)
+
+    decision = preflight_v3_training(spec_path, repo_root=repo)
+
+    assert decision.runnable is False
+    assert decision.status == "BLOCKED"
+    assert "training_authority_bus_not_canonical" in decision.reasons
+
+
+def test_alternate_v3_spec_path_cannot_repin_authority_root(tmp_path, monkeypatch):
+    repo, private, spec_path, spec = make_subject(tmp_path)
+    authorize(private, spec)
+    fake_git(monkeypatch)
+    alternate = tmp_path / "attacker-v3-spec.json"
+    alternate.write_text(spec_path.read_text(encoding="utf-8"), encoding="utf-8")
+
+    decision = preflight_v3_training(alternate, repo_root=repo)
+
+    assert decision.runnable is False
+    assert decision.status == "BLOCKED"
+    assert "training_spec_not_canonical" in decision.reasons
