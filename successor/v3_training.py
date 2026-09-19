@@ -23,6 +23,10 @@ class V3TrainingPreflight:
     status: str
     code_commit: str
     parent_adapter_sha256: str | None
+    parent_adapter_config_sha256: str | None
+    parent_candidate_subject_digest: str | None
+    base_tree_sha256: str | None
+    base_inventory_sha256: str | None
     train_sha256: str | None
     validation_sha256: str | None
     corpus_manifest_sha256: str | None
@@ -34,6 +38,14 @@ class V3TrainingPreflight:
         data = asdict(self)
         data["reasons"] = list(self.reasons)
         return data
+
+
+def _canonical_json(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def _sha256_json(value: Any) -> str:
+    return hashlib.sha256(_canonical_json(value).encode("utf-8")).hexdigest()
 
 
 def _sha256_file(path: Path) -> str:
@@ -121,7 +133,10 @@ def validate_v3_training_config(spec: dict[str, Any], base_manifest: dict[str, A
         raise ValueError("task9_source_commit must be exact 40-hex commit")
     for field in (
         "parent_adapter_sha256",
+        "parent_adapter_config_sha256",
         "parent_candidate_subject_digest",
+        "base_tree_sha256",
+        "base_inventory_sha256",
         "train_sha256",
         "validation_sha256",
         "corpus_manifest_sha256",
@@ -176,12 +191,19 @@ def preflight_v3_training(
     if not _is_ancestor(repo, task9_source_commit, code_commit):
         reasons.append("task9_source_not_ancestor_of_training_code")
 
-    parent_path = Path(spec["parent_adapter_path"]) / "adapter_model.safetensors"
+    parent_dir = Path(spec["parent_adapter_path"])
+    parent_path = parent_dir / "adapter_model.safetensors"
+    parent_config_path = parent_dir / "adapter_config.json"
     train_path = Path(spec["train_path"])
     validation_path = Path(spec["validation_path"])
     corpus_path = Path(spec["corpus_manifest_path"])
 
     observed_parent = _sha256_file(parent_path) if parent_path.is_file() else None
+    observed_parent_config = (
+        _sha256_file(parent_config_path) if parent_config_path.is_file() else None
+    )
+    observed_base_tree = base_manifest.get("observed_local_cache_tree_sha256")
+    observed_base_inventory = base_manifest.get("file_inventory_sha256")
     observed_train = _sha256_file(train_path) if train_path.is_file() else None
     observed_validation = _sha256_file(validation_path) if validation_path.is_file() else None
     observed_corpus = _sha256_file(corpus_path) if corpus_path.is_file() else None
@@ -190,6 +212,32 @@ def preflight_v3_training(
         reasons.append("parent_adapter_missing")
     elif observed_parent != spec["parent_adapter_sha256"]:
         reasons.append("parent_adapter_sha256_mismatch")
+    if observed_parent_config is None:
+        reasons.append("parent_adapter_config_missing")
+    elif observed_parent_config != spec["parent_adapter_config_sha256"]:
+        reasons.append("parent_adapter_config_sha256_mismatch")
+    if observed_base_tree != spec["base_tree_sha256"]:
+        reasons.append("base_tree_sha256_mismatch")
+    if observed_base_inventory != spec["base_inventory_sha256"]:
+        reasons.append("base_inventory_sha256_mismatch")
+
+    observed_parent_subject = None
+    if (
+        observed_parent is not None
+        and observed_parent_config is not None
+        and isinstance(observed_base_tree, str)
+        and isinstance(observed_base_inventory, str)
+    ):
+        observed_parent_subject = _sha256_json({
+            "adapter_config_sha256": observed_parent_config,
+            "adapter_sha256": observed_parent,
+            "base_revision": spec["base_revision"],
+            "base_tree_sha256": observed_base_tree,
+            "base_inventory_sha256": observed_base_inventory,
+        })
+        if observed_parent_subject != spec["parent_candidate_subject_digest"]:
+            reasons.append("parent_candidate_subject_digest_mismatch")
+
     if observed_train is None:
         reasons.append("train_file_missing")
     elif observed_train != spec["train_sha256"]:
@@ -252,6 +300,11 @@ def preflight_v3_training(
             reasons.append("training_authorization_schema_invalid")
         if authority.get("authorized") is not True or authority.get("effect") != "WEIGHT_CHANGING_TRAINING":
             reasons.append("training_not_authorized")
+        if authority.get("authority_kind") != "PATRICK_EXPLICIT":
+            reasons.append("training_authority_not_explicit")
+        authority_ref = authority.get("authority_ref")
+        if not isinstance(authority_ref, str) or not authority_ref.strip():
+            reasons.append("training_authority_ref_missing")
         if authority.get("task9_ready_receipt_sha256") != task9_sha:
             reasons.append("training_authorization_task9_receipt_mismatch")
         if authority.get("task9_source_commit") != task9_source_commit:
@@ -260,6 +313,12 @@ def preflight_v3_training(
             reasons.append("training_authorization_run_id_mismatch")
         if authority.get("parent_adapter_sha256") != spec["parent_adapter_sha256"]:
             reasons.append("training_authorization_parent_mismatch")
+        if authority.get("parent_adapter_config_sha256") != spec["parent_adapter_config_sha256"]:
+            reasons.append("training_authorization_parent_config_mismatch")
+        if authority.get("parent_candidate_subject_digest") != spec["parent_candidate_subject_digest"]:
+            reasons.append("training_authorization_parent_subject_mismatch")
+        if authority.get("corpus_manifest_sha256") != spec["corpus_manifest_sha256"]:
+            reasons.append("training_authorization_corpus_mismatch")
         if authority.get("train_sha256") != spec["train_sha256"]:
             reasons.append("training_authorization_train_mismatch")
         if authority.get("validation_sha256") != spec["validation_sha256"]:
@@ -284,6 +343,12 @@ def preflight_v3_training(
         status=status,
         code_commit=code_commit,
         parent_adapter_sha256=observed_parent,
+        parent_adapter_config_sha256=observed_parent_config,
+        parent_candidate_subject_digest=observed_parent_subject,
+        base_tree_sha256=observed_base_tree if isinstance(observed_base_tree, str) else None,
+        base_inventory_sha256=(
+            observed_base_inventory if isinstance(observed_base_inventory, str) else None
+        ),
         train_sha256=observed_train,
         validation_sha256=observed_validation,
         corpus_manifest_sha256=observed_corpus,

@@ -274,6 +274,11 @@ def train(spec_path: Path) -> dict:
                 "corpus_manifest_sha256": sha256_file(
                     spec["corpus_manifest_path"]
                 ),
+                "base_tree_sha256": spec["base_tree_sha256"],
+                "base_inventory_sha256": spec["base_inventory_sha256"],
+                "parent_adapter_config_sha256": spec[
+                    "parent_adapter_config_sha256"
+                ],
                 "parent_candidate_subject_digest": spec[
                     "parent_candidate_subject_digest"
                 ],

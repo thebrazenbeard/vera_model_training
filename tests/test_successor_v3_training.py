@@ -11,7 +11,8 @@ from successor.v3_training import preflight_v3_training, validate_v3_training_co
 HEAD = "c" * 40
 TASK9 = "a" * 40
 SHA_PARENT = "1" * 64
-SHA_SUBJECT = "2" * 64
+BASE_TREE = "6" * 64
+BASE_INVENTORY = "7" * 64
 
 
 def file_sha(path: Path) -> str:
@@ -28,6 +29,8 @@ def base_manifest():
         "repo_id": "HuggingFaceTB/SmolLM3-3B",
         "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
         "mutable_revision_allowed": False,
+        "observed_local_cache_tree_sha256": BASE_TREE,
+        "file_inventory_sha256": BASE_INVENTORY,
     }
 
 
@@ -40,6 +43,16 @@ def make_subject(tmp_path: Path):
     parent = private / "parent"
     parent.mkdir(parents=True)
     (parent / "adapter_model.safetensors").write_bytes(b"parent")
+    write_json(parent / "adapter_config.json", {"peft_type": "LORA", "r": 8})
+    parent_sha = file_sha(parent / "adapter_model.safetensors")
+    parent_config_sha = file_sha(parent / "adapter_config.json")
+    parent_subject = v3._sha256_json({
+        "adapter_config_sha256": parent_config_sha,
+        "adapter_sha256": parent_sha,
+        "base_revision": base_manifest()["revision"],
+        "base_tree_sha256": BASE_TREE,
+        "base_inventory_sha256": BASE_INVENTORY,
+    })
 
     train = private / "train.jsonl"
     validation = private / "validation.jsonl"
@@ -77,9 +90,12 @@ def make_subject(tmp_path: Path):
         "training_authorization_receipt_path": str(private / "training_authorization_receipt.json"),
         "base_repo_id": base_manifest()["repo_id"],
         "base_revision": base_manifest()["revision"],
+        "base_tree_sha256": BASE_TREE,
+        "base_inventory_sha256": BASE_INVENTORY,
         "parent_adapter_path": str(parent),
-        "parent_adapter_sha256": file_sha(parent / "adapter_model.safetensors"),
-        "parent_candidate_subject_digest": SHA_SUBJECT,
+        "parent_adapter_sha256": parent_sha,
+        "parent_adapter_config_sha256": parent_config_sha,
+        "parent_candidate_subject_digest": parent_subject,
         "parent_selection_basis": "development parent only",
         "train_path": str(train),
         "train_sha256": file_sha(train),
@@ -112,10 +128,15 @@ def authorize(private: Path, spec: dict):
         "schema": v3.TRAINING_AUTH_SCHEMA,
         "authorized": True,
         "effect": "WEIGHT_CHANGING_TRAINING",
+        "authority_kind": "PATRICK_EXPLICIT",
+        "authority_ref": "test:patrick-explicit-authority",
         "task9_ready_receipt_sha256": ready_sha,
         "task9_source_commit": spec["task9_source_commit"],
         "run_id": spec["run_id"],
         "parent_adapter_sha256": spec["parent_adapter_sha256"],
+        "parent_adapter_config_sha256": spec["parent_adapter_config_sha256"],
+        "parent_candidate_subject_digest": spec["parent_candidate_subject_digest"],
+        "corpus_manifest_sha256": spec["corpus_manifest_sha256"],
         "train_sha256": spec["train_sha256"],
         "validation_sha256": spec["validation_sha256"],
     })
@@ -130,8 +151,11 @@ def test_validate_v3_config_enforces_initial_general_rehearsal():
         "training_authorization_receipt_path": "auth.json",
         "base_repo_id": base_manifest()["repo_id"],
         "base_revision": base_manifest()["revision"],
+        "base_tree_sha256": BASE_TREE,
+        "base_inventory_sha256": BASE_INVENTORY,
         "parent_adapter_path": "parent",
         "parent_adapter_sha256": "1" * 64,
+        "parent_adapter_config_sha256": "8" * 64,
         "parent_candidate_subject_digest": "2" * 64,
         "parent_selection_basis": "development parent",
         "train_path": "train.jsonl",
@@ -262,6 +286,10 @@ def test_v3_dry_run_returns_preflight_without_legacy_prepare(tmp_path, monkeypat
         status="HOLD",
         code_commit=HEAD,
         parent_adapter_sha256=None,
+        parent_adapter_config_sha256=None,
+        parent_candidate_subject_digest=None,
+        base_tree_sha256=None,
+        base_inventory_sha256=None,
         train_sha256=None,
         validation_sha256=None,
         corpus_manifest_sha256=None,
@@ -292,6 +320,10 @@ def test_v3_prepare_blocks_before_private_file_loading(tmp_path, monkeypatch):
         status="HOLD",
         code_commit=HEAD,
         parent_adapter_sha256=None,
+        parent_adapter_config_sha256=None,
+        parent_candidate_subject_digest=None,
+        base_tree_sha256=None,
+        base_inventory_sha256=None,
         train_sha256=None,
         validation_sha256=None,
         corpus_manifest_sha256=None,
@@ -302,3 +334,46 @@ def test_v3_prepare_blocks_before_private_file_loading(tmp_path, monkeypatch):
     monkeypatch.setattr(runner, "preflight_v3_training", lambda *args, **kwargs: decision)
     with pytest.raises(RuntimeError, match="V3 training preflight blocked"):
         runner.prepare(spec_path)
+
+
+def test_parent_candidate_subject_is_recomputed_from_config_weights_and_base(tmp_path, monkeypatch):
+    repo, private, spec_path, spec = make_subject(tmp_path)
+    authorize(private, spec)
+    fake_git(monkeypatch)
+
+    clean = preflight_v3_training(spec_path, repo_root=repo)
+    assert clean.runnable is True
+    assert clean.parent_adapter_config_sha256 == spec["parent_adapter_config_sha256"]
+    assert clean.parent_candidate_subject_digest == spec["parent_candidate_subject_digest"]
+
+    config_path = Path(spec["parent_adapter_path"]) / "adapter_config.json"
+    write_json(config_path, {"peft_type": "LORA", "r": 16})
+    tampered_config_sha = file_sha(config_path)
+    spec["parent_adapter_config_sha256"] = tampered_config_sha
+    # Deliberately do not update the bound candidate subject.
+    write_json(spec_path, spec)
+    authorize(private, spec)
+
+    changed = preflight_v3_training(spec_path, repo_root=repo)
+    assert changed.runnable is False
+    assert "parent_candidate_subject_digest_mismatch" in changed.reasons
+
+
+def test_training_authorization_requires_patrick_explicit_authority_and_full_subject(tmp_path, monkeypatch):
+    repo, private, spec_path, spec = make_subject(tmp_path)
+    authorize(private, spec)
+    auth_path = Path(spec["training_authorization_receipt_path"])
+    auth = json.loads(auth_path.read_text(encoding="utf-8"))
+    auth["authority_kind"] = "AUTOMATED"
+    auth["authority_ref"] = ""
+    auth["parent_candidate_subject_digest"] = "f" * 64
+    auth["corpus_manifest_sha256"] = "e" * 64
+    write_json(auth_path, auth)
+    fake_git(monkeypatch)
+
+    decision = preflight_v3_training(spec_path, repo_root=repo)
+    assert decision.runnable is False
+    assert "training_authority_not_explicit" in decision.reasons
+    assert "training_authority_ref_missing" in decision.reasons
+    assert "training_authorization_parent_subject_mismatch" in decision.reasons
+    assert "training_authorization_corpus_mismatch" in decision.reasons
