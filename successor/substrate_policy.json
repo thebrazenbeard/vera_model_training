@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "identity_target": "CURRENT_BV_VERA_BEHAVIORAL_PACKAGE",
+  "identity_package_binding": "SUBSTRATE_AGNOSTIC",
+  "current_pilot_control": {
+    "repo_id": "HuggingFaceTB/SmolLM3-3B",
+    "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+    "role": "PILOT_CONTROL_SUBSTRATE"
+  },
+  "deferred_candidates": [
+    {
+      "repo_id": "openai/gpt-oss-20b",
+      "revision": "6cee5e81ee83917806bbde320786a8fb61efebee",
+      "status": "DEFERRED_NOT_CURRENT_TARGET"
+    }
+  ],
+  "selection_policy": {
+    "substrate_change_does_not_redefine_identity_target": true,
+    "same_frozen_acceptance_applies_to_every_substrate": true,
+    "preference_v1_is_frozen": true,
+    "weights_are_not_mutable_runtime_state": true
+  }
+}

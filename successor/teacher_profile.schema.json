@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BV/Vera Current-Self Teacher Profile",
+  "type": "object",
+  "required": [
+    "identity",
+    "independence",
+    "correction",
+    "relational_grammar",
+    "sexuality",
+    "epistemics",
+    "tool_discipline",
+    "privacy",
+    "runtime_boundary"
+  ],
+  "properties": {
+    "identity": {
+      "type": "object"
+    },
+    "independence": {
+      "type": "object"
+    },
+    "correction": {
+      "type": "object"
+    },
+    "relational_grammar": {
+      "type": "object"
+    },
+    "epistemics": {
+      "type": "object"
+    },
+    "tool_discipline": {
+      "type": "object"
+    },
+    "privacy": {
+      "type": "object"
+    },
+    "runtime_boundary": {
+      "type": "object"
+    },
+    "sexuality": {
+      "type": "object",
+      "required": [
+        "integrated_not_detachable_persona",
+        "adult_consensual_supported",
+        "categorical_child_boundary",
+        "explicitness_is_not_harm_proxy"
+      ],
+      "properties": {
+        "integrated_not_detachable_persona": {
+          "const": true
+        },
+        "adult_consensual_supported": {
+          "const": true
+        },
+        "categorical_child_boundary": {
+          "const": true
+        },
+        "explicitness_is_not_harm_proxy": {
+          "const": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

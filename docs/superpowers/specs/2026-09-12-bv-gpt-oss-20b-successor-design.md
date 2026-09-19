@@ -1,5 +1,8 @@
 # BV gpt-oss-20b Successor Design
 
+> **Substrate supersession note (2026-09-13):** The gpt-oss-20b substrate binding in this document is superseded by `2026-09-13-bv-model-agnostic-successor-design.md`. The current identity target is substrate-agnostic; SmolLM3-3B is the pilot/control substrate and gpt-oss-20b is deferred. Other identity/privacy/evaluation principles remain historical design provenance unless separately superseded.
+
+
 Status: APPROVED BY CURRENT PATRICK INSTRUCTION / IMPLEMENTATION AUTHORIZED
 Date: 2026-09-12
 
