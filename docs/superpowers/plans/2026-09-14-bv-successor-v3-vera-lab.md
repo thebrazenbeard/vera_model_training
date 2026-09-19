@@ -192,6 +192,8 @@ def test_missing_hostile_reviewer_blocks_training():
 
 - [ ] **Step 2: Run RED and implement fail-closed readiness.** Missing evidence yields explicit reasons; it must never infer readiness from branch names or old receipts.
 
+**2026-09-19 authority-boundary correction:** Task 9 is source-only. It may validate structural consistency, exact-shaped digests/commits, lane separation, counts, and cross-field bindings, but those values are still supplied by the evidence object itself. Therefore a structurally complete evidence object must remain `HOLD / external_authority_verification_required`; it cannot emit a weight-training `READY` receipt until a separately rooted verification boundary establishes the review registrations/verdicts, corpus freeze/overlap facts, blind-custodian registration, and leakage status. Task 10 must not treat source-only structural completeness as training authority.
+
 - [ ] **Step 3: Bind readiness to exact source/corpus subject** so changing source or any dataset digest invalidates the prior decision.
 
 - [ ] **Step 4: Run focused/full tests and commit.** Commit message: `feat: gate V3 weight training on proving-ground readiness`.

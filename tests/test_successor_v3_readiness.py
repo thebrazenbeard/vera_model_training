@@ -83,11 +83,11 @@ def valid_readiness():
     }
 
 
-def test_valid_readiness_is_ready_and_bound():
+def test_structurally_valid_readiness_is_held_for_external_authority():
     decision = check_v3_readiness(valid_readiness())
-    assert decision.ready is True
-    assert decision.status == "READY"
-    assert decision.reasons == ()
+    assert decision.ready is False
+    assert decision.status == "HOLD"
+    assert decision.reasons == ("external_authority_verification_required",)
     assert len(decision.subject_digest) == 64
     assert len(decision.evidence_digest) == 64
 
@@ -169,7 +169,7 @@ def test_custodian_lane_cannot_collide_with_training_or_reviewers():
 
 def test_subject_changes_when_source_or_dataset_digest_changes():
     base = check_v3_readiness(valid_readiness())
-    assert base.ready
+    assert base.status == "HOLD"
     for mutate in (
         lambda e: e["source"].__setitem__("readiness_source_commit", "3" * 40),
         lambda e: e["corpus"].__setitem__("train_digest", SHA_E),
@@ -179,7 +179,7 @@ def test_subject_changes_when_source_or_dataset_digest_changes():
         evidence = valid_readiness()
         mutate(evidence)
         changed = check_v3_readiness(evidence)
-        assert changed.ready
+        assert changed.status == "HOLD"
         assert changed.subject_digest != base.subject_digest
 
 
@@ -215,3 +215,10 @@ def test_malformed_or_missing_evidence_fails_closed_without_exception():
     decision = check_v3_readiness(None)
     assert decision.ready is False
     assert "evidence_not_object" in decision.reasons
+
+
+def test_structurally_complete_self_asserted_evidence_cannot_authorize_training():
+    decision = check_v3_readiness(valid_readiness())
+    assert decision.ready is False
+    assert decision.status == "HOLD"
+    assert "external_authority_verification_required" in decision.reasons

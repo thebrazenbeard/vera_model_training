@@ -227,10 +227,21 @@ def check_v3_readiness(evidence: dict[str, Any] | None) -> ReadinessDecision:
     reasons = list(dict.fromkeys(reasons))
     subject_digest = _sha256_json(_subject_payload(safe_evidence))
     evidence_digest = _sha256_json(safe_evidence)
-    ready = not reasons
+
+    # This source-only gate can validate structural consistency, exact-shaped
+    # identifiers, and cross-field bindings. It cannot establish that review,
+    # registration, corpus-freeze, leakage, or custodian claims came from the
+    # independent authorities they name. Never let self-authored evidence mint
+    # a weight-training READY receipt.
+    if not reasons:
+        reasons.append("external_authority_verification_required")
+        status = "HOLD"
+    else:
+        status = "BLOCKED"
+
     return ReadinessDecision(
-        ready=ready,
-        status="READY" if ready else "BLOCKED",
+        ready=False,
+        status=status,
         subject_digest=subject_digest,
         evidence_digest=evidence_digest,
         reasons=tuple(reasons),
