@@ -250,6 +250,8 @@ def verify_local_v3_readiness(
     )
     for kind, receipt in (("SOURCE", source_review), ("BEHAVIOR", behavior_review)):
         if receipt:
+            if receipt.get("review_kind") != kind:
+                reasons.append(f"vera_lab_review_kind_mismatch:{kind}")
             if receipt.get("source_commit") != upstream:
                 reasons.append(f"vera_lab_review_source_mismatch:{kind}")
             if receipt.get("verdict") not in PASSING_REVIEW_VERDICTS:
