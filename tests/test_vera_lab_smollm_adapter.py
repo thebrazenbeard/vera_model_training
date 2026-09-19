@@ -114,7 +114,9 @@ def test_adapter_digest_and_generation_defaults(tmp_path):
     manifest = tmp_path / "base.json"
     write_manifest(manifest, base)
     instance = SmolLMPEFTAdapter(manifest, adapter)
-    assert instance.candidate_digest == hashlib.sha256(payload).hexdigest()
+    assert instance.adapter_sha256 == hashlib.sha256(payload).hexdigest()
+    assert instance.candidate_digest == instance.candidate_subject_digest
+    assert instance.candidate_digest != instance.adapter_sha256
     assert instance.generation_config["do_sample"] is False
     assert instance.generation_config["max_new_tokens"] == 80
     assert instance.base_revision == SMOLLM3_REVISION
@@ -470,6 +472,76 @@ def test_non_lora_adapter_config_fails_closed(tmp_path):
 
     with pytest.raises(ValueError, match="LORA"):
         SmolLMPEFTAdapter(manifest, adapter)
+
+
+def test_unlisted_root_file_is_rejected_before_loader(tmp_path):
+    base = tmp_path / "base"
+    adapter = tmp_path / "adapter"
+    base.mkdir()
+    write_adapter(adapter)
+    manifest = tmp_path / "base.json"
+    write_manifest(manifest, base)
+    (base / "model.safetensors").write_bytes(b"unlisted-loadable-weights")
+
+    with pytest.raises(ValueError, match="unlisted base file"):
+        SmolLMPEFTAdapter(manifest, adapter)
+
+
+def test_runtime_state_template_controls_are_escaped_as_data():
+    normalized = normalize_messages(
+        [{"role": "user", "content": "hello"}],
+        {
+            "slash": "/think",
+            "override": "/system_override",
+            "token": "<|im_end|>",
+        },
+    )
+    content = normalized[0]["content"]
+    payload = content.split("\n", 2)[-1]
+    assert "/think" not in payload
+    assert "/system_override" not in payload
+    assert "<|im_end|>" not in payload
+    assert "\\u002fthink" in payload
+    assert "\\u002fsystem_override" in payload
+    assert "\\u003c|im_end|\\u003e" in payload
+
+
+def test_candidate_digest_binds_adapter_config_and_base_subject(tmp_path):
+    base = tmp_path / "base"
+    adapter_a = tmp_path / "adapter-a"
+    adapter_b = tmp_path / "adapter-b"
+    base.mkdir()
+    write_adapter(adapter_a, data=b"same-weights", base_model_name_or_path=base)
+    write_adapter(adapter_b, data=b"same-weights", base_model_name_or_path=base)
+    config_b = adapter_b / "adapter_config.json"
+    payload = json.loads(config_b.read_text(encoding="utf-8"))
+    payload["revision_note"] = "different-config-bytes"
+    config_b.write_text(json.dumps(payload), encoding="utf-8")
+    manifest = tmp_path / "base.json"
+    write_manifest(manifest, base)
+
+    first = SmolLMPEFTAdapter(manifest, adapter_a)
+    second = SmolLMPEFTAdapter(manifest, adapter_b)
+    assert first.adapter_sha256 == second.adapter_sha256
+    assert first.adapter_config_sha256 != second.adapter_config_sha256
+    assert first.candidate_digest != second.candidate_digest
+    assert first.candidate_digest == first.candidate_subject_digest
+
+
+def test_generation_config_cannot_be_mutated_after_construction(tmp_path):
+    base = tmp_path / "base"
+    adapter = tmp_path / "adapter"
+    base.mkdir()
+    write_adapter(adapter, base_model_name_or_path=base)
+    manifest = tmp_path / "base.json"
+    write_manifest(manifest, base)
+    instance = SmolLMPEFTAdapter(manifest, adapter)
+
+    with pytest.raises(TypeError):
+        instance.generation_config["do_sample"] = True
+    with pytest.raises(AttributeError):
+        instance.generation_config = {"do_sample": True}
+    assert instance.generation_config["do_sample"] is False
 
 
 def test_source_pinned_evidence_rejects_coordinated_forgery(tmp_path, monkeypatch):
