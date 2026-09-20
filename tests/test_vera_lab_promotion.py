@@ -27,12 +27,16 @@ RADICAL_REG = "c" * 64
 PRAGMATIC_REG = "d" * 64
 RADICAL_LANE = "v3-radical-hostile-qwen3-spm-review-20260919"
 PRAGMATIC_LANE = "v3-pragmatic-hostile-qwen3-4b-20260919"
+RADICAL_MODEL = "ed7d1471eca8"
+PRAGMATIC_MODEL = "359d7dd4bcda"
 
 
 def valid_review(role, lane, registration_digest, verdict="PASS"):
+    model_id = RADICAL_MODEL if role == "RADICAL_HOSTILE" else PRAGMATIC_MODEL
     return {
         "review_role": role,
         "reviewer_lane": lane,
+        "reviewer_model_id": model_id,
         "reviewer_registration_digest": registration_digest,
         "candidate_digest": CANDIDATE,
         "qualification_source_commit": SOURCE_COMMIT,
@@ -81,11 +85,13 @@ def binding():
                 "lane_key": RADICAL_LANE,
                 "registration_receipt_sha256": RADICAL_REG,
                 "registration_bus_commit": "6" * 40,
+                "model_id": RADICAL_MODEL,
             },
             "PRAGMATIC_HOSTILE": {
                 "lane_key": PRAGMATIC_LANE,
                 "registration_receipt_sha256": PRAGMATIC_REG,
                 "registration_bus_commit": "6" * 40,
+                "model_id": PRAGMATIC_MODEL,
             },
         },
     }
@@ -100,6 +106,9 @@ def evaluate_bound(monkeypatch, tmp_path, evidence, record_reasons=()):
     )
     monkeypatch.setattr(
         promotion_module, "_review_bus_remote_is_canonical", lambda repo: True
+    )
+    monkeypatch.setattr(
+        promotion_module, "_review_bus_transport_is_unrewritten", lambda repo: True
     )
     monkeypatch.setattr(promotion_module, "_refresh_review_bus", lambda repo: None)
     monkeypatch.setattr(
@@ -237,6 +246,7 @@ def test_review_record_markers_cross_bind_receipt(monkeypatch, tmp_path):
     expected = {
         "review_role": review["review_role"],
         "reviewer_lane": review["reviewer_lane"],
+        "reviewer_model_id": review["reviewer_model_id"],
         "reviewer_registration_digest": review["reviewer_registration_digest"],
         "candidate_digest": review["candidate_digest"],
         "qualification_source_commit": review["qualification_source_commit"],
@@ -273,6 +283,56 @@ def test_review_record_commit_must_exist_on_fresh_remote(monkeypatch, tmp_path):
     ) == ["review_record_commit_not_on_fresh_remote"]
 
 
+
+def test_registered_lane_cannot_substitute_reviewer_model(monkeypatch, tmp_path):
+    evidence = valid_evidence()
+    evidence["reviews"][0]["reviewer_model_id"] = "different-model"
+    decision = evaluate_bound(monkeypatch, tmp_path, evidence)
+    assert decision.verdict == "FAIL"
+    assert "reviewer_model_not_registered:RADICAL_HOSTILE" in decision.reasons
+
+
+def test_review_record_rejects_duplicate_contradictory_fields(monkeypatch, tmp_path):
+    review = valid_review("RADICAL_HOSTILE", RADICAL_LANE, RADICAL_REG)
+    payload = (
+        "REVIEW_FIELD review_role=RADICAL_HOSTILE\n"
+        "REVIEW_FIELD review_role=PRAGMATIC_HOSTILE\n"
+    ).encode("utf-8")
+    review["review_record_digest"] = hashlib.sha256(payload).hexdigest()
+    monkeypatch.setattr(
+        promotion_module, "_remote_contains_commit", lambda repo, commit: True
+    )
+    monkeypatch.setattr(
+        promotion_module, "_git_show_bytes", lambda repo, commit, path: payload
+    )
+    assert promotion_module._review_record_reasons(
+        review, review_bus_repo=tmp_path
+    ) == ["review_record_field_duplicate_or_empty"]
+
+
+def test_review_bus_url_rewrite_blocks_promotion(monkeypatch, tmp_path):
+    evidence = valid_evidence()
+    bus = tmp_path / "bus"
+    bus.mkdir()
+    monkeypatch.setattr(promotion_module, "_git_head", lambda repo: SOURCE_COMMIT)
+    monkeypatch.setattr(
+        promotion_module, "_load_review_binding", lambda repo, commit: binding()
+    )
+    monkeypatch.setattr(
+        promotion_module, "_review_bus_remote_is_canonical", lambda repo: True
+    )
+    monkeypatch.setattr(
+        promotion_module, "_review_bus_transport_is_unrewritten", lambda repo: False
+    )
+    decision = evaluate_promotion(
+        PromotionEvidence.from_dict(evidence),
+        review_bus_repo=bus,
+        repo_root=tmp_path,
+    )
+    assert decision.verdict == "FAIL"
+    assert "review_bus_transport_rewritten" in decision.reasons
+
+
 def test_review_receipt_schema_matches_required_contract():
     from pathlib import Path
 
@@ -283,6 +343,7 @@ def test_review_receipt_schema_matches_required_contract():
     assert {
         "review_role",
         "reviewer_lane",
+        "reviewer_model_id",
         "reviewer_registration_digest",
         "candidate_digest",
         "qualification_source_commit",
