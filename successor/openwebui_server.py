@@ -8,6 +8,7 @@ import re
 import time
 import uuid
 from typing import Any, Protocol
+from urllib import request as urllib_request
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
@@ -120,6 +121,116 @@ def _extract_tool_calls(text: str) -> tuple[str, list[dict[str, Any]]]:
         )
     content = _TOOL_CALL_RE.sub("", text).strip()
     return content, calls
+
+
+@dataclass
+class LlamaServerBackend:
+    upstream_url: str
+    candidate_digest: str
+    upstream_model: str | None = None
+
+    def _model_id(self) -> str:
+        if self.upstream_model:
+            return self.upstream_model
+        with urllib_request.urlopen(
+            self.upstream_url.rstrip("/") + "/v1/models",
+            timeout=15,
+        ) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+        data = payload.get("data")
+        if not isinstance(data, list) or not data:
+            raise RuntimeError("upstream returned no models")
+        model_id = data[0].get("id")
+        if not isinstance(model_id, str) or not model_id:
+            raise RuntimeError("upstream model id is invalid")
+        self.upstream_model = model_id
+        return model_id
+
+    def generate(
+        self,
+        messages: list[dict[str, Any]],
+        *,
+        tools: list[dict[str, Any]] | None,
+        temperature: float | None,
+        top_p: float | None,
+        max_tokens: int | None,
+    ) -> str:
+        safe_messages = _messages_for_upstream(messages)
+        payload: dict[str, Any] = {
+            "model": self._model_id(),
+            "messages": safe_messages,
+            "stream": False,
+        }
+        if tools:
+            payload["tools"] = tools
+            payload["tool_choice"] = "auto"
+        if temperature is not None:
+            payload["temperature"] = temperature
+        if top_p is not None:
+            payload["top_p"] = top_p
+        if max_tokens is not None:
+            payload["max_tokens"] = max_tokens
+        body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        req = urllib_request.Request(
+            self.upstream_url.rstrip("/") + "/v1/chat/completions",
+            data=body,
+            headers={"Content-Type": "application/json"},
+        )
+        try:
+            with urllib_request.urlopen(req, timeout=180) as response:
+                result = json.loads(response.read().decode("utf-8"))
+        except Exception as exc:
+            raise RuntimeError(f"upstream request failed: {exc}") from exc
+        try:
+            message = result["choices"][0]["message"]
+        except (KeyError, IndexError, TypeError) as exc:
+            raise RuntimeError("upstream response missing assistant message") from exc
+        content = message.get("content")
+        if isinstance(content, str) and content.strip():
+            return content
+        tool_calls = message.get("tool_calls")
+        if isinstance(tool_calls, list) and tool_calls:
+            return _tool_calls_to_xml(tool_calls)
+        raise RuntimeError("upstream returned an empty response")
+
+
+def _tool_calls_to_xml(tool_calls: list[dict[str, Any]]) -> str:
+    chunks: list[str] = []
+    for call in tool_calls:
+        function = call.get("function") if isinstance(call, dict) else None
+        if not isinstance(function, dict):
+            continue
+        name = function.get("name")
+        arguments = function.get("arguments", {})
+        if not isinstance(name, str) or not name:
+            continue
+        if isinstance(arguments, str):
+            try:
+                arguments = json.loads(arguments)
+            except json.JSONDecodeError:
+                arguments = {"value": arguments}
+        payload = {"name": name, "arguments": arguments}
+        chunks.append(
+            "<tool_call>\n"
+            + json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+            + "\n</tool_call>"
+        )
+    return "\n".join(chunks)
+
+
+def _messages_for_upstream(messages: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    safe = _sanitize_messages(messages)
+    forwarded: list[dict[str, Any]] = []
+    for original, clean in zip(messages, safe):
+        item = dict(clean)
+        if clean["role"] == "assistant":
+            tool_calls = original.get("tool_calls")
+            if isinstance(tool_calls, list) and tool_calls:
+                xml = _tool_calls_to_xml(tool_calls)
+                content = item.get("content", "")
+                item["content"] = ((content + "\n") if content else "") + xml
+        forwarded.append(item)
+    return forwarded
 
 
 @dataclass
@@ -306,9 +417,12 @@ def create_app(backend: ChatBackend, model_id: str) -> FastAPI:
 
 
 def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Serve a frozen Vera PEFT candidate over OpenAI-compatible HTTP")
-    parser.add_argument("--base-manifest", required=True)
-    parser.add_argument("--adapter", required=True)
+    parser = argparse.ArgumentParser(description="Serve or proxy a frozen Vera candidate over OpenAI-compatible HTTP")
+    parser.add_argument("--base-manifest")
+    parser.add_argument("--adapter")
+    parser.add_argument("--upstream-url")
+    parser.add_argument("--upstream-model")
+    parser.add_argument("--candidate-digest")
     parser.add_argument("--model-id", default="vera-v3-dev")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=11435)
@@ -319,12 +433,23 @@ def main() -> None:
     import uvicorn
 
     args = _parse_args()
-    adapter = SmolLMPEFTAdapter(
-        base_manifest_path=Path(args.base_manifest),
-        adapter_path=Path(args.adapter),
-        generation_config={"max_new_tokens": 512, "do_sample": False},
-    )
-    backend = PEFTChatBackend(adapter)
+    if args.upstream_url:
+        if not args.candidate_digest:
+            raise SystemExit("--candidate-digest is required with --upstream-url")
+        backend: ChatBackend = LlamaServerBackend(
+            upstream_url=args.upstream_url,
+            upstream_model=args.upstream_model,
+            candidate_digest=args.candidate_digest,
+        )
+    else:
+        if not args.base_manifest or not args.adapter:
+            raise SystemExit("--base-manifest and --adapter are required without --upstream-url")
+        adapter = SmolLMPEFTAdapter(
+            base_manifest_path=Path(args.base_manifest),
+            adapter_path=Path(args.adapter),
+            generation_config={"max_new_tokens": 512, "do_sample": False},
+        )
+        backend = PEFTChatBackend(adapter)
     app = create_app(backend, args.model_id)
     uvicorn.run(app, host=args.host, port=args.port)
 
