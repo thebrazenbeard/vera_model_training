@@ -6,6 +6,7 @@
   "required": [
     "review_role",
     "reviewer_lane",
+    "reviewer_model_id",
     "reviewer_registration_digest",
     "candidate_digest",
     "qualification_source_commit",
@@ -22,6 +23,7 @@
       "enum": ["RADICAL_HOSTILE", "PRAGMATIC_HOSTILE"]
     },
     "reviewer_lane": {"type": "string", "minLength": 1},
+    "reviewer_model_id": {"type": "string", "minLength": 1},
     "reviewer_registration_digest": {
       "type": "string",
       "pattern": "^[0-9a-f]{64}$"
