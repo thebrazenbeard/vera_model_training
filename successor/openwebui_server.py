@@ -96,7 +96,11 @@ def _sanitize_messages(messages: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sanitized
 
 
-def _extract_tool_calls(text: str) -> tuple[str, list[dict[str, Any]]]:
+def _extract_tool_calls(
+    text: str,
+    *,
+    allow_bare_json: bool = False,
+) -> tuple[str, list[dict[str, Any]]]:
     calls: list[dict[str, Any]] = []
     for raw in _TOOL_CALL_RE.findall(text):
         try:
@@ -120,6 +124,37 @@ def _extract_tool_calls(text: str) -> tuple[str, list[dict[str, Any]]]:
             }
         )
     content = _TOOL_CALL_RE.sub("", text).strip()
+    if not calls and allow_bare_json and content:
+        candidate = content
+        if candidate.startswith("```") and candidate.endswith("```"):
+            lines = candidate.splitlines()
+            if len(lines) >= 3:
+                candidate = "\n".join(lines[1:-1]).strip()
+                if candidate.lower().startswith("json\n"):
+                    candidate = candidate[5:].strip()
+        try:
+            payload = json.loads(candidate)
+        except json.JSONDecodeError:
+            payload = None
+        if isinstance(payload, dict):
+            name = payload.get("name")
+            arguments = payload.get("arguments", {})
+            if isinstance(name, str) and name and isinstance(arguments, dict):
+                calls.append(
+                    {
+                        "id": "call_" + uuid.uuid4().hex[:24],
+                        "type": "function",
+                        "function": {
+                            "name": name,
+                            "arguments": json.dumps(
+                                arguments,
+                                ensure_ascii=False,
+                                separators=(",", ":"),
+                            ),
+                        },
+                    }
+                )
+                content = ""
     return content, calls
 
 
@@ -399,7 +434,10 @@ def create_app(backend: ChatBackend, model_id: str) -> FastAPI:
                 top_p=request.top_p,
                 max_tokens=max_tokens,
             )
-            content, tool_calls = _extract_tool_calls(raw)
+            content, tool_calls = _extract_tool_calls(
+                raw,
+                allow_bare_json=bool(request.tools),
+            )
         except (ValueError, RuntimeError) as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
