@@ -6,6 +6,7 @@ import successor.openwebui_server as server_module
 from successor.openwebui_server import (
     LlamaServerBackend,
     _extract_tool_calls,
+    _ensure_smollm_thinking_mode,
     _messages_for_upstream,
     _openai_tools_to_xml_tools,
     create_app,
@@ -107,6 +108,33 @@ def test_bare_json_is_not_misclassified_without_tool_shape():
     content, calls = _extract_tool_calls(text, allow_bare_json=True)
     assert content == text
     assert calls == []
+
+
+
+
+def test_smollm_thinking_mode_defaults_system_to_no_think():
+    messages = [
+        {"role": "system", "content": "You are Computer."},
+        {"role": "user", "content": "Hello"},
+    ]
+    result = _ensure_smollm_thinking_mode(messages)
+    assert result[0]["content"].startswith("/no_think\n")
+    assert result[0]["content"].endswith("You are Computer.")
+
+
+def test_smollm_thinking_mode_preserves_explicit_mode():
+    messages = [
+        {"role": "system", "content": "/think\nYou are Computer."},
+        {"role": "user", "content": "Hello"},
+    ]
+    assert _ensure_smollm_thinking_mode(messages) == messages
+
+
+def test_smollm_thinking_mode_adds_system_when_missing():
+    messages = [{"role": "user", "content": "Hello"}]
+    result = _ensure_smollm_thinking_mode(messages)
+    assert result[0] == {"role": "system", "content": "/no_think"}
+    assert result[1] == messages[0]
 
 
 def test_messages_for_upstream_rehydrates_assistant_tool_calls():
