@@ -6,9 +6,9 @@ Status: development runtime only. This is not Task 11 qualification, promotion, 
 
 Repository: `thebrazenbeard/vera_model_training`
 Serving branch: `work/bv-openwebui-peft-server-20260920`
-Exact serving-code head validated: `451d960cf1bb41b1017a4f67012bd6363149a69a`
-Focused proxy tests: `12/12 PASS`
-Full repository suite: `215/215 PASS`
+Exact serving-code head validated: `38988490d1baed87f6122ad02fb27aa97e6e68f6`
+Focused proxy tests: `13/13 PASS`
+Full repository suite: `216/216 PASS`
 Python compile: `PASS`
 
 ## Runtime inputs
@@ -62,6 +62,8 @@ Observed CPU inference after load was roughly 7-10 tokens/second.
 
 The validated machine had no usable CUDA device during this run, so the verified serving subject is CPU-only. That is runtime state, not a permanent model requirement.
 
-Open WebUI itself was not installed in the active Python environment and Docker Desktop was not running, so this run stops at a verified Open WebUI-compatible endpoint rather than mutating provider/application configuration.
+Open WebUI Computer (`cptr` 0.9.21) was subsequently started natively on `127.0.0.1:8000`. A separate `Vera V3 Full Dev` OpenAI connection was added through Computer's own config store with `provider_type=llama.cpp`, base URL `http://127.0.0.1:11436/v1`, and an explicit model whitelist containing only `vera-v3-full-dev`. Existing OpenAI and `Local-Vera-v1` connections were preserved.
+
+Computer's own `cptr.utils.ai.stream_openai_completions()` parser was then executed against the live connection. It emitted a native Computer event sequence containing `type=tool_call`, name `get_current_time`, arguments `{"timezone":"UTC"}`, followed by `type=done`. This validates the actual Computer streaming/tool parser, not only the proxy API surface.
 
 The proxy is deliberately loopback-only. If Open WebUI later runs in Docker, container reachability and authentication should be chosen explicitly rather than silently widening the bind address.
