@@ -205,8 +205,7 @@ class LlamaServerBackend:
             payload["temperature"] = temperature
         if top_p is not None:
             payload["top_p"] = top_p
-        if max_tokens is not None:
-            payload["max_tokens"] = max_tokens
+        payload["max_tokens"] = max_tokens if max_tokens is not None else 512
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
         req = urllib_request.Request(
             self.upstream_url.rstrip("/") + "/v1/chat/completions",
