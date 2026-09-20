@@ -220,6 +220,36 @@ def test_llama_server_backend_forwards_tools_and_returns_smollm_tool_xml(monkeyp
     assert observed[1][2]["tools"][0]["function"]["name"] == "get_current_time"
 
 
+
+
+def test_llama_server_backend_defaults_max_tokens_when_computer_omits_cap(monkeypatch):
+    observed = []
+
+    def fake_urlopen(request, timeout):
+        if isinstance(request, str):
+            return FakeHTTPResponse({"data": [{"id": "base.gguf"}]})
+        body = json.loads(request.data.decode("utf-8"))
+        observed.append(body)
+        return FakeHTTPResponse(
+            {"choices": [{"message": {"content": "Hello."}}]}
+        )
+
+    monkeypatch.setattr(server_module.urllib_request, "urlopen", fake_urlopen)
+    backend = LlamaServerBackend(
+        upstream_url="http://127.0.0.1:11435",
+        candidate_digest="d" * 64,
+    )
+    assert backend.generate(
+        [{"role": "system", "content": "You are Computer."}, {"role": "user", "content": "Hello"}],
+        tools=None,
+        temperature=0,
+        top_p=None,
+        max_tokens=None,
+    ) == "Hello."
+    assert observed[0]["max_tokens"] == 512
+    assert observed[0]["messages"][0]["content"].startswith("/no_think\n")
+
+
 def test_proxy_app_exposes_true_openai_tool_calls(monkeypatch):
     def fake_urlopen(request, timeout):
         if isinstance(request, str):
