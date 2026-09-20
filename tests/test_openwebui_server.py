@@ -87,6 +87,28 @@ class FakeHTTPResponse:
         return self.payload
 
 
+
+
+def test_bare_json_tool_call_is_normalized_only_when_enabled():
+    text = '{"name":"get_current_time","arguments":{"timezone":"UTC"}}'
+    content, calls = _extract_tool_calls(text)
+    assert content == text
+    assert calls == []
+
+    content, calls = _extract_tool_calls(text, allow_bare_json=True)
+    assert content == ""
+    assert len(calls) == 1
+    assert calls[0]["function"]["name"] == "get_current_time"
+    assert json.loads(calls[0]["function"]["arguments"]) == {"timezone": "UTC"}
+
+
+def test_bare_json_is_not_misclassified_without_tool_shape():
+    text = '{"answer":"UTC is Coordinated Universal Time"}'
+    content, calls = _extract_tool_calls(text, allow_bare_json=True)
+    assert content == text
+    assert calls == []
+
+
 def test_messages_for_upstream_rehydrates_assistant_tool_calls():
     messages = [
         {
