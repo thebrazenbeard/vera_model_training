@@ -82,6 +82,36 @@ def _normalize_github_remote(value: str) -> str:
     return remote.rstrip("/").lower()
 
 
+def _review_bus_transport_is_unrewritten(repo_root: Path) -> bool:
+    try:
+        completed = subprocess.run(
+            [
+                "git",
+                "-C",
+                str(repo_root),
+                "config",
+                "--get-regexp",
+                r"^url\\..*\\.insteadof$",
+            ],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except OSError:
+        return False
+    if completed.returncode not in (0, 1):
+        return False
+    canonical = _CANONICAL_REVIEW_BUS_REMOTE.lower()
+    for line in completed.stdout.splitlines():
+        parts = line.strip().split(None, 1)
+        if len(parts) != 2:
+            continue
+        instead_of = parts[1].strip().lower()
+        if instead_of and canonical.startswith(instead_of):
+            return False
+    return True
+
+
 def _review_bus_remote_is_canonical(repo_root: Path) -> bool:
     try:
         remote = subprocess.check_output(
@@ -158,7 +188,7 @@ def _validate_review_receipt(receipt: dict[str, Any]) -> None:
         raise ValueError("invalid review_role")
     if receipt["verdict"] not in schema["properties"]["verdict"]["enum"]:
         raise ValueError("invalid review verdict")
-    for field in ("reviewer_lane", "review_record_path"):
+    for field in ("reviewer_lane", "reviewer_model_id", "review_record_path"):
         _require_nonempty_text(receipt[field], field)
     for field in (
         "reviewer_registration_digest",
@@ -280,9 +310,22 @@ def _review_record_reasons(
         return reasons
 
     text = payload.decode("utf-8", errors="strict")
+    fields: dict[str, str] = {}
+    for line in text.splitlines():
+        if not line.startswith("REVIEW_FIELD "):
+            continue
+        body = line[len("REVIEW_FIELD "):]
+        if "=" not in body:
+            return ["review_record_field_malformed"]
+        key, value = body.split("=", 1)
+        if not key or key in fields:
+            return ["review_record_field_duplicate_or_empty"]
+        fields[key] = value
+
     expected = {
         "review_role": review["review_role"],
         "reviewer_lane": review["reviewer_lane"],
+        "reviewer_model_id": review["reviewer_model_id"],
         "reviewer_registration_digest": review["reviewer_registration_digest"],
         "candidate_digest": review["candidate_digest"],
         "qualification_source_commit": review["qualification_source_commit"],
@@ -290,8 +333,11 @@ def _review_record_reasons(
         "blocking_findings_digest": _sha256_json(review["blocking_findings"]),
         "nonblocking_findings_digest": _sha256_json(review["nonblocking_findings"]),
     }
+    if set(fields) != set(expected):
+        reasons.append("review_record_field_set_mismatch")
+        return reasons
     for key, value in expected.items():
-        if f"REVIEW_FIELD {key}={value}" not in text:
+        if fields.get(key) != str(value):
             reasons.append(f"review_record_binding_mismatch:{key}")
     return reasons
 
@@ -350,6 +396,9 @@ def _review_reasons(
         elif not _review_bus_remote_is_canonical(bus_root):
             reasons.append("review_bus_not_canonical")
             bus_root = None
+        elif not _review_bus_transport_is_unrewritten(bus_root):
+            reasons.append("review_bus_transport_rewritten")
+            bus_root = None
         else:
             try:
                 _refresh_review_bus(bus_root)
@@ -375,6 +424,8 @@ def _review_reasons(
             else:
                 if review["reviewer_lane"] != bound["lane_key"]:
                     reasons.append(f"reviewer_lane_not_registered:{role}")
+                if review["reviewer_model_id"] != bound.get("model_id"):
+                    reasons.append(f"reviewer_model_not_registered:{role}")
                 if (
                     review["reviewer_registration_digest"]
                     != bound["registration_receipt_sha256"]
