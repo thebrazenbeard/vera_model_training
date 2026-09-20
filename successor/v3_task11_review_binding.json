@@ -1,0 +1,23 @@
+{
+  "schema": "VERA_SUCCESSOR_V3_TASK11_REVIEW_BINDING_V1",
+  "task10_source_commit": "48e0f2d5f79388c199c09e38e749c47ad0f32070",
+  "task9_source_commit": "065035bb75d73467b8f9beb5480f5dd56bc0697d",
+  "training_lane_key": "bv-successor-training",
+  "review_bus_remote": "https://github.com/thebrazenbeard/chat-communication-bus",
+  "reviewers": {
+    "RADICAL_HOSTILE": {
+      "lane_key": "v3-radical-hostile-qwen3-spm-review-20260919",
+      "registration_receipt_sha256": "4a7c90c8075e46c725e1a29b14ec83fecdfa7d87458720f870037f517aba5f2c",
+      "registration_bus_commit": "9d7500f6779ecca5ddf5d2bdb49c9fe748bc29c6",
+      "model_surface": "qwen3-spm-review:latest",
+      "model_id": "ed7d1471eca8"
+    },
+    "PRAGMATIC_HOSTILE": {
+      "lane_key": "v3-pragmatic-hostile-qwen3-4b-20260919",
+      "registration_receipt_sha256": "4e6631f343f443cdec9c928430be7b3a97280f60103d71f047d6ade818aea691",
+      "registration_bus_commit": "9d7500f6779ecca5ddf5d2bdb49c9fe748bc29c6",
+      "model_surface": "qwen3:4b",
+      "model_id": "359d7dd4bcda"
+    }
+  }
+}
