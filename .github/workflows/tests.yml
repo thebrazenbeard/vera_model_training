@@ -2,7 +2,7 @@ name: Tests
 
 on:
   push:
-    branches: [main, "fix/**", "feature/**"]
+    branches: [main, "fix/**", "feature/**", "work/bv-successor-v3-task9-readiness-20260919"]
   pull_request:
     branches: [main]
   workflow_dispatch:
