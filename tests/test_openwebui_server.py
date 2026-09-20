@@ -298,6 +298,47 @@ def test_chat_completion_maps_model_tool_call():
     assert tool_call["function"]["name"] == "read_file"
 
 
+
+
+def test_streaming_tool_call_has_openai_index():
+    backend = FakeBackend(
+        '<tool_call>{"name":"get_current_time","arguments":{"timezone":"UTC"}}</tool_call>'
+    )
+    client = TestClient(create_app(backend, "vera-v3-full-dev"))
+    with client.stream(
+        "POST",
+        "/v1/chat/completions",
+        json={
+            "model": "vera-v3-full-dev",
+            "messages": [{"role": "user", "content": "time"}],
+            "tools": [
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "get_current_time",
+                        "parameters": {"type": "object", "properties": {}},
+                    },
+                }
+            ],
+            "stream": True,
+        },
+    ) as response:
+        text = "".join(response.iter_text())
+    assert response.status_code == 200
+    payloads = []
+    for line in text.splitlines():
+        if not line.startswith("data: ") or line == "data: [DONE]":
+            continue
+        payloads.append(json.loads(line[6:]))
+    tool_delta = next(
+        p["choices"][0]["delta"]["tool_calls"]
+        for p in payloads
+        if p["choices"][0]["delta"].get("tool_calls")
+    )
+    assert tool_delta[0]["index"] == 0
+    assert tool_delta[0]["function"]["name"] == "get_current_time"
+
+
 def test_streaming_completion_emits_openai_sse_done_marker():
     backend = FakeBackend("streamed")
     client = TestClient(create_app(backend, "vera-v3-full-dev"))
