@@ -138,3 +138,8 @@ Future owner: **BT2 Coordinator**.
 8. Do not merge or perform protected effects without separate exact authority.
 
 No permanent ChatGPT conversation is required.
+
+
+## Supersession note
+
+`TRAINING_ARCHITECTURE_CONTINUATION_20260919.md` is an intermediate checkpoint and is historical only. This V2 file governs current recovery where they differ. In particular, the implementation plan remains on `design/training-bus-terminal-v1` at blob `f438581142f52c16b94a0654caa84bd2f5b468c8`; it was not copied onto this branch.
