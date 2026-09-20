@@ -2,8 +2,11 @@ import json
 
 from fastapi.testclient import TestClient
 
+import successor.openwebui_server as server_module
 from successor.openwebui_server import (
+    LlamaServerBackend,
     _extract_tool_calls,
+    _messages_for_upstream,
     _openai_tools_to_xml_tools,
     create_app,
 )
@@ -66,6 +69,154 @@ def test_extract_tool_call_maps_to_openai_shape():
     assert calls[0]["type"] == "function"
     assert calls[0]["function"]["name"] == "read_file"
     assert json.loads(calls[0]["function"]["arguments"]) == {"path": "a.txt"}
+
+
+
+
+class FakeHTTPResponse:
+    def __init__(self, payload):
+        self.payload = json.dumps(payload).encode("utf-8")
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        return False
+
+    def read(self):
+        return self.payload
+
+
+def test_messages_for_upstream_rehydrates_assistant_tool_calls():
+    messages = [
+        {
+            "role": "assistant",
+            "content": None,
+            "tool_calls": [
+                {
+                    "id": "call_1",
+                    "type": "function",
+                    "function": {
+                        "name": "read_file",
+                        "arguments": '{"path":"x.py"}',
+                    },
+                }
+            ],
+        },
+        {
+            "role": "tool",
+            "tool_call_id": "call_1",
+            "content": "file contents",
+        },
+    ]
+    forwarded = _messages_for_upstream(messages)
+    assert "<tool_call>" in forwarded[0]["content"]
+    assert '"name":"read_file"' in forwarded[0]["content"]
+    assert forwarded[1]["role"] == "tool"
+    assert forwarded[1]["tool_call_id"] == "call_1"
+
+
+def test_llama_server_backend_forwards_tools_and_returns_smollm_tool_xml(monkeypatch):
+    observed = []
+
+    def fake_urlopen(request, timeout):
+        if isinstance(request, str):
+            observed.append(("models", request, None))
+            return FakeHTTPResponse(
+                {"data": [{"id": "C:/Vera/successor/deploy/base.gguf"}]}
+            )
+        body = json.loads(request.data.decode("utf-8"))
+        observed.append(("chat", request.full_url, body))
+        return FakeHTTPResponse(
+            {
+                "choices": [
+                    {
+                        "message": {
+                            "content": (
+                                '<tool_call>{"name":"get_current_time",'
+                                '"arguments":{"timezone":"UTC"}}</tool_call>'
+                            )
+                        }
+                    }
+                ]
+            }
+        )
+
+    monkeypatch.setattr(server_module.urllib_request, "urlopen", fake_urlopen)
+    backend = LlamaServerBackend(
+        upstream_url="http://127.0.0.1:11435",
+        candidate_digest="d" * 64,
+    )
+    result = backend.generate(
+        [{"role": "user", "content": "What time is it?"}],
+        tools=[
+            {
+                "type": "function",
+                "function": {
+                    "name": "get_current_time",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {"timezone": {"type": "string"}},
+                    },
+                },
+            }
+        ],
+        temperature=0,
+        top_p=None,
+        max_tokens=64,
+    )
+    assert "<tool_call>" in result
+    assert observed[1][2]["tool_choice"] == "auto"
+    assert observed[1][2]["tools"][0]["function"]["name"] == "get_current_time"
+
+
+def test_proxy_app_exposes_true_openai_tool_calls(monkeypatch):
+    def fake_urlopen(request, timeout):
+        if isinstance(request, str):
+            return FakeHTTPResponse({"data": [{"id": "base.gguf"}]})
+        return FakeHTTPResponse(
+            {
+                "choices": [
+                    {
+                        "message": {
+                            "content": (
+                                '<tool_call>{"name":"get_current_time",'
+                                '"arguments":{"timezone":"UTC"}}</tool_call>'
+                            )
+                        }
+                    }
+                ]
+            }
+        )
+
+    monkeypatch.setattr(server_module.urllib_request, "urlopen", fake_urlopen)
+    backend = LlamaServerBackend(
+        upstream_url="http://127.0.0.1:11435",
+        candidate_digest="d" * 64,
+    )
+    client = TestClient(create_app(backend, "vera-v3-full-dev"))
+    response = client.post(
+        "/v1/chat/completions",
+        json={
+            "model": "vera-v3-full-dev",
+            "messages": [{"role": "user", "content": "time"}],
+            "tools": [
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "get_current_time",
+                        "parameters": {"type": "object", "properties": {}},
+                    },
+                }
+            ],
+        },
+    )
+    body = response.json()
+    assert response.status_code == 200
+    assert body["choices"][0]["finish_reason"] == "tool_calls"
+    call = body["choices"][0]["message"]["tool_calls"][0]
+    assert call["function"]["name"] == "get_current_time"
+    assert json.loads(call["function"]["arguments"]) == {"timezone": "UTC"}
 
 
 def test_models_endpoint_exposes_exact_dev_model():
