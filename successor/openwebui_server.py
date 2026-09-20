@@ -366,7 +366,10 @@ def _stream_chunks(payload: dict[str, Any]):
     if message.get("content"):
         first_delta["content"] = message["content"]
     if message.get("tool_calls"):
-        first_delta["tool_calls"] = message["tool_calls"]
+        first_delta["tool_calls"] = [
+            {**call, "index": index}
+            for index, call in enumerate(message["tool_calls"])
+        ]
     chunk = {
         "id": payload["id"],
         "object": "chat.completion.chunk",
