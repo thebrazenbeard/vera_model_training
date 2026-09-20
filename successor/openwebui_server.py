@@ -190,7 +190,9 @@ class LlamaServerBackend:
         top_p: float | None,
         max_tokens: int | None,
     ) -> str:
-        safe_messages = _messages_for_upstream(messages)
+        safe_messages = _ensure_smollm_thinking_mode(
+            _messages_for_upstream(messages)
+        )
         payload: dict[str, Any] = {
             "model": self._model_id(),
             "messages": safe_messages,
@@ -251,6 +253,25 @@ def _tool_calls_to_xml(tool_calls: list[dict[str, Any]]) -> str:
             + "\n</tool_call>"
         )
     return "\n".join(chunks)
+
+
+def _ensure_smollm_thinking_mode(messages: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Default SmolLM3 to non-thinking chat unless the caller chose a mode explicitly."""
+    result = [dict(message) for message in messages]
+    explicit_mode = any(
+        isinstance(message.get("content"), str)
+        and ("/no_think" in message["content"] or "/think" in message["content"])
+        for message in result
+        if message.get("role") == "system"
+    )
+    if explicit_mode:
+        return result
+    for message in result:
+        if message.get("role") == "system":
+            message["content"] = "/no_think\n" + str(message.get("content", ""))
+            return result
+    result.insert(0, {"role": "system", "content": "/no_think"})
+    return result
 
 
 def _messages_for_upstream(messages: list[dict[str, Any]]) -> list[dict[str, Any]]:
