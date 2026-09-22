@@ -1,0 +1,55 @@
+{
+  "schema": "VERA_V4_TOKEN_VOLUME_RECEIPT_V1",
+  "hf_job_id": "6ab2e68e51992417dfcd423b",
+  "hf_job_name": "bv-v4-token-volume",
+  "hf_status": "COMPLETED",
+  "hf_flavor": "cpu-basic",
+  "corpus_manifest_sha256": "f75d879e2141a6e0ce839445c9404cb46adc47879d0bb7af99597be366f0f39d",
+  "tokenizer_repo": "HuggingFaceTB/SmolLM3-3B",
+  "tokenizer_revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "train_sha256": "83ce925a9ae9d2fe82e6f431e82112a4481714dd1ce627092a91c3bc5aeebabd",
+  "validation_sha256": "d7151d409bebe6097c9c4ae3cbed32760037c711b8c7048ec75c904febdece18",
+  "train": {
+    "rows": 50000,
+    "rendered_tokens": {
+      "total": 14199876,
+      "mean": 283.99752,
+      "median": 207,
+      "p90": 576,
+      "p95": 793,
+      "p99": 1267,
+      "max": 1536
+    },
+    "assistant_supervised_tokens": {
+      "total": 6602015,
+      "mean": 132.0403,
+      "median": 67,
+      "p90": 332,
+      "p95": 441,
+      "p99": 656,
+      "max": 1463
+    }
+  },
+  "validation": {
+    "rows": 2500,
+    "rendered_tokens": {
+      "total": 689680,
+      "mean": 275.872,
+      "median": 198,
+      "p90": 544,
+      "p95": 766,
+      "p99": 1312,
+      "max": 1501
+    },
+    "assistant_supervised_tokens": {
+      "total": 323890,
+      "mean": 129.556,
+      "median": 66,
+      "p90": 323,
+      "p95": 423,
+      "p99": 660,
+      "max": 1316
+    }
+  },
+  "no_weight_change": true
+}
