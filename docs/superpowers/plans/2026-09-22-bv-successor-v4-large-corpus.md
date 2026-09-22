@@ -7,17 +7,17 @@ Status: SOURCE / CORPUS CONSTRUCTION — NO WEIGHT CHANGE
 
 Replace the 78-row V3 pilot corpus with a training subject large enough to justify Hugging Face training while preserving the source/runtime/identity boundaries learned from V3.
 
-The V4 target is a minimum 50,000 normalized assistant-supervision examples before a weight-changing run is considered.
+The V4 source pool is 52,500 normalized assistant-supervision examples, deterministically split to exactly 50,000 training rows and 2,500 validation rows before a weight-changing run is considered.
 
 ## Target composition
 
-1. Custom Vera behavioral SFT: **10,000 rows** committed as deterministic JSONL shards.
-2. General instruction/reasoning rehearsal: **30,000 rows** sampled deterministically from a frozen Hugging Face source recipe.
-3. Tool-use / function-calling rehearsal: **10,000 rows** sampled deterministically from a frozen Hugging Face source recipe.
-4. Separate validation: at least **2,500 rows**, held out by stable record hash before training.
+1. Custom Vera behavioral SFT source pool: **10,000 rows** committed as deterministic JSONL shards.
+2. General instruction/reasoning rehearsal source pool: **42,500 rows** sampled deterministically from exact-revision SmolTalk2 SFT material.
+3. Stable-hash validation holdout: **500 custom rows** (50/family) + **2,000 rehearsal rows**.
+4. Final training set: **50,000 rows**; validation set: **2,500 rows**.
 5. Final qualification and blind material remain outside the training corpus.
 
-Initial total target: **50,000+ train rows**, before validation.
+Tool-use/function-calling is intentionally deferred to a separate trainer-capability lane. The current SFT trainer accepts prompt/response pairs only; flattening tool traces into plain text merely to inflate corpus size would destroy the semantics we intend to teach.
 
 ## Custom behavioral families
 
@@ -41,11 +41,9 @@ The custom corpus teaches behavior, not mutable facts about Patrick, Vera runtim
 Primary source candidate:
 - HuggingFaceTB/smoltalk2, SFT material, frozen by dataset revision and exact sampled record IDs/hashes.
 
-Tool-use source candidates:
-- a reviewed function-calling dataset with compatible license and schema;
-- preferably examples with call/no-call discrimination, argument correctness, tool-result grounding, and multi-turn continuation.
+The exact rehearsal source is `HuggingFaceTB/smoltalk2` at frozen revision `fc6cc2103c066455aade5d7fbb346039ae36ca5e`, filtered to clean two-message user -> assistant examples and a 1,536-token rendered ceiling.
 
-No public dataset enters the final mix merely because it is large. Each source requires license, provenance, decontamination, format, and quality checks.
+No public dataset enters the final mix merely because it is large. Each selected slice must pass provenance, schema, exact-pair deduplication, role-shape, tokenizer/template, and length checks.
 
 ## Data-quality rules
 
@@ -62,12 +60,11 @@ No public dataset enters the final mix merely because it is large. Each source r
 
 ## Sampling / mixing
 
-Target mixture:
-- custom behavioral: 20%;
-- general SFT/reasoning: 60%;
-- tool-use: 20%.
+Final split target mixture is approximately:
+- custom behavioral: 9,500 / 50,000 = **19%**;
+- general SFT/reasoning rehearsal: 40,500 / 50,000 = **81%**.
 
-This intentionally keeps non-identity/general material >= 50% to reduce narrow behavioral overfit.
+This intentionally keeps general material well above 50% to reduce narrow behavioral overfit.
 
 Within the custom slice, all ten families are initially balanced. Later ablations may change weights only as a new exact corpus subject.
 
@@ -87,9 +84,9 @@ The training artifact is bound to exact normalized JSONL SHA-256 digests plus a 
 
 1. Materialize the 10k custom behavioral corpus in Git.
 2. Validate row count, schema, uniqueness, family balance, and forbidden-content invariants on Hugging Face CPU.
-3. Freeze external dataset revisions and sampling recipe.
-4. Materialize or stream-normalize the 40k public rehearsal rows on Hugging Face.
-5. Split by stable record hash and compute exact manifests.
+3. Freeze the exact SmolTalk2 dataset revision and deterministic 42.5k sampling recipe.
+4. Materialize and normalize the rehearsal rows on Hugging Face.
+5. Split the 52.5k source pool by stable record hash and compute exact manifests.
 6. Run semantic decontamination and near-duplicate checks.
 7. Only then define a V4 weight-changing training job and request/verify exact training authority.
 
