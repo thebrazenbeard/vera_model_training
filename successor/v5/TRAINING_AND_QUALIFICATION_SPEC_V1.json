@@ -171,7 +171,8 @@
       "FAIL",
       "INDETERMINATE",
       "QUALIFIED_WITHIN_TESTED_SCOPE"
-    ]
+    ],
+    "final_judge_must_differ_from_curation_judge": true
   },
   "artifact_custody": {
     "preferred": "HF_PRIVATE_REPO_OR_BUCKET",
@@ -187,5 +188,11 @@
     "runtime_activation",
     "candidate_promotion",
     "credential_change"
-  ]
+  ],
+  "final_adjudication_model": {
+    "repo": "microsoft/phi-4",
+    "revision": "2db69c1c3e91a05d2c64a3185acfbaf36f744e25",
+    "license": "MIT",
+    "role": "blind_open_and_multiturn_final_judge"
+  }
 }
