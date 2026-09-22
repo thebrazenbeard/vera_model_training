@@ -4,6 +4,7 @@ import hashlib
 import json
 import random
 import re
+import gc
 from pathlib import Path
 from typing import Any
 
@@ -188,6 +189,9 @@ def generate(seed_path: Path, output_path: Path, oversample: float = 1.65, batch
     output_path.parent.mkdir(parents=True,exist_ok=True)
     payload=("\n".join(json.dumps(r,ensure_ascii=False,separators=(",",":")) for r in rows)+"\n").encode()
     output_path.write_bytes(payload)
+    del model
+    gc.collect()
+    if torch.cuda.is_available(): torch.cuda.empty_cache()
     return {
         "schema":"VERA_V5_TARGETED_CANDIDATE_MANIFEST_V1",
         "rows":len(rows),
