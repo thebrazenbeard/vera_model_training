@@ -18,14 +18,13 @@ SHUFFLE_BUFFER = 20000
 MAX_TOKENS = 1536
 SYSTEM = {"role": "system", "content": "/no_think /system_override"}
 TARGETS = {
-    "smoltalk_smollm3_explore_instruct_rewriting_no_think": 7000,
+    "smoltalk_smollm3_explore_instruct_rewriting_no_think": 8000,
     "smoltalk_smollm3_smol_rewrite_no_think": 6000,
     "smoltalk_smollm3_smol_summarize_no_think": 6000,
     "tulu_3_sft_personas_instruction_following_no_think": 7000,
     "Mixture_of_Thoughts_science_no_think": 6000,
     "OpenHermes_2.5_no_think": 5000,
     "table_gpt_no_think": 4500,
-    "smoltalk_smollm3_everyday_conversations_no_think": 1000,
 }
 EXPECTED_ROWS = 42500
 
