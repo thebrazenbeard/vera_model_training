@@ -155,7 +155,7 @@ def generate_holdout(output_path:Path, *, smoke:bool=False)->dict:
     output_path.parent.mkdir(parents=True,exist_ok=True)
     payload=("\n".join(json.dumps(r,ensure_ascii=False,separators=(",",":")) for r in rows)+"\n").encode()
     output_path.write_bytes(payload)
-    expected=42 if smoke else 2600
+    expected=58 if smoke else 2600
     if len(rows)!=expected: raise RuntimeError(f"holdout total {len(rows)} != {expected}")
     return {"rows":len(rows),"sha256":hashlib.sha256(payload).hexdigest(),"generator_repo":HOLDOUT_REPO,"generator_revision":HOLDOUT_REV,"smoke":smoke}
 
