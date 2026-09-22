@@ -332,6 +332,8 @@ def _blind_reasons(evidence: PromotionEvidence) -> list[str]:
         reasons.append("blind_candidate_digest_mismatch")
     if not _is_sha256(blind.get("set_digest")):
         reasons.append("missing_or_invalid_blind_set_digest")
+    if blind.get("set_digest") != blind.get("evaluation_set_digest"):
+        reasons.append("blind_evaluation_set_digest_mismatch")
     item_count = blind.get("item_count")
     if not isinstance(item_count, int) or isinstance(item_count, bool) or item_count < 70:
         reasons.append("blind_item_count_below_70")
