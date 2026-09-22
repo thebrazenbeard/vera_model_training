@@ -4,6 +4,7 @@ import hashlib
 import json
 import math
 import re
+import gc
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -210,6 +211,9 @@ def model_judge(rows: list[dict], batch_size: int = 8) -> list[dict]:
                 "reason": str(verdict.get("reason",""))[:500],
             }
             out.append(accepted)
+    del model
+    gc.collect()
+    if torch.cuda.is_available(): torch.cuda.empty_cache()
     return out
 
 
