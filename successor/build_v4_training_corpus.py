@@ -11,10 +11,10 @@ from successor import build_v4_custom_corpus as custom
 from successor import build_v4_hf_rehearsal as rehearsal
 
 CUSTOM_VALIDATION_PER_FAMILY = 50
-REHEARSAL_VALIDATION_ROWS = 2000
+REHEARSAL_VALIDATION_ROWS = 1900
 EXPECTED_TRAIN_ROWS = 50000
 EXPECTED_VALIDATION_ROWS = 2500
-SPLIT_SEED = "VERA_V4_SPLIT_20260922_V1"
+SPLIT_SEED = "VERA_V4_SPLIT_20260922_V2"
 
 
 def stable_key(record_id: str, purpose: str) -> str:
@@ -120,7 +120,7 @@ def build(train_path: Path, validation_path: Path, manifest_path: Path) -> dict:
 
     manifest = {
         "schema": "VERA_V4_TRAINING_CORPUS_MANIFEST_V1",
-        "corpus_id": "VERA_SUCCESSOR_V4_50K_20260922",
+        "corpus_id": "VERA_SUCCESSOR_V4_50K_20260922_ANTI_GLIB_OBDURACY_V1",
         "source_rows": len(all_rows),
         "train_rows": len(train),
         "validation_rows": len(validation),
