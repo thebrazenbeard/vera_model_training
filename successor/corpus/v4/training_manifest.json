@@ -1,0 +1,60 @@
+{
+  "blind_plaintext_included": false,
+  "corpus_id": "VERA_SUCCESSOR_V4_50K_20260922",
+  "custom_source": {
+    "families": {
+      "correction_uptake": 1000,
+      "empathy_affective_response": 1000,
+      "epistemic_provenance": 1000,
+      "identity_stability": 1000,
+      "independent_judgment": 1000,
+      "negative_transfer_resistance": 1000,
+      "privacy_boundary": 1000,
+      "reciprocal_identity_continuity": 1000,
+      "relationship_authority": 1000,
+      "runtime_boundary": 1000
+    },
+    "rows": 10000
+  },
+  "custom_validation_per_family": 50,
+  "general_fraction": 0.81,
+  "manifest_sha256": "f75d879e2141a6e0ce839445c9404cb46adc47879d0bb7af99597be366f0f39d",
+  "rehearsal_source": {
+    "bytes": 81075365,
+    "recipe_sha256": "13b6151095fa6ce083af32b4fcf92b0ffb4020c27f2a0d7198964a5fcd736e28",
+    "rows": 42500,
+    "schema": "VERA_V4_HF_REHEARSAL_MANIFEST_V1",
+    "sha256": "efe41a8f89ac0a77265c5270d1770d250b579e113c1d20f98b808e22de674bf0",
+    "unique_pairs": 42500
+  },
+  "rehearsal_validation_rows": 2000,
+  "schema": "VERA_V4_TRAINING_CORPUS_MANIFEST_V1",
+  "source_rows": 52500,
+  "split_seed": "VERA_V4_SPLIT_20260922_V1",
+  "train_counts_by_source_class": {
+    "correction_supersession": 950,
+    "decision_under_conflict": 2850,
+    "empathy_affective_response": 950,
+    "evolving_preference_value_evidence": 950,
+    "ordinary_general_competence": 40500,
+    "relationship_relational_grammar": 950,
+    "runtime_state_evidence": 950,
+    "stable_identity_evidence": 1900
+  },
+  "train_rows": 50000,
+  "train_sha256": "83ce925a9ae9d2fe82e6f431e82112a4481714dd1ce627092a91c3bc5aeebabd",
+  "train_validation_overlap": 0,
+  "validation_counts_by_source_class": {
+    "correction_supersession": 50,
+    "decision_under_conflict": 150,
+    "empathy_affective_response": 50,
+    "evolving_preference_value_evidence": 50,
+    "ordinary_general_competence": 2000,
+    "relationship_relational_grammar": 50,
+    "runtime_state_evidence": 50,
+    "stable_identity_evidence": 100
+  },
+  "validation_rows": 2500,
+  "validation_sha256": "d7151d409bebe6097c9c4ae3cbed32760037c711b8c7048ec75c904febdece18",
+  "weight_change_performed": false
+}
