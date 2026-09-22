@@ -1,0 +1,103 @@
+{
+  "schema": "VERA_V5_SOURCE_REGISTRY_V1",
+  "frozen_date": "2026-09-22",
+  "policy": {
+    "repositories_are_research_inputs_not_training_text": true,
+    "private_project_text_is_excluded_from_weight_training": true,
+    "benchmark_or_qualification_material_must_not_enter_training": true,
+    "dataset_revision_must_be_pinned": true,
+    "license_must_be_explicit_and_compatible": true,
+    "dynamic_holdouts_generated_after_weight_freeze": true
+  },
+  "research_method_inputs": [
+    "thebrazenbeard/god-brain",
+    "thebrazenbeard/hc-brain",
+    "thebrazenbeard/transcendence",
+    "thebrazenbeard/self",
+    "thebrazenbeard/spm",
+    "thebrazenbeard/rezon",
+    "thebrazenbeard/Attune",
+    "thebrazenbeard/driftguard",
+    "thebrazenbeard/discovery",
+    "thebrazenbeard/world-zero",
+    "thebrazenbeard/unvtrslr",
+    "thebrazenbeard/deepmemorystorage",
+    "thebrazenbeard/roots"
+  ],
+  "public_training_sources": [
+    {
+      "id": "smoltalk2_sft",
+      "repo": "HuggingFaceTB/smoltalk2",
+      "revision": "fc6cc2103c066455aade5d7fbb346039ae36ca5e",
+      "config": "SFT",
+      "role": "general_sft_and_domain_prompt_pool",
+      "license_note": "dataset card does not expose one universal top-level license in the audited metadata; use only constituent splits whose upstream license/provenance is accepted by the recipe and record split provenance",
+      "status": "CONDITIONAL_ACCEPT"
+    },
+    {
+      "id": "smoltalk2_preference",
+      "repo": "HuggingFaceTB/smoltalk2",
+      "revision": "fc6cc2103c066455aade5d7fbb346039ae36ca5e",
+      "config": "Preference",
+      "role": "general_preference_candidate",
+      "status": "CONDITIONAL_ACCEPT"
+    },
+    {
+      "id": "ultrafeedback_binarized",
+      "repo": "HuggingFaceH4/ultrafeedback_binarized",
+      "revision": "3949bf5f8c17c394422ccfab0c31ea9c20bdeb85",
+      "config": "default",
+      "role": "general_preference_pairs",
+      "license": "MIT",
+      "status": "ACCEPT"
+    },
+    {
+      "id": "anthropic_hh_rlhf",
+      "repo": "Anthropic/hh-rlhf",
+      "revision": "09be8c5bbc57cb3887f3a9732ad6aa7ec602a1fa",
+      "config": "default",
+      "role": "optional_diversity_preference_source",
+      "license": "MIT",
+      "status": "REVIEW_BEFORE_USE"
+    },
+    {
+      "id": "tulu3_sft",
+      "repo": "allenai/tulu-3-sft-mixture",
+      "revision": "b14afda60f1bbebe55d5d2fa1e4df5042f97f8be",
+      "config": "default",
+      "role": "optional_multidomain_sft_pool",
+      "license": "ODC-BY",
+      "status": "REVIEW_BEFORE_USE"
+    }
+  ],
+  "excluded_or_not_default": [
+    {
+      "repo": "lmsys/lmsys-chat-1m",
+      "revision": "200748d9d3cddcc9d782887541057aca0b18c5da",
+      "reason": "gated license agreement and conversation-data provenance; unnecessary for V5"
+    },
+    {
+      "repo": "HuggingFaceH4/no_robots",
+      "revision": "e6f9a4ac5c37faeb744ba9ecf0473184d7f8105b",
+      "reason": "CC-BY-NC-4.0; exclude from reusable default training recipe"
+    },
+    {
+      "repo": "Johin/function-calling-dataset",
+      "reason": "schema inconsistency observed during V4 inspection"
+    }
+  ],
+  "generation_models": [
+    {
+      "repo": "Qwen/Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "license": "Apache-2.0",
+      "role": "targeted_pair_candidate_generator"
+    },
+    {
+      "repo": "HuggingFaceTB/SmolLM3-3B",
+      "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+      "license": "Apache-2.0",
+      "role": "training_base"
+    }
+  ]
+}
