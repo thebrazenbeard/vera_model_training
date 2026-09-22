@@ -1,0 +1,25 @@
+{
+  "schema": "VERA_V4_HF_REHEARSAL_RECIPE_V1",
+  "dataset_repo": "HuggingFaceTB/smoltalk2",
+  "dataset_revision": "fc6cc2103c066455aade5d7fbb346039ae36ca5e",
+  "dataset_config": "SFT",
+  "datasets_version": "4.1.1",
+  "base_tokenizer_repo": "HuggingFaceTB/SmolLM3-3B",
+  "base_tokenizer_revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "seed": 20260922,
+  "shuffle_buffer": 20000,
+  "max_tokens": 1536,
+  "require_exact_user_assistant_pair": true,
+  "targets": {
+    "smoltalk_smollm3_explore_instruct_rewriting_no_think": 7000,
+    "smoltalk_smollm3_smol_rewrite_no_think": 6000,
+    "smoltalk_smollm3_smol_summarize_no_think": 6000,
+    "tulu_3_sft_personas_instruction_following_no_think": 7000,
+    "Mixture_of_Thoughts_science_no_think": 6000,
+    "OpenHermes_2.5_no_think": 4000,
+    "table_gpt_no_think": 4500
+  },
+  "expected_rows": 40500,
+  "output_source_class": "ordinary_general_competence",
+  "validation_disposition": "candidate_pool_only_until_v4_split_freeze"
+}

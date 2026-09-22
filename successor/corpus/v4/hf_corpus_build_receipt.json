@@ -1,0 +1,16 @@
+{
+  "schema": "VERA_V4_HF_CORPUS_BUILD_RECEIPT_V1",
+  "hf_job_id": "6ab2e5e752d0dbd7f1d803fc",
+  "hf_job_name": "bv-v4-final-corpus-build-v2",
+  "hf_status": "COMPLETED",
+  "hf_flavor": "cpu-basic",
+  "source_pool_rows": 52500,
+  "train_rows": 50000,
+  "validation_rows": 2500,
+  "train_sha256": "83ce925a9ae9d2fe82e6f431e82112a4481714dd1ce627092a91c3bc5aeebabd",
+  "validation_sha256": "d7151d409bebe6097c9c4ae3cbed32760037c711b8c7048ec75c904febdece18",
+  "corpus_manifest_sha256": "f75d879e2141a6e0ce839445c9404cb46adc47879d0bb7af99597be366f0f39d",
+  "custom_manifest_digest": "c8e1ea7852166fb7d3f13ade2acdddc4ba6a0a1a4bd60592639be4d017ecd54d",
+  "rehearsal_sha256": "efe41a8f89ac0a77265c5270d1770d250b579e113c1d20f98b808e22de674bf0",
+  "no_weight_change": true
+}
