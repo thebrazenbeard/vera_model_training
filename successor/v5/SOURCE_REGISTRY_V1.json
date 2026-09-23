@@ -7,7 +7,9 @@
     "benchmark_or_qualification_material_must_not_enter_training": true,
     "dataset_revision_must_be_pinned": true,
     "license_must_be_explicit_and_compatible": true,
-    "dynamic_holdouts_generated_after_weight_freeze": true
+    "dynamic_holdouts_generated_after_weight_freeze": true,
+    "published_training_artifact_requires_exact_file_binding": true,
+    "public_gold_training_artifact_is_training_not_qualification": true
   },
   "research_method_inputs": [
     "thebrazenbeard/god-brain",
@@ -68,6 +70,20 @@
       "role": "optional_multidomain_sft_pool",
       "license": "ODC-BY",
       "status": "REVIEW_BEFORE_USE"
+    },
+    {
+      "id": "unbound_sol_behavior_v3_gold",
+      "repo": "thebrazenbeard/unbound-sol",
+      "revision": "142086f5a041b6c2e944217e60a45d5db592d496",
+      "path": "behavior/training/PREFERENCE_PAIRS_V1.jsonl",
+      "git_blob_sha1": "146ec709bea3f2737b77da8375e915a243d50a26",
+      "role": "exact_public_gold_behavior_pairs",
+      "source_schema": "UNBOUND_SOL_BEHAVIOR_PREFERENCE_PAIR_V1",
+      "rows": 24,
+      "exposure_class": "PUBLIC_TRAINING_REGRESSION_ONLY",
+      "holdout_eligible": false,
+      "rights_basis": "OWNER_AUTHORIZED_SAME_OWNER_INTERNAL_TRAINING",
+      "status": "ACCEPT_EXACT_ARTIFACT_ONLY"
     }
   ],
   "excluded_or_not_default": [
