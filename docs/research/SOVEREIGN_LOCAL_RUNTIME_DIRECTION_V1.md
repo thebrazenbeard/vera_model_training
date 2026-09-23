@@ -37,6 +37,59 @@ KoboldCpp is the preferred first inference engine because the target local host 
 
 The architecture must not depend permanently on either product. Both are replaceable components.
 
+## Verified upstream anchors — 2026-09-23
+
+The current direction is grounded against these upstream subjects, verified directly from GitHub before this revision:
+
+### KoboldCpp
+
+- repository: `LostRuins/koboldcpp`;
+- default branch: `concedo`;
+- release: `v1.121` / `koboldcpp-1.121`;
+- published: 2026-09-15;
+- tag commit: `7e0eb2dc4a23f1a0fc42a7660ad43be7a4b9e759`;
+- Windows NVIDIA binary: `koboldcpp.exe`;
+- published SHA-256: `90b0d74ec01e5ef72efb6d45e6f10bee649458920ec951f48d58794c366b1639`.
+
+The v1.121 upstream README/release explicitly records:
+
+- GGML/GGUF support;
+- CPU, GPU, and partial GPU offload;
+- OpenAI, Ollama, and KoboldCpp-compatible API surfaces;
+- MCP server support and tool calling;
+- default local service address `http://localhost:5001`;
+- `--gpulayers` for selective GPU offload;
+- the new `--ffncpu` control, analogous to llama.cpp `--n-cpu-ffn`, providing another partial-offload mechanism;
+- fixes for tool calling with Kimi models and DeepSeek V4 Flash in v1.121.
+
+Those capabilities make v1.121 a strong first experimental runtime for a machine whose system RAM materially exceeds available VRAM.
+
+The Windows executable digest above is an upstream release digest, not a local installation attestation. If/when staged locally, independently hash the downloaded artifact and compare it before execution.
+
+### SillyTavern
+
+- repository: `SillyTavern/SillyTavern`;
+- default branch: `release`;
+- current release verified here: `1.19.0`;
+- published: 2026-09-14;
+- tag commit: `7e8663cd9c184a550b37238218bdd32c6efc68e9`;
+- license: AGPL-3.0;
+- declared Node runtime: `>=20`.
+
+Treat SillyTavern as a replaceable local human interface, not as the model host, authority root, or canonical Vera state.
+
+### Version policy
+
+These versions are **verified reference subjects**, not permanent pins.
+
+Before any future installation or qualification run:
+
+1. fresh-check current stable upstream releases;
+2. compare relevant changes against these verified subjects;
+3. record the exact selected tag/commit and downloadable artifact digest;
+4. do not silently upgrade a qualified runtime subject.
+
+
 ## Current operator-reported local-host assumptions
 
 These are planning inputs, not durable hardware attestation and must be refreshed before provisioning:
