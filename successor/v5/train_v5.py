@@ -95,15 +95,22 @@ def train(
     torch.manual_seed(SEED)
     general_sft=read_jsonl(general_sft_path)
     general_pref=read_jsonl(general_pref_path)
-    targeted=read_jsonl(targeted_path)
+    targeted_all=read_jsonl(targeted_path)
+    gold_all=[r for r in targeted_all if r.get("schema")=="VERA_V5_GOLD_TARGETED_PAIR_V1"]
+    generated_all=[r for r in targeted_all if r.get("schema")!="VERA_V5_GOLD_TARGETED_PAIR_V1"]
     if not smoke:
         if len(general_sft)!=70000: raise RuntimeError(f"general SFT count {len(general_sft)}")
         if len(general_pref)!=20000: raise RuntimeError(f"general pref count {len(general_pref)}")
-        if len(targeted)!=10400: raise RuntimeError(f"targeted count {len(targeted)}")
+        if len(generated_all)!=11000: raise RuntimeError(f"generated targeted count {len(generated_all)}")
+        if len(gold_all)!=24: raise RuntimeError(f"gold targeted count {len(gold_all)}")
+        if len(targeted_all)!=11024: raise RuntimeError(f"combined targeted count {len(targeted_all)}")
+        if any(r.get("qualification_eligible") is not False for r in gold_all):
+            raise RuntimeError("gold targeted rows must be qualification-ineligible")
+        targeted=targeted_all
     else:
         general_sft=general_sft[:32]
         general_pref=general_pref[:16]
-        targeted=targeted[:2]
+        targeted=generated_all[:2]+gold_all[:2]
 
     sft_rows=[sft_record(r) for r in general_sft]+[targeted_sft_record(r) for r in targeted]
     random.Random(SEED+1).shuffle(sft_rows)
@@ -216,7 +223,10 @@ def train(
         "base_revision":BASE_REV,
         "seed":SEED,
         "general_sft_rows":len(general_sft),
+        "generated_targeted_rows":sum(r.get("schema")!="VERA_V5_GOLD_TARGETED_PAIR_V1" for r in targeted),
+        "gold_targeted_rows":sum(r.get("schema")=="VERA_V5_GOLD_TARGETED_PAIR_V1" for r in targeted),
         "targeted_sft_rows":len(targeted),
+        "targeted_input_sha256":sha256_file(targeted_path),
         "sft_total_rows":len(sft_rows),
         "general_preference_rows":len(general_pref),
         "targeted_preference_rows":len(targeted),
