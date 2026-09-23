@@ -80,7 +80,7 @@ def run(work_dir:Path, *, smoke:bool=False)->dict:
     gold_path=work_dir/"behavior_v3_gold_targeted.jsonl"
     gold_manifest_path=work_dir/"behavior_v3_gold_manifest.json"
     gold_manifest=sol_gold.convert(
-        sol_gold.ROOT/"v5"/"gold"/"unbound_sol_behavior_v3_v1.source.jsonl",
+        sol_gold.DEFAULT_SOURCE,
         gold_path,
         gold_manifest_path,
     )
