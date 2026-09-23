@@ -10,6 +10,7 @@ from successor.v5.generate_targeted_pairs import DIMENSIONS
 
 ROOT = Path(__file__).resolve().parents[2]
 BRIDGE_PATH = Path(__file__).with_name("UNBOUND_SOL_BEHAVIOR_V3_BRIDGE_V1.json")
+DEFAULT_SOURCE = Path(__file__).with_name("gold") / "unbound_sol_behavior_v3_v1.source.jsonl"
 
 
 def sha256_bytes(data: bytes) -> str:
