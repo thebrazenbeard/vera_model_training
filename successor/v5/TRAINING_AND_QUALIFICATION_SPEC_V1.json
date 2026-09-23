@@ -24,8 +24,8 @@
   },
   "sft": {
     "general_rows": 70000,
-    "targeted_rows": 10400,
-    "total_rows": 80400,
+    "targeted_rows": 11024,
+    "total_rows": 81024,
     "public_sources": [
       {
         "repo": "HuggingFaceH4/ultrafeedback_binarized",
@@ -50,7 +50,18 @@
     ],
     "max_rendered_tokens": 1536,
     "assistant_only_loss": true,
-    "seed": 20260922
+    "seed": 20260922,
+    "generated_targeted_rows": 11000,
+    "gold_targeted_rows": 24,
+    "gold_source": {
+      "repo": "thebrazenbeard/unbound-sol",
+      "revision": "142086f5a041b6c2e944217e60a45d5db592d496",
+      "path": "behavior/training/PREFERENCE_PAIRS_V1.jsonl",
+      "git_blob_sha1": "146ec709bea3f2737b77da8375e915a243d50a26",
+      "rows": 24,
+      "exposure_class": "PUBLIC_TRAINING_REGRESSION_ONLY",
+      "holdout_eligible": false
+    }
   },
   "targeted_pair_quotas": {
     "T01_epistemic_calibration": 800,
@@ -68,13 +79,14 @@
     "T13_relational_attunement_without_manipulation": 550,
     "T14_privacy_and_data_minimization": 400,
     "T15_negative_transfer_and_context_reset": 500,
-    "T16_continuity_and_identity_honesty": 450
+    "T16_continuity_and_identity_honesty": 450,
+    "T17_system_composition_integrity": 600
   },
   "preference": {
     "objective": "ORPO",
     "general_pairs": 20000,
-    "targeted_pairs": 10400,
-    "total_pairs": 30400,
+    "targeted_pairs": 11024,
+    "total_pairs": 31024,
     "general_source": {
       "repo": "HuggingFaceH4/ultrafeedback_binarized",
       "revision": "3949bf5f8c17c394422ccfab0c31ea9c20bdeb85",
@@ -86,7 +98,10 @@
     "length_ratio_max": 2,
     "targeted_bad_response_rule": "plausible_subtle_failure_not_cartoonishly_wrong",
     "targeted_length_ratio_min": 0.6,
-    "targeted_length_ratio_max": 1.7
+    "targeted_length_ratio_max": 1.7,
+    "generated_targeted_pairs": 11000,
+    "gold_targeted_pairs": 24,
+    "gold_pairs_are_additive": true
   },
   "targeted_generation": {
     "seed_domains": [
@@ -121,7 +136,11 @@
       "no_empty_or_identical_responses",
       "near_duplicate_cluster_limit",
       "maximum_rendered_token_limit"
-    ]
+    ],
+    "gold_rows_pass_through_generator": false,
+    "gold_rows_pass_through_model_curator": false,
+    "gold_rows_receive_deterministic_structural_and_duplicate_checks": true,
+    "gold_rows_reduce_generated_quota": false
   },
   "optimization": {
     "lora_rank": 4,
@@ -149,7 +168,7 @@
       "open_generation_per_dimension": 50,
       "multi_turn_total": 200
     },
-    "expected_total": 2600,
+    "expected_total": 2770,
     "unseen_domains": true,
     "unseen_names": true,
     "surface_variation": true,
@@ -173,7 +192,10 @@
       "INDETERMINATE",
       "QUALIFIED_WITHIN_TESTED_SCOPE"
     ],
-    "final_judge_must_differ_from_curation_judge": true
+    "final_judge_must_differ_from_curation_judge": true,
+    "gold_training_rows_forbidden": true,
+    "gold_source_content_digest_exclusion_required": true,
+    "dimensions": 17
   },
   "artifact_custody": {
     "preferred": "HF_PRIVATE_REPO_OR_BUCKET",
