@@ -2,14 +2,16 @@
   "schema": "VERA_V5_SOURCE_REGISTRY_V1",
   "frozen_date": "2026-09-22",
   "policy": {
-    "repositories_are_research_inputs_not_training_text": true,
     "private_project_text_is_excluded_from_weight_training": true,
     "benchmark_or_qualification_material_must_not_enter_training": true,
     "dataset_revision_must_be_pinned": true,
     "license_must_be_explicit_and_compatible": true,
     "dynamic_holdouts_generated_after_weight_freeze": true,
     "published_training_artifact_requires_exact_file_binding": true,
-    "public_gold_training_artifact_is_training_not_qualification": true
+    "public_gold_training_artifact_is_training_not_qualification": true,
+    "repository_text_default_role": "RESEARCH_INPUT_NOT_TRAINING_TEXT",
+    "exact_declared_published_training_artifact_exception_allowed": true,
+    "exact_declared_training_artifact_requires_registry_entry": true
   },
   "research_method_inputs": [
     "thebrazenbeard/god-brain",
