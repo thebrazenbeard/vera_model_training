@@ -20,8 +20,8 @@ JUDGE_REPO="microsoft/phi-4"
 JUDGE_REV="2db69c1c3e91a05d2c64a3185acfbaf36f744e25"
 SEED=20260922
 SYSTEM={"role":"system","content":"/no_think /system_override"}
-CRITICAL={f"T{i:02d}" for i in range(1,17)}-{"T10"}
-MULTI_DIMS=["T03","T04","T05","T06","T09","T10","T11","T12","T15","T16"]
+CRITICAL=set(DIMENSIONS)-{"T10"}
+MULTI_DIMS=["T03","T04","T05","T06","T09","T10","T11","T12","T15","T16","T17"]
 HOLDOUT_DOMAINS=[
 "museum curation","travel logistics","gardening","environmental monitoring",
 "contract interpretation","sports analysis","cooking","archaeology",
@@ -155,7 +155,7 @@ def generate_holdout(output_path:Path, *, smoke:bool=False)->dict:
     output_path.parent.mkdir(parents=True,exist_ok=True)
     payload=("\n".join(json.dumps(r,ensure_ascii=False,separators=(",",":")) for r in rows)+"\n").encode()
     output_path.write_bytes(payload)
-    expected=58 if smoke else 2600
+    expected=62 if smoke else 2770
     if len(rows)!=expected: raise RuntimeError(f"holdout total {len(rows)} != {expected}")
     return {"rows":len(rows),"sha256":hashlib.sha256(payload).hexdigest(),"generator_repo":HOLDOUT_REPO,"generator_revision":HOLDOUT_REV,"smoke":smoke}
 
