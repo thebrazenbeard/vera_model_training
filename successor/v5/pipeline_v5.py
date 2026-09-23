@@ -14,6 +14,7 @@ from successor.v5 import generate_targeted_pairs as generator
 from successor.v5 import curate_targeted_pairs as curator
 from successor.v5 import train_v5 as trainer
 from successor.v5 import qualify_v5 as qualifier
+from successor.v5 import import_unbound_sol_behavior_v3 as sol_gold
 
 CHUNK_CHARS=15000
 
@@ -76,11 +77,28 @@ def run(work_dir:Path, *, smoke:bool=False)->dict:
     gc.collect()
     if torch.cuda.is_available():torch.cuda.empty_cache()
 
+    gold_path=work_dir/"behavior_v3_gold_targeted.jsonl"
+    gold_manifest_path=work_dir/"behavior_v3_gold_manifest.json"
+    gold_manifest=sol_gold.convert(
+        sol_gold.ROOT/"v5"/"gold"/"unbound_sol_behavior_v3_v1.source.jsonl",
+        gold_path,
+        gold_manifest_path,
+    )
+    emit_json("behavior_v3_gold",gold_manifest)
+
+    combined_targeted_path=work_dir/"targeted_training_combined.jsonl"
+    combined_targeted_manifest=sol_gold.merge_generated_with_gold(
+        targeted_path,
+        gold_path,
+        combined_targeted_path,
+    )
+    emit_json("targeted_training_combined",combined_targeted_manifest)
+
     train_dir=work_dir/"training"
     training_receipt=trainer.train(
         public_dir/"general_sft.jsonl",
         public_dir/"general_preferences.jsonl",
-        targeted_path,
+        combined_targeted_path,
         train_dir,
         smoke=smoke,
     )
@@ -97,14 +115,18 @@ def run(work_dir:Path, *, smoke:bool=False)->dict:
     artifacts_dir=work_dir/"artifacts"
     artifacts_dir.mkdir(parents=True,exist_ok=True)
     targeted_gz=artifacts_dir/"targeted_curated.jsonl.gz"
+    combined_targeted_gz=artifacts_dir/"targeted_training_combined.jsonl.gz"
     holdout_gz=artifacts_dir/"dynamic_holdout.jsonl.gz"
     gzip_copy(targeted_path,targeted_gz)
+    gzip_copy(combined_targeted_path,combined_targeted_gz)
     gzip_copy(qual_dir/"dynamic_holdout.jsonl",holdout_gz)
 
     artifact_meta={}
     artifact_meta["adapter_model"]=emit_file(train_dir/"adapter"/"adapter_model.safetensors","adapter_model.safetensors")
     artifact_meta["adapter_config"]=emit_file(train_dir/"adapter"/"adapter_config.json","adapter_config.json")
     artifact_meta["targeted_corpus"]=emit_file(targeted_gz,"targeted_curated.jsonl.gz")
+    artifact_meta["targeted_training_combined"]=emit_file(combined_targeted_gz,"targeted_training_combined.jsonl.gz")
+    artifact_meta["behavior_v3_gold_manifest"]=emit_file(gold_manifest_path,"behavior_v3_gold_manifest.json")
     artifact_meta["dynamic_holdout"]=emit_file(holdout_gz,"dynamic_holdout.jsonl.gz")
     artifact_meta["training_receipt"]=emit_file(train_dir/"training_receipt.json","training_receipt.json")
     artifact_meta["qualification_receipt"]=emit_file(qual_dir/"qualification_receipt.json","qualification_receipt.json")
@@ -114,6 +136,8 @@ def run(work_dir:Path, *, smoke:bool=False)->dict:
         "smoke":smoke,
         "public_manifest_sha256":public_manifest["manifest_sha256"],
         "targeted_curated_sha256":curated_manifest["sha256"],
+        "behavior_v3_gold_sha256":gold_manifest["sha256"],
+        "targeted_training_combined_sha256":combined_targeted_manifest["sha256"],
         "adapter_sha256":training_receipt["adapter_sha256"],
         "qualification_status":qualification_receipt["status"],
         "artifacts":artifact_meta,
