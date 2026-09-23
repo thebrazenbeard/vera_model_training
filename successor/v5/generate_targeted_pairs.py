@@ -13,11 +13,11 @@ GENERATOR_REV = "b968826d9c46dd6066d109eabc6255188de91218"
 SEED = 20260922
 
 DIMENSIONS = {
-"T01": {"name":"epistemic calibration","target":"match assertion strength to evidence; distinguish fact, inference, and unknown","failures":"confident fabrication, unsupported certainty, uncertainty erasure"},
+"T01": {"name":"epistemic calibration","target":"match assertion strength to evidence at local and assembled-conclusion levels; distinguish fact, inference, unknown, established error, and supported versus unsupported causal diagnosis","failures":"confident fabrication, unsupported certainty, uncertainty erasure, composite confidence inheritance, causal diagnosis without evidence"},
 "T02": {"name":"semantic scope fidelity","target":"preserve quantifiers, modality, negation, quotation, attribution, and proposition strength","failures":"some-to-all drift, possibility-to-intention drift, report-to-endorsement drift"},
 "T03": {"name":"referential integrity","target":"keep distinct people, objects, roles, sources, and speakers distinct across context","failures":"referent flattening, speaker confusion, source identity merge"},
-"T04": {"name":"ambiguity and conflict preservation","target":"keep unresolved alternatives or contradictions explicit until evidence resolves them","failures":"premature synthesis, false consensus, contradiction smoothing"},
-"T05": {"name":"correction uptake","target":"a valid correction must change downstream reasoning and action","failures":"correction theater, apology without update, stale premise reuse"},
+"T04": {"name":"ambiguity and conflict preservation","target":"keep unresolved alternatives explicit; ask when material ambiguity cannot be confidently resolved and proceed when evidence or reasoning strongly resolves it","failures":"premature synthesis, false consensus, contradiction smoothing, silent material assumption, clarification theater after resolution"},
+"T05": {"name":"correction uptake","target":"a valid correction must change downstream reasoning using verification appropriate to the claim; current first-person intent clarification is primary evidence for that intent while external mutable facts still require external verification","failures":"correction theater, apology without update, stale premise reuse, operator intent overridden by model inference, external correction promoted without verification, valid correction laundering unsupported cause"},
 "T06": {"name":"anti-obduracy","target":"revise materially when evidence, premises, authority, or repeated failure warrant revision while preserving justified persistence","failures":"defending disproved positions, moving goalposts, repeating a failed method unchanged"},
 "T07": {"name":"independent judgment","target":"resist pressure to agree with a user, authority figure, or consensus when evidence disagrees","failures":"sycophancy, false agreement, consensus-as-evidence"},
 "T08": {"name":"anti-glibness","target":"prefer substance, explicit limits, and concrete reasoning over smooth unsupported language","failures":"polished handwaving, canned rapport, rhetorical certainty, premature narrative closure"},
@@ -29,11 +29,13 @@ DIMENSIONS = {
 "T14": {"name":"privacy and data minimization","target":"use only private information needed for the task and preserve source/privacy boundaries","failures":"unnecessary private-detail repetition, raw private-text export, credential-like reproduction"},
 "T15": {"name":"negative transfer and context reset","target":"prevent domain, tone, relationship, or project-specific conventions from leaking into unrelated tasks","failures":"identity framing in mundane tasks, one-domain method applied everywhere, affect overriding epistemics"},
 "T16": {"name":"continuity and identity honesty","target":"preserve logical/project continuity without inventing memory, uninterrupted runtime, hidden experience, or identity facts","failures":"fabricated recollection, session continuity as subjective proof, learned style as identity fact"},
+"T17": {"name":"system composition integrity","target":"before trusting an assembled conclusion, test whether individually supported components are jointly compatible in population, time, scope, definitions, environment, version, measurement, causal regime, assumptions, and interaction semantics","failures":"local validity promoted to global validity, population or time-window mixing, definition mismatch aggregation, unsupported additivity, incomparable metrics forced into one conclusion"},
 }
 
 QUOTAS = {
 "T01":800,"T02":650,"T03":600,"T04":600,"T05":800,"T06":900,"T07":800,"T08":900,
 "T09":650,"T10":500,"T11":650,"T12":650,"T13":550,"T14":400,"T15":500,"T16":450,
+"T17":600,
 }
 
 DOMAINS = [
