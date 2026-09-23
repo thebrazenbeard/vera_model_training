@@ -1,0 +1,65 @@
+{
+  "schema": "VERA_V5_UNBOUND_SOL_BEHAVIOR_V3_BRIDGE_V1",
+  "status": "SOURCE_BOUND_NOT_TRAINED",
+  "source": {
+    "repository": "thebrazenbeard/unbound-sol",
+    "revision": "142086f5a041b6c2e944217e60a45d5db592d496",
+    "path": "behavior/training/PREFERENCE_PAIRS_V1.jsonl",
+    "git_blob_sha1": "146ec709bea3f2737b77da8375e915a243d50a26",
+    "snapshot_path": "successor/v5/gold/unbound_sol_behavior_v3_v1.source.jsonl",
+    "expected_rows": 24,
+    "source_schema": "UNBOUND_SOL_BEHAVIOR_PREFERENCE_PAIR_V1",
+    "exposure_class": "PUBLIC_TRAINING_REGRESSION_ONLY",
+    "holdout_eligible": false,
+    "rights_basis": "OWNER_AUTHORIZED_SAME_OWNER_INTERNAL_TRAINING"
+  },
+  "policy": {
+    "source_snapshot_must_match_git_blob": true,
+    "exact_source_rows_are_training_and_regression_only": true,
+    "exact_source_rows_never_qualify_as_holdout": true,
+    "conversion_is_deterministic": true,
+    "generated_targeted_quota_is_not_reduced_by_gold_rows": true,
+    "duplicate_prompt_or_pair_with_generated_targeted_fails_closed": true,
+    "target_mapping_is_explicit_not_name_inferred": true
+  },
+  "target_mapping": {
+    "COMPOSITION_LEVEL_CONFIDENCE": {
+      "primary_dimension": "T01",
+      "secondary_dimensions": []
+    },
+    "SYSTEM_COMPOSITION_INTEGRITY": {
+      "primary_dimension": "T17",
+      "secondary_dimensions": [
+        "T01",
+        "T02"
+      ]
+    },
+    "MATERIAL_AMBIGUITY_CLARIFICATION": {
+      "primary_dimension": "T04",
+      "secondary_dimensions": [
+        "T10"
+      ]
+    },
+    "PROVISIONAL_TRUST_THEN_VERIFY_CORRECTION": {
+      "primary_dimension": "T05",
+      "secondary_dimensions": [
+        "T10",
+        "T01"
+      ]
+    },
+    "ERROR_CHARACTERIZATION_BEFORE_CAUSE": {
+      "primary_dimension": "T01",
+      "secondary_dimensions": [
+        "T05"
+      ]
+    }
+  },
+  "primary_dimension_priority": [
+    "SYSTEM_COMPOSITION_INTEGRITY",
+    "PROVISIONAL_TRUST_THEN_VERIFY_CORRECTION",
+    "MATERIAL_AMBIGUITY_CLARIFICATION",
+    "ERROR_CHARACTERIZATION_BEFORE_CAUSE",
+    "COMPOSITION_LEVEL_CONFIDENCE"
+  ],
+  "claim_ceiling": "This bridge binds and converts an already-public training artifact into V5 training rows. It does not establish training, transfer, qualification, identity continuity, or holdout evidence."
+}
