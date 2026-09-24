@@ -97,20 +97,22 @@ def select_ultra_sft(tok,n=256):
 
 def select_smoltalk(tok):
     from datasets import load_dataset
-    ds=load_dataset(SMOL_REPO,"SFT",split="train",revision=SMOL_REV,streaming=True).shuffle(seed=SEED+2,buffer_size=20000)
-    got=defaultdict(int); out=[]; near=Near()
-    for r in ds:
-        src=str(r.get("source",""))
-        if src not in SMOL_SOURCES or got[src]>=SMOL_SOURCES[src]: continue
-        x=pair_from_messages(r.get("messages"))
-        if not x: continue
-        p,a=x
-        if not valid_len(tok,p,a) or not near.accept(p): continue
-        out.append({"prompt":p,"response":a,"source":"smoltalk2:"+src})
-        got[src]+=1
-        if all(got[s]>=q for s,q in SMOL_SOURCES.items()): break
-    for s,q in SMOL_SOURCES.items():
-        if got[s]!=q: raise RuntimeError(f"SmolTalk {s}: {got[s]}/{q}")
+    out=[]; near=Near()
+    for split,quota in SMOL_SOURCES.items():
+        ds=load_dataset(SMOL_REPO,"SFT",split=split,revision=SMOL_REV,streaming=True).shuffle(
+            seed=SEED+2+sum(ord(c) for c in split),buffer_size=5000
+        )
+        got=0
+        for r in ds:
+            x=pair_from_messages(r.get("messages"))
+            if not x: continue
+            p,a=x
+            if not valid_len(tok,p,a) or not near.accept(p): continue
+            out.append({"prompt":p,"response":a,"source":"smoltalk2:"+split})
+            got+=1
+            if got>=quota: break
+        if got!=quota:
+            raise RuntimeError(f"SmolTalk {split}: {got}/{quota}")
     return out
 
 def select_general_prefs(tok,n=256):
