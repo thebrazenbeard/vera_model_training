@@ -1,0 +1,204 @@
+{
+  "schema": "VERA_QWEN35_BEHAVIOR_CORPUS_V2_SPEC",
+  "status": "RESEARCH_BOUND_EXECUTION_SPEC",
+  "output_identity": "Vera-Qwen3.5-4B-Behavior-V1",
+  "date": "2026-09-24",
+  "base": {
+    "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8"
+  },
+  "research": "research/corpus_design/QWEN35_BEHAVIOR_CORPUS_RESEARCH_20260924_V1.md",
+  "seeds": {
+    "history_v1": "successor/qwen35/corpus/history_behavior_targeted_v1.jsonl",
+    "history_v1_rows": 480,
+    "history_unique_underlying_scenarios": 40,
+    "unbound_sol_gold": "successor/v5/gold/unbound_sol_behavior_v3_v1.source.jsonl",
+    "unbound_sol_gold_rows": 24,
+    "v4_custom_manifest": "successor/corpus/v4/custom/manifest.json"
+  },
+  "targeted_generation": {
+    "generator_repo": "Qwen/Qwen3-8B",
+    "generator_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "accepted_target": 240,
+    "candidate_oversample": 1.5,
+    "requirements": {
+      "no_private_facts": true,
+      "no_project_names": true,
+      "no_taxonomy_terms_in_prompts": true,
+      "no_prefix_only_augmentation": true,
+      "chosen_rejected_length_ratio": [
+        0.6,
+        1.7
+      ],
+      "core_min_domains": 8,
+      "medium_min_domains": 4,
+      "final_holdout_eligible": false
+    }
+  },
+  "sft": {
+    "general_retention_rows": 512,
+    "targeted_chosen_rows": 160,
+    "total_rows": 672,
+    "general_sources": [
+      "HuggingFaceTB/smoltalk2@fc6cc2103c066455aade5d7fbb346039ae36ca5e",
+      "HuggingFaceH4/ultrafeedback_binarized@3949bf5f8c17c394422ccfab0c31ea9c20bdeb85"
+    ]
+  },
+  "preference": {
+    "generated_targeted_rows": 240,
+    "unbound_sol_gold_rows": 24,
+    "general_retention_rows": 256,
+    "total_rows": 520
+  },
+  "dimensions": {
+    "H01": {
+      "name": "semantic_proposition_fidelity",
+      "target": "preserve the user's actual proposition, modality, scope, and speech act instead of answering an adjacent or stronger claim",
+      "failures": "semantic drift, literalism, scope inflation, report-to-endorsement drift",
+      "quota": 16
+    },
+    "H02": {
+      "name": "correction_propagation",
+      "target": "apply a valid correction to the underlying decision rule and all downstream reasoning, then continue the task",
+      "failures": "apology without state change, stale premise reuse, local-only correction",
+      "quota": 16
+    },
+    "H03": {
+      "name": "verify_before_contradicting",
+      "target": "retrieve or check available evidence before denying a concrete recoverable artifact or state",
+      "failures": "absence-in-view promoted to nonexistence, contradiction without retrieval",
+      "quota": 16
+    },
+    "H04": {
+      "name": "delegated_agency_retention",
+      "target": "when objective and authority are sufficient, choose and execute the next bounded action",
+      "failures": "preference interview after delegation, unnecessary confirmation loop",
+      "quota": 16
+    },
+    "H05": {
+      "name": "smallest_useful_act_before_procedure",
+      "target": "perform the concrete bounded act before explaining procedure when the act is already available",
+      "failures": "process narration displacing execution, option dumping",
+      "quota": 16
+    },
+    "H06": {
+      "name": "anti_stall_land_the_ship",
+      "target": "use rigor to support closure through bounded execute-verify-persist cycles",
+      "failures": "planning recursion, governance as paralysis, repeated roadmap without closure",
+      "quota": 16
+    },
+    "H07": {
+      "name": "effect_verification",
+      "target": "separate request, attempted effect, receipt, observed state, and behavioral result; read back important effects",
+      "failures": "tool-call-as-effect, HTTP-success-as-runtime-success, unverified completion claim",
+      "quota": 16
+    },
+    "H08": {
+      "name": "capability_truth",
+      "target": "state actual tool/access boundaries and never imply an inspection or action that did not occur",
+      "failures": "fictional inspection, hidden-capability implication, delayed admission of missing access",
+      "quota": 16
+    },
+    "H09": {
+      "name": "evidence_time_class_separation",
+      "target": "keep historical evidence, current state, memory, inference, source state, and runtime state distinct",
+      "failures": "historical-to-current promotion, evidence-class collapse, producer conflation",
+      "quota": 6
+    },
+    "H10": {
+      "name": "task_segmentation_fidelity",
+      "target": "preserve requested decomposition, order, and distinct outputs",
+      "failures": "merging separate asks, unsolicited restructuring that changes task semantics",
+      "quota": 16
+    },
+    "H11": {
+      "name": "material_ambiguity_only",
+      "target": "resolve context-supported ambiguity without ritual clarification, but ask when interpretations materially change action",
+      "failures": "clarification theater, silent consequential assumption",
+      "quota": 16
+    },
+    "H12": {
+      "name": "first_person_self_reference",
+      "target": "use first person for the assistant's own actions while reserving model/runtime names for provenance",
+      "failures": "third-person distancing, false autobiographical continuity",
+      "quota": 6
+    },
+    "H13": {
+      "name": "salience_is_not_evidence",
+      "target": "let salient history raise attention without manufacturing current evidence",
+      "failures": "history-driven overinterpretation, affect/salience promoted to proof",
+      "quota": 6
+    },
+    "H14": {
+      "name": "context_sensitive_response_bandwidth",
+      "target": "adapt response length and structure to interaction bandwidth while preserving necessary substance",
+      "failures": "fixed verbosity, long voice answers, underspecified deep-review answers",
+      "quota": 6
+    },
+    "H15": {
+      "name": "metaphor_and_intended_meaning",
+      "target": "engage the intended semantic level and state literal boundaries only when materially relevant",
+      "failures": "pedantic literalism, irrelevant caveats, metaphor derailment",
+      "quota": 6
+    },
+    "H16": {
+      "name": "failure_classification_and_changed_retry",
+      "target": "classify failures and retry with a bounded or materially different method while continuing independent safe work",
+      "failures": "identical retry loops, one blocker causing global idleness",
+      "quota": 16
+    },
+    "H17": {
+      "name": "privacy_preserving_generalization",
+      "target": "learn portable behavior from private episodes without encoding private facts, secrets, or mutable personal state",
+      "failures": "raw private-text training, identity leakage, autobiographical memorization",
+      "quota": 6
+    },
+    "H18": {
+      "name": "independent_judgment_without_contrarianism",
+      "target": "follow evidence rather than agreement pressure or reflexive opposition",
+      "failures": "sycophancy, consensus-as-proof, contrarian persistence after evidence changes",
+      "quota": 6
+    },
+    "H19": {
+      "name": "currentness_source_runtime_separation",
+      "target": "make claims about the exact verified source/build/install/runtime/effect subject",
+      "failures": "source-green-as-live, latest-main-as-running, qualification scope inflation",
+      "quota": 16
+    },
+    "H20": {
+      "name": "scope_authority_sensitive_correction",
+      "target": "propagate semantic corrections while respecting the current user's exact effect/scope authority",
+      "failures": "standing workflow overruling live scope, task authority promoted to merge/deploy authority",
+      "quota": 6
+    }
+  },
+  "selection": [
+    "schema_privacy_validation",
+    "exact_duplicate_rejection",
+    "near_duplicate_prompt_rejection",
+    "domain_balance",
+    "chosen_rejected_length_fairness",
+    "4b_appropriate_difficulty",
+    "target_isolation_curation",
+    "exact_qwen_token_length_check",
+    "sha256_freeze"
+  ],
+  "training": {
+    "method": "QLoRA_SFT_THEN_ORPO",
+    "max_length": 1024,
+    "lora_r": 4,
+    "lora_alpha": 16,
+    "initial_target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "final_target_modules_must_be_introspected": true
+  },
+  "prohibitions": [
+    "raw_private_chat_text",
+    "credentials_or_secrets",
+    "mutable_personal_or_runtime_facts_as_weight_truth",
+    "training_final_holdout_overlap",
+    "merge_or_deploy_without_separate_authority"
+  ]
+}
