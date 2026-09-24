@@ -42,3 +42,14 @@ def test_trainer_is_text_only_all_linear_and_frozen():
 def test_python_sources_parse():
     for name in ("generate_behavior_corpus_v2.py","curate_behavior_corpus_v2.py","build_behavior_corpus_v2.py","train_behavior_v2.py"):
         ast.parse((Q/name).read_text(),filename=name)
+
+
+def test_builder_uses_named_smoltalk_splits_and_compact_export():
+    b=(Q/"build_behavior_corpus_v2.py").read_text()
+    assert 'load_dataset(SMOL_REPO,"SFT",split=split' in b
+    assert 'split="train"' not in b[b.index("def select_smoltalk"):b.index("def select_general_prefs")]
+    t=(Q/"train_behavior_v2.py").read_text()
+    assert 'target_modules="all-linear"' in t
+    assert 'param.data = param.data.to(torch.bfloat16)' in t
+    assert 'tok.save_pretrained(adapter)' not in t
+    assert 'chunk=65536' in t
