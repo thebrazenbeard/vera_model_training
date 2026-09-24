@@ -208,3 +208,29 @@ Until full training and qualification complete:
 
 `QWEN3.5_4B_HF_TRAINING_PLAN_FROZEN / TRAINING_NOT_YET_PROVEN / Q5_K_S_DEPLOYMENT_TARGET_SELECTED / NO_PROMOTION / NO_ACTIVATION`
 
+
+
+## 2026-09-24 cost-gate resolution
+
+The source-adaptation prerequisites that were pending in the original plan are now complete:
+
+- exact base revision frozen: `cec7eb63d667bf2e7928e54598cb5f46aa3bdaaa`;
+- Qwen substrate manifest present;
+- text-only AutoModelForCausalLM adapter present;
+- hybrid full-attention / linear-attention / MLP LoRA target contract present;
+- source tests bind the immutable revision and vision-exclusion contract.
+
+Official current Transformers behavior supports the planned composite-to-text-only mapping: Qwen3.5 composite config/checkpoints may be loaded through `AutoModelForCausalLM` as `Qwen3_5ForCausalLM` with `Qwen3_5TextConfig`. The runtime smoke remains required to prove that exact frozen checkpoint + package set in the actual training environment.
+
+The zero-cost question is also resolved for Hugging Face Jobs: Jobs is pay-as-you-go and bills hardware while Starting/Running. The current authenticated account is non-Pro and no running Jobs exist. No genuinely zero-cost Jobs GPU path was established.
+
+Accordingly:
+
+- do not launch a Jobs smoke under the inherited `ZERO_COST` rule;
+- no paid job has been started;
+- source/corpus/provenance work may continue;
+- the one-step GPU smoke is blocked until either explicit paid-compute authority is given or a genuinely free Hugging Face GPU execution surface with suitable custody is established.
+
+Current ceiling:
+
+`SOURCE_ADAPTED / BASE_FROZEN / COST_GATE_BLOCKED / NO_RUNTIME_TRAINING_PASS`.
