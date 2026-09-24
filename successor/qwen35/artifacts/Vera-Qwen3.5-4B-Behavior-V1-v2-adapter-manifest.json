@@ -1,0 +1,11 @@
+{
+  "schema": "VERA_QWEN35_ADAPTER_SPLIT_MANIFEST_V1",
+  "output_identity": "Vera-Qwen3.5-4B-Behavior-V1",
+  "archive_bytes": 12854260,
+  "archive_sha256": "5dddfdbfccbe63ad12a84e329c324e50e5162fdde3a0d332b554a207ddc8c2a4",
+  "part_count": 17,
+  "part_prefix": "successor/qwen35/artifacts/Vera-Qwen3.5-4B-Behavior-V1-v2-adapter",
+  "part_format": ".part%03d",
+  "source_hf_job_id": "6ab59c3852d0dbd7f1d8cd4c",
+  "trainer_commit": "7047d24b5f71bb73a429b4d860b2b54782881d38"
+}

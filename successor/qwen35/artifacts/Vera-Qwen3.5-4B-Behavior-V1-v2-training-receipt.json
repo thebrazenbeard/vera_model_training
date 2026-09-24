@@ -1,0 +1,45 @@
+{
+  "adapter_archive_bytes": 12854260,
+  "adapter_archive_sha256": "5dddfdbfccbe63ad12a84e329c324e50e5162fdde3a0d332b554a207ddc8c2a4",
+  "base_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+  "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+  "lora": {
+    "alpha": 16,
+    "families": {
+      "linear_attn": 120,
+      "mlp": 96,
+      "self_attn": 32
+    },
+    "r": 4,
+    "saved_dtype": "bfloat16",
+    "target_modules": "all-linear",
+    "targeted_module_count": 248
+  },
+  "max_length": 1024,
+  "orpo_loss": 1.5670089969387302,
+  "output_identity": "Vera-Qwen3.5-4B-Behavior-V1",
+  "preference_rows": 616,
+  "preference_sha256": "aca9bedb00eabefde53f012eeea42f604420c03e42036aa9128f2dd3cb7dc3ef",
+  "schema": "VERA_QWEN35_BEHAVIOR_TRAINING_RECEIPT_V1",
+  "seed": 20260924,
+  "sft_loss": 1.388859194257985,
+  "sft_rows": 736,
+  "sft_sha256": "0f0db383c170260f484a39172e03b39247c5416d272155eb5fd4a9d85e3f63a6",
+  "smoke": false,
+  "trained_preference_rows": 616,
+  "trained_sft_rows": 736,
+  "versions": {
+    "peft": "0.21.0",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.17.0",
+    "trl": "1.13.0"
+  },
+  "hf_job_id": "6ab59c3852d0dbd7f1d8cd4c",
+  "trainer_commit": "7047d24b5f71bb73a429b4d860b2b54782881d38",
+  "artifact_storage": {
+    "format": "split_raw_tar_gz",
+    "part_count": 17,
+    "grouped_log_chunks": 16,
+    "path_prefix": "successor/qwen35/artifacts/Vera-Qwen3.5-4B-Behavior-V1-v2-adapter"
+  }
+}
