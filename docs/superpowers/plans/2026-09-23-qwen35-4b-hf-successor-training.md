@@ -22,6 +22,20 @@ This plan is stacked on:
 
 The integrated parent already contains the Unbound-Sol behavior bridge and is the required parent for this run.
 
+## Source adaptation status
+
+Implemented on the continuation branch before any weight-changing run:
+
+- exact Hugging Face base revision frozen to `cec7eb63d667bf2e7928e54598cb5f46aa3bdaaa`;
+- dedicated `successor/v5/QWEN35_HF_SUBSTRATE_V1.json` subject;
+- text-only `AutoModelForCausalLM` load with expected `Qwen3_5ForCausalLM` / `Qwen3_5TextConfig`;
+- fail-closed hybrid text-module inventory across full attention, linear attention, and MLP targets;
+- explicit rejection of vision modules/adapters;
+- V5 trainer parameterized so Qwen provenance does not overwrite the legacy SmolLM3 pilot-control subject;
+- dedicated `train_qwen35_v5.py` entrypoint and deterministic substrate tests.
+
+Execution state remains source-only. No HF GPU smoke, weight change, paid compute, merge, deployment, or activation has occurred. Local desktop execution could not be used in this lane because the authorized Desktop Commander connection had reached its monthly usage cap; that is recorded as unavailable evidence, not a PASS.
+
 ## Trainable base and deployment target
 
 Trainable upstream base:
@@ -30,7 +44,7 @@ Trainable upstream base:
 - architecture: `qwen3_5`
 - observed model class family: Qwen3.5
 - parameter count reported by Hub metadata: ~4.66B
-- exact immutable model revision: MUST be frozen before the smoke run
+- exact immutable model revision: `cec7eb63d667bf2e7928e54598cb5f46aa3bdaaa`
 
 Deployment/runtime target:
 
