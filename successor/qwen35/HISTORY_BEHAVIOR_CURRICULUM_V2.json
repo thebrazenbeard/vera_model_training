@@ -37,18 +37,21 @@
   },
   "sft": {
     "general_retention_rows": 512,
-    "targeted_chosen_rows": 160,
-    "total_rows": 672,
+    "targeted_chosen_rows": 224,
+    "total_rows": 736,
     "general_sources": [
       "HuggingFaceTB/smoltalk2@fc6cc2103c066455aade5d7fbb346039ae36ca5e",
       "HuggingFaceH4/ultrafeedback_binarized@3949bf5f8c17c394422ccfab0c31ea9c20bdeb85"
-    ]
+    ],
+    "chat_targeted_rows": 160,
+    "repo_engineering_rows": 64
   },
   "preference": {
     "generated_targeted_rows": 240,
     "unbound_sol_gold_rows": 24,
     "general_retention_rows": 256,
-    "total_rows": 520
+    "total_rows": 616,
+    "repo_engineering_rows": 96
   },
   "dimensions": {
     "H01": {
@@ -206,5 +209,24 @@
     "mutable_personal_or_runtime_facts_as_weight_truth",
     "training_final_holdout_overlap",
     "merge_or_deploy_without_separate_authority"
-  ]
+  ],
+  "repo_engineering": {
+    "source_cards": "successor/qwen35/repo_engineering_source_cards_v1.json",
+    "source_card_count": 16,
+    "research": "research/repo_training/REPO_DERIVED_ENGINEERING_TRAINING_RESEARCH_20260924_V1.md",
+    "candidate_rows": 144,
+    "accepted_rows": 96,
+    "sft_rows": 64,
+    "preference_rows": 96,
+    "public_source_repositories": [
+      "thebrazenbeard/bt2",
+      "thebrazenbeard/driftguard",
+      "thebrazenbeard/project-achilles",
+      "thebrazenbeard/vera_model_training",
+      "thebrazenbeard/roots",
+      "thebrazenbeard/sql-connectome"
+    ],
+    "model_facing_deidentified": true,
+    "mutable_repo_state_as_weight_truth": false
+  }
 }
