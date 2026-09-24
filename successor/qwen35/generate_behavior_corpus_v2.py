@@ -168,47 +168,59 @@ def run(seed_url: str):
         local_domains=DOMAINS[:]
         rng.shuffle(local_domains)
         while accepted < target and attempts < target*4:
-            domain=local_domains[attempts % len(local_domains)]
-            anchor=seeds[dim][attempts % len(seeds[dim])]
-            global_batch += 1
-            user=make_request(dim,domain,anchor,global_batch)
-            rendered=tokenizer.apply_chat_template(
-                [{"role":"system","content":SYSTEM},{"role":"user","content":user}],
-                tokenize=False,add_generation_prompt=True,enable_thinking=False
-            )
-            inputs=tokenizer(rendered,return_tensors="pt",truncation=True,max_length=2300).to(model.device)
+            batch_meta=[]
+            batch_text=[]
+            batch_n=min(4,target*4-attempts)
+            for j in range(batch_n):
+                idx=attempts+j
+                domain=local_domains[idx % len(local_domains)]
+                anchor=seeds[dim][idx % len(seeds[dim])]
+                global_batch += 1
+                user=make_request(dim,domain,anchor,global_batch)
+                rendered=tokenizer.apply_chat_template(
+                    [{"role":"system","content":SYSTEM},{"role":"user","content":user}],
+                    tokenize=False,add_generation_prompt=True,enable_thinking=False
+                )
+                batch_meta.append((domain,anchor))
+                batch_text.append(rendered)
+            inputs=tokenizer(batch_text,return_tensors="pt",padding=True,truncation=True,max_length=2300).to(model.device)
             with torch.inference_mode():
                 gen=model.generate(
                     **inputs,max_new_tokens=700,do_sample=True,temperature=0.75,top_p=0.92,
                     repetition_penalty=1.04,pad_token_id=tokenizer.pad_token_id
                 )
-            text=tokenizer.decode(gen[0,inputs["input_ids"].shape[1]:],skip_special_tokens=True)
-            attempts += 1
-            for x in parse_array(text):
-                p,c,r=x["prompt"],x["chosen"],x["rejected"]
-                ratio=(len(c)+1)/(len(r)+1)
-                if not 0.60 <= ratio <= 1.70:
-                    continue
-                key=hashlib.sha256((normalize(p)+"\0"+normalize(c)+"\0"+normalize(r)).encode()).hexdigest()
-                if key in seen:
-                    continue
-                seen.add(key)
-                candidates.append({
-                    "schema":"VERA_QWEN35_BEHAVIOR_V2_CANDIDATE",
-                    "candidate_id":f"v2-{dim}-{key[:18]}",
-                    "dimension":dim,
-                    "dimension_name":d["name"],
-                    "domain":domain,
-                    "difficulty":x["difficulty"] if x["difficulty"] in {"easy","moderate","hard"} else "moderate",
-                    "seed_class":"CHAT_DERIVED_BEHAVIOR_ABSTRACTION",
-                    "generator_repo":GENERATOR_REPO,
-                    "generator_revision":GENERATOR_REV,
-                    "prompt":p,"chosen":c,"rejected":r,"discriminator":x["discriminator"],
-                    "pair_sha256":key
-                })
-                accepted += 1
+            input_width=inputs["input_ids"].shape[1]
+            attempts += batch_n
+            for bi,(domain,anchor) in enumerate(batch_meta):
+                text=tokenizer.decode(gen[bi,input_width:],skip_special_tokens=True)
+                for x in parse_array(text):
+                    p,c,r=x["prompt"],x["chosen"],x["rejected"]
+                    ratio=(len(c)+1)/(len(r)+1)
+                    if not 0.60 <= ratio <= 1.70:
+                        continue
+                    key=hashlib.sha256((normalize(p)+"\\0"+normalize(c)+"\\0"+normalize(r)).encode()).hexdigest()
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    candidates.append({
+                        "schema":"VERA_QWEN35_BEHAVIOR_V2_CANDIDATE",
+                        "candidate_id":f"v2-{dim}-{key[:18]}",
+                        "dimension":dim,
+                        "dimension_name":d["name"],
+                        "domain":domain,
+                        "difficulty":x["difficulty"] if x["difficulty"] in {"easy","moderate","hard"} else "moderate",
+                        "seed_class":"CHAT_DERIVED_BEHAVIOR_ABSTRACTION",
+                        "generator_repo":GENERATOR_REPO,
+                        "generator_revision":GENERATOR_REV,
+                        "prompt":p,"chosen":c,"rejected":r,"discriminator":x["discriminator"],
+                        "pair_sha256":key
+                    })
+                    accepted += 1
+                    if accepted >= target:
+                        break
                 if accepted >= target:
                     break
+            print(f"GEN_PROGRESS|{dim}|accepted={accepted}|target={target}|attempts={attempts}",flush=True)
         stats[dim]={"quota":d["quota"],"candidate_target":target,"generated":accepted,"attempts":attempts}
         if accepted < target:
             raise RuntimeError(f"{dim}: generated {accepted}/{target}")
