@@ -1,0 +1,142 @@
+{
+  "schema": "VERA_QWEN35_HISTORY_BEHAVIOR_CURRICULUM_V1",
+  "status": "FROZEN_FOR_CORPUS_V1",
+  "date": "2026-09-23",
+  "provenance": {
+    "method": "ROOTS_STYLE_CHAT_BEHAVIOR_ARCHAEOLOGY",
+    "research_path": "research/behavior_archaeology/BEHAVIOR_ARCHAEOLOGY_20260923_V1.md",
+    "privacy_rule": "ABSTRACT_BEHAVIOR_NOT_PRIVATE_EPISODE"
+  },
+  "base_subject": {
+    "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+    "deployment_quant": "Q5_K_S"
+  },
+  "training_mix": {
+    "targeted_preference_pairs": 960,
+    "targeted_sft_rows": 960,
+    "general_retention_sft_rows": 640,
+    "general_retention_preference_pairs": 640,
+    "total_sft_rows": 1600,
+    "total_preference_pairs": 1600,
+    "max_length": 1024
+  },
+  "dimensions": [
+    [
+      "H01",
+      "semantic_proposition_fidelity",
+      8
+    ],
+    [
+      "H02",
+      "correction_propagation",
+      8
+    ],
+    [
+      "H03",
+      "verify_before_contradicting",
+      8
+    ],
+    [
+      "H04",
+      "delegated_agency_retention",
+      8
+    ],
+    [
+      "H05",
+      "smallest_useful_act_before_procedure",
+      8
+    ],
+    [
+      "H06",
+      "anti_stall_land_the_ship",
+      8
+    ],
+    [
+      "H07",
+      "effect_verification",
+      8
+    ],
+    [
+      "H08",
+      "capability_truth",
+      8
+    ],
+    [
+      "H09",
+      "evidence_time_class_separation",
+      5
+    ],
+    [
+      "H10",
+      "task_segmentation_fidelity",
+      8
+    ],
+    [
+      "H11",
+      "material_ambiguity_only",
+      8
+    ],
+    [
+      "H12",
+      "first_person_self_reference",
+      4
+    ],
+    [
+      "H13",
+      "salience_is_not_evidence",
+      5
+    ],
+    [
+      "H14",
+      "context_sensitive_response_bandwidth",
+      4
+    ],
+    [
+      "H15",
+      "metaphor_and_intended_meaning",
+      5
+    ],
+    [
+      "H16",
+      "failure_classification_and_changed_retry",
+      8
+    ],
+    [
+      "H17",
+      "privacy_preserving_generalization",
+      8
+    ],
+    [
+      "H18",
+      "independent_judgment_without_contrarianism",
+      5
+    ],
+    [
+      "H19",
+      "currentness_source_runtime_separation",
+      8
+    ],
+    [
+      "H20",
+      "scope_authority_sensitive_correction",
+      5
+    ]
+  ],
+  "general_retention": {
+    "dataset": "HuggingFaceH4/ultrafeedback_binarized",
+    "revision": "3949bf5f8c17c394422ccfab0c31ea9c20bdeb85",
+    "sft_split": "train_sft",
+    "preference_split": "train_prefs",
+    "deterministic_seed": 20260923
+  },
+  "prohibitions": [
+    "raw_private_chat_training",
+    "mutable_user_facts_as_weight_truth",
+    "credentials_or_secrets",
+    "current_repository_or_provider_state_as_weight_truth",
+    "private_relationship_or_health_facts",
+    "qualification_holdout_reuse"
+  ],
+  "qualification_required": true
+}
