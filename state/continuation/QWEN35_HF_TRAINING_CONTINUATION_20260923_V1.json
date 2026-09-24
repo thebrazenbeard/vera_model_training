@@ -9,10 +9,17 @@
   "handoff_path": "state/continuation/QWEN35_HF_TRAINING_CONTINUATION_20260923_V1.md",
   "training_base": {
     "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
-    "exact_revision": null,
-    "revision_state": "MUST_FREEZE_BEFORE_TRAINING",
+    "exact_revision": "cec7eb63d667bf2e7928e54598cb5f46aa3bdaaa",
+    "revision_state": "FROZEN_IMMUTABLE_GIT_COMMIT",
     "architecture": "qwen3_5",
-    "preferred_text_class": "Qwen3_5ForCausalLM"
+    "preferred_text_class": "Qwen3_5ForCausalLM",
+    "checkpoint_architecture": "Qwen3_5ForConditionalGeneration",
+    "text_loader_contract": {
+      "loader": "transformers.AutoModelForCausalLM",
+      "expected_model_class": "Qwen3_5ForCausalLM",
+      "expected_config_class": "Qwen3_5TextConfig",
+      "transformer_support_evidence": "Official Transformers Qwen3.5 tests map composite Qwen3_5Config through AutoModelForCausalLM to the text-only causal LM class."
+    }
   },
   "deployment_target": {
     "gguf_repo": "tinyopsec/Qwen3.5-4B-Uncensored-Aggressive-GGUF",
@@ -60,26 +67,36 @@
       "profile"
     ],
     "running_jobs_at_handoff": 0,
-    "artifact_write_custody": "NOT_ESTABLISHED"
+    "artifact_write_custody": "NOT_ESTABLISHED",
+    "refreshed_at": "2026-09-24",
+    "running_jobs_at_refresh": 0,
+    "jobs_surface": "AVAILABLE_BUT_BILLABLE",
+    "zero_cost_jobs_path": false,
+    "billing_evidence": {
+      "source": "Hugging Face Jobs Pricing and Billing",
+      "jobs_require_positive_credit_balance": true,
+      "billing_basis": "per-minute hardware usage while Starting/Running",
+      "cpu_basic_hourly_usd": 0.01,
+      "lowest_observed_gpu_hourly_usd": 0.4
+    },
+    "zero_cost_training_conclusion": "NO_GENUINELY_ZERO_COST_HF_JOBS_GPU_PATH_ESTABLISHED"
   },
   "authority": {
     "weight_training_intent": "EXPLICIT_USER_INSTRUCTION_IN_CURRENT_CHAT",
     "execution_location": "HUGGING_FACE",
-    "paid_compute": "NOT_EXPLICITLY_AUTHORIZED",
+    "paid_compute": "NOT_AUTHORIZED",
     "inherited_zero_cost": "REMAINS_ABSOLUTE_UNLESS_USER_CHANGES_IT",
     "merge": false,
     "deploy": false,
     "activate": false,
-    "promote": false
+    "promote": false,
+    "cost_gate": "BLOCKED_UNTIL_EXPLICIT_PAID_COMPUTE_AUTHORITY_OR_GENUINELY_FREE_HF_EXECUTION_SURFACE"
   },
   "next_frontier": [
-    "fresh_check_branch_and_parent",
-    "freeze_exact_hf_base_revision",
-    "add_qwen_specific_v5_substrate_manifest",
-    "patch_and_test_qwen_text_only_trainer",
     "freeze_v5_plus_unbound_sol_corpus_digests",
-    "resolve_zero_cost_hf_gpu_path",
-    "run_one_step_hf_smoke_if_zero_cost",
+    "preserve_exact_qwen35_substrate_and_text_loader_contract",
+    "obtain_explicit_paid_compute_authority_or_identify_genuinely_free_hf_gpu_surface",
+    "run_one_step_hf_smoke_only_after_cost_gate_is_satisfied",
     "run_full_training_after_smoke_pass",
     "freeze_and_qualify_source_candidate",
     "merge_export_convert_gguf_q5_k_s",
@@ -90,14 +107,17 @@
     "substrate_selected": true,
     "hf_authenticated": true,
     "training_job_launched": false,
-    "exact_base_revision_frozen": false,
-    "qwen_trainer_patch": false,
+    "exact_base_revision_frozen": true,
+    "qwen_trainer_patch": true,
     "hf_smoke": false,
     "full_training": false,
     "source_qualification": false,
     "q5_k_s_conversion": false,
     "deployment_qualification": false,
     "activation": false,
-    "merge": false
+    "merge": false,
+    "hf_cost_gate_resolved": true,
+    "zero_cost_hf_jobs_available": false,
+    "source_static_adapter_state": "SOURCE_ADAPTED_FAIL_CLOSED"
   }
 }
