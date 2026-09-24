@@ -78,12 +78,14 @@ The first lane uses public repositories only:
 - `thebrazenbeard/driftguard`
 - `thebrazenbeard/project-achilles`
 - `thebrazenbeard/vera_model_training`
+- `thebrazenbeard/roots`
+- `thebrazenbeard/sql-connectome`
 
 The private communication-bus repository is deliberately excluded from weight-training in V1 of this lane. Private coordination state is not needed to teach the portable mechanisms and creates unnecessary leakage risk.
 
 ## Source mechanisms selected
 
-The source-card file binds every mechanism to an immutable commit. The initial set covers:
+The source-card file binds every mechanism to an immutable commit. The expanded set covers:
 
 1. qualification subject separation;
 2. exact identity and transitive authority/reachability checks;
@@ -96,11 +98,15 @@ The source-card file binds every mechanism to an immutable commit. The initial s
 9. frozen historical training is evidence, not current execution authority;
 10. corrected/ambiguous proxy evidence must fail package readiness;
 11. structured generation should use schema mode and bounded materially different retry;
-12. a hash proves only the exact bytes it was computed over; labels do not upgrade provenance.
+12. a hash proves only the exact bytes it was computed over; labels do not upgrade provenance;
+13. oldest accessible evidence is not automatically origin, and provenance interpretation must proceed oldest-to-newest;
+14. reuse/overlap/naming similarity is not lineage or supersession evidence;
+15. translation-plan fidelity is scoped and does not by itself prove behavioral equivalence;
+16. understanding, translation, validation, execution, and authorization are distinct claims.
 
 ## Corpus construction
 
-Generate 144 repo-derived candidate preference pairs from the 12 source cards and curate to 96 final pairs.
+Generate 144 repo-derived candidate preference pairs from the 16 source cards (9 per card) and curate to 96 final pairs (6 per card).
 
 Each final pair must:
 - be a new fictional or generic repository scenario;
