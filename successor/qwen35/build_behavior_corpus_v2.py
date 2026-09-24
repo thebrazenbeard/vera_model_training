@@ -145,14 +145,16 @@ def emit(tag,raw):
     for i in range(total): print(f"{tag}_CHUNK|{i+1}|{total}|{b64[i*step:(i+1)*step]}",flush=True)
     print(f"{tag}_COMPLETE",flush=True)
 
-def run(targeted_url,gold_url):
+def run(targeted_url,repo_targeted_url,gold_url):
     from transformers import AutoTokenizer
     tok=AutoTokenizer.from_pretrained(BASE_REPO,revision=BASE_REV)
     if tok.pad_token_id is None: tok.pad_token=tok.eos_token
 
     targeted,targeted_sha=fetch_jsonl(targeted_url)
+    repo_targeted,repo_targeted_sha=fetch_jsonl(repo_targeted_url)
     gold,gold_sha=fetch_jsonl(gold_url)
     if len(targeted)!=240: raise RuntimeError(f"targeted {len(targeted)} !=240")
+    if len(repo_targeted)!=96: raise RuntimeError(f"repo targeted {len(repo_targeted)} !=96")
     if len(gold)!=24: raise RuntimeError(f"gold {len(gold)} !=24")
 
     target_sft=select_targeted_sft(targeted)
@@ -160,16 +162,35 @@ def run(targeted_url,gold_url):
     for r in target_sft:
         if not valid_len(tok,r["prompt"],r["chosen"]): raise RuntimeError("targeted SFT length overflow")
         sft.append({"schema":"VERA_QWEN35_BEHAVIOR_V2_SFT","prompt":r["prompt"],"response":r["chosen"],"source":"targeted_v2","dimension":r["dimension"],"source_id":r["candidate_id"]})
+    repo_by=defaultdict(list)
+    for r in repo_targeted:
+        repo_by[r["source_card_id"]].append(r)
+    repo_sft=[]
+    for card in sorted(repo_by):
+        rows=sorted(repo_by[card],key=lambda r:hashlib.sha256(("repo-sft:"+r["pair_sha256"]).encode()).hexdigest())
+        if len(rows)<4: raise RuntimeError(f"{card}: repo SFT need 4, have {len(rows)}")
+        repo_sft.extend(rows[:4])
+    if len(repo_sft)!=64: raise RuntimeError(f"repo SFT count {len(repo_sft)} !=64")
+    for r in repo_sft:
+        if not valid_len(tok,r["prompt"],r["chosen"]): raise RuntimeError("repo targeted SFT length overflow")
+        sft.append({"schema":"VERA_QWEN35_BEHAVIOR_V2_SFT","prompt":r["prompt"],"response":r["chosen"],
+                    "source":"repo_engineering_v1","source_card_id":r["source_card_id"],"source_id":r["candidate_id"]})
     for r in select_ultra_sft(tok,256)+select_smoltalk(tok):
         sft.append({"schema":"VERA_QWEN35_BEHAVIOR_V2_SFT",**r})
     random.Random(SEED+10).shuffle(sft)
-    if len(sft)!=672: raise RuntimeError(f"SFT {len(sft)} !=672")
+    if len(sft)!=736: raise RuntimeError(f"SFT {len(sft)} !=736")
 
     prefs=[]
     for r in targeted:
         if max(rendered_len(tok,r["prompt"],r["chosen"]),rendered_len(tok,r["prompt"],r["rejected"]))>MAX_LENGTH:
             raise RuntimeError("targeted pref length overflow")
         prefs.append({"schema":"VERA_QWEN35_BEHAVIOR_V2_PREF","prompt":r["prompt"],"chosen":r["chosen"],"rejected":r["rejected"],"source":"targeted_v2","dimension":r["dimension"],"source_id":r["candidate_id"]})
+    for r in repo_targeted:
+        if max(rendered_len(tok,r["prompt"],r["chosen"]),rendered_len(tok,r["prompt"],r["rejected"]))>MAX_LENGTH:
+            raise RuntimeError("repo targeted pref length overflow")
+        prefs.append({"schema":"VERA_QWEN35_BEHAVIOR_V2_PREF","prompt":r["prompt"],"chosen":r["chosen"],
+                      "rejected":r["rejected"],"source":"repo_engineering_v1",
+                      "source_card_id":r["source_card_id"],"source_id":r["candidate_id"]})
     for r in gold:
         p,c,d=r["prompt"],r["preferred"],r["rejected"]
         if max(rendered_len(tok,p,c),rendered_len(tok,p,d))>MAX_LENGTH: raise RuntimeError(f"gold overflow {r['id']}")
@@ -177,7 +198,7 @@ def run(targeted_url,gold_url):
     for r in select_general_prefs(tok,256):
         prefs.append({"schema":"VERA_QWEN35_BEHAVIOR_V2_PREF",**r})
     random.Random(SEED+11).shuffle(prefs)
-    if len(prefs)!=520: raise RuntimeError(f"prefs {len(prefs)} !=520")
+    if len(prefs)!=616: raise RuntimeError(f"prefs {len(prefs)} !=616")
 
     sraw=("\n".join(json.dumps(x,ensure_ascii=False,separators=(",",":")) for x in sft)+"\n").encode()
     praw=("\n".join(json.dumps(x,ensure_ascii=False,separators=(",",":")) for x in prefs)+"\n").encode()
@@ -185,10 +206,11 @@ def run(targeted_url,gold_url):
       "schema":"VERA_QWEN35_BEHAVIOR_V2_FROZEN_CORPUS_MANIFEST",
       "output_identity":"Vera-Qwen3.5-4B-Behavior-V1",
       "base_repo":BASE_REPO,"base_revision":BASE_REV,"max_length":MAX_LENGTH,
-      "sft":{"rows":len(sft),"sha256":hashlib.sha256(sraw).hexdigest(),"targeted":160,"general":512},
-      "preference":{"rows":len(prefs),"sha256":hashlib.sha256(praw).hexdigest(),"targeted":240,"gold":24,"general":256},
+      "sft":{"rows":len(sft),"sha256":hashlib.sha256(sraw).hexdigest(),"chat_targeted":160,"repo_engineering":64,"targeted_total":224,"general":512},
+      "preference":{"rows":len(prefs),"sha256":hashlib.sha256(praw).hexdigest(),"chat_targeted":240,"repo_engineering":96,"gold":24,"general":256},
       "sources":{
         "targeted":{"url":targeted_url,"sha256":targeted_sha},
+        "repo_engineering":{"url":repo_targeted_url,"sha256":repo_targeted_sha},
         "unbound_sol_gold":{"url":gold_url,"sha256":gold_sha},
         "ultrafeedback":UF_REPO+"@"+UF_REV,
         "smoltalk2":SMOL_REPO+"@"+SMOL_REV
@@ -200,6 +222,7 @@ def run(targeted_url,gold_url):
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
     ap.add_argument("--targeted-url",required=True)
+    ap.add_argument("--repo-targeted-url",required=True)
     ap.add_argument("--gold-url",required=True)
     a=ap.parse_args()
-    run(a.targeted_url,a.gold_url)
+    run(a.targeted_url,a.repo_targeted_url,a.gold_url)
