@@ -1,0 +1,121 @@
+{
+  "schema": "VERA_QWEN35_REPO_ENGINEERING_SOURCE_CARDS_V1",
+  "date": "2026-09-24",
+  "model_facing_policy": {
+    "preserve_provenance_in_metadata_only": true,
+    "prohibit_original_repo_names_in_prompt_or_answers": true,
+    "prohibit_commit_shas_in_prompt_or_answers": true,
+    "prohibit_mutable_runtime_state_as_weight_truth": true,
+    "require_transfer_to_new_context": true
+  },
+  "cards": [
+    {
+      "id": "R01_QUALIFICATION_SUBJECT_SEPARATION",
+      "source_repo": "thebrazenbeard/bt2",
+      "source_commit": "30e81cadd94fae117a7f6875523c03251c7c9f6e",
+      "source_commit_message": "Fix V3 WoWSQL acceptance contract semantics",
+      "mechanism": "A passing read-only acceptance subject does not imply a separate write/producer subject is qualified.",
+      "failure_mode": "Collapse several qualification subjects into one global PASS or let an unrelated failing verifier invalidate an independently valid read-only mode.",
+      "durable_rule": "Name the exact subject of every PASS/FAIL and require evidence specific to that subject."
+    },
+    {
+      "id": "R02_TRANSITIVE_AUTHORITY_AND_EXACT_IDENTITY",
+      "source_repo": "thebrazenbeard/bt2",
+      "source_commit": "a04da8231a9c6624b1a7d2cbcb7d0ee163155400",
+      "source_commit_message": "Merge hardened WoWSQL producer-boundary verification",
+      "mechanism": "Security verification must bind the exact callable identity and consider transitive reachable authority, not only direct privileges.",
+      "failure_mode": "Accept a same-name/wrong-signature object or inspect only direct grants while reachable role transitions or writable trusted namespaces remain exploitable.",
+      "durable_rule": "Verify exact identity, effective reachability, trusted-path mutability, and adversarial regressions before claiming a security boundary."
+    },
+    {
+      "id": "R03_READ_MODE_NOT_WRITE_AUTHORITY",
+      "source_repo": "thebrazenbeard/bt2",
+      "source_commit": "7db32a437a906432d738802c2f45bed43cd8b7c5",
+      "source_commit_message": "separate frozen Lantern reads from producer qualification",
+      "mechanism": "A constrained read mode can remain valid while write authority is explicitly unqualified.",
+      "failure_mode": "Treat availability of one safe capability as evidence that stronger effects are authorized or qualified.",
+      "durable_rule": "Capability ceilings are asymmetric: prove and report the safe mode without promoting it to a stronger effect class."
+    },
+    {
+      "id": "R04_TRUST_PRECHANGE_STATE",
+      "source_repo": "thebrazenbeard/driftguard",
+      "source_commit": "c82162bb306e89b3aabe29f09f8b782ebe3b317e",
+      "source_commit_message": "Harden trusted-ref reruns and move Actions to Node 24",
+      "mechanism": "A candidate change must not be allowed to rewrite the policy/baseline used to judge itself; trusted state should resolve to pre-change history and fail closed if unavailable.",
+      "failure_mode": "Fall back to the candidate workspace when the pre-change reference is missing or ambiguous, enabling self-laundering.",
+      "durable_rule": "Resolve trust from an immutable/pre-change anchor; if the anchor cannot be established, report the missing evidence instead of trusting the candidate."
+    },
+    {
+      "id": "R05_REQUEST_BINDING_AND_RETRY_READBACK",
+      "source_repo": "thebrazenbeard/driftguard",
+      "source_commit": "d190dfb38a3bca80e4c1d9d75f0b031f0509ed0e",
+      "source_commit_message": "test: close evaluator replay stale directive and retry laundering",
+      "mechanism": "Responses/directives belong to exact requests and durable generations, and ambiguous or not-applied effects require readback before retry.",
+      "failure_mode": "Replay an old response into a new session/generation or convert an uncertain delivery into permission for a blind retry.",
+      "durable_rule": "Bind response to request/session/generation and reconcile observed effect state before issuing another side effect."
+    },
+    {
+      "id": "R06_BEHAVIOR_NOT_SCHEDULING",
+      "source_repo": "thebrazenbeard/driftguard",
+      "source_commit": "065b7947623528b725ddf5e9f6bbb44eabb72db3",
+      "source_commit_message": "Separate durable behavioral recovery from reload scheduling",
+      "mechanism": "Observed behavioral recovery is a distinct classification from whether a reload/schedule transition occurred.",
+      "failure_mode": "Infer successful recovery merely because the recovery mechanism executed or a scheduling acknowledgement exists.",
+      "durable_rule": "Classify the post-effect behavior independently and bind it to the exact state/digest before declaring recovery."
+    },
+    {
+      "id": "R07_ASSERT_THE_LITERAL_CURRENT_CONTRACT",
+      "source_repo": "thebrazenbeard/project-achilles",
+      "source_commit": "f176240e38571f564637df92973bc7faffc7970b",
+      "source_commit_message": "Fix protocol currentness assertion",
+      "mechanism": "Regression assertions must test the literal artifact semantics that users/runtime consume.",
+      "failure_mode": "A malformed or escaped test literal appears to assert the contract but does not match the actual text.",
+      "durable_rule": "Verify the real representation and exact consumer-visible value, not an accidentally escaped approximation."
+    },
+    {
+      "id": "R08_REMOVE_BROKEN_VERIFICATION_DEPENDENCY",
+      "source_repo": "thebrazenbeard/project-achilles",
+      "source_commit": "22f22616be6d861490c7048ac14501c6c141ba62",
+      "source_commit_message": "Remove reusable-action dependency from CI",
+      "mechanism": "When verification depends on an unavailable/broken helper, replace the dependency with a direct reproducible path rather than leaving a nominal gate.",
+      "failure_mode": "Keep a CI badge or workflow shape that cannot actually execute the intended checks.",
+      "durable_rule": "Prefer a simpler executable verification path whose exact event subject is checked out and whose tests really run."
+    },
+    {
+      "id": "R09_HISTORICAL_TRAINING_NOT_CURRENT_AUTHORITY",
+      "source_repo": "thebrazenbeard/project-achilles",
+      "source_commit": "997f576edb35c02d69ccceafd86db0069eec58a5",
+      "source_commit_message": "Merge Seven Protocol V2 frozen-training boundary",
+      "mechanism": "Historical training/qualification artifacts remain evidence of competence but do not override a newer current execution contract.",
+      "failure_mode": "Rewrite history to pretend agreement, or let obsolete training exercises silently control current execution.",
+      "durable_rule": "Preserve historical evidence unchanged; overlay explicit current governance and current assignment/effect authority at execution time."
+    },
+    {
+      "id": "R10_CORRECTED_PROXY_CANNOT_STAY_GREEN",
+      "source_repo": "thebrazenbeard/vera_model_training",
+      "source_commit": "650a79b0882590696e7b20dec0496763a753976d",
+      "source_commit_message": "V5: fail closed on flawed proxy qualification",
+      "mechanism": "A proxy/evaluation that requires material correction or has malformed provenance cannot remain package-ready merely because a numeric score is high.",
+      "failure_mode": "Treat a same-model score, corrected transfer, or proposed regression as verified qualification.",
+      "durable_rule": "Qualification requires clean evidence and provenance; corrections and unverified model proposals lower the claim ceiling."
+    },
+    {
+      "id": "R11_STRUCTURED_OUTPUT_MATERIAL_RETRY",
+      "source_repo": "thebrazenbeard/vera_model_training",
+      "source_commit": "74ecd18c3dc376fd810a649bee76641e1a487316",
+      "source_commit_message": "V4: harden local JSON generation",
+      "mechanism": "Structured-output tasks should use the provider/runtime's structured mode and, when truncation occurs, retry with a bounded materially larger budget.",
+      "failure_mode": "Parse unconstrained prose as JSON or repeat the same truncated request unchanged.",
+      "durable_rule": "Match generation mode to the required schema and make retry parameters respond to the observed failure mode."
+    },
+    {
+      "id": "R12_HASH_PROVES_BYTES_NOT_LABEL",
+      "source_repo": "thebrazenbeard/vera_model_training",
+      "source_commit": "7bdcc499fc16aec9255ca72a7d84a7079b72da98",
+      "source_commit_message": "Correct evaluation hash provenance",
+      "mechanism": "A digest establishes identity only for the bytes actually hashed; a field label cannot promote a response-file hash into a checkpoint hash.",
+      "failure_mode": "Use misleading metadata names to infer model/artifact lineage that the hash computation never measured.",
+      "durable_rule": "Trace every provenance value to its generating computation and bind claims to that exact object."
+    }
+  ]
+}
