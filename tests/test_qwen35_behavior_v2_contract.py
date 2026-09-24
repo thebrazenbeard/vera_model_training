@@ -5,7 +5,7 @@ import json
 import pathlib
 import re
 
-ROOT=pathlib.Path(__file__).resolve().parents[2]
+ROOT=pathlib.Path(__file__).resolve().parents[1]
 Q=ROOT/"successor"/"qwen35"
 
 def test_v2_spec_counts():
