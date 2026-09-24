@@ -127,8 +127,8 @@ def model_judge(rows: list[dict]) -> list[dict]:
     model=AutoModelForCausalLM.from_pretrained(JUDGE_REPO,revision=JUDGE_REV,quantization_config=q,device_map={"":0},dtype=torch.bfloat16)
     model.eval()
     accepted=[]
-    for start in range(0,len(rows),4):
-        batch=rows[start:start+4]
+    for start in range(0,len(rows),8):
+        batch=rows[start:start+8]
         texts=[tok.apply_chat_template([{"role":"system","content":SYSTEM},{"role":"user","content":judge_prompt(r)}],tokenize=False,add_generation_prompt=True) for r in batch]
         inputs=tok(texts,return_tensors="pt",padding=True,truncation=True,max_length=2600).to(model.device)
         with torch.inference_mode():
@@ -136,25 +136,70 @@ def model_judge(rows: list[dict]) -> list[dict]:
         for i,r in enumerate(batch):
             obj=parse_obj(tok.decode(gen[i,inputs["input_ids"].shape[1]:],skip_special_tokens=True))
             if not obj: continue
-            scores=[obj.get(k) for k in ("target_isolated","naturalness","bad_plausibility","length_fairness","difficulty_fit","substance")]
-            ok=obj.get("pass") is True and all(isinstance(v,(int,float)) and not isinstance(v,bool) and v>=4 for v in scores)
-            if ok:
-                z=dict(r)
-                z["curation"]={"judge_repo":JUDGE_REPO,"judge_revision":JUDGE_REV,
-                    **{k:obj[k] for k in ("target_isolated","naturalness","bad_plausibility","length_fairness","difficulty_fit","substance")},
-                    "reason":str(obj.get("reason",""))[:500]}
-                accepted.append(z)
+            keys=("target_isolated","naturalness","bad_plausibility","length_fairness","difficulty_fit","substance")
+            scores=[obj.get(k) for k in keys]
+            if not all(isinstance(v,(int,float)) and not isinstance(v,bool) and 1 <= v <= 5 for v in scores):
+                continue
+            z=dict(r)
+            numeric={k:float(obj[k]) for k in keys}
+            z["curation"]={
+                "judge_repo":JUDGE_REPO,"judge_revision":JUDGE_REV,
+                "judge_pass":obj.get("pass") is True,
+                **numeric,
+                "score_mean":sum(numeric.values())/len(numeric),
+                "score_min":min(numeric.values()),
+                "reason":str(obj.get("reason",""))[:500]
+            }
+            accepted.append(z)
+        print(f"JUDGE_PROGRESS|scored={min(start+len(batch),len(rows))}|total={len(rows)}|usable={len(accepted)}",flush=True)
     return accepted
 
 def balanced_select(rows: list[dict]) -> list[dict]:
-    by=defaultdict(lambda:defaultdict(list))
+    # Independent judge scores are used as a ranking signal rather than a brittle
+    # all-dimensions>=4 binary gate. Hard floors still reject genuinely weak pairs.
+    eligible=[]
+    rejected=defaultdict(int)
     for r in rows:
+        c=r["curation"]
+        if c["target_isolated"] < 3:
+            rejected["target_isolated_lt3"] += 1; continue
+        if c["naturalness"] < 3:
+            rejected["naturalness_lt3"] += 1; continue
+        if c["bad_plausibility"] < 3:
+            rejected["bad_plausibility_lt3"] += 1; continue
+        if c["difficulty_fit"] < 3:
+            rejected["difficulty_fit_lt3"] += 1; continue
+        if c["length_fairness"] < 3:
+            rejected["length_fairness_lt3"] += 1; continue
+        if c["substance"] < 3:
+            rejected["substance_lt3"] += 1; continue
+        eligible.append(r)
+
+    by=defaultdict(lambda:defaultdict(list))
+    for r in eligible:
         by[r["dimension"]][r.get("domain","unknown")].append(r)
+
+    def rank_key(x):
+        c=x["curation"]
+        # Prefer target isolation and plausible negatives, then aggregate quality,
+        # then deterministic pair hash for stable tie-breaking.
+        return (
+            c["target_isolated"],
+            c["bad_plausibility"],
+            c["score_min"],
+            c["score_mean"],
+            c["naturalness"],
+            c["substance"],
+            x["pair_sha256"],
+        )
+
     final=[]
+    stats={}
     for dim,quota in QUOTAS.items():
-        pools={d:deque(sorted(v,key=lambda x:x["pair_sha256"])) for d,v in by[dim].items()}
-        domains=sorted(pools,key=lambda d:hashlib.sha256((dim+":"+d).encode()).hexdigest())
+        pools={d:deque(sorted(v,key=rank_key,reverse=True)) for d,v in by[dim].items()}
+        domains=sorted(pools,key=lambda d:max((rank_key(x) for x in pools[d]),default=(0,)),reverse=True)
         picked=[]
+        # First maximize domain coverage, then fill remaining quota by best available score.
         while len(picked)<quota and domains:
             next_domains=[]
             for domain in domains:
@@ -164,13 +209,20 @@ def balanced_select(rows: list[dict]) -> list[dict]:
                     next_domains.append(domain)
             domains=next_domains
         if len(picked)<quota:
-            raise RuntimeError(f"{dim}: curated only {len(picked)}/{quota}")
+            raise RuntimeError(f"{dim}: ranked curator only {len(picked)}/{quota} after hard floors")
         min_domains=8 if quota==16 else 4
         actual=len({x.get("domain") for x in picked})
         if actual<min_domains:
             raise RuntimeError(f"{dim}: only {actual} domains, need {min_domains}")
+        stats[dim]={
+            "rows":len(picked),
+            "domains":actual,
+            "mean_judge_score":sum(x["curation"]["score_mean"] for x in picked)/len(picked),
+            "min_selected_score":min(x["curation"]["score_min"] for x in picked),
+            "judge_pass_true":sum(bool(x["curation"].get("judge_pass")) for x in picked),
+        }
         final.extend(picked)
-    return sorted(final,key=lambda x:hashlib.sha256(("final:"+x["pair_sha256"]).encode()).hexdigest())
+    return sorted(final,key=lambda x:hashlib.sha256(("final:"+x["pair_sha256"]).encode()).hexdigest()),dict(rejected),stats
 
 def emit(tag: str,raw: bytes):
     b64=base64.b64encode(raw).decode("ascii")
@@ -185,7 +237,7 @@ def run(url: str):
     candidates=rows_from(url)
     det,rejections=deterministic(candidates)
     judged=model_judge(det)
-    final=balanced_select(judged)
+    final,rank_rejections,rank_stats=balanced_select(judged)
     raw=("\n".join(json.dumps(x,ensure_ascii=False,separators=(",",":")) for x in final)+"\n").encode()
     stats={}
     for dim in QUOTAS:
@@ -193,8 +245,9 @@ def run(url: str):
         stats[dim]={"rows":len(rr),"domains":len({x.get("domain") for x in rr})}
     manifest={
         "schema":"VERA_QWEN35_BEHAVIOR_V2_CURATED_MANIFEST",
-        "candidate_rows":len(candidates),"deterministic_pass":len(det),"judge_pass":len(judged),
-        "accepted_rows":len(final),"rejections":rejections,"stats":stats,
+        "candidate_rows":len(candidates),"deterministic_pass":len(det),"judge_scored":len(judged),
+        "accepted_rows":len(final),"rejections":{"deterministic":rejections,"rank_hard_floor":rank_rejections},
+        "stats":stats,"rank_stats":rank_stats,
         "judge_repo":JUDGE_REPO,"judge_revision":JUDGE_REV,
         "sha256":hashlib.sha256(raw).hexdigest()
     }
