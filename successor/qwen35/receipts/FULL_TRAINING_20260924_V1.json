@@ -1,0 +1,54 @@
+{
+  "schema": "VERA_QWEN35_HISTORY_FULL_TRAINING_RECEIPT_V1",
+  "subject": {
+    "trainer_commit": "192df0ff80edfabdf8de0640119cf24c96c74b90",
+    "base_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+    "corpus_sha256": "d93d1f638025495e0282c63a8a573649e17aa445d17762d31844baadbf76af7b"
+  },
+  "hf_job": {
+    "id": "6ab4737c52d0dbd7f1d88734",
+    "status": "COMPLETED",
+    "finished_at": "2026-09-24T01:13:14.367Z",
+    "flavor": "a10g-small",
+    "timeout_seconds": 14400
+  },
+  "training": {
+    "sft_rows": 800,
+    "preference_rows": 800,
+    "targeted_rows_per_stage": 480,
+    "retention_rows_per_stage": 320,
+    "sft_loss": 2.130833206176758,
+    "orpo_loss": 2.744624557495117,
+    "seed": 20260923,
+    "max_length": 1024,
+    "lora": {
+      "r": 4,
+      "alpha": 16,
+      "targets": [
+        "q_proj",
+        "v_proj"
+      ],
+      "module_counts": {
+        "q_proj": 8,
+        "v_proj": 8
+      }
+    },
+    "tokenization_mismatch_count": 0,
+    "recoverable_allocator_warnings_observed": 2
+  },
+  "adapter_archive": {
+    "manifest_path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.manifest.json",
+    "bytes": 4640255,
+    "sha256": "990fe607d76f457037b8b4c2db71ab6c69ee0a99f13cc7d2357b168798ea1d53",
+    "multipart_parts": 11
+  },
+  "versions": {
+    "peft": "0.21.0",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.17.0",
+    "trl": "1.13.0"
+  },
+  "state": "TRAINED_NOT_YET_BEHAVIORALLY_QUALIFIED",
+  "claim_ceiling": "The exact adapter completed the specified SFT+ORPO training run and is durably preserved as ordered Git binary parts. Behavioral superiority or deployment effect is not established by training completion."
+}

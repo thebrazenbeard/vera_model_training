@@ -1,0 +1,99 @@
+{
+  "schema": "VERA_QWEN35_ADAPTER_MULTIPART_MANIFEST_V1",
+  "archive_name": "vera-qwen35-history-v1-adapter.tar.gz",
+  "archive_bytes": 4640255,
+  "archive_sha256": "990fe607d76f457037b8b4c2db71ab6c69ee0a99f13cc7d2357b168798ea1d53",
+  "source_hf_job": "6ab4737c52d0dbd7f1d88734",
+  "source_log_chunks": 516,
+  "reconstruction": "Concatenate part files in ascending index order byte-for-byte.",
+  "parts": [
+    {
+      "index": 0,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part000",
+      "bytes": 432000,
+      "git_blob_sha": "f7f7a8c2ad019e2320cc13802b4670a1b039609f",
+      "first_hf_chunk": 1,
+      "last_hf_chunk": 48
+    },
+    {
+      "index": 1,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part001",
+      "bytes": 432000,
+      "git_blob_sha": "ad2dd9c2ccda1ea9afb1c0e0a566b62fabf58ed1",
+      "first_hf_chunk": 49,
+      "last_hf_chunk": 96
+    },
+    {
+      "index": 2,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part002",
+      "bytes": 432000,
+      "git_blob_sha": "d5c3ccdbc1c45d6ec9a496f4ab93f17bda66faa8",
+      "first_hf_chunk": 97,
+      "last_hf_chunk": 144
+    },
+    {
+      "index": 3,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part003",
+      "bytes": 432000,
+      "git_blob_sha": "994a33cf6a214628478159434dd7e919bcc5fe96",
+      "first_hf_chunk": 145,
+      "last_hf_chunk": 192
+    },
+    {
+      "index": 4,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part004",
+      "bytes": 432000,
+      "git_blob_sha": "3ab0d551133f477cac1609f63d191bf09d1bd0eb",
+      "first_hf_chunk": 193,
+      "last_hf_chunk": 240
+    },
+    {
+      "index": 5,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part005",
+      "bytes": 432000,
+      "git_blob_sha": "6a3c8aab8f10f141bc18a49d69f6c0e95b25221c",
+      "first_hf_chunk": 241,
+      "last_hf_chunk": 288
+    },
+    {
+      "index": 6,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part006",
+      "bytes": 432000,
+      "git_blob_sha": "7754ab4e888e4c4fcf38d75fd1ecdf78a011fb84",
+      "first_hf_chunk": 289,
+      "last_hf_chunk": 336
+    },
+    {
+      "index": 7,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part007",
+      "bytes": 432000,
+      "git_blob_sha": "36078e8372f003123567fb8466c6ed39d92c42e8",
+      "first_hf_chunk": 337,
+      "last_hf_chunk": 384
+    },
+    {
+      "index": 8,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part008",
+      "bytes": 432000,
+      "git_blob_sha": "bdb9494e84fd7bcc8df77fb6039c2071913112fe",
+      "first_hf_chunk": 385,
+      "last_hf_chunk": 432
+    },
+    {
+      "index": 9,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part009",
+      "bytes": 432000,
+      "git_blob_sha": "4cfad0b09d72f2b3a79c35bc29e57633906f7953",
+      "first_hf_chunk": 433,
+      "last_hf_chunk": 480
+    },
+    {
+      "index": 10,
+      "path": "successor/qwen35/artifacts/vera-qwen35-history-v1-adapter.tar.gz.part010",
+      "bytes": 320255,
+      "git_blob_sha": "8c553b6138572ae27f974d9d325222e9287f7802",
+      "first_hf_chunk": 481,
+      "last_hf_chunk": 516
+    }
+  ]
+}
