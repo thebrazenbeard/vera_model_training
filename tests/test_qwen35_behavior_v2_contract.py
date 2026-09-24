@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ast
+import hashlib
 import json
 import pathlib
 import re
@@ -72,3 +73,19 @@ def test_repo_engineering_lane_contract():
     b=(Q/"build_behavior_corpus_v2.py").read_text()
     assert '--repo-targeted-url' in b
     assert 'repo_engineering_v1' in b
+
+
+def test_frozen_v2_corpus_identity():
+    c=Q/"corpus"
+    sft=(c/"vera_qwen35_behavior_v2_sft.jsonl").read_bytes()
+    pref=(c/"vera_qwen35_behavior_v2_preference.jsonl").read_bytes()
+    manifest=json.loads((c/"vera_qwen35_behavior_v2_manifest.json").read_text())
+    sft_rows=[json.loads(x) for x in sft.decode().splitlines() if x.strip()]
+    pref_rows=[json.loads(x) for x in pref.decode().splitlines() if x.strip()]
+    assert len(sft_rows)==736
+    assert len(pref_rows)==616
+    assert hashlib.sha256(sft).hexdigest()=="0f0db383c170260f484a39172e03b39247c5416d272155eb5fd4a9d85e3f63a6"
+    assert hashlib.sha256(pref).hexdigest()=="aca9bedb00eabefde53f012eeea42f604420c03e42036aa9128f2dd3cb7dc3ef"
+    assert manifest["sft"]["rows"]==736
+    assert manifest["preference"]["rows"]==616
+    assert manifest["sources"]["repo_engineering"]["sha256"]=="4bbe4bce043d03e884e99c7b3919aceb6d24ca4f74a6718ea5e5a7134adc59cc"
