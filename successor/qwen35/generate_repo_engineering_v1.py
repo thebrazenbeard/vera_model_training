@@ -105,7 +105,7 @@ def main(cards_url):
     for card in cards:
         accepted=0; attempts=0
         domains=DOMAINS[:]; rng.shuffle(domains)
-        while accepted<12 and attempts<48:
+        while accepted<9 and attempts<40:
             meta=[]; texts=[]
             n=min(4,48-attempts)
             for j in range(n):
@@ -143,10 +143,10 @@ def main(cards_url):
                       "model_facing_deidentified":True
                     })
                     accepted+=1
-                    if accepted>=12: break
-                if accepted>=12: break
-            print(f"REPO_GEN_PROGRESS|{card['id']}|accepted={accepted}|target=12|attempts={attempts}",flush=True)
-        if accepted<12: raise RuntimeError(f"{card['id']}: generated {accepted}/12")
+                    if accepted>=9: break
+                if accepted>=9: break
+            print(f"REPO_GEN_PROGRESS|{card['id']}|accepted={accepted}|target=9|attempts={attempts}",flush=True)
+        if accepted<9: raise RuntimeError(f"{card['id']}: generated {accepted}/9")
     raw=("\n".join(json.dumps(x,ensure_ascii=False,separators=(",",":")) for x in rows)+"\n").encode()
     manifest={"schema":"VERA_QWEN35_REPO_ENGINEERING_CANDIDATE_MANIFEST_V1","rows":len(rows),
       "sha256":hashlib.sha256(raw).hexdigest(),"generator_repo":GENERATOR_REPO,"generator_revision":GENERATOR_REV,
