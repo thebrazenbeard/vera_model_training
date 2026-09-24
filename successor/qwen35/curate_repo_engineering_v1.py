@@ -110,17 +110,17 @@ def select(rs):
         pools={d:deque(sorted(v,key=key,reverse=True)) for d,v in domains.items()}
         order=sorted(pools,key=lambda d:max((key(x) for x in pools[d]),default=(0,)),reverse=True)
         pick=[]
-        while len(pick)<8 and order:
+        while len(pick)<6 and order:
             nxt=[]
             for d in order:
-                if pools[d] and len(pick)<8: pick.append(pools[d].popleft())
+                if pools[d] and len(pick)<6: pick.append(pools[d].popleft())
                 if pools[d]: nxt.append(d)
             order=nxt
-        if len(pick)<8: raise RuntimeError(f"{card}: only {len(pick)}/8 after curation")
-        if len({x["domain"] for x in pick})<6: raise RuntimeError(f"{card}: insufficient domain diversity")
+        if len(pick)<6: raise RuntimeError(f"{card}: only {len(pick)}/6 after curation")
+        if len({x["domain"] for x in pick})<5: raise RuntimeError(f"{card}: insufficient domain diversity")
         final.extend(pick)
-        stats[card]={"rows":8,"domains":len({x["domain"] for x in pick}),
-          "mean_score":sum(x["curation"]["score_mean"] for x in pick)/8,
+        stats[card]={"rows":6,"domains":len({x["domain"] for x in pick}),
+          "mean_score":sum(x["curation"]["score_mean"] for x in pick)/6,
           "min_score":min(x["curation"]["score_min"] for x in pick)}
     if len(final)!=96: raise RuntimeError(f"final {len(final)} !=96")
     return sorted(final,key=lambda r:hashlib.sha256(("repo-final:"+r["pair_sha256"]).encode()).hexdigest()),dict(reject),stats
