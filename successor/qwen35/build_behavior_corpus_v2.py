@@ -28,8 +28,11 @@ SMOL_SOURCES={
 }
 
 def fetch_jsonl(url):
-    with urllib.request.urlopen(url,timeout=90) as r: raw=r.read().decode("utf-8")
-    return [json.loads(x) for x in raw.splitlines() if x.strip()]
+    with urllib.request.urlopen(url,timeout=90) as r:
+        raw_bytes=r.read()
+    raw=raw_bytes.decode("utf-8")
+    rows=[json.loads(x) for x in raw.splitlines() if x.strip()]
+    return rows,hashlib.sha256(raw_bytes).hexdigest()
 
 def norm(s):
     return " ".join(re.findall(r"[a-z0-9']+",s.lower()))
@@ -147,8 +150,8 @@ def run(targeted_url,gold_url):
     tok=AutoTokenizer.from_pretrained(BASE_REPO,revision=BASE_REV)
     if tok.pad_token_id is None: tok.pad_token=tok.eos_token
 
-    targeted=fetch_jsonl(targeted_url)
-    gold=fetch_jsonl(gold_url)
+    targeted,targeted_sha=fetch_jsonl(targeted_url)
+    gold,gold_sha=fetch_jsonl(gold_url)
     if len(targeted)!=240: raise RuntimeError(f"targeted {len(targeted)} !=240")
     if len(gold)!=24: raise RuntimeError(f"gold {len(gold)} !=24")
 
@@ -184,7 +187,12 @@ def run(targeted_url,gold_url):
       "base_repo":BASE_REPO,"base_revision":BASE_REV,"max_length":MAX_LENGTH,
       "sft":{"rows":len(sft),"sha256":hashlib.sha256(sraw).hexdigest(),"targeted":160,"general":512},
       "preference":{"rows":len(prefs),"sha256":hashlib.sha256(praw).hexdigest(),"targeted":240,"gold":24,"general":256},
-      "sources":{"ultrafeedback":UF_REPO+"@"+UF_REV,"smoltalk2":SMOL_REPO+"@"+SMOL_REV}
+      "sources":{
+        "targeted":{"url":targeted_url,"sha256":targeted_sha},
+        "unbound_sol_gold":{"url":gold_url,"sha256":gold_sha},
+        "ultrafeedback":UF_REPO+"@"+UF_REV,
+        "smoltalk2":SMOL_REPO+"@"+SMOL_REV
+      }
     }
     print("FROZEN_MANIFEST="+json.dumps(manifest,sort_keys=True),flush=True)
     emit("SFT_JSONL",sraw); emit("PREF_JSONL",praw)
