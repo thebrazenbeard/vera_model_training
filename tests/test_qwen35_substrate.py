@@ -1,9 +1,13 @@
 import inspect
+import json
+from pathlib import Path
 
 import pytest
 
 from successor.v5 import qwen35_substrate as q35
 from successor.v5 import train_v5
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def representative_text_module_names():
@@ -64,3 +68,24 @@ def test_v5_trainer_accepts_substrate_loader_without_changing_legacy_defaults():
     assert signature.parameters["base_revision"].default == train_v5.BASE_REV
     assert signature.parameters["model_loader"].default is None
     assert signature.parameters["lora_receipt"].default is None
+
+
+def test_continuation_state_matches_adapted_qwen_subject():
+    continuation = json.loads(
+        (
+            ROOT
+            / "state"
+            / "continuation"
+            / "QWEN35_HF_TRAINING_CONTINUATION_20260923_V1.json"
+        ).read_text(encoding="utf-8")
+    )
+    spec = q35.load_spec()
+
+    assert continuation["training_base"]["exact_revision"] == spec["revision"]
+    assert continuation["training_base"]["revision_state"] == "FROZEN_IMMUTABLE_GIT_COMMIT"
+    assert continuation["claim_state"]["exact_base_revision_frozen"] is True
+    assert continuation["claim_state"]["qwen_trainer_patch"] is True
+    assert continuation["claim_state"]["zero_cost_hf_jobs_available"] is False
+    assert continuation["claim_state"]["hf_smoke"] is False
+    assert continuation["claim_state"]["training_job_launched"] is False
+    assert continuation["authority"]["paid_compute"] == "NOT_AUTHORIZED"
