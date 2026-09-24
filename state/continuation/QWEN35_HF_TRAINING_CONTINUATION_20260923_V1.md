@@ -195,3 +195,33 @@ At this checkpoint:
 - deployment qualification: NOT RUN
 - activation: NOT RUN
 - merge: NOT PERFORMED
+
+
+## 2026-09-24 execution refresh
+
+This section supersedes stale pre-adaptation fields earlier in this handoff.
+
+Verified current source state:
+
+- exact frozen training revision: `cec7eb63d667bf2e7928e54598cb5f46aa3bdaaa`;
+- checkpoint architecture at that source: `Qwen3_5ForConditionalGeneration` / composite `qwen3_5`;
+- text-only loader contract: `AutoModelForCausalLM -> Qwen3_5ForCausalLM / Qwen3_5TextConfig`;
+- Qwen-specific trainer patch and substrate manifest are present;
+- source tests now bind this continuation record back to the substrate revision and cost gate;
+- Hugging Face authentication refreshed as `thebrazenbeard`, non-Pro, with Jobs scope;
+- no Hugging Face Jobs are currently running.
+
+Hugging Face Jobs is not a zero-cost execution surface under the observed product contract. Jobs requires a positive credit balance and bills hardware per minute while Starting/Running. The observed published floor is CPU Basic at $0.01/hour; the lowest published GPU tier is above zero cost.
+
+Therefore the inherited `ZERO_COST` constraint blocks the one-step GPU smoke through Hugging Face Jobs. No job was launched.
+
+Current execution gate:
+
+`SOURCE_ADAPTED + EXACT_BASE_FROZEN + HF_COST_GATE_BLOCKED`
+
+The next legal weight-changing effect is either:
+
+1. a genuinely free Hugging Face GPU surface with appropriate artifact custody; or
+2. explicit user authorization for billable Hugging Face compute.
+
+Until one of those exists, continue only non-billable source/corpus/provenance work. Do not treat the absence of a smoke run as a source failure, and do not call source adaptation a runtime PASS.
