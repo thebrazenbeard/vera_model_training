@@ -188,11 +188,17 @@
     "max_length": 1024,
     "lora_r": 4,
     "lora_alpha": 16,
-    "initial_target_modules": [
-      "q_proj",
-      "v_proj"
-    ],
-    "final_target_modules_must_be_introspected": true
+    "target_modules": "all-linear",
+    "target_module_rationale": "Exact base has 32 layers: 24 linear_attention and 8 full_attention. V1 q_proj/v_proj reached only 8 full-attention layers. PEFT QLoRA guidance recommends all-linear; Qwen3_5ForCausalLM is text-only so visual modules are not present.",
+    "required_runtime_assertions": [
+      "Qwen3_5ForCausalLM text-only class",
+      "32 text layers",
+      "24 linear_attention layers",
+      "8 full_attention layers",
+      "no vision module targeted",
+      "all expected Linear modules except output head receive LoRA",
+      "finite loss"
+    ]
   },
   "prohibitions": [
     "raw_private_chat_text",
