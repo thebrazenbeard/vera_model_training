@@ -80,7 +80,7 @@ jobs:
 
       - name: Cache local model
         id: model-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: models
           key: qwen3-4b-q4km-${{ env.MODEL_SHA256 }}
