@@ -53,7 +53,7 @@ def test_builder_uses_named_smoltalk_splits_and_compact_export():
     assert 'target_modules="all-linear"' in t
     assert 'param.data = param.data.to(torch.bfloat16)' in t
     assert 'tok.save_pretrained(adapter)' not in t
-    assert 'chunk=65536' in t
+    assert 'chunk=12000' in t
 
 
 def test_repo_engineering_lane_contract():
