@@ -1,0 +1,66 @@
+{
+  "schema": "VERA_QWEN35_HF_SUBSTRATE_V1",
+  "subject_id": "VERA_QWEN35_4B_TEXT_SUCCESSOR_SMOKE_V1",
+  "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+  "revision": "cec7eb63d667bf2e7928e54598cb5f46aa3bdaaa",
+  "observed_checkpoint_architecture": "Qwen3_5ForConditionalGeneration",
+  "observed_model_type": "qwen3_5",
+  "training_loader": "transformers.AutoModelForCausalLM",
+  "expected_text_model_class": "Qwen3_5ForCausalLM",
+  "expected_text_config_class": "Qwen3_5TextConfig",
+  "training_modality": "TEXT_ONLY",
+  "allow_vision_adapters": false,
+  "checkpoint_parameter_count_observed": 4659900000,
+  "license_status": "CONVERSION_REPO_LICENSE_METADATA_NOT_EXPLICITLY_ESTABLISHED",
+  "license_note": "Do not infer the conversion repository's license solely from the upstream Qwen base. Resolve artifact-distribution rights separately before publishing merged weights.",
+  "architecture_contract": {
+    "required_families": [
+      "self_attn",
+      "linear_attn",
+      "mlp"
+    ],
+    "hybrid_attention": true,
+    "forbidden_loaded_module_tokens": [
+      ".visual.",
+      ".vision.",
+      "vision_tower"
+    ]
+  },
+  "lora": {
+    "r": 4,
+    "alpha": 16,
+    "dropout": 0.0,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "in_proj_qkv",
+      "in_proj_z",
+      "in_proj_b",
+      "in_proj_a",
+      "out_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "smoke_gate": {
+    "require_immutable_revision": true,
+    "require_text_model_class_match": true,
+    "require_text_config_class_match": true,
+    "require_all_lora_targets_present": true,
+    "reject_any_vision_module": true,
+    "require_finite_loss": true,
+    "require_adapter_save": true,
+    "require_training_receipt": true
+  },
+  "authority": {
+    "weight_change_intent": "PATRICK_EXPLICIT",
+    "execution_location": "HUGGING_FACE",
+    "paid_compute": "NOT_AUTHORIZED",
+    "merge": "NOT_AUTHORIZED",
+    "deployment": "NOT_AUTHORIZED",
+    "activation": "NOT_AUTHORIZED"
+  }
+}
