@@ -1,0 +1,39 @@
+{
+  "base_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+  "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+  "max_length": 1024,
+  "output_identity": "Vera-Qwen3.5-4B-Behavior-V1",
+  "preference": {
+    "chat_targeted": 240,
+    "general": 256,
+    "gold": 24,
+    "repo_engineering": 96,
+    "rows": 616,
+    "sha256": "aca9bedb00eabefde53f012eeea42f604420c03e42036aa9128f2dd3cb7dc3ef"
+  },
+  "schema": "VERA_QWEN35_BEHAVIOR_V2_FROZEN_CORPUS_MANIFEST",
+  "sft": {
+    "chat_targeted": 160,
+    "general": 512,
+    "repo_engineering": 64,
+    "rows": 736,
+    "sha256": "0f0db383c170260f484a39172e03b39247c5416d272155eb5fd4a9d85e3f63a6",
+    "targeted_total": 224
+  },
+  "sources": {
+    "repo_engineering": {
+      "sha256": "4bbe4bce043d03e884e99c7b3919aceb6d24ca4f74a6718ea5e5a7134adc59cc",
+      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/cbcaceebef712c1263734e8ef2db733f327ee737/successor/qwen35/corpus/repo_engineering_v1.jsonl"
+    },
+    "smoltalk2": "HuggingFaceTB/smoltalk2@fc6cc2103c066455aade5d7fbb346039ae36ca5e",
+    "targeted": {
+      "sha256": "9221fcb38fe2512fe721732d26ccaa881bd4258cc1bd658e5d3da16e3038802c",
+      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/cbcaceebef712c1263734e8ef2db733f327ee737/successor/qwen35/corpus/history_behavior_targeted_v2.jsonl"
+    },
+    "ultrafeedback": "HuggingFaceH4/ultrafeedback_binarized@3949bf5f8c17c394422ccfab0c31ea9c20bdeb85",
+    "unbound_sol_gold": {
+      "sha256": "600e48763bd13c33abe6323b501e3033f270b098450ab043d5e28e4a01343fc8",
+      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/cbcaceebef712c1263734e8ef2db733f327ee737/successor/v5/gold/unbound_sol_behavior_v3_v1.source.jsonl"
+    }
+  }
+}
