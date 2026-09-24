@@ -77,7 +77,7 @@ def archive_dir(path):
             if p.is_file(): tf.add(p,arcname=str(p.relative_to(path.parent)))
     return bio.getvalue()
 
-def emit(tag,raw,chunk=12000):
+def emit(tag,raw,chunk=65536):
     b64=base64.b64encode(raw).decode("ascii"); total=math.ceil(len(b64)/chunk)
     print(f"{tag}_META|bytes={len(raw)}|sha256={hashlib.sha256(raw).hexdigest()}|chunks={total}",flush=True)
     for i in range(total): print(f"{tag}_CHUNK|{i+1}|{total}|{b64[i*chunk:(i+1)*chunk]}",flush=True)
@@ -139,8 +139,12 @@ def run(sft_url,pref_url,out,smoke):
     rr=orpo.train(); model=orpo.model
 
     adapter=out/"adapter"
+    # Persist only the LoRA artifact; the tokenizer is frozen with BASE_REPO/BASE_REV
+    # and need not be duplicated into the adapter archive.
+    for name,param in model.named_parameters():
+        if param.requires_grad and param.is_floating_point():
+            param.data = param.data.to(torch.bfloat16)
     model.save_pretrained(adapter,safe_serialization=True)
-    tok.save_pretrained(adapter)
     arc=archive_dir(adapter)
     receipt={
       "schema":"VERA_QWEN35_BEHAVIOR_TRAINING_RECEIPT_V1",
@@ -151,7 +155,7 @@ def run(sft_url,pref_url,out,smoke):
       "trained_sft_rows":len(sft_data),"trained_preference_rows":len(pref_data),
       "seed":SEED,"max_length":MAX_LENGTH,
       "sft_loss":float(sr.training_loss),"orpo_loss":float(rr.training_loss),
-      "lora":{"r":4,"alpha":16,"target_modules":"all-linear","targeted_module_count":len(targets),"families":prefixes},
+      "lora":{"r":4,"alpha":16,"target_modules":"all-linear","targeted_module_count":len(targets),"families":prefixes,"saved_dtype":"bfloat16"},
       "adapter_archive_bytes":len(arc),"adapter_archive_sha256":hashlib.sha256(arc).hexdigest(),
       "versions":{"torch":torch.__version__,"transformers":transformers.__version__,"trl":trl.__version__,"peft":peft_lib.__version__}
     }
