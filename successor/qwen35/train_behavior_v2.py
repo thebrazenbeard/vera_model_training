@@ -1,0 +1,166 @@
+from __future__ import annotations
+
+import argparse
+import base64
+import hashlib
+import io
+import json
+import math
+import random
+import tarfile
+import urllib.request
+from pathlib import Path
+
+BASE_REPO="rodrigomt/Qwen3.5-4B-Uncensored-Aggressive"
+BASE_REV="d61dd146c8fd44c9a49cdb7f59f34e17b61902d8"
+OUTPUT_IDENTITY="Vera-Qwen3.5-4B-Behavior-V1"
+SEED=20260924
+MAX_LENGTH=1024
+
+def fetch_jsonl(url):
+    with urllib.request.urlopen(url,timeout=120) as r: raw=r.read()
+    rows=[json.loads(x) for x in raw.decode("utf-8").splitlines() if x.strip()]
+    return rows,hashlib.sha256(raw).hexdigest()
+
+def generation_prefix(tok,prompt):
+    try:
+        return tok.apply_chat_template([{"role":"user","content":prompt}],tokenize=False,add_generation_prompt=True,enable_thinking=False)
+    except TypeError:
+        return tok.apply_chat_template([{"role":"user","content":prompt}],tokenize=False,add_generation_prompt=True)
+
+def sft_text(tok,prompt,response):
+    return generation_prefix(tok,prompt)+response+(tok.eos_token or "")
+
+def pref_row(tok,r):
+    return {
+      "prompt":generation_prefix(tok,r["prompt"]),
+      "chosen":r["chosen"]+(tok.eos_token or ""),
+      "rejected":r["rejected"]+(tok.eos_token or "")
+    }
+
+def load_model():
+    import torch
+    from transformers import AutoTokenizer,BitsAndBytesConfig,Qwen3_5ForCausalLM
+    from peft import LoraConfig,prepare_model_for_kbit_training
+
+    tok=AutoTokenizer.from_pretrained(BASE_REPO,revision=BASE_REV)
+    if tok.pad_token_id is None: tok.pad_token=tok.eos_token
+    q=BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type="nf4",bnb_4bit_use_double_quant=True,bnb_4bit_compute_dtype=torch.bfloat16)
+    model=Qwen3_5ForCausalLM.from_pretrained(BASE_REPO,revision=BASE_REV,quantization_config=q,device_map={"":0},dtype=torch.bfloat16)
+    model.config.use_cache=False
+
+    types=list(getattr(model.config,"layer_types",[]))
+    if len(types)!=32 or types.count("linear_attention")!=24 or types.count("full_attention")!=8:
+        raise RuntimeError(f"unexpected Qwen3.5 topology: layers={len(types)} types={types}")
+
+    names=[n for n,_ in model.named_modules()]
+    expected=["q_proj","k_proj","v_proj","o_proj","in_proj_qkv","in_proj_z","in_proj_b","in_proj_a","out_proj","gate_proj","up_proj","down_proj"]
+    counts={x:sum(n.endswith(x) for n in names) for x in expected}
+    required={"q_proj":8,"k_proj":8,"v_proj":8,"o_proj":8,"in_proj_qkv":24,"in_proj_z":24,"in_proj_b":24,"in_proj_a":24}
+    for k,v in required.items():
+        if counts[k]!=v: raise RuntimeError(f"module topology mismatch {k}: {counts[k]} != {v}")
+    if any("vision" in n.lower() or ".visual" in n.lower() for n in names):
+        raise RuntimeError("vision modules present in text-only Qwen3_5ForCausalLM")
+    print("BASE_TOPOLOGY="+json.dumps({"layers":32,"linear_attention":24,"full_attention":8,"module_counts":counts},sort_keys=True),flush=True)
+
+    model=prepare_model_for_kbit_training(model,use_gradient_checkpointing=True)
+    lora=LoraConfig(
+      r=4,lora_alpha=16,lora_dropout=0.0,bias="none",task_type="CAUSAL_LM",
+      target_modules="all-linear"
+    )
+    return model,tok,lora
+
+def archive_dir(path):
+    bio=io.BytesIO()
+    with tarfile.open(fileobj=bio,mode="w:gz",compresslevel=6) as tf:
+        for p in sorted(path.rglob("*")):
+            if p.is_file(): tf.add(p,arcname=str(p.relative_to(path.parent)))
+    return bio.getvalue()
+
+def emit(tag,raw,chunk=12000):
+    b64=base64.b64encode(raw).decode("ascii"); total=math.ceil(len(b64)/chunk)
+    print(f"{tag}_META|bytes={len(raw)}|sha256={hashlib.sha256(raw).hexdigest()}|chunks={total}",flush=True)
+    for i in range(total): print(f"{tag}_CHUNK|{i+1}|{total}|{b64[i*chunk:(i+1)*chunk]}",flush=True)
+    print(f"{tag}_COMPLETE",flush=True)
+
+def run(sft_url,pref_url,out,smoke):
+    import torch,transformers,trl,peft as peft_lib
+    from datasets import Dataset
+    from trl import SFTConfig,SFTTrainer
+    from trl.experimental.orpo import ORPOConfig,ORPOTrainer
+
+    random.seed(SEED); torch.manual_seed(SEED)
+    sft_rows,sft_sha=fetch_jsonl(sft_url)
+    pref_rows,pref_sha=fetch_jsonl(pref_url)
+    if len(sft_rows)!=672 or len(pref_rows)!=520:
+        raise RuntimeError(f"corpus count mismatch sft={len(sft_rows)} pref={len(pref_rows)}")
+
+    model,tok,lora=load_model()
+    sft_data=[{"text":sft_text(tok,r["prompt"],r["response"])} for r in sft_rows]
+    pref_data=[pref_row(tok,r) for r in pref_rows]
+    if smoke:
+        sft_data=sft_data[:24]; pref_data=pref_data[:12]
+
+    out.mkdir(parents=True,exist_ok=True)
+    sargs=SFTConfig(
+      output_dir=str(out/"sft_work"),per_device_train_batch_size=1,
+      gradient_accumulation_steps=1 if smoke else 8,num_train_epochs=1.0,max_steps=1 if smoke else -1,
+      learning_rate=5e-5,lr_scheduler_type="cosine",warmup_steps=0 if smoke else 3,
+      optim="paged_adamw_8bit",bf16=True,tf32=True,gradient_checkpointing=True,
+      gradient_checkpointing_kwargs={"use_reentrant":False},max_length=MAX_LENGTH,dataset_text_field="text",
+      completion_only_loss=False,packing=False,shuffle_dataset=True,logging_steps=1 if smoke else 10,
+      save_strategy="no",eval_strategy="no",report_to="none",seed=SEED,data_seed=SEED
+    )
+    sft=SFTTrainer(model=model,args=sargs,train_dataset=Dataset.from_list(sft_data),processing_class=tok,peft_config=lora)
+    sr=sft.train(); model=sft.model
+    targets=list(getattr(model,"targeted_module_names",[]))
+    if not targets: raise RuntimeError("PEFT reported no targeted modules")
+    if any("vision" in n.lower() or ".visual" in n.lower() for n in targets):
+        raise RuntimeError("vision target detected")
+    prefixes={
+      "linear_attn":sum(".linear_attn." in n for n in targets),
+      "self_attn":sum(".self_attn." in n for n in targets),
+      "mlp":sum(".mlp." in n for n in targets)
+    }
+    if prefixes["linear_attn"]==0 or prefixes["self_attn"]==0 or prefixes["mlp"]==0:
+        raise RuntimeError(f"all-linear coverage incomplete: {prefixes}")
+    print("LORA_COVERAGE="+json.dumps({"targeted_modules":len(targets),"families":prefixes,"sample":targets[:30]},sort_keys=True),flush=True)
+
+    oargs=ORPOConfig(
+      output_dir=str(out/"orpo_work"),per_device_train_batch_size=1,
+      gradient_accumulation_steps=1 if smoke else 8,num_train_epochs=1.0,max_steps=1 if smoke else -1,
+      learning_rate=2e-5,lr_scheduler_type="cosine",warmup_steps=0 if smoke else 3,
+      optim="paged_adamw_8bit",bf16=True,tf32=True,gradient_checkpointing=True,
+      gradient_checkpointing_kwargs={"use_reentrant":False},max_length=MAX_LENGTH,beta=0.1,
+      logging_steps=1 if smoke else 10,save_strategy="no",eval_strategy="no",report_to="none",
+      seed=SEED,data_seed=SEED
+    )
+    orpo=ORPOTrainer(model=model,args=oargs,train_dataset=Dataset.from_list(pref_data),processing_class=tok)
+    rr=orpo.train(); model=orpo.model
+
+    adapter=out/"adapter"
+    model.save_pretrained(adapter,safe_serialization=True)
+    tok.save_pretrained(adapter)
+    arc=archive_dir(adapter)
+    receipt={
+      "schema":"VERA_QWEN35_BEHAVIOR_TRAINING_RECEIPT_V1",
+      "output_identity":OUTPUT_IDENTITY,"smoke":smoke,
+      "base_repo":BASE_REPO,"base_revision":BASE_REV,
+      "sft_sha256":sft_sha,"preference_sha256":pref_sha,
+      "sft_rows":len(sft_rows),"preference_rows":len(pref_rows),
+      "trained_sft_rows":len(sft_data),"trained_preference_rows":len(pref_data),
+      "seed":SEED,"max_length":MAX_LENGTH,
+      "sft_loss":float(sr.training_loss),"orpo_loss":float(rr.training_loss),
+      "lora":{"r":4,"alpha":16,"target_modules":"all-linear","targeted_module_count":len(targets),"families":prefixes},
+      "adapter_archive_bytes":len(arc),"adapter_archive_sha256":hashlib.sha256(arc).hexdigest(),
+      "versions":{"torch":torch.__version__,"transformers":transformers.__version__,"trl":trl.__version__,"peft":peft_lib.__version__}
+    }
+    print("TRAINING_RECEIPT="+json.dumps(receipt,sort_keys=True),flush=True)
+    emit("ADAPTER_ARCHIVE",arc)
+
+if __name__=="__main__":
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--sft-url",required=True); ap.add_argument("--pref-url",required=True)
+    ap.add_argument("--output-dir",type=Path,default=Path("/tmp/Vera-Qwen3.5-4B-Behavior-V1"))
+    ap.add_argument("--smoke",action="store_true")
+    a=ap.parse_args(); run(a.sft_url,a.pref_url,a.output_dir,a.smoke)
