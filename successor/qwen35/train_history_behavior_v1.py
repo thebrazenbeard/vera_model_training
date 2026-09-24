@@ -123,20 +123,35 @@ def load_general(tokenizer):
     return sft_rows(), pref_rows()
 
 
-def sft_record(prompt: str, response: str) -> dict:
+def generation_prompt_text(tokenizer, prompt: str) -> str:
+    messages = [{"role": "user", "content": prompt}]
+    try:
+        return tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
+        )
+    except TypeError:
+        return tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+
+
+def sft_record(tokenizer, prompt: str, response: str) -> dict:
+    # Preformat once so TRL never has to infer a prompt/completion boundary
+    # from a Qwen chat template whose separate renderings are not prefix-stable.
+    text = generation_prompt_text(tokenizer, prompt) + response + (tokenizer.eos_token or "")
+    return {"text": text}
+
+
+def pref_record(tokenizer, prompt: str, chosen: str, rejected: str) -> dict:
+    # ORPO accepts plain prompt/chosen/rejected strings. Supplying the already
+    # rendered generation prefix avoids a second chat-template pass.
+    prefix = generation_prompt_text(tokenizer, prompt)
+    eos = tokenizer.eos_token or ""
     return {
-        "prompt": [{"role": "user", "content": prompt}],
-        "completion": [{"role": "assistant", "content": response}],
+        "prompt": prefix,
+        "chosen": chosen + eos,
+        "rejected": rejected + eos,
     }
-
-
-def pref_record(prompt: str, chosen: str, rejected: str) -> dict:
-    return {
-        "prompt": [{"role": "user", "content": prompt}],
-        "chosen": [{"role": "assistant", "content": chosen}],
-        "rejected": [{"role": "assistant", "content": rejected}],
-    }
-
 
 def load_model():
     import torch
@@ -221,12 +236,12 @@ def train(output_dir: Path, smoke: bool) -> dict:
     general_sft, general_pref = load_general(tokenizer)
 
     target_sft = [
-        sft_record(r["prompt"], r["chosen"])
+        sft_record(tokenizer, r["prompt"], r["chosen"])
         for r in targeted
         if chat_len(tokenizer, r["prompt"], r["chosen"]) <= MAX_LENGTH
     ]
     target_pref = [
-        pref_record(r["prompt"], r["chosen"], r["rejected"])
+        pref_record(tokenizer, r["prompt"], r["chosen"], r["rejected"])
         for r in targeted
         if max(
             chat_len(tokenizer, r["prompt"], r["chosen"]),
@@ -236,8 +251,8 @@ def train(output_dir: Path, smoke: bool) -> dict:
     if len(target_sft) < 460 or len(target_pref) < 460:
         raise RuntimeError(f"too many targeted rows exceeded length: sft={len(target_sft)} pref={len(target_pref)}")
 
-    sft_rows = target_sft + [sft_record(r["prompt"], r["response"]) for r in general_sft]
-    pref_rows = target_pref + [pref_record(r["prompt"], r["chosen"], r["rejected"]) for r in general_pref]
+    sft_rows = target_sft + [sft_record(tokenizer, r["prompt"], r["response"]) for r in general_sft]
+    pref_rows = target_pref + [pref_record(tokenizer, r["prompt"], r["chosen"], r["rejected"]) for r in general_pref]
     random.Random(SEED + 1).shuffle(sft_rows)
     random.Random(SEED + 2).shuffle(pref_rows)
 
@@ -264,7 +279,8 @@ def train(output_dir: Path, smoke: bool) -> dict:
         gradient_checkpointing=True,
         gradient_checkpointing_kwargs={"use_reentrant": False},
         max_length=MAX_LENGTH,
-        completion_only_loss=True,
+        dataset_text_field="text",
+        completion_only_loss=False,
         packing=False,
         shuffle_dataset=True,
         logging_steps=1 if smoke else 10,
@@ -292,7 +308,7 @@ def train(output_dir: Path, smoke: bool) -> dict:
         max_steps=1 if smoke else -1,
         learning_rate=2e-5,
         lr_scheduler_type="cosine",
-        warmup_ratio=0.03 if not smoke else 0.0,
+        warmup_steps=0 if smoke else 3,
         optim="paged_adamw_8bit",
         bf16=True,
         tf32=True,
