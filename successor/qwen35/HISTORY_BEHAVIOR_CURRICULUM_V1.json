@@ -13,12 +13,12 @@
     "deployment_quant": "Q5_K_S"
   },
   "training_mix": {
-    "targeted_preference_pairs": 960,
-    "targeted_sft_rows": 960,
-    "general_retention_sft_rows": 640,
-    "general_retention_preference_pairs": 640,
-    "total_sft_rows": 1600,
-    "total_preference_pairs": 1600,
+    "targeted_preference_pairs": 480,
+    "targeted_sft_rows": 480,
+    "general_retention_sft_rows": 320,
+    "general_retention_preference_pairs": 320,
+    "total_sft_rows": 800,
+    "total_preference_pairs": 800,
     "max_length": 1024
   },
   "dimensions": [
