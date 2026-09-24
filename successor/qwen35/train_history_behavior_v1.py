@@ -257,7 +257,7 @@ def train(output_dir: Path, smoke: bool) -> dict:
         max_steps=1 if smoke else -1,
         learning_rate=5e-5,
         lr_scheduler_type="cosine",
-        warmup_ratio=0.03 if not smoke else 0.0,
+        warmup_steps=0 if smoke else 3,
         optim="paged_adamw_8bit",
         bf16=True,
         tf32=True,
