@@ -116,6 +116,42 @@
       "mechanism": "A digest establishes identity only for the bytes actually hashed; a field label cannot promote a response-file hash into a checkpoint hash.",
       "failure_mode": "Use misleading metadata names to infer model/artifact lineage that the hash computation never measured.",
       "durable_rule": "Trace every provenance value to its generating computation and bind claims to that exact object."
+    },
+    {
+      "id": "R13_PROVENANCE_FRONTIER_NOT_ORIGIN",
+      "source_repo": "thebrazenbeard/roots",
+      "source_commit": "d62c58ed1385111170eafc1cda3fee0b68c9f05e",
+      "source_commit_message": "Canonicalize qualified Roots engine on main",
+      "mechanism": "Discovery results must be reconstructed in chronological order, and the oldest accessible evidence is not automatically the true origin.",
+      "failure_mode": "Promote the first search hit, oldest available record, later retrospective summary, or semantic ancestor into a proven origin without sufficient lineage evidence.",
+      "durable_rule": "Preserve the exact referent, order evidence oldest-to-newest, distinguish literal occurrence from conceptual ancestry, and report accessible-frontier uncertainty explicitly."
+    },
+    {
+      "id": "R14_REUSE_OVERLAP_NOT_LINEAGE",
+      "source_repo": "thebrazenbeard/roots",
+      "source_commit": "a6994b415336bc179a41aad0ac9eec403d60f93c",
+      "source_commit_message": "Record Vera 59-repo portfolio lineage receipt",
+      "mechanism": "Naming similarity, byte overlap, shared templates, or custody can establish reuse/association without establishing origin, succession, or canonicality.",
+      "failure_mode": "Infer lineage or supersession from similar names, large shared-file overlap, recency, or provider custody; resolve conflicts by convenience.",
+      "durable_rule": "Type reuse, supersession, distinctness, conflict, and unknown separately; preserve unresolved conflicts and require direct lineage evidence before claiming origin or succession."
+    },
+    {
+      "id": "R15_TRANSLATION_PLAN_NOT_BEHAVIORAL_EQUIVALENCE",
+      "source_repo": "thebrazenbeard/sql-connectome",
+      "source_commit": "cff17228652b385364a22265fd3da7cb895207fd",
+      "source_commit_message": "Scope translation fidelity to capability planning",
+      "mechanism": "An exact-looking translation or capability plan establishes only the scope it actually evaluated; behavioral equivalence remains a separate unproven claim.",
+      "failure_mode": "Promote syntactic or capability-level translation success into behavioral equivalence across runtimes or engines.",
+      "durable_rule": "Name the fidelity scope explicitly and keep behavioral equivalence NOT ESTABLISHED until target-specific validation proves it."
+    },
+    {
+      "id": "R16_UNDERSTAND_TRANSLATE_VALIDATE_EXECUTE_AUTHORIZE",
+      "source_repo": "thebrazenbeard/sql-connectome",
+      "source_commit": "4de3d2da01a51615d9f70ff1a0e40e9f44bd9d70",
+      "source_commit_message": "Integrate semantic connectome with execution architecture",
+      "mechanism": "Understanding semantics, producing a translation, validating it, executing it, and having authority for its effects are distinct stages.",
+      "failure_mode": "Treat semantic understanding or a valid plan as permission to execute, or treat an execution credential as proof of semantic equivalence.",
+      "durable_rule": "Keep UNDERSTAND, TRANSLATE, VALIDATE, EXECUTE, and AUTHORIZE as separate claims; fail closed when required source capabilities are not admitted."
     }
   ]
 }
