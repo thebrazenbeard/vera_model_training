@@ -64,3 +64,17 @@ def test_resolve_adapter_accepts_local_directory(tmp_path):
         local_repo_root=None,
     )
     assert resolved == adapter.resolve()
+
+
+
+def test_load_holdout_can_use_local_jsonl(tmp_path):
+    module = load_eval_module()
+    holdout = tmp_path / "holdout.jsonl"
+    holdout.write_text(
+        '{"record_id":"x","dimension":"H07","prompt":"p","chosen":"c","rejected":"r"}\n',
+        encoding="utf-8",
+        newline="\n",
+    )
+    rows, digest = module.load_holdout_source(holdout)
+    assert rows[0]["record_id"] == "x"
+    assert len(digest) == 64

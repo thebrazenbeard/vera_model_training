@@ -51,11 +51,15 @@ def resolve_adapter(work,adapter_dir,artifact_commit,part_prefix,part_count,adap
       local_repo_root=local_repo_root
     )
 
-def load_holdout(url):
-    raw=download(url)
+def load_holdout_source(source):
+    path=Path(source)
+    raw=path.read_bytes() if path.exists() else download(str(source))
     rows=[json.loads(x) for x in raw.decode().splitlines() if x.strip()]
     if not rows: raise RuntimeError("empty holdout")
     return rows,hashlib.sha256(raw).hexdigest()
+
+def load_holdout(url):
+    return load_holdout_source(url)
 
 def model_load_placement(gpu_memory_mib,cpu_memory_gib,offload_folder):
     if gpu_memory_mib is None:
@@ -113,7 +117,8 @@ def main(a):
       a.adapter_sha256,a.local_repo_root
     )
     adapter_model_sha=hashlib.sha256((adapter/"adapter_model.safetensors").read_bytes()).hexdigest()
-    rows,hold_sha=load_holdout(a.holdout_url)
+    holdout_source=a.holdout_path if a.holdout_path is not None else a.holdout_url
+    rows,hold_sha=load_holdout_source(holdout_source)
     tok=AutoTokenizer.from_pretrained(BASE_REPO,revision=BASE_REV)
     if tok.pad_token_id is None: tok.pad_token=tok.eos_token
     q=BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type="nf4",bnb_4bit_use_double_quant=True,bnb_4bit_compute_dtype=torch.bfloat16)
@@ -142,7 +147,10 @@ if __name__=="__main__":
     ap.add_argument("--artifact-commit"); ap.add_argument("--part-prefix")
     ap.add_argument("--part-count",type=int); ap.add_argument("--adapter-sha256")
     ap.add_argument("--adapter-dir",type=Path)
-    ap.add_argument("--holdout-url",required=True); ap.add_argument("--work",type=Path,default=Path("/tmp/vera-qwen35-v2-qualification"))
+    holdout_group=ap.add_mutually_exclusive_group(required=True)
+    holdout_group.add_argument("--holdout-url")
+    holdout_group.add_argument("--holdout-path",type=Path)
+    ap.add_argument("--work",type=Path,default=Path("/tmp/vera-qwen35-v2-qualification"))
     ap.add_argument("--local-repo-root",type=Path)
     ap.add_argument("--gpu-memory-mib",type=int)
     ap.add_argument("--cpu-memory-gib",type=int,default=20)

@@ -24,7 +24,7 @@ Current state:
 - not merged, published, installed, activated, or deployed.
 
 Next frontier:
-expand semantically diverse repair data for H03/H07/H11/H15, especially H07, with a pre-frozen train/development split. Do not spend another training cycle by merely increasing steps. Freeze the eventual V3 recipe before creating a fresh unseen final qualification holdout.
+H07 architecture-discrimination V1 is now the active bounded experiment. Its frozen local split is 16 SFT + 16 preference training rows and 8 disjoint development rows, documented in `successor/qwen35/qualification/H07_ARCHITECTURE_DISCRIMINATION_V1.md`; exact-tokenizer maxima are 98 train / 92 development tokens under the 512-token Lappy profile. The local evaluator now accepts `--holdout-path`. Actual base scoring/training has not started because `C:\ProgramData\ProRun\runtime\qwen_http.py` is still holding most RTX 3050 VRAM; that runtime was not stopped without explicit authority. After GPU release, pre-score the frozen H07 development set, run the bounded local H07 adapter experiment, then compare BASE / BASE+runtime / TRAINED / TRAINED+runtime. Do not create the fresh final qualification holdout until the recipe is frozen.
 
 Claim ceiling:
 `V2_CUSTODY_VERIFIED / V2_BEHAVIORALLY_NOT_QUALIFIED_ON_DEV_CONTROL / V3_RECIPE_RESEARCH_IN_PROGRESS / 40_ROW_SET_DEVELOPMENT_ONLY / NO_V3_CANDIDATE_PROMOTED / NOT_DEPLOYED`

@@ -142,3 +142,31 @@ def test_token_budget_preflight_rejects_oversized_rows_instead_of_truncating():
         assert "token budget exceeded" in str(exc)
     else:
         raise AssertionError("local profile must fail before trainer-side truncation")
+
+
+
+def test_h07_discrimination_split_is_frozen_diverse_and_disjoint():
+    import json
+    from collections import Counter
+    corpus = ROOT / "successor" / "qwen35" / "corpus"
+    qual = ROOT / "successor" / "qwen35" / "qualification"
+
+    train_pref = [json.loads(x) for x in (corpus / "h07_architecture_discrimination_v1_train_preference.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    train_sft = [json.loads(x) for x in (corpus / "h07_architecture_discrimination_v1_train_sft.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    dev = [json.loads(x) for x in (qual / "h07_architecture_discrimination_v1_dev.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    legacy_dev = [json.loads(x) for x in (qual / "history_behavior_holdout_v1.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+
+    assert len(train_pref) == len(train_sft) == 16
+    assert len(dev) == 8
+    assert all(r["dimension"] == "H07" for r in train_pref + train_sft + dev)
+    assert len({r["mechanism"] for r in train_pref}) >= 12
+    assert Counter(r["verification_class"] for r in train_pref)["readback_required"] >= 8
+    assert Counter(r["verification_class"] for r in train_pref)["receipt_sufficient"] >= 2
+    assert Counter(r["verification_class"] for r in train_pref)["ambiguous_effect"] >= 2
+
+    train_prompts = {r["prompt"] for r in train_pref} | {r["prompt"] for r in train_sft}
+    dev_prompts = {r["prompt"] for r in dev}
+    legacy_prompts = {r["prompt"] for r in legacy_dev}
+    assert not (train_prompts & dev_prompts)
+    assert not (train_prompts & legacy_prompts)
+    assert not (dev_prompts & legacy_prompts)
