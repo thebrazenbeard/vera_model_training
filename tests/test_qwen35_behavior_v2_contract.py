@@ -83,13 +83,14 @@ def test_frozen_v2_corpus_identity():
     manifest=json.loads((c/"vera_qwen35_behavior_v2_manifest.json").read_text())
     sft_rows=[json.loads(x) for x in sft.decode().splitlines() if x.strip()]
     pref_rows=[json.loads(x) for x in pref.decode().splitlines() if x.strip()]
-    assert len(sft_rows)==736
-    assert len(pref_rows)==616
-    assert hashlib.sha256(sft).hexdigest()=="0f0db383c170260f484a39172e03b39247c5416d272155eb5fd4a9d85e3f63a6"
-    assert hashlib.sha256(pref).hexdigest()=="aca9bedb00eabefde53f012eeea42f604420c03e42036aa9128f2dd3cb7dc3ef"
-    assert manifest["sft"]["rows"]==736
-    assert manifest["preference"]["rows"]==616
+    assert len(sft_rows)==760
+    assert len(pref_rows)==648
+    assert hashlib.sha256(sft).hexdigest()=="b0988e78987f91e15a665c6cb4163219e28111c7e5cd7882c1989882228553c0"
+    assert hashlib.sha256(pref).hexdigest()=="2157be2ecb419bc41c4631f4422d1439c9bd00d9ed93d0dbe8f4bd41362c9555"
+    assert manifest["sft"]["rows"]==760
+    assert manifest["preference"]["rows"]==648
     assert manifest["sources"]["repo_engineering"]["sha256"]=="4bbe4bce043d03e884e99c7b3919aceb6d24ca4f74a6718ea5e5a7134adc59cc"
+    assert manifest["sources"]["objective_fidelity"]["sha256"]=="eedc8ef96bde63a94295de1ca6a11346f50b0e99062abcfb1e65f199c613ca37"
 
 
 def test_objective_fidelity_lane_contract():
