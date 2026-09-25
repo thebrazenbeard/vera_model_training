@@ -1,5 +1,7 @@
 # Qwen3.5 Objective-Fidelity V2 Training Continuation — 2026-09-25
 
+> **Superseded status — 2026-09-25:** Behavioral qualification is no longer pending. The exact V2 adapter failed the historical 40-row control relative to base and is not behaviorally qualified. That 40-row set has also been consumed as a V3 development control. Continue from `state/continuation/QWEN35_BEHAVIOR_V3_DEV_CONTROL_20260925.md`.
+
 Restore:
 `QWEN35::RESTORE_AND_RUN::OBJECTIVE_FIDELITY_V2_COMPLETE_20260925`
 

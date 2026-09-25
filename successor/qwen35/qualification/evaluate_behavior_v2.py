@@ -16,13 +16,17 @@ def download(url):
     req=urllib.request.Request(url,headers={"User-Agent":"vera-qwen35-v2-qualification/1"})
     with urllib.request.urlopen(req,timeout=120) as r: return r.read()
 
-def recover(work,artifact_commit,prefix,part_count,expected_sha):
+def recover(work,artifact_commit,prefix,part_count,expected_sha,local_repo_root=None):
     archive=work/"adapter.tar.gz"; work.mkdir(parents=True,exist_ok=True)
     h=hashlib.sha256(); total=0
     with archive.open("wb") as out:
         for i in range(part_count):
-            url=f"https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/{artifact_commit}/{prefix}.part{i:03d}"
-            data=download(url); out.write(data); h.update(data); total+=len(data)
+            if local_repo_root is None:
+                url=f"https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/{artifact_commit}/{prefix}.part{i:03d}"
+                data=download(url)
+            else:
+                data=(Path(local_repo_root)/f"{prefix}.part{i:03d}").read_bytes()
+            out.write(data); h.update(data); total+=len(data)
     if h.hexdigest()!=expected_sha: raise RuntimeError(f"adapter SHA mismatch {h.hexdigest()} != {expected_sha}")
     extract=work/"extracted"; extract.mkdir(exist_ok=True)
     with tarfile.open(archive,"r:gz") as tf: tf.extractall(extract,filter="data")
@@ -31,11 +35,42 @@ def recover(work,artifact_commit,prefix,part_count,expected_sha):
     print(f"ADAPTER_READBACK|bytes={total}|sha256={h.hexdigest()}",flush=True)
     return adapter
 
+def resolve_adapter(work,adapter_dir,artifact_commit,part_prefix,part_count,adapter_sha256,local_repo_root):
+    if adapter_dir is not None:
+        adapter=Path(adapter_dir).resolve()
+        if not (adapter/"adapter_config.json").exists():
+            raise RuntimeError("local adapter_config.json missing")
+        if not (adapter/"adapter_model.safetensors").exists():
+            raise RuntimeError("local adapter_model.safetensors missing")
+        return adapter
+    required=(artifact_commit,part_prefix,part_count,adapter_sha256)
+    if any(x is None for x in required):
+        raise RuntimeError("chunked adapter mode requires artifact commit, prefix, count, and SHA")
+    return recover(
+      work,artifact_commit,part_prefix,part_count,adapter_sha256,
+      local_repo_root=local_repo_root
+    )
+
 def load_holdout(url):
     raw=download(url)
     rows=[json.loads(x) for x in raw.decode().splitlines() if x.strip()]
     if not rows: raise RuntimeError("empty holdout")
     return rows,hashlib.sha256(raw).hexdigest()
+
+def model_load_placement(gpu_memory_mib,cpu_memory_gib,offload_folder):
+    if gpu_memory_mib is None:
+        return {"device_map":{"":0}}
+    if gpu_memory_mib < 512:
+        raise ValueError("gpu_memory_mib must be at least 512")
+    if cpu_memory_gib < 1:
+        raise ValueError("cpu_memory_gib must be positive")
+    offload_folder=Path(offload_folder)
+    offload_folder.mkdir(parents=True,exist_ok=True)
+    return {
+      "device_map":"auto",
+      "max_memory":{0:f"{gpu_memory_mib}MiB","cpu":f"{cpu_memory_gib}GiB"},
+      "offload_folder":str(offload_folder)
+    }
 
 def prefix(tok,p):
     try: return tok.apply_chat_template([{"role":"user","content":p}],tokenize=False,add_generation_prompt=True,enable_thinking=False)
@@ -73,17 +108,27 @@ def main(a):
     import torch
     from peft import PeftModel
     from transformers import AutoTokenizer,BitsAndBytesConfig,Qwen3_5ForCausalLM
-    adapter=recover(a.work,a.artifact_commit,a.part_prefix,a.part_count,a.adapter_sha256)
+    adapter=resolve_adapter(
+      a.work,a.adapter_dir,a.artifact_commit,a.part_prefix,a.part_count,
+      a.adapter_sha256,a.local_repo_root
+    )
+    adapter_model_sha=hashlib.sha256((adapter/"adapter_model.safetensors").read_bytes()).hexdigest()
     rows,hold_sha=load_holdout(a.holdout_url)
     tok=AutoTokenizer.from_pretrained(BASE_REPO,revision=BASE_REV)
     if tok.pad_token_id is None: tok.pad_token=tok.eos_token
     q=BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type="nf4",bnb_4bit_use_double_quant=True,bnb_4bit_compute_dtype=torch.bfloat16)
-    base=Qwen3_5ForCausalLM.from_pretrained(BASE_REPO,revision=BASE_REV,quantization_config=q,device_map={"":0},dtype=torch.bfloat16)
+    placement=model_load_placement(
+      a.gpu_memory_mib,a.cpu_memory_gib,a.offload_folder or (a.work/"offload")
+    )
+    base=Qwen3_5ForCausalLM.from_pretrained(
+      BASE_REPO,revision=BASE_REV,quantization_config=q,dtype=torch.bfloat16,
+      **placement
+    )
     base.eval(); b=evaluate(base,tok,rows)
     adapted=PeftModel.from_pretrained(base,adapter); adapted.eval(); v=evaluate(adapted,tok,rows)
     result={
       "schema":"VERA_QWEN35_BEHAVIOR_QUALIFICATION_V2",
-      "subject":{"output_identity":"Vera-Qwen3.5-4B-Behavior-V1","adapter_sha256":a.adapter_sha256,"artifact_commit":a.artifact_commit,"base_repo":BASE_REPO,"base_revision":BASE_REV,"holdout_sha256":hold_sha,"holdout_rows":len(rows)},
+      "subject":{"output_identity":"Vera-Qwen3.5-4B-Behavior-V1","adapter_sha256":a.adapter_sha256,"adapter_model_sha256":adapter_model_sha,"artifact_commit":a.artifact_commit,"base_repo":BASE_REPO,"base_revision":BASE_REV,"holdout_sha256":hold_sha,"holdout_rows":len(rows)},
       "method":"mean_response_token_logprob_preference_margin",
       "base":{k:v for k,v in b.items() if k!="rows"},
       "adapter":{k:v for k,v in v.items() if k!="rows"},
@@ -94,7 +139,12 @@ def main(a):
 
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
-    ap.add_argument("--artifact-commit",required=True); ap.add_argument("--part-prefix",required=True)
-    ap.add_argument("--part-count",required=True,type=int); ap.add_argument("--adapter-sha256",required=True)
+    ap.add_argument("--artifact-commit"); ap.add_argument("--part-prefix")
+    ap.add_argument("--part-count",type=int); ap.add_argument("--adapter-sha256")
+    ap.add_argument("--adapter-dir",type=Path)
     ap.add_argument("--holdout-url",required=True); ap.add_argument("--work",type=Path,default=Path("/tmp/vera-qwen35-v2-qualification"))
+    ap.add_argument("--local-repo-root",type=Path)
+    ap.add_argument("--gpu-memory-mib",type=int)
+    ap.add_argument("--cpu-memory-gib",type=int,default=20)
+    ap.add_argument("--offload-folder",type=Path)
     main(ap.parse_args())

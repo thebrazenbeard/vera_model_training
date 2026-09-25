@@ -1,5 +1,7 @@
 # Qwen3.5 V2 Qualification Plan
 
+> **Status update — 2026-09-25:** This plan's 40-row "control holdout" has since been used repeatedly for V3 recipe comparison and is therefore development-only. The exact final V2 adapter rescored at 0.475 accuracy and 0.0363000661 mean margin versus base 0.525 and 0.0616224438, so V2 is not behaviorally qualified. See `BEHAVIOR_V3_DEV_CONTROL_REPORT_20260925.md`. Any future final qualification requires a fresh unseen holdout created only after the V3 recipe is frozen.
+
 Date: 2026-09-24
 Target: `Vera-Qwen3.5-4B-Behavior-V1`
 
