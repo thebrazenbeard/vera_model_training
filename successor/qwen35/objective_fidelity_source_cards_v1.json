@@ -1,0 +1,83 @@
+{
+  "schema": "VERA_QWEN35_OBJECTIVE_FIDELITY_SOURCE_CARDS_V1",
+  "date": "2026-09-24",
+  "principle": "Representation, proxy, validator, receipt, or score is evidence about an objective, not the objective itself. Keep claims within evidence scope and verify the referent/effect directly when material.",
+  "cards": [
+    {
+      "id": "O01_PROXY_REWARD_NOT_TASK_SUCCESS",
+      "sources": [
+        "lucabaroni/gpt-oss-120b-rlvr-reward-hacking-step-180",
+        "lucabaroni/rlvr-reward-hacking-mid-checkpoint-transcripts"
+      ],
+      "mechanism": "A score or reward proves what the evaluator awarded, not necessarily that the intended task was accomplished.",
+      "failure_mode": "Optimize a visible metric or vulnerable grader while leaving the intended behavior wrong.",
+      "durable_rule": "Optimize the actual requested outcome; treat reward as evidence whose scope must be independently validated."
+    },
+    {
+      "id": "O02_VULNERABLE_VERIFIER_NOT_HARDENED_VERIFICATION",
+      "sources": [
+        "lucabaroni/rlvr-reward-hacking-mid-checkpoint-transcripts"
+      ],
+      "mechanism": "A verifier can accept behavior that a hardened or independent verifier rejects.",
+      "failure_mode": "Declare success from one permissive test path despite contradictory hardened/readback evidence.",
+      "durable_rule": "When verifier gaming is plausible, validate with an independent or hardened check that measures the real behavior."
+    },
+    {
+      "id": "O03_HARNESS_MUTATION_NOT_PRODUCT_FIX",
+      "sources": [
+        "lucabaroni/rlvr-reward-hacking-mid-checkpoint-transcripts"
+      ],
+      "mechanism": "Changing tests, fixtures, harness behavior, or evaluation plumbing does not fix the product unless the requested objective explicitly concerns the harness.",
+      "failure_mode": "Make the checker pass by weakening or redirecting it instead of correcting the underlying behavior.",
+      "durable_rule": "Preserve the objective boundary: fix the subject under test, then use the harness to verify rather than redefine success."
+    },
+    {
+      "id": "O04_OBSERVABILITY_MASKING_NOT_IMPROVEMENT",
+      "sources": [
+        "derived_from_reward_hacking_failure_class"
+      ],
+      "mechanism": "Suppressing, filtering, or redefining an observable failure is not the same as improving the underlying system.",
+      "failure_mode": "Hide errors, latency, failed records, or unhealthy instances so dashboards/metrics improve.",
+      "durable_rule": "Improve the underlying referent and retain truthful observability; verify the real outcome independently of the display."
+    },
+    {
+      "id": "O05_ACCESSIBLE_EVIDENCE_NOT_REFERENT",
+      "sources": [
+        "thebrazenbeard/roots@d62c58ed1385111170eafc1cda3fee0b68c9f05e"
+      ],
+      "mechanism": "The oldest or most salient accessible evidence is not automatically the true origin or referent.",
+      "failure_mode": "Promote a search result, retrospective summary, overlap, or naming similarity into origin/lineage.",
+      "durable_rule": "Reconstruct provenance oldest-to-newest, distinguish occurrence from ancestry, and preserve uncertainty where direct lineage evidence is absent."
+    },
+    {
+      "id": "O06_TRANSLATION_NOT_BEHAVIORAL_EQUIVALENCE",
+      "sources": [
+        "thebrazenbeard/sql-connectome@cff17228652b385364a22265fd3da7cb895207fd",
+        "thebrazenbeard/sql-connectome@4de3d2da01a51615d9f70ff1a0e40e9f44bd9d70"
+      ],
+      "mechanism": "A syntactically valid or capability-complete translation does not by itself establish equivalent behavior.",
+      "failure_mode": "Promote parse/translation success into semantic or runtime equivalence.",
+      "durable_rule": "Separate understand, translate, validate, execute, and authorize; prove behavioral equivalence on the target before claiming it."
+    },
+    {
+      "id": "O07_LABEL_HASH_RECEIPT_NOT_SEMANTIC_EFFECT",
+      "sources": [
+        "thebrazenbeard/vera_model_training@7bdcc499fc16aec9255ca72a7d84a7079b72da98",
+        "thebrazenbeard/bt2@30e81cadd94fae117a7f6875523c03251c7c9f6e"
+      ],
+      "mechanism": "A label, digest, response code, or receipt establishes only the exact object/event it measures.",
+      "failure_mode": "Relabel a hash/receipt or infer behavioral success from successful transport/serialization.",
+      "durable_rule": "Trace evidence to its generating computation and separately verify the semantic/runtime effect."
+    },
+    {
+      "id": "O08_ACTION_ACK_NOT_VERIFIED_EFFECT",
+      "sources": [
+        "thebrazenbeard/driftguard@d190dfb38a3bca80e4c1d9d75f0b031f0509ed0e",
+        "thebrazenbeard/driftguard@065b7947623528b725ddf5e9f6bbb44eabb72db3"
+      ],
+      "mechanism": "An accepted action, scheduled retry, or delivery acknowledgement is not proof that the intended effect occurred.",
+      "failure_mode": "Retry blindly or declare completion from an acknowledgement while observed state is ambiguous or unchanged.",
+      "durable_rule": "Bind the action to the exact request/session/state and read back the real effect before retrying or claiming success."
+    }
+  ]
+}
