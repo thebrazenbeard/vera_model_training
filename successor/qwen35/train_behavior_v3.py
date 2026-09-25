@@ -19,8 +19,8 @@ MAX_LENGTH=1024
 SFT_LR=2e-5
 ORPO_LR=1e-6
 HARDWARE_PROFILES={
-  "generic":{"max_length":1024,"overflow":"error","target_vram_mib":None},
-  "lappy-rtx3050-4gb":{"max_length":512,"overflow":"error","target_vram_mib":4096},
+  "generic":{"max_length":1024,"overflow":"error","target_vram_mib":None,"optimizer":"paged_adamw_8bit"},
+  "lappy-rtx3050-4gb":{"max_length":512,"overflow":"error","target_vram_mib":4096,"optimizer":"adamw_torch"},
 }
 
 def read_jsonl_source(source):
@@ -79,7 +79,8 @@ def training_schedule(smoke,experiment_steps,skip_orpo,hardware_profile_name="ge
       "max_steps":max_steps,
       "gradient_accumulation_steps":gradient_accumulation_steps,
       "run_orpo":not skip_orpo,
-      "max_length":profile["max_length"]
+      "max_length":profile["max_length"],
+      "optimizer":profile["optimizer"]
     }
 
 def generation_prefix(tok,prompt):
@@ -238,7 +239,7 @@ def run(
       gradient_accumulation_steps=schedule["gradient_accumulation_steps"],
       num_train_epochs=1.0,max_steps=schedule["max_steps"],
       learning_rate=SFT_LR,lr_scheduler_type="cosine",warmup_steps=0 if smoke else 3,
-      optim="paged_adamw_8bit",bf16=profile["bf16"],tf32=profile["tf32"],gradient_checkpointing=True,
+      optim=schedule["optimizer"],bf16=profile["bf16"],tf32=profile["tf32"],gradient_checkpointing=True,
       gradient_checkpointing_kwargs={"use_reentrant":False},max_length=schedule["max_length"],
       completion_only_loss=True,packing=False,shuffle_dataset=True,logging_steps=1 if smoke else 10,
       save_strategy="no",eval_strategy="no",report_to="none",seed=SEED,data_seed=SEED
@@ -265,7 +266,7 @@ def run(
           gradient_accumulation_steps=schedule["gradient_accumulation_steps"],
           num_train_epochs=1.0,max_steps=schedule["max_steps"],
           learning_rate=ORPO_LR,lr_scheduler_type="cosine",warmup_steps=0 if smoke else 3,
-          optim="paged_adamw_8bit",bf16=profile["bf16"],tf32=profile["tf32"],gradient_checkpointing=True,
+          optim=schedule["optimizer"],bf16=profile["bf16"],tf32=profile["tf32"],gradient_checkpointing=True,
           gradient_checkpointing_kwargs={"use_reentrant":False},max_length=schedule["max_length"],beta=0.1,
           logging_steps=1 if smoke else 10,save_strategy="no",eval_strategy="no",report_to="none",
           seed=SEED,data_seed=SEED
@@ -291,7 +292,8 @@ def run(
         "balanced_targeted_per_dimension":balanced_targeted_per_dimension,
         "hardware_profile":hardware_profile_name,
         "max_length":schedule["max_length"],
-        "overflow_policy":hardware_profile(hardware_profile_name)["overflow"]
+        "overflow_policy":hardware_profile(hardware_profile_name)["overflow"],
+        "optimizer":schedule["optimizer"]
       },
       "base_repo":BASE_REPO,"base_revision":BASE_REV,
       "sft_sha256":sft_sha,"preference_sha256":pref_sha,

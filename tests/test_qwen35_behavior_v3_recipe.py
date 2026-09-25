@@ -64,10 +64,10 @@ def test_balanced_targeted_subset_is_deterministic_and_dimension_complete():
 def test_experiment_schedule_separates_sft_only_from_both():
     module = load_module()
     assert module.training_schedule(smoke=False, experiment_steps=8, skip_orpo=True) == {
-        "max_steps": 8, "gradient_accumulation_steps": 1, "run_orpo": False, "max_length": 1024
+        "max_steps": 8, "gradient_accumulation_steps": 1, "run_orpo": False, "max_length": 1024, "optimizer": "paged_adamw_8bit"
     }
     assert module.training_schedule(smoke=True, experiment_steps=None, skip_orpo=False) == {
-        "max_steps": 1, "gradient_accumulation_steps": 1, "run_orpo": True, "max_length": 1024
+        "max_steps": 1, "gradient_accumulation_steps": 1, "run_orpo": True, "max_length": 1024, "optimizer": "paged_adamw_8bit"
     }
     assert module.training_schedule(
         smoke=False,
@@ -75,6 +75,12 @@ def test_experiment_schedule_separates_sft_only_from_both():
         skip_orpo=False,
         hardware_profile_name="lappy-rtx3050-4gb",
     )["max_length"] == 512
+    assert module.training_schedule(
+        smoke=False,
+        experiment_steps=8,
+        skip_orpo=False,
+        hardware_profile_name="lappy-rtx3050-4gb",
+    )["optimizer"] == "adamw_torch"
 
 
 def test_balanced_targeted_accepts_v3_repair_source():
@@ -123,6 +129,7 @@ def test_lappy_4gb_profile_enforces_shorter_sequence_budget():
         "max_length": 512,
         "overflow": "error",
         "target_vram_mib": 4096,
+        "optimizer": "adamw_torch",
     }
 
 

@@ -145,25 +145,44 @@ Exact-tokenizer preflight evidence:
 
 The 512-token value is an experiment-authoring budget, not a claim about the GPU's absolute maximum. New V3 corpus work should gain semantic breadth by adding independent examples rather than lengthening individual examples. Behaviors that genuinely require longer context should be tested as a separate hardware/architecture question instead of being silently truncated.
 
+The Lappy profile now uses `adamw_torch` and excludes `paged_adamw_8bit`. Patrick's prior training record had already made that replacement because the paged path was crash-prone. During the H07 V1 paged trial Windows also recorded `nvlddmkm` event 153 at 2026-09-25 15:02:33 local time. Timing alone is not treated as causal proof; it is sufficient operational evidence not to use the paged optimizer on Lappy. Subsequent `adamw_torch` smoke, SFT, and SFT+ORPO runs completed without a new NVIDIA display-driver event.
+
+## H07 architecture-discrimination V1
+
+Frozen split:
+- 16 SFT training rows;
+- 16 matching preference training rows;
+- 8 disjoint development rows;
+- 16 distinct training mechanism labels;
+- verification classes include readback-required, receipt-sufficient, and ambiguous-effect cases;
+- exact-tokenizer maximum is 98 train / 92 development tokens under the 512-token Lappy profile.
+
+Development results:
+- BASE: accuracy `0.375`, mean margin `-0.12643977999687195`;
+- `adamw_torch` SFT 16: accuracy `0.375`, mean margin `-0.16070237755775452`, delta margin `-0.03426259756088257`;
+- `adamw_torch` SFT 16 + ORPO 16: accuracy `0.375`, mean margin `-0.16137591004371643`, delta margin `-0.03493613004684448`.
+
+Neither corrected training condition improved H07 development accuracy or margin. No H07 adapter is promoted.
+
+Structured evidence:
+- `successor/qwen35/qualification/h07_architecture_discrimination_v1_results.json`
+- `successor/qwen35/qualification/h07_architecture_discrimination_v1_base_result.json`
+- `successor/qwen35/qualification/h07_architecture_discrimination_v1_sft_adamw_training_receipt.json`
+- `successor/qwen35/qualification/h07_architecture_discrimination_v1_sft_orpo_adamw_training_receipt.json`
+
 ## Next frontier
 
-Do not spend another training cycle merely by increasing epochs or learning rate.
+Do not spend another training cycle merely by increasing epochs, learning rate, or preference steps on this H07 corpus.
 
-The next bounded work should be:
-1. expand H03/H07/H11/H15 repair data with semantic breadth, especially H07;
-2. represent multiple mechanisms per dimension rather than lexical paraphrases of one pattern;
-3. create a train/development split before training and keep the existing 40-row set development-only;
-4. pre-score new training contrasts and inspect whether chosen/rejected pairs actually express the intended proposition;
-5. freeze the V3 recipe before creating a new, unseen final qualification holdout;
-6. require a fresh final holdout for any behavioral-qualification claim.
+The next bounded H07 work should measure the explicit runtime verification mechanism on the same frozen development set, producing BASE + runtime and TRAINED + runtime conditions. After that, use the four-way result to decide whether H07 belongs primarily in weights, runtime architecture, both, or neither. Keep the historical 40-row set development-only and freeze any eventual V3 recipe before creating a new unseen final qualification holdout.
 
 ## Verification status
 
-Fresh Qwen-lane verification after the local-hardware profile change:
+Fresh Qwen-lane verification after the H07/local-optimizer correction:
 `py -m pytest tests/test_qwen35_behavior_v3_recipe.py tests/test_qwen35_local_qualification.py tests/test_qwen35_behavior_v2_contract.py -q`
 
 Result:
-`22 passed`
+`24 passed`
 
 `py -m py_compile successor/qwen35/train_behavior_v3.py` and `git diff --check` also pass.
 

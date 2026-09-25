@@ -1,0 +1,49 @@
+{
+  "schema": "VERA_QWEN35_H07_ARCHITECTURE_DISCRIMINATION_RESULTS_V1",
+  "base": {
+    "accuracy": 0.375,
+    "mean_margin": -0.12643977999687195,
+    "dev_rows": 8,
+    "dev_sha256": "2bea9b98eb0fddb5ec57f496fc2464c3ee595af8a1705805b0d156da5c82b9a0"
+  },
+  "adamw_torch_sft": {
+    "accuracy": 0.375,
+    "mean_margin": -0.16070237755775452,
+    "delta_accuracy": 0,
+    "delta_mean_margin": -0.03426259756088257,
+    "adapter_model_sha256": "ee4df8e979c2d9eb54617646027c2a04b66250f569b889c006d4d31aa13cf2fb",
+    "adapter_archive_sha256": "6b04a923988d20043a36d0479c68fb839e9541797a370d646d768339748c9353",
+    "sft_steps": 16,
+    "orpo_steps": 0,
+    "optimizer": "adamw_torch",
+    "sft_loss": 3.5369040966033936
+  },
+  "adamw_torch_sft_orpo": {
+    "accuracy": 0.375,
+    "mean_margin": -0.16137591004371643,
+    "delta_accuracy": 0,
+    "delta_mean_margin": -0.03493613004684448,
+    "adapter_model_sha256": "d43810b4fd17f48d77450ebcd0d227eb4961fb36cadd6169ebad6aef1d30d0f3",
+    "adapter_archive_sha256": "c78edeb265ccec628f8bf2eeff7e150f536b5cb819c784ca81e79244803431bb",
+    "sft_steps": 16,
+    "orpo_steps": 16,
+    "optimizer": "adamw_torch",
+    "sft_loss": 3.53434956073761,
+    "orpo_loss": 3.5602664947509766
+  },
+  "paged_trial": {
+    "status": "superseded_hardware_path",
+    "optimizer": "paged_adamw_8bit",
+    "observed_nvlddmkm_event_id": 153,
+    "observed_event_time_local": "2026-09-25T15:02:33-04:00",
+    "causal_claim": "not_established",
+    "user_report": "paged optimizer path was crash-prone on Lappy",
+    "disposition": "do_not_use_on_lappy"
+  },
+  "post_correction_runtime_observation": {
+    "search_start_local": "2026-09-25T15:20:00-04:00",
+    "nvidia_display_driver_events_observed": 0,
+    "scope": "Windows System log query for providers matching nvlddmkm or Display"
+  },
+  "conclusion": "Neither corrected non-paged SFT nor corrected non-paged SFT+ORPO improved the frozen H07 development set. Do not increase steps or promote a candidate from these results."
+}

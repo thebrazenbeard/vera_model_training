@@ -23,10 +23,14 @@ The profile uses:
 - overflow policy: fail closed;
 - per-device batch size remains 1;
 - gradient checkpointing remains enabled;
-- 4-bit NF4 QLoRA and paged 8-bit AdamW remain unchanged;
+- 4-bit NF4 QLoRA remains enabled;
+- optimizer: `adamw_torch` on the Lappy profile;
+- `paged_adamw_8bit` is not permitted on Lappy;
 - packing remains disabled.
 
 The 512-token limit is a conservative V3 authoring/experiment budget chosen to bound activation memory on the 4 GiB GPU. It may be changed only after separate local memory evidence supports a different value.
+
+Hardware safety note: Patrick reports that the paged optimizer path was crash-prone on Lappy and had previously been replaced with `adamw_torch`. The Lappy profile therefore excludes `paged_adamw_8bit`. Any broader causal claim about prior crashes requires separate system evidence.
 
 ## Corpus admission rule
 
