@@ -105,3 +105,21 @@ def test_objective_fidelity_lane_contract():
     cards=json.loads((Q/"objective_fidelity_source_cards_v1.json").read_text())
     assert len(cards["cards"])==8
     assert all(x["id"].startswith("O") for x in cards["cards"])
+
+
+def test_final_objective_v2_artifact_contract():
+    a=Q/"artifacts"
+    manifest=json.loads((a/"Vera-Qwen3.5-4B-Behavior-V1-objective-v2-adapter-manifest.json").read_text())
+    receipt=json.loads((a/"Vera-Qwen3.5-4B-Behavior-V1-objective-v2-training-receipt.json").read_text())
+    expected="1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69"
+    assert manifest["subject"]=="OBJECTIVE_FIDELITY_V2_760_648"
+    assert manifest["archive_sha256"]==expected
+    assert manifest["archive_bytes"]==12854865
+    assert manifest["part_count"]==18
+    assert manifest["source_hf_job_id"]=="6ab5cd3e52d0dbd7f1d8db36"
+    assert receipt["subject"]=="OBJECTIVE_FIDELITY_V2_760_648"
+    assert receipt["adapter_archive_sha256"]==expected
+    assert receipt["sft_rows"]==760
+    assert receipt["preference_rows"]==648
+    assert receipt["sft_sha256"]=="b0988e78987f91e15a665c6cb4163219e28111c7e5cd7882c1989882228553c0"
+    assert receipt["preference_sha256"]=="2157be2ecb419bc41c4631f4422d1439c9bd00d9ed93d0dbe8f4bd41362c9555"
