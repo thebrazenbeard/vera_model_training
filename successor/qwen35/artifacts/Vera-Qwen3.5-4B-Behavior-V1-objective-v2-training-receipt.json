@@ -1,0 +1,38 @@
+{
+  "schema": "VERA_QWEN35_BEHAVIOR_TRAINING_RECEIPT_V1",
+  "output_identity": "Vera-Qwen3.5-4B-Behavior-V1",
+  "subject": "OBJECTIVE_FIDELITY_V2_760_648",
+  "hf_job_id": "6ab5cd3e52d0dbd7f1d8db36",
+  "trainer_commit": "b0b4564c9a6ce04b988e417be0a4724c20e42a18",
+  "base_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+  "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+  "sft_rows": 760,
+  "sft_sha256": "b0988e78987f91e15a665c6cb4163219e28111c7e5cd7882c1989882228553c0",
+  "preference_rows": 648,
+  "preference_sha256": "2157be2ecb419bc41c4631f4422d1439c9bd00d9ed93d0dbe8f4bd41362c9555",
+  "sft_loss": 1.3865353534096165,
+  "orpo_loss": 1.5743041921544958,
+  "seed": 20260924,
+  "max_length": 1024,
+  "lora": {
+    "r": 4,
+    "alpha": 16,
+    "target_modules": "all-linear",
+    "targeted_module_count": 248,
+    "families": {
+      "linear_attn": 120,
+      "mlp": 96,
+      "self_attn": 32
+    },
+    "saved_dtype": "bfloat16"
+  },
+  "adapter_archive_bytes": 12854865,
+  "adapter_archive_sha256": "1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69",
+  "artifact_transport_chunk_chars": 12000,
+  "versions": {
+    "peft": "0.21.0",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.17.0",
+    "trl": "1.13.0"
+  }
+}

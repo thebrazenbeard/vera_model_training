@@ -1,0 +1,13 @@
+{
+  "schema": "VERA_QWEN35_ADAPTER_SPLIT_MANIFEST_V2",
+  "output_identity": "Vera-Qwen3.5-4B-Behavior-V1",
+  "subject": "OBJECTIVE_FIDELITY_V2_760_648",
+  "archive_bytes": 12854865,
+  "archive_sha256": "1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69",
+  "part_count": 18,
+  "hf_log_chunks_per_full_part": 80,
+  "part_prefix": "successor/qwen35/artifacts/Vera-Qwen3.5-4B-Behavior-V1-objective-v2-adapter",
+  "part_format": ".part%03d",
+  "source_hf_job_id": "6ab5cd3e52d0dbd7f1d8db36",
+  "trainer_commit": "b0b4564c9a6ce04b988e417be0a4724c20e42a18"
+}
