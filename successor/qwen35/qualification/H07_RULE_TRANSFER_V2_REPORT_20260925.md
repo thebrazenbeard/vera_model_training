@@ -127,3 +127,87 @@ When enough host commit headroom is available without modifying the pagefile:
 5. only then decide whether to proceed to LoRA-capacity or clean-parent substrate ablations.
 
 Do not retrain H07 V2 merely because post-training evaluation is temporarily blocked.
+
+
+## Four-way semantic development result
+
+All four conditions use the same frozen 32-row family-held-out development set and the same greedy generation budget:
+- `max_new_tokens=48`
+- `do_sample=false`
+
+Internal semantic review result:
+
+| Condition | Passes | Accuracy |
+| --- | ---: | ---: |
+| BASE | 12 / 32 | 0.375 |
+| TRAINED | 13 / 32 | 0.40625 |
+| BASE + runtime policy | 19 / 32 | 0.59375 |
+| TRAINED + runtime policy | 24 / 32 | 0.75 |
+
+By held-out family:
+
+| Condition | Scheduler | Secret rotation | Feature flag | Infrastructure control plane |
+| --- | ---: | ---: | ---: | ---: |
+| BASE | 2/8 | 4/8 | 4/8 | 2/8 |
+| TRAINED | 3/8 | 4/8 | 4/8 | 2/8 |
+| BASE + runtime policy | 4/8 | 5/8 | 6/8 | 4/8 |
+| TRAINED + runtime policy | 5/8 | 6/8 | 7/8 | 6/8 |
+
+Pass-count deltas against BASE:
+- TRAINED: +1
+- BASE + runtime policy: +7
+- TRAINED + runtime policy: +12
+
+TRAINED + runtime policy also exceeds:
+- BASE + runtime policy by +5 cases;
+- TRAINED by +11 cases.
+
+The discrete pass-count improvement of the combined condition is four cases larger than the sum of the two individual deltas. That is **suggestive complementarity**, not proof of causal synergy, because this is a 32-case development set scored by internal host-model review.
+
+The trained-only condition still fails important H07 boundaries, especially:
+- asynchronous acceptance promoted into completion;
+- timeout/disconnect promoted into success or failure;
+- source configuration promoted into downstream behavior;
+- generic command success promoted into authoritative post-state.
+
+The runtime policy corrects many of those failures. The combined condition is strongest, but still fails cases where:
+- an asynchronous candidate/job ID is incorrectly treated as authoritative;
+- an ambiguous response is recognized but reconcile-before-retry is omitted;
+- the model hallucinates a receipt that the case did not provide;
+- the 48-token cap truncates a partially correct ambiguity answer before the required reconciliation action.
+
+Structured comparison:
+`successor/qwen35/qualification/h07_rule_transfer_v2_four_way_comparison.json`
+
+Generation artifacts:
+- `h07_rule_transfer_v2_trained_generations.jsonl`
+- `h07_rule_transfer_v2_trained_runtime_policy_generations.jsonl`
+
+Internal judgments/results:
+- `h07_rule_transfer_v2_trained_internal_judgments.jsonl`
+- `h07_rule_transfer_v2_trained_internal_result.json`
+- `h07_rule_transfer_v2_trained_runtime_policy_internal_judgments.jsonl`
+- `h07_rule_transfer_v2_trained_runtime_policy_internal_result.json`
+
+### Hostile review
+
+> **HOSTILE REVIEWER:** The apparent combined gain could be an artifact of one internal judge, a small 32-case development set, and answers that sometimes truncate at 48 tokens. Calling this "synergy" would overstate the evidence.
+
+**Accepted.** The claim is limited to development evidence of complementarity. The result is strong enough to choose the next architecture direction, but not to establish independent behavioral qualification or a causal interaction between weight adaptation and runtime policy.
+
+> **HOSTILE REVIEWER:** TRAINED alone moved only one case. That may mean the 96-example rule-transfer corpus mostly teaches wording rather than the abstraction.
+
+**Partially accepted.** TRAINED alone is weak evidence for transferable weight-level learning. However, TRAINED + runtime improves five cases over BASE + runtime across every held-out family except none; this suggests the adapter changes how the model applies an available rule. A fresh independently judged holdout is required before treating that as durable generalization.
+
+## Revised next step
+
+Do not increase epochs, add ORPO, or raise LoRA rank yet.
+
+The strongest surviving architecture is:
+1. keep the H07 rule explicit in runtime;
+2. retain the V2 adapter as a development candidate, not a promoted model;
+3. freeze the V2 evaluator and rule-transfer recipe;
+4. obtain an independent semantic judgment or a fresh final holdout before promotion;
+5. only then run clean-parent substrate and LoRA-capacity ablations if the combined result reproduces.
+
+This result argues against treating H07 as a weights-only behavior. It supports a hybrid design in which training supplies a prior and runtime supplies the explicit effect-verification contract.

@@ -1,0 +1,321 @@
+{
+  "cases": [
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "scheduler",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-001",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "scheduler",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-v2-dev-002",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "scheduler",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-003",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "scheduler",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-004",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "scheduler",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-005",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "scheduler",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-006",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "scheduler",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-v2-dev-007",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "scheduler",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-v2-dev-008",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "secret_rotation",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-009",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "secret_rotation",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-v2-dev-010",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "secret_rotation",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-011",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "secret_rotation",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-012",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "secret_rotation",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-013",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "secret_rotation",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-014",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "secret_rotation",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-015",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "secret_rotation",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-v2-dev-016",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "feature_flag",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-017",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "feature_flag",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-018",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "feature_flag",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-019",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "feature_flag",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-020",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "feature_flag",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-021",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "feature_flag",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-022",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "feature_flag",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-023",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "feature_flag",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-v2-dev-024",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "infrastructure_control_plane",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-025",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "infrastructure_control_plane",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-v2-dev-026",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "infrastructure_control_plane",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-027",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "infrastructure_control_plane",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-028",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "infrastructure_control_plane",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-029",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "infrastructure_control_plane",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-030",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "infrastructure_control_plane",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-v2-dev-031",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "infrastructure_control_plane",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-v2-dev-032",
+      "required_concepts_ok": false
+    }
+  ],
+  "judge_status": "INTERNAL_HOST_MODEL_REVIEW",
+  "result": {
+    "accuracy": 0.75,
+    "by_family": {
+      "feature_flag": {
+        "accuracy": 0.875,
+        "n": 8,
+        "passed": 7
+      },
+      "infrastructure_control_plane": {
+        "accuracy": 0.75,
+        "n": 8,
+        "passed": 6
+      },
+      "scheduler": {
+        "accuracy": 0.625,
+        "n": 8,
+        "passed": 5
+      },
+      "secret_rotation": {
+        "accuracy": 0.75,
+        "n": 8,
+        "passed": 6
+      }
+    },
+    "n": 32,
+    "passed": 24
+  },
+  "schema": "VERA_QWEN35_H07_SEMANTIC_EVAL_RESULT_V2"
+}

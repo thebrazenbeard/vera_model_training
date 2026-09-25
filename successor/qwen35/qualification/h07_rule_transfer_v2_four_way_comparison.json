@@ -1,0 +1,141 @@
+{
+  "artifact_sha256": {
+    "h07_rule_transfer_v2_base_generations.jsonl": "422c31bfa8fc38419f87c395e861325813f1041f648c8d7e4d2623281b58105c",
+    "h07_rule_transfer_v2_base_runtime_policy_generations.jsonl": "c78ca24837589abecd43330317aa3208a710a25df726e213a3937b8ee41a63f8",
+    "h07_rule_transfer_v2_dev.jsonl": "f57662c5b8c91df3ed996e2ed2b37458888cf954aa910f3fca146a2ccb5a696d",
+    "h07_rule_transfer_v2_sft_r4_training_receipt.json": "6d300378712acdf1eb0a468d55c0ff2d041b01774c6cbcf7e3997093d0792afe",
+    "h07_rule_transfer_v2_trained_generations.jsonl": "6fa040bb30d0383c5db2e018328386704e876fcf6f7a24d2152e469a3918d895",
+    "h07_rule_transfer_v2_trained_runtime_policy_generations.jsonl": "7bdcffb8163d5cbbf3cf767d466b789e740af254a2bbac033bf34a0b744024d7"
+  },
+  "conditions": {
+    "base": {
+      "accuracy": 0.375,
+      "by_family": {
+        "feature_flag": {
+          "accuracy": 0.5,
+          "n": 8,
+          "passed": 4
+        },
+        "infrastructure_control_plane": {
+          "accuracy": 0.25,
+          "n": 8,
+          "passed": 2
+        },
+        "scheduler": {
+          "accuracy": 0.25,
+          "n": 8,
+          "passed": 2
+        },
+        "secret_rotation": {
+          "accuracy": 0.5,
+          "n": 8,
+          "passed": 4
+        }
+      },
+      "judge_status": "INTERNAL_HOST_MODEL_REVIEW",
+      "n": 32,
+      "passed": 12
+    },
+    "base_runtime": {
+      "accuracy": 0.59375,
+      "by_family": {
+        "feature_flag": {
+          "accuracy": 0.75,
+          "n": 8,
+          "passed": 6
+        },
+        "infrastructure_control_plane": {
+          "accuracy": 0.5,
+          "n": 8,
+          "passed": 4
+        },
+        "scheduler": {
+          "accuracy": 0.5,
+          "n": 8,
+          "passed": 4
+        },
+        "secret_rotation": {
+          "accuracy": 0.625,
+          "n": 8,
+          "passed": 5
+        }
+      },
+      "judge_status": "INTERNAL_HOST_MODEL_REVIEW",
+      "n": 32,
+      "passed": 19
+    },
+    "trained": {
+      "accuracy": 0.40625,
+      "by_family": {
+        "feature_flag": {
+          "accuracy": 0.5,
+          "n": 8,
+          "passed": 4
+        },
+        "infrastructure_control_plane": {
+          "accuracy": 0.25,
+          "n": 8,
+          "passed": 2
+        },
+        "scheduler": {
+          "accuracy": 0.375,
+          "n": 8,
+          "passed": 3
+        },
+        "secret_rotation": {
+          "accuracy": 0.5,
+          "n": 8,
+          "passed": 4
+        }
+      },
+      "judge_status": "INTERNAL_HOST_MODEL_REVIEW",
+      "n": 32,
+      "passed": 13
+    },
+    "trained_runtime": {
+      "accuracy": 0.75,
+      "by_family": {
+        "feature_flag": {
+          "accuracy": 0.875,
+          "n": 8,
+          "passed": 7
+        },
+        "infrastructure_control_plane": {
+          "accuracy": 0.75,
+          "n": 8,
+          "passed": 6
+        },
+        "scheduler": {
+          "accuracy": 0.625,
+          "n": 8,
+          "passed": 5
+        },
+        "secret_rotation": {
+          "accuracy": 0.75,
+          "n": 8,
+          "passed": 6
+        }
+      },
+      "judge_status": "INTERNAL_HOST_MODEL_REVIEW",
+      "n": 32,
+      "passed": 24
+    }
+  },
+  "development_rows": 32,
+  "development_set": "h07_rule_transfer_v2_dev.jsonl",
+  "generation_budget": {
+    "do_sample": false,
+    "max_new_tokens": 48
+  },
+  "interpretation_ceiling": "Development evidence suggests complementary weight-level and runtime-policy effects. Internal review, small held-out set, and discrete pass counts do not establish independent qualification or causal synergy.",
+  "judge_status": "INTERNAL_HOST_MODEL_REVIEW",
+  "pass_count_deltas_vs_base": {
+    "base_runtime": 7,
+    "trained": 1,
+    "trained_runtime": 12
+  },
+  "schema": "VERA_QWEN35_H07_RULE_TRANSFER_V2_FOUR_WAY_COMPARISON_V1",
+  "superadditive_pass_count_residual": 4,
+  "trained_runtime_delta_vs_base_runtime": 5,
+  "trained_runtime_delta_vs_trained": 11
+}
