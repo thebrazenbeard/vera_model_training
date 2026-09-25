@@ -7,33 +7,39 @@
     "chat_targeted": 240,
     "general": 256,
     "gold": 24,
+    "objective_fidelity": 32,
     "repo_engineering": 96,
-    "rows": 616,
-    "sha256": "aca9bedb00eabefde53f012eeea42f604420c03e42036aa9128f2dd3cb7dc3ef"
+    "rows": 648,
+    "sha256": "2157be2ecb419bc41c4631f4422d1439c9bd00d9ed93d0dbe8f4bd41362c9555"
   },
   "schema": "VERA_QWEN35_BEHAVIOR_V2_FROZEN_CORPUS_MANIFEST",
   "sft": {
     "chat_targeted": 160,
     "general": 512,
+    "objective_fidelity": 24,
     "repo_engineering": 64,
-    "rows": 736,
-    "sha256": "0f0db383c170260f484a39172e03b39247c5416d272155eb5fd4a9d85e3f63a6",
-    "targeted_total": 224
+    "rows": 760,
+    "sha256": "b0988e78987f91e15a665c6cb4163219e28111c7e5cd7882c1989882228553c0",
+    "targeted_total": 248
   },
   "sources": {
+    "objective_fidelity": {
+      "sha256": "eedc8ef96bde63a94295de1ca6a11346f50b0e99062abcfb1e65f199c613ca37",
+      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/87fe9923c97b5fd0727d1a7ee12827813285ff86/successor/qwen35/corpus/objective_fidelity_v1.jsonl"
+    },
     "repo_engineering": {
       "sha256": "4bbe4bce043d03e884e99c7b3919aceb6d24ca4f74a6718ea5e5a7134adc59cc",
-      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/cbcaceebef712c1263734e8ef2db733f327ee737/successor/qwen35/corpus/repo_engineering_v1.jsonl"
+      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/87fe9923c97b5fd0727d1a7ee12827813285ff86/successor/qwen35/corpus/repo_engineering_v1.jsonl"
     },
     "smoltalk2": "HuggingFaceTB/smoltalk2@fc6cc2103c066455aade5d7fbb346039ae36ca5e",
     "targeted": {
       "sha256": "9221fcb38fe2512fe721732d26ccaa881bd4258cc1bd658e5d3da16e3038802c",
-      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/cbcaceebef712c1263734e8ef2db733f327ee737/successor/qwen35/corpus/history_behavior_targeted_v2.jsonl"
+      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/87fe9923c97b5fd0727d1a7ee12827813285ff86/successor/qwen35/corpus/history_behavior_targeted_v2.jsonl"
     },
     "ultrafeedback": "HuggingFaceH4/ultrafeedback_binarized@3949bf5f8c17c394422ccfab0c31ea9c20bdeb85",
     "unbound_sol_gold": {
       "sha256": "600e48763bd13c33abe6323b501e3033f270b098450ab043d5e28e4a01343fc8",
-      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/cbcaceebef712c1263734e8ef2db733f327ee737/successor/v5/gold/unbound_sol_behavior_v3_v1.source.jsonl"
+      "url": "https://raw.githubusercontent.com/thebrazenbeard/vera_model_training/87fe9923c97b5fd0727d1a7ee12827813285ff86/successor/v5/gold/unbound_sol_behavior_v3_v1.source.jsonl"
     }
   }
 }
