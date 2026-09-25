@@ -1,0 +1,13 @@
+{
+  "claim_boundary": "Packet blinding reduces condition-label leakage. It does not make the benchmark design or semantic rubric independent.",
+  "condition_mapping_location": "WITHHELD_OUTSIDE_REPOSITORY_UNTIL_REVIEW_COMPLETE",
+  "conditions_per_case": 4,
+  "holdout_rows": 30,
+  "holdout_sha256": "19ca7a8df3c7bb9d6dbe419e41cb8d56b034219870dc0a8bcc801baa325c50f5",
+  "judge_status_required": "INDEPENDENT_REVIEW",
+  "mapping_commitment_sha256": "5c02b86644cb69b8975b4a99cb84cffbdbc9eef0e1de22e44569276556d81886",
+  "packet_sha256": "0e033699353fa8a07260f49bf7053fd232b82663827e94f38bdef6256dfdff72",
+  "review_items": 120,
+  "schema": "VERA_QWEN35_H07_INDEPENDENT_REVIEW_PACKET_MANIFEST_V1",
+  "status": "BLINDED_REVIEW_PACKET_FROZEN"
+}
