@@ -21,6 +21,9 @@ class FakeTokenizer:
     def apply_chat_template(self, messages, **kwargs):
         return "<user>" + messages[0]["content"] + "<assistant>"
 
+    def __call__(self, text, **kwargs):
+        return {"input_ids": text.split()}
+
 
 def test_v3_recipe_masks_prompt_and_reduces_update_rate():
     module = load_module()
@@ -61,11 +64,17 @@ def test_balanced_targeted_subset_is_deterministic_and_dimension_complete():
 def test_experiment_schedule_separates_sft_only_from_both():
     module = load_module()
     assert module.training_schedule(smoke=False, experiment_steps=8, skip_orpo=True) == {
-        "max_steps": 8, "gradient_accumulation_steps": 1, "run_orpo": False
+        "max_steps": 8, "gradient_accumulation_steps": 1, "run_orpo": False, "max_length": 1024
     }
     assert module.training_schedule(smoke=True, experiment_steps=None, skip_orpo=False) == {
-        "max_steps": 1, "gradient_accumulation_steps": 1, "run_orpo": True
+        "max_steps": 1, "gradient_accumulation_steps": 1, "run_orpo": True, "max_length": 1024
     }
+    assert module.training_schedule(
+        smoke=False,
+        experiment_steps=8,
+        skip_orpo=False,
+        hardware_profile_name="lappy-rtx3050-4gb",
+    )["max_length"] == 512
 
 
 def test_balanced_targeted_accepts_v3_repair_source():
@@ -105,3 +114,31 @@ def test_v3_repair_corpus_is_balanced_and_dev_control_disjoint():
     dev_prompts = {r["prompt"] for r in dev}
     assert not ({r["prompt"] for r in pref} & dev_prompts)
     assert not ({r["prompt"] for r in sft} & dev_prompts)
+
+
+def test_lappy_4gb_profile_enforces_shorter_sequence_budget():
+    module = load_module()
+    assert module.hardware_profile("generic")["max_length"] == 1024
+    assert module.hardware_profile("lappy-rtx3050-4gb") == {
+        "max_length": 512,
+        "overflow": "error",
+        "target_vram_mib": 4096,
+    }
+
+
+def test_token_budget_preflight_rejects_oversized_rows_instead_of_truncating():
+    module = load_module()
+    tok = FakeTokenizer()
+    short = {"prompt": "one two", "completion": "three four"}
+    too_long = {"prompt": " ".join(["p"] * 511), "completion": "x y z"}
+
+    report = module.validate_token_budget(tok, [short], [], max_length=512)
+    assert report["sft"]["max_tokens"] == 3
+    assert report["sft"]["over_budget"] == 0
+
+    try:
+        module.validate_token_budget(tok, [too_long], [], max_length=512)
+    except RuntimeError as exc:
+        assert "token budget exceeded" in str(exc)
+    else:
+        raise AssertionError("local profile must fail before trainer-side truncation")

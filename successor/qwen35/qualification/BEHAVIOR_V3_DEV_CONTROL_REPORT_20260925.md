@@ -130,6 +130,21 @@ Interpretation:
 - the current narrow H07 repair set does not generalize to novel formulations;
 - increasing steps alone is not justified by current evidence.
 
+## Local hardware adaptation
+
+Local V3 experiments are now governed by `successor/qwen35/LOCAL_TRAINING_PROFILE_V1.md`.
+
+Observed Lappy hardware is an NVIDIA GeForce RTX 3050 Laptop GPU with 4096 MiB VRAM and about 31.7 GiB system RAM. The new `lappy-rtx3050-4gb` profile sets a conservative 512-token formatted-sequence budget and fails closed on oversized SFT or preference rows before model allocation instead of relying on trainer-side truncation.
+
+Exact-tokenizer preflight evidence:
+- V3 repair SFT: 16 rows, maximum 78 tokens, 0 over budget;
+- V3 repair preference: 16 rows, maximum 78 tokens, 0 over budget;
+- legacy V2 SFT at 512: 118 / 760 rows over budget;
+- legacy V2 preference at 512: 115 / 648 rows over budget;
+- legacy V2 remains intact under the historical generic 1024-token profile, with maxima 1007 and 1021 tokens respectively.
+
+The 512-token value is an experiment-authoring budget, not a claim about the GPU's absolute maximum. New V3 corpus work should gain semantic breadth by adding independent examples rather than lengthening individual examples. Behaviors that genuinely require longer context should be tested as a separate hardware/architecture question instead of being silently truncated.
+
 ## Next frontier
 
 Do not spend another training cycle merely by increasing epochs or learning rate.
@@ -144,11 +159,13 @@ The next bounded work should be:
 
 ## Verification status
 
-Fresh Qwen-lane verification:
+Fresh Qwen-lane verification after the local-hardware profile change:
 `py -m pytest tests/test_qwen35_behavior_v3_recipe.py tests/test_qwen35_local_qualification.py tests/test_qwen35_behavior_v2_contract.py -q`
 
 Result:
-`20 passed`
+`22 passed`
+
+`py -m py_compile successor/qwen35/train_behavior_v3.py` and `git diff --check` also pass.
 
 Repository-wide `pytest -q` is not currently a clean verification path in the host environment:
 - default Python stops collection because `requests` and `torch` are absent;

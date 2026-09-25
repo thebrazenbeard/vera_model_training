@@ -18,7 +18,9 @@ Current state:
 - SFT/ORPO improve seen H07 preference margins but do not generalize to the novel H07 development pairs;
 - no V3 experiment improved development-control accuracy;
 - no V3 candidate is promoted;
-- Qwen-lane verification is 20/20 passing; repository-wide pytest collection is environment-blocked by missing unrelated bootcamp dependency `bs4` after resolving `torch`/`requests` from the qualification venv;
+- local Lappy training now has an explicit `lappy-rtx3050-4gb` profile with a 512-token fail-closed corpus budget, documented in `successor/qwen35/LOCAL_TRAINING_PROFILE_V1.md`;
+- exact-tokenizer preflight confirms the clean V3 repair corpus fits at 78 tokens max, while the legacy V2 corpus has 118 SFT and 115 preference rows above the local 512-token budget and remains reproducible only through the historical 1024-token generic profile;
+- Qwen-lane verification after the local-profile change is 22/22 passing; `py_compile` and `git diff --check` also pass; repository-wide pytest collection remains environment-blocked by missing unrelated bootcamp dependency `bs4` after resolving `torch`/`requests` from the qualification venv;
 - not merged, published, installed, activated, or deployed.
 
 Next frontier:

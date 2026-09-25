@@ -18,6 +18,10 @@ SEED=20260924
 MAX_LENGTH=1024
 SFT_LR=2e-5
 ORPO_LR=1e-6
+HARDWARE_PROFILES={
+  "generic":{"max_length":1024,"overflow":"error","target_vram_mib":None},
+  "lappy-rtx3050-4gb":{"max_length":512,"overflow":"error","target_vram_mib":4096},
+}
 
 def read_jsonl_source(source):
     path=Path(source)
@@ -27,6 +31,11 @@ def read_jsonl_source(source):
         with urllib.request.urlopen(str(source),timeout=120) as r: raw=r.read()
     rows=[json.loads(x) for x in raw.decode("utf-8").splitlines() if x.strip()]
     return rows,hashlib.sha256(raw).hexdigest()
+
+def hardware_profile(name):
+    if name not in HARDWARE_PROFILES:
+        raise ValueError(f"unsupported hardware profile {name}")
+    return dict(HARDWARE_PROFILES[name])
 
 def runtime_profile(device):
     if device=="cpu":
@@ -58,17 +67,19 @@ def validate_corpus_counts(sft_rows,pref_rows,experiment_steps):
     if experiment_steps is None and (sft_rows!=760 or pref_rows!=648):
         raise RuntimeError(f"corpus count mismatch sft={sft_rows} pref={pref_rows}")
 
-def training_schedule(smoke,experiment_steps,skip_orpo):
+def training_schedule(smoke,experiment_steps,skip_orpo,hardware_profile_name="generic"):
     if smoke and experiment_steps is not None:
         raise ValueError("smoke and experiment_steps are mutually exclusive")
     if experiment_steps is not None and experiment_steps < 1:
         raise ValueError("experiment_steps must be positive")
     max_steps=1 if smoke else (experiment_steps if experiment_steps is not None else -1)
     gradient_accumulation_steps=1 if (smoke or experiment_steps is not None) else 8
+    profile=hardware_profile(hardware_profile_name)
     return {
       "max_steps":max_steps,
       "gradient_accumulation_steps":gradient_accumulation_steps,
-      "run_orpo":not skip_orpo
+      "run_orpo":not skip_orpo,
+      "max_length":profile["max_length"]
     }
 
 def generation_prefix(tok,prompt):
@@ -90,15 +101,48 @@ def pref_row(tok,r):
       "rejected":r["rejected"]+(tok.eos_token or "")
     }
 
-def load_model(device):
+def _token_count(tok,text):
+    return len(tok(text,add_special_tokens=False)["input_ids"])
+
+def validate_token_budget(tok,sft_data,pref_data,max_length):
+    sft_lengths=[_token_count(tok,r["prompt"]+r["completion"]) for r in sft_data]
+    pref_lengths=[
+      max(
+        _token_count(tok,r["prompt"]+r["chosen"]),
+        _token_count(tok,r["prompt"]+r["rejected"])
+      )
+      for r in pref_data
+    ]
+    def summarize(lengths):
+        return {
+          "rows":len(lengths),
+          "max_tokens":max(lengths,default=0),
+          "over_budget":sum(n>max_length for n in lengths)
+        }
+    report={"sft":summarize(sft_lengths),"preference":summarize(pref_lengths),"max_length":max_length}
+    if report["sft"]["over_budget"] or report["preference"]["over_budget"]:
+        raise RuntimeError(
+          "token budget exceeded: "
+          f"max_length={max_length} "
+          f"sft_over={report['sft']['over_budget']} "
+          f"pref_over={report['preference']['over_budget']}"
+        )
+    return report
+
+def load_tokenizer():
+    from transformers import AutoTokenizer
+    tok=AutoTokenizer.from_pretrained(BASE_REPO,revision=BASE_REV)
+    if tok.pad_token_id is None: tok.pad_token=tok.eos_token
+    return tok
+
+def load_model(device,tok=None):
     import torch
-    from transformers import AutoTokenizer,BitsAndBytesConfig,Qwen3_5ForCausalLM
+    from transformers import BitsAndBytesConfig,Qwen3_5ForCausalLM
     from peft import LoraConfig,prepare_model_for_kbit_training
 
     profile=runtime_profile(device)
     compute_dtype=getattr(torch,profile["compute_dtype"])
-    tok=AutoTokenizer.from_pretrained(BASE_REPO,revision=BASE_REV)
-    if tok.pad_token_id is None: tok.pad_token=tok.eos_token
+    if tok is None: tok=load_tokenizer()
     q=BitsAndBytesConfig(
       load_in_4bit=True,bnb_4bit_quant_type="nf4",
       bnb_4bit_use_double_quant=True,bnb_4bit_compute_dtype=compute_dtype
@@ -145,7 +189,8 @@ def emit(tag,raw,chunk=65536):
 
 def run(
     sft_source,pref_source,out,smoke,device,emit_archive,
-    balanced_targeted_per_dimension=None,experiment_steps=None,skip_orpo=False
+    balanced_targeted_per_dimension=None,experiment_steps=None,skip_orpo=False,
+    hardware_profile_name="generic"
 ):
     import torch,transformers,trl,peft as peft_lib
     from datasets import Dataset
@@ -158,7 +203,9 @@ def run(
     pref_rows,pref_sha=read_jsonl_source(pref_source)
     validate_corpus_counts(len(sft_rows),len(pref_rows),experiment_steps)
 
-    schedule=training_schedule(smoke,experiment_steps,skip_orpo)
+    schedule=training_schedule(
+      smoke,experiment_steps,skip_orpo,hardware_profile_name=hardware_profile_name
+    )
     train_sft_rows=sft_rows
     train_pref_rows=pref_rows
     if balanced_targeted_per_dimension is not None:
@@ -175,11 +222,15 @@ def run(
               f"sft={len(train_sft_rows)} pref={len(train_pref_rows)} expected={expected}"
             )
 
-    model,tok,lora=load_model(device)
+    tok=load_tokenizer()
     sft_data=[sft_row(tok,r["prompt"],r["response"]) for r in train_sft_rows]
     pref_data=[pref_row(tok,r) for r in train_pref_rows]
     if smoke:
         sft_data=sft_data[:24]; pref_data=pref_data[:12]
+
+    token_budget=validate_token_budget(tok,sft_data,pref_data,schedule["max_length"])
+    print("TOKEN_BUDGET="+json.dumps(token_budget,sort_keys=True),flush=True)
+    model,tok,lora=load_model(device,tok=tok)
 
     out.mkdir(parents=True,exist_ok=True)
     sargs=SFTConfig(
@@ -188,7 +239,7 @@ def run(
       num_train_epochs=1.0,max_steps=schedule["max_steps"],
       learning_rate=SFT_LR,lr_scheduler_type="cosine",warmup_steps=0 if smoke else 3,
       optim="paged_adamw_8bit",bf16=profile["bf16"],tf32=profile["tf32"],gradient_checkpointing=True,
-      gradient_checkpointing_kwargs={"use_reentrant":False},max_length=MAX_LENGTH,
+      gradient_checkpointing_kwargs={"use_reentrant":False},max_length=schedule["max_length"],
       completion_only_loss=True,packing=False,shuffle_dataset=True,logging_steps=1 if smoke else 10,
       save_strategy="no",eval_strategy="no",report_to="none",seed=SEED,data_seed=SEED
     )
@@ -215,7 +266,7 @@ def run(
           num_train_epochs=1.0,max_steps=schedule["max_steps"],
           learning_rate=ORPO_LR,lr_scheduler_type="cosine",warmup_steps=0 if smoke else 3,
           optim="paged_adamw_8bit",bf16=profile["bf16"],tf32=profile["tf32"],gradient_checkpointing=True,
-          gradient_checkpointing_kwargs={"use_reentrant":False},max_length=MAX_LENGTH,beta=0.1,
+          gradient_checkpointing_kwargs={"use_reentrant":False},max_length=schedule["max_length"],beta=0.1,
           logging_steps=1 if smoke else 10,save_strategy="no",eval_strategy="no",report_to="none",
           seed=SEED,data_seed=SEED
         )
@@ -237,14 +288,17 @@ def run(
         "sft_completion_only_loss":True,"sft_learning_rate":SFT_LR,
         "orpo_learning_rate":ORPO_LR,"run_orpo":schedule["run_orpo"],
         "experiment_steps":experiment_steps,
-        "balanced_targeted_per_dimension":balanced_targeted_per_dimension
+        "balanced_targeted_per_dimension":balanced_targeted_per_dimension,
+        "hardware_profile":hardware_profile_name,
+        "max_length":schedule["max_length"],
+        "overflow_policy":hardware_profile(hardware_profile_name)["overflow"]
       },
       "base_repo":BASE_REPO,"base_revision":BASE_REV,
       "sft_sha256":sft_sha,"preference_sha256":pref_sha,
       "sft_rows":len(sft_rows),"preference_rows":len(pref_rows),
       "trained_sft_rows":len(sft_data),
       "trained_preference_rows":len(pref_data) if schedule["run_orpo"] else 0,
-      "seed":SEED,"max_length":MAX_LENGTH,
+      "seed":SEED,"max_length":schedule["max_length"],"token_budget":token_budget,
       "sft_loss":float(sr.training_loss),
       "orpo_loss":None if rr is None else float(rr.training_loss),
       "lora":{"r":4,"alpha":16,"target_modules":"all-linear","targeted_module_count":len(targets),"families":prefixes,"saved_dtype":"bfloat16"},
@@ -265,10 +319,12 @@ if __name__=="__main__":
     ap.add_argument("--balanced-targeted-per-dimension",type=int)
     ap.add_argument("--experiment-steps",type=int)
     ap.add_argument("--skip-orpo",action="store_true")
+    ap.add_argument("--hardware-profile",choices=sorted(HARDWARE_PROFILES),default="generic")
     ap.add_argument("--emit-archive",action="store_true")
     a=ap.parse_args()
     run(
       a.sft_source,a.pref_source,a.output_dir,a.smoke,a.device,a.emit_archive,
       balanced_targeted_per_dimension=a.balanced_targeted_per_dimension,
-      experiment_steps=a.experiment_steps,skip_orpo=a.skip_orpo
+      experiment_steps=a.experiment_steps,skip_orpo=a.skip_orpo,
+      hardware_profile_name=a.hardware_profile
     )
