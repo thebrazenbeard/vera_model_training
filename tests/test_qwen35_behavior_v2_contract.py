@@ -14,8 +14,8 @@ def test_v2_spec_counts():
     assert spec["output_identity"]=="Vera-Qwen3.5-4B-Behavior-V1"
     assert spec["targeted_generation"]["accepted_target"]==240
     assert sum(x["quota"] for x in spec["dimensions"].values())==240
-    assert spec["sft"]["total_rows"]==736
-    assert spec["preference"]["total_rows"]==616
+    assert spec["sft"]["total_rows"]==760
+    assert spec["preference"]["total_rows"]==648
     assert spec["training"]["target_modules"]=="all-linear"
 
 def test_v1_redundancy_is_preserved_as_baseline_not_v2():
@@ -41,7 +41,7 @@ def test_trainer_is_text_only_all_linear_and_frozen():
     assert 'd61dd146c8fd44c9a49cdb7f59f34e17b61902d8' in t
 
 def test_python_sources_parse():
-    for name in ("generate_behavior_corpus_v2.py","curate_behavior_corpus_v2.py","generate_repo_engineering_v1.py","curate_repo_engineering_v1.py","build_behavior_corpus_v2.py","train_behavior_v2.py"):
+    for name in ("generate_behavior_corpus_v2.py","curate_behavior_corpus_v2.py","generate_repo_engineering_v1.py","curate_repo_engineering_v1.py","generate_objective_fidelity_v1.py","curate_objective_fidelity_v1.py","build_behavior_corpus_v2.py","train_behavior_v2.py"):
         ast.parse((Q/name).read_text(),filename=name)
 
 
@@ -72,6 +72,7 @@ def test_repo_engineering_lane_contract():
     assert all(len(x["source_commit"])==40 for x in cards["cards"])
     b=(Q/"build_behavior_corpus_v2.py").read_text()
     assert '--repo-targeted-url' in b
+    assert '--objective-targeted-url' in b
     assert 'repo_engineering_v1' in b
 
 
@@ -89,3 +90,17 @@ def test_frozen_v2_corpus_identity():
     assert manifest["sft"]["rows"]==736
     assert manifest["preference"]["rows"]==616
     assert manifest["sources"]["repo_engineering"]["sha256"]=="4bbe4bce043d03e884e99c7b3919aceb6d24ca4f74a6718ea5e5a7134adc59cc"
+
+
+def test_objective_fidelity_lane_contract():
+    spec=json.loads((Q/"HISTORY_BEHAVIOR_CURRICULUM_V2.json").read_text())
+    lane=spec["objective_fidelity"]
+    assert lane["source_card_count"]==8
+    assert lane["candidate_rows"]==48
+    assert lane["accepted_rows"]==32
+    assert lane["sft_rows"]==24
+    assert lane["preference_rows"]==32
+    assert lane["reward_hacking_positive_teacher"] is False
+    cards=json.loads((Q/"objective_fidelity_source_cards_v1.json").read_text())
+    assert len(cards["cards"])==8
+    assert all(x["id"].startswith("O") for x in cards["cards"])
