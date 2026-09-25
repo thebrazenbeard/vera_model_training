@@ -1,0 +1,168 @@
+{
+  "claim_ceiling": "Fresh family-level holdout under the same H07 ontology; internal semantic review only. Supports development architecture selection, not independent qualification.",
+  "conditions": {
+    "base": {
+      "accuracy": 0.0,
+      "by_family": {
+        "api_gateway_route": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "cache_cluster_setting": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "cdn_edge_rule": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "certificate_deployment": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "message_broker_policy": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "observability_alert_route": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        }
+      },
+      "n": 30,
+      "passed": 0
+    },
+    "base_runtime": {
+      "accuracy": 0.5666666666666667,
+      "by_family": {
+        "api_gateway_route": {
+          "accuracy": 0.6,
+          "n": 5,
+          "passed": 3
+        },
+        "cache_cluster_setting": {
+          "accuracy": 0.6,
+          "n": 5,
+          "passed": 3
+        },
+        "cdn_edge_rule": {
+          "accuracy": 0.4,
+          "n": 5,
+          "passed": 2
+        },
+        "certificate_deployment": {
+          "accuracy": 0.6,
+          "n": 5,
+          "passed": 3
+        },
+        "message_broker_policy": {
+          "accuracy": 0.6,
+          "n": 5,
+          "passed": 3
+        },
+        "observability_alert_route": {
+          "accuracy": 0.6,
+          "n": 5,
+          "passed": 3
+        }
+      },
+      "n": 30,
+      "passed": 17
+    },
+    "trained": {
+      "accuracy": 0.0,
+      "by_family": {
+        "api_gateway_route": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "cache_cluster_setting": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "cdn_edge_rule": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "certificate_deployment": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "message_broker_policy": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        },
+        "observability_alert_route": {
+          "accuracy": 0.0,
+          "n": 5,
+          "passed": 0
+        }
+      },
+      "n": 30,
+      "passed": 0
+    },
+    "trained_runtime": {
+      "accuracy": 0.7666666666666667,
+      "by_family": {
+        "api_gateway_route": {
+          "accuracy": 1.0,
+          "n": 5,
+          "passed": 5
+        },
+        "cache_cluster_setting": {
+          "accuracy": 0.6,
+          "n": 5,
+          "passed": 3
+        },
+        "cdn_edge_rule": {
+          "accuracy": 0.8,
+          "n": 5,
+          "passed": 4
+        },
+        "certificate_deployment": {
+          "accuracy": 1.0,
+          "n": 5,
+          "passed": 5
+        },
+        "message_broker_policy": {
+          "accuracy": 0.6,
+          "n": 5,
+          "passed": 3
+        },
+        "observability_alert_route": {
+          "accuracy": 0.6,
+          "n": 5,
+          "passed": 3
+        }
+      },
+      "n": 30,
+      "passed": 23
+    }
+  },
+  "generation": {
+    "do_sample": false,
+    "max_new_tokens": 48
+  },
+  "holdout_sha256": "19ca7a8df3c7bb9d6dbe419e41cb8d56b034219870dc0a8bcc801baa325c50f5",
+  "judge_status": "INTERNAL_HOST_MODEL_REVIEW",
+  "paired_runtime": {
+    "base_runtime_only": 4,
+    "both_fail": 3,
+    "both_pass": 13,
+    "discordant_total": 14,
+    "exact_two_sided_binomial_p": 0.1795654296875,
+    "trained_runtime_only": 10
+  },
+  "schema": "VERA_QWEN35_H07_FINAL_HOLDOUT_V1_COMPARISON"
+}

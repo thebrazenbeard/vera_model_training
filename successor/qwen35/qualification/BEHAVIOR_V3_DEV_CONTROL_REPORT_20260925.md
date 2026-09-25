@@ -241,3 +241,33 @@ Repository-wide `pytest -q` is not currently a clean verification path in the ho
 ## Current claim ceiling
 
 `V2_CUSTODY_VERIFIED / V2_BEHAVIORALLY_NOT_QUALIFIED_ON_DEV_CONTROL / V3_RECIPE_RESEARCH_IN_PROGRESS / 40_ROW_SET_DEVELOPMENT_ONLY / NO_V3_CANDIDATE_PROMOTED / NOT_DEPLOYED`
+
+
+## Fresh H07 final holdout
+
+A fresh H07 holdout was generated, hashed, committed, and published before any model generation on its contents.
+
+- rows: 30
+- families: 6
+- all families absent from H07 V2 train and V2 development
+- SHA-256: `19ca7a8df3c7bb9d6dbe419e41cb8d56b034219870dc0a8bcc801baa325c50f5`
+- generation: greedy, `max_new_tokens=48`
+- judge status: `INTERNAL_HOST_MODEL_REVIEW`
+
+Result:
+
+- BASE: `0/30 = 0.000000`
+- TRAINED: `0/30 = 0.000000`
+- BASE + runtime policy: `17/30 = 0.566667`
+- TRAINED + runtime policy: `23/30 = 0.766667`
+
+The fresh family holdout rejects a weights-only interpretation of H07 V2 under this deliberately evidence-boundary-dense distribution. It reproduces the runtime-bearing architecture pattern from development: the explicit runtime rule carries the stable transferable behavior, while the V2 adapter may improve application of that available rule. Among the 14 cases where the two runtime-bearing conditions disagree, TRAINED + runtime wins 10 and BASE + runtime wins 4; the exact two-sided paired/binomial p-value is approximately `0.1796`, so that directional advantage is not statistically decisive.
+
+The final holdout reuses the same five abstract H07 case types across six previously unseen mechanism families. It therefore supports family-level cross-domain replication, not arbitrary new-task generalization. This remains internal evidence, not independent qualification.
+
+Artifacts:
+- `successor/qwen35/qualification/H07_FINAL_HOLDOUT_V1_FREEZE.md`
+- `successor/qwen35/qualification/H07_FINAL_HOLDOUT_V1_REPORT_20260925.md`
+- `successor/qwen35/qualification/h07_final_holdout_v1_four_way_comparison.json`
+
+The latest trained candidate has also been materialized locally outside the Hugging Face cache at `C:\Vera\models\latest-trained` as the complete base checkpoint plus the unmerged H07 V2 LoRA adapter.

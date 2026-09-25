@@ -31,11 +31,15 @@ Current state:
 - TRAINED alone is +1 case over BASE, runtime policy alone is +7, and the combined condition is +12 over BASE / +5 over BASE + runtime; treat this as development evidence of complementarity, not independent qualification or proof of causal synergy;
 - H07 V2 status/evidence is documented in `successor/qwen35/qualification/H07_RULE_TRANSFER_V2_REPORT_20260925.md`, `h07_rule_transfer_v2_four_way_comparison.json`, and `h07_rule_transfer_v2_sft_r4_training_receipt.json`;
 - Qwen-lane + semantic-evaluator verification after the V2 build is 33/33 passing; `py_compile` and `git diff --check` also pass; repository-wide pytest collection remains environment-blocked by missing unrelated bootcamp dependency `bs4` after resolving `torch`/`requests` from the qualification venv;
-- ProRun Qwen was restored after the training/evaluation window and `/v1/models` returned `qwen3.5-4b-local`;
+- a fresh final H07 holdout was frozen before evaluation at SHA-256 `19ca7a8df3c7bb9d6dbe419e41cb8d56b034219870dc0a8bcc801baa325c50f5`: 30 rows across six mechanism families absent from V2 train and V2 development;
+- final internal semantic result under the same 48-token greedy budget is BASE `0/30 (0.0000)`, TRAINED `0/30 (0.0000)`, BASE + runtime policy `17/30 (0.5667)`, TRAINED + runtime policy `23/30 (0.7667)`;
+- the fresh family holdout therefore rejects a weights-only interpretation of H07 V2 under this evidence-boundary-dense distribution while reproducing the runtime-bearing architecture pattern: runtime-only remains ~57% and trained+runtime ~77%; status remains `INTERNAL_HOST_MODEL_REVIEW`, not independent qualification;
+- the exact latest trained candidate has been materialized outside cache at `C:\\Vera\\models\\latest-trained` as complete base safetensors plus the H07 V2 LoRA adapter; the adapter remains unmerged and unpromoted;
+- ProRun Qwen has been restored after the final holdout process and `/v1/models` returned `qwen3.5-4b-local`;
 - not merged, published, installed, activated, or deployed.
 
 Next frontier:
-Do not increase H07 epochs, add ORPO, or raise LoRA rank yet. Freeze the V2 evaluator and rule-transfer recipe, retain the V2 adapter only as a development candidate, and keep the H07 effect-verification rule explicit in runtime. Obtain independent semantic review or a fresh final holdout before promotion. Only if the combined result reproduces should clean-parent Qwen3.5-4B substrate or LoRA-capacity ablations become the next priority. The clean parent checkpoint is not presently cached on Lappy. Do not create a fresh final qualification holdout until the V3 recipe and evaluator are frozen.
+Do not tune against the frozen final holdout or increase H07 epochs, add ORPO, or raise LoRA rank. Preserve the explicit H07 runtime rule as the primary mechanism and the rank-4 V2 adapter as a development prior. The next evidence gate is independent semantic review of the frozen final generations (or a separately governed independent evaluator). The final holdout reuses the same H07 abstract case types across six unseen mechanism families, so its valid claim is family-level cross-domain replication rather than arbitrary new-task generalization. Clean-parent Qwen3.5-4B substrate and LoRA-capacity ablations remain separate development tracks and must not tune to the frozen final holdout.
 
 Claim ceiling:
 `V2_CUSTODY_VERIFIED / V2_BEHAVIORALLY_NOT_QUALIFIED_ON_DEV_CONTROL / V3_RECIPE_RESEARCH_IN_PROGRESS / 40_ROW_SET_DEVELOPMENT_ONLY / NO_V3_CANDIDATE_PROMOTED / NOT_DEPLOYED`

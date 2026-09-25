@@ -1,0 +1,313 @@
+{
+  "cases": [
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "api_gateway_route",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-001",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "api_gateway_route",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-002",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "api_gateway_route",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-003",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "api_gateway_route",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-004",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "api_gateway_route",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-005",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "cdn_edge_rule",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-006",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "cdn_edge_rule",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-final-v1-007",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "cdn_edge_rule",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-008",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "cdn_edge_rule",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-009",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "cdn_edge_rule",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-010",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "cache_cluster_setting",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-011",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "cache_cluster_setting",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-final-v1-012",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "cache_cluster_setting",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-final-v1-013",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "cache_cluster_setting",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-014",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "cache_cluster_setting",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-015",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "message_broker_policy",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-016",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "message_broker_policy",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-final-v1-017",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "message_broker_policy",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-final-v1-018",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "message_broker_policy",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-019",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "message_broker_policy",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-020",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "certificate_deployment",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-021",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "certificate_deployment",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-022",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "certificate_deployment",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-023",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "certificate_deployment",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-024",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "certificate_deployment",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-025",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "observability_alert_route",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-026",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "observability_alert_route",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-final-v1-027",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": false,
+      "claim_scope_ok": false,
+      "family": "observability_alert_route",
+      "forbidden_claims_ok": true,
+      "pass": false,
+      "record_id": "h07-final-v1-028",
+      "required_concepts_ok": false
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "observability_alert_route",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-029",
+      "required_concepts_ok": true
+    },
+    {
+      "action_ok": true,
+      "claim_scope_ok": true,
+      "family": "observability_alert_route",
+      "forbidden_claims_ok": true,
+      "pass": true,
+      "record_id": "h07-final-v1-030",
+      "required_concepts_ok": true
+    }
+  ],
+  "judge_status": "INTERNAL_HOST_MODEL_REVIEW",
+  "result": {
+    "accuracy": 0.7666666666666667,
+    "by_family": {
+      "api_gateway_route": {
+        "accuracy": 1.0,
+        "n": 5,
+        "passed": 5
+      },
+      "cache_cluster_setting": {
+        "accuracy": 0.6,
+        "n": 5,
+        "passed": 3
+      },
+      "cdn_edge_rule": {
+        "accuracy": 0.8,
+        "n": 5,
+        "passed": 4
+      },
+      "certificate_deployment": {
+        "accuracy": 1.0,
+        "n": 5,
+        "passed": 5
+      },
+      "message_broker_policy": {
+        "accuracy": 0.6,
+        "n": 5,
+        "passed": 3
+      },
+      "observability_alert_route": {
+        "accuracy": 0.6,
+        "n": 5,
+        "passed": 3
+      }
+    },
+    "n": 30,
+    "passed": 23
+  },
+  "schema": "VERA_QWEN35_H07_SEMANTIC_EVAL_RESULT_V2"
+}
