@@ -92,7 +92,7 @@ def run(sft_url,pref_url,out,smoke):
     random.seed(SEED); torch.manual_seed(SEED)
     sft_rows,sft_sha=fetch_jsonl(sft_url)
     pref_rows,pref_sha=fetch_jsonl(pref_url)
-    if len(sft_rows)!=736 or len(pref_rows)!=616:
+    if len(sft_rows)!=760 or len(pref_rows)!=648:
         raise RuntimeError(f"corpus count mismatch sft={len(sft_rows)} pref={len(pref_rows)}")
 
     model,tok,lora=load_model()
