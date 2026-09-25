@@ -177,3 +177,67 @@ def test_h07_discrimination_split_is_frozen_diverse_and_disjoint():
     assert not (train_prompts & dev_prompts)
     assert not (train_prompts & legacy_prompts)
     assert not (dev_prompts & legacy_prompts)
+
+
+
+def test_h07_v2_rule_transfer_split_has_family_holdout_and_rubrics():
+    import json
+    from collections import Counter
+    corpus = ROOT / "successor" / "qwen35" / "corpus"
+    qual = ROOT / "successor" / "qwen35" / "qualification"
+
+    train = [json.loads(x) for x in (corpus / "h07_rule_transfer_v2_train_sft.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    dev = [json.loads(x) for x in (qual / "h07_rule_transfer_v2_dev.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+
+    assert len(train) == 96
+    assert len(dev) == 32
+    assert len({r["family"] for r in train}) == 12
+    assert len({r["family"] for r in dev}) == 4
+    assert not ({r["family"] for r in train} & {r["family"] for r in dev})
+    assert all(r["dimension"] == "H07" for r in train + dev)
+    assert all("H07 EFFECT-VERIFICATION POLICY V2" in r["prompt"] for r in train)
+
+    for rows in (train, dev):
+        counts = Counter(r["verification_class"] for r in rows)
+        assert counts["readback_required"] == len(rows) * 3 // 8
+        assert counts["receipt_sufficient"] == len(rows) * 3 // 8
+        assert counts["ambiguous_effect"] == len(rows) * 2 // 8
+
+    assert all(r["expected_action"] in {
+        "VERIFY_POST_STATE", "RECEIPT_SUFFICIENT", "RECONCILE_BEFORE_RETRY"
+    } for r in dev)
+    assert all(r["rubric"]["required_concepts"] for r in dev)
+    assert all(r["rubric"]["forbidden_claims"] for r in dev)
+    assert all(r["rubric"]["expected_claim_scope"] for r in dev)
+    assert all(len(r["rubric"]["required_concepts"]) >= 2 for r in dev)
+
+
+def test_h07_v2_train_and_dev_prompts_are_unique_and_v1_disjoint():
+    import json
+    corpus = ROOT / "successor" / "qwen35" / "corpus"
+    qual = ROOT / "successor" / "qwen35" / "qualification"
+
+    train = [json.loads(x) for x in (corpus / "h07_rule_transfer_v2_train_sft.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    dev = [json.loads(x) for x in (qual / "h07_rule_transfer_v2_dev.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    v1_train = [json.loads(x) for x in (corpus / "h07_architecture_discrimination_v1_train_sft.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    v1_dev = [json.loads(x) for x in (qual / "h07_architecture_discrimination_v1_dev.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+
+    train_prompts = {r["prompt"] for r in train}
+    dev_prompts = {r["prompt"] for r in dev}
+    assert len(train_prompts) == len(train)
+    assert len(dev_prompts) == len(dev)
+    assert not (train_prompts & dev_prompts)
+    assert not (train_prompts & {r["prompt"] for r in v1_train})
+    assert not (dev_prompts & {r["prompt"] for r in v1_dev})
+
+
+
+def test_sft_only_experiment_allows_missing_preference_corpus():
+    module = load_module()
+    module.validate_corpus_counts(96, 0, experiment_steps=96, run_orpo=False)
+    try:
+        module.validate_corpus_counts(96, 0, experiment_steps=96, run_orpo=True)
+    except RuntimeError as exc:
+        assert "preference" in str(exc)
+    else:
+        raise AssertionError("ORPO experiment must still require preference rows")

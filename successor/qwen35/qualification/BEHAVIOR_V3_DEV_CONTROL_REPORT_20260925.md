@@ -183,21 +183,44 @@ Main consequences:
 
 The evaluator now supports `--runtime-policy-path`; the versioned policy is `successor/qwen35/qualification/h07_effect_verification_policy_v2.txt`. Exact-tokenizer preflight puts the largest frozen policy+case+candidate sequence at 368 tokens, below the 512-token Lappy budget.
 
+## H07 rule-transfer V2
+
+Frozen design:
+- 96 SFT training rows across 12 mechanism families;
+- 32 development rows across 4 fully held-out families;
+- semantic proposition rubrics rather than lexical matching;
+- training maximum 371 tokens / development maximum 131 tokens under the 512-token Lappy profile;
+- no preference rows and no ORPO in the initial V2 training condition.
+
+Pre-training internal semantic development review:
+- BASE: `12/32 = 0.375`;
+- BASE + H07 runtime policy: `19/32 = 0.59375`.
+
+These are `INTERNAL_HOST_MODEL_REVIEW` measurements, not independent qualification.
+
+The V2 rank-4 all-linear SFT run completed locally for all 96 steps with `adamw_torch`. Training loss was `2.157097419102987`. Adapter-model SHA-256 is `2b628e90c9ceee52bf4ddcba3f7d77187265f6d62813f8cdcd1265792f531d7f`; adapter-archive SHA-256 is `efacb77ad104f6c3369dd25832906c96780483079957b012202decb843c555d8`. No NVIDIA Display/nvlddmkm event was observed during the completed run.
+
+Post-training semantic generation is not complete. The first direct PEFT evaluation load failed before generation with Windows `os error 1455` (`The paging file is too small for this operation to complete`). No pagefile setting was changed. At the failure, host commit headroom was below the combined checkpoint-shard mappings while Firefox held most host memory. The trained adapter itself remains intact.
+
+Primary V2 report:
+`successor/qwen35/qualification/H07_RULE_TRANSFER_V2_REPORT_20260925.md`
+
+Training receipt:
+`successor/qwen35/qualification/h07_rule_transfer_v2_sft_r4_training_receipt.json`
+
 ## Next frontier
 
-Do not spend another training cycle merely by increasing epochs, learning rate, or preference steps on H07 V1.
-
-Finish BASE + runtime-policy and TRAINED + runtime-policy on the same frozen V1 cases, but treat paragraph log-probability margin as diagnostic rather than the sole behavioral criterion. Then build H07 V2 as an explicit-rule, mechanism-family-held-out SFT experiment: initial target 96 training cases across 12 mechanism families and 32 development cases across 4 held-out families. Primary evaluation should be free generation against a frozen semantic rubric; short-form decisions are secondary and preference margins diagnostic. Only after broader SFT demonstrates transfer should another preference objective or PEFT variant be tested. Keep the historical 40-row set development-only and freeze the eventual recipe/evaluator before creating a fresh unseen final qualification holdout.
+Do not retrain H07 V2 while evaluation is blocked. When sufficient host commit headroom is available without modifying the pagefile, generate TRAINED and TRAINED + runtime-policy outputs on the same frozen 32-row development set using the same 48-token greedy generation budget as BASE, score both against the frozen semantic rubrics, and compare all four conditions. Only then decide whether LoRA capacity or the aggressive-vs-clean-parent substrate should be the next ablation. Keep the historical 40-row set development-only and freeze the eventual recipe/evaluator before creating a fresh unseen final qualification holdout.
 
 ## Verification status
 
-Fresh Qwen-lane verification after the runtime-policy seam:
-`py -m pytest tests/test_qwen35_behavior_v3_recipe.py tests/test_qwen35_local_qualification.py tests/test_qwen35_behavior_v2_contract.py -q`
+Fresh Qwen-lane and H07 semantic-evaluator verification after the V2 build:
+`py -m pytest tests/test_qwen35_behavior_v3_recipe.py tests/test_qwen35_local_qualification.py tests/test_qwen35_behavior_v2_contract.py tests/test_h07_semantic_eval_v2.py -q`
 
 Result:
-`26 passed`
+`33 passed`
 
-`py -m py_compile successor/qwen35/train_behavior_v3.py` and `git diff --check` also pass.
+`py -m py_compile successor/qwen35/train_behavior_v3.py successor/qwen35/qualification/evaluate_behavior_v2.py successor/qwen35/qualification/evaluate_h07_rule_transfer_v2.py successor/qwen35/corpus/build_h07_rule_transfer_v2.py` and `git diff --check` also pass.
 
 Repository-wide `pytest -q` is not currently a clean verification path in the host environment:
 - default Python stops collection because `requests` and `torch` are absent;

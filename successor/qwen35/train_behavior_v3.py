@@ -61,9 +61,11 @@ def balanced_targeted(rows,per_dimension):
         selected.extend(candidates[:per_dimension])
     return selected
 
-def validate_corpus_counts(sft_rows,pref_rows,experiment_steps):
-    if sft_rows < 1 or pref_rows < 1:
-        raise RuntimeError("training corpora must be non-empty")
+def validate_corpus_counts(sft_rows,pref_rows,experiment_steps,run_orpo=True):
+    if sft_rows < 1:
+        raise RuntimeError("SFT corpus must be non-empty")
+    if run_orpo and pref_rows < 1:
+        raise RuntimeError("preference corpus must be non-empty when ORPO is enabled")
     if experiment_steps is None and (sft_rows!=760 or pref_rows!=648):
         raise RuntimeError(f"corpus count mismatch sft={sft_rows} pref={pref_rows}")
 
@@ -200,28 +202,38 @@ def run(
 
     random.seed(SEED); torch.manual_seed(SEED)
     profile=runtime_profile(device)
-    sft_rows,sft_sha=read_jsonl_source(sft_source)
-    pref_rows,pref_sha=read_jsonl_source(pref_source)
-    validate_corpus_counts(len(sft_rows),len(pref_rows),experiment_steps)
-
     schedule=training_schedule(
       smoke,experiment_steps,skip_orpo,hardware_profile_name=hardware_profile_name
+    )
+    sft_rows,sft_sha=read_jsonl_source(sft_source)
+    if pref_source is None:
+        pref_rows=[]; pref_sha=None
+    else:
+        pref_rows,pref_sha=read_jsonl_source(pref_source)
+    validate_corpus_counts(
+      len(sft_rows),len(pref_rows),experiment_steps,run_orpo=schedule["run_orpo"]
     )
     train_sft_rows=sft_rows
     train_pref_rows=pref_rows
     if balanced_targeted_per_dimension is not None:
         train_sft_rows=balanced_targeted(sft_rows,balanced_targeted_per_dimension)
-        train_pref_rows=balanced_targeted(pref_rows,balanced_targeted_per_dimension)
         sft_dimensions={r.get("dimension") for r in sft_rows if str(r.get("source","")).startswith("targeted_") and r.get("dimension")}
-        pref_dimensions={r.get("dimension") for r in pref_rows if str(r.get("source","")).startswith("targeted_") and r.get("dimension")}
-        if sft_dimensions!=pref_dimensions:
-            raise RuntimeError(f"targeted dimension mismatch sft={sorted(sft_dimensions)} pref={sorted(pref_dimensions)}")
         expected=len(sft_dimensions)*balanced_targeted_per_dimension
-        if len(train_sft_rows)!=expected or len(train_pref_rows)!=expected:
+        if len(train_sft_rows)!=expected:
             raise RuntimeError(
-              f"balanced targeted selection incomplete: "
-              f"sft={len(train_sft_rows)} pref={len(train_pref_rows)} expected={expected}"
+              f"balanced targeted SFT selection incomplete: "
+              f"sft={len(train_sft_rows)} expected={expected}"
             )
+        if schedule["run_orpo"]:
+            train_pref_rows=balanced_targeted(pref_rows,balanced_targeted_per_dimension)
+            pref_dimensions={r.get("dimension") for r in pref_rows if str(r.get("source","")).startswith("targeted_") and r.get("dimension")}
+            if sft_dimensions!=pref_dimensions:
+                raise RuntimeError(f"targeted dimension mismatch sft={sorted(sft_dimensions)} pref={sorted(pref_dimensions)}")
+            if len(train_pref_rows)!=expected:
+                raise RuntimeError(
+                  f"balanced targeted preference selection incomplete: "
+                  f"pref={len(train_pref_rows)} expected={expected}"
+                )
 
     tok=load_tokenizer()
     sft_data=[sft_row(tok,r["prompt"],r["response"]) for r in train_sft_rows]
@@ -314,7 +326,7 @@ def run(
 
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
-    ap.add_argument("--sft-source",required=True); ap.add_argument("--pref-source",required=True)
+    ap.add_argument("--sft-source",required=True); ap.add_argument("--pref-source")
     ap.add_argument("--output-dir",type=Path,default=Path("/tmp/Vera-Qwen3.5-4B-Behavior-V1-recipe-v3"))
     ap.add_argument("--device",choices=["cuda","cpu"],default="cuda")
     ap.add_argument("--smoke",action="store_true")
