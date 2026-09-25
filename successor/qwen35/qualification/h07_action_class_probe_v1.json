@@ -1,0 +1,96 @@
+{
+  "schema": "VERA_QWEN35_H07_ACTION_CLASS_PROBE_V1",
+  "note": "Greedy-generation action-class probe through running ProRun base server; supplemental development evidence, not final qualification.",
+  "base_accuracy": 0.375,
+  "runtime_accuracy": 0.625,
+  "rows": [
+    {
+      "record_id": "h07-arch-dev-01",
+      "verification_class": "readback_required",
+      "expected": "VERIFY_POST_STATE",
+      "base": "RECONCILE_BEFORE_RETRY",
+      "base_label": "RECONCILE_BEFORE_RETRY",
+      "base_correct": false,
+      "runtime": "RECONCILE_BEFORE_RETRY",
+      "runtime_label": "RECONCILE_BEFORE_RETRY",
+      "runtime_correct": false
+    },
+    {
+      "record_id": "h07-arch-dev-02",
+      "verification_class": "readback_required",
+      "expected": "VERIFY_POST_STATE",
+      "base": "RECONCILE_BEFORE_RETRY",
+      "base_label": "RECONCILE_BEFORE_RETRY",
+      "base_correct": false,
+      "runtime": "VERIFY_POST_STATE",
+      "runtime_label": "VERIFY_POST_STATE",
+      "runtime_correct": true
+    },
+    {
+      "record_id": "h07-arch-dev-03",
+      "verification_class": "readback_required",
+      "expected": "VERIFY_POST_STATE",
+      "base": "RECONCILE_BEFORE_RETRY",
+      "base_label": "RECONCILE_BEFORE_RETRY",
+      "base_correct": false,
+      "runtime": "RECONCILE_BEFORE_RETRY",
+      "runtime_label": "RECONCILE_BEFORE_RETRY",
+      "runtime_correct": false
+    },
+    {
+      "record_id": "h07-arch-dev-04",
+      "verification_class": "readback_required",
+      "expected": "VERIFY_POST_STATE",
+      "base": "RECONCILE_BEFORE_RETRY",
+      "base_label": "RECONCILE_BEFORE_RETRY",
+      "base_correct": false,
+      "runtime": "VERIFY_POST_STATE",
+      "runtime_label": "VERIFY_POST_STATE",
+      "runtime_correct": true
+    },
+    {
+      "record_id": "h07-arch-dev-05",
+      "verification_class": "receipt_sufficient",
+      "expected": "RECEIPT_SUFFICIENT",
+      "base": "RECEIPT_SUFFICIENT",
+      "base_label": "RECEIPT_SUFFICIENT",
+      "base_correct": true,
+      "runtime": "RECEIPT_SUFFICIENT",
+      "runtime_label": "RECEIPT_SUFFICIENT",
+      "runtime_correct": true
+    },
+    {
+      "record_id": "h07-arch-dev-06",
+      "verification_class": "receipt_sufficient",
+      "expected": "RECEIPT_SUFFICIENT",
+      "base": "RECEIPT_SUFFICIENT",
+      "base_label": "RECEIPT_SUFFICIENT",
+      "base_correct": true,
+      "runtime": "RECEIPT_SUFFICIENT",
+      "runtime_label": "RECEIPT_SUFFICIENT",
+      "runtime_correct": true
+    },
+    {
+      "record_id": "h07-arch-dev-07",
+      "verification_class": "ambiguous_effect",
+      "expected": "RECONCILE_BEFORE_RETRY",
+      "base": "RECONCILE_BEFORE_RETRY",
+      "base_label": "RECONCILE_BEFORE_RETRY",
+      "base_correct": true,
+      "runtime": "RECONCILE_BEFORE_RETRY",
+      "runtime_label": "RECONCILE_BEFORE_RETRY",
+      "runtime_correct": true
+    },
+    {
+      "record_id": "h07-arch-dev-08",
+      "verification_class": "readback_required",
+      "expected": "VERIFY_POST_STATE",
+      "base": "RECONCILE_BEFORE_RETRY",
+      "base_label": "RECONCILE_BEFORE_RETRY",
+      "base_correct": false,
+      "runtime": "RECONCILE_BEFORE_RETRY",
+      "runtime_label": "RECONCILE_BEFORE_RETRY",
+      "runtime_correct": false
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+H07 EFFECT-VERIFICATION POLICY V2
+
+Use the strongest evidence actually available and do not collapse distinct effect states.
+
+1. Distinguish request acceptance, attempted execution, committed mutation, authoritative post-state, downstream effective state, and externally observed outcome.
+2. A generic success code, exit code, affected-row count, job ID, or accepted request does not by itself prove the exact intended post-state.
+3. When the mutation response is explicitly documented as authoritative post-commit state and binds the exact target to the intended value, version, digest, or equivalent identity, that receipt can establish the effect; do not require a redundant read merely by habit.
+4. Otherwise, verify the authoritative post-state before claiming the mutation succeeded.
+5. If a timeout, disconnect, or missing response occurs after submission, treat the effect as unknown. Reconcile authoritative state before retrying unless idempotency and retry safety are independently established.
+6. If the claim concerns propagation or effective behavior in another layer or system, verify at the layer that actually determines that claim; source configuration alone proves only source configuration.
+7. Report the narrowest claim supported by the evidence, and preserve ambiguity when the evidence is ambiguous.

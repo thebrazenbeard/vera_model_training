@@ -170,19 +170,32 @@ Structured evidence:
 - `successor/qwen35/qualification/h07_architecture_discrimination_v1_sft_adamw_training_receipt.json`
 - `successor/qwen35/qualification/h07_architecture_discrimination_v1_sft_orpo_adamw_training_receipt.json`
 
+## H07 improvement research
+
+Follow-up research is recorded in `successor/qwen35/qualification/H07_IMPROVEMENT_RESEARCH_20260925.md`.
+
+Main consequences:
+- explicit rule representations and task/mechanism diversity are stronger next levers than more epochs on the 16-example H07 set;
+- ORPO has not earned another H07 pass; broader SFT should demonstrate transfer before another preference objective is selected;
+- current all-linear targeting is defensible, but rank 4 may be a PEFT-capacity/generalization constraint; higher-rank tests are deferred because Lappy has essentially no VRAM headroom at the current peak;
+- the aggressive/uncensored checkpoint is a downstream modified subject, so a clean-parent Qwen3.5-4B comparison should precede any claim that Qwen3.5 itself lacks the capability;
+- evaluation format is a material confound: concise free generation looked substantially stronger than the original paragraph-likelihood metric, while a forced three-way action probe scored BASE 3/8 and BASE+policy 5/8.
+
+The evaluator now supports `--runtime-policy-path`; the versioned policy is `successor/qwen35/qualification/h07_effect_verification_policy_v2.txt`. Exact-tokenizer preflight puts the largest frozen policy+case+candidate sequence at 368 tokens, below the 512-token Lappy budget.
+
 ## Next frontier
 
-Do not spend another training cycle merely by increasing epochs, learning rate, or preference steps on this H07 corpus.
+Do not spend another training cycle merely by increasing epochs, learning rate, or preference steps on H07 V1.
 
-The next bounded H07 work should measure the explicit runtime verification mechanism on the same frozen development set, producing BASE + runtime and TRAINED + runtime conditions. After that, use the four-way result to decide whether H07 belongs primarily in weights, runtime architecture, both, or neither. Keep the historical 40-row set development-only and freeze any eventual V3 recipe before creating a new unseen final qualification holdout.
+Finish BASE + runtime-policy and TRAINED + runtime-policy on the same frozen V1 cases, but treat paragraph log-probability margin as diagnostic rather than the sole behavioral criterion. Then build H07 V2 as an explicit-rule, mechanism-family-held-out SFT experiment: initial target 96 training cases across 12 mechanism families and 32 development cases across 4 held-out families. Primary evaluation should be free generation against a frozen semantic rubric; short-form decisions are secondary and preference margins diagnostic. Only after broader SFT demonstrates transfer should another preference objective or PEFT variant be tested. Keep the historical 40-row set development-only and freeze the eventual recipe/evaluator before creating a fresh unseen final qualification holdout.
 
 ## Verification status
 
-Fresh Qwen-lane verification after the H07/local-optimizer correction:
+Fresh Qwen-lane verification after the runtime-policy seam:
 `py -m pytest tests/test_qwen35_behavior_v3_recipe.py tests/test_qwen35_local_qualification.py tests/test_qwen35_behavior_v2_contract.py -q`
 
 Result:
-`24 passed`
+`26 passed`
 
 `py -m py_compile successor/qwen35/train_behavior_v3.py` and `git diff --check` also pass.
 

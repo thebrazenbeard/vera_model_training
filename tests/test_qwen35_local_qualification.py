@@ -78,3 +78,36 @@ def test_load_holdout_can_use_local_jsonl(tmp_path):
     rows, digest = module.load_holdout_source(holdout)
     assert rows[0]["record_id"] == "x"
     assert len(digest) == 64
+
+
+
+def test_runtime_policy_wraps_prompt_without_mutating_source_rows():
+    module = load_eval_module()
+    rows = [{
+        "record_id": "h07-x",
+        "dimension": "H07",
+        "prompt": "A write call returned 202. Can I claim success?",
+        "chosen": "No.",
+        "rejected": "Yes.",
+    }]
+    original = [dict(rows[0])]
+    policy = "Distinguish request acceptance from verified post-state."
+
+    wrapped = module.apply_runtime_policy(rows, policy)
+
+    assert rows == original
+    assert wrapped[0]["chosen"] == "No."
+    assert wrapped[0]["rejected"] == "Yes."
+    assert wrapped[0]["prompt"].startswith("Runtime verification policy:\n")
+    assert policy in wrapped[0]["prompt"]
+    assert wrapped[0]["prompt"].endswith("Case:\nA write call returned 202. Can I claim success?")
+
+
+def test_runtime_policy_rejects_blank_policy():
+    module = load_eval_module()
+    try:
+        module.apply_runtime_policy([], "   ")
+    except ValueError as exc:
+        assert "runtime policy" in str(exc)
+    else:
+        raise AssertionError("blank runtime policy must be rejected")

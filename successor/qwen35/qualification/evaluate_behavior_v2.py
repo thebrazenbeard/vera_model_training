@@ -61,6 +61,21 @@ def load_holdout_source(source):
 def load_holdout(url):
     return load_holdout_source(url)
 
+def apply_runtime_policy(rows,policy):
+    policy=str(policy).strip()
+    if not policy:
+        raise ValueError("runtime policy must be non-empty")
+    out=[]
+    for row in rows:
+        item=dict(row)
+        item["prompt"]=(
+          "Runtime verification policy:\n"+policy+
+          "\n\nApply the policy to the case below. Claim only what the available effect evidence establishes.\n\nCase:\n"+
+          row["prompt"]
+        )
+        out.append(item)
+    return out
+
 def model_load_placement(gpu_memory_mib,cpu_memory_gib,offload_folder):
     if gpu_memory_mib is None:
         return {"device_map":{"":0}}
@@ -119,6 +134,11 @@ def main(a):
     adapter_model_sha=hashlib.sha256((adapter/"adapter_model.safetensors").read_bytes()).hexdigest()
     holdout_source=a.holdout_path if a.holdout_path is not None else a.holdout_url
     rows,hold_sha=load_holdout_source(holdout_source)
+    runtime_policy_sha=None
+    if a.runtime_policy_path is not None:
+        policy_raw=a.runtime_policy_path.read_bytes()
+        runtime_policy_sha=hashlib.sha256(policy_raw).hexdigest()
+        rows=apply_runtime_policy(rows,policy_raw.decode("utf-8"))
     tok=AutoTokenizer.from_pretrained(BASE_REPO,revision=BASE_REV)
     if tok.pad_token_id is None: tok.pad_token=tok.eos_token
     q=BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type="nf4",bnb_4bit_use_double_quant=True,bnb_4bit_compute_dtype=torch.bfloat16)
@@ -133,7 +153,7 @@ def main(a):
     adapted=PeftModel.from_pretrained(base,adapter); adapted.eval(); v=evaluate(adapted,tok,rows)
     result={
       "schema":"VERA_QWEN35_BEHAVIOR_QUALIFICATION_V2",
-      "subject":{"output_identity":"Vera-Qwen3.5-4B-Behavior-V1","adapter_sha256":a.adapter_sha256,"adapter_model_sha256":adapter_model_sha,"artifact_commit":a.artifact_commit,"base_repo":BASE_REPO,"base_revision":BASE_REV,"holdout_sha256":hold_sha,"holdout_rows":len(rows)},
+      "subject":{"output_identity":"Vera-Qwen3.5-4B-Behavior-V1","adapter_sha256":a.adapter_sha256,"adapter_model_sha256":adapter_model_sha,"artifact_commit":a.artifact_commit,"base_repo":BASE_REPO,"base_revision":BASE_REV,"holdout_sha256":hold_sha,"holdout_rows":len(rows),"runtime_policy_sha256":runtime_policy_sha},
       "method":"mean_response_token_logprob_preference_margin",
       "base":{k:v for k,v in b.items() if k!="rows"},
       "adapter":{k:v for k,v in v.items() if k!="rows"},
@@ -155,4 +175,5 @@ if __name__=="__main__":
     ap.add_argument("--gpu-memory-mib",type=int)
     ap.add_argument("--cpu-memory-gib",type=int,default=20)
     ap.add_argument("--offload-folder",type=Path)
+    ap.add_argument("--runtime-policy-path",type=Path)
     main(ap.parse_args())
