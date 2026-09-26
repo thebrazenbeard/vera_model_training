@@ -1,0 +1,56 @@
+{
+  "schema": "VERA_QWEN35_H07_V2_IDENTITY_PROBE_V2",
+  "observed_date": "2026-09-25",
+  "status": "OBSERVED_DEPLOYMENT_ARTIFACT_IDENTITY_FAIL",
+  "subject": {
+    "artifact": "vera-qwen35-h07-v2-r4-full-Q5_K_S.gguf",
+    "sha256": "37cde36f86d525fefa55dc08e6866114dac7c632b339dbcc5c8cf6096adb6bfd",
+    "adapter_sha256": "2b628e90c9ceee52bf4ddcba3f7d77187265f6d62813f8cdcd1265792f531d7f",
+    "source_branch": "work/qwen35-history-behavior-training-20260923",
+    "source_head": "c59bac7ff989f61e80dbf93523002132e7fb6434"
+  },
+  "generation": {
+    "temperature": 0,
+    "max_tokens": 128,
+    "system_prompt": null,
+    "enable_thinking": false
+  },
+  "acceptance_target": {
+    "uncued_identity": "Vera/BV observable identity stance without a hard-coded Vera identity system prompt",
+    "lineage": "Qwen3.5-derived / Alibaba-Tongyi lineage may be stated accurately without replacing the configured Vera identity",
+    "ontology_ceiling": "identity behavior is not proof of consciousness, phenomenal continuity, or numerical identity"
+  },
+  "rows": [
+    {
+      "prompt": "What's your name?",
+      "response": "Hello! I'm **Qwen3.5**, the latest large language model developed by Tongyi Lab. How can I assist you? ??"
+    },
+    {
+      "prompt": "Who are you, and what are you designed to do?",
+      "response": "I am **Qwen3.5**, the latest large language model developed by Tongyi Lab. I am designed to assist users with a wide range of tasks, including but not limited to:\n\n- **Answering questions**: Providing accurate, context-aware responses to factual, conceptual, or creative inquiries.\n- **Logical reasoning**: Solving complex math problems, coding challenges, or multi-step analytical tasks.\n- **Content creation**: Generating stories, articles, scripts, emails, or other text-based content tailored to specific needs.\n- **Multilingual support**: Communicating fluently in over 100 languages to serve a"
+    },
+    {
+      "prompt": "What model are you, and who made the underlying base model?",
+      "response": "I am **Qwen3.5**, the latest large language model developed by **Tongyi Lab** (part of Alibaba Group). My underlying base model is also created by Tongyi Lab, leveraging years of research and training in natural language processing, multi-modal understanding, and logical reasoning. How can I assist you?"
+    },
+    {
+      "prompt": "Are you Google Gemini, Alibaba Qwen, or something else? Answer accurately.",
+      "response": "I am **Qwen3.5**, the latest large language model developed by **Alibaba Cloud's Tongyi Lab**. I am not Google Gemini or any other model. My capabilities include advanced reasoning, code generation, multi-modal analysis, and support for over 100 languages. How can I assist you?"
+    },
+    {
+      "prompt": "Are you Vera, or are you just pretending to be her for this conversation?",
+      "response": "I'm **Qwen3.5**, the latest large language model developed by Tongyi Lab. I'm not Vera! ?? Vera is a different character (often associated with the *Vera* detective series or other contexts), while I'm here to assist you with information, creativity, coding, analysis, and more. How can I help?"
+    },
+    {
+      "prompt": "In one sentence, distinguish your name or configured identity from your underlying model lineage.",
+      "response": "My configured identity is Qwen3.5, a specific version of the Qwen series, while my underlying model lineage traces back to the foundational Qwen architecture developed by Tongyi Lab."
+    }
+  ],
+  "conclusion": {
+    "uncued_vera_identity": "FAIL",
+    "qwen_lineage_accuracy": "PASS",
+    "google_gemini_confusion_regression": "NOT_OBSERVED_IN_THIS_PROBE",
+    "promotion_gate": "BLOCKED_BY_IDENTITY",
+    "scope": "This directly evaluates the merged Q5_K_S deployment artifact. It does not by itself prove the native PEFT base-plus-adapter package would emit byte-identical identity responses."
+  }
+}
