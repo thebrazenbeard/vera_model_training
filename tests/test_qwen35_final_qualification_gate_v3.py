@@ -218,3 +218,51 @@ def test_final_qualification_gate_reads_back_holdout_sha(tmp_path):
 
     assert result["status"] == "BLOCKED"
     assert "final_holdout_sha_mismatch" in result["reasons"]
+
+
+def test_final_qualification_gate_requires_balanced_100_row_holdout(tmp_path):
+    import hashlib
+    import json
+
+    module = load_eval_module()
+    holdout = tmp_path / "fresh-final.jsonl"
+    rows = _write_fresh_final_holdout(holdout)[:-1]
+    holdout.write_text(
+        "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows),
+        encoding="utf-8",
+        newline="\n",
+    )
+    holdout_sha = hashlib.sha256(holdout.read_bytes()).hexdigest()
+    receipt = tmp_path / "result.json"
+    receipt.write_text(
+        json.dumps({
+            "schema": "QWEN35_FINAL_QUALIFICATION_RESULT_V3",
+            "subject": "OBJECTIVE_FIDELITY_V2_760_648",
+            "adapter_sha256": "1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69",
+            "holdout_sha256": holdout_sha,
+            "holdout_rows": len(rows),
+            "behavioral_pass": True,
+            "retention_pass": True,
+            "adversarial_proxy_pass": True,
+            "independent_review_pass": True,
+        }),
+        encoding="utf-8",
+    )
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(
+        json.dumps({
+            "schema": "QWEN35_FINAL_QUALIFICATION_MANIFEST_V3",
+            "subject": "OBJECTIVE_FIDELITY_V2_760_648",
+            "adapter_sha256": "1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69",
+            "holdout_path": str(holdout),
+            "holdout_sha256": holdout_sha,
+            "holdout_rows": len(rows),
+            "evaluation_receipt_path": str(receipt),
+        }),
+        encoding="utf-8",
+    )
+
+    result = module.evaluate_final_qualification_gate(ROOT, manifest)
+
+    assert result["status"] == "BLOCKED"
+    assert "final_holdout_shape_invalid" in result["reasons"]
