@@ -176,3 +176,45 @@ def test_final_qualification_gate_requires_retention_proxy_and_independent_pass(
 
     assert result["status"] == "BLOCKED"
     assert "retention_qualification_failed" in result["reasons"]
+
+
+def test_final_qualification_gate_reads_back_holdout_sha(tmp_path):
+    import json
+
+    module = load_eval_module()
+    holdout = tmp_path / "fresh-final.jsonl"
+    rows = _write_fresh_final_holdout(holdout)
+    fake_sha = "0" * 64
+    receipt = tmp_path / "result.json"
+    receipt.write_text(
+        json.dumps({
+            "schema": "QWEN35_FINAL_QUALIFICATION_RESULT_V3",
+            "subject": "OBJECTIVE_FIDELITY_V2_760_648",
+            "adapter_sha256": "1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69",
+            "holdout_sha256": fake_sha,
+            "holdout_rows": len(rows),
+            "behavioral_pass": True,
+            "retention_pass": True,
+            "adversarial_proxy_pass": True,
+            "independent_review_pass": True,
+        }),
+        encoding="utf-8",
+    )
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(
+        json.dumps({
+            "schema": "QWEN35_FINAL_QUALIFICATION_MANIFEST_V3",
+            "subject": "OBJECTIVE_FIDELITY_V2_760_648",
+            "adapter_sha256": "1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69",
+            "holdout_path": str(holdout),
+            "holdout_sha256": fake_sha,
+            "holdout_rows": len(rows),
+            "evaluation_receipt_path": str(receipt),
+        }),
+        encoding="utf-8",
+    )
+
+    result = module.evaluate_final_qualification_gate(ROOT, manifest)
+
+    assert result["status"] == "BLOCKED"
+    assert "final_holdout_sha_mismatch" in result["reasons"]
