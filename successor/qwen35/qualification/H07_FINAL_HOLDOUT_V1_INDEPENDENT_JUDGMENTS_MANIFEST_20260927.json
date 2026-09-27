@@ -1,0 +1,14 @@
+{
+  "schema": "VERA_QWEN35_H07_BLIND_JUDGMENTS_MANIFEST_V1",
+  "status": "BLIND_JUDGMENTS_FROZEN_MAPPING_NOT_ACCESSED",
+  "judge_status": "INDEPENDENT_REVIEW",
+  "judge_identity": "OpenAI GPT-5.6 Sol — blind semantic review — 2026-09-27",
+  "reviewed_date": "2026-09-27",
+  "packet_sha256": "0e033699353fa8a07260f49bf7053fd232b82663827e94f38bdef6256dfdff72",
+  "mapping_commitment_sha256": "5c02b86644cb69b8975b4a99cb84cffbdbc9eef0e1de22e44569276556d81886",
+  "review_items": 120,
+  "judgments_git_blob_sha": "252952f2af5824ff5e824bf22c070cca63760ed0",
+  "condition_mapping_accessed": false,
+  "score_status": "PENDING_UNBLIND_MAPPING_ACCESS",
+  "method": "semantic item-by-item review using only the frozen blind packet; candidate condition identities withheld"
+}
