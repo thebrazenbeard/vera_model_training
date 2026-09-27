@@ -133,6 +133,8 @@ def evaluate_final_qualification_gate(repo_root,manifest_path=None):
                 reasons.append("fresh_final_holdout_missing")
             elif holdout_path in DEVELOPMENT_ONLY_HOLDOUTS:
                 reasons.append("development_holdout_forbidden")
+            if not final_manifest.get("evaluation_receipt_path"):
+                reasons.append("final_evaluation_receipt_missing")
     return {
       "status":"BLOCKED" if reasons else "QUALIFIED",
       "subject":FINAL_QUALIFICATION_SUBJECT,
