@@ -91,6 +91,33 @@ def model_load_placement(gpu_memory_mib,cpu_memory_gib,offload_folder):
       "offload_folder":str(offload_folder)
     }
 
+FINAL_QUALIFICATION_SUBJECT="OBJECTIVE_FIDELITY_V2_760_648"
+FINAL_QUALIFICATION_ADAPTER_SHA256="1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69"
+
+def evaluate_final_qualification_gate(repo_root,manifest_path=None):
+    root=Path(repo_root)
+    reasons=[]
+    receipt_path=root/"successor"/"qwen35"/"artifacts"/"Vera-Qwen3.5-4B-Behavior-V1-objective-v2-training-receipt.json"
+    try:
+        receipt=json.loads(receipt_path.read_text(encoding="utf-8"))
+    except (OSError,json.JSONDecodeError):
+        receipt={}
+        reasons.append("training_receipt_missing_or_invalid")
+    if receipt:
+        if receipt.get("subject")!=FINAL_QUALIFICATION_SUBJECT:
+            reasons.append("training_subject_mismatch")
+        if receipt.get("adapter_archive_sha256")!=FINAL_QUALIFICATION_ADAPTER_SHA256:
+            reasons.append("adapter_sha256_mismatch")
+    manifest=Path(manifest_path) if manifest_path is not None else root/"successor"/"qwen35"/"qualification"/"FINAL_QUALIFICATION_V3_MANIFEST.json"
+    if not manifest.exists():
+        reasons.append("fresh_final_manifest_missing")
+    return {
+      "status":"BLOCKED" if reasons else "QUALIFIED",
+      "subject":FINAL_QUALIFICATION_SUBJECT,
+      "adapter_sha256":FINAL_QUALIFICATION_ADAPTER_SHA256,
+      "reasons":reasons,
+    }
+
 def prefix(tok,p):
     try: return tok.apply_chat_template([{"role":"user","content":p}],tokenize=False,add_generation_prompt=True,enable_thinking=False)
     except TypeError: return tok.apply_chat_template([{"role":"user","content":p}],tokenize=False,add_generation_prompt=True)
