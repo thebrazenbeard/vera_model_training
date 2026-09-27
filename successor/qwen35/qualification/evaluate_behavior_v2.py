@@ -133,8 +133,20 @@ def evaluate_final_qualification_gate(repo_root,manifest_path=None):
                 reasons.append("fresh_final_holdout_missing")
             elif holdout_path in DEVELOPMENT_ONLY_HOLDOUTS:
                 reasons.append("development_holdout_forbidden")
-            if not final_manifest.get("evaluation_receipt_path"):
+            evaluation_receipt_path=final_manifest.get("evaluation_receipt_path")
+            if not evaluation_receipt_path:
                 reasons.append("final_evaluation_receipt_missing")
+            else:
+                evaluation_receipt_path=Path(evaluation_receipt_path)
+                if not evaluation_receipt_path.is_absolute():
+                    evaluation_receipt_path=root/evaluation_receipt_path
+                try:
+                    evaluation_receipt=json.loads(evaluation_receipt_path.read_text(encoding="utf-8"))
+                except (OSError,json.JSONDecodeError):
+                    evaluation_receipt={}
+                    reasons.append("final_evaluation_receipt_invalid")
+                if evaluation_receipt and evaluation_receipt.get("behavioral_pass") is not True:
+                    reasons.append("behavioral_qualification_failed")
     return {
       "status":"BLOCKED" if reasons else "QUALIFIED",
       "subject":FINAL_QUALIFICATION_SUBJECT,
