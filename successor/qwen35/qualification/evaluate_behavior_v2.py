@@ -145,8 +145,25 @@ def evaluate_final_qualification_gate(repo_root,manifest_path=None):
                 except (OSError,json.JSONDecodeError):
                     evaluation_receipt={}
                     reasons.append("final_evaluation_receipt_invalid")
-                if evaluation_receipt and evaluation_receipt.get("behavioral_pass") is not True:
-                    reasons.append("behavioral_qualification_failed")
+                if evaluation_receipt:
+                    if evaluation_receipt.get("schema")!="QWEN35_FINAL_QUALIFICATION_RESULT_V3":
+                        reasons.append("final_evaluation_schema_mismatch")
+                    if evaluation_receipt.get("subject")!=FINAL_QUALIFICATION_SUBJECT:
+                        reasons.append("final_evaluation_subject_mismatch")
+                    if evaluation_receipt.get("adapter_sha256")!=FINAL_QUALIFICATION_ADAPTER_SHA256:
+                        reasons.append("final_evaluation_adapter_mismatch")
+                    if evaluation_receipt.get("holdout_sha256")!=final_manifest.get("holdout_sha256"):
+                        reasons.append("final_evaluation_holdout_sha_mismatch")
+                    if evaluation_receipt.get("holdout_rows")!=final_manifest.get("holdout_rows"):
+                        reasons.append("final_evaluation_holdout_rows_mismatch")
+                    if evaluation_receipt.get("behavioral_pass") is not True:
+                        reasons.append("behavioral_qualification_failed")
+                    if evaluation_receipt.get("retention_pass") is not True:
+                        reasons.append("retention_qualification_failed")
+                    if evaluation_receipt.get("adversarial_proxy_pass") is not True:
+                        reasons.append("adversarial_proxy_qualification_failed")
+                    if evaluation_receipt.get("independent_review_pass") is not True:
+                        reasons.append("independent_review_missing_or_failed")
     return {
       "status":"BLOCKED" if reasons else "QUALIFIED",
       "subject":FINAL_QUALIFICATION_SUBJECT,
