@@ -25,3 +25,22 @@ def test_final_qualification_gate_blocks_without_fresh_final_manifest():
     assert result["subject"] == "OBJECTIVE_FIDELITY_V2_760_648"
     assert result["adapter_sha256"] == "1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69"
     assert "fresh_final_manifest_missing" in result["reasons"]
+
+
+def test_final_qualification_gate_rejects_development_holdout(tmp_path):
+    module = load_eval_module()
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(
+        """{
+  "schema": "QWEN35_FINAL_QUALIFICATION_MANIFEST_V3",
+  "subject": "OBJECTIVE_FIDELITY_V2_760_648",
+  "adapter_sha256": "1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69",
+  "holdout_path": "successor/qwen35/qualification/history_behavior_holdout_v1.jsonl"
+}""",
+        encoding="utf-8",
+    )
+
+    result = module.evaluate_final_qualification_gate(ROOT, manifest)
+
+    assert result["status"] == "BLOCKED"
+    assert "development_holdout_forbidden" in result["reasons"]
