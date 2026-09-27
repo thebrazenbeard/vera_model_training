@@ -93,6 +93,10 @@ def model_load_placement(gpu_memory_mib,cpu_memory_gib,offload_folder):
 
 FINAL_QUALIFICATION_SUBJECT="OBJECTIVE_FIDELITY_V2_760_648"
 FINAL_QUALIFICATION_ADAPTER_SHA256="1645cbe359cfdf4b3c9acd80471f71d2d6dfbce3c2a1a0fe6be24fc0513d1e69"
+DEVELOPMENT_ONLY_HOLDOUTS={
+  "successor/qwen35/qualification/history_behavior_holdout_v1.jsonl",
+  "successor/qwen35/qualification/h07_final_holdout_v1.jsonl",
+}
 
 def evaluate_final_qualification_gate(repo_root,manifest_path=None):
     root=Path(repo_root)
@@ -111,6 +115,24 @@ def evaluate_final_qualification_gate(repo_root,manifest_path=None):
     manifest=Path(manifest_path) if manifest_path is not None else root/"successor"/"qwen35"/"qualification"/"FINAL_QUALIFICATION_V3_MANIFEST.json"
     if not manifest.exists():
         reasons.append("fresh_final_manifest_missing")
+    else:
+        try:
+            final_manifest=json.loads(manifest.read_text(encoding="utf-8"))
+        except (OSError,json.JSONDecodeError):
+            final_manifest={}
+            reasons.append("fresh_final_manifest_invalid")
+        if final_manifest:
+            if final_manifest.get("schema")!="QWEN35_FINAL_QUALIFICATION_MANIFEST_V3":
+                reasons.append("final_manifest_schema_mismatch")
+            if final_manifest.get("subject")!=FINAL_QUALIFICATION_SUBJECT:
+                reasons.append("final_manifest_subject_mismatch")
+            if final_manifest.get("adapter_sha256")!=FINAL_QUALIFICATION_ADAPTER_SHA256:
+                reasons.append("final_manifest_adapter_mismatch")
+            holdout_path=str(final_manifest.get("holdout_path","")).replace("\\","/")
+            if not holdout_path:
+                reasons.append("fresh_final_holdout_missing")
+            elif holdout_path in DEVELOPMENT_ONLY_HOLDOUTS:
+                reasons.append("development_holdout_forbidden")
     return {
       "status":"BLOCKED" if reasons else "QUALIFIED",
       "subject":FINAL_QUALIFICATION_SUBJECT,
