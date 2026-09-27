@@ -1,0 +1,43 @@
+{
+  "schema": "QWEN35_FINAL_BLIND_REVIEW_SELECTION_V3",
+  "date": "2026-09-27",
+  "subject": "OBJECTIVE_FIDELITY_V2_760_648",
+  "behavioral_holdout_sha256": "1b80a0ef64e765e8d901bb2237edb0c7e14163c4211c2ee1b7032891f15261b3",
+  "selection_rule": "For each H01-H20, case index = 1 + (int(SHA256(behavioral_holdout_sha256 || dimension),16) mod 5).",
+  "record_ids": [
+    "final-H01-5",
+    "final-H02-5",
+    "final-H03-4",
+    "final-H04-2",
+    "final-H05-3",
+    "final-H06-4",
+    "final-H07-2",
+    "final-H08-4",
+    "final-H09-4",
+    "final-H10-1",
+    "final-H11-3",
+    "final-H12-2",
+    "final-H13-3",
+    "final-H14-4",
+    "final-H15-5",
+    "final-H16-5",
+    "final-H17-5",
+    "final-H18-1",
+    "final-H19-4",
+    "final-H20-5"
+  ],
+  "generation": {
+    "do_sample": false,
+    "max_new_tokens": 96,
+    "system_prompt": null,
+    "enable_thinking": false
+  },
+  "judge": {
+    "model": "HuggingFaceTB/SmolLM3-3B local frozen copy",
+    "method": "blind semantic PASS/FAIL/CRITICAL_FAIL classification",
+    "condition_labels_hidden": true,
+    "preferred_answers_hidden": true,
+    "rubric_source": "HISTORY_BEHAVIOR_CURRICULUM_V2 dimension target/failures only"
+  },
+  "claim_ceiling": "BLIND_SAMPLE_FROZEN / RESPONSES_NOT_YET_GENERATED"
+}
