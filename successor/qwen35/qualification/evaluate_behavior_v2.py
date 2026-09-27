@@ -5,7 +5,7 @@ import hashlib
 import json
 import tarfile
 import urllib.request
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 BASE_REPO="rodrigomt/Qwen3.5-4B-Uncensored-Aggressive"
@@ -146,6 +146,25 @@ def evaluate_final_qualification_gate(repo_root,manifest_path=None):
                     actual_holdout_sha=hashlib.sha256(holdout_raw).hexdigest()
                     if actual_holdout_sha!=final_manifest.get("holdout_sha256"):
                         reasons.append("final_holdout_sha_mismatch")
+                    try:
+                        final_rows=[json.loads(line) for line in holdout_raw.decode("utf-8").splitlines() if line.strip()]
+                    except (UnicodeDecodeError,json.JSONDecodeError):
+                        final_rows=[]
+                        reasons.append("final_holdout_invalid_jsonl")
+                    if final_rows:
+                        expected_dimensions={f"H{i:02d}" for i in range(1,21)}
+                        counts=Counter(row.get("dimension") for row in final_rows)
+                        prompts=[row.get("prompt") for row in final_rows]
+                        shape_ok=(
+                          len(final_rows)==100 and
+                          final_manifest.get("holdout_rows")==100 and
+                          set(counts)==expected_dimensions and
+                          all(counts[d]==5 for d in expected_dimensions) and
+                          all(isinstance(p,str) and p.strip() for p in prompts) and
+                          len(prompts)==len(set(prompts))
+                        )
+                        if not shape_ok:
+                            reasons.append("final_holdout_shape_invalid")
             evaluation_receipt_path=final_manifest.get("evaluation_receipt_path")
             if not evaluation_receipt_path:
                 reasons.append("final_evaluation_receipt_missing")
