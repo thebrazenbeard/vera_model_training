@@ -165,6 +165,34 @@ def evaluate_final_qualification_gate(repo_root,manifest_path=None):
                         )
                         if not shape_ok:
                             reasons.append("final_holdout_shape_invalid")
+                        else:
+                            training_values=set()
+                            training_files=(
+                              root/"successor"/"qwen35"/"corpus"/"vera_qwen35_behavior_v2_sft.jsonl",
+                              root/"successor"/"qwen35"/"corpus"/"vera_qwen35_behavior_v2_preference.jsonl",
+                            )
+                            try:
+                                for training_file in training_files:
+                                    for line in training_file.read_text(encoding="utf-8").splitlines():
+                                        if not line.strip():
+                                            continue
+                                        training_row=json.loads(line)
+                                        for key in ("prompt","response","chosen","rejected"):
+                                            value=training_row.get(key)
+                                            if isinstance(value,str) and value:
+                                                training_values.add(value)
+                            except (OSError,json.JSONDecodeError):
+                                reasons.append("training_corpus_unreadable")
+                            if training_values:
+                                final_values={
+                                  value
+                                  for row in final_rows
+                                  for key in ("prompt","chosen","rejected")
+                                  for value in (row.get(key),)
+                                  if isinstance(value,str) and value
+                                }
+                                if training_values & final_values:
+                                    reasons.append("final_holdout_training_overlap")
             evaluation_receipt_path=final_manifest.get("evaluation_receipt_path")
             if not evaluation_receipt_path:
                 reasons.append("final_evaluation_receipt_missing")
