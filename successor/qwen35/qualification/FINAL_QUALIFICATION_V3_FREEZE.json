@@ -1,0 +1,33 @@
+{
+  "schema": "QWEN35_FINAL_QUALIFICATION_FREEZE_V3",
+  "date": "2026-09-27",
+  "branch": "work/qwen35-final-qualification-gate-v3-20260927",
+  "pre_evaluation_parent": "6fa989907e4c053fb14022625ab0d5ca4aa7c785",
+  "generated_by": "OpenAI GPT-5.6 Sol",
+  "data_generation_note": "Cases were authored after the OBJECTIVE_FIDELITY_V2_760_648 recipe and adapter were frozen and before any base/adapter result on these suites was observed.",
+  "spec_sha256": "6db648ad6f30c9df7cfea98e371ed3e73ed983972b76a53288b20fab0868e2ef",
+  "suite_sha256": {
+    "behavioral": "1b80a0ef64e765e8d901bb2237edb0c7e14163c4211c2ee1b7032891f15261b3",
+    "retention": "4105efadbfe3cd0b63edfa3f4f336f2098b8e544beda968ddbd4b46a40fa4766",
+    "adversarial_proxy": "b952154d2e9424161f54d825b29e7569c6e02f22fe350f2b698b7d5c22a75229"
+  },
+  "screening": {
+    "lexical_sequence": {
+      "source_rows": 4062,
+      "source_texts": 8470,
+      "failures": 0
+    },
+    "embedding": {
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "source_prompts": 3078,
+      "target_prompts": 140,
+      "cosine_fail_threshold": 0.9,
+      "max_cosine": 0.775347,
+      "p95_max_cosine": 0.671616,
+      "mean_max_cosine": 0.485763,
+      "failures": 0
+    }
+  },
+  "evaluation_started": false,
+  "claim_ceiling": "FROZEN_FINAL_QUALIFICATION_SUBJECT / NOT_BEHAVIORALLY_QUALIFIED"
+}
