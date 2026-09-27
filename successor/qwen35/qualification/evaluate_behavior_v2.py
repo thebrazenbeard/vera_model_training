@@ -133,6 +133,19 @@ def evaluate_final_qualification_gate(repo_root,manifest_path=None):
                 reasons.append("fresh_final_holdout_missing")
             elif holdout_path in DEVELOPMENT_ONLY_HOLDOUTS:
                 reasons.append("development_holdout_forbidden")
+            else:
+                holdout_file=Path(holdout_path)
+                if not holdout_file.is_absolute():
+                    holdout_file=root/holdout_file
+                try:
+                    holdout_raw=holdout_file.read_bytes()
+                except OSError:
+                    holdout_raw=None
+                    reasons.append("fresh_final_holdout_unreadable")
+                if holdout_raw is not None:
+                    actual_holdout_sha=hashlib.sha256(holdout_raw).hexdigest()
+                    if actual_holdout_sha!=final_manifest.get("holdout_sha256"):
+                        reasons.append("final_holdout_sha_mismatch")
             evaluation_receipt_path=final_manifest.get("evaluation_receipt_path")
             if not evaluation_receipt_path:
                 reasons.append("final_evaluation_receipt_missing")
