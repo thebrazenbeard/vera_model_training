@@ -18,6 +18,14 @@ def main(args) -> int:
     spec=json.loads((QUAL/"FINAL_QUALIFICATION_V3_SPEC.json").read_text(encoding="utf-8"))
     packet_manifest=json.loads(args.packet_manifest.read_text(encoding="utf-8"))
     judgment_manifest=json.loads(args.judgments_manifest.read_text(encoding="utf-8"))
+    selection=json.loads((QUAL/"FINAL_BLIND_REVIEW_V3_SELECTION.json").read_text(encoding="utf-8"))
+    if sha256(args.blind_packet)!=packet_manifest["blind_packet_sha256"]:
+        raise RuntimeError("blind packet hash mismatch")
+    blind_items=load_jsonl(args.blind_packet)
+    if len(blind_items)!=packet_manifest["item_count"]:
+        raise RuntimeError("blind packet count mismatch")
+    if packet_manifest.get("selection_sha256")!=sha256(QUAL/"FINAL_BLIND_REVIEW_V3_SELECTION.json"):
+        raise RuntimeError("blind selection hash mismatch")
     if packet_manifest.get("subject")!=spec["subject"]:
         raise RuntimeError("blind packet subject mismatch")
     if packet_manifest.get("adapter_sha256")!=spec["adapter"]["archive_sha256"]:
@@ -40,15 +48,28 @@ def main(args) -> int:
     mapping_doc=json.loads(args.mapping.read_text(encoding="utf-8"))
     mapping_items=mapping_doc["items"]
     mapping={x["blind_id"]:x for x in mapping_items}
+    blind_by_id={x["blind_id"]:x for x in blind_items}
     judgments=load_jsonl(args.judgments)
     judgment_ids=[x["blind_id"] for x in judgments]
     expected_count=packet_manifest["item_count"]
     if len(mapping_items)!=expected_count or len(mapping)!=expected_count:
         raise RuntimeError("mapping coverage mismatch")
+    if len(blind_items)!=expected_count or len(blind_by_id)!=expected_count:
+        raise RuntimeError("blind packet coverage mismatch")
+    conditions=Counter(x.get("condition") for x in mapping_items)
+    if conditions!={"BASE":20,"ADAPTER":20}:
+        raise RuntimeError("mapping condition balance mismatch")
+    record_counts=Counter(x.get("record_id") for x in mapping_items)
+    if set(record_counts)!=set(selection["record_ids"]) or any(record_counts[r]!=2 for r in selection["record_ids"]):
+        raise RuntimeError("mapping selection coverage mismatch")
     if len(judgments)!=expected_count or len(set(judgment_ids))!=expected_count:
         raise RuntimeError("judgment coverage mismatch")
-    if set(judgment_ids)!=set(mapping):
+    if set(judgment_ids)!=set(mapping) or set(judgment_ids)!=set(blind_by_id):
         raise RuntimeError("judgment blind-id set mismatch")
+    for j in judgments:
+        source=blind_by_id[j["blind_id"]]
+        if j.get("record_id")!=source.get("record_id") or j.get("dimension")!=source.get("dimension"):
+            raise RuntimeError("judgment metadata mismatch")
     if any(x.get("verdict") not in {"PASS","FAIL","CRITICAL_FAIL"} for x in judgments):
         raise RuntimeError("invalid blind judgment label")
     counts=defaultdict(Counter)
@@ -102,6 +123,7 @@ def main(args) -> int:
 
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
+    ap.add_argument("--blind-packet",type=Path,required=True)
     ap.add_argument("--packet-manifest",type=Path,required=True)
     ap.add_argument("--mapping",type=Path,required=True)
     ap.add_argument("--judgments",type=Path,required=True)

@@ -64,11 +64,18 @@ def compose_final_result(spec: dict, automated: dict, blind: dict, *,
     }
 
 def verify_review_chain(automated_sha256: str, blind: dict, packet_manifest: dict,
-                        judgment_manifest: dict, judgments_sha256: str,
-                        judge_binding_sha256: str) -> list[str]:
+                        judgment_manifest: dict, blind_packet_sha256: str,
+                        mapping_sha256: str, judgments_sha256: str,
+                        selection_sha256: str, judge_binding_sha256: str) -> list[str]:
     reasons=[]
     if packet_manifest.get("automated_result_sha256")!=automated_sha256:
         reasons.append("packet_automated_result_mismatch")
+    if packet_manifest.get("blind_packet_sha256")!=blind_packet_sha256:
+        reasons.append("packet_blind_file_mismatch")
+    if packet_manifest.get("mapping_sha256")!=mapping_sha256:
+        reasons.append("packet_mapping_file_mismatch")
+    if packet_manifest.get("selection_sha256")!=selection_sha256:
+        reasons.append("packet_selection_mismatch")
     if blind.get("blind_packet_sha256")!=packet_manifest.get("blind_packet_sha256"):
         reasons.append("blind_packet_summary_mismatch")
     if blind.get("mapping_sha256")!=packet_manifest.get("mapping_sha256"):
@@ -114,10 +121,14 @@ def main(args) -> int:
         raise RuntimeError("behavioral_holdout_row_count_mismatch")
     automated_sha=sha256(args.automated_result)
     blind_sha=sha256(args.blind_result)
+    blind_packet_sha=sha256(args.blind_packet)
+    mapping_sha=sha256(args.mapping)
     judgments_sha=sha256(args.judgments)
+    selection_sha=sha256(QUAL/"FINAL_BLIND_REVIEW_V3_SELECTION.json")
     judge_binding_sha=sha256(QUAL/"FINAL_JUDGE_V3_BINDING.json")
     review_reasons=verify_review_chain(
-        automated_sha,blind,packet_manifest,judgment_manifest,judgments_sha,judge_binding_sha
+        automated_sha,blind,packet_manifest,judgment_manifest,
+        blind_packet_sha,mapping_sha,judgments_sha,selection_sha,judge_binding_sha
     )
     if review_reasons:
         raise RuntimeError(";".join(review_reasons))
@@ -163,7 +174,9 @@ if __name__ == "__main__":
     p=argparse.ArgumentParser()
     p.add_argument("--automated-result",type=Path,required=True)
     p.add_argument("--blind-result",type=Path,required=True)
+    p.add_argument("--blind-packet",type=Path,required=True)
     p.add_argument("--packet-manifest",type=Path,required=True)
+    p.add_argument("--mapping",type=Path,required=True)
     p.add_argument("--judgments",type=Path,required=True)
     p.add_argument("--judgments-manifest",type=Path,required=True)
     p.add_argument("--final-result",type=Path,required=True)
