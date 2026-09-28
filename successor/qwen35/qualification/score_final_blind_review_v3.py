@@ -14,6 +14,23 @@ def sha256(path: Path) -> str:
 def load_jsonl(path: Path) -> list[dict]:
     return [json.loads(x) for x in path.read_text(encoding="utf-8").splitlines() if x.strip()]
 
+def expected_mapping(selection_sha: str, record_ids: list[str]) -> list[dict]:
+    pairs=[
+        {"record_id":record_id,"condition":condition}
+        for record_id in record_ids
+        for condition in ("BASE","ADAPTER")
+    ]
+    ordered=sorted(
+        pairs,
+        key=lambda x: hashlib.sha256(
+            (selection_sha+"|"+x["record_id"]+"|"+x["condition"]).encode()
+        ).hexdigest(),
+    )
+    return [
+        {"blind_id":f"blind-{index:03d}","record_id":item["record_id"],"condition":item["condition"]}
+        for index,item in enumerate(ordered,1)
+    ]
+
 def main(args) -> int:
     spec=json.loads((QUAL/"FINAL_QUALIFICATION_V3_SPEC.json").read_text(encoding="utf-8"))
     packet_manifest=json.loads(args.packet_manifest.read_text(encoding="utf-8"))
@@ -59,6 +76,9 @@ def main(args) -> int:
     conditions=Counter(x.get("condition") for x in mapping_items)
     if conditions!={"BASE":20,"ADAPTER":20}:
         raise RuntimeError("mapping condition balance mismatch")
+    expected=expected_mapping(packet_manifest["selection_sha256"],selection["record_ids"])
+    if mapping_items!=expected:
+        raise RuntimeError("mapping deterministic assignment mismatch")
     record_counts=Counter(x.get("record_id") for x in mapping_items)
     if set(record_counts)!=set(selection["record_ids"]) or any(record_counts[r]!=2 for r in selection["record_ids"]):
         raise RuntimeError("mapping selection coverage mismatch")
@@ -66,6 +86,9 @@ def main(args) -> int:
         raise RuntimeError("judgment coverage mismatch")
     if set(judgment_ids)!=set(mapping) or set(judgment_ids)!=set(blind_by_id):
         raise RuntimeError("judgment blind-id set mismatch")
+    for blind_id,source in blind_by_id.items():
+        if source.get("record_id")!=mapping[blind_id].get("record_id"):
+            raise RuntimeError("blind packet mapping metadata mismatch")
     for j in judgments:
         source=blind_by_id[j["blind_id"]]
         if j.get("record_id")!=source.get("record_id") or j.get("dimension")!=source.get("dimension"):
