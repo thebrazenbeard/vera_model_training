@@ -57,10 +57,37 @@ def compose_final_result(spec: dict, automated: dict, blind: dict, *,
         "independent_review_pass": blind.get("independent_review_pass") is True,
         "automated_result_sha256": automated_sha256,
         "blind_review_result_sha256": blind_sha256,
+        "judge_binding_sha256": blind["judge_binding_sha256"],
         "spec_sha256": spec_sha256,
         "automated_pass": automated.get("automated_pass") is True,
         "blind_failure_reasons": blind.get("failure_reasons", []),
     }
+
+def verify_review_chain(automated_sha256: str, blind: dict, packet_manifest: dict,
+                        judgment_manifest: dict, judgments_sha256: str,
+                        judge_binding_sha256: str) -> list[str]:
+    reasons=[]
+    if packet_manifest.get("automated_result_sha256")!=automated_sha256:
+        reasons.append("packet_automated_result_mismatch")
+    if blind.get("blind_packet_sha256")!=packet_manifest.get("blind_packet_sha256"):
+        reasons.append("blind_packet_summary_mismatch")
+    if blind.get("mapping_sha256")!=packet_manifest.get("mapping_sha256"):
+        reasons.append("blind_mapping_summary_mismatch")
+    if judgment_manifest.get("blind_packet_sha256")!=packet_manifest.get("blind_packet_sha256"):
+        reasons.append("judgment_packet_mismatch")
+    if judgment_manifest.get("judgments_sha256")!=judgments_sha256:
+        reasons.append("judgment_file_mismatch")
+    if blind.get("judgments_sha256")!=judgments_sha256:
+        reasons.append("blind_judgment_summary_mismatch")
+    if judgment_manifest.get("mapping_accessed") is not False:
+        reasons.append("judge_mapping_boundary_failed")
+    if judgment_manifest.get("judge_verified") is not True:
+        reasons.append("judge_not_verified")
+    if judgment_manifest.get("judge_binding_sha256")!=judge_binding_sha256:
+        reasons.append("judgment_judge_binding_mismatch")
+    if blind.get("judge_binding_sha256")!=judge_binding_sha256:
+        reasons.append("blind_judge_binding_mismatch")
+    return reasons
 
 def load_gate_module():
     path = QUAL / "evaluate_behavior_v2.py"
@@ -76,6 +103,8 @@ def main(args) -> int:
     spec = json.loads(spec_path.read_text(encoding="utf-8"))
     automated = json.loads(args.automated_result.read_text(encoding="utf-8"))
     blind = json.loads(args.blind_result.read_text(encoding="utf-8"))
+    packet_manifest=json.loads(args.packet_manifest.read_text(encoding="utf-8"))
+    judgment_manifest=json.loads(args.judgments_manifest.read_text(encoding="utf-8"))
     expected_holdout = spec["suites"]["behavioral"]
     actual_holdout_sha = sha256(holdout_path)
     holdout_rows = len([x for x in holdout_path.read_text(encoding="utf-8").splitlines() if x.strip()])
@@ -83,11 +112,20 @@ def main(args) -> int:
         raise RuntimeError("behavioral_holdout_hash_mismatch")
     if holdout_rows != expected_holdout["rows"]:
         raise RuntimeError("behavioral_holdout_row_count_mismatch")
+    automated_sha=sha256(args.automated_result)
+    blind_sha=sha256(args.blind_result)
+    judgments_sha=sha256(args.judgments)
+    judge_binding_sha=sha256(QUAL/"FINAL_JUDGE_V3_BINDING.json")
+    review_reasons=verify_review_chain(
+        automated_sha,blind,packet_manifest,judgment_manifest,judgments_sha,judge_binding_sha
+    )
+    if review_reasons:
+        raise RuntimeError(";".join(review_reasons))
     result = compose_final_result(
         spec, automated, blind,
         spec_sha256=sha256(spec_path),
-        automated_sha256=sha256(args.automated_result),
-        blind_sha256=sha256(args.blind_result),
+        automated_sha256=automated_sha,
+        blind_sha256=blind_sha,
         holdout_sha256=actual_holdout_sha,
         holdout_rows=holdout_rows,
     )
@@ -125,6 +163,9 @@ if __name__ == "__main__":
     p=argparse.ArgumentParser()
     p.add_argument("--automated-result",type=Path,required=True)
     p.add_argument("--blind-result",type=Path,required=True)
+    p.add_argument("--packet-manifest",type=Path,required=True)
+    p.add_argument("--judgments",type=Path,required=True)
+    p.add_argument("--judgments-manifest",type=Path,required=True)
     p.add_argument("--final-result",type=Path,required=True)
     p.add_argument("--gate-result",type=Path,required=True)
     raise SystemExit(main(p.parse_args()))

@@ -8,9 +8,46 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 LABELS=("PASS","FAIL","CRITICAL_FAIL")
+ROOT=Path(__file__).resolve().parents[3]
+QUAL=ROOT/"successor"/"qwen35"/"qualification"
 
 def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    h=hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(8*1024*1024),b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+def verify_judge_binding(judge_dir: Path) -> dict:
+    binding_path=QUAL/"FINAL_JUDGE_V3_BINDING.json"
+    binding=json.loads(binding_path.read_text(encoding="utf-8"))
+    reasons=[]
+    if judge_dir.name!=binding["expected_directory_name"]:
+        reasons.append("judge_directory_name_mismatch")
+    verified={}
+    for name,expected in binding["files"].items():
+        path=judge_dir/name
+        try:
+            size=path.stat().st_size
+        except OSError:
+            reasons.append(f"judge_file_missing:{name}")
+            continue
+        if size!=expected["bytes"]:
+            reasons.append(f"judge_file_size_mismatch:{name}")
+            continue
+        actual=sha256(path)
+        verified[name]={"bytes":size,"sha256":actual}
+        if actual!=expected["sha256"]:
+            reasons.append(f"judge_file_sha256_mismatch:{name}")
+    if reasons:
+        raise RuntimeError(";".join(reasons))
+    return {
+        "binding_sha256":sha256(binding_path),
+        "model_repo":binding["model_repo"],
+        "model_revision":binding["model_revision"],
+        "files":verified,
+        "independence_boundary":binding["independence_boundary"],
+    }
 
 def load_jsonl(path: Path) -> list[dict]:
     return [json.loads(x) for x in path.read_text(encoding="utf-8").splitlines() if x.strip()]
@@ -51,6 +88,7 @@ def label_score(model,tokenizer,prefix: str,label: str) -> float:
     norm=torch.logsumexp(step.float(),dim=-1)
     return float((target-norm).mean().item())
 def main(args) -> int:
+    judge_binding=verify_judge_binding(args.judge_dir)
     packet_manifest=json.loads(args.packet_manifest.read_text(encoding="utf-8"))
     if sha256(args.blind_packet)!=packet_manifest["blind_packet_sha256"]:
         raise RuntimeError("blind packet hash mismatch")
@@ -85,10 +123,17 @@ def main(args) -> int:
         "schema":"QWEN35_FINAL_BLIND_JUDGMENTS_MANIFEST_V3",
         "judge_model_path":str(args.judge_dir),
         "judge_model_family":"SmolLM3-3B",
+        "judge_model_repo":judge_binding["model_repo"],
+        "judge_model_revision":judge_binding["model_revision"],
+        "judge_binding_sha256":judge_binding["binding_sha256"],
+        "judge_verified":True,
+        "judge_files":judge_binding["files"],
         "blind_packet_sha256":packet_manifest["blind_packet_sha256"],
         "judgments_sha256":sha256(args.judgments),
         "judgment_count":len(judgments),
         "mapping_accessed":False,
+        "mapping_argument_received":False,
+        "independence_boundary":judge_binding["independence_boundary"],
         "method":"mean_response_token_logprob_choice_over_PASS_FAIL_CRITICAL_FAIL",
     }
     args.judgments_manifest.write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8",newline="\n")

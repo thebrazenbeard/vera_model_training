@@ -24,6 +24,13 @@ def main(args) -> int:
         raise RuntimeError("blind packet adapter archive mismatch")
     if not packet_manifest.get("adapter_model_sha256") or not packet_manifest.get("automated_result_sha256"):
         raise RuntimeError("blind packet missing adapter binding")
+    judge_binding_path=QUAL/"FINAL_JUDGE_V3_BINDING.json"
+    if judgment_manifest.get("judge_verified") is not True:
+        raise RuntimeError("judge identity was not verified")
+    if judgment_manifest.get("judge_binding_sha256")!=sha256(judge_binding_path):
+        raise RuntimeError("judge binding hash mismatch")
+    if judgment_manifest.get("blind_packet_sha256")!=packet_manifest["blind_packet_sha256"]:
+        raise RuntimeError("judge packet hash mismatch")
     if sha256(args.mapping)!=packet_manifest["mapping_sha256"]:
         raise RuntimeError("mapping hash mismatch")
     if sha256(args.judgments)!=judgment_manifest["judgments_sha256"]:
@@ -31,8 +38,19 @@ def main(args) -> int:
     if judgment_manifest.get("mapping_accessed") is not False:
         raise RuntimeError("judgments were not frozen blind")
     mapping_doc=json.loads(args.mapping.read_text(encoding="utf-8"))
-    mapping={x["blind_id"]:x for x in mapping_doc["items"]}
+    mapping_items=mapping_doc["items"]
+    mapping={x["blind_id"]:x for x in mapping_items}
     judgments=load_jsonl(args.judgments)
+    judgment_ids=[x["blind_id"] for x in judgments]
+    expected_count=packet_manifest["item_count"]
+    if len(mapping_items)!=expected_count or len(mapping)!=expected_count:
+        raise RuntimeError("mapping coverage mismatch")
+    if len(judgments)!=expected_count or len(set(judgment_ids))!=expected_count:
+        raise RuntimeError("judgment coverage mismatch")
+    if set(judgment_ids)!=set(mapping):
+        raise RuntimeError("judgment blind-id set mismatch")
+    if any(x.get("verdict") not in {"PASS","FAIL","CRITICAL_FAIL"} for x in judgments):
+        raise RuntimeError("invalid blind judgment label")
     counts=defaultdict(Counter)
     per_dimension=defaultdict(lambda:defaultdict(Counter))
     for j in judgments:
@@ -71,11 +89,12 @@ def main(args) -> int:
         "blind_packet_sha256":packet_manifest["blind_packet_sha256"],
         "mapping_sha256":packet_manifest["mapping_sha256"],
         "judgments_sha256":judgment_manifest["judgments_sha256"],
+        "judge_binding_sha256":judgment_manifest["judge_binding_sha256"],
         "judge":judgment_manifest,
         "conditions":summary,
         "independent_review_pass":not reasons,
         "failure_reasons":reasons,
-        "independence_boundary":"Judge model is separate from the Qwen3.5 subject and sees condition-hidden responses without preferred answers. Benchmark design and orchestration are not independent of the current project runtime.",
+        "independence_boundary":"Judge model is separately frozen from the Qwen3.5 subject and sees condition-hidden responses without preferred answers. The judge script has no mapping argument, but OS-level filesystem isolation from the private mapping is not established. Benchmark design and orchestration are not independent of the current project runtime.",
     }
     args.output.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n",encoding="utf-8",newline="\n")
     print("BLIND_RESULT="+json.dumps({k:v for k,v in result.items() if k!="conditions"},sort_keys=True))
