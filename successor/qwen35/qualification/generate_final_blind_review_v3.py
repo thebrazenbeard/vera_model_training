@@ -8,6 +8,11 @@ import torch
 from peft import PeftModel
 from transformers import AutoTokenizer, Qwen3_5ForCausalLM
 
+try:
+    from .final_qualification_binding_v3 import verify_blind_adapter_binding
+except ImportError:
+    from final_qualification_binding_v3 import verify_blind_adapter_binding
+
 ROOT=Path(__file__).resolve().parents[3]
 Q=ROOT/"successor"/"qwen35"
 QUAL=Q/"qualification"
@@ -43,6 +48,7 @@ def generate_one(model,tokenizer,prompt: str,max_new_tokens: int) -> str:
         )
     return tokenizer.decode(out[0,input_ids.shape[1]:],skip_special_tokens=True).strip()
 def main(args) -> int:
+    binding=verify_blind_adapter_binding(QUAL/"FINAL_QUALIFICATION_V3_SPEC.json",args.automated_result,args.adapter_dir)
     selection_path=QUAL/"FINAL_BLIND_REVIEW_V3_SELECTION.json"
     selection=json.loads(selection_path.read_text(encoding="utf-8"))
     holdout_path=QUAL/"final_holdout_v3.jsonl"
@@ -112,6 +118,10 @@ def main(args) -> int:
         "item_count":len(blind),
         "generation":selection["generation"],
         "subject":"OBJECTIVE_FIDELITY_V2_760_648",
+        "adapter_sha256":binding["adapter_sha256"],
+        "adapter_model_sha256":binding["adapter_model_sha256"],
+        "automated_result_sha256":binding["automated_result_sha256"],
+        "spec_sha256":binding["spec_sha256"],
     }
     args.manifest.write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8",newline="\n")
     print("BLIND_PACKET="+json.dumps(manifest,sort_keys=True),flush=True)
@@ -121,6 +131,7 @@ if __name__=="__main__":
     ap=argparse.ArgumentParser()
     ap.add_argument("--base-dir",type=Path,required=True)
     ap.add_argument("--adapter-dir",type=Path,required=True)
+    ap.add_argument("--automated-result",type=Path,required=True)
     ap.add_argument("--private-generations",type=Path,required=True)
     ap.add_argument("--blind-packet",type=Path,required=True)
     ap.add_argument("--mapping",type=Path,required=True)

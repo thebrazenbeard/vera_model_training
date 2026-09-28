@@ -18,6 +18,12 @@ def main(args) -> int:
     spec=json.loads((QUAL/"FINAL_QUALIFICATION_V3_SPEC.json").read_text(encoding="utf-8"))
     packet_manifest=json.loads(args.packet_manifest.read_text(encoding="utf-8"))
     judgment_manifest=json.loads(args.judgments_manifest.read_text(encoding="utf-8"))
+    if packet_manifest.get("subject")!=spec["subject"]:
+        raise RuntimeError("blind packet subject mismatch")
+    if packet_manifest.get("adapter_sha256")!=spec["adapter"]["archive_sha256"]:
+        raise RuntimeError("blind packet adapter archive mismatch")
+    if not packet_manifest.get("adapter_model_sha256") or not packet_manifest.get("automated_result_sha256"):
+        raise RuntimeError("blind packet missing adapter binding")
     if sha256(args.mapping)!=packet_manifest["mapping_sha256"]:
         raise RuntimeError("mapping hash mismatch")
     if sha256(args.judgments)!=judgment_manifest["judgments_sha256"]:
@@ -59,6 +65,9 @@ def main(args) -> int:
     result={
         "schema":"QWEN35_FINAL_BLIND_REVIEW_RESULT_V3",
         "subject":spec["subject"],
+        "adapter_sha256":packet_manifest["adapter_sha256"],
+        "adapter_model_sha256":packet_manifest["adapter_model_sha256"],
+        "automated_result_sha256":packet_manifest["automated_result_sha256"],
         "blind_packet_sha256":packet_manifest["blind_packet_sha256"],
         "mapping_sha256":packet_manifest["mapping_sha256"],
         "judgments_sha256":judgment_manifest["judgments_sha256"],
