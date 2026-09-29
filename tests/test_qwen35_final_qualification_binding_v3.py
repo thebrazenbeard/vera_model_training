@@ -56,6 +56,7 @@ def test_finalizer_cross_binds_blind_to_automated_result():
         "adapter_sha256":"a"*64,
         "adapter_model_sha256":"b"*64,
         "automated_result_sha256":"d"*64,
+        "judge_binding_sha256":"g"*64,
         "independent_review_pass":True,
         "failure_reasons":[],
     }
