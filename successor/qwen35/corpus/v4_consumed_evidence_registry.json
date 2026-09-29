@@ -1,0 +1,12 @@
+{
+  "schema": "QWEN35_V4_CONSUMED_EVIDENCE_REGISTRY_V1",
+  "status": "FROZEN_EXCLUSION_INPUT",
+  "entries": [
+    {"id":"V3_BEHAVIORAL","path":"successor/qwen35/qualification/final_holdout_v3.jsonl","sha256":"1b80a0ef64e765e8d901bb2237edb0c7e14163c4211c2ee1b7032891f15261b3","training_use":"PROHIBITED","v4_final_qualification_use":"PROHIBITED"},
+    {"id":"V3_RETENTION","path":"successor/qwen35/qualification/final_retention_v3.jsonl","sha256":"4105efadbfe3cd0b63edfa3f4f336f2098b8e544beda968ddbd4b46a40fa4766","training_use":"PROHIBITED","v4_final_qualification_use":"PROHIBITED"},
+    {"id":"V3_ADVERSARIAL_PROXY","path":"successor/qwen35/qualification/final_adversarial_proxy_v3.jsonl","sha256":"b952154d2e9424161f54d825b29e7569c6e02f22fe350f2b698b7d5c22a75229","training_use":"PROHIBITED","v4_final_qualification_use":"PROHIBITED"},
+    {"id":"V3_BLIND_SELECTION","path":"successor/qwen35/qualification/FINAL_BLIND_REVIEW_V3_SELECTION.json","sha256":"2ce55bf471b19fb80e43d6d76295d0b2985989e60e4ebfd8d81deda5bba9ee1d","training_use":"PROHIBITED","v4_final_qualification_use":"PROHIBITED"},
+    {"id":"HISTORY_BEHAVIOR_HOLDOUT_V1","path":"successor/qwen35/qualification/history_behavior_holdout_v1.jsonl","sha256":"93bbe6605f9b80e71aa6badebab3aaf13125cc5c00305b91f8811961f5edbb8c","training_use":"PROHIBITED","v4_final_qualification_use":"PROHIBITED"},
+    {"id":"H07_FINAL_HOLDOUT_V1","path":"successor/qwen35/qualification/h07_final_holdout_v1.jsonl","sha256":"19ca7a8df3c7bb9d6dbe419e41cb8d56b034219870dc0a8bcc801baa325c50f5","training_use":"PROHIBITED","v4_final_qualification_use":"PROHIBITED"}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema": "VERA_QWEN35_BEHAVIOR_V4_RECIPE_V1",
+  "output_identity": "Vera-Qwen3.5-4B-Behavior-V1-v4-candidate-a",
+  "candidate": "A",
+  "base_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+  "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+  "corpus": {
+    "total_sft_rows": 512,
+    "targeted_rows": 268,
+    "general_rehearsal_rows": 244,
+    "dimension_quotas": {
+      "H01": 12, "H02": 12, "H03": 12, "H04": 12, "H05": 16,
+      "H06": 12, "H07": 20, "H08": 12, "H09": 12, "H10": 12,
+      "H11": 12, "H12": 12, "H13": 20, "H14": 12, "H15": 12,
+      "H16": 12, "H17": 16, "H18": 12, "H19": 16, "H20": 12
+    }
+  },
+  "training": {
+    "method": "QLORA_SFT_ONLY",
+    "preference_stage": false,
+    "lora_r": 4,
+    "lora_alpha": 16,
+    "target_modules": "all-linear",
+    "gradient_checkpointing": true,
+    "hardware_profile": "lappy-rtx3050-4gb",
+    "max_length": 512,
+    "overflow": "error",
+    "optimizer": "adamw_torch"
+  },
+  "general_sources": [
+    {"repo": "HuggingFaceTB/smoltalk2", "revision": "fc6cc2103c066455aade5d7fbb346039ae36ca5e"},
+    {"repo": "HuggingFaceH4/ultrafeedback_binarized", "revision": "3949bf5f8c17c394422ccfab0c31ea9c20bdeb85"}
+  ]
+}
