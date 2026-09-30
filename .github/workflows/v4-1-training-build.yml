@@ -36,6 +36,19 @@ jobs:
             "transformers==5.14.1" \
             "jinja2==3.1.6"
 
+      - name: Verify V4.1 training arithmetic
+        run: |
+          PYTHONPATH=. python - <<'PY'
+          from successor import build_v4_1_hf_rehearsal as rehearsal
+          from successor import build_v4_1_training_corpus as training
+          assert rehearsal.EXPECTED_ROWS == 42500
+          assert sum(rehearsal.TARGETS.values()) == 42500
+          assert training.EXPECTED_TRAIN_ROWS == 50000
+          assert training.EXPECTED_VALIDATION_ROWS == 2500
+          assert training.EXPECTED_TRAIN_ROWS + training.EXPECTED_VALIDATION_ROWS == 52500
+          print("V4.1 training arithmetic PASS")
+          PY
+
       - name: Build V4.1 train/validation split
         run: |
           rm -rf /tmp/vera-v4.1
