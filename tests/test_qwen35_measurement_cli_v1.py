@@ -49,14 +49,21 @@ def test_cli_select_dev_never_claims_qualification(tmp_path,capsys):
     from successor.qwen35.measurement_v1.devloop import append_validation
     ledger=tmp_path/"validation.jsonl"
     scores=tmp_path/"scores.json"
+    from successor.qwen35.measurement_v1.statistics import paired_statistics
+    cases=[]
+    for i in range(350):
+        lane="behavioral" if i<200 else ("retention" if i<280 else "adversarial")
+        gain=lane=="behavioral" and i<28
+        cases.append({"case_id":f"cli-{i:04d}","family_id":f"family-{i:04d}",
+          "lane":lane,"dimension":"H01" if lane=="behavioral" else None,
+          "case_sha256":"1"*64,"decoding_sha256":"d"*64,
+          "base":{"status":"FAIL" if gain else "PASS","model_sha256":"a"*64,"response_sha256":"2"*64},
+          "candidate":{"status":"PASS","model_sha256":"c"*64,"response_sha256":"3"*64}})
     payload={"schema":"QWEN35_DEV_GENERATED_PAIRED_RESULT_V1",
       "status":"DEVELOPMENT_DIAGNOSTIC_UNATTESTED",
       "case_sha256":"b"*64,"base_model_sha256":"a"*64,
       "candidate_model_sha256":"c"*64,"decoding_sha256":"d"*64,
-      "paired":{"n":350,"lanes":{
-        "behavioral":{"delta":.07,"cluster_bootstrap_ci95":[.03,.1],"independent_families_observed":200},
-        "retention":{"delta":0,"cluster_bootstrap_ci95":[-.02,.02],"independent_families_observed":55},
-        "adversarial":{"delta":.01,"cluster_bootstrap_ci95":[-.02,.06],"independent_families_observed":45}}}}
+      "per_case":cases,"paired":paired_statistics(cases,seed=20260930,replicates=160)}
     scores.write_text(json.dumps(payload),encoding="utf-8")
     entry={"experiment_id":"trial-dev","stage":"development_validation",
       "source_commit":"1"*40,"recipe_sha256":"9"*64,

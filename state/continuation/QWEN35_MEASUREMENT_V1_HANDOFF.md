@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement + Development Loop V1 — Live Handoff
 
-**Checkpoint:** TASK_6_CPU_REAL_SMOKE_PASS_AND_FURTHER_SELECTION_AUDIT_PENDING. This file must be updated after each independently verified commit.
+**Checkpoint:** TASK_6_SELECTION_RECOMPUTATION_VERIFIED / DIMENSION_REVIEW_PENDING. This file must be updated after each independently verified commit.
 **Repository:** `thebrazenbeard/vera_model_training`
 **Branch:** `work/qwen35-measurement-devloop-v1-20260930`
 **Branch parent:** `d0acf17b66057cf452226674218ee17b0714fb38`
@@ -27,7 +27,7 @@ No model training or deployment authorized by this measurement build. No final b
 - [x] Task 5 group split persistence, immutable hash-chained validation ledger, 3-check budget, paired generated-response scorer, CLI and README.
 - [ ] Task 6 integration adversarial test. Source additions: measurement_v1/training.py, generation.py, local_generate.py, successor/qwen35/train_behavior_v5.py; V5 5 + entrypoint 3 + generation 3 + local runner 2 focused tests. Pending live Qwen generation, end-to-end refusal test, independent review.
 
-**Next command:** Add selection-case reconciliation RED tests, recompute statistics from per_case, ensure malformed evidence fails closed; then full tests and remote commit; refresh this handoff.
+**Next command:** Preselect development case coverage audit: ensure all H01-H20 are present rather than optimizing one dimension. Do RED/GREEN test. Then full Qwen tests, update handoff, push and remote readback.
 
 **Last verified remote head before Task 6 partial checkpoint:** 3443dbfb539c919f664395cdd9f897610fec4790.
 **Unresolved material:** real independently authored and reviewed case bank, real model generation recordings, runtime-route evidence. None may be fabricated to clear a test.
@@ -41,3 +41,6 @@ Versioned receipt: successor/qwen35/measurement_v1/REAL_CPU_GENERATION_SMOKE_202
 
 ## Hostile regression fixes since previous commit
 Consumed V1/V3/V4 final prompts are now mandatory exclusions for development split, scorer and V5 SFT, even if a caller supplied an empty blocklist; source absence fails closed. Statistical gate now requires at least 50 families and non-null cluster CIs per H dimension. New end-to-end smoke and provisional candidate selection tests pass. Remaining selection defect: a hash-chain authenticates file identity, not the truth of claimed summary; require summary recomputation from per-case data before treating selection as robust.
+
+## Additional selection audit
+Development selection now replays paired statistics from every stored per-case outcome, checks each case's model and decoding digests against the ledger subject, and refuses fabricated summary percentages even when score-file SHA matches a freshly written ledger. Added regression tests for missing per-case evidence and forged statistics. Structural selection remains explicitly provisional and not independently attested.

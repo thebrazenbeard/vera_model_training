@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 from .devloop import LedgerError, read_validation_ledger, write_new
+from .statistics import paired_statistics
 
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -45,8 +46,37 @@ def select_development_candidate(ledger_path,score_paths,output,*,minimum_cases=
             or result.get("base_model_sha256")!=entry["base_model_sha256"]
             or result.get("candidate_model_sha256")!=entry["candidate_model_sha256"]):
             raise LedgerError("result identity/provenance mismatch")
+        cases=result.get("per_case")
+        if not isinstance(cases,list) or not cases:
+            raise LedgerError("case-level evidence required for development selection")
+        seen=set()
+        for case in cases:
+            if not isinstance(case,dict) or not isinstance(case.get("case_id"),str):
+                raise LedgerError("case-level missing or invalid case ID")
+            if case["case_id"] in seen:
+                raise LedgerError("duplicate case-level evidence")
+            seen.add(case["case_id"])
+            if case.get("decoding_sha256")!=result.get("decoding_sha256"):
+                raise LedgerError("case-level decoding binding mismatch")
+            if (case.get("base",{}).get("model_sha256")!=entry["base_model_sha256"]
+                or case.get("candidate",{}).get("model_sha256")!=entry["candidate_model_sha256"]):
+                raise LedgerError("case-level model binding mismatch")
+            for condition in ("base","candidate"):
+                if not isinstance(case[condition].get("response_sha256"),str) or len(case[condition]["response_sha256"])!=64:
+                    raise LedgerError("case-level response digest invalid")
+        stored=result.get("paired")
+        if not isinstance(stored,dict):
+            raise LedgerError("paired summary missing")
+        if stored.get("n")!=len(cases):
+            raise LedgerError("paired summary count mismatch")
+        try:
+            recomputed=paired_statistics(cases,seed=stored["seed"],replicates=stored["replicates"])
+        except (KeyError,TypeError,ValueError) as exc:
+            raise LedgerError("case-level statistical recomputation failed: "+str(exc)) from exc
+        if recomputed!=stored:
+            raise LedgerError("paired statistical summary mismatch with case-level evidence")
         decode_hashes.add(result.get("decoding_sha256"))
-        stats=result.get("paired",{})
+        stats=recomputed
         lanes=stats.get("lanes",{})
         inspected.append(entry["experiment_id"])
         if stats.get("n",0)<minimum_cases:
