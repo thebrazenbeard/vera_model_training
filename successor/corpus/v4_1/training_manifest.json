@@ -1,0 +1,128 @@
+{
+  "blind_plaintext_included": false,
+  "corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V1",
+  "custom_source": {
+    "families": {
+      "correction_uptake": 1000,
+      "empathy_affective_response": 1000,
+      "epistemic_provenance": 1000,
+      "identity_stability": 1000,
+      "independent_judgment": 1000,
+      "negative_transfer_resistance": 1000,
+      "privacy_boundary": 1000,
+      "reciprocal_identity_continuity": 1000,
+      "relationship_authority": 1000,
+      "runtime_boundary": 1000
+    },
+    "rows": 10000
+  },
+  "custom_validation_per_family": 50,
+  "general_fraction": 0.81,
+  "manifest_sha256": "7962747a8c7dfca50366a789f4139a8b0e7ead26fa7a81d15d4cacd51ed43cd3",
+  "rehearsal_source": {
+    "adjustment_strategy": {
+      "smoltalk_smollm3_explore_instruct_rewriting_no_think": 500,
+      "smoltalk_smollm3_smol_rewrite_no_think": 500,
+      "table_gpt_no_think": 500,
+      "tulu_3_sft_personas_instruction_following_no_think": 500
+    },
+    "bytes": 82038930,
+    "corpus_id": "VERA_V4_1_HF_REHEARSAL_42500_20260930_V1",
+    "recipe_sha256": "b0d4825f9e45d9c2587b26ecaeafdda3532c40480dcc8acf910ca160defd6e8c",
+    "rows": 42500,
+    "schema": "VERA_V4_1_HF_REHEARSAL_MANIFEST_V1",
+    "sha256": "997378cfc7e77ed3fd2ab6aabdc45825f00cb89c805d3135e57dff1a16fa0670",
+    "source_stats": {
+      "Mixture_of_Thoughts_science_no_think": {
+        "accepted": 6000,
+        "rejected_duplicate": 0,
+        "rejected_length": 1,
+        "rejected_shape": 0,
+        "scanned": 6001,
+        "target": 6000
+      },
+      "OpenHermes_2.5_no_think": {
+        "accepted": 4000,
+        "rejected_duplicate": 0,
+        "rejected_length": 38,
+        "rejected_shape": 0,
+        "scanned": 4038,
+        "target": 4000
+      },
+      "smoltalk_smollm3_explore_instruct_rewriting_no_think": {
+        "accepted": 7500,
+        "rejected_duplicate": 45,
+        "rejected_length": 0,
+        "rejected_shape": 5,
+        "scanned": 7550,
+        "target": 7500
+      },
+      "smoltalk_smollm3_smol_rewrite_no_think": {
+        "accepted": 6500,
+        "rejected_duplicate": 0,
+        "rejected_length": 0,
+        "rejected_shape": 0,
+        "scanned": 6500,
+        "target": 6500
+      },
+      "smoltalk_smollm3_smol_summarize_no_think": {
+        "accepted": 6000,
+        "rejected_duplicate": 0,
+        "rejected_length": 250,
+        "rejected_shape": 0,
+        "scanned": 6250,
+        "target": 6000
+      },
+      "table_gpt_no_think": {
+        "accepted": 5000,
+        "rejected_duplicate": 10,
+        "rejected_length": 903,
+        "rejected_shape": 0,
+        "scanned": 5913,
+        "target": 5000
+      },
+      "tulu_3_sft_personas_instruction_following_no_think": {
+        "accepted": 7500,
+        "rejected_duplicate": 6,
+        "rejected_length": 90,
+        "rejected_shape": 0,
+        "scanned": 7596,
+        "target": 7500
+      }
+    },
+    "target_adjustment_from_v4": 2000,
+    "target_rows": 42500,
+    "unique_pairs": 42500
+  },
+  "rehearsal_validation_rows": 2000,
+  "schema": "VERA_V4_1_TRAINING_CORPUS_MANIFEST_V1",
+  "source_rows": 52500,
+  "split_seed": "VERA_V4_1_SPLIT_20260930_V1",
+  "train_counts_by_source_class": {
+    "correction_supersession": 950,
+    "decision_under_conflict": 2850,
+    "empathy_affective_response": 950,
+    "evolving_preference_value_evidence": 950,
+    "ordinary_general_competence": 40500,
+    "relationship_relational_grammar": 950,
+    "runtime_state_evidence": 950,
+    "stable_identity_evidence": 1900
+  },
+  "train_rows": 50000,
+  "train_sha256": "425f415ad724172544682fa67d812d691e33a589549d7897df929b47b0be0ab1",
+  "train_validation_overlap": 0,
+  "training_authorization": "NOT_GRANTED",
+  "validation_counts_by_source_class": {
+    "correction_supersession": 50,
+    "decision_under_conflict": 150,
+    "empathy_affective_response": 50,
+    "evolving_preference_value_evidence": 50,
+    "ordinary_general_competence": 2000,
+    "relationship_relational_grammar": 50,
+    "runtime_state_evidence": 50,
+    "stable_identity_evidence": 100
+  },
+  "validation_rows": 2500,
+  "validation_sha256": "22f3fa4024182c8c148cb5dca4d294554c158de5760e6da7762f83b3923588e2",
+  "weight_change_performed": false
+}
