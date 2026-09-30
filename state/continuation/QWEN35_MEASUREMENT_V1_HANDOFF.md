@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement + Development Loop V1 — Live Handoff
 
-**Checkpoint:** TASK_6_SELECTION_RECOMPUTATION_AND_H20_COVERAGE_GREEN / FINAL_REVIEW_PENDING. This file must be updated after each independently verified commit.
+**Checkpoint:** TASK_6_SOURCE_GROUP_LEAKAGE_REPAIR / FULL_REGRESSION_PENDING. This file must be updated after each independently verified commit.
 **Repository:** `thebrazenbeard/vera_model_training`
 **Branch:** `work/qwen35-measurement-devloop-v1-20260930`
 **Branch parent:** `d0acf17b66057cf452226674218ee17b0714fb38`
@@ -47,3 +47,22 @@ Development selection now replays paired statistics from every stored per-case o
 
 ## Cross-dimension development selection hardening
 One RED test proved a 250-case H01-only development set could previously select a candidate for the full H01-H20 objective. Selection now requires at least ten distinct cases and ten independent family labels per H dimension, blocks any dimension with critical failures or >10-point observed regression. This is a DEVELOPMENT guard, not a statistical claim for any dimension. New test RED then GREEN; full regression command needs to be repeated before final commit.
+
+## Resume checkpoint: source identity split fix (2026-09-30)
+
+A hostile audit found the grouped development splitter previously separated by
+family_id alone, allowing two families from the same declared origin.source_id
+to enter both training and validation. A RED regression case reproduced the
+defect; a union of family/source connected components fixed the split.
+V5 verify_sft_partitions() now refuses a shared origin.source_id across train
+and validation. preflight_final_bank() accepts excluded_source_ids and refuses
+a proposed final bank if it shares an upstream source with development.
+Three missing behaviors were demonstrated by failing tests, then the
+relevant focused suite passed 19 tests.
+
+The identity of self-reported source_id entries is not independently attested,
+and source-sha overlaps remain a concern; a hash alone proves byte identity,
+not third-party provenance. Final 10,000-case bank remains uncollected.
+
+**Next:** full Qwen test suite; push source defense; verify remote exact head;
+then inspect source SHA and representative-family risk.

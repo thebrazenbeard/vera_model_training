@@ -116,3 +116,30 @@ def test_source_segregation_duplicate_same_source_digest_not_automatically_indep
     report = preflight_final_bank(rows, consumed_prompt_fingerprints=set(), verify_independent_review=lambda x: True)
     assert report["distinct_source_digests"] == 1
     assert report["sampling_warning"] == "REPRESENTATIVENESS_NOT_ESTABLISHED"
+
+
+def test_shared_origin_source_id_cannot_cross_development_split():
+    rows = [sample(i, family=f"family-{i}") for i in range(90)]
+    train, validation = split_dev_cases(rows, seed=20260930)
+    assert train and validation
+    left = train[0]["case_id"]
+    right = validation[0]["case_id"]
+    for row in rows:
+        if row["case_id"] == right:
+            row["origin"]["source_id"] = next(r["origin"]["source_id"] for r in rows if r["case_id"] == left)
+            row["origin"]["source_revision"] = next(r["origin"]["source_revision"] for r in rows if r["case_id"] == left)
+    t, v = split_dev_cases(rows, seed=20260930)
+    sources_t = {r["origin"]["source_id"] for r in t}
+    sources_v = {r["origin"]["source_id"] for r in v}
+    assert sources_t.isdisjoint(sources_v), "same underlying source leaked across train and validation"
+
+
+def test_final_bank_cannot_share_upstream_source_with_development():
+    rows = bank_10000()
+    with pytest.raises(CaseError, match="development source"):
+        preflight_final_bank(
+            rows,
+            consumed_prompt_fingerprints=set(),
+            excluded_source_ids={rows[42]["origin"]["source_id"]},
+            verify_independent_review=lambda x: True,
+        )

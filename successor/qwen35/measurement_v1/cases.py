@@ -93,30 +93,72 @@ def read_cases(path):
     validate_rows(rows)
     return rows
 
-def split_dev_cases(rows,*,seed):
+def split_dev_cases(rows, *, seed):
+    """Deterministic development split over connected leakage components.
+
+    Two cases belong in the same component if they share a family_id or a
+    source_id (even when a dataset labels them as different paraphrase families).
+    This prevents one source document appearing in both train and validation.
+    Source IDs are author-supplied and do not independently prove provenance.
+    """
     validate_rows(rows)
-    grouped=defaultdict(list)
-    for r in rows:
-        grouped[r["family_id"]].append(r)
-    if len(grouped)<2:
-        raise CaseError("need at least two distinct families")
-    train=[]
-    val=[]
-    for family in sorted(grouped):
-        h=hashlib.sha256(f"{seed}|{family}".encode()).digest()
-        fraction=int.from_bytes(h[:8],"big")/2**64
-        (train if fraction < .8 else val).extend(grouped[family])
+    family_ids = {r["family_id"] for r in rows}
+    parent = {family: family for family in family_ids}
+
+    def find(family):
+        while parent[family] != family:
+            parent[family] = parent[parent[family]]
+            family = parent[family]
+        return family
+
+    def unite(left, right):
+        a, b = find(left), find(right)
+        if a != b:
+            parent[max(a, b)] = min(a, b)
+
+    first_source = {}
+    for row in rows:
+        source_id = row["origin"]["source_id"]
+        family = row["family_id"]
+        if source_id in first_source:
+            unite(family, first_source[source_id])
+        else:
+            first_source[source_id] = family
+
+    components = defaultdict(list)
+    for row in rows:
+        components[find(row["family_id"])].append(row)
+    if len(components) < 2:
+        raise CaseError("need at least two source-and-family-disjoint groups")
+
+    train, val = [], []
+    ordered = sorted(components.items())
+    for _, members in ordered:
+        family_label = "|".join(sorted({r["family_id"] for r in members}))
+        h = hashlib.sha256(f"{seed}|{family_label}".encode()).digest()
+        fraction = int.from_bytes(h[:8], "big") / 2**64
+        (train if fraction < .8 else val).extend(members)
+
     if not val:
-        pivot=sorted(grouped)[-1]
-        val=grouped[pivot][:]
-        train=[r for r in train if r["family_id"]!=pivot]
+        pivot_members = ordered[-1][1]
+        pivot_ids = {r["case_id"] for r in pivot_members}
+        val = list(pivot_members)
+        train = [r for r in train if r["case_id"] not in pivot_ids]
     if not train:
-        pivot=sorted(grouped)[0]
-        train=grouped[pivot][:]
-        val=[r for r in val if r["family_id"]!=pivot]
+        pivot_members = ordered[0][1]
+        pivot_ids = {r["case_id"] for r in pivot_members}
+        train = list(pivot_members)
+        val = [r for r in val if r["case_id"] not in pivot_ids]
     if not train or not val:
-        raise CaseError("empty split")
-    return sorted(train,key=lambda x:x["case_id"]),sorted(val,key=lambda x:x["case_id"])
+        raise CaseError("empty source/family-disjoint split")
+    assert {r["origin"]["source_id"] for r in train}.isdisjoint(
+        {r["origin"]["source_id"] for r in val}
+    )
+    assert {r["family_id"] for r in train}.isdisjoint(
+        {r["family_id"] for r in val}
+    )
+    return sorted(train, key=lambda x: x["case_id"]), sorted(val, key=lambda x: x["case_id"])
+
 
 def legacy_consumed_fingerprints():
     """Mandatory V3/V4 and earlier heldout exclusions; missing sources fail closed."""
@@ -138,7 +180,7 @@ def legacy_consumed_fingerprints():
                     blocked.add(normalized_prompt(row["prompt"]))
     return blocked
 
-def preflight_final_bank(rows,*,consumed_prompt_fingerprints,verify_independent_review=None,excluded_family_ids=None):
+def preflight_final_bank(rows,*,consumed_prompt_fingerprints,verify_independent_review=None,excluded_family_ids=None,excluded_source_ids=None):
     """Mocked callbacks may prove structural contract, NEVER real independent review."""
     if len(rows)<10000:
         raise CaseError(f"final needs 10,000 cases minimum (observed {len(rows)})")
@@ -157,6 +199,8 @@ def preflight_final_bank(rows,*,consumed_prompt_fingerprints,verify_independent_
     excluded=excluded_family_ids or set()
     if any(r["family_id"] in excluded for r in rows):
         raise CaseError("development family overlaps final bank")
+    if any(r["origin"]["source_id"] in (excluded_source_ids or set()) for r in rows):
+        raise CaseError("development source overlaps final bank")
     if verify_independent_review is None:
         raise CaseError("independent reviewer verifier is required")
     for r in rows:

@@ -88,3 +88,12 @@ Use the select-dev CLI command with --ledger, one or more --score arguments, and
 ## Current development selection safeguards
 
 The provisional selector recomputes case-level paired statistics and rejects forged summary percentages even if a ledger records the file's SHA. It also requires all H01-H20 dimensions with at least ten separately labeled case families each. The ten-per-dimension number is strictly a development **coverage guard**, not a confidence interval or final qualification sample size. These attestations remain local and do not establish external reviewer independence.
+
+### Source identity and split leakage
+
+Development train/validation splitting groups connected cases sharing either
+family_id or origin.source_id, so a single declared source cannot occur on
+both sides. V5 SFT partition preflight checks the same source boundary.
+Final-bank preflight supports excluded_family_ids and excluded_source_ids
+supplied from development custody evidence. These checks do not prove
+accurate source attribution, independence of review, or runtime behavior.

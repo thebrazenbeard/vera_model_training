@@ -75,3 +75,12 @@ def test_sft_partition_cannot_reuse_v4_final_even_when_passed_empty_blocklist(tm
     write(train,rows)
     with pytest.raises(TrainingContractError,match="consumed"):
         verify_sft_partitions(train,val,consumed_prompt_fingerprints=set())
+
+
+def test_same_upstream_source_id_cannot_be_in_train_and_validation(tmp_path):
+    train, val = valid_files(tmp_path)
+    rows = [sft(200+i) for i in range(40)]
+    rows[3]["origin"]["source_id"] = "s-0"  # other family, same source document
+    write(val, rows)
+    with pytest.raises(TrainingContractError, match="source"):
+        verify_sft_partitions(train, val, consumed_prompt_fingerprints=set())

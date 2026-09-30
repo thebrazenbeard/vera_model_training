@@ -63,6 +63,10 @@ def verify_sft_partitions(train_path,validation_path,*,consumed_prompt_fingerpri
     val_families={r["family_id"] for r in validation}
     if train_families & val_families:
         raise TrainingContractError("train/validation family overlap")
+    train_sources={r["origin"]["source_id"] for r in train}
+    validation_sources={r["origin"]["source_id"] for r in validation}
+    if train_sources & validation_sources:
+        raise TrainingContractError("train/validation source overlap")
     return {"status":"SFT_PARTITIONS_VERIFIED_NOT_TRAINED",
             "train_rows":len(train),"validation_rows":len(validation),
             "train_sha256":_digest(train_path),"validation_sha256":_digest(validation_path),
