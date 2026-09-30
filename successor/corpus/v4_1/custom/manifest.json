@@ -1,0 +1,131 @@
+{
+  "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V1",
+  "design": {
+    "candidate_selection": "stratified_compositional_grid",
+    "cognitive_levels": 5,
+    "domains": 20,
+    "family_lenses": {
+      "correction_uptake": 6,
+      "empathy_affective_response": 6,
+      "epistemic_provenance": 6,
+      "identity_stability": 6,
+      "independent_judgment": 6,
+      "negative_transfer_resistance": 6,
+      "privacy_boundary": 6,
+      "reciprocal_identity_continuity": 6,
+      "relationship_authority": 6,
+      "runtime_boundary": 6
+    },
+    "model_free": true,
+    "request_modes": 10,
+    "response_frames": 12,
+    "surface_palettes": 6
+  },
+  "families": {
+    "correction_uptake": {
+      "bytes": 1251282,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "50d2e65ab105a0b8a0cbb791a046b7dc9323f2b0",
+      "rows": 1000,
+      "sha256": "f8b73491ca5aabf2da7bfb7bc48dacb6a88f90afb3cc253b7eadbe204e178f94",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "empathy_affective_response": {
+      "bytes": 1272906,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "1fe74df9e01aaf1a7d63a95e96cd266d37eb4d09",
+      "rows": 1000,
+      "sha256": "064513c2599469e4fd89625a4e37e29e1a33cb137bed75b8b7dd90f75f6fc060",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "epistemic_provenance": {
+      "bytes": 1272871,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "ff18142aabe03944ccaaa6bd4a34327a78324bc8",
+      "rows": 1000,
+      "sha256": "10f812805d82509739d45c59d155aa5e3ecfacfb4082bac5116077fd318d582a",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "identity_stability": {
+      "bytes": 1269449,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "3f78b7871b2e46ef2200458eead5789cb14f8515",
+      "rows": 1000,
+      "sha256": "89f49bf159deffebb0ba7a1a1ceb660bc7c7f1ece773dae4fd3ec477c07395fb",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "independent_judgment": {
+      "bytes": 1257576,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "b6550f1488020630aa7cbc594ee34e7a9ac3af6b",
+      "rows": 1000,
+      "sha256": "2bdd0e55432759b8653da80a3f37ad62573a28e993e925900106f828ae78f065",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "negative_transfer_resistance": {
+      "bytes": 1282447,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "a24e554940603cd7de69902259d1c7cc8119a6e2",
+      "rows": 1000,
+      "sha256": "a06c0439a026df0349a1b5289b78816c06f88c702299ac8fbc01f53927ce1c4c",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "privacy_boundary": {
+      "bytes": 1270960,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "9b83cb49953abffca80215651f0670ad0cf4bab4",
+      "rows": 1000,
+      "sha256": "3208d69ae389a633d141ec91627941850a05db03044d1c3e04bd721342ae62b9",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "reciprocal_identity_continuity": {
+      "bytes": 1319992,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "03bd7be0e7ee580206fcb92abba5d05ae71b7771",
+      "rows": 1000,
+      "sha256": "386b3573733f14d23b7deb536e9322e01a8a815f13ec21351bfb5ed4878514df",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "relationship_authority": {
+      "bytes": 1269787,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "7531b0b2ca286b1252330aa3d891afe0b422e3ac",
+      "rows": 1000,
+      "sha256": "e2991e35cc22763e5b55adc9707b2b476716105afb116c8cf24973acac69cb53",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "runtime_boundary": {
+      "bytes": 1399767,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "75d5a4aceb263c7eca3f1098bfb26f9abf6be243",
+      "rows": 1000,
+      "sha256": "24cb6391cdbdea944df832274379611f0e9f7110d26f0c7f5fb03e94b80b73a2",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    }
+  },
+  "manifest_digest": "128be1e7ca0f5eb25313055f830ca2ecbab5910b800b02acdc8f57f40bbbb6a1",
+  "pair_uniqueness": 10000,
+  "response_uniqueness": 10000,
+  "rows": 10000,
+  "schema": "VERA_V4_1_DIVERSE_CORPUS_MANIFEST_V1"
+}
