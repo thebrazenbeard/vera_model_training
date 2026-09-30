@@ -58,6 +58,48 @@ def prefix_stats(rows: list[dict]) -> dict:
     }
 
 
+def tfidf_nearest_neighbor_cosine(rows: list[dict], sample_size: int = 300, neighbors: int = 20) -> float:
+    if not rows:
+        return 0.0
+
+    documents = [
+        Counter(token.lower() for token in TOKEN_RE.findall(row["response"]))
+        for row in rows
+    ]
+    df = Counter()
+    for doc in documents:
+        df.update(doc.keys())
+    total_docs = len(documents)
+    idf = {
+        token: math.log((1 + total_docs) / (1 + frequency)) + 1.0
+        for token, frequency in df.items()
+    }
+
+    def cosine(left: Counter[str], right: Counter[str]) -> float:
+        if not left or not right:
+            return 0.0
+        dot = sum(
+            (count * idf[token]) * (right.get(token, 0) * idf[token])
+            for token, count in left.items()
+            if token in right
+        )
+        left_norm = math.sqrt(sum((count * idf[token]) ** 2 for token, count in left.items()))
+        right_norm = math.sqrt(sum((count * idf[token]) ** 2 for token, count in right.items()))
+        return dot / (left_norm * right_norm) if left_norm and right_norm else 0.0
+
+    sample_indices = [(index * 7919) % len(rows) for index in range(min(sample_size, len(rows)))]
+    scores = []
+    for position, index in enumerate(sample_indices):
+        candidates = []
+        for offset in range(1, neighbors + 1):
+            other = sample_indices[(position * 37 + offset * 101) % len(sample_indices)]
+            if other != index:
+                candidates.append(cosine(documents[index], documents[other]))
+        if candidates:
+            scores.append(max(candidates))
+    return round(sum(scores) / len(scores), 6) if scores else 0.0
+
+
 def sampled_jaccard(rows: list[dict], sample_size: int = 400, pairs_per_row: int = 12) -> float:
     if not rows:
         return 0.0
@@ -117,6 +159,7 @@ def measure(root: Path) -> dict:
         "response_gzip_ratio": round(len(compressed) / max(1, len(raw)), 6),
         "response_prefix": prefix_stats(rows),
         "sampled_4gram_jaccard": sampled_jaccard(rows),
+        "tfidf_nearest_neighbor_cosine": tfidf_nearest_neighbor_cosine(rows),
         "sentence_count": {
             "min": min(sentence_counts),
             "max": max(sentence_counts),
@@ -152,6 +195,7 @@ def main() -> None:
                 "top100_trigram_mass",
                 "response_gzip_ratio",
                 "sampled_4gram_jaccard",
+                "tfidf_nearest_neighbor_cosine",
             )
             if isinstance(candidate.get(key), (int, float))
             and isinstance(baseline.get(key), (int, float))
