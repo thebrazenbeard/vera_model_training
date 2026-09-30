@@ -53,7 +53,7 @@ Every development validation trial is appended to a hash-chained JSONL ledger (b
 - No actual independently reviewed final 10,000-case bank exists in this branch.
 - No observed production/live model-generation trace is established by records that simply claim `model_generation_claim`.
 - No independent review provider is authenticated. Injecting a test callback is a *unit-test mock* and the returned status is only `STRUCTURAL_PREFLIGHT_ONLY`.
-- The current trainer has not yet been updated to record validation curves or checkpoints in the new V5 workstream. V4 remains a frozen historical failure.
+- A new **unexecuted** V5 training entrypoint exists and requires a hash-bound independent validation dataset. It configures periodic eval loss, early stopping and best-checkpoint restoration. Its GPU runtime behavior still requires a real smoke test, and no V5 model is trained.
 - No installed `vera_core.QualifiedVeraRuntime`, selected route, runtime effect, GGUF equivalence, or release status is established here.
 
 ## Hostile review of the design
@@ -65,3 +65,18 @@ Every development validation trial is appended to a hash-chained JSONL ledger (b
 Research background: [LiveBench](https://livebench.ai/) (objective/refreshing tasks), [HELM](https://github.com/stanford-crfm/helm) (multi-axis evaluation), [TRL SFT](https://huggingface.co/docs/trl/main/sft_trainer) (completion-only and validation). Research links are design inputs, not installation or live validation evidence.
 
 The current exact branch and handoff are in `state/continuation/QWEN35_MEASUREMENT_V1_HANDOFF.md`. Resume from GitHub remote, not a chat transcript.
+
+
+## New V5 validation-enabled training and real generation source
+
+Source entrypoints exist; the commands below use *hypothetical* approved dataset paths, not current evidence that such inputs exist.
+
+\`\`\`powershell
+$py = 'D:\VERA\qwen35-final-qual-env-20260927\Scripts\python.exe'
+& $py -m successor.qwen35.train_behavior_v5 --recipe D:\VERA\v5-frozen-recipe.json --base-dir D:\VERA\models\latest-trained\base --output-dir D:\VERA\v5-candidate-a
+& $py -m successor.qwen35.measurement_v1.local_generate --cases D:\VERA\approved-dev-cases.jsonl --base-dir D:\VERA\models\latest-trained\base --adapter-dir D:\VERA\qwen35-v4-candidate-a-20260929\adapter --out D:\VERA\dev-generation-smoke --limit 1 --max-new-tokens 8 --run
+\`\`\`
+
+The training command defaults to **preflight only**. Add an explicit \`--execute\` only for authorized, verified, separately frozen train and validation data. Local generation requires \`--run\`, produces base and adapter text outputs plus a generation manifest, and does not qualify the model. Its lack of independent external observation is stated in the receipt.
+
+Do not use V3/V4 final cases as training, development validation, or the new final bank. Optimizing to a training loss or eval_loss is only a development surrogate; generated-response development outcomes and a genuinely new final bank remain necessary.

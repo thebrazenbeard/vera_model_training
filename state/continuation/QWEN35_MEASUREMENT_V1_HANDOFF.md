@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement + Development Loop V1 — Live Handoff
 
-**Checkpoint:** TASK_5_DEVLOOP_CLI_VERIFIED. This file must be updated after each independently verified commit.
+**Checkpoint:** TASK_6_SOURCE_ENTRYPOINTS_VERIFIED_REAL_SMOKE_PENDING. This file must be updated after each independently verified commit.
 **Repository:** `thebrazenbeard/vera_model_training`
 **Branch:** `work/qwen35-measurement-devloop-v1-20260930`
 **Branch parent:** `d0acf17b66057cf452226674218ee17b0714fb38`
@@ -25,9 +25,9 @@ No model training or deployment authorized by this measurement build. No final b
 - [x] Task 3 direct generated-text grading and paired observation binding. Objective grader, manual/effect fail-closed. 8 focused tests.
 - [x] Task 4 exact paired discordance/McNemar, independent-family bootstrap with effective-group warnings, 20-dimension coverage, count-reconciliation and conservative gate. 13 focused tests.
 - [x] Task 5 group split persistence, immutable hash-chained validation ledger, 3-check budget, paired generated-response scorer, CLI and README.
-- [ ] Task 6 integration adversarial test.
+- [ ] Task 6 integration adversarial test. Source additions: measurement_v1/training.py, generation.py, local_generate.py, successor/qwen35/train_behavior_v5.py; V5 5 + entrypoint 3 + generation 3 + local runner 2 focused tests. Pending live Qwen generation, end-to-end refusal test, independent review.
 
-**Next command:** Task 6: red-green integration tests, verify model-generation adapter and validation-enabled trainer changes; preserve consumed finals, then full tests, hostile review, push and exact handoff.
+**Next command:** Verify remote latest head; run one bounded real-model local-generation smoke using a genuinely new DEVELOPMENT-only synthetic prompt; never use V3/V4 final data. If model smoke fails, preserve error and repair only source; then full tests and final hostile review.
 
-**Last verified remote head before Task 5 commit:** fdfaaff71b4ec5c68d973ad2b2b1ccbd8fec4ee6; refresh from origin.
+**Last verified remote head before Task 6 partial checkpoint:** 3443dbfb539c919f664395cdd9f897610fec4790.
 **Unresolved material:** real independently authored and reviewed case bank, real model generation recordings, runtime-route evidence. None may be fabricated to clear a test.
