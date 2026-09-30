@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - "work/v4.1-diverse-core-20260930"
+    paths:
+      - "successor/build_v4_1_diverse_corpus.py"
+      - "successor/corpus/v4/custom/**"
+      - "successor/corpus/v4_1/custom/**"
+      - "successor/semantic_diversity_gate.py"
+      - ".github/workflows/v4-1-semantic-gate.yml"
   workflow_dispatch:
 
 permissions:
