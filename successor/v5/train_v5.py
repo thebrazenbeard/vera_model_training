@@ -23,6 +23,18 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def training_input_lineage(
+    general_sft_path: Path,
+    general_pref_path: Path,
+    targeted_path: Path,
+) -> dict[str, str]:
+    return {
+        "general_sft_input_sha256": sha256_file(general_sft_path),
+        "general_preference_input_sha256": sha256_file(general_pref_path),
+        "targeted_input_sha256": sha256_file(targeted_path),
+    }
+
+
 def sft_record(row: dict) -> dict:
     return {
         "prompt":[SYSTEM,{"role":"user","content":row["prompt"]}],
@@ -235,7 +247,7 @@ def train(
         "generated_targeted_rows":sum(r.get("schema")!="VERA_V5_GOLD_TARGETED_PAIR_V1" for r in targeted),
         "gold_targeted_rows":sum(r.get("schema")=="VERA_V5_GOLD_TARGETED_PAIR_V1" for r in targeted),
         "targeted_sft_rows":len(targeted),
-        "targeted_input_sha256":sha256_file(targeted_path),
+        **training_input_lineage(general_sft_path, general_pref_path, targeted_path),
         "sft_total_rows":len(sft_rows),
         "general_preference_rows":len(general_pref),
         "targeted_preference_rows":len(targeted),

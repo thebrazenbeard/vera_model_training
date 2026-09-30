@@ -1,3 +1,4 @@
+import hashlib
 import inspect
 import json
 from pathlib import Path
@@ -68,6 +69,27 @@ def test_v5_trainer_accepts_substrate_loader_without_changing_legacy_defaults():
     assert signature.parameters["base_revision"].default == train_v5.BASE_REV
     assert signature.parameters["model_loader"].default is None
     assert signature.parameters["lora_receipt"].default is None
+
+
+def test_training_input_lineage_hashes_all_three_exact_corpora(tmp_path):
+    general_sft = tmp_path / "general_sft.jsonl"
+    general_pref = tmp_path / "general_pref.jsonl"
+    targeted = tmp_path / "targeted.jsonl"
+    payloads = {
+        general_sft: b'{"kind":"sft"}\n',
+        general_pref: b'{"kind":"pref"}\n',
+        targeted: b'{"kind":"targeted"}\n',
+    }
+    for path, payload in payloads.items():
+        path.write_bytes(payload)
+
+    lineage = train_v5.training_input_lineage(general_sft, general_pref, targeted)
+
+    assert lineage == {
+        "general_sft_input_sha256": hashlib.sha256(payloads[general_sft]).hexdigest(),
+        "general_preference_input_sha256": hashlib.sha256(payloads[general_pref]).hexdigest(),
+        "targeted_input_sha256": hashlib.sha256(payloads[targeted]).hexdigest(),
+    }
 
 
 def test_continuation_state_matches_adapted_qwen_subject():
