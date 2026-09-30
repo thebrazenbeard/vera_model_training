@@ -472,6 +472,7 @@ def build(output_dir: Path | None) -> dict:
             "request_modes": 10,
             "surface_palettes": len(PALETTES),
             "response_frames": len(FRAMES),
+            "application_forms": {family: len(APPLICATIONS[family]) for family in v4.CORE_FAMILIES},
             "family_lenses": {family: len(LENSES[family]) for family in v4.CORE_FAMILIES},
             "model_free": True,
             "candidate_selection": "stratified_compositional_grid",
