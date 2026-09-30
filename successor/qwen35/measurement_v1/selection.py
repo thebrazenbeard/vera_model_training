@@ -83,6 +83,17 @@ def select_development_candidate(ledger_path,score_paths,output,*,minimum_cases=
             continue
         if not all(lane in lanes for lane in ("behavioral","retention","adversarial")):
             continue
+        # Development selection still needs cross-dimension coverage.
+        # Ten per dimension is a *development prefilter*, not a final power claim.
+        dimensions=stats.get("dimensions",{})
+        expected={f"H{i:02d}" for i in range(1,21)}
+        if not expected.issubset(dimensions):
+            continue
+        if any(dimensions[d].get("n",0)<10 or
+               dimensions[d].get("independent_families_observed",0)<10 or
+               dimensions[d].get("critical_candidate",0)>0 or
+               dimensions[d].get("delta",-1)<-0.1 for d in expected):
+            continue
         beh=lanes["behavioral"]
         ret=lanes["retention"]
         adv=lanes["adversarial"]

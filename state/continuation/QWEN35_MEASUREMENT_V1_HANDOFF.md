@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement + Development Loop V1 — Live Handoff
 
-**Checkpoint:** TASK_6_SELECTION_RECOMPUTATION_VERIFIED / DIMENSION_REVIEW_PENDING. This file must be updated after each independently verified commit.
+**Checkpoint:** TASK_6_SELECTION_RECOMPUTATION_AND_H20_COVERAGE_GREEN / FINAL_REVIEW_PENDING. This file must be updated after each independently verified commit.
 **Repository:** `thebrazenbeard/vera_model_training`
 **Branch:** `work/qwen35-measurement-devloop-v1-20260930`
 **Branch parent:** `d0acf17b66057cf452226674218ee17b0714fb38`
@@ -44,3 +44,6 @@ Consumed V1/V3/V4 final prompts are now mandatory exclusions for development spl
 
 ## Additional selection audit
 Development selection now replays paired statistics from every stored per-case outcome, checks each case's model and decoding digests against the ledger subject, and refuses fabricated summary percentages even when score-file SHA matches a freshly written ledger. Added regression tests for missing per-case evidence and forged statistics. Structural selection remains explicitly provisional and not independently attested.
+
+## Cross-dimension development selection hardening
+One RED test proved a 250-case H01-only development set could previously select a candidate for the full H01-H20 objective. Selection now requires at least ten distinct cases and ten independent family labels per H dimension, blocks any dimension with critical failures or >10-point observed regression. This is a DEVELOPMENT guard, not a statistical claim for any dimension. New test RED then GREEN; full regression command needs to be repeated before final commit.

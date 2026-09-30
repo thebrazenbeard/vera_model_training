@@ -7,14 +7,14 @@ from successor.qwen35.measurement_v1.statistics import paired_statistics
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
-def score(validation="b",candidate="d",improvement=.07,lower=.03):
+def score(validation="b",candidate="d",improvement=.07,lower=.03,single_dimension=False):
     gains=round(250*improvement)
     cases=[]
     for i in range(400):
         lane="behavioral" if i<250 else ("retention" if i<330 else "adversarial")
         base_correct=not (lane=="behavioral" and i<gains)
         record={"case_id":f"dev-{i:04d}","family_id":f"source-group-{i:04d}",
-                "lane":lane,"dimension":"H01" if lane=="behavioral" else None,
+                "lane":lane,"dimension":("H01" if single_dimension else f"H{(i%20)+1:02d}") if lane=="behavioral" else None,
                 "case_sha256":"1"*64,"decoding_sha256":"f"*64,
                 "base":{"status":"PASS" if base_correct else "FAIL",
                         "response_sha256":"2"*64,"model_sha256":"a"*64},
@@ -28,11 +28,11 @@ def score(validation="b",candidate="d",improvement=.07,lower=.03):
             "candidate_model_sha256":candidate*64,"decoding_sha256":"f"*64,
             "per_case":cases,"paired":result}
 
-def setup(tmp_path):
+def setup(tmp_path,single_dimension=False):
     ledger=tmp_path/"ledger.jsonl";scores=[]
     for i,(id,improve,low) in enumerate([("c",.01,-.01),("d",.09,.05)]):
         p=tmp_path/f"score_{id}.json"
-        p.write_text(json.dumps(score(candidate=id,improvement=improve,lower=low)),encoding="utf-8")
+        p.write_text(json.dumps(score(candidate=id,improvement=improve,lower=low,single_dimension=single_dimension)),encoding="utf-8")
         entry={"experiment_id":f"trial-{i}","stage":"development_validation",
                "source_commit":"1"*40,"recipe_sha256":"9"*64,"train_sha256":"e"*64,
                "validation_sha256":"b"*64,"results_sha256":sha(p),
@@ -100,3 +100,11 @@ def test_dev_selection_rejects_missing_case_level_evidence_even_with_hash_bound_
          "candidate_model_sha256":"d"*64},blocked_final_digests=set())
     with pytest.raises(LedgerError,match="case-level"):
         select_development_candidate(ledger,[p],tmp_path/"selection.json")
+
+def test_provisional_selection_needs_development_coverage_across_all_dimensions(tmp_path):
+    # This fixture has 250 behavioral cases from H01 only. Even with an
+    # aggregate improvement it is insufficient to select a cross-H candidate.
+    ledger,scores=setup(tmp_path,single_dimension=True)
+    d=select_development_candidate(ledger,scores,tmp_path/"selected.json")
+    assert d["status"]=="NO_DEVELOPMENT_CANDIDATE_SELECTED"
+    assert d["candidate_model_sha256"] is None

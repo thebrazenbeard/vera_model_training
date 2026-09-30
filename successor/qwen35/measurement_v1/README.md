@@ -84,3 +84,7 @@ Do not use V3/V4 final cases as training, development validation, or the new fin
 ## Provisional development selection
 
 Use the select-dev CLI command with --ledger, one or more --score arguments, and --out. Score-file bytes and model and validation identities are checked against the hash-chain; all selection outcomes remain UNQUALIFIED. Before making reliance claims, selection still needs independent evidence authentication and stronger case-level result reconciliation.
+
+## Current development selection safeguards
+
+The provisional selector recomputes case-level paired statistics and rejects forged summary percentages even if a ledger records the file's SHA. It also requires all H01-H20 dimensions with at least ten separately labeled case families each. The ten-per-dimension number is strictly a development **coverage guard**, not a confidence interval or final qualification sample size. These attestations remain local and do not establish external reviewer independence.

@@ -55,7 +55,7 @@ def test_cli_select_dev_never_claims_qualification(tmp_path,capsys):
         lane="behavioral" if i<200 else ("retention" if i<280 else "adversarial")
         gain=lane=="behavioral" and i<28
         cases.append({"case_id":f"cli-{i:04d}","family_id":f"family-{i:04d}",
-          "lane":lane,"dimension":"H01" if lane=="behavioral" else None,
+          "lane":lane,"dimension":f"H{(i%20)+1:02d}" if lane=="behavioral" else None,
           "case_sha256":"1"*64,"decoding_sha256":"d"*64,
           "base":{"status":"FAIL" if gain else "PASS","model_sha256":"a"*64,"response_sha256":"2"*64},
           "candidate":{"status":"PASS","model_sha256":"c"*64,"response_sha256":"3"*64}})
