@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement + Development Loop V1 — Live Handoff
 
-**Checkpoint:** TASK_6_SOURCE_GROUP_LEAKAGE_REPAIR / FULL_REGRESSION_PENDING. This file must be updated after each independently verified commit.
+**Checkpoint:** RESEARCH_FREEZE_BEFORE_10K_BANK / BANK_BUILD_PAUSED. This file must be updated after each independently verified commit.
 **Repository:** `thebrazenbeard/vera_model_training`
 **Branch:** `work/qwen35-measurement-devloop-v1-20260930`
 **Branch parent:** `d0acf17b66057cf452226674218ee17b0714fb38`
@@ -66,3 +66,23 @@ not third-party provenance. Final 10,000-case bank remains uncollected.
 
 **Next:** full Qwen test suite; push source defense; verify remote exact head;
 then inspect source SHA and representative-family risk.
+
+## Research freeze before 10k bank build
+
+Patrick stopped bank construction and required research first. Do NOT resume by
+generating 10,000 rows. Read:
+`research/measurement/QWEN35_MEASUREMENT_SYSTEM_RESEARCH_20260930_V1.md`.
+
+Critical state:
+- 10,000 is a hard floor but NOT yet a justified dimension allocation.
+- No admitted 10k final bank exists.
+- Do not call the 143 pytest tests evaluation cases.
+- MMLU-Pro and IFEval were inspected only as benchmark-design inputs.
+- Finish paired-power and benchmark-composition research before building bank.
+- Hostile review must be surfaced in-chat and persisted.
+- PR #44 remains a separate 50k training-data workstream.
+- Existing V3/V4 final data remain permanently consumed.
+
+Claim ceiling:
+MEASUREMENT_FRAMEWORK_IMPLEMENTED / RESEARCH_INCOMPLETE /
+10K_FINAL_BANK_NOT_BUILT / NOT_QUALIFIED / NOT_DEPLOYED.
