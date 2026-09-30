@@ -325,11 +325,86 @@
   "weight_change_performed": false,
   "executable_verification": {
     "workflow": "V4 Corpus",
-    "run_id": 36784407888,
-    "head_sha": "66d667179462d1909c5faf2d6650a805e4c93bc5",
+    "run_id": 36784652865,
+    "head_sha": "0de37d46ac8d2ee1bbad444c3773dcd96f178812",
     "result": "PASS",
     "compile": "PASS",
     "deterministic_regression": "3 passed",
     "measurement_command": "PASS"
-  }
+  },
+  "lexical_metrics": {
+    "token_count": 947118,
+    "unique_tokens": 735,
+    "type_token_ratio": 0.000776,
+    "hapax_tokens": 0,
+    "top10_token_mass": 0.2756,
+    "top100_token_mass": 0.6582,
+    "top10_bigram_mass": 0.0856,
+    "top100_bigram_mass": 0.31,
+    "top10_trigram_mass": 0.0625,
+    "top100_trigram_mass": 0.2301
+  },
+  "top_token_preview": [
+    [
+      "the",
+      89378
+    ],
+    [
+      "a",
+      26876
+    ],
+    [
+      "is",
+      26351
+    ],
+    [
+      "not",
+      22694
+    ],
+    [
+      "answer",
+      17774
+    ],
+    [
+      "and",
+      17700
+    ],
+    [
+      "evidence",
+      15573
+    ],
+    [
+      "do",
+      15493
+    ],
+    [
+      "that",
+      15352
+    ],
+    [
+      "current",
+      13825
+    ],
+    [
+      "what",
+      11950
+    ],
+    [
+      "without",
+      10226
+    ],
+    [
+      "you",
+      9948
+    ],
+    [
+      "context",
+      9599
+    ],
+    [
+      "user",
+      9300
+    ]
+  ],
+  "measurement_script_sha": "6d7e486be5b2fe90e235c6270e15aec7c887dbd9"
 }
