@@ -43,13 +43,23 @@ def sample_rows(rows: list[dict], per_family: int = 60) -> list[dict]:
 
 def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
     texts = [row["response"] for row in rows]
-    embeddings = model.encode(
+    prompts = [row["prompt"] for row in rows]
+    response_embeddings = model.encode(
         texts,
         batch_size=64,
         normalize_embeddings=True,
         convert_to_numpy=True,
         show_progress_bar=False,
     )
+    prompt_embeddings = model.encode(
+        prompts,
+        batch_size=64,
+        normalize_embeddings=True,
+        convert_to_numpy=True,
+        show_progress_bar=False,
+    )
+    alignment = np.sum(prompt_embeddings * response_embeddings, axis=1)
+    embeddings = response_embeddings
     similarity = embeddings @ embeddings.T
     np.fill_diagonal(similarity, -1.0)
     nearest = similarity.max(axis=1)
@@ -59,6 +69,10 @@ def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
 
     return {
         "sample_rows": len(rows),
+        "mean_prompt_response_cosine": round(float(np.mean(alignment)), 6),
+        "median_prompt_response_cosine": round(float(np.median(alignment)), 6),
+        "p10_prompt_response_cosine": round(float(np.quantile(alignment, 0.10)), 6),
+        "prompt_response_below_0_25_fraction": round(float(np.mean(alignment < 0.25)), 6),
         "mean_nearest_neighbor_cosine": round(float(np.mean(nearest)), 6),
         "median_nearest_neighbor_cosine": round(float(np.median(nearest)), 6),
         "p90_nearest_neighbor_cosine": round(float(np.quantile(nearest, 0.90)), 6),
