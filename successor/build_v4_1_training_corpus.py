@@ -133,7 +133,7 @@ def build(train_path: Path, validation_path: Path, manifest_path: Path) -> dict:
 
     manifest = {
         "schema": "VERA_V4_1_TRAINING_CORPUS_MANIFEST_V1",
-        "corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V1",
+        "corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V2",
         "source_rows": len(all_rows),
         "train_rows": len(train),
         "validation_rows": len(validation),
