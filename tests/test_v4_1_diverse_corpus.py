@@ -18,6 +18,8 @@ def test_v41_generator_contract() -> None:
     assert len(generator.SURFACE_PREFIXES) == 8
     assert len(generator.FRAMES) == 12
     assert len(generator.APPLICATIONS) == 10
+    assert len(generator.FAMILY_SCENARIO_SUFFIXES) == 10
+    assert all(len(forms) == 5 for forms in generator.FAMILY_SCENARIO_SUFFIXES.values())
     assert all(len(forms) == 6 for forms in generator.APPLICATIONS.values())
     assert all(
         any(token in form for token in ("{domain_case}", "{domain_name}"))
