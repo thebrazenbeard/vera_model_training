@@ -361,6 +361,7 @@ def candidate_for(family: str, index: int) -> dict:
             index % 5
         ],
         "domain": domain_name,
+        "scenario_case": domain_case,
         "cognitive_level": cognitive_name,
         "response_style": style,
         "prompt": prompt,
@@ -419,6 +420,7 @@ def build(output_dir: Path | None) -> dict:
             "unique_prompts": len({row["prompt"] for row in rows}),
             "unique_responses": len({row["response"] for row in rows}),
             "domains": len({row["domain"] for row in rows}),
+            "scenario_cases": len({row["scenario_case"] for row in rows}),
             "cognitive_levels": len({row["cognitive_level"] for row in rows}),
         }
         if output_dir:
