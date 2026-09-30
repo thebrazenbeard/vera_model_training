@@ -451,7 +451,13 @@ def rows_for(family: str) -> list[dict]:
     assert len({row["domain"] for row in rows}) == 20
     assert len({row["cognitive_level"] for row in rows}) == 5
     assert len({row["prompt"] for row in rows}) == ROWS_PER_FAMILY
-    assert len({row["response"] for row in rows}) == ROWS_PER_FAMILY
+    response_counts = {}
+    for row in rows:
+        response_counts[row["response"]] = response_counts.get(row["response"], 0) + 1
+    duplicate_responses = [text for text, count in response_counts.items() if count > 1]
+    assert not duplicate_responses, (
+        f"{family}: duplicate responses: {duplicate_responses[:2]}"
+    )
     return rows
 
 def render(rows: list[dict]) -> bytes:
