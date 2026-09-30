@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement + Development Loop V1 — Live Handoff
 
-**Checkpoint:** TASK_2_INTAKE_VERIFIED. This file must be updated after each independently verified commit.
+**Checkpoint:** TASK_3_GRADING_VERIFIED. This file must be updated after each independently verified commit.
 **Repository:** `thebrazenbeard/vera_model_training`
 **Branch:** `work/qwen35-measurement-devloop-v1-20260930`
 **Branch parent:** `d0acf17b66057cf452226674218ee17b0714fb38`
@@ -22,12 +22,12 @@ No model training or deployment authorized by this measurement build. No final b
 - [x] New isolated worktree created from V4 failed-gate commit, LF checkout.
 - [x] Task 1 plan/handoff committed/pushed at ff487ed177f42ef0a04edb42b99a84062c118239.
 - [x] Task 2 case schema/intake, family-disjoint dev split, 10k floor, 10 tests. Synthetic fixtures prove only structure; NOT an admitted bank.
-- [ ] Task 3 real output grading.
+- [x] Task 3 direct generated-text grading and paired observation binding. Objective grader, manual/effect fail-closed. 8 focused tests.
 - [ ] Task 4 paired confidence gate.
 - [ ] Task 5 dev/validation lifecycle and CLI.
 - [ ] Task 6 integration adversarial test.
 
-**Next command:** Write the RED grading and observation tests, then the grader and pair verifier; use plan Task 3.
+**Next command:** Write RED paired-statistics tests at tests/test_qwen35_measurement_stats_v1.py, then implement statistics.py and qualification.py. Preserve model-only claim ceiling.
 
-**Last verified remote head before Task 2 commit:** ff487ed177f42ef0a04edb42b99a84062c118239; run git rev-parse HEAD and git ls-remote to refresh.
+**Last verified remote head before Task 3 commit:** 3d4baa54f08254117ea20c22ddaa2293c8f07bbc; verify newest with git ls-remote before claims.
 **Unresolved material:** real independently authored and reviewed case bank, real model generation recordings, runtime-route evidence. None may be fabricated to clear a test.
