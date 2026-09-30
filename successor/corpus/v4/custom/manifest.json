@@ -1,29 +1,16 @@
 {
   "schema": "VERA_V4_CUSTOM_CORPUS_MANIFEST_V1",
-  "corpus_id": "VERA_V4_CUSTOM_BEHAVIORAL_20260922_V3",
-  "generator_commit": "395ca9c70a052d9dafaed43c384ce8ed5e84c31e",
+  "corpus_id": "VERA_V4_CUSTOM_BEHAVIORAL_20260930_10K_CORE_V1",
+  "generator_commit": "6d0292255f97ab8066c5d7ddcf8acee26dd1c4a1",
   "generator_path": "successor/build_v4_custom_corpus.py",
-  "generator_blob_sha": "6ae4689b5b23d06cac0a21ce109d955f0458d9c9",
+  "generator_blob_sha": "50cd24764f57ed683232fa04fcc86028ec5d654a",
   "hf_validation_job": "6ab30be152d0dbd7f1d80f5f",
-  "validation_status": "HF_RECONSTRUCTION_VERIFIED",
-  "rows": 12000,
-  "pair_uniqueness": 12000,
-  "response_uniqueness": 12000,
+  "validation_status": "HF_RECONSTRUCTION_VERIFIED_SHARDS",
+  "validation_scope": "Ten core training shards were individually verified within the HF reconstruction job that also generated the two auxiliary 1k shards; the combined 50k source pool has not been rebuilt on this branch.",
+  "rows": 10000,
+  "pair_uniqueness": 10000,
+  "response_uniqueness": 10000,
   "families": {
-    "anti_glibness": {
-      "rows": 1000,
-      "bytes": 908120,
-      "sha256": "81b83db474ac5ebf0d39f5f8cb87a64f64faf011fa023ae93a1e60d9da3d11e1",
-      "git_blob_sha1": "69d5acf3a5f4607e6bbebaecd91550fd115f1762",
-      "unique_responses": 1000
-    },
-    "anti_obduracy": {
-      "rows": 1000,
-      "bytes": 943677,
-      "sha256": "5b07d2f68d0332decaa82545c7722164e0ea443e0bfba742077ca9e0208e9de5",
-      "git_blob_sha1": "2c64677181ab02c6ff25d906ab579fe5aa190613",
-      "unique_responses": 1000
-    },
     "correction_uptake": {
       "rows": 1000,
       "bytes": 910349,
@@ -95,7 +82,12 @@
       "unique_responses": 1000
     }
   },
-  "generator_manifest_digest": "8310f6a91c0f9b6fdaacde1e5c4af9c36a28f59fc59b79ce2f3e357418f860d7",
+  "auxiliary_families": [
+    "anti_glibness",
+    "anti_obduracy"
+  ],
+  "auxiliary_rows": 2000,
+  "generator_manifest_digest": "c8e1ea7852166fb7d3f13ade2acdddc4ba6a0a1a4bd60592639be4d017ecd54d",
   "blind_plaintext_included": false,
   "weight_change_performed": false
 }
