@@ -15,7 +15,7 @@ def test_v41_generator_contract() -> None:
     assert len(generator.DOMAINS) == 100
     assert len(generator.COGNITIVE_LEVELS) == 5
     assert len(generator.REQUEST_FORMS) == 10
-    assert len(generator.PALETTES) == 6
+    assert len(generator.SURFACE_PREFIXES) == 8
     assert len(generator.FRAMES) == 12
     assert len(generator.APPLICATIONS) == 10
     assert all(len(forms) == 6 for forms in generator.APPLICATIONS.values())
@@ -24,6 +24,8 @@ def test_v41_generator_contract() -> None:
         for forms in generator.APPLICATIONS.values()
         for form in forms
     )
+    assert set(generator.STYLE_ARTICLES) == set(generator.STYLE_MODES)
+
 
 
 def test_v41_committed_shards_match_generator() -> None:
@@ -45,6 +47,12 @@ def test_v41_committed_shards_match_generator() -> None:
         assert len({row["domain"] for row in committed}) == 20
         assert len({row["scenario_case"] for row in committed}) == 100
         assert len({row["cognitive_level"] for row in committed}) == 5
+        assert all("Please what" not in row["prompt"] for row in committed)
+        assert all("a analytical" not in row["prompt"] for row in committed)
+        assert all("a operational" not in row["prompt"] for row in committed)
+        assert all("a audit" not in row["prompt"] for row in committed)
+        assert all("do not proposition" not in row["response"].lower() for row in committed)
+        assert all("do not assertion" not in row["response"].lower() for row in committed)
         total += len(committed)
         all_responses.update(row["response"] for row in committed)
         all_pairs.update((row["prompt"], row["response"]) for row in committed)
