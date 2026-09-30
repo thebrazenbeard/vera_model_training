@@ -3,7 +3,7 @@
     "high_similarity_pair_fraction_ge_0_90": 0.00044,
     "mean_nearest_neighbor_cosine": 0.859622,
     "mean_pairwise_cosine": 0.39608,
-    "median_nearest_neighbor_cosine": 0.864733,
+    "median_nearest_neighbor_cosine": 0.864734,
     "p90_nearest_neighbor_cosine": 0.921089,
     "sample_rows": 600
   },
@@ -11,8 +11,8 @@
     "high_similarity_pair_fraction_ge_0_90": 1.7e-05,
     "mean_nearest_neighbor_cosine": 0.750731,
     "mean_pairwise_cosine": 0.302931,
-    "median_nearest_neighbor_cosine": 0.752594,
-    "p90_nearest_neighbor_cosine": 0.84685,
+    "median_nearest_neighbor_cosine": 0.752595,
+    "p90_nearest_neighbor_cosine": 0.846849,
     "sample_rows": 600
   },
   "delta": {
@@ -20,7 +20,7 @@
     "mean_nearest_neighbor_cosine": -0.108891,
     "mean_pairwise_cosine": -0.093149,
     "median_nearest_neighbor_cosine": -0.112139,
-    "p90_nearest_neighbor_cosine": -0.074239,
+    "p90_nearest_neighbor_cosine": -0.07424,
     "sample_rows": 0
   },
   "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
