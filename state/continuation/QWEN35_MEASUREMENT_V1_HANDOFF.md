@@ -27,9 +27,7 @@ No model training or deployment authorized by this measurement build. No final b
 - [x] Task 5 group split persistence, immutable hash-chained validation ledger, 3-check budget, paired generated-response scorer, CLI and README.
 - [ ] Task 6 integration adversarial test. Source additions: measurement_v1/training.py, generation.py, local_generate.py, successor/qwen35/train_behavior_v5.py; V5 5 + entrypoint 3 + generation 3 + local runner 2 focused tests. Pending live Qwen generation, end-to-end refusal test, independent review.
 
-**Next command:** Preselect development case coverage audit: ensure all H01-H20 are present rather than optimizing one dimension. Do RED/GREEN test. Then full Qwen tests, update handoff, push and remote readback.
 
-**Last verified remote head before Task 6 partial checkpoint:** 3443dbfb539c919f664395cdd9f897610fec4790.
 **Unresolved material:** real independently authored and reviewed case bank, real model generation recordings, runtime-route evidence. None may be fabricated to clear a test.
 
 ## Actual Qwen local CPU smoke verified 2026-09-30
@@ -86,3 +84,13 @@ Critical state:
 Claim ceiling:
 MEASUREMENT_FRAMEWORK_IMPLEMENTED / RESEARCH_INCOMPLETE /
 10K_FINAL_BANK_NOT_BUILT / NOT_QUALIFIED / NOT_DEPLOYED.
+
+## Exact new-chat recovery command
+
+Paste exactly:
+
+`VERA_MODEL_TRAINING::RESUME_MEASUREMENT_RESEARCH_20260930_V1`
+
+Then the new chat must fresh-read `thebrazenbeard/vera_model_training` branch `work/qwen35-measurement-devloop-v1-20260930`, read this handoff and `research/measurement/QWEN35_MEASUREMENT_SYSTEM_RESEARCH_20260930_V1.md`, continue the exact research sequence, surface hostile review in blockquotes in-chat, and commit/push small verified checkpoints. It must NOT build/freeze the 10,000-case bank until paired-power, benchmark composition, source/license/grader mapping, and independence design survive hostile review.
+
+Latest research-freeze commit before this recovery-command commit: `15f0a68eb923f938636c78fd3b03bb091f765896`.
