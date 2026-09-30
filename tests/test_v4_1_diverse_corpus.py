@@ -17,6 +17,8 @@ def test_v41_generator_contract() -> None:
     assert len(generator.REQUEST_FORMS) == 10
     assert len(generator.PALETTES) == 6
     assert len(generator.FRAMES) == 12
+    assert len(generator.APPLICATIONS) == 10
+    assert all(len(forms) == 6 for forms in generator.APPLICATIONS.values())
 
 
 def test_v41_committed_shards_match_generator() -> None:
