@@ -48,6 +48,10 @@ The exact uniqueness claim therefore needs to remain narrow:
 
 `unique full responses = 10,000` does not imply `10,000 semantically independent responses`.
 
+A second measurement pass is more revealing. Across the 10,000 core rows, the corpus contains 947,118 normalized word tokens but only 735 unique normalized tokens. The type-token ratio is 0.000776, there are zero hapax tokens, the top 100 tokens account for 65.82% of all tokens, the top 100 bigrams account for 31.00%, and the top 100 trigrams account for 23.01%.
+
+Those values are structural evidence of extreme template concentration. They do not, by themselves, prove that training on the corpus would harm a model, but they make semantic/linguistic diversity review a hard prerequisite rather than a cosmetic improvement.
+
 The new measurement tool records this distinction explicitly and emits review flags rather than converting the heuristic into a failure verdict.
 
 ## Why this matters
@@ -93,6 +97,8 @@ First construct a new exact 10k revision with greater response-level diversity w
 8. family balance;
 9. train/validation overlap;
 10. contamination/holdout separation.
+
+For the diversity revision, the response generator should be changed at the source level rather than merely paraphrasing the existing 10,000 rows. The current generator has a small fixed component pool; expanding that pool and varying composition is the more defensible next experiment.
 
 Only after that comparison should a new training subject be selected.
 
