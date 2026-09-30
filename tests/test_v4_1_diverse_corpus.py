@@ -19,6 +19,11 @@ def test_v41_generator_contract() -> None:
     assert len(generator.FRAMES) == 12
     assert len(generator.APPLICATIONS) == 10
     assert all(len(forms) == 6 for forms in generator.APPLICATIONS.values())
+    assert all(
+        any(token in form for token in ("{domain_case}", "{domain_name}"))
+        for forms in generator.APPLICATIONS.values()
+        for form in forms
+    )
 
 
 def test_v41_committed_shards_match_generator() -> None:
