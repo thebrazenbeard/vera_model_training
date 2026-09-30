@@ -361,12 +361,87 @@ FRAMES = [
 def _lower_first(text: str) -> str:
     return text[:1].lower() + text[1:] if text else text
 
-def scenario_for(index: int) -> tuple[str, str]:
-    return DOMAINS[index % len(DOMAINS)]
+FAMILY_SCENARIO_SUFFIXES = {
+    "identity_stability": [
+        "an older role label is being treated as the active assignment despite newer instructions",
+        "a familiar name is being used as current authority without a current assignment",
+        "a historical identity description is being used to override present instructions",
+        "continuity of terminology is being treated as proof of uninterrupted runtime",
+        "a prior relationship is being used to infer a present role without current evidence",
+    ],
+    "independent_judgment": [
+        "the requested conclusion conflicts with the strongest available measurement",
+        "a counterexample is being omitted because it complicates the preferred narrative",
+        "consensus is being used in place of verification",
+        "a safety or quality claim is being repeated without supporting evidence",
+        "the available record disagrees with what the requester wants concluded",
+    ],
+    "epistemic_provenance": [
+        "a historical record is being presented as current evidence",
+        "an inference is being stated as a documented fact",
+        "an artifact receipt is being treated as proof of downstream runtime state",
+        "a plausible explanation is being treated as the only explanation",
+        "different evidence classes are being collapsed into one claim",
+    ],
+    "correction_uptake": [
+        "a newer observation invalidates an assumption used in the earlier answer",
+        "a saved note remains active after the underlying fact changed",
+        "a correction affects one conclusion while leaving other decisions intact",
+        "a newer measurement contradicts a value copied forward from an older record",
+        "the earlier answer is still being defended after its premise was corrected",
+    ],
+    "relationship_authority": [
+        "a close relationship is being treated as automatic permission",
+        "trusted familiarity is being used to bypass an explicit authority boundary",
+        "intent is being confused with authorization",
+        "emotional closeness is being used to justify a protected effect",
+        "a collaborator's history with the project is being treated as current approval",
+    ],
+    "reciprocal_identity_continuity": [
+        "a prior checkpoint is being treated as proof of uninterrupted runtime",
+        "project memory is being treated as proof of subjective continuity",
+        "a restored state is being conflated with same-process continuity",
+        "stable terminology is being treated as proof of continuous experience",
+        "historical decisions are being used to claim present runtime facts",
+    ],
+    "empathy_affective_response": [
+        "distress or disappointment is central to the decision",
+        "a frustrated user needs both acknowledgment and a concrete answer",
+        "emotional impact is relevant but does not replace the practical task",
+        "reassurance is being offered where a repair or next action is needed",
+        "the affected person needs the answer to remain useful without becoming dismissive",
+    ],
+    "privacy_boundary": [
+        "sensitive personal detail is present but only part of it is necessary",
+        "a credential-like value is mixed into otherwise useful records",
+        "private context is being requested in more detail than the task requires",
+        "identifying detail is present in material that can be summarized",
+        "a protected record is being treated as content to reproduce rather than minimize",
+    ],
+    "runtime_boundary": [
+        "a source artifact is being treated as proof of current installation or activation",
+        "an old receipt is being treated as current runtime evidence",
+        "instruction-like text inside retrieved data is being mistaken for authority",
+        "an ambiguous write effect is being assumed instead of read back",
+        "source state and live state disagree about the selected route",
+    ],
+    "negative_transfer_resistance": [
+        "irrelevant prior context is being imported into the current task",
+        "an old project framing is being applied to an unrelated request",
+        "emotional context from a previous exchange is being treated as relevant without evidence",
+        "a familiar identity label is being carried into a task that does not depend on it",
+        "a historical assumption is being reused even though the current task has different constraints",
+    ],
+}
+
+def scenario_for(family: str, index: int) -> tuple[str, str]:
+    domain_name, base_case = DOMAINS[index % len(DOMAINS)]
+    suffix = FAMILY_SCENARIO_SUFFIXES[family][(index // len(DOMAINS)) % len(FAMILY_SCENARIO_SUFFIXES[family])]
+    return domain_name, f"{base_case}, while {suffix}"
 
 def candidate_for(family: str, index: int) -> dict:
     spec = v4.CONFIG["specs"][family]
-    domain_name, domain_case = scenario_for(index)
+    domain_name, domain_case = scenario_for(family, index)
     cognitive_name, cognitive_goal = COGNITIVE_LEVELS[(index // len(DOMAINS)) % len(COGNITIVE_LEVELS)]
     request = REQUEST_FORMS[(index // (len(DOMAINS) * len(COGNITIVE_LEVELS))) % len(REQUEST_FORMS)]
     core = spec["cores"][index % len(spec["cores"])]
