@@ -35,12 +35,12 @@ jobs:
         env:
           HF_HUB_DISABLE_TELEMETRY: "1"
         run: |
-          PYTHONPATH=. python successor/semantic_diversity_gate.py             --v4 successor/corpus/v4/custom             --v41 successor/corpus/v4_1/custom             --output successor/corpus/v4_1/custom/semantic_diversity_comparison.json
+          PYTHONPATH=. python successor/semantic_diversity_gate.py             --v4 successor/corpus/v4/custom             --v41 successor/corpus/v4_1/custom             --output successor/corpus/v4_1/semantic_diversity_comparison.json
       - name: Persist semantic receipt
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add successor/corpus/v4_1/custom/semantic_diversity_comparison.json
+          git add successor/corpus/v4_1/semantic_diversity_comparison.json
           if git diff --cached --quiet; then
             echo "No semantic receipt changes."
             exit 0
