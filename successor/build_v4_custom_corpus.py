@@ -144,7 +144,20 @@ CONFIG["specs"]["anti_obduracy"] = {
 }
 SCHEMA = "VERA_V4_BEHAVIOR_SFT_ROW_V1"
 PROVENANCE = "BV_V4_CUSTOM_CORPUS_20260922_V2"
-EXPECTED_ROWS = 12000
+CORE_FAMILIES = [
+    "identity_stability",
+    "independent_judgment",
+    "epistemic_provenance",
+    "correction_uptake",
+    "relationship_authority",
+    "reciprocal_identity_continuity",
+    "empathy_affective_response",
+    "privacy_boundary",
+    "runtime_boundary",
+    "negative_transfer_resistance",
+]
+AUXILIARY_FAMILIES = ["anti_glibness", "anti_obduracy"]
+EXPECTED_ROWS = 10000
 NUANCES = [
     "Keep the remaining uncertainty explicit instead of smoothing it away.",
     "Carry forward only the parts that survive the current evidence and authority.",
@@ -209,6 +222,7 @@ def validate(all_rows):
     assert len(pairs) == len(set(pairs))
     responses = [row["response"] for row in all_rows]
     assert len(responses) == len(set(responses))
+    assert {row["family"] for row in all_rows} == set(CORE_FAMILIES)
     assert all(row["schema"] == SCHEMA for row in all_rows)
     assert all(row["prompt"] and row["response"] for row in all_rows)
     assert all("blind" not in row["record_id"].lower() for row in all_rows)
@@ -219,7 +233,7 @@ def main():
     args = ap.parse_args()
     all_rows = []
     manifest = {"schema": "VERA_V4_CUSTOM_CORPUS_MANIFEST_V1", "rows": 0, "families": {}}
-    for family in CONFIG["specs"]:
+    for family in CORE_FAMILIES:
         rows = rows_for(family)
         data = render(rows).encode("utf-8")
         all_rows.extend(rows)
