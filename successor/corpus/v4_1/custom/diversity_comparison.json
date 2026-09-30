@@ -1,0 +1,73 @@
+{
+  "baseline": {
+    "distinct_2": 0.002897,
+    "distinct_3": 0.004602,
+    "distinct_4": 0.006348,
+    "hapax_tokens": 0,
+    "response_gzip_ratio": 0.018224,
+    "response_prefix": {
+      "max_prefix_reuse": 800,
+      "prefixes_used_by_more_than_1pct": 14,
+      "unique_six_token_prefixes": 70
+    },
+    "rows": 10000,
+    "sampled_4gram_jaccard": 0.07533,
+    "sentence_count": {
+      "max": 6,
+      "mean": 5.06,
+      "min": 5
+    },
+    "sha256_response_stream": "cc93c635dcff6693842886351bc92ef8f1db5fbf6ebc480bf97a7a1c4a000591",
+    "tokens": 947118,
+    "top100_bigram_mass": 0.310007,
+    "top100_token_mass": 0.658163,
+    "top100_trigram_mass": 0.230102,
+    "ttr": 0.000776,
+    "unique_tokens": 735
+  },
+  "candidate": {
+    "distinct_2": 0.002895,
+    "distinct_3": 0.005732,
+    "distinct_4": 0.010252,
+    "hapax_tokens": 0,
+    "response_gzip_ratio": 0.033876,
+    "response_prefix": {
+      "max_prefix_reuse": 710,
+      "prefixes_used_by_more_than_1pct": 9,
+      "unique_six_token_prefixes": 334
+    },
+    "rows": 10000,
+    "sampled_4gram_jaccard": 0.107994,
+    "sentence_count": {
+      "max": 7,
+      "mean": 4.811,
+      "min": 4
+    },
+    "sha256_response_stream": "dfb8a155556c6033613d9773cc1737834ecc9ad1f032d3d020f46b582871b328",
+    "tokens": 1284465,
+    "top100_bigram_mass": 0.371032,
+    "top100_token_mass": 0.69377,
+    "top100_trigram_mass": 0.293176,
+    "ttr": 0.000555,
+    "unique_tokens": 713
+  },
+  "delta": {
+    "distinct_2": -2e-06,
+    "distinct_3": 0.00113,
+    "distinct_4": 0.003904,
+    "response_gzip_ratio": 0.015652,
+    "sampled_4gram_jaccard": 0.032664,
+    "top100_bigram_mass": 0.061025,
+    "top100_token_mass": 0.035607,
+    "top100_trigram_mass": 0.063074,
+    "ttr": -0.000221,
+    "unique_tokens": -22
+  },
+  "interpretation": {
+    "gzip_ratio_is_compression_not_a_quality_score": true,
+    "lexical_and_ngram_metrics_are_structural": true,
+    "no_model_weights_were_changed": true,
+    "sampled_4gram_jaccard_is_not_semantic_similarity": true
+  },
+  "schema": "VERA_V4_V4_1_DIVERSITY_COMPARISON_V1"
+}
