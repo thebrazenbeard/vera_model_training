@@ -199,6 +199,19 @@ LENSES = {
     ],
 }
 
+BRIDGES = [
+    "In this {domain_name} case, the concrete question is how to {cognitive_goal}.",
+    "The setting matters here: {domain_case}. The requested move is to {cognitive_goal}.",
+    "Treat {domain_case} as the scenario, then {cognitive_goal}.",
+    "For this {domain_name} problem, first {cognitive_goal}.",
+    "The practical context is {domain_case}; the reasoning target is to {cognitive_goal}.",
+    "This is a {domain_name} example, so {cognitive_goal} should be explicit.",
+    "The relevant scenario is {domain_case}. The answer should help the reader {cognitive_goal}.",
+    "Keep the {domain_name} setting concrete: {domain_case}. Then {cognitive_goal}.",
+    "Here the useful distinction is tied to {domain_case}; the immediate goal is to {cognitive_goal}.",
+    "Do not abstract away the scenario. {domain_case}; {cognitive_goal}.",
+]
+
 FRAMES = [
     "{core} {lens}",
     "The governing point is simple: {core} {lens}",
@@ -251,6 +264,12 @@ def candidate_for(family: str, index: int) -> dict:
         lens=lexicalize(lens, palette),
         lens_lower=_lower_first(lexicalize(lens, palette)),
     )
+    bridge = BRIDGES[(index // 11) % len(BRIDGES)].format(
+        domain_name=domain_name,
+        domain_case=domain_case,
+        cognitive_goal=cognitive_goal,
+    )
+    response += " " + bridge
     response += f" In this case, {domain_case.rstrip('.')} is the concrete setting, not a license to infer more than the record supports."
 
     row = {
