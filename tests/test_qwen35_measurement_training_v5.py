@@ -65,3 +65,13 @@ def test_freeze_recipe_refuses_overwrite_and_binds_frozen_data(tmp_path):
         freeze_training_recipe(train,val,out,
             base_revision="d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
             source_commit="1"*40,consumed_prompt_fingerprints=set())
+
+def test_sft_partition_cannot_reuse_v4_final_even_when_passed_empty_blocklist(tmp_path):
+    root=Path(__file__).resolve().parents[1]
+    old=json.loads((root/"successor/qwen35/qualification/final_holdout_v4.jsonl").read_text(encoding="utf-8").splitlines()[0])
+    train,val=valid_files(tmp_path)
+    rows=[sft(i) for i in range(120)]
+    rows[1]["prompt"]=old["prompt"]
+    write(train,rows)
+    with pytest.raises(TrainingContractError,match="consumed"):
+        verify_sft_partitions(train,val,consumed_prompt_fingerprints=set())

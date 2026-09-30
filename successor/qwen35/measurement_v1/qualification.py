@@ -21,6 +21,9 @@ def decide(preflight,statistics,*,unreviewed_cases=0):
     expected={f"H{i:02d}" for i in range(1,21)}
     if not expected.issubset(dimensions) or any(dimensions[d].get("n",0)<300 for d in expected):
         return _result("INCOMPLETE",["dimension_count_or_coverage_missing"])
+    if any(dimensions[d].get("independent_families_observed",0)<50 or
+           dimensions[d].get("cluster_bootstrap_ci95") is None for d in expected):
+        return _result("INCOMPLETE",["insufficient_independent_families_per_dimension"])
     if unreviewed_cases:
         return _result("INCOMPLETE",["unreviewed_responses"])
     lanes=statistics.get("lanes",{})

@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement + Development Loop V1 — Live Handoff
 
-**Checkpoint:** TASK_6_SOURCE_ENTRYPOINTS_VERIFIED_REAL_SMOKE_PENDING. This file must be updated after each independently verified commit.
+**Checkpoint:** TASK_6_CPU_REAL_SMOKE_PASS_AND_FURTHER_SELECTION_AUDIT_PENDING. This file must be updated after each independently verified commit.
 **Repository:** `thebrazenbeard/vera_model_training`
 **Branch:** `work/qwen35-measurement-devloop-v1-20260930`
 **Branch parent:** `d0acf17b66057cf452226674218ee17b0714fb38`
@@ -27,7 +27,17 @@ No model training or deployment authorized by this measurement build. No final b
 - [x] Task 5 group split persistence, immutable hash-chained validation ledger, 3-check budget, paired generated-response scorer, CLI and README.
 - [ ] Task 6 integration adversarial test. Source additions: measurement_v1/training.py, generation.py, local_generate.py, successor/qwen35/train_behavior_v5.py; V5 5 + entrypoint 3 + generation 3 + local runner 2 focused tests. Pending live Qwen generation, end-to-end refusal test, independent review.
 
-**Next command:** Verify remote latest head; run one bounded real-model local-generation smoke using a genuinely new DEVELOPMENT-only synthetic prompt; never use V3/V4 final data. If model smoke fails, preserve error and repair only source; then full tests and final hostile review.
+**Next command:** Add selection-case reconciliation RED tests, recompute statistics from per_case, ensure malformed evidence fails closed; then full tests and remote commit; refresh this handoff.
 
 **Last verified remote head before Task 6 partial checkpoint:** 3443dbfb539c919f664395cdd9f897610fec4790.
 **Unresolved material:** real independently authored and reviewed case bank, real model generation recordings, runtime-route evidence. None may be fabricated to clear a test.
+
+## Actual Qwen local CPU smoke verified 2026-09-30
+New, development-only fictional greenhouse prompt; the original pinned base and V4 LoRA each generated the text inspection pending. Both pass an exact grader on this ONE case. No final evaluation or model qualification. Source code invoked actual model.generate and smoke scorer verified binding.
+Inputs: D:/VERA/scratch/qwen35-measurement-new-dev-smoke-20260930.jsonl
+Outputs: D:/VERA/qwen35-measurement-real-smoke-20260930 (base, candidate, manifest)
+Score: D:/VERA/scratch/qwen35-measurement-real-smoke-score-20260930.json
+Versioned receipt: successor/qwen35/measurement_v1/REAL_CPU_GENERATION_SMOKE_20260930_V1.json; SHA 756bd5744007c9b72665a1550a70c3a454517b23ae319bdb2a6b1558765fa61a.
+
+## Hostile regression fixes since previous commit
+Consumed V1/V3/V4 final prompts are now mandatory exclusions for development split, scorer and V5 SFT, even if a caller supplied an empty blocklist; source absence fails closed. Statistical gate now requires at least 50 families and non-null cluster CIs per H dimension. New end-to-end smoke and provisional candidate selection tests pass. Remaining selection defect: a hash-chain authenticates file identity, not the truth of claimed summary; require summary recomputation from per-case data before treating selection as robust.

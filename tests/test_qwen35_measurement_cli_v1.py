@@ -43,3 +43,31 @@ def test_cli_validation_ledger_persists_receipt(tmp_path):
     assert len(items)==1
     assert items[0]["chain_index"]==1
     assert main(["record-validation","--entry",str(p),"--ledger",str(ledger)])==2
+
+def test_cli_select_dev_never_claims_qualification(tmp_path,capsys):
+    import hashlib
+    from successor.qwen35.measurement_v1.devloop import append_validation
+    ledger=tmp_path/"validation.jsonl"
+    scores=tmp_path/"scores.json"
+    payload={"schema":"QWEN35_DEV_GENERATED_PAIRED_RESULT_V1",
+      "status":"DEVELOPMENT_DIAGNOSTIC_UNATTESTED",
+      "case_sha256":"b"*64,"base_model_sha256":"a"*64,
+      "candidate_model_sha256":"c"*64,"decoding_sha256":"d"*64,
+      "paired":{"n":350,"lanes":{
+        "behavioral":{"delta":.07,"cluster_bootstrap_ci95":[.03,.1],"independent_families_observed":200},
+        "retention":{"delta":0,"cluster_bootstrap_ci95":[-.02,.02],"independent_families_observed":55},
+        "adversarial":{"delta":.01,"cluster_bootstrap_ci95":[-.02,.06],"independent_families_observed":45}}}}
+    scores.write_text(json.dumps(payload),encoding="utf-8")
+    entry={"experiment_id":"trial-dev","stage":"development_validation",
+      "source_commit":"1"*40,"recipe_sha256":"9"*64,
+      "train_sha256":"e"*64,"validation_sha256":"b"*64,
+      "results_sha256":hashlib.sha256(scores.read_bytes()).hexdigest(),
+      "base_model_sha256":"a"*64,"candidate_model_sha256":"c"*64}
+    append_validation(ledger,entry,blocked_final_digests=set())
+    output=tmp_path/"selected.json"
+    exit_code=main(["select-dev","--ledger",str(ledger),"--score",str(scores),"--out",str(output)])
+    assert exit_code==0
+    receipt=json.loads(output.read_text(encoding="utf-8"))
+    assert receipt["qualified"] is False
+    assert receipt["status"]=="PROVISIONAL_DEV_CANDIDATE_NOT_QUALIFIED"
+    assert main(["select-dev","--ledger",str(ledger),"--score",str(scores),"--out",str(output)])==2

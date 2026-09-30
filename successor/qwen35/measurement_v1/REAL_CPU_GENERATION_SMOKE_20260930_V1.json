@@ -1,0 +1,18 @@
+{
+  "base_dev_result": "PASS",
+  "base_model_sha256": "9d4249c3b67860f3d94169f4ffa037a92537042b4b9b5f3f7ebe4a6cd69fd078",
+  "base_observations_sha256": "9226315fe4124ede47a6c0c750dcc85e0ca76dbf0132d74f8df1643c60bb279f",
+  "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+  "candidate_adapter_model_sha256": "3b3d4c8d62ee2eb4d8ae8e51771c114af48bc1be286bb5a108741e84f69d94eb",
+  "candidate_dev_result": "PASS",
+  "candidate_observations_sha256": "154ca3ce2a11c3770986acaffd170aadcef2bb233a6529c3d4da50f010a26843",
+  "claim_ceiling": "MODEL_GENERATION_SMOKE_PASSED / NOT_INDEPENDENTLY_ATTESTED / NOT_FINAL_QUALIFICATION / NO_TRAINING / NO_DEPLOYMENT",
+  "date": "2026-09-30",
+  "dev_case_count": 1,
+  "generation_receipt_sha256": "c46f58a2c4bf964f9ffcdf16109d46991881c13fe358ada2b116d4235faa92df",
+  "local_generation_dir": "D:\\VERA\\qwen35-measurement-real-smoke-20260930",
+  "local_score_path": "D:\\VERA\\scratch\\qwen35-measurement-real-smoke-score-20260930.json",
+  "method": "two actual local CPU Qwen model.generate calls, deterministic 8 new tokens, single new synthetic development-only prompt",
+  "schema": "QWEN35_MEASUREMENT_REAL_CPU_SMOKE_V1",
+  "score_result_sha256": "f863071cbe54a117c1658bf7675c34f61e16e40d433581c304e813552ffa86e4"
+}

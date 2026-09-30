@@ -10,7 +10,7 @@ import json
 import os
 import re
 from pathlib import Path
-from .cases import read_cases, split_dev_cases
+from .cases import read_cases, split_dev_cases, legacy_consumed_fingerprints, normalized_prompt
 from .observations import verify_pair
 from .statistics import paired_statistics
 
@@ -37,6 +37,9 @@ def encode_jsonl(rows) -> bytes:
 
 def write_dev_split(input_file: Path, directory: Path, *, seed: int=20260930) -> dict:
     rows=read_cases(input_file)
+    blocked=legacy_consumed_fingerprints()
+    if any(normalized_prompt(row["prompt"]) in blocked for row in rows):
+        raise LedgerError("consumed V3/V4 final prompt forbidden in development split")
     train, validation=split_dev_cases(rows,seed=seed)
     dst=Path(directory)
     if dst.exists():
@@ -153,6 +156,9 @@ def score_paired_files(cases_file: Path, base_file: Path, candidate_file: Path, 
     if dst.exists():
         raise LedgerError(f"output already exists: {dst}")
     cases=read_cases(cases_file)
+    blocked=legacy_consumed_fingerprints()
+    if any(normalized_prompt(row["prompt"]) in blocked for row in cases):
+        raise LedgerError("consumed final prompt forbidden in development scoring")
     base=_read_observations(base_file,"base")
     candidate=_read_observations(candidate_file,"candidate")
     expected={c["case_id"] for c in cases}

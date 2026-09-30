@@ -80,3 +80,7 @@ $py = 'D:\VERA\qwen35-final-qual-env-20260927\Scripts\python.exe'
 The training command defaults to **preflight only**. Add an explicit \`--execute\` only for authorized, verified, separately frozen train and validation data. Local generation requires \`--run\`, produces base and adapter text outputs plus a generation manifest, and does not qualify the model. Its lack of independent external observation is stated in the receipt.
 
 Do not use V3/V4 final cases as training, development validation, or the new final bank. Optimizing to a training loss or eval_loss is only a development surrogate; generated-response development outcomes and a genuinely new final bank remain necessary.
+
+## Provisional development selection
+
+Use the select-dev CLI command with --ledger, one or more --score arguments, and --out. Score-file bytes and model and validation identities are checked against the hash-chain; all selection outcomes remain UNQUALIFIED. Before making reliance claims, selection still needs independent evidence authentication and stronger case-level result reconciliation.

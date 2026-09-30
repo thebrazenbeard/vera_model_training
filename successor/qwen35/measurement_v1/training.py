@@ -9,7 +9,7 @@ import hashlib
 import json
 import re
 from pathlib import Path
-from .cases import normalized_prompt
+from .cases import normalized_prompt, legacy_consumed_fingerprints
 from .devloop import LedgerError, write_new
 
 class TrainingContractError(ValueError):
@@ -46,6 +46,7 @@ def verify_sft_partitions(train_path,validation_path,*,consumed_prompt_fingerpri
     validation=_read_sft(validation_path)
     if len(train)<minimum_train or len(validation)<minimum_validation:
         raise TrainingContractError("insufficient SFT train or validation rows")
+    consumed_prompt_fingerprints=set(consumed_prompt_fingerprints) | legacy_consumed_fingerprints()
     seen_ids=set()
     seen_prompts=set()
     for row in train+validation:

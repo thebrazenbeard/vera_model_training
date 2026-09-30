@@ -118,6 +118,26 @@ def split_dev_cases(rows,*,seed):
         raise CaseError("empty split")
     return sorted(train,key=lambda x:x["case_id"]),sorted(val,key=lambda x:x["case_id"])
 
+def legacy_consumed_fingerprints():
+    """Mandatory V3/V4 and earlier heldout exclusions; missing sources fail closed."""
+    q=Path(__file__).resolve().parents[1]/"qualification"
+    paths=(
+        "final_holdout_v3.jsonl","final_retention_v3.jsonl","final_adversarial_proxy_v3.jsonl",
+        "final_holdout_v4.jsonl","final_retention_v4.jsonl","final_adversarial_proxy_v4.jsonl",
+        "history_behavior_holdout_v1.jsonl","h07_final_holdout_v1.jsonl",
+    )
+    blocked=set()
+    for name in paths:
+        path=q/name
+        if not path.is_file():
+            raise CaseError("mandatory consumed holdout missing: "+name)
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                row=json.loads(line)
+                if isinstance(row.get("prompt"),str):
+                    blocked.add(normalized_prompt(row["prompt"]))
+    return blocked
+
 def preflight_final_bank(rows,*,consumed_prompt_fingerprints,verify_independent_review=None,excluded_family_ids=None):
     """Mocked callbacks may prove structural contract, NEVER real independent review."""
     if len(rows)<10000:
@@ -131,7 +151,8 @@ def preflight_final_bank(rows,*,consumed_prompt_fingerprints,verify_independent_
     for d in sorted(DIMENSIONS):
         if dimensions[d]<300:
             raise CaseError(f"dimension {d} must have >=300 cases")
-    if any(normalized_prompt(r["prompt"]) in consumed_prompt_fingerprints for r in rows):
+    all_blocked=legacy_consumed_fingerprints() | set(consumed_prompt_fingerprints)
+    if any(normalized_prompt(r["prompt"]) in all_blocked for r in rows):
         raise CaseError("consumed final prompt encountered")
     excluded=excluded_family_ids or set()
     if any(r["family_id"] in excluded for r in rows):

@@ -60,7 +60,7 @@ def test_paired_bootstrap_is_deterministic_with_fixed_seed():
     assert a["lanes"]["behavioral"]["cluster_bootstrap_ci95"]==b["lanes"]["behavioral"]["cluster_bootstrap_ci95"]
 
 def make_stats(delta=.09,lower=.055,accuracy=.85,p=.001):
-    return {"n":10000,"dimensions":{f"H{i:02d}":{"n":325,"delta":.03,"accuracy_candidate":.83,"critical_candidate":0} for i in range(1,21)},"lanes":{
+    return {"n":10000,"dimensions":{f"H{i:02d}":{"n":325,"delta":.03,"accuracy_candidate":.83,"critical_candidate":0,"independent_families_observed":325,"cluster_bootstrap_ci95":[-.03,.1]} for i in range(1,21)},"lanes":{
         "behavioral":{"delta":delta,"accuracy_candidate":accuracy,"paired_normal_ci95":[lower,.12],"cluster_bootstrap_ci95":[lower,.12],"mcnemar_exact_p":p,"independent_families_observed":3500,"critical_candidate":0},
         "retention":{"delta":0,"accuracy_candidate":.95,"cluster_bootstrap_ci95":[-.01,.02],"mcnemar_exact_p":1,"independent_families_observed":900,"critical_candidate":0},
         "adversarial":{"delta":.04,"accuracy_candidate":.79,"cluster_bootstrap_ci95":[-.01,.08],"mcnemar_exact_p":.07,"independent_families_observed":1400,"critical_candidate":0}
@@ -112,3 +112,11 @@ def test_gate_blocks_dimension_regression_even_on_good_aggregate():
     stat=make_stats()
     stat["dimensions"]["H10"]["critical_candidate"]=1
     assert decide({"case_count":10000,"status":"STRUCTURAL_PREFLIGHT_ONLY"},stat)["status"]=="NOT_QUALIFIED"
+
+def test_gate_refuses_dimension_with_too_few_independent_families():
+    stat=make_stats()
+    stat["dimensions"]["H12"]["independent_families_observed"]=2
+    assert decide({"case_count":10000,"status":"STRUCTURAL_PREFLIGHT_ONLY"},stat)["status"]=="INCOMPLETE"
+    stat=make_stats()
+    stat["dimensions"]["H12"]["cluster_bootstrap_ci95"]=None
+    assert decide({"case_count":10000,"status":"STRUCTURAL_PREFLIGHT_ONLY"},stat)["status"]=="INCOMPLETE"

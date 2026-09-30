@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from .cases import CaseError, normalized_prompt, preflight_final_bank, read_cases
 from .devloop import LedgerError, append_validation, score_paired_files, write_dev_split, write_new
+from .selection import select_development_candidate
 
 ROOT=Path(__file__).resolve().parents[3]
 Q=ROOT/"successor/qwen35/qualification"
@@ -40,6 +41,10 @@ def main(argv=None):
     record=sub.add_parser("record-validation",help="append validation receipt; maximum three per ledger")
     record.add_argument("--entry",type=Path,required=True)
     record.add_argument("--ledger",type=Path,required=True)
+    select=sub.add_parser("select-dev",help="provisional candidate decision, development only")
+    select.add_argument("--ledger",type=Path,required=True)
+    select.add_argument("--score",type=Path,action="append",required=True)
+    select.add_argument("--out",type=Path,required=True)
     paired=sub.add_parser("score-paired",help="grade claimed generated responses, model-only diagnostic")
     for name in ("cases","base","candidate","out"):
         paired.add_argument("--"+name,type=Path,required=True)
@@ -56,6 +61,8 @@ def main(argv=None):
             blocked,_=consumed_evidence()
             entry=json.loads(a.entry.read_text(encoding="utf-8"))
             result=append_validation(a.ledger,entry,blocked_final_digests=blocked)
+        elif a.command=="select-dev":
+            result=select_development_candidate(a.ledger,a.score,a.out)
         elif a.command=="score-paired":
             result=score_paired_files(a.cases,a.base,a.candidate,a.out,
                                       base_sha=a.base_sha,candidate_sha=a.candidate_sha,

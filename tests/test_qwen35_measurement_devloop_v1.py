@@ -94,3 +94,14 @@ def test_scores_only_bound_generated_observation_pairs(tmp_path):
     paths[1].write_text(json.dumps(a[0])+"\n",encoding="utf-8")
     with pytest.raises(LedgerError,match="missing"):
         score_paired_files(cases,paths[0],paths[1],tmp_path/"fail.json",base_sha="a"*64,candidate_sha="b"*64,decoding_sha="0"*64)
+
+def test_development_split_cannot_import_consumed_v4_prompt(tmp_path):
+    from successor.qwen35.measurement_v1.devloop import LedgerError
+    root=Path(__file__).resolve().parents[1]
+    old=json.loads((root/"successor/qwen35/qualification/final_holdout_v4.jsonl").read_text(encoding="utf-8").splitlines()[0])
+    rows=[case(i) for i in range(60)]
+    rows[0]["prompt"]=old["prompt"]
+    f=tmp_path/"old_final_repackaged.jsonl"
+    f.write_text("\n".join(json.dumps(r) for r in rows)+"\n",encoding="utf-8")
+    with pytest.raises(LedgerError,match="consumed"):
+        write_dev_split(f,tmp_path/"should_not_exist",seed=20260930)
