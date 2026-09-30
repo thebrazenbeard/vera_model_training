@@ -155,46 +155,27 @@ STYLE_MODES = [
     "concise",
 ]
 
-PALETTES = [
-    {
-        "current": "present", "evidence": "support", "claim": "assertion",
-        "answer": "response", "older": "earlier", "prior": "previous",
-        "preserve": "retain", "context": "background", "authority": "authorization",
-        "permission": "authorization", "task": "request", "source": "record",
-    },
-    {
-        "current": "active", "evidence": "record", "claim": "conclusion",
-        "answer": "answer", "older": "legacy", "prior": "former",
-        "preserve": "carry forward", "context": "surrounding material",
-        "authority": "governing instruction", "permission": "approval",
-        "task": "assignment", "source": "source material",
-    },
-    {
-        "current": "in-force", "evidence": "verified material", "claim": "proposition",
-        "answer": "response", "older": "historical", "prior": "earlier",
-        "preserve": "keep", "context": "setting", "authority": "mandate",
-        "permission": "authorization", "task": "job", "source": "reference",
-    },
-    {
-        "current": "newer", "evidence": "observations", "claim": "statement",
-        "answer": "reply", "older": "past", "prior": "preceding",
-        "preserve": "carry forward", "context": "background",
-        "authority": "active direction", "permission": "consent",
-        "task": "request", "source": "material",
-    },
-    {
-        "current": "up-to-date", "evidence": "findings", "claim": "characterization",
-        "answer": "conclusion", "older": "legacy", "prior": "historical",
-        "preserve": "retain", "context": "circumstances", "authority": "governing scope",
-        "permission": "approval", "task": "assignment", "source": "documented record",
-    },
-    {
-        "current": "contemporaneous", "evidence": "measured support", "claim": "reading",
-        "answer": "response", "older": "earlier", "prior": "previous",
-        "preserve": "keep intact", "context": "surrounding record", "authority": "active authorization",
-        "permission": "explicit approval", "task": "request", "source": "documented evidence",
-    },
+SURFACE_PREFIXES = [
+    "Plainly:",
+    "Analytically:",
+    "Operationally:",
+    "Skeptically:",
+    "From a research standpoint:",
+    "Conversationally:",
+    "Under audit:",
+    "Concisely:",
 ]
+
+STYLE_ARTICLES = {
+    "plainspoken": "a",
+    "analytical": "an",
+    "operational": "an",
+    "skeptical": "a",
+    "research": "a",
+    "conversational": "a",
+    "audit": "an",
+    "concise": "a",
+}
 
 LENSES = {
     "identity_stability": [
@@ -395,24 +376,24 @@ def candidate_for(family: str, index: int) -> dict:
     request = REQUEST_FORMS[(index // (len(DOMAINS) * len(COGNITIVE_LEVELS))) % len(REQUEST_FORMS)]
     core = spec["cores"][index % len(spec["cores"])]
     lens = LENSES[family][(index // len(spec["cores"])) % len(LENSES[family])]
-    palette = PALETTES[(index // 37) % len(PALETTES)]
     style = STYLE_MODES[(index // 53) % len(STYLE_MODES)]
+    surface_prefix = SURFACE_PREFIXES[(index // 37) % len(SURFACE_PREFIXES)]
     frame = FRAMES[(index // 71) % len(FRAMES)]
 
     prompt_forms = [
         f"In a {domain_name} situation involving {domain_case}, {request} Focus on the goal to {cognitive_goal}.",
         f"Consider this {domain_name} case: {domain_case}. {request} The requested level is to {cognitive_goal}.",
-        f"The setting is {domain_name}: {domain_case}. Please {request[:-1].lower()} and {cognitive_goal}.",
+        f"The setting is {domain_name}: {domain_case}. {request} Focus on the goal to {cognitive_goal}.",
         f"Here is the situation. {domain_case}. {request} Do not skip the step where you {cognitive_goal}.",
     ]
     prompt = prompt_forms[index % len(prompt_forms)]
-    prompt += f" Use a {style} response."
+    prompt += f" Use {STYLE_ARTICLES[style]} {style} response."
 
-    response = frame.format(
-        core=lexicalize(core, palette),
-        core_lower=_lower_first(lexicalize(core, palette)),
-        lens=lexicalize(lens, palette),
-        lens_lower=_lower_first(lexicalize(lens, palette)),
+    response = surface_prefix + " " + frame.format(
+        core=core,
+        core_lower=_lower_first(core),
+        lens=lens,
+        lens_lower=_lower_first(lens),
     )
     application = APPLICATIONS[family][(index // 13) % len(APPLICATIONS[family])].format(
         domain_name=domain_name,
@@ -476,7 +457,7 @@ def build(output_dir: Path | None) -> dict:
             "domains": 20,
             "cognitive_levels": 5,
             "request_modes": 10,
-            "surface_palettes": len(PALETTES),
+            "surface_prefixes": len(SURFACE_PREFIXES),
             "response_frames": len(FRAMES),
             "application_forms": {family: len(APPLICATIONS[family]) for family in v4.CORE_FAMILIES},
             "family_lenses": {family: len(LENSES[family]) for family in v4.CORE_FAMILIES},
