@@ -18,7 +18,7 @@
   },
   "custom_validation_per_family": 50,
   "general_fraction": 0.81,
-  "manifest_sha256": "7962747a8c7dfca50366a789f4139a8b0e7ead26fa7a81d15d4cacd51ed43cd3",
+  "manifest_sha256": "a5bd89c9f74bf8b166b2021496a7d75e451c8bd4e692172285491e5626f9f5d2",
   "rehearsal_source": {
     "adjustment_strategy": {
       "smoltalk_smollm3_explore_instruct_rewriting_no_think": 500,
@@ -109,7 +109,7 @@
     "stable_identity_evidence": 1900
   },
   "train_rows": 50000,
-  "train_sha256": "425f415ad724172544682fa67d812d691e33a589549d7897df929b47b0be0ab1",
+  "train_sha256": "710d6dd0bf905f19a1bc8f316d189d25bec1b67cc34c4b06d83ae1aa91741018",
   "train_validation_overlap": 0,
   "training_authorization": "NOT_GRANTED",
   "validation_counts_by_source_class": {
@@ -123,6 +123,6 @@
     "stable_identity_evidence": 100
   },
   "validation_rows": 2500,
-  "validation_sha256": "22f3fa4024182c8c148cb5dca4d294554c158de5760e6da7762f83b3923588e2",
+  "validation_sha256": "020ba5f800ddb127ac13fb8f2ec6ce44c63d02db33e573ea28065afedf4ee8d0",
   "weight_change_performed": false
 }
