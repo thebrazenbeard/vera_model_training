@@ -65,6 +65,20 @@ def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
         axis=1,
     )
     alignment_margin = alignment - mismatched_alignment
+    family_metrics = {}
+    for family in FAMILIES:
+        indices = np.array([index for index, row in enumerate(rows) if row["family"] == family])
+        family_alignment = alignment[indices]
+        family_mismatch = mismatched_alignment[indices]
+        family_margin = alignment_margin[indices]
+        family_metrics[family] = {
+            "sample_rows": int(len(indices)),
+            "mean_prompt_response_cosine": round(float(np.mean(family_alignment)), 6),
+            "mean_mismatched_prompt_response_cosine": round(float(np.mean(family_mismatch)), 6),
+            "mean_alignment_margin": round(float(np.mean(family_margin)), 6),
+            "prompt_response_beats_mismatch_fraction": round(float(np.mean(family_alignment > family_mismatch)), 6),
+        }
+
     embeddings = response_embeddings
     similarity = embeddings @ embeddings.T
     np.fill_diagonal(similarity, -1.0)
@@ -82,6 +96,7 @@ def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
         "mean_mismatched_prompt_response_cosine": round(float(np.mean(mismatched_alignment)), 6),
         "mean_prompt_response_alignment_margin": round(float(np.mean(alignment_margin)), 6),
         "prompt_response_beats_mismatch_fraction": round(float(np.mean(alignment > mismatched_alignment)), 6),
+        "family_alignment": family_metrics,
         "mean_nearest_neighbor_cosine": round(float(np.mean(nearest)), 6),
         "median_nearest_neighbor_cosine": round(float(np.median(nearest)), 6),
         "p90_nearest_neighbor_cosine": round(float(np.quantile(nearest, 0.90)), 6),
