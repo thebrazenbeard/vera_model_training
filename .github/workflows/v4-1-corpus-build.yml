@@ -68,19 +68,26 @@ jobs:
 
       - name: Commit generated corpus
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add successor/corpus/v4_1/custom successor/corpus/v4_1/behavioral_review_set.jsonl
-          if git diff --cached --quiet; then
-            echo "No generated corpus changes."
-            exit 0
-          fi
-          git commit -m "Generate V4.1 diverse 10k core corpus"
           for attempt in 1 2 3; do
-            if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+            git fetch origin "${GITHUB_REF_NAME}"
+            git reset --hard "origin/${GITHUB_REF_NAME}"
+            rm -rf successor/corpus/v4_1/custom
+            PYTHONPATH=. python successor/build_v4_1_diverse_corpus.py --output-dir successor/corpus/v4_1/custom
+            PYTHONPATH=. python successor/build_v4_1_review_set.py               --root successor/corpus/v4_1/custom               --output successor/corpus/v4_1/behavioral_review_set.jsonl
+            python -m pytest -q tests/test_v4_1_diverse_corpus.py
+            PYTHONPATH=. python successor/compare_v4_v4_1_corpus.py               --v4 successor/corpus/v4/custom               --v41 successor/corpus/v4_1/custom               --output successor/corpus/v4_1/custom/diversity_comparison.json
+            git add successor/corpus/v4_1/custom successor/corpus/v4_1/behavioral_review_set.jsonl
+            if git diff --cached --quiet; then
+              echo "No generated corpus changes."
               exit 0
             fi
+            git commit -m "Generate V4.1 diverse 10k core corpus"
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
+            git reset --hard "origin/${GITHUB_REF_NAME}"
             sleep 2
           done
-          echo "Unable to persist generated corpus after three attempts."
+          echo "Unable to persist generated corpus after three source-refresh attempts."
           exit 1
+
