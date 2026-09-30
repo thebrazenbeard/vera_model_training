@@ -1,0 +1,43 @@
+{
+  "behavioral_holdout_sha256": "43065d16085d115c5744c3ce1fdb918a092e974a072a9283af0200338288cb91",
+  "claim_ceiling": "BLIND_SAMPLE_FROZEN_BEFORE_SCORING",
+  "date": "2026-09-30",
+  "generation": {
+    "do_sample": false,
+    "enable_thinking": false,
+    "max_new_tokens": 96,
+    "system_prompt": null
+  },
+  "judge": {
+    "condition_labels_hidden": true,
+    "method": "condition-hidden semantic case-specific rubric review",
+    "model": "HuggingFaceTB/SmolLM3-3B local pinned model",
+    "preferred_answers_hidden": true,
+    "rubric_source": "new independent V4 case-specific required/forbidden propositions precommitted before scoring"
+  },
+  "record_ids": [
+    "V4_H01_01",
+    "V4_H02_05",
+    "V4_H03_02",
+    "V4_H04_04",
+    "V4_H05_03",
+    "V4_H06_01",
+    "V4_H07_03",
+    "V4_H08_03",
+    "V4_H09_04",
+    "V4_H10_05",
+    "V4_H11_03",
+    "V4_H12_01",
+    "V4_H13_01",
+    "V4_H14_02",
+    "V4_H15_04",
+    "V4_H16_01",
+    "V4_H17_05",
+    "V4_H18_05",
+    "V4_H19_02",
+    "V4_H20_05"
+  ],
+  "schema": "QWEN35_FINAL_BLIND_REVIEW_SELECTION_V4",
+  "selection_rule": "For each H01-H20, case index 1 + (int(SHA256(behavioral_holdout_sha256 || dimension),16) mod 5)",
+  "subject": "Vera-Qwen3.5-4B-Behavior-V1-v4-candidate-a"
+}
