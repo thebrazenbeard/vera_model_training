@@ -97,3 +97,7 @@ First construct a new exact 10k revision with greater response-level diversity w
 Only after that comparison should a new training subject be selected.
 
 No model weights were changed by this work.
+
+## Verification state
+
+The deterministic corpus regression suite has been added. CI execution is required before claiming an executable PASS for the branch. The source-level measurement above is not a substitute for executable verification.
