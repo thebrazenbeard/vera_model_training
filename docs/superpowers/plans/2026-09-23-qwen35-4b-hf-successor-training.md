@@ -1,7 +1,7 @@
 # Qwen3.5-4B HF Successor Training Plan
 
-Date: 2026-09-23  
-Status: CURRENT EXECUTION PLAN / HANDOFF SUBJECT  
+Date: 2026-09-23
+Status: CURRENT EXECUTION PLAN / HANDOFF SUBJECT
 Repository: `thebrazenbeard/vera_model_training`
 
 ## Objective
