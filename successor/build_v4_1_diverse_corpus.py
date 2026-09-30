@@ -436,7 +436,7 @@ FAMILY_SCENARIO_SUFFIXES = {
 
 def scenario_for(family: str, index: int) -> tuple[str, str]:
     domain_name, base_case = DOMAINS[index % len(DOMAINS)]
-    suffix = FAMILY_SCENARIO_SUFFIXES[family][(index // len(DOMAINS)) % len(FAMILY_SCENARIO_SUFFIXES[family])]
+    suffix = FAMILY_SCENARIO_SUFFIXES[family][index % len(FAMILY_SCENARIO_SUFFIXES[family])]
     return domain_name, f"{base_case}, while {suffix}"
 
 def candidate_for(family: str, index: int) -> dict:
