@@ -59,6 +59,12 @@ def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
         show_progress_bar=False,
     )
     alignment = np.sum(prompt_embeddings * response_embeddings, axis=1)
+    permutation = np.array([(index * 7919 + 37) % len(rows) for index in range(len(rows))])
+    mismatched_alignment = np.sum(
+        prompt_embeddings[permutation] * response_embeddings,
+        axis=1,
+    )
+    alignment_margin = alignment - mismatched_alignment
     embeddings = response_embeddings
     similarity = embeddings @ embeddings.T
     np.fill_diagonal(similarity, -1.0)
@@ -73,6 +79,9 @@ def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
         "median_prompt_response_cosine": round(float(np.median(alignment)), 6),
         "p10_prompt_response_cosine": round(float(np.quantile(alignment, 0.10)), 6),
         "prompt_response_below_0_25_fraction": round(float(np.mean(alignment < 0.25)), 6),
+        "mean_mismatched_prompt_response_cosine": round(float(np.mean(mismatched_alignment)), 6),
+        "mean_prompt_response_alignment_margin": round(float(np.mean(alignment_margin)), 6),
+        "prompt_response_beats_mismatch_fraction": round(float(np.mean(alignment > mismatched_alignment)), 6),
         "mean_nearest_neighbor_cosine": round(float(np.mean(nearest)), 6),
         "median_nearest_neighbor_cosine": round(float(np.median(nearest)), 6),
         "p90_nearest_neighbor_cosine": round(float(np.quantile(nearest, 0.90)), 6),
@@ -94,7 +103,7 @@ def main() -> None:
     candidate_rows = sample_rows(read_rows(args.v41))
 
     result = {
-        "schema": "VERA_V4_V4_1_SEMANTIC_DIVERSITY_COMPARISON_V1",
+        "schema": "VERA_V4_V4_1_SEMANTIC_DIVERSITY_COMPARISON_V2",
         "embedding_model": args.model,
         "baseline": embed_metrics(model, baseline_rows),
         "candidate": embed_metrics(model, candidate_rows),
