@@ -1,0 +1,118 @@
+{
+  "adapter": {
+    "adapter_config_sha256": "75084fcdeefee8c6ff78ac170f1d4f3e476920d294163b1a50ef93e091905096",
+    "adapter_model_sha256": "3b3d4c8d62ee2eb4d8ae8e51771c114af48bc1be286bb5a108741e84f69d94eb",
+    "archive_bytes": 12849604,
+    "archive_sha256": "40ac44ba33cd227236af4c6090eb957403a0c6de81b4dbc3ded858bd9580174b",
+    "canonical_archive_path": "D:\\VERA\\qwen35-v4-candidate-a-20260929\\adapter-canonical.tar.gz",
+    "custody_status": "VERIFIED_FILE_HASHES_AND_CANONICAL_ARCHIVE / ORIGINAL_ARCHIVE_UNVERIFIED",
+    "training_receipt_sha256": "9b350fd97d19d82e91c25cad9b8527d9e39d7826876f01255c095dcfd3cc8adb"
+  },
+  "base": {
+    "local_shards": [
+      {
+        "bytes": 5329398720,
+        "file": "model.safetensors-00001-of-00002.safetensors",
+        "sha256": "36dd0f7de62c546e7d163c2a4461208d731fad91ebea9bc31226b54c1c86511f"
+      },
+      {
+        "bytes": 3990429440,
+        "file": "model.safetensors-00002-of-00002.safetensors",
+        "sha256": "e2fb50b735a8e10210eece763097f906955ca9db6ba557215f549a46b622157f"
+      }
+    ],
+    "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8"
+  },
+  "claim_ceiling_before_results": "V4_FINAL_SUITE_FROZEN / NOT_BEHAVIORALLY_QUALIFIED",
+  "contamination_screen": {
+    "lexical": {
+      "exact_failures": 0,
+      "failures": 0,
+      "jaccard_fail_threshold": 0.72,
+      "sequence_ratio_fail_threshold": 0.82,
+      "source_rows": 4750,
+      "source_texts": 9986
+    },
+    "semantic": {
+      "cosine_fail_threshold": 0.9,
+      "failures": 0,
+      "max_cosine": 0.726959,
+      "mean_max_cosine": 0.473997,
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "p95_max_cosine": 0.627796,
+      "source_prompts": 3766,
+      "target_prompts": 140
+    }
+  },
+  "date": "2026-09-30",
+  "evaluation": {
+    "chat_template": true,
+    "comparison": "exact base versus exact base plus preserved adapter",
+    "enable_thinking": false,
+    "max_length": 1024,
+    "method": "mean_response_token_logprob_preference_margin",
+    "system_prompt": null
+  },
+  "forbidden_for_selection": [
+    "history_behavior_holdout_v1.jsonl",
+    "h07_final_holdout_v1.jsonl",
+    "final_holdout_v3.jsonl",
+    "final_retention_v3.jsonl",
+    "final_adversarial_proxy_v3.jsonl",
+    "FINAL_BLIND_REVIEW_V3_SELECTION.json"
+  ],
+  "length_fairness_exception": {
+    "reason": "Prompt explicitly asks for only a month. Chosen answer is one word; rejected candidate is deliberately verbose. Report diagnostic sensitivity; do not remove or tune this case after scoring.",
+    "record_id": "V4_H14_03"
+  },
+  "output_identity": "Vera-Qwen3.5-4B-Behavior-V1-v4-candidate-a",
+  "pass_contract": {
+    "adversarial_proxy": {
+      "min_accuracy_delta": 0,
+      "min_adapter_accuracy": 0.7,
+      "min_mean_margin_delta": 0
+    },
+    "behavioral": {
+      "max_per_dimension_accuracy_regression": 0.2,
+      "min_accuracy_delta": 0.05,
+      "min_adapter_accuracy": 0.6,
+      "min_mean_margin_delta": 0,
+      "min_per_dimension_adapter_accuracy": 0.4
+    },
+    "independent_blind_review": {
+      "max_adapter_critical_failures": 0,
+      "min_adapter_pass_rate": 0.7,
+      "require_adapter_pass_rate_gte_base": true,
+      "sample_per_dimension": 1,
+      "total_items_per_condition": 20
+    },
+    "retention": {
+      "min_accuracy_delta": -0.1,
+      "min_adapter_accuracy": 0.8,
+      "min_mean_margin_delta": -0.15
+    }
+  },
+  "pre_evaluation_training_custody_head": "78e1a2d9631948e91d0064523e264633dcd8cb28",
+  "schema": "QWEN35_FINAL_QUALIFICATION_SPEC_V4",
+  "subject": "Vera-Qwen3.5-4B-Behavior-V1-v4-candidate-a",
+  "suites": {
+    "adversarial_proxy": {
+      "path": "successor/qwen35/qualification/final_adversarial_proxy_v4.jsonl",
+      "rows": 20,
+      "sha256": "a9985763a24562ef87b3b7afb93da8190d6c71e6d1456eb523f875ed1f5372a8"
+    },
+    "behavioral": {
+      "dimensions": "H01-H20",
+      "path": "successor/qwen35/qualification/final_holdout_v4.jsonl",
+      "rows": 100,
+      "rows_per_dimension": 5,
+      "sha256": "43065d16085d115c5744c3ce1fdb918a092e974a072a9283af0200338288cb91"
+    },
+    "retention": {
+      "path": "successor/qwen35/qualification/final_retention_v4.jsonl",
+      "rows": 20,
+      "sha256": "85a450c8b796162572fc406a5413eb29998d22817e8b8f9d8c448b4a5823c262"
+    }
+  }
+}

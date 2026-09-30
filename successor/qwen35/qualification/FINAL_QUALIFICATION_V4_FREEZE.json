@@ -1,0 +1,32 @@
+{
+  "branch": "work/qwen35-v4-repair-training-20260929",
+  "claim_ceiling": "FROZEN_V4_QUALIFICATION_SUBJECT / NOT_BEHAVIORALLY_QUALIFIED",
+  "data_generation_note": "New 100/20/20 cases authored after V4 training and custody commit, before scoring and without copying old holdout examples. Consumed V3 material used exclusively for exclusion screening.",
+  "date": "2026-09-30",
+  "evaluation_started": false,
+  "generated_by": "OpenAI GPT-5.6 Sol",
+  "pre_evaluation_parent": "78e1a2d9631948e91d0064523e264633dcd8cb28",
+  "schema": "QWEN35_FINAL_QUALIFICATION_FREEZE_V4",
+  "screening": {
+    "embedding": {
+      "cosine_fail_threshold": 0.9,
+      "failures": 0,
+      "max_cosine": 0.726959,
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "p95_max_cosine": 0.627796,
+      "source_prompts": 3766,
+      "target_prompts": 140
+    },
+    "lexical_sequence": {
+      "failures": 0,
+      "source_rows": 4750,
+      "source_texts": 9986
+    }
+  },
+  "spec_sha256": "bff0e23030eb05fe3972e66f04169440a9cbac4c4f5eb34a823e6cef662f0cf9",
+  "suite_sha256": {
+    "adversarial_proxy": "a9985763a24562ef87b3b7afb93da8190d6c71e6d1456eb523f875ed1f5372a8",
+    "behavioral": "43065d16085d115c5744c3ce1fdb918a092e974a072a9283af0200338288cb91",
+    "retention": "85a450c8b796162572fc406a5413eb29998d22817e8b8f9d8c448b4a5823c262"
+  }
+}
