@@ -8,7 +8,7 @@ from collections import Counter
 from pathlib import Path
 
 from successor import build_v4_1_diverse_corpus as custom
-from successor import build_v4_hf_rehearsal as rehearsal
+from successor import build_v4_1_hf_rehearsal as rehearsal
 
 CUSTOM_VALIDATION_PER_FAMILY = 50
 REHEARSAL_VALIDATION_ROWS = 2000
