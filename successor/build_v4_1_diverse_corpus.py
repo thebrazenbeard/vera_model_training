@@ -361,11 +361,6 @@ FRAMES = [
 def _lower_first(text: str) -> str:
     return text[:1].lower() + text[1:] if text else text
 
-def lexicalize(text: str, palette: dict[str, str]) -> str:
-    for old, new in sorted(palette.items(), key=lambda item: -len(item[0])):
-        text = re.sub(rf"\b{re.escape(old)}\b", new, text, flags=re.IGNORECASE)
-    return text
-
 def scenario_for(index: int) -> tuple[str, str]:
     return DOMAINS[index % len(DOMAINS)]
 
