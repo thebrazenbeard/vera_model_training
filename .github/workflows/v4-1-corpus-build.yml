@@ -77,6 +77,8 @@ jobs:
             python -m pytest -q tests/test_v4_1_diverse_corpus.py
             PYTHONPATH=. python successor/compare_v4_v4_1_corpus.py               --v4 successor/corpus/v4/custom               --v41 successor/corpus/v4_1/custom               --output successor/corpus/v4_1/custom/diversity_comparison.json
             git add successor/corpus/v4_1/custom successor/corpus/v4_1/behavioral_review_set.jsonl
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             if git diff --cached --quiet; then
               echo "No generated corpus changes."
               exit 0
