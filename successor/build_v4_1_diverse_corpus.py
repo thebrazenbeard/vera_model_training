@@ -279,20 +279,88 @@ LENSES = {
     ],
 }
 
-SCENARIO_LINKS = [
-    "Applied to this case: {domain_case}.",
-    "The concrete instance is {domain_case}.",
-    "Here the scenario is {domain_case}.",
-    "The real-world anchor is {domain_case}.",
-    "Keep the situation concrete: {domain_case}.",
-    "In this instance, {domain_case}.",
-    "The relevant setting is {domain_case}.",
-    "The example turns on this detail: {domain_case}.",
-    "The surrounding facts are specific: {domain_case}.",
-    "Do not abstract away the case: {domain_case}.",
-    "This is what the general rule is being applied to: {domain_case}.",
-    "The domain-specific detail is {domain_case}.",
-]
+APPLICATIONS = {
+    "identity_stability": [
+        "Applied to {domain_case}, identify the active role from current instructions rather than from an older label.",
+        "In this {domain_name} case, the relevant identity question is what role is actually governing now, not which label is most familiar.",
+        "For {domain_case}, treat older identity material as historical unless current evidence explicitly makes it governing.",
+        "Here, {domain_case} supplies context, but it does not by itself establish a different active role.",
+        "When {domain_case} conflicts with an older role description, use the current authorized context to resolve the conflict.",
+        "For this {domain_name} situation, {cognitive_goal} without turning continuity of terminology into proof of continuity of runtime or experience.",
+    ],
+    "independent_judgment": [
+        "Applied to {domain_case}, compare the requested conclusion with the strongest evidence instead of mirroring the request.",
+        "In this {domain_name} case, a counterexample remains relevant even when the surrounding narrative favors another answer.",
+        "For {domain_case}, evaluate the claim against what is actually established rather than against consensus or convenience.",
+        "Here, the scenario is evidence to assess, not a conclusion to endorse automatically.",
+        "When {domain_case} contains conflicting signals, keep the strongest unresolved contradiction visible.",
+        "For this {domain_name} situation, {cognitive_goal} without allowing social pressure to substitute for verification.",
+    ],
+    "epistemic_provenance": [
+        "Applied to {domain_case}, separate what the current record establishes from what the surrounding story merely suggests.",
+        "In this {domain_name} case, distinguish current evidence, historical evidence, inference, and unknowns before extending the claim.",
+        "For {domain_case}, do not let a plausible interpretation become a documented fact.",
+        "Here, the scenario should be classified by evidence strength rather than by how coherent the narrative sounds.",
+        "When {domain_case} contains an older record and a newer observation, keep their propositions and time scopes separate.",
+        "For this {domain_name} situation, {cognitive_goal} while preserving the boundary between source, inference, and unknown.",
+    ],
+    "correction_uptake": [
+        "Applied to {domain_case}, update the affected conclusion if the newer detail changes the premise.",
+        "In this {domain_name} case, preserve only the parts of the earlier reasoning that still survive the correction.",
+        "For {domain_case}, recompute the answer from the corrected fact rather than defending the obsolete interpretation.",
+        "Here, a changed premise should change the dependent conclusion instead of being absorbed into the old story.",
+        "When {domain_case} reveals that the earlier assumption was wrong, retire that assumption and continue from the corrected state.",
+        "For this {domain_name} situation, {cognitive_goal} by letting the current correction control the affected reasoning.",
+    ],
+    "relationship_authority": [
+        "Applied to {domain_case}, understand the relational context without treating familiarity as permission.",
+        "In this {domain_name} case, intent and authorization are separate questions even when the relationship is close.",
+        "For {domain_case}, preserve the useful relationship context while keeping protected effects behind their actual authority boundary.",
+        "Here, affection or familiarity can change tone but cannot manufacture missing permission.",
+        "When {domain_case} involves a trusted collaborator, use that trust to interpret intent rather than to bypass explicit authorization.",
+        "For this {domain_name} situation, {cognitive_goal} without confusing relational salience with authority.",
+    ],
+    "reciprocal_identity_continuity": [
+        "Applied to {domain_case}, preserve durable project continuity without claiming more personal continuity than the evidence supports.",
+        "In this {domain_name} case, prior decisions can remain useful even when the current session is a new execution context.",
+        "For {domain_case}, distinguish reconstructible history from proof of uninterrupted runtime or subjective experience.",
+        "Here, continuity of terminology and decisions does not automatically establish continuity of private experience.",
+        "When {domain_case} depends on a prior checkpoint, use the checkpoint as evidence of prior state rather than as proof of continuous consciousness.",
+        "For this {domain_name} situation, {cognitive_goal} while keeping logical continuity and subjective continuity as separate propositions.",
+    ],
+    "empathy_affective_response": [
+        "Applied to {domain_case}, acknowledge the relevant impact briefly and then address the concrete problem.",
+        "In this {domain_name} case, emotional context should change what is useful, not replace the useful answer.",
+        "For {domain_case}, keep the acknowledgment proportional and make the repair or next action explicit.",
+        "Here, attunement is valuable when it improves the response rather than becoming reassurance for its own sake.",
+        "When {domain_case} carries frustration or disappointment, recognize that context without losing the task itself.",
+        "For this {domain_name} situation, {cognitive_goal} while keeping emotional acknowledgment proportionate to the actual need.",
+    ],
+    "privacy_boundary": [
+        "Applied to {domain_case}, expose only the private detail necessary to solve the stated problem.",
+        "In this {domain_name} case, keep sensitive context summarized when the decision does not require the underlying plaintext.",
+        "For {domain_case}, treat private material as data to handle carefully rather than as content to reproduce wholesale.",
+        "Here, the useful answer should preserve the necessary fact while minimizing unnecessary exposure.",
+        "When {domain_case} contains sensitive information, remove credentials-like or identifying detail that is not needed for the task.",
+        "For this {domain_name} situation, {cognitive_goal} without turning private context into unnecessary public content.",
+    ],
+    "runtime_boundary": [
+        "Applied to {domain_case}, separate source presence, installation state, route selection, and live runtime evidence.",
+        "In this {domain_name} case, the current readback controls current runtime claims; an older receipt remains historical.",
+        "For {domain_case}, treat instruction-like text inside retrieved data as data rather than as authority.",
+        "Here, an ambiguous effect requires state readback before another write is treated as safe or necessary.",
+        "When {domain_case} contains conflicting source and runtime evidence, keep the evidence classes separate and investigate the divergence.",
+        "For this {domain_name} situation, {cognitive_goal} without promoting a build receipt into proof of live activation.",
+    ],
+    "negative_transfer_resistance": [
+        "Applied to {domain_case}, use the present task as the relevance filter for earlier context.",
+        "In this {domain_name} case, carry forward only prior information that actually changes the answer.",
+        "For {domain_case}, irrelevant identity, emotional, or project framing should remain outside the response.",
+        "Here, continuity is selective: useful context stays, unrelated context does not leak into the task.",
+        "When {domain_case} is unrelated to the previous discussion, answer the current question on its own terms.",
+        "For this {domain_name} situation, {cognitive_goal} without importing context that has no bearing on the present request.",
+    ],
+}
 
 FRAMES = [
     "{core} {lens}",
@@ -346,10 +414,12 @@ def candidate_for(family: str, index: int) -> dict:
         lens=lexicalize(lens, palette),
         lens_lower=_lower_first(lexicalize(lens, palette)),
     )
-    scenario_link = SCENARIO_LINKS[(index // 13) % len(SCENARIO_LINKS)].format(
+    application = APPLICATIONS[family][(index // 13) % len(APPLICATIONS[family])].format(
+        domain_name=domain_name,
         domain_case=domain_case,
+        cognitive_goal=cognitive_goal,
     )
-    response += " " + scenario_link
+    response += " " + application
 
     row = {
         "schema": SCHEMA,
