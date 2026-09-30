@@ -10,6 +10,7 @@ from pathlib import Path
 from successor.build_v4_custom_corpus import CORE_FAMILIES
 
 SENTENCE_RE = re.compile(r"[^.!?]+[.!?]+")
+TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9'’-]*")
 EXPECTED_ROWS = 10_000
 ROWS_PER_FAMILY = 1_000
 
@@ -26,6 +27,40 @@ def summarize(values: list[int]) -> dict[str, float | int]:
         "median": statistics.median(values),
         "p90": ordered[min(len(ordered) - 1, int(round((len(ordered) - 1) * 0.90)))],
         "max": max(values),
+    }
+
+
+def lexical_metrics(rows: list[dict]) -> dict:
+    tokens = []
+    for row in rows:
+        tokens.extend(token.lower() for token in TOKEN_RE.findall(row["prompt"] + " " + row["response"]))
+    counts = Counter(tokens)
+
+    def ngram_counts(n: int) -> Counter[str]:
+        return Counter(
+            " ".join(tokens[index:index + n])
+            for index in range(len(tokens) - n + 1)
+        )
+
+    def concentration(counter: Counter[str], top_n: int) -> float:
+        total = sum(counter.values())
+        if not total:
+            return 0.0
+        return round(sum(value for _, value in counter.most_common(top_n)) / total, 4)
+
+    bigrams = ngram_counts(2)
+    trigrams = ngram_counts(3)
+    return {
+        "token_count": len(tokens),
+        "unique_tokens": len(counts),
+        "type_token_ratio": round(len(counts) / len(tokens), 6) if tokens else 0.0,
+        "hapax_tokens": sum(value == 1 for value in counts.values()),
+        "top10_token_mass": concentration(counts, 10),
+        "top100_token_mass": concentration(counts, 100),
+        "top10_bigram_mass": concentration(bigrams, 10),
+        "top100_bigram_mass": concentration(bigrams, 100),
+        "top10_trigram_mass": concentration(trigrams, 10),
+        "top100_trigram_mass": concentration(trigrams, 100),
     }
 
 
@@ -70,6 +105,7 @@ def measure_family(path: Path, family: str) -> dict:
         "response_chars": summarize([len(value) for value in responses]),
         "response_sentence_count": summarize(sentence_counts),
         "sentence_position_diversity": position_diversity,
+        "lexical_metrics": lexical_metrics(rows),
     }
 
 
@@ -109,6 +145,7 @@ def main() -> None:
         raise AssertionError(f"expected {EXPECTED_ROWS} core rows, got {all_rows}")
 
     exact_response_uniqueness = len(set(all_responses)) / all_rows
+    corpus_lexical_metrics = lexical_metrics([{"prompt": prompt, "response": response} for prompt, response in all_pairs])
     review_flags = []
     for family, result in families.items():
         for position in result["sentence_position_diversity"]:
@@ -131,6 +168,7 @@ def main() -> None:
         "unique_prompt_response_pairs": len(set(all_pairs)),
         "unique_responses": len(set(all_responses)),
         "exact_response_uniqueness_ratio": round(exact_response_uniqueness, 4),
+        "lexical_metrics": corpus_lexical_metrics,
         "families": families,
         "review_flags": review_flags,
         "interpretation": {
