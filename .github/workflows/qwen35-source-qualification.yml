@@ -1,6 +1,7 @@
 name: Qwen3.5 source qualification
 
 on:
+  pull_request:
   push:
     branches:
       - state/qwen35-hf-training-continuation-20260923-v1
