@@ -36,4 +36,11 @@ jobs:
             exit 0
           fi
           git commit -m "Record V4.1 semantic diversity comparison"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          for attempt in 1 2 3; do
+            if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Unable to persist semantic receipt after three attempts."
+          exit 1
