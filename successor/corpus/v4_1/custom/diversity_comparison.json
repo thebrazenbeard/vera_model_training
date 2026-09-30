@@ -26,42 +26,42 @@
     "unique_tokens": 735
   },
   "candidate": {
-    "distinct_2": 0.002895,
-    "distinct_3": 0.005732,
-    "distinct_4": 0.010252,
+    "distinct_2": 0.004591,
+    "distinct_3": 0.008805,
+    "distinct_4": 0.013441,
     "hapax_tokens": 0,
-    "response_gzip_ratio": 0.033876,
+    "response_gzip_ratio": 0.102614,
     "response_prefix": {
       "max_prefix_reuse": 710,
       "prefixes_used_by_more_than_1pct": 9,
       "unique_six_token_prefixes": 334
     },
     "rows": 10000,
-    "sampled_4gram_jaccard": 0.107994,
+    "sampled_4gram_jaccard": 0.011495,
     "sentence_count": {
-      "max": 7,
-      "mean": 4.811,
-      "min": 4
+      "max": 5,
+      "mean": 3.415,
+      "min": 3
     },
-    "sha256_response_stream": "dfb8a155556c6033613d9773cc1737834ecc9ad1f032d3d020f46b582871b328",
-    "tokens": 1284465,
-    "top100_bigram_mass": 0.371032,
-    "top100_token_mass": 0.69377,
-    "top100_trigram_mass": 0.293176,
-    "ttr": 0.000555,
-    "unique_tokens": 713
+    "sha256_response_stream": "74f7073c852b9fd7075b755254516e33efd92e065378b7b1e94039789a0548d9",
+    "tokens": 917185,
+    "top100_bigram_mass": 0.296949,
+    "top100_token_mass": 0.631149,
+    "top100_trigram_mass": 0.226128,
+    "ttr": 0.001097,
+    "unique_tokens": 1006
   },
   "delta": {
-    "distinct_2": -2e-06,
-    "distinct_3": 0.00113,
-    "distinct_4": 0.003904,
-    "response_gzip_ratio": 0.015652,
-    "sampled_4gram_jaccard": 0.032664,
-    "top100_bigram_mass": 0.061025,
-    "top100_token_mass": 0.035607,
-    "top100_trigram_mass": 0.063074,
-    "ttr": -0.000221,
-    "unique_tokens": -22
+    "distinct_2": 0.001694,
+    "distinct_3": 0.004203,
+    "distinct_4": 0.007093,
+    "response_gzip_ratio": 0.08439,
+    "sampled_4gram_jaccard": -0.063835,
+    "top100_bigram_mass": -0.013058,
+    "top100_token_mass": -0.027014,
+    "top100_trigram_mass": -0.003974,
+    "ttr": 0.000321,
+    "unique_tokens": 271
   },
   "interpretation": {
     "gzip_ratio_is_compression_not_a_quality_score": true,
