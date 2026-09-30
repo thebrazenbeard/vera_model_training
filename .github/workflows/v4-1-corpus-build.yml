@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - "work/v4.1-diverse-core-20260930"
+    paths:
+      - "successor/build_v4_1_diverse_corpus.py"
+      - "successor/corpus/v4_1/custom/**"
+      - "successor/compare_v4_v4_1_corpus.py"
+      - "tests/test_v4_1_diverse_corpus.py"
+      - ".github/workflows/v4-1-corpus-build.yml"
   workflow_dispatch:
 
 permissions:
