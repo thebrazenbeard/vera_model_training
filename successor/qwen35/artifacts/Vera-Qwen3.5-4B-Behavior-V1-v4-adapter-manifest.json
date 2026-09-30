@@ -1,0 +1,37 @@
+{
+  "adapter_files": {
+    "README.md": {
+      "bytes": 5234,
+      "sha256": "8b198dc324251a999377ce4c8e0fb216b68277437bc4101220c2dc6d3660aa0e"
+    },
+    "adapter_config.json": {
+      "bytes": 1333,
+      "sha256": "75084fcdeefee8c6ff78ac170f1d4f3e476920d294163b1a50ef93e091905096"
+    },
+    "adapter_model.safetensors": {
+      "bytes": 16299048,
+      "sha256": "3b3d4c8d62ee2eb4d8ae8e51771c114af48bc1be286bb5a108741e84f69d94eb"
+    }
+  },
+  "artifact_root": "D:\\VERA\\qwen35-v4-candidate-a-20260929",
+  "base_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+  "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+  "canonical_archive": {
+    "bytes": 12849604,
+    "local_path": "D:\\VERA\\qwen35-v4-candidate-a-20260929\\adapter-canonical.tar.gz",
+    "packaging": "gzip mtime=0, sorted tar entries uid/gid/mtime=0",
+    "sha256": "40ac44ba33cd227236af4c6090eb957403a0c6de81b4dbc3ded858bd9580174b"
+  },
+  "corpus_sha256": "9c105fc17bb8e388feb198d7b7178a1b00f27ed13ce2b247685248f178cc16d1",
+  "custody_status": "VERIFIED_FILE_HASHES_AND_CANONICAL_ARCHIVE / ORIGINAL_ARCHIVE_UNVERIFIED",
+  "qualification_status": "NOT_YET_RUN",
+  "schema": "QWEN35_V4_CANDIDATE_A_ARTIFACT_MANIFEST_V1",
+  "source_head": "7a76320525fe8550282fff281a565f22de90723b",
+  "subject": "Vera-Qwen3.5-4B-Behavior-V1-v4-candidate-a",
+  "trainer_reported_archive": {
+    "bytes": 12849757,
+    "sha256": "db83d0c49399a6aeae1a022bdb312739c17a4083dd6974ee3c93717c0051487c",
+    "verification": "original ephemeral archive not persisted and not reproducible"
+  },
+  "training_receipt_sha256": "9b350fd97d19d82e91c25cad9b8527d9e39d7826876f01255c095dcfd3cc8adb"
+}

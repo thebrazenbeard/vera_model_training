@@ -1,0 +1,59 @@
+{
+  "adapter_archive_bytes": 12849757,
+  "adapter_archive_sha256": "db83d0c49399a6aeae1a022bdb312739c17a4083dd6974ee3c93717c0051487c",
+  "base_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+  "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+  "base_topology": {
+    "down_proj": 32,
+    "gate_proj": 32,
+    "in_proj_a": 24,
+    "in_proj_b": 24,
+    "in_proj_qkv": 24,
+    "in_proj_z": 24,
+    "k_proj": 8,
+    "o_proj": 8,
+    "out_proj": 24,
+    "q_proj": 8,
+    "up_proj": 32,
+    "v_proj": 8
+  },
+  "corpus_sha256": "9c105fc17bb8e388feb198d7b7178a1b00f27ed13ce2b247685248f178cc16d1",
+  "device": "cuda",
+  "hardware_profile": "lappy-rtx3050-4gb",
+  "lora": {
+    "alpha": 16,
+    "families": {
+      "linear_attn": 120,
+      "mlp": 96,
+      "self_attn": 32
+    },
+    "r": 4,
+    "saved_dtype": "bfloat16",
+    "target_modules": "all-linear",
+    "targeted_module_count": 248
+  },
+  "max_length": 512,
+  "optimizer": "adamw_torch",
+  "output_identity": "Vera-Qwen3.5-4B-Behavior-V1-v4-candidate-a",
+  "overflow": "error",
+  "parent_adapter": null,
+  "schema": "VERA_QWEN35_BEHAVIOR_V4_TRAINING_RECEIPT_V1",
+  "seed": 20260929,
+  "sft_learning_rate": 2e-05,
+  "sft_loss": 1.2644021287560463,
+  "sft_rows": 512,
+  "smoke": false,
+  "token_budget": {
+    "max_length": 512,
+    "max_tokens": 511,
+    "over_budget": 0,
+    "rows": 512
+  },
+  "training_method": "QLORA_SFT_ONLY",
+  "versions": {
+    "peft": "0.21.0",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.17.0",
+    "trl": "1.13.0"
+  }
+}
