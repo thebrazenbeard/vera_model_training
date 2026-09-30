@@ -12,7 +12,7 @@ CORPUS_DIR = ROOT / "successor" / "corpus" / "v4_1" / "custom"
 def test_v41_generator_contract() -> None:
     assert generator.EXPECTED_ROWS == 10_000
     assert generator.ROWS_PER_FAMILY == 1_000
-    assert len(generator.DOMAINS) == 20
+    assert len(generator.DOMAINS) == 100
     assert len(generator.COGNITIVE_LEVELS) == 5
     assert len(generator.REQUEST_FORMS) == 10
     assert len(generator.PALETTES) == 6
@@ -36,6 +36,7 @@ def test_v41_committed_shards_match_generator() -> None:
         assert len({row["prompt"] for row in committed}) == 1_000
         assert len({row["response"] for row in committed}) == 1_000
         assert len({row["domain"] for row in committed}) == 20
+        assert len({row["scenario_case"] for row in committed}) == 100
         assert len({row["cognitive_level"] for row in committed}) == 5
         total += len(committed)
         all_responses.update(row["response"] for row in committed)
@@ -57,4 +58,5 @@ def test_v41_manifest_matches_files() -> None:
         assert meta["unique_prompts"] == 1_000, family
         assert meta["unique_responses"] == 1_000, family
         assert meta["domains"] == 20, family
+        assert meta["scenario_cases"] == 100, family
         assert meta["cognitive_levels"] == 5, family
