@@ -1,0 +1,60 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from successor import build_v4_1_diverse_corpus as generator
+
+ROOT = Path(__file__).resolve().parents[1]
+CORPUS_DIR = ROOT / "successor" / "corpus" / "v4_1" / "custom"
+
+
+def test_v41_generator_contract() -> None:
+    assert generator.EXPECTED_ROWS == 10_000
+    assert generator.ROWS_PER_FAMILY == 1_000
+    assert len(generator.DOMAINS) == 20
+    assert len(generator.COGNITIVE_LEVELS) == 5
+    assert len(generator.REQUEST_FORMS) == 10
+    assert len(generator.PALETTES) == 6
+    assert len(generator.FRAMES) == 12
+
+
+def test_v41_committed_shards_match_generator() -> None:
+    total = 0
+    all_responses: set[str] = set()
+    all_pairs: set[tuple[str, str]] = set()
+
+    for family in generator.v4.CORE_FAMILIES:
+        expected = generator.rows_for(family)
+        committed = [
+            json.loads(line)
+            for line in (CORPUS_DIR / f"{family}.jsonl").read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+        assert committed == expected, family
+        assert len(committed) == 1_000
+        assert len({row["prompt"] for row in committed}) == 1_000
+        assert len({row["response"] for row in committed}) == 1_000
+        assert len({row["domain"] for row in committed}) == 20
+        assert len({row["cognitive_level"] for row in committed}) == 5
+        total += len(committed)
+        all_responses.update(row["response"] for row in committed)
+        all_pairs.update((row["prompt"], row["response"]) for row in committed)
+
+    assert total == 10_000
+    assert len(all_responses) == 10_000
+    assert len(all_pairs) == 10_000
+
+
+def test_v41_manifest_matches_files() -> None:
+    manifest = json.loads((CORPUS_DIR / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["rows"] == 10_000
+    assert manifest["pair_uniqueness"] == 10_000
+    assert manifest["response_uniqueness"] == 10_000
+    assert len(manifest["families"]) == 10
+    for family, meta in manifest["families"].items():
+        assert meta["rows"] == 1_000, family
+        assert meta["unique_prompts"] == 1_000, family
+        assert meta["unique_responses"] == 1_000, family
+        assert meta["domains"] == 20, family
+        assert meta["cognitive_levels"] == 5, family
