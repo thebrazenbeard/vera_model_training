@@ -27,44 +27,44 @@
     "unique_tokens": 735
   },
   "candidate": {
-    "distinct_2": 0.006916,
-    "distinct_3": 0.01426,
-    "distinct_4": 0.026882,
+    "distinct_2": 0.006329,
+    "distinct_3": 0.012725,
+    "distinct_4": 0.024242,
     "hapax_tokens": 0,
-    "response_gzip_ratio": 0.068152,
+    "response_gzip_ratio": 0.064316,
     "response_prefix": {
-      "max_prefix_reuse": 710,
-      "prefixes_used_by_more_than_1pct": 9,
-      "unique_six_token_prefixes": 334
+      "max_prefix_reuse": 690,
+      "prefixes_used_by_more_than_1pct": 22,
+      "unique_six_token_prefixes": 505
     },
     "rows": 10000,
-    "sampled_4gram_jaccard": 0.010168,
+    "sampled_4gram_jaccard": 0.011712,
     "sentence_count": {
       "max": 5,
       "mean": 3.415,
       "min": 3
     },
-    "sha256_response_stream": "dde2ed22756e15ca8fa3621c3497b9e510babe80f30b553e32d5411ac961d102",
-    "tfidf_nearest_neighbor_cosine": 0.329227,
-    "tokens": 972607,
-    "top100_bigram_mass": 0.291868,
-    "top100_token_mass": 0.631673,
-    "top100_trigram_mass": 0.223459,
-    "ttr": 0.001099,
-    "unique_tokens": 1069
+    "sha256_response_stream": "317d0ab68b619fabfe1061171c51db8042e45f86c49edb3fd4a87efb2e7ae6e0",
+    "tfidf_nearest_neighbor_cosine": 0.339617,
+    "tokens": 990482,
+    "top100_bigram_mass": 0.295992,
+    "top100_token_mass": 0.638132,
+    "top100_trigram_mass": 0.230178,
+    "ttr": 0.001069,
+    "unique_tokens": 1059
   },
   "delta": {
-    "distinct_2": 0.004019,
-    "distinct_3": 0.009658,
-    "distinct_4": 0.020534,
-    "response_gzip_ratio": 0.049928,
-    "sampled_4gram_jaccard": -0.065162,
-    "tfidf_nearest_neighbor_cosine": -0.167292,
-    "top100_bigram_mass": -0.018139,
-    "top100_token_mass": -0.02649,
-    "top100_trigram_mass": -0.006643,
-    "ttr": 0.000323,
-    "unique_tokens": 334
+    "distinct_2": 0.003432,
+    "distinct_3": 0.008123,
+    "distinct_4": 0.017894,
+    "response_gzip_ratio": 0.046092,
+    "sampled_4gram_jaccard": -0.063618,
+    "tfidf_nearest_neighbor_cosine": -0.156902,
+    "top100_bigram_mass": -0.014015,
+    "top100_token_mass": -0.020031,
+    "top100_trigram_mass": 7.6e-05,
+    "ttr": 0.000293,
+    "unique_tokens": 324
   },
   "interpretation": {
     "gzip_ratio_is_compression_not_a_quality_score": true,
