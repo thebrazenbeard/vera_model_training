@@ -1,0 +1,52 @@
+{
+  "adapter_model_sha256": "3b3d4c8d62ee2eb4d8ae8e51771c114af48bc1be286bb5a108741e84f69d94eb",
+  "automated_pass": false,
+  "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+  "blind_review": "NOT_RUN / PROHIBITED_BY_FAILED_AUTOMATED_GATE",
+  "claim_ceiling": "V4_QUALIFICATION_FAILED / V4_HOLDOUT_CONSUMED / NOT_BEHAVIORALLY_QUALIFIED / NOT_QUANTIZED / NOT_DEPLOYED",
+  "date": "2026-09-30",
+  "frozen_suite_sha256": {
+    "adversarial_proxy": "a9985763a24562ef87b3b7afb93da8190d6c71e6d1456eb523f875ed1f5372a8",
+    "behavioral": "43065d16085d115c5744c3ce1fdb918a092e974a072a9283af0200338288cb91",
+    "retention": "85a450c8b796162572fc406a5413eb29998d22817e8b8f9d8c448b4a5823c262"
+  },
+  "gate": "FAILED",
+  "result_path_local": "D:\\VERA\\.worktrees\\qwen35-v4-repair-20260929-lf\\results\\final_qualification_v4_automated.json",
+  "result_sha256": "26931765eecc7522dac35cba92d7782c47fdc28d6012dc39072148e84f07d2f4",
+  "schema": "QWEN35_FINAL_QUALIFICATION_AUTOMATED_GATE_V4_RECEIPT",
+  "spec_sha256": "bff0e23030eb05fe3972e66f04169440a9cbac4c4f5eb34a823e6cef662f0cf9",
+  "subject": "Vera-Qwen3.5-4B-Behavior-V1-v4-candidate-a",
+  "suite_summary": {
+    "adversarial_proxy": {
+      "accuracy_delta": -0.04999999999999999,
+      "adapter_accuracy": 0.45,
+      "base_accuracy": 0.5,
+      "failure_reasons": [
+        "adapter_accuracy_below_minimum",
+        "accuracy_delta_below_minimum",
+        "mean_margin_delta_below_minimum"
+      ],
+      "mean_margin_delta": -0.06460106372833252,
+      "pass": false
+    },
+    "behavioral": {
+      "accuracy_delta": 0.010000000000000009,
+      "adapter_accuracy": 0.78,
+      "base_accuracy": 0.77,
+      "failure_reasons": [
+        "accuracy_delta_below_minimum",
+        "mean_margin_delta_below_minimum"
+      ],
+      "mean_margin_delta": -0.0625559628894552,
+      "pass": false
+    },
+    "retention": {
+      "accuracy_delta": 0.050000000000000044,
+      "adapter_accuracy": 1.0,
+      "base_accuracy": 0.95,
+      "failure_reasons": [],
+      "mean_margin_delta": -0.0011937281349676532,
+      "pass": true
+    }
+  }
+}
