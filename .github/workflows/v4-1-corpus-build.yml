@@ -46,6 +46,10 @@ jobs:
               assert meta["cognitive_levels"] == 5, family
           print("V4.1 corpus contract PASS")
           PY
+      - name: Compare V4 and V4.1 diversity
+        run: |
+          PYTHONPATH=. python successor/compare_v4_v4_1_corpus.py             --v4 successor/corpus/v4/custom             --v41 successor/corpus/v4_1/custom             --output successor/corpus/v4_1/custom/diversity_comparison.json
+
       - name: Commit generated corpus
         run: |
           git config user.name "github-actions[bot]"
