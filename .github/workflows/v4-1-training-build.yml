@@ -1,0 +1,51 @@
+name: V4.1 Training Corpus Build
+
+on:
+  push:
+    branches:
+      - "work/v4.1-diverse-core-20260930"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: ${{ github.event.repository.private == false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Build V4.1 train/validation split
+        run: |
+          rm -rf /tmp/vera-v4.1
+          PYTHONPATH=. python successor/build_v4_1_training_corpus.py             --train /tmp/vera-v4.1/train.jsonl             --validation /tmp/vera-v4.1/validation.jsonl             --manifest successor/corpus/v4_1/training_manifest.json
+      - name: Verify split contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("successor/corpus/v4_1/training_manifest.json").read_text())
+          assert manifest["source_rows"] == 52500
+          assert manifest["train_rows"] == 50000
+          assert manifest["validation_rows"] == 2500
+          assert manifest["train_validation_overlap"] == 0
+          assert manifest["custom_source"]["rows"] == 10000
+          assert manifest["rehearsal_source"]["rows"] == 42500
+          assert manifest["training_authorization"] == "NOT_GRANTED"
+          print("V4.1 training split contract PASS")
+          PY
+      - name: Commit manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add successor/corpus/v4_1/training_manifest.json
+          if git diff --cached --quiet; then
+            echo "No training manifest changes."
+            exit 0
+          fi
+          git commit -m "Record reproducible V4.1 50k training split"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
