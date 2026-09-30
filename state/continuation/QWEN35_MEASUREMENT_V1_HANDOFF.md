@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement + Development Loop V1 — Live Handoff
 
-**Checkpoint:** PLAN_PREPARED. This file must be updated after each independently verified commit.
+**Checkpoint:** TASK_2_INTAKE_VERIFIED. This file must be updated after each independently verified commit.
 **Repository:** `thebrazenbeard/vera_model_training`
 **Branch:** `work/qwen35-measurement-devloop-v1-20260930`
 **Branch parent:** `d0acf17b66057cf452226674218ee17b0714fb38`
@@ -20,14 +20,14 @@ No model training or deployment authorized by this measurement build. No final b
 
 - [x] Fresh-read exact branch heads / repo contracts and PR #44.
 - [x] New isolated worktree created from V4 failed-gate commit, LF checkout.
-- [ ] Task 1 plan/handoff committed/pushed.
-- [ ] Task 2 intake and split.
+- [x] Task 1 plan/handoff committed/pushed at ff487ed177f42ef0a04edb42b99a84062c118239.
+- [x] Task 2 case schema/intake, family-disjoint dev split, 10k floor, 10 tests. Synthetic fixtures prove only structure; NOT an admitted bank.
 - [ ] Task 3 real output grading.
 - [ ] Task 4 paired confidence gate.
 - [ ] Task 5 dev/validation lifecycle and CLI.
 - [ ] Task 6 integration adversarial test.
 
-**Next command:** `git -C D:\VERA\.worktrees\qwen35-measurement-devloop-v1-20260930 status --short`; then begin Task 2 with RED pytest.
+**Next command:** Write the RED grading and observation tests, then the grader and pair verifier; use plan Task 3.
 
-**Last verified GitHub remote head:** not recorded yet; fill after push.
+**Last verified remote head before Task 2 commit:** ff487ed177f42ef0a04edb42b99a84062c118239; run git rev-parse HEAD and git ls-remote to refresh.
 **Unresolved material:** real independently authored and reviewed case bank, real model generation recordings, runtime-route evidence. None may be fabricated to clear a test.
