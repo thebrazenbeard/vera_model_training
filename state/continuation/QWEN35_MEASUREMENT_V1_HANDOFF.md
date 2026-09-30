@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement + Development Loop V1 — Live Handoff
 
-**Checkpoint:** TASK_4_PAIRED_STATS_VERIFIED. This file must be updated after each independently verified commit.
+**Checkpoint:** TASK_5_DEVLOOP_CLI_VERIFIED. This file must be updated after each independently verified commit.
 **Repository:** `thebrazenbeard/vera_model_training`
 **Branch:** `work/qwen35-measurement-devloop-v1-20260930`
 **Branch parent:** `d0acf17b66057cf452226674218ee17b0714fb38`
@@ -24,10 +24,10 @@ No model training or deployment authorized by this measurement build. No final b
 - [x] Task 2 case schema/intake, family-disjoint dev split, 10k floor, 10 tests. Synthetic fixtures prove only structure; NOT an admitted bank.
 - [x] Task 3 direct generated-text grading and paired observation binding. Objective grader, manual/effect fail-closed. 8 focused tests.
 - [x] Task 4 exact paired discordance/McNemar, independent-family bootstrap with effective-group warnings, 20-dimension coverage, count-reconciliation and conservative gate. 13 focused tests.
-- [ ] Task 5 dev/validation lifecycle and CLI.
+- [x] Task 5 group split persistence, immutable hash-chained validation ledger, 3-check budget, paired generated-response scorer, CLI and README.
 - [ ] Task 6 integration adversarial test.
 
-**Next command:** Write RED development ledger tests, implement immutable experiment ledger and CLI; update handoff every push.
+**Next command:** Task 6: red-green integration tests, verify model-generation adapter and validation-enabled trainer changes; preserve consumed finals, then full tests, hostile review, push and exact handoff.
 
-**Last verified remote head before Task 4 commit:** cc540d7b2fb723c02308b8d5dd3cd0966b297986; refresh with git ls-remote.
+**Last verified remote head before Task 5 commit:** fdfaaff71b4ec5c68d973ad2b2b1ccbd8fec4ee6; refresh from origin.
 **Unresolved material:** real independently authored and reviewed case bank, real model generation recordings, runtime-route evidence. None may be fabricated to clear a test.
