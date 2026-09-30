@@ -18,6 +18,7 @@
       "min": 5
     },
     "sha256_response_stream": "cc93c635dcff6693842886351bc92ef8f1db5fbf6ebc480bf97a7a1c4a000591",
+    "tfidf_nearest_neighbor_cosine": 0.496519,
     "tokens": 947118,
     "top100_bigram_mass": 0.310007,
     "top100_token_mass": 0.658163,
@@ -44,6 +45,7 @@
       "min": 3
     },
     "sha256_response_stream": "74f7073c852b9fd7075b755254516e33efd92e065378b7b1e94039789a0548d9",
+    "tfidf_nearest_neighbor_cosine": 0.290684,
     "tokens": 917185,
     "top100_bigram_mass": 0.296949,
     "top100_token_mass": 0.631149,
@@ -57,6 +59,7 @@
     "distinct_4": 0.007093,
     "response_gzip_ratio": 0.08439,
     "sampled_4gram_jaccard": -0.063835,
+    "tfidf_nearest_neighbor_cosine": -0.205835,
     "top100_bigram_mass": -0.013058,
     "top100_token_mass": -0.027014,
     "top100_trigram_mass": -0.003974,
