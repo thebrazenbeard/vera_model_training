@@ -56,7 +56,7 @@ jobs:
         env:
           HF_HUB_DISABLE_TELEMETRY: "1"
         run: |
-          PYTHONPATH=. python successor/semantic_diversity_gate.py             --v4 successor/corpus/v4/custom             --v41 /tmp/vera-v4.1-semantic             --output successor/corpus/v4_1/semantic_diversity_comparison.json
+          PYTHONPATH=. python successor/semantic_diversity_gate.py             --v4 successor/corpus/v4/custom             --v41 /tmp/vera-v4.1-semantic             --training-manifest successor/corpus/v4_1/training_manifest.json             --output successor/corpus/v4_1/semantic_diversity_comparison.json
       - name: Persist semantic receipt
         run: |
           git config user.name "github-actions[bot]"
