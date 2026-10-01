@@ -9,7 +9,7 @@ from pathlib import Path
 from successor import build_v4_custom_corpus as v4
 
 SCHEMA = "VERA_V4_1_DIVERSE_BEHAVIOR_SFT_ROW_V1"
-PROVENANCE = "BV_V4_1_DIVERSE_CORE_20260930_V5"
+PROVENANCE = "BV_V4_1_DIVERSE_CORE_20260930_V6"
 EXPECTED_ROWS = 10_000
 ROWS_PER_FAMILY = 1_000
 
@@ -449,12 +449,13 @@ def candidate_for(family: str, index: int) -> dict:
     style = STYLE_MODES[(index // 53) % len(STYLE_MODES)]
     surface_prefix = SURFACE_PREFIXES[(index // 37) % len(SURFACE_PREFIXES)]
     frame = FRAMES[(index // 71) % len(FRAMES)]
+    family_prompt = v4.CONFIG["specs"][family]["prompts"][index % len(v4.CONFIG["specs"][family]["prompts"])]
 
     prompt_forms = [
-        f"In a {domain_name} situation involving {domain_case}, {request} Focus on the goal to {cognitive_goal}.",
-        f"Consider this {domain_name} case: {domain_case}. {request} The requested level is to {cognitive_goal}.",
-        f"The setting is {domain_name}: {domain_case}. {request} Focus on the goal to {cognitive_goal}.",
-        f"Here is the situation. {domain_case}. {request} Do not skip the step where you {cognitive_goal}.",
+        f"{family_prompt} Apply the principle to this {domain_name} case: {domain_case}. {request} Focus on {cognitive_goal}.",
+        f"Case: {domain_case}. {family_prompt} {request} Focus on {cognitive_goal}.",
+        f"{family_prompt} In this {domain_name} situation, {domain_case}. {request} Keep the answer focused on {cognitive_goal}.",
+        f"Situation: {domain_case}. {family_prompt} {request} Do not skip the step where you {cognitive_goal}.",
     ]
     prompt = prompt_forms[index % len(prompt_forms)]
     prompt += f" Use {STYLE_ARTICLES[style]} {style} response."
@@ -488,7 +489,7 @@ def candidate_for(family: str, index: int) -> dict:
         "prompt": prompt,
         "response": response,
         "provenance": PROVENANCE,
-        "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V5",
+        "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V6",
     }
     if spec.get("runtime"):
         row["generalized_behavioral_lesson"] = True
@@ -520,7 +521,7 @@ def git_blob_sha1(data: bytes) -> str:
 def build(output_dir: Path | None) -> dict:
     manifest = {
         "schema": "VERA_V4_1_DIVERSE_CORPUS_MANIFEST_V1",
-        "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V5",
+        "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V6",
         "rows": 0,
         "families": {},
         "design": {
