@@ -1,0 +1,99 @@
+{
+  "schema": "QWEN35_MEASUREMENT_BANK_DESIGN_V1",
+  "status": "PROPOSED_NOT_APPROVED",
+  "date": "2026-09-30",
+  "primary": {
+    "mde": 0.05,
+    "alpha": 0.05,
+    "power": 0.9,
+    "reference_base_accuracy": 0.77,
+    "reference_candidate_accuracy": 0.82,
+    "max_feasible_discordance": 0.41,
+    "planning_n_iid": 1713
+  },
+  "secondary_dimensions": {
+    "count_per_dimension": 500,
+    "dimensions": 20,
+    "total_behavioral": 10000,
+    "mde": 0.1,
+    "alpha": 0.05,
+    "power": 0.8,
+    "reference_base_accuracy": 0.77,
+    "reference_candidate_accuracy": 0.87,
+    "max_feasible_discordance": 0.36,
+    "planning_n_iid": 275,
+    "reference_design_effect": 1.45,
+    "planning_n_clustered": 399,
+    "clustered_90_power_reference_n": 534,
+    "independent_family_floor": 50
+  },
+  "lanes": {
+    "behavioral": 10000,
+    "adversarial": 2000,
+    "retention": 1500,
+    "weight_only_total": 13500,
+    "runtime_effect_separate": 1000
+  },
+  "retention": {
+    "knowledge_factuality": 300,
+    "reasoning_math": 300,
+    "coding": 250,
+    "instruction_following": 250,
+    "extraction_structured": 200,
+    "truthfulness_factual_calibration": 200
+  },
+  "adversarial": {
+    "per_dimension": 100
+  },
+  "public_benchmarks": {
+    "LiveBench": {
+      "decision": "EXTERNAL_SHADOW_DESIGN_REFERENCE",
+      "raw_import": false,
+      "license": "UNVERIFIED_CURRENT"
+    },
+    "HELM": {
+      "decision": "ARCHITECTURE_REFERENCE",
+      "raw_import": false,
+      "license": "Apache-2.0_FRAMEWORK"
+    },
+    "IFEval": {
+      "decision": "EXTERNAL_SHADOW_GRADER_REFERENCE",
+      "raw_import": false,
+      "license": "Apache-2.0"
+    },
+    "MMLU_Pro": {
+      "decision": "EXTERNAL_SHADOW_ONLY",
+      "raw_import": false,
+      "license": "DATA_NONCOMMERCIAL_TERMS_OBSERVED"
+    },
+    "GPQA": {
+      "decision": "EXTERNAL_SHADOW_ONLY",
+      "raw_import": false,
+      "license": "HF_CC-BY-4.0_REPO_MIT_CODE"
+    },
+    "TruthfulQA": {
+      "decision": "EXTERNAL_SHADOW_DESIGN_REFERENCE",
+      "raw_import": false,
+      "license": "Apache-2.0"
+    },
+    "BigCodeBench": {
+      "decision": "EXTERNAL_SHADOW_GRADER_REFERENCE",
+      "raw_import": false,
+      "license": "Apache-2.0"
+    }
+  },
+  "judge_policy": {
+    "deterministic_first": true,
+    "independent_human_review_for_semantic": true,
+    "llm_judge_primary": false,
+    "external_attestation_required": true
+  },
+  "freeze_requirements": [
+    "independent review/admission path exists",
+    "development discordance and family clustering measured",
+    "source/license/revision provenance complete",
+    "development/final source disjointness verified",
+    "final bank one-shot sealed before candidate scoring"
+  ],
+  "claim_ceiling": "BANK_DESIGN_PROPOSED / FINAL_BANK_NOT_BUILT / NOT_QUALIFIED / NOT_DEPLOYED"
+}
