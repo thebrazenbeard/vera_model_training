@@ -1,4 +1,5 @@
 name: V4.1 Training Corpus Build
+# Re-run after semantic qualification of the current committed V4.1 corpus.
 
 on:
   push:
