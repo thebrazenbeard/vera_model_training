@@ -51,6 +51,28 @@ jobs:
           print("Committed V4.1 manifest contract PASS:", manifest["corpus_id"])
           PY
 
+      - name: Verify training-mixture lineage
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          custom = json.loads(Path("successor/corpus/v4_1/custom/manifest.json").read_text())
+          training = json.loads(Path("successor/corpus/v4_1/training_manifest.json").read_text())
+          expected_id = custom["corpus_id"].replace("10K_DIVERSE_CORE", "50K")
+          assert training["corpus_id"] == expected_id
+          assert training["custom_source"]["rows"] == custom["rows"]
+          assert training["custom_source"]["families"] == {
+              family: meta["rows"] for family, meta in custom["families"].items()
+          }
+          assert training["manifest_sha256"] == hashlib.sha256(
+              Path("successor/corpus/v4_1/custom/manifest.json").read_bytes()
+          ).hexdigest()
+          assert training["training_authorization"] == "NOT_GRANTED"
+          assert training["weight_change_performed"] is False
+          print("Training-mixture lineage PASS:", training["corpus_id"])
+          PY
+
       - name: Run semantic diversity comparison
         env:
           HF_HUB_DISABLE_TELEMETRY: "1"
