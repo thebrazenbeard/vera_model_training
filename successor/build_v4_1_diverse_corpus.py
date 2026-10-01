@@ -9,7 +9,7 @@ from pathlib import Path
 from successor import build_v4_custom_corpus as v4
 
 SCHEMA = "VERA_V4_1_DIVERSE_BEHAVIOR_SFT_ROW_V1"
-PROVENANCE = "BV_V4_1_DIVERSE_CORE_20260930_V9"
+PROVENANCE = "BV_V4_1_DIVERSE_CORE_20260930_V10"
 EXPECTED_ROWS = 10_000
 ROWS_PER_FAMILY = 1_000
 
@@ -165,6 +165,14 @@ SURFACE_PREFIXES = [
     "Under audit:",
     "Concisely:",
 ]
+
+COGNITIVE_RESPONSE_FORMS = {
+    "identify": "At the identify level, keep the answer anchored to what is actually established.",
+    "compare": "At the compare level, explicitly contrast the current record with the earlier account.",
+    "analyze": "At the analyze level, keep the competing claims and their support separate.",
+    "evaluate": "At the evaluate level, state only the conclusion warranted by the available evidence.",
+    "apply": "At the apply level, turn the governing principle into the concrete next response.",
+}
 
 STYLE_ARTICLES = {
     "plainspoken": "a",
@@ -537,6 +545,7 @@ def candidate_for(family: str, index: int) -> dict:
     )
     response += " " + resolution
     response += " " + FAMILY_BRIDGES[family][(index // 13) % len(FAMILY_BRIDGES[family])]
+    response += " " + COGNITIVE_RESPONSE_FORMS[cognitive_name]
 
     row = {
         "schema": SCHEMA,
@@ -556,7 +565,7 @@ def candidate_for(family: str, index: int) -> dict:
         "behavioral_trigger": FAMILY_SCENARIO_SUFFIXES[family][index % len(FAMILY_SCENARIO_SUFFIXES[family])],
         "scenario_resolution": resolution,
         "provenance": PROVENANCE,
-        "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V9",
+        "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V10",
     }
     if spec.get("runtime"):
         row["generalized_behavioral_lesson"] = True
@@ -588,7 +597,7 @@ def git_blob_sha1(data: bytes) -> str:
 def build(output_dir: Path | None) -> dict:
     manifest = {
         "schema": "VERA_V4_1_DIVERSE_CORPUS_MANIFEST_V1",
-        "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V9",
+        "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V10",
         "rows": 0,
         "families": {},
         "design": {
@@ -598,6 +607,7 @@ def build(output_dir: Path | None) -> dict:
             "surface_prefixes": len(SURFACE_PREFIXES),
             "response_frames": len(FRAMES),
             "scenario_resolution_forms": {family: len(SCENARIO_RESOLUTIONS[family]) for family in v4.CORE_FAMILIES},
+            "cognitive_response_forms": len(COGNITIVE_RESPONSE_FORMS),
             "family_lenses": {family: len(LENSES[family]) for family in v4.CORE_FAMILIES},
             "model_free": True,
             "candidate_selection": "stratified_compositional_grid",
