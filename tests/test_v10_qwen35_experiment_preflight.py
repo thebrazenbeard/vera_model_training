@@ -94,3 +94,49 @@ def test_v10_preflight_rejects_true_bank_flag_without_frozen_hashes(tmp_path: Pa
     payload = json.loads(result.stdout)
     assert payload["status"] == "HOLD"
     assert "fresh_evaluation_bank_hashes_missing" in payload["reasons"]
+
+
+def test_v10_preflight_prefers_v2_contract_when_present(tmp_path: Path) -> None:
+    _current_hold_fixture(tmp_path)
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_QWEN35_EXPERIMENT_CONTRACT_V2.json",
+        {
+            "schema": "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V2",
+            "status": "PREREGISTERED_BLOCKED",
+            "evaluation_bank": {
+                "behavioral": {"sha256": None},
+                "adversarial": {"sha256": None},
+                "retention": {"sha256": None},
+            },
+            "blocking_preconditions": {
+                "fresh_evaluation_bank_frozen": False,
+                "independent_bank_admission_verified": False,
+                "semantic_contamination_screen_verified": False,
+                "qwen_token_budget_no_overflow_verified": True,
+                "zero_cost_execution_target_bound": True,
+                "exact_training_runtime_versions_bound": True,
+                "patrick_exact_weight_change_authority": False,
+            },
+        },
+    )
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_QWEN35_FINAL_BANK_ADMISSION_V2.json",
+        {
+            "schema": "V10_QWEN35_FINAL_BANK_ADMISSION_V2",
+            "status": "SPEC_FROZEN_NO_CASES_ADMITTED",
+        },
+    )
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    assert result.returncode == 2
+    payload = json.loads(result.stdout)
+    assert "qwen_token_budget_no_overflow_verified" not in payload["reasons"]
+    assert "final_bank_cases_not_admitted" in payload["reasons"]
+    assert "semantic_contamination_screen_verified" in payload["reasons"]

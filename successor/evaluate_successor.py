@@ -73,14 +73,24 @@ def assess_v10_experiment_state(repo_root):
 
     root = Path(repo_root)
     base = root / "successor" / "experiments"
-    contract = _read_json(base / "V10_QWEN35_EXPERIMENT_CONTRACT_V1.json")
-    admission = _read_json(base / "V10_QWEN35_FINAL_BANK_ADMISSION_V1.json")
+    contract_v2 = base / "V10_QWEN35_EXPERIMENT_CONTRACT_V2.json"
+    admission_v2 = base / "V10_QWEN35_FINAL_BANK_ADMISSION_V2.json"
+    if contract_v2.exists():
+        contract = _read_json(contract_v2)
+        admission = _read_json(admission_v2)
+        expected_contract_schema = "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V2"
+        expected_admission_schema = "V10_QWEN35_FINAL_BANK_ADMISSION_V2"
+    else:
+        contract = _read_json(base / "V10_QWEN35_EXPERIMENT_CONTRACT_V1.json")
+        admission = _read_json(base / "V10_QWEN35_FINAL_BANK_ADMISSION_V1.json")
+        expected_contract_schema = "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V1"
+        expected_admission_schema = "V10_QWEN35_FINAL_BANK_ADMISSION_V1"
     exclusion = _read_json(base / "V10_QWEN35_EXCLUSION_REGISTRY_V1.json")
 
     reasons = []
-    if contract.get("schema") != "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V1":
+    if contract.get("schema") != expected_contract_schema:
         reasons.append("invalid_experiment_contract_schema")
-    if admission.get("schema") != "V10_QWEN35_FINAL_BANK_ADMISSION_V1":
+    if admission.get("schema") != expected_admission_schema:
         reasons.append("invalid_final_bank_admission_schema")
     if exclusion.get("schema") != "V10_QWEN35_EXCLUSION_REGISTRY_V1":
         reasons.append("invalid_exclusion_registry_schema")
