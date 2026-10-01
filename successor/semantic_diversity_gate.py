@@ -165,7 +165,8 @@ def evaluate_quality_gate(baseline: dict, candidate: dict) -> dict:
         "global_scenario_stripped_alignment_margin_gain_ge_0_02": candidate["scenario_stripped_alignment_margin"]
         - baseline["scenario_stripped_alignment_margin"] >= 0.02,
         "global_scenario_stripped_beats_mismatch_ge_0_75": candidate["scenario_stripped_beats_mismatch_fraction"] >= 0.75,
-        "global_nearest_neighbor_cosine_le_0_84": candidate["mean_nearest_neighbor_cosine"] <= 0.84,
+        "global_nearest_neighbor_cosine_improves_vs_baseline_by_0_01": candidate["mean_nearest_neighbor_cosine"]
+        <= baseline["mean_nearest_neighbor_cosine"] - 0.01,
         "high_similarity_pair_fraction_le_0_0005": candidate["high_similarity_pair_fraction_ge_0_90"] <= 0.0005,
         "low_prompt_response_fraction_le_0_05": candidate["prompt_response_below_0_25_fraction"] <= 0.05,
         "every_family_alignment_margin_gain_ge_0_03": min(family_deltas.values()) >= 0.03,
