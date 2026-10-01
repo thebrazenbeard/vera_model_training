@@ -27,9 +27,9 @@
     "unique_tokens": 735
   },
   "candidate": {
-    "distinct_2": 0.003881,
-    "distinct_3": 0.007345,
-    "distinct_4": 0.014832,
+    "distinct_2": 0.003918,
+    "distinct_3": 0.007403,
+    "distinct_4": 0.014693,
     "hapax_tokens": 0,
     "response_gzip_ratio": 0.061433,
     "response_prefix": {
@@ -46,25 +46,25 @@
     },
     "sha256_response_stream": "f75babd75531f8003a5cef863d8ea1fc7541d4aa1d318ffb678ac6b75600d7b0",
     "tfidf_nearest_neighbor_cosine": 0.34886,
-    "tokens": 1164216,
-    "top100_bigram_mass": 0.27805,
-    "top100_token_mass": 0.637324,
-    "top100_trigram_mass": 0.204599,
-    "ttr": 0.000927,
-    "unique_tokens": 1079
+    "tokens": 1330916,
+    "top100_bigram_mass": 0.249605,
+    "top100_token_mass": 0.624051,
+    "top100_trigram_mass": 0.170468,
+    "ttr": 0.000889,
+    "unique_tokens": 1183
   },
   "delta": {
-    "distinct_2": 0.000984,
-    "distinct_3": 0.002743,
-    "distinct_4": 0.008484,
+    "distinct_2": 0.001021,
+    "distinct_3": 0.002801,
+    "distinct_4": 0.008345,
     "response_gzip_ratio": 0.043209,
     "sampled_4gram_jaccard": -0.063684,
     "tfidf_nearest_neighbor_cosine": -0.147659,
-    "top100_bigram_mass": -0.031957,
-    "top100_token_mass": -0.020839,
-    "top100_trigram_mass": -0.025503,
-    "ttr": 0.000151,
-    "unique_tokens": 344
+    "top100_bigram_mass": -0.060402,
+    "top100_token_mass": -0.034112,
+    "top100_trigram_mass": -0.059634,
+    "ttr": 0.000113,
+    "unique_tokens": 448
   },
   "interpretation": {
     "gzip_ratio_is_compression_not_a_quality_score": true,
