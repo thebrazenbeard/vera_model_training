@@ -1,6 +1,6 @@
 {
   "blind_plaintext_included": false,
-  "corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V6",
+  "corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V7",
   "custom_source": {
     "families": {
       "correction_uptake": 1000,
@@ -18,7 +18,7 @@
   },
   "custom_validation_per_family": 50,
   "general_fraction": 0.81,
-  "manifest_sha256": "31d7fb4ec3194b1efeaff7a83788d099e102e5631899b855df6c15c797445246",
+  "manifest_sha256": "9c5e3d3eb60f7f060f4857ac34d7d7787d176898afac0f7d30223826f1cff937",
   "rehearsal_source": {
     "adjustment_strategy": {
       "smoltalk_smollm3_explore_instruct_rewriting_no_think": 500,
