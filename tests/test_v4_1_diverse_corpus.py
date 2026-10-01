@@ -17,15 +17,15 @@ def test_v41_generator_contract() -> None:
     assert len(generator.REQUEST_FORMS) == 10
     assert len(generator.SURFACE_PREFIXES) == 8
     assert len(generator.FRAMES) == 12
-    assert len(generator.APPLICATIONS) == 10
+    assert len(generator.SCENARIO_RESOLUTIONS) == 10
     assert len(generator.FAMILY_BRIDGES) == 10
     assert all(len(forms) == 5 for forms in generator.FAMILY_BRIDGES.values())
     assert len(generator.FAMILY_SCENARIO_SUFFIXES) == 10
     assert all(len(forms) == 5 for forms in generator.FAMILY_SCENARIO_SUFFIXES.values())
-    assert all(len(forms) == 6 for forms in generator.APPLICATIONS.values())
+    assert all(len(forms) == 5 for forms in generator.SCENARIO_RESOLUTIONS.values())
     assert all(
-        any(token in form for token in ("{domain_case}", "{domain_name}"))
-        for forms in generator.APPLICATIONS.values()
+        "{domain_case}" in form
+        for forms in generator.SCENARIO_RESOLUTIONS.values()
         for form in forms
     )
     assert set(generator.STYLE_ARTICLES) == set(generator.STYLE_MODES)
@@ -61,6 +61,10 @@ def test_v41_committed_shards_match_generator() -> None:
         assert all("a audit" not in row["prompt"] for row in committed)
         assert all("do not proposition" not in row["response"].lower() for row in committed)
         assert all("do not assertion" not in row["response"].lower() for row in committed)
+        assert all(row["behavioral_trigger"] for row in committed)
+        assert all(row["scenario_resolution"] for row in committed)
+        assert all(row["scenario_case"] in row["scenario_resolution"] for row in committed)
+
         total += len(committed)
         all_responses.update(row["response"] for row in committed)
         all_pairs.update((row["prompt"], row["response"]) for row in committed)
