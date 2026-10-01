@@ -40,8 +40,11 @@ def build(root: Path, output: Path) -> None:
                     "scenario_case": row["scenario_case"],
                     "cognitive_level": row["cognitive_level"],
                     "difficulty": row["difficulty"],
+                    "behavioral_trigger": row["behavioral_trigger"],
+                    "scenario_resolution": row["scenario_resolution"],
                     "prompt": row["prompt"],
                     "response": row["response"],
+                    "cognitive_response_form": f"At the {row['cognitive_level']} level",
                 }
             )
 
