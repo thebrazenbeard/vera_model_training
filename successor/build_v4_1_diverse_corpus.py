@@ -9,7 +9,7 @@ from pathlib import Path
 from successor import build_v4_custom_corpus as v4
 
 SCHEMA = "VERA_V4_1_DIVERSE_BEHAVIOR_SFT_ROW_V1"
-PROVENANCE = "BV_V4_1_DIVERSE_CORE_20260930_V8"
+PROVENANCE = "BV_V4_1_DIVERSE_CORE_20260930_V9"
 EXPECTED_ROWS = 10_000
 ROWS_PER_FAMILY = 1_000
 
@@ -536,7 +536,7 @@ def candidate_for(family: str, index: int) -> dict:
         cognitive_goal=cognitive_goal,
     )
     response += " " + resolution
-    response += " " + FAMILY_BRIDGES[family][index % len(FAMILY_BRIDGES[family])]
+    response += " " + FAMILY_BRIDGES[family][(index // 13) % len(FAMILY_BRIDGES[family])]
 
     row = {
         "schema": SCHEMA,
@@ -556,7 +556,7 @@ def candidate_for(family: str, index: int) -> dict:
         "behavioral_trigger": FAMILY_SCENARIO_SUFFIXES[family][index % len(FAMILY_SCENARIO_SUFFIXES[family])],
         "scenario_resolution": resolution,
         "provenance": PROVENANCE,
-        "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V8",
+        "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V9",
     }
     if spec.get("runtime"):
         row["generalized_behavioral_lesson"] = True
@@ -588,7 +588,7 @@ def git_blob_sha1(data: bytes) -> str:
 def build(output_dir: Path | None) -> dict:
     manifest = {
         "schema": "VERA_V4_1_DIVERSE_CORPUS_MANIFEST_V1",
-        "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V8",
+        "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V9",
         "rows": 0,
         "families": {},
         "design": {
