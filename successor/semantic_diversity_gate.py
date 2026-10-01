@@ -213,6 +213,12 @@ def main() -> None:
         if training_manifest_path.exists()
         else {}
     )
+    training_lineage_verified = (
+        training_manifest.get("custom_source", {}).get("manifest_digest")
+        == candidate_manifest["manifest_digest"]
+        and training_manifest.get("custom_source", {}).get("corpus_id")
+        == candidate_manifest["corpus_id"]
+    )
     result = {
         "schema": "VERA_V4_V4_1_SEMANTIC_DIVERSITY_COMPARISON_V4",
         "embedding_model": args.model,
@@ -222,6 +228,7 @@ def main() -> None:
             "candidate_manifest_digest": candidate_manifest["manifest_digest"],
             "training_corpus_id": training_manifest.get("corpus_id"),
             "training_custom_manifest_digest": training_manifest.get("custom_source", {}).get("manifest_digest"),
+            "training_lineage_verified": training_lineage_verified,
         },
         "baseline": embed_metrics(model, baseline_rows),
         "candidate": embed_metrics(model, candidate_rows),
