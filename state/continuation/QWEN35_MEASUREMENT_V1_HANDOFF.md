@@ -154,3 +154,20 @@ Paste exactly:
 Then the new chat must fresh-read `thebrazenbeard/vera_model_training` branch `work/qwen35-measurement-devloop-v1-20260930`, read this handoff and `research/measurement/QWEN35_MEASUREMENT_SYSTEM_RESEARCH_20260930_V1.md`, continue the exact research sequence, surface hostile review in blockquotes in-chat, and commit/push small verified checkpoints. It must NOT build/freeze the 10,000-case bank until paired-power, benchmark composition, source/license/grader mapping, and independence design survive hostile review.
 
 Latest research-freeze commit before this recovery-command commit: `15f0a68eb923f938636c78fd3b03bb091f765896`.
+
+
+## Remote verification after research checkpoint
+
+Remote branch head read back exactly as:
+166fbc88e924e481ff4add906fbdadfc69be4860
+
+Verified committed research artifacts are present on that head:
+- successor/qwen35/measurement_v1/power.py
+- tests/test_qwen35_measurement_power_v1.py
+- research/measurement/QWEN35_MEASUREMENT_BENCHMARK_COMPOSITION_20260930_V1.md
+- research/measurement/QWEN35_MEASUREMENT_BANK_DESIGN_V1.json
+- research/measurement/QWEN35_MEASUREMENT_SYSTEM_RESEARCH_20260930_V1.md
+
+The power module/test suite has not been claimed as a live workstation execution
+result in this chat; the repository files and remote commits were read back.
+No final-bank rows were generated or admitted.
