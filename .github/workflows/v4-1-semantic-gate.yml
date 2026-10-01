@@ -9,6 +9,7 @@ on:
       - "successor/corpus/v4/custom/**"
       - "successor/corpus/v4_1/custom/**"
       - "successor/semantic_diversity_gate.py"
+      - "successor/corpus/v4_1/training_manifest.json"
       - ".github/workflows/v4-1-semantic-gate.yml"
   workflow_dispatch:
 
