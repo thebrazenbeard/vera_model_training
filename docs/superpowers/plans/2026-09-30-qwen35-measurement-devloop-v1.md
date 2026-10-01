@@ -80,3 +80,37 @@
 - https://livebench.github.io/ (objective ground truth and periodically refreshed questions).
 - https://github.com/stanford-crfm/helm (multi-scenario and multi-metric evaluation; maintenance mode since 2026-06-01).
 - https://huggingface.co/docs/trl/main/sft_trainer (completion-only loss & eval_dataset practices).
+
+
+## Research completion checkpoint — 2026-09-30
+
+The research freeze requested before bank construction has now resolved the two
+explicit design questions that were still open:
+
+1. Paired-power planning is implemented in
+   successor/qwen35/measurement_v1/power.py with regression tests.
+2. Benchmark composition and source/license/grader decisions are persisted in
+   research/measurement/QWEN35_MEASUREMENT_BENCHMARK_COMPOSITION_20260930_V1.md
+   and QWEN35_MEASUREMENT_BANK_DESIGN_V1.json.
+
+Current proposal:
+- 500 behavioral cases per H01-H20 = 10,000 behavioral cases;
+- 2,000 adversarial cases;
+- 1,500 retention cases;
+- 13,500 proposed weight-only cases;
+- 1,000 runtime/effect cases separately, never counted as model-only
+  qualification.
+
+The 500/H allocation is a planning regime, not an observed-power claim.
+It corresponds to a +0.10 secondary dimension MDE and survives the reference
+0.36 discordance / 1.45 design-effect scenario at approximately 80% planning
+power. The primary global +0.05 MDE has approximately 90% planning power by
+1,713 iid paired cases at the reference 0.41 discordance.
+
+Public benchmarks remain shadow/design inputs unless separately admitted.
+The final bank is still NOT BUILT. Independent reviewer identity, source
+authenticity/licensing, final-bank contamination controls, and one-shot final
+sealing remain admission gates.
+
+No model training, quantization, activation, deployment, or qualification
+effect was performed by this research checkpoint.
