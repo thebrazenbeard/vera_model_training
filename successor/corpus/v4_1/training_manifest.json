@@ -2,6 +2,7 @@
   "blind_plaintext_included": false,
   "corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V10",
   "custom_source": {
+    "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V10",
     "families": {
       "correction_uptake": 1000,
       "empathy_affective_response": 1000,
@@ -14,11 +15,12 @@
       "relationship_authority": 1000,
       "runtime_boundary": 1000
     },
+    "manifest_digest": "fd55b8356f5639c8b47a726066122576e7c99078e26fcad6be79d3a11e5251b1",
     "rows": 10000
   },
   "custom_validation_per_family": 50,
   "general_fraction": 0.81,
-  "manifest_sha256": "b2de1465d06e21c0d3e1444251cad68295d5f1bea898ee4e2777057440a8ea94",
+  "manifest_sha256": "5b1f4640bae39dfe4eeb3ce54d85a693343c0432d5dc3707ebf647b3aa9780ba",
   "rehearsal_source": {
     "adjustment_strategy": {
       "smoltalk_smollm3_explore_instruct_rewriting_no_think": 500,
