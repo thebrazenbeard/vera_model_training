@@ -41,12 +41,19 @@ def load_rehearsal_rows() -> tuple[list[dict], dict]:
 
 def load_custom_rows() -> tuple[list[dict], dict]:
     rows = []
-    families = {}
     for family in custom.v4.CORE_FAMILIES:
-        family_rows = custom.rows_for(family)
-        rows.extend(family_rows)
-        families[family] = len(family_rows)
-    return rows, {"rows": len(rows), "families": families}
+        rows.extend(custom.rows_for(family))
+
+    manifest = custom.build(None)
+    return rows, {
+        "corpus_id": manifest["corpus_id"],
+        "manifest_digest": manifest["manifest_digest"],
+        "rows": manifest["rows"],
+        "families": {
+            family: meta["rows"]
+            for family, meta in manifest["families"].items()
+        },
+    }
 
 
 def split_rows(custom_rows: list[dict], rehearsal_rows: list[dict]) -> tuple[list[dict], list[dict]]:
