@@ -1,6 +1,6 @@
 # Qwen3.5 Measurement System Research Checkpoint — 2026-09-30
 
-Status: RESEARCH FREEZE / BANK DESIGN NOT YET COMMITTED
+Status: RESEARCH CHECKPOINT / POWER + BENCHMARK COMPOSITION RESOLVED TO PROPOSAL; BANK BUILD STILL PAUSED
 
 Repository: `thebrazenbeard/vera_model_training`
 Branch: `work/qwen35-measurement-devloop-v1-20260930`
@@ -190,3 +190,23 @@ Fresh regression before `1c95cd5` push: 143 Qwen-focused tests passed.
 ## Claim ceiling
 
 `MEASUREMENT_FRAMEWORK_IMPLEMENTED / RESEARCH_INCOMPLETE / 10K_FINAL_BANK_NOT_BUILT / NO_NEW_MODEL_QUALIFICATION / NO_DEPLOYMENT`
+
+
+## Research conclusion checkpoint
+
+Paired-power and benchmark-composition research is now persisted in
+research/measurement/QWEN35_MEASUREMENT_BENCHMARK_COMPOSITION_20260930_V1.md
+and the machine-readable proposal
+research/measurement/QWEN35_MEASUREMENT_BANK_DESIGN_V1.json.
+
+The current proposal is 500 behavioral cases per H01-H20 (10,000 behavioral),
+plus 2,000 adversarial and 1,500 retention cases for a 13,500 weight-only
+bank. This is a proposal, not an approved freeze. Public benchmark suites are
+external shadow/design inputs rather than raw final-bank material unless a
+separate license, contamination, and admission decision explicitly permits
+otherwise.
+
+The remaining blocker is not a sample-size formula. It is real admission:
+independent reviewer identity/attestation, source authenticity/licensing,
+final-case independence from development, and a one-shot final seal. No bank
+construction should resume until that admission path is real.
