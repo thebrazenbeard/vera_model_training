@@ -44,6 +44,14 @@ def sample_rows(rows: list[dict], per_family: int = 60) -> list[dict]:
 def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
     texts = [row["response"] for row in rows]
     prompts = [row["prompt"] for row in rows]
+    intent_prompts = [
+        row["prompt"].replace(row["scenario_case"], "").strip()
+        for row in rows
+    ]
+    intent_responses = [
+        row["response"].replace(row["scenario_case"], "").strip()
+        for row in rows
+    ]
     response_embeddings = model.encode(
         texts,
         batch_size=64,
@@ -58,6 +66,31 @@ def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
         convert_to_numpy=True,
         show_progress_bar=False,
     )
+    intent_prompt_embeddings = model.encode(
+        intent_prompts,
+        batch_size=64,
+        normalize_embeddings=True,
+        convert_to_numpy=True,
+        show_progress_bar=False,
+    )
+    intent_response_embeddings = model.encode(
+        intent_responses,
+        batch_size=64,
+        normalize_embeddings=True,
+        convert_to_numpy=True,
+        show_progress_bar=False,
+    )
+    intent_alignment = np.sum(
+        intent_prompt_embeddings * intent_response_embeddings,
+        axis=1,
+    )
+    intent_permutation = np.array([(index * 7919 + 37) % len(rows) for index in range(len(rows))])
+    intent_mismatched_alignment = np.sum(
+        intent_prompt_embeddings[intent_permutation] * intent_response_embeddings,
+        axis=1,
+    )
+    intent_alignment_margin = intent_alignment - intent_mismatched_alignment
+
     alignment = np.sum(prompt_embeddings * response_embeddings, axis=1)
     permutation = np.array([(index * 7919 + 37) % len(rows) for index in range(len(rows))])
     mismatched_alignment = np.sum(
@@ -96,6 +129,10 @@ def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
         "mean_mismatched_prompt_response_cosine": round(float(np.mean(mismatched_alignment)), 6),
         "mean_prompt_response_alignment_margin": round(float(np.mean(alignment_margin)), 6),
         "prompt_response_beats_mismatch_fraction": round(float(np.mean(alignment > mismatched_alignment)), 6),
+        "scenario_stripped_prompt_response_cosine": round(float(np.mean(intent_alignment)), 6),
+        "scenario_stripped_mismatched_cosine": round(float(np.mean(intent_mismatched_alignment)), 6),
+        "scenario_stripped_alignment_margin": round(float(np.mean(intent_alignment_margin)), 6),
+        "scenario_stripped_beats_mismatch_fraction": round(float(np.mean(intent_alignment > intent_mismatched_alignment)), 6),
         "family_alignment": family_metrics,
         "mean_nearest_neighbor_cosine": round(float(np.mean(nearest)), 6),
         "median_nearest_neighbor_cosine": round(float(np.median(nearest)), 6),
@@ -148,7 +185,7 @@ def main() -> None:
     candidate_rows = sample_rows(read_rows(args.v41))
 
     result = {
-        "schema": "VERA_V4_V4_1_SEMANTIC_DIVERSITY_COMPARISON_V2",
+        "schema": "VERA_V4_V4_1_SEMANTIC_DIVERSITY_COMPARISON_V3",
         "embedding_model": args.model,
         "baseline": embed_metrics(model, baseline_rows),
         "candidate": embed_metrics(model, candidate_rows),
