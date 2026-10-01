@@ -49,6 +49,20 @@ jobs:
           print("V4.1 training arithmetic PASS")
           PY
 
+      - name: Verify current custom corpus lineage
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("successor/corpus/v4_1/custom/manifest.json").read_text())
+          assert manifest["corpus_id"].endswith("_V10")
+          assert manifest["rows"] == 10000
+          assert manifest["pair_uniqueness"] == 10000
+          assert manifest["response_uniqueness"] == 10000
+          assert all(meta["rows"] == 1000 for meta in manifest["families"].values())
+          print("Current custom corpus lineage PASS:", manifest["corpus_id"])
+          PY
+
       - name: Run semantic quality gate before training split
         env:
           HF_HUB_DISABLE_TELEMETRY: "1"
