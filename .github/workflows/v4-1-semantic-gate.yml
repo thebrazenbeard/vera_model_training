@@ -37,6 +37,20 @@ jobs:
           PYTHONPATH=. python successor/build_v4_1_diverse_corpus.py --output-dir /tmp/vera-v4.1-semantic
           python -m pytest -q tests/test_v4_1_diverse_corpus.py tests/test_v4_1_training_contract.py
 
+      - name: Verify committed V4.1 corpus manifest
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("successor/corpus/v4_1/custom/manifest.json").read_text())
+          assert manifest["rows"] == 10000
+          assert manifest["pair_uniqueness"] == 10000
+          assert manifest["response_uniqueness"] == 10000
+          assert manifest["corpus_id"].endswith("_V10")
+          assert all(meta["rows"] == 1000 for meta in manifest["families"].values())
+          print("Committed V4.1 manifest contract PASS:", manifest["corpus_id"])
+          PY
+
       - name: Run semantic diversity comparison
         env:
           HF_HUB_DISABLE_TELEMETRY: "1"
