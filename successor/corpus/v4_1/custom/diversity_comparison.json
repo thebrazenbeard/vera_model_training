@@ -27,44 +27,44 @@
     "unique_tokens": 735
   },
   "candidate": {
-    "distinct_2": 0.003726,
-    "distinct_3": 0.006996,
-    "distinct_4": 0.012489,
+    "distinct_2": 0.002991,
+    "distinct_3": 0.005193,
+    "distinct_4": 0.009009,
     "hapax_tokens": 0,
-    "response_gzip_ratio": 0.057455,
+    "response_gzip_ratio": 0.062693,
     "response_prefix": {
       "max_prefix_reuse": 690,
       "prefixes_used_by_more_than_1pct": 22,
       "unique_six_token_prefixes": 505
     },
     "rows": 10000,
-    "sampled_4gram_jaccard": 0.011547,
+    "sampled_4gram_jaccard": 0.023452,
     "sentence_count": {
-      "max": 6,
-      "mean": 4.395,
-      "min": 4
+      "max": 7,
+      "mean": 5.395,
+      "min": 5
     },
-    "sha256_response_stream": "9721dbe3876ca44f2e7900c9cd69decfcc2fb0a0d3690d5a6c46bf8f3ab181e2",
-    "tfidf_nearest_neighbor_cosine": 0.384773,
-    "tokens": 1463316,
-    "top100_bigram_mass": 0.234386,
-    "top100_token_mass": 0.616464,
-    "top100_trigram_mass": 0.155627,
-    "ttr": 0.00082,
-    "unique_tokens": 1200
+    "sha256_response_stream": "0ca1db80c44949e5cb20059d8b73adb235f81abcd3d6301331fec9d9e558e6f2",
+    "tfidf_nearest_neighbor_cosine": 0.421724,
+    "tokens": 1712889,
+    "top100_bigram_mass": 0.244531,
+    "top100_token_mass": 0.625795,
+    "top100_trigram_mass": 0.167035,
+    "ttr": 0.000702,
+    "unique_tokens": 1203
   },
   "delta": {
-    "distinct_2": 0.000829,
-    "distinct_3": 0.002394,
-    "distinct_4": 0.006141,
-    "response_gzip_ratio": 0.039231,
-    "sampled_4gram_jaccard": -0.063783,
-    "tfidf_nearest_neighbor_cosine": -0.111746,
-    "top100_bigram_mass": -0.075621,
-    "top100_token_mass": -0.041699,
-    "top100_trigram_mass": -0.074475,
-    "ttr": 4.4e-05,
-    "unique_tokens": 465
+    "distinct_2": 9.4e-05,
+    "distinct_3": 0.000591,
+    "distinct_4": 0.002661,
+    "response_gzip_ratio": 0.044469,
+    "sampled_4gram_jaccard": -0.051878,
+    "tfidf_nearest_neighbor_cosine": -0.074795,
+    "top100_bigram_mass": -0.065476,
+    "top100_token_mass": -0.032368,
+    "top100_trigram_mass": -0.063067,
+    "ttr": -7.4e-05,
+    "unique_tokens": 468
   },
   "interpretation": {
     "gzip_ratio_is_compression_not_a_quality_score": true,
