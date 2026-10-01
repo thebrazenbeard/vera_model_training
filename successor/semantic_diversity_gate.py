@@ -105,6 +105,36 @@ def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
     }
 
 
+def evaluate_quality_gate(baseline: dict, candidate: dict) -> dict:
+    family_deltas = {
+        family: candidate["family_alignment"][family]["mean_alignment_margin"]
+        - baseline["family_alignment"][family]["mean_alignment_margin"]
+        for family in FAMILIES
+    }
+    checks = {
+        "global_alignment_margin_gain_ge_0_05": candidate["mean_prompt_response_alignment_margin"]
+        - baseline["mean_prompt_response_alignment_margin"] >= 0.05,
+        "global_prompt_response_beats_mismatch_ge_0_85": candidate["prompt_response_beats_mismatch_fraction"] >= 0.85,
+        "global_nearest_neighbor_cosine_le_0_84": candidate["mean_nearest_neighbor_cosine"] <= 0.84,
+        "high_similarity_pair_fraction_le_0_0005": candidate["high_similarity_pair_fraction_ge_0_90"] <= 0.0005,
+        "low_prompt_response_fraction_le_0_05": candidate["prompt_response_below_0_25_fraction"] <= 0.05,
+        "every_family_alignment_margin_gain_ge_0_03": min(family_deltas.values()) >= 0.03,
+    }
+    return {
+        "passed": all(checks.values()),
+        "checks": checks,
+        "family_alignment_margin_delta": {
+            family: round(delta, 6)
+            for family, delta in sorted(family_deltas.items())
+        },
+        "interpretation": {
+            "project_regression_gate_not_universal_quality_score": True,
+            "thresholds_are_guardrails_against_known_v4_failure_modes": True,
+            "passing_does_not_prove_training_benefit": True,
+        },
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--v4", type=Path, required=True)
@@ -138,10 +168,16 @@ def main() -> None:
         if isinstance(result["candidate"][key], (int, float))
         and isinstance(result["baseline"][key], (int, float))
     }
+    result["quality_gate"] = evaluate_quality_gate(
+        result["baseline"],
+        result["candidate"],
+    )
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2, sort_keys=True))
+    if not result["quality_gate"]["passed"]:
+        raise SystemExit("V4.1 semantic quality gate FAILED")
 
 
 if __name__ == "__main__":
