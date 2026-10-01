@@ -90,6 +90,10 @@ jobs:
           assert manifest["training_authorization"] == "NOT_GRANTED"
           print("V4.1 training split contract PASS")
           PY
+      - name: Verify generated training lineage
+        run: |
+          python -m pytest -q tests/test_v4_1_training_contract.py
+
       - name: Commit manifest
         run: |
           git config user.name "github-actions[bot]"
