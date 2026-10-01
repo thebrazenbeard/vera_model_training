@@ -65,6 +65,66 @@ not third-party provenance. Final 10,000-case bank remains uncollected.
 **Next:** full Qwen test suite; push source defense; verify remote exact head;
 then inspect source SHA and representative-family risk.
 
+## Research result: power + benchmark composition (2026-09-30)
+
+Bank construction remains PAUSED, but the two research questions that blocked
+the design are now resolved to a proposal level.
+
+Power proposal:
+- primary global MDE remains +0.05 paired accuracy;
+- using the prior V4 behavioral base rate 0.77 only as a planning reference,
+  the 0.77 -> 0.82 marginal pair permits a maximum discordance of 0.41;
+- alpha=0.05, 90% power, discordance=0.41 gives about 1,713 iid paired cases
+  under the normal McNemar planning approximation;
+- for H01-H20, use +0.10 as the secondary dimension MDE;
+- at 0.77 -> 0.87 and discordance=0.36, about 275 iid cases gives 80% power;
+- with design effect 1.45 (10 cases/family, ICC=0.05), the reference becomes
+  about 399 cases; 500/H is therefore the proposed behavioral allocation;
+- clustered 90%-power at the same secondary reference is about 534/H, so the
+  proposal does not claim 90% per-dimension power;
+- proposed behavioral bank: 10,000 cases = 500 × H01-H20;
+- proposed weight-only total: 13,500 = 10,000 behavioral + 2,000 adversarial
+  + 1,500 retention;
+- runtime/effect cases remain a separate 1,000-case evidence lane and do not
+  become model-only qualification evidence.
+
+Benchmark composition proposal:
+- LiveBench: external shadow/design reference; latest public release observed
+  2026-06-25; raw import not adopted because current republishing terms were
+  not verified.
+- HELM: architecture/scenario-metric reference; Apache-2.0 framework, entered
+  maintenance mode 2026-06-01; raw case import not adopted.
+- IFEval: external shadow/grader reference; approximately 541 prompts with
+  deterministic instruction checks; Apache-2.0 metadata observed; not counted
+  toward the final bank.
+- MMLU-Pro: external retention shadow only; 12,032 test rows observed. The
+  code repository is Apache-2.0, while the distribution statement observed in
+  the NeurIPS supplement describes non-commercial use; raw import rejected.
+- GPQA: external shadow only; 448 main / 198 Diamond. GitHub code is MIT,
+  Hugging Face data is presented as CC-BY-4.0, and the dataset asks users not
+  to reveal examples publicly; raw copying/reprinting rejected.
+- TruthfulQA: external shadow/design reference; 817 questions, Apache-2.0
+  metadata observed; prefer its objective multiple-choice formulation over
+  GPT-judge generation scoring.
+- BigCodeBench: external coding shadow/grader reference; 1,140 tasks and
+  Apache-2.0 observed; local execution is useful as a grader design pattern.
+
+Judge policy:
+deterministic graders first; independent blind human review for genuinely
+semantic cases; LLM judges only as secondary diagnostics unless calibrated and
+tested for position/repetition bias; external review claims require real
+authenticated receipts.
+
+Persisted research:
+- research/measurement/QWEN35_MEASUREMENT_BENCHMARK_COMPOSITION_20260930_V1.md
+- research/measurement/QWEN35_MEASUREMENT_BANK_DESIGN_V1.json
+- successor/qwen35/measurement_v1/power.py
+- tests/test_qwen35_measurement_power_v1.py
+
+These artifacts are a bank-design proposal, not an admitted bank and not a
+model qualification. No training, quantization, activation, deployment, or
+protected effect was performed.
+
 ## Research freeze before 10k bank build
 
 Patrick stopped bank construction and required research first. Do NOT resume by
