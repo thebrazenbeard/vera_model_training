@@ -5,6 +5,7 @@ import json
 import pytest
 
 from successor.experiments.run_v10_retention_independent_audit import (
+    parse_model_blob_path,
     parse_review,
     review_prompt,
     summarize_reviews,
@@ -51,3 +52,8 @@ def test_summary_refuses_any_reject() -> None:
     assert result["status"] == "HOLD"
     assert result["admit"] == 1
     assert result["reject"] == 1
+
+
+def test_parse_model_blob_path_from_modelfile() -> None:
+    text = "FROM C:\\models\\blobs\\sha256-deadbeef\nPARAMETER temperature 0.1\n"
+    assert str(parse_model_blob_path(text)).endswith("sha256-deadbeef")

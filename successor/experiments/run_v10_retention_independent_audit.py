@@ -32,6 +32,42 @@ def sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
 
+def parse_model_blob_path(modelfile_text: str) -> Path:
+    for line in modelfile_text.splitlines():
+        if line.startswith("FROM "):
+            return Path(line[5:].strip().strip('"'))
+    raise RuntimeError("Ollama Modelfile has no FROM blob")
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(8 * 1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def reviewer_identity() -> dict:
+    shown = subprocess.run(
+        ["ollama", "show", MODEL, "--modelfile"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    blob_path = parse_model_blob_path(shown.stdout)
+    actual = sha256_file(blob_path)
+    if actual != MODEL_BLOB_SHA256:
+        raise RuntimeError(f"reviewer model blob mismatch: {actual}")
+    return {
+        "provider": "OLLAMA_LOCAL",
+        "model": MODEL,
+        "model_blob_sha256": actual,
+        "runtime": ollama_version(),
+        "temperature": 0,
+        "seed": SEED,
+    }
+
+
 def review_prompt(case: dict) -> str:
     subject = {
         "case_id": case["case_id"],
@@ -165,6 +201,7 @@ def run_audit(
     if packet_sha != packet_manifest["packet_sha256"]:
         raise RuntimeError("audit packet hash mismatch")
     packet = _read_jsonl(packet_path)
+    identity = reviewer_identity()
 
     prior: dict[str, dict] = {}
     if output_path.exists():
@@ -200,14 +237,7 @@ def run_audit(
         "packet_sha256": packet_sha,
         "sample_rows": len(packet),
         "review_output_sha256": sha256_bytes(raw),
-        "reviewer": {
-            "provider": "OLLAMA_LOCAL",
-            "model": MODEL,
-            "model_blob_sha256": MODEL_BLOB_SHA256,
-            "runtime": ollama_version(),
-            "temperature": 0,
-            "seed": SEED,
-        },
+        "reviewer": identity,
         "summary": summary,
         "claim_ceiling": (
             "INDEPENDENT_MODEL_SAMPLE_AUDIT_ONLY / "
