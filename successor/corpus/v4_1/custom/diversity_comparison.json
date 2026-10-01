@@ -27,44 +27,44 @@
     "unique_tokens": 735
   },
   "candidate": {
-    "distinct_2": 0.003932,
-    "distinct_3": 0.007482,
-    "distinct_4": 0.015489,
+    "distinct_2": 0.003884,
+    "distinct_3": 0.00735,
+    "distinct_4": 0.014825,
     "hapax_tokens": 0,
-    "response_gzip_ratio": 0.061484,
+    "response_gzip_ratio": 0.061308,
     "response_prefix": {
       "max_prefix_reuse": 690,
       "prefixes_used_by_more_than_1pct": 22,
       "unique_six_token_prefixes": 505
     },
     "rows": 10000,
-    "sampled_4gram_jaccard": 0.011624,
+    "sampled_4gram_jaccard": 0.011647,
     "sentence_count": {
       "max": 5,
       "mean": 3.415,
       "min": 3
     },
-    "sha256_response_stream": "a86940e738ee520ccc24f8eba7d4f34585735f2c327e237947acc446051c46cc",
-    "tfidf_nearest_neighbor_cosine": 0.350022,
-    "tokens": 1170792,
-    "top100_bigram_mass": 0.274508,
-    "top100_token_mass": 0.633464,
-    "top100_trigram_mass": 0.20345,
+    "sha256_response_stream": "f4c617ca0a6a4274c9bac4ff1ecdfc62b7c3ecfd28dcce9e1b5bfb05f2a72132",
+    "tfidf_nearest_neighbor_cosine": 0.349301,
+    "tokens": 1165416,
+    "top100_bigram_mass": 0.27709,
+    "top100_token_mass": 0.635123,
+    "top100_trigram_mass": 0.204388,
     "ttr": 0.000932,
-    "unique_tokens": 1091
+    "unique_tokens": 1086
   },
   "delta": {
-    "distinct_2": 0.001035,
-    "distinct_3": 0.00288,
-    "distinct_4": 0.009141,
-    "response_gzip_ratio": 0.04326,
-    "sampled_4gram_jaccard": -0.063706,
-    "tfidf_nearest_neighbor_cosine": -0.146497,
-    "top100_bigram_mass": -0.035499,
-    "top100_token_mass": -0.024699,
-    "top100_trigram_mass": -0.026652,
+    "distinct_2": 0.000987,
+    "distinct_3": 0.002748,
+    "distinct_4": 0.008477,
+    "response_gzip_ratio": 0.043084,
+    "sampled_4gram_jaccard": -0.063683,
+    "tfidf_nearest_neighbor_cosine": -0.147218,
+    "top100_bigram_mass": -0.032917,
+    "top100_token_mass": -0.02304,
+    "top100_trigram_mass": -0.025714,
     "ttr": 0.000156,
-    "unique_tokens": 356
+    "unique_tokens": 351
   },
   "interpretation": {
     "gzip_ratio_is_compression_not_a_quality_score": true,
