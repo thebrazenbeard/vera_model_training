@@ -27,6 +27,10 @@ def test_v41_generator_contract() -> None:
         for form in forms
     )
     assert set(generator.STYLE_ARTICLES) == set(generator.STYLE_MODES)
+    negative_cores = generator.v4.CONFIG["specs"]["negative_transfer_resistance"]["cores"]
+    assert len(negative_cores) == 5
+    assert all("408" not in core for core in negative_cores)
+    assert all("arithmetic" not in core.lower() for core in negative_cores)
 
 
 
