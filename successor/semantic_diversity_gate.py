@@ -45,11 +45,11 @@ def embed_metrics(model: SentenceTransformer, rows: list[dict]) -> dict:
     texts = [row["response"] for row in rows]
     prompts = [row["prompt"] for row in rows]
     intent_prompts = [
-        row["prompt"].replace(row["scenario_case"], "").strip()
+        row["prompt"].replace(row.get("scenario_case", ""), "").strip()
         for row in rows
     ]
     intent_responses = [
-        row["response"].replace(row["scenario_case"], "").strip()
+        row["response"].replace(row.get("scenario_case", ""), "").strip()
         for row in rows
     ]
     response_embeddings = model.encode(
