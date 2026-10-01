@@ -1,6 +1,6 @@
 {
   "blind_plaintext_included": false,
-  "corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V7",
+  "corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V10",
   "custom_source": {
     "families": {
       "correction_uptake": 1000,
@@ -18,7 +18,7 @@
   },
   "custom_validation_per_family": 50,
   "general_fraction": 0.81,
-  "manifest_sha256": "9c5e3d3eb60f7f060f4857ac34d7d7787d176898afac0f7d30223826f1cff937",
+  "manifest_sha256": "b2de1465d06e21c0d3e1444251cad68295d5f1bea898ee4e2777057440a8ea94",
   "rehearsal_source": {
     "adjustment_strategy": {
       "smoltalk_smollm3_explore_instruct_rewriting_no_think": 500,
@@ -109,7 +109,7 @@
     "stable_identity_evidence": 1900
   },
   "train_rows": 50000,
-  "train_sha256": "011450f4de0831c96822560bb0cdf74ba59493de7dc39989e6edafa12ebcb3b5",
+  "train_sha256": "04fbb3a2012ef3fd0506ad1188cc9f3b8d850161301fb9e0d00edd7f8ec78e90",
   "train_validation_overlap": 0,
   "training_authorization": "NOT_GRANTED",
   "validation_counts_by_source_class": {
@@ -123,6 +123,6 @@
     "stable_identity_evidence": 100
   },
   "validation_rows": 2500,
-  "validation_sha256": "2005500cfce5f112e92c1ba178040f2178bbbcb81cc5abae310f8b6dab9ce772",
+  "validation_sha256": "26e3387852283d399cea3df0758c3abf877d2884d298860668de7e5fe0b3bd93",
   "weight_change_performed": false
 }
