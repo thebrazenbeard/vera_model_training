@@ -34,8 +34,7 @@ jobs:
           python -m pip install --disable-pip-version-check \
             "datasets==4.1.1" \
             "transformers==5.14.1" \
-            "jinja2==3.1.6" \
-            "sentence-transformers==3.4.1"
+            "jinja2==3.1.6"
 
       - name: Verify V4.1 training arithmetic
         run: |
@@ -54,7 +53,9 @@ jobs:
         env:
           HF_HUB_DISABLE_TELEMETRY: "1"
         run: |
-          PYTHONPATH=. python successor/semantic_diversity_gate.py             --v4 successor/corpus/v4/custom             --v41 successor/corpus/v4_1/custom             --output /tmp/v4-1-semantic-receipt.json
+          python -m venv /tmp/v4-1-semantic-env
+          /tmp/v4-1-semantic-env/bin/pip install --disable-pip-version-check "sentence-transformers==3.4.1"
+          PYTHONPATH=. /tmp/v4-1-semantic-env/bin/python successor/semantic_diversity_gate.py             --v4 successor/corpus/v4/custom             --v41 successor/corpus/v4_1/custom             --output /tmp/v4-1-semantic-receipt.json
 
       - name: Build V4.1 train/validation split
         run: |
