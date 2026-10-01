@@ -54,3 +54,90 @@ def freeze_heldout_manifest(items, train_prompts, validation_prompts):
         "items": manifest_items,
         "set_sha256": set_digest,
     }
+
+
+def _read_json(path):
+    from pathlib import Path
+
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def _valid_sha256(value) -> bool:
+    if not isinstance(value, str) or len(value) != 64:
+        return False
+    return all(ch in "0123456789abcdef" for ch in value)
+
+
+def assess_v10_experiment_state(repo_root):
+    from pathlib import Path
+
+    root = Path(repo_root)
+    base = root / "successor" / "experiments"
+    contract = _read_json(base / "V10_QWEN35_EXPERIMENT_CONTRACT_V1.json")
+    admission = _read_json(base / "V10_QWEN35_FINAL_BANK_ADMISSION_V1.json")
+    exclusion = _read_json(base / "V10_QWEN35_EXCLUSION_REGISTRY_V1.json")
+
+    reasons = []
+    if contract.get("schema") != "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V1":
+        reasons.append("invalid_experiment_contract_schema")
+    if admission.get("schema") != "V10_QWEN35_FINAL_BANK_ADMISSION_V1":
+        reasons.append("invalid_final_bank_admission_schema")
+    if exclusion.get("schema") != "V10_QWEN35_EXCLUSION_REGISTRY_V1":
+        reasons.append("invalid_exclusion_registry_schema")
+    if admission.get("status") != "FINAL_BANK_ADMITTED_AND_FROZEN":
+        reasons.append("final_bank_cases_not_admitted")
+    if exclusion.get("status") != "FROZEN_EXCLUSION_IDENTITIES":
+        reasons.append("exclusion_registry_not_frozen")
+
+    preconditions = contract.get("blocking_preconditions")
+    if not isinstance(preconditions, dict):
+        reasons.append("blocking_preconditions_missing")
+        preconditions = {}
+    for key, value in sorted(preconditions.items()):
+        if value is not True:
+            reasons.append(key)
+
+    if preconditions.get("fresh_evaluation_bank_frozen") is True:
+        bank = contract.get("evaluation_bank", {})
+        required = ("behavioral", "adversarial", "retention")
+        if any(
+            not _valid_sha256(bank.get(lane, {}).get("sha256"))
+            for lane in required
+        ):
+            reasons.append("fresh_evaluation_bank_hashes_missing")
+
+    reasons = sorted(set(reasons))
+    ready = not reasons
+    return {
+        "schema": "V10_QWEN35_PREFLIGHT_V1",
+        "status": "READY_PRECONDITIONS" if ready else "HOLD",
+        "training_allowed": ready,
+        "reasons": reasons,
+        "effect": "READ_ONLY_PREFLIGHT_NO_WEIGHT_CHANGE",
+    }
+
+
+def _main(argv=None) -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--v10-preflight-root")
+    args = parser.parse_args(argv)
+    if args.v10_preflight_root is None:
+        return 0
+    try:
+        result = assess_v10_experiment_state(args.v10_preflight_root)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        result = {
+            "schema": "V10_QWEN35_PREFLIGHT_V1",
+            "status": "HOLD",
+            "training_allowed": False,
+            "reasons": ["preflight_input_error:" + str(exc)],
+            "effect": "READ_ONLY_PREFLIGHT_NO_WEIGHT_CHANGE",
+        }
+    print(json.dumps(result, sort_keys=True))
+    return 0 if result["training_allowed"] else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(_main())
