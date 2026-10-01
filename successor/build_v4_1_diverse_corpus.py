@@ -387,6 +387,8 @@ def candidate_for(family: str, index: int) -> dict:
         "response_style": style,
         "prompt": prompt,
         "response": response,
+        "behavioral_trigger": FAMILY_SCENARIO_SUFFIXES[family][index % len(FAMILY_SCENARIO_SUFFIXES[family])],
+        "scenario_resolution": resolution,
         "provenance": PROVENANCE,
         "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V8",
     }
