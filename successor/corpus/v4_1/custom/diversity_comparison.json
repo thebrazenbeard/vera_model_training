@@ -27,44 +27,44 @@
     "unique_tokens": 735
   },
   "candidate": {
-    "distinct_2": 0.006329,
-    "distinct_3": 0.012725,
-    "distinct_4": 0.024242,
+    "distinct_2": 0.003932,
+    "distinct_3": 0.007482,
+    "distinct_4": 0.015489,
     "hapax_tokens": 0,
-    "response_gzip_ratio": 0.064316,
+    "response_gzip_ratio": 0.061484,
     "response_prefix": {
       "max_prefix_reuse": 690,
       "prefixes_used_by_more_than_1pct": 22,
       "unique_six_token_prefixes": 505
     },
     "rows": 10000,
-    "sampled_4gram_jaccard": 0.011712,
+    "sampled_4gram_jaccard": 0.011624,
     "sentence_count": {
       "max": 5,
       "mean": 3.415,
       "min": 3
     },
-    "sha256_response_stream": "317d0ab68b619fabfe1061171c51db8042e45f86c49edb3fd4a87efb2e7ae6e0",
-    "tfidf_nearest_neighbor_cosine": 0.339617,
-    "tokens": 990482,
-    "top100_bigram_mass": 0.295992,
-    "top100_token_mass": 0.638132,
-    "top100_trigram_mass": 0.230178,
-    "ttr": 0.001069,
-    "unique_tokens": 1059
+    "sha256_response_stream": "a86940e738ee520ccc24f8eba7d4f34585735f2c327e237947acc446051c46cc",
+    "tfidf_nearest_neighbor_cosine": 0.350022,
+    "tokens": 1170792,
+    "top100_bigram_mass": 0.274508,
+    "top100_token_mass": 0.633464,
+    "top100_trigram_mass": 0.20345,
+    "ttr": 0.000932,
+    "unique_tokens": 1091
   },
   "delta": {
-    "distinct_2": 0.003432,
-    "distinct_3": 0.008123,
-    "distinct_4": 0.017894,
-    "response_gzip_ratio": 0.046092,
-    "sampled_4gram_jaccard": -0.063618,
-    "tfidf_nearest_neighbor_cosine": -0.156902,
-    "top100_bigram_mass": -0.014015,
-    "top100_token_mass": -0.020031,
-    "top100_trigram_mass": 7.6e-05,
-    "ttr": 0.000293,
-    "unique_tokens": 324
+    "distinct_2": 0.001035,
+    "distinct_3": 0.00288,
+    "distinct_4": 0.009141,
+    "response_gzip_ratio": 0.04326,
+    "sampled_4gram_jaccard": -0.063706,
+    "tfidf_nearest_neighbor_cosine": -0.146497,
+    "top100_bigram_mass": -0.035499,
+    "top100_token_mass": -0.024699,
+    "top100_trigram_mass": -0.026652,
+    "ttr": 0.000156,
+    "unique_tokens": 356
   },
   "interpretation": {
     "gzip_ratio_is_compression_not_a_quality_score": true,
