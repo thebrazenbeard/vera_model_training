@@ -34,13 +34,11 @@ def test_v41_training_manifest_tracks_custom_corpus_lineage() -> None:
         "10K_DIVERSE_CORE", "50K"
     )
     assert training_manifest["corpus_id"] == expected_training_id
+    assert training_manifest["custom_source"]["corpus_id"] == custom_manifest["corpus_id"]
+    assert training_manifest["custom_source"]["manifest_digest"] == custom_manifest["manifest_digest"]
     assert training_manifest["custom_source"]["rows"] == custom_manifest["rows"]
     assert training_manifest["custom_source"]["families"] == {
         family: meta["rows"]
         for family, meta in custom_manifest["families"].items()
     }
-
-    import hashlib
-    custom_manifest_bytes = (root / "custom" / "manifest.json").read_bytes()
-    assert training_manifest["manifest_sha256"] == hashlib.sha256(custom_manifest_bytes).hexdigest()
 
