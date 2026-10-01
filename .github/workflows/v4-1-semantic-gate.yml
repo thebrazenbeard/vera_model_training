@@ -35,7 +35,7 @@ jobs:
         run: |
           rm -rf /tmp/vera-v4.1-semantic
           PYTHONPATH=. python successor/build_v4_1_diverse_corpus.py --output-dir /tmp/vera-v4.1-semantic
-          python -m pytest -q tests/test_v4_1_diverse_corpus.py
+          python -m pytest -q tests/test_v4_1_diverse_corpus.py tests/test_v4_1_training_contract.py
 
       - name: Run semantic diversity comparison
         env:
