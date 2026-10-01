@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -203,9 +204,25 @@ def main() -> None:
     baseline_rows = sample_rows(read_rows(args.v4))
     candidate_rows = sample_rows(read_rows(args.v41))
 
+    candidate_manifest = json.loads(
+        (args.v41 / "manifest.json").read_text(encoding="utf-8")
+    )
+    training_manifest_path = args.v41.parent / "training_manifest.json"
+    training_manifest = (
+        json.loads(training_manifest_path.read_text(encoding="utf-8"))
+        if training_manifest_path.exists()
+        else {}
+    )
     result = {
-        "schema": "VERA_V4_V4_1_SEMANTIC_DIVERSITY_COMPARISON_V3",
+        "schema": "VERA_V4_V4_1_SEMANTIC_DIVERSITY_COMPARISON_V4",
         "embedding_model": args.model,
+        "provenance": {
+            "git_head": os.environ.get("GITHUB_SHA"),
+            "candidate_corpus_id": candidate_manifest["corpus_id"],
+            "candidate_manifest_digest": candidate_manifest["manifest_digest"],
+            "training_corpus_id": training_manifest.get("corpus_id"),
+            "training_custom_manifest_digest": training_manifest.get("custom_source", {}).get("manifest_digest"),
+        },
         "baseline": embed_metrics(model, baseline_rows),
         "candidate": embed_metrics(model, candidate_rows),
         "interpretation": {
