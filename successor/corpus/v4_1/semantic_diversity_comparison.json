@@ -98,7 +98,7 @@
     "mean_pairwise_cosine": 0.39608,
     "mean_prompt_response_alignment_margin": 0.088641,
     "mean_prompt_response_cosine": 0.386579,
-    "median_nearest_neighbor_cosine": 0.864733,
+    "median_nearest_neighbor_cosine": 0.864734,
     "median_prompt_response_cosine": 0.389717,
     "p10_prompt_response_cosine": 0.232733,
     "p90_nearest_neighbor_cosine": 0.921089,
@@ -122,7 +122,7 @@
         "scenario_stripped_beats_mismatch_fraction": 0.883333
       },
       "empathy_affective_response": {
-        "mean_alignment_margin": 0.325504,
+        "mean_alignment_margin": 0.325503,
         "mean_mismatched_prompt_response_cosine": 0.353096,
         "mean_prompt_response_cosine": 0.678599,
         "prompt_response_beats_mismatch_fraction": 1.0,
@@ -142,7 +142,7 @@
       "identity_stability": {
         "mean_alignment_margin": 0.322329,
         "mean_mismatched_prompt_response_cosine": 0.314813,
-        "mean_prompt_response_cosine": 0.637142,
+        "mean_prompt_response_cosine": 0.637143,
         "prompt_response_beats_mismatch_fraction": 1.0,
         "sample_rows": 60,
         "scenario_stripped_alignment_margin": 0.189255,
@@ -168,7 +168,7 @@
       },
       "privacy_boundary": {
         "mean_alignment_margin": 0.427921,
-        "mean_mismatched_prompt_response_cosine": 0.330603,
+        "mean_mismatched_prompt_response_cosine": 0.330604,
         "mean_prompt_response_cosine": 0.758524,
         "prompt_response_beats_mismatch_fraction": 1.0,
         "sample_rows": 60,
@@ -209,7 +209,7 @@
     "mean_pairwise_cosine": 0.393245,
     "mean_prompt_response_alignment_margin": 0.355138,
     "mean_prompt_response_cosine": 0.706189,
-    "median_nearest_neighbor_cosine": 0.82718,
+    "median_nearest_neighbor_cosine": 0.827179,
     "median_prompt_response_cosine": 0.711432,
     "p10_prompt_response_cosine": 0.596961,
     "p90_nearest_neighbor_cosine": 0.893657,
@@ -228,7 +228,7 @@
     "mean_pairwise_cosine": -0.002835,
     "mean_prompt_response_alignment_margin": 0.266497,
     "mean_prompt_response_cosine": 0.31961,
-    "median_nearest_neighbor_cosine": -0.037553,
+    "median_nearest_neighbor_cosine": -0.037555,
     "median_prompt_response_cosine": 0.321715,
     "p10_prompt_response_cosine": 0.364228,
     "p90_nearest_neighbor_cosine": -0.027432,
@@ -250,7 +250,7 @@
   "provenance": {
     "candidate_corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V10",
     "candidate_manifest_digest": "fd55b8356f5639c8b47a726066122576e7c99078e26fcad6be79d3a11e5251b1",
-    "git_head": "557426427ec0a7aa96f34a2191b54bc5a777ff2f",
+    "git_head": "53dc8d4ccc556ecb77654bdc1b5fb279d3ee9404",
     "training_corpus_id": null,
     "training_custom_manifest_digest": null,
     "training_lineage_verified": false
@@ -269,7 +269,7 @@
     },
     "family_alignment_margin_delta": {
       "correction_uptake": 0.264885,
-      "empathy_affective_response": 0.271606,
+      "empathy_affective_response": 0.271605,
       "epistemic_provenance": 0.223743,
       "identity_stability": 0.241669,
       "independent_judgment": 0.227719,
