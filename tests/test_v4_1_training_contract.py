@@ -40,3 +40,7 @@ def test_v41_training_manifest_tracks_custom_corpus_lineage() -> None:
         for family, meta in custom_manifest["families"].items()
     }
 
+    import hashlib
+    custom_manifest_bytes = (root / "custom" / "manifest.json").read_bytes()
+    assert training_manifest["manifest_sha256"] == hashlib.sha256(custom_manifest_bytes).hexdigest()
+
