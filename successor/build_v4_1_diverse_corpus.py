@@ -9,7 +9,7 @@ from pathlib import Path
 from successor import build_v4_custom_corpus as v4
 
 SCHEMA = "VERA_V4_1_DIVERSE_BEHAVIOR_SFT_ROW_V1"
-PROVENANCE = "BV_V4_1_DIVERSE_CORE_20260930_V4"
+PROVENANCE = "BV_V4_1_DIVERSE_CORE_20260930_V5"
 EXPECTED_ROWS = 10_000
 ROWS_PER_FAMILY = 1_000
 
@@ -488,7 +488,7 @@ def candidate_for(family: str, index: int) -> dict:
         "prompt": prompt,
         "response": response,
         "provenance": PROVENANCE,
-        "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V4",
+        "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V5",
     }
     if spec.get("runtime"):
         row["generalized_behavioral_lesson"] = True
@@ -520,7 +520,7 @@ def git_blob_sha1(data: bytes) -> str:
 def build(output_dir: Path | None) -> dict:
     manifest = {
         "schema": "VERA_V4_1_DIVERSE_CORPUS_MANIFEST_V1",
-        "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V4",
+        "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V5",
         "rows": 0,
         "families": {},
         "design": {
