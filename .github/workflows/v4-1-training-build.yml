@@ -9,6 +9,7 @@ on:
       - "successor/build_v4_1_hf_rehearsal.py"
       - "successor/build_v4_1_training_corpus.py"
       - "successor/corpus/v4_1/custom/**"
+      - "successor/corpus/v4_1/semantic_diversity_comparison.json"
       - ".github/workflows/v4-1-training-build.yml"
   workflow_dispatch:
 
@@ -47,6 +48,17 @@ jobs:
           assert training.EXPECTED_VALIDATION_ROWS == 2500
           assert training.EXPECTED_TRAIN_ROWS + training.EXPECTED_VALIDATION_ROWS == 52500
           print("V4.1 training arithmetic PASS")
+          PY
+
+      - name: Require semantic quality gate
+        run: |
+          test -f successor/corpus/v4_1/semantic_diversity_comparison.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          receipt = json.loads(Path("successor/corpus/v4_1/semantic_diversity_comparison.json").read_text())
+          assert receipt["quality_gate"]["passed"] is True
+          print("V4.1 semantic quality gate PASS")
           PY
 
       - name: Build V4.1 train/validation split
