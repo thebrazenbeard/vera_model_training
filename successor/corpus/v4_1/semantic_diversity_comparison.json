@@ -250,10 +250,11 @@
   "provenance": {
     "candidate_corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V10",
     "candidate_manifest_digest": "fd55b8356f5639c8b47a726066122576e7c99078e26fcad6be79d3a11e5251b1",
-    "git_head": "53dc8d4ccc556ecb77654bdc1b5fb279d3ee9404",
-    "training_corpus_id": null,
-    "training_custom_manifest_digest": null,
-    "training_lineage_verified": false
+    "git_head": "83115eb40fa6e39e5e15b97f292d943b6c01c246",
+    "training_corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V10",
+    "training_custom_manifest_digest": "fd55b8356f5639c8b47a726066122576e7c99078e26fcad6be79d3a11e5251b1",
+    "training_lineage_verified": true,
+    "training_manifest_path": "successor/corpus/v4_1/training_manifest.json"
   },
   "quality_gate": {
     "checks": {
