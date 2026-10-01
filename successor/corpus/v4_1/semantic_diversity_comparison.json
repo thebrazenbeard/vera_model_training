@@ -78,7 +78,7 @@
     "mean_pairwise_cosine": 0.39608,
     "mean_prompt_response_alignment_margin": 0.088641,
     "mean_prompt_response_cosine": 0.386579,
-    "median_nearest_neighbor_cosine": 0.864733,
+    "median_nearest_neighbor_cosine": 0.864734,
     "median_prompt_response_cosine": 0.389717,
     "p10_prompt_response_cosine": 0.232733,
     "p90_nearest_neighbor_cosine": 0.921089,
@@ -101,8 +101,8 @@
       },
       "empathy_affective_response": {
         "mean_alignment_margin": 0.218798,
-        "mean_mismatched_prompt_response_cosine": 0.331695,
-        "mean_prompt_response_cosine": 0.550493,
+        "mean_mismatched_prompt_response_cosine": 0.331696,
+        "mean_prompt_response_cosine": 0.550494,
         "prompt_response_beats_mismatch_fraction": 0.95,
         "sample_rows": 60
       },
@@ -135,7 +135,7 @@
         "sample_rows": 60
       },
       "privacy_boundary": {
-        "mean_alignment_margin": 0.252464,
+        "mean_alignment_margin": 0.252465,
         "mean_mismatched_prompt_response_cosine": 0.266343,
         "mean_prompt_response_cosine": 0.518808,
         "prompt_response_beats_mismatch_fraction": 0.933333,
@@ -151,7 +151,7 @@
       "relationship_authority": {
         "mean_alignment_margin": 0.256597,
         "mean_mismatched_prompt_response_cosine": 0.230045,
-        "mean_prompt_response_cosine": 0.486642,
+        "mean_prompt_response_cosine": 0.486643,
         "prompt_response_beats_mismatch_fraction": 1.0,
         "sample_rows": 60
       },
@@ -188,7 +188,7 @@
     "mean_pairwise_cosine": -0.061926,
     "mean_prompt_response_alignment_margin": 0.133141,
     "mean_prompt_response_cosine": 0.149765,
-    "median_nearest_neighbor_cosine": -0.055614,
+    "median_nearest_neighbor_cosine": -0.055615,
     "median_prompt_response_cosine": 0.153252,
     "p10_prompt_response_cosine": 0.102669,
     "p90_nearest_neighbor_cosine": -0.040064,
@@ -223,7 +223,7 @@
       "identity_stability": 0.14497,
       "independent_judgment": 0.119823,
       "negative_transfer_resistance": 0.191015,
-      "privacy_boundary": 0.112284,
+      "privacy_boundary": 0.112285,
       "reciprocal_identity_continuity": 0.082293,
       "relationship_authority": 0.15931,
       "runtime_boundary": 0.163535
