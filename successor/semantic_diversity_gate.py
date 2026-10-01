@@ -197,6 +197,12 @@ def main() -> None:
     parser.add_argument("--v4", type=Path, required=True)
     parser.add_argument("--v41", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--training-manifest",
+        type=Path,
+        default=None,
+        help="Optional committed training manifest to bind into the semantic receipt.",
+    )
     parser.add_argument("--model", default="sentence-transformers/all-MiniLM-L6-v2")
     args = parser.parse_args()
 
@@ -207,7 +213,7 @@ def main() -> None:
     candidate_manifest = json.loads(
         (args.v41 / "manifest.json").read_text(encoding="utf-8")
     )
-    training_manifest_path = args.v41.parent / "training_manifest.json"
+    training_manifest_path = args.training_manifest or (args.v41.parent / "training_manifest.json")
     training_manifest = (
         json.loads(training_manifest_path.read_text(encoding="utf-8"))
         if training_manifest_path.exists()
@@ -227,6 +233,7 @@ def main() -> None:
             "candidate_corpus_id": candidate_manifest["corpus_id"],
             "candidate_manifest_digest": candidate_manifest["manifest_digest"],
             "training_corpus_id": training_manifest.get("corpus_id"),
+            "training_manifest_path": str(training_manifest_path) if training_manifest else None,
             "training_custom_manifest_digest": training_manifest.get("custom_source", {}).get("manifest_digest"),
             "training_lineage_verified": training_lineage_verified,
         },
