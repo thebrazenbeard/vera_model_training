@@ -16,6 +16,7 @@ def test_v41_generator_contract() -> None:
     assert len(generator.COGNITIVE_LEVELS) == 5
     assert len(generator.REQUEST_FORMS) == 10
     assert len(generator.SURFACE_PREFIXES) == 8
+    assert set(generator.COGNITIVE_RESPONSE_FORMS) == {name for name, _ in generator.COGNITIVE_LEVELS}
     assert len(generator.FRAMES) == 12
     assert len(generator.SCENARIO_RESOLUTIONS) == 10
     assert len(generator.FAMILY_BRIDGES) == 10
@@ -63,6 +64,8 @@ def test_v41_committed_shards_match_generator() -> None:
         assert all("do not assertion" not in row["response"].lower() for row in committed)
         assert all(row["behavioral_trigger"] for row in committed)
         assert all(row["scenario_resolution"] for row in committed)
+        assert all(row["cognitive_level"] in row["response"] for row in committed)
+
         assert all(row["scenario_case"] in row["scenario_resolution"] for row in committed)
 
         total += len(committed)
