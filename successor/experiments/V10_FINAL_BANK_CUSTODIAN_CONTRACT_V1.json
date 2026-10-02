@@ -4,7 +4,11 @@
   "status": "FROZEN_REQUIREMENTS_NO_CUSTODIANS_BOUND",
   "composition_subject": {
     "proposal_path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md",
-    "proposal_blob_sha": "92852974cf9c8a86c77e091795122b0b411d162c"
+    "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
+    "generation_spec_path": "successor/experiments/V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1.json",
+    "generation_spec_sha256": "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0",
+    "grader_spec_path": "successor/experiments/V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1.json",
+    "grader_spec_sha256": "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
   },
   "behavioral": {
     "dimensions": "H01-H20",
@@ -73,7 +77,7 @@
   },
   "pretraining_sequence": [
     "bind custodians and human author/reviewer pools",
-    "freeze generation and grader specifications",
+    "verify amended composition proposal plus frozen generation and grader specifications",
     "generate plaintext inside independent custody lane",
     "hash raw generation bundles immediately",
     "run exact/normalized exclusion",
@@ -84,5 +88,5 @@
     "publish non-plaintext sealed commitment to training lane"
   ],
   "current_binding_present": false,
-  "claim_ceiling": "CUSTODIAN_REQUIREMENTS_FROZEN / IDENTITIES_UNBOUND / NO_FINAL_BANK / NO_TRAINING"
+  "claim_ceiling": "CUSTODIAN_REQUIREMENTS_AND_NONPLAINTEXT_SPECS_FROZEN / IDENTITIES_UNBOUND / NO_FINAL_BANK / NO_TRAINING"
 }
