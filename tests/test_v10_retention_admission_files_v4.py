@@ -124,6 +124,7 @@ def _fixture(tmp_path: Path) -> dict[str, Path]:
         "family_audit_v4": {
             "protocol_sha256": protocol_sha,
             "runner_sha256": runner_sha,
+            "v3_rows_reusable": False,
         },
     })
     policy_sha = _sha(policy)
