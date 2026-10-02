@@ -1,0 +1,71 @@
+{
+  "schema": "V10_V11_ADAPTIVE_LATENT_TRAINING_BOUNDARY_V1",
+  "date": "2026-10-02",
+  "status": "PROGRAM_BOUNDARY_FROZEN_NO_NEW_TRAINING_AUTHORITY",
+  "sources": {
+    "v10_experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_20261001_V2",
+    "adaptive_latent_pr": 70,
+    "adaptive_latent_head": "bd4afb70960d5669d1404be8408c889681631398",
+    "hardened_v10_execution_branch": "fix/v10-training-knobs-v2-20261002",
+    "hardened_v10_execution_head": "eb62a056e622e071b2940d53a0b7bd443582be80"
+  },
+  "lineage": [
+    {
+      "subject": "V10",
+      "role": "FULL_CONTEXT_CONTROL",
+      "training_method": "FRESH_4BIT_QLORA_SFT",
+      "architecture_change": false,
+      "status": "PREREGISTERED_BLOCKED_NO_AUTHORITY",
+      "may_reuse_current_v10_final_bank": true
+    },
+    {
+      "subject": "V10-S1",
+      "role": "STRUCTURED_STATE_BOTTLENECK_AND_RESOLUTION_FAULT",
+      "training_method": "FRESH_4BIT_QLORA_SFT",
+      "architecture_change": false,
+      "status": "PROPOSED_NEW_EXPERIMENT",
+      "may_reuse_current_v10_final_bank": false,
+      "requires_new_banks": [
+        "matched_full_vs_state",
+        "late_relevance",
+        "resolution_fault",
+        "supersession_after_compression",
+        "backing_reference_integrity"
+      ]
+    },
+    {
+      "subject": "V11",
+      "role": "LEARNED_CONTINUOUS_LATENT_BOTTLENECK",
+      "training_method": "CUSTOM_STATE_CODEC_PLUS_FROZEN_OR_QLORA_LIMITED_DECODER",
+      "architecture_change": true,
+      "status": "PROPOSED_RESEARCH_EXPERIMENT",
+      "qlora_alone_is_sufficient": false,
+      "teacher_strategy": "OFFLINE_FULL_CONTEXT_TARGET_GENERATION",
+      "requires_new_banks": [
+        "matched_full_state_latent",
+        "late_relevance",
+        "unexpected_future_query",
+        "exactness_and_false_reconstruction",
+        "resolution_fault_and_rehydration"
+      ]
+    }
+  ],
+  "v10_mutation_policy": "DO_NOT_MUTATE_PREREGISTERED_V10_TO_ADD_LATENT_CURRICULUM",
+  "reason": "V10 supplies the Stage-0 full-context control needed to attribute later gains or losses to state bottlenecks and latent representation rather than to curriculum drift.",
+  "exact_evidence_firewall": "LOSSY_REPRESENTATION_NEVER_COUNTS_AS_EXACT_EVIDENCE_WITHOUT_VERIFIED_BACKING_OR_MEASURED_EXACT_RECONSTRUCTION",
+  "hardware": {
+    "target": "RTX_3050_LAPTOP_4GB",
+    "paid_compute_authorized": false,
+    "v10_s1_strategy": "REUSE_PROVEN_4BIT_QLORA_MECHANICS_ON_NEW_SUBJECT",
+    "v11_strategy": "SMALL_CODEC_PLUS_FROZEN_OR_QLORA_LIMITED_DECODER_WITH_OFFLINE_TEACHER_TARGETS",
+    "infeasible_policy": "HOLD_NOT_PAID_COMPUTE_SUBSTITUTION"
+  },
+  "authority": {
+    "v10_existing_authority": false,
+    "v10_s1_requires_new_exact_authority": true,
+    "v11_requires_new_exact_authority": true,
+    "merge_authorized": false,
+    "deploy_install_activate_authorized": false
+  },
+  "claim_ceiling": "PROGRAM_ARCHITECTURE_ONLY / NO_V10_MUTATION / NO_V10_S1_OR_V11_TRAINING / NO_WEIGHT_CHANGE"
+}
