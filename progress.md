@@ -1,7 +1,7 @@
 docs/plans/2026-10-02-retention-audit-architecture-v4-repair.md
 Task 1: complete
-Task 2: in_progress
-Task 3: pending
+Task 2: complete
+Task 3: in_progress
 Task 4: pending
 
 Previous Architecture V2/V3 ledger:
