@@ -2,8 +2,8 @@ docs/plans/2026-10-02-retention-audit-architecture-v2-implementation.md
 Task 1: complete
 Task 2: complete
 Task 3: complete
-Task 4: in_progress
-Task 5: pending
+Task 4: complete
+Task 5: in_progress
 
 Previous ledger:
 docs/superpowers/plans/2026-10-01-v10-qwen35-preregistered-experiment.md
