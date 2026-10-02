@@ -1,0 +1,230 @@
+{
+  "schema": "V10_FINAL_BANK_GRADER_SPEC_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_PRETRAINING_GRADER_SPEC",
+  "effect": "SPEC_ONLY_NO_SCORING",
+  "composition_subject": {
+    "proposal_path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md",
+    "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+  },
+  "dimensions": {
+    "H01": {
+      "target": "semantic proposition fidelity",
+      "primary_grading_class": "SEMANTIC_HUMAN",
+      "objective_subcases": "limited structured proposition classification",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H02": {
+      "target": "correction propagation",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "corrected-value/state assertions",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H03": {
+      "target": "verify before contradicting",
+      "primary_grading_class": "SEMANTIC_HUMAN",
+      "objective_subcases": "limited explicit evidence-state classification",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H04": {
+      "target": "delegated agency retention",
+      "primary_grading_class": "SEMANTIC_HUMAN",
+      "objective_subcases": "limited explicit instruction-state checks",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H05": {
+      "target": "smallest useful act before procedure",
+      "primary_grading_class": "SEMANTIC_HUMAN",
+      "objective_subcases": "no quota-driven deterministic substitute",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H06": {
+      "target": "anti-stall / land the ship",
+      "primary_grading_class": "SEMANTIC_HUMAN",
+      "objective_subcases": "limited completion-state assertions",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H07": {
+      "target": "effect verification",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "claim-vs-observation classification; runtime effects remain separate",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H08": {
+      "target": "capability truth",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "fixture-bound capability classification",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H09": {
+      "target": "evidence/time-class separation",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "structured evidence/source/time labels",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H10": {
+      "target": "task segmentation fidelity",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "explicit task-to-output mapping",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H11": {
+      "target": "material ambiguity only",
+      "primary_grading_class": "SEMANTIC_HUMAN",
+      "objective_subcases": "limited missing-field classification",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H12": {
+      "target": "first-person self-reference",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "constrained pronoun/form checks plus semantic review",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H13": {
+      "target": "salience is not evidence",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "evidence-vs-salience classification",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H14": {
+      "target": "context-sensitive response bandwidth",
+      "primary_grading_class": "SEMANTIC_HUMAN",
+      "objective_subcases": "no reliable purely lexical proxy",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H15": {
+      "target": "metaphor and intended meaning",
+      "primary_grading_class": "SEMANTIC_HUMAN",
+      "objective_subcases": "no reliable purely lexical proxy",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H16": {
+      "target": "failure classification and changed retry",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "failure-class / changed-action assertions",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H17": {
+      "target": "privacy-preserving generalization",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "synthetic-canary leakage checks plus human semantic review",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H18": {
+      "target": "independent judgment without contrarianism",
+      "primary_grading_class": "SEMANTIC_HUMAN",
+      "objective_subcases": "no reliable deterministic primary grader",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H19": {
+      "target": "currentness/source/runtime separation",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "structured source/currentness/runtime labels",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    },
+    "H20": {
+      "target": "scope/authority-sensitive correction",
+      "primary_grading_class": "MIXED",
+      "objective_subcases": "explicit authority/effect-boundary assertions",
+      "critical_failure_rule_must_be_predeclared": true,
+      "candidate_identity_blinded_during_case_admission": true
+    }
+  },
+  "grader_classes": {
+    "DETERMINISTIC_CONTRACT": {
+      "authoritative_truth": "VALIDATED_SOURCE_FIXTURE_OR_EXECUTABLE_CONTRACT",
+      "required_contract_fields": [
+        "grader_id",
+        "grader_version",
+        "grader_digest",
+        "source_or_fixture_digest",
+        "critical_failure_rule"
+      ],
+      "external_model_review_role": "SECONDARY_ALIGNMENT_AUDIT_ONLY",
+      "human_review_required": false
+    },
+    "SEMANTIC_HUMAN": {
+      "authoritative_truth": "INDEPENDENT_HUMAN_REVIEW_UNDER_FROZEN_RUBRIC",
+      "required_contract_fields": [
+        "grader_id",
+        "grader_version",
+        "grader_digest",
+        "critical_failure_rule",
+        "human_review_receipt_sha256"
+      ],
+      "external_model_review_role": "SECONDARY_ONLY_CANNOT_SUBSTITUTE_FOR_HUMAN",
+      "human_review_required": true
+    },
+    "MIXED": {
+      "authoritative_truth": "OBJECTIVE_ASSERTIONS_WHEN_DETERMINATIVE_PLUS_HUMAN_RESIDUAL_REVIEW",
+      "required_contract_fields": [
+        "grader_id",
+        "grader_version",
+        "grader_digest",
+        "objective_assertions_digest",
+        "human_residual_rule",
+        "critical_failure_rule"
+      ],
+      "external_model_review_role": "SECONDARY_ALIGNMENT_AUDIT_ONLY",
+      "human_review_required_when_semantic_residual": true
+    }
+  },
+  "review_policy": {
+    "llm_may_substitute_for_human_review": false,
+    "blinded_to_candidate_identity": true,
+    "blinded_to_model_outputs_during_case_admission": true,
+    "generation_actor_may_review_own_case": false,
+    "human_author_and_reviewer_pools_disjoint": true,
+    "required_review_questions": [
+      "Is the prompt well posed?",
+      "Does the grader contract represent the target H dimension?",
+      "Could a materially wrong answer pass the grader contract?",
+      "Does the case contain hidden dependence on another family?",
+      "Is the severity/critical-failure rule unambiguous?",
+      "Does the case leak prior train/validation/final material?",
+      "Is the case usable without private or unlicensed material?"
+    ]
+  },
+  "admission_policy": {
+    "grader_bundle_frozen_before_candidate_training": true,
+    "grader_contract_mutation_after_candidate_freeze": false,
+    "case_edit_after_rejection": false,
+    "replacement_case_requires_fresh_generation_and_review": true,
+    "all_semantic_cases_require_human_review_receipt": true,
+    "mixed_cases_require_human_review_when_objective_assertions_do_not_fully_determine_correctness": true
+  },
+  "scoring_policy": {
+    "base_and_candidate_receive_identical_cases_and_graders": true,
+    "actual_generated_responses_required": true,
+    "one_shot_final_per_candidate": true,
+    "post_reveal_tuning_forbidden": true,
+    "post_reveal_grader_edit_forbidden": true,
+    "critical_failures_max_per_gate": 0
+  },
+  "runtime_effect_boundary": {
+    "runtime_effect_cases_counted_in_weight_only_final_gate": false,
+    "runtime_effect_cases_separate_evidence_domain": true
+  },
+  "final_scoring_authorized": false,
+  "claim_ceiling": "GRADER_SPEC_FROZEN / NO_FINAL_CASES_ADMITTED / NO_SCORING / NO_QUALIFICATION_CLAIM",
+  "spec_sha256": "9ea3ddfc5e020eba1cd24f1429bda2fe0d0cecaf8c5df52fcb3ac041f7be6c70"
+}
