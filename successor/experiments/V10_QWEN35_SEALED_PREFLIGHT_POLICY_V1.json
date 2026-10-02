@@ -1,0 +1,56 @@
+{
+  "schema": "V10_QWEN35_SEALED_PREFLIGHT_POLICY_V1",
+  "date": "2026-10-01",
+  "status": "MECHANISM_FROZEN_NO_FINAL_BANK_OR_TRAINING_AUTHORITY_GRANTED",
+  "source_contract": {
+    "schema": "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V2",
+    "experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_20261001_V2"
+  },
+  "sealed_final_bank": {
+    "commitment_filename": "V10_SEALED_FINAL_BANK_COMMITMENT_V1.json",
+    "required_schema": "V10_SEALED_FINAL_BANK_COMMITMENT_V1",
+    "self_hash_required": true,
+    "plaintext_forbidden": true,
+    "may_derive_preconditions": [
+      "fresh_evaluation_bank_frozen",
+      "independent_bank_admission_verified",
+      "semantic_contamination_screen_verified"
+    ],
+    "may_not_derive": [
+      "qwen_token_budget_no_overflow_verified",
+      "zero_cost_execution_target_bound",
+      "exact_training_runtime_versions_bound",
+      "patrick_exact_weight_change_authority"
+    ],
+    "trust_boundary": "Validates committed counts, hashes, custody metadata, and admission receipt states without revealing final plaintext. It does not independently prove a human identity or review honesty before reveal; later reveal must hash-match the commitment, and Patrick's exact training authority remains separate."
+  },
+  "training_authority": {
+    "receipt_filename": "V10_QWEN35_TRAINING_AUTHORITY_V1.json",
+    "receipt_must_not_exist_until_explicit_exact_user_authority": true,
+    "contract_boolean_alone_is_insufficient": true,
+    "required_bindings": [
+      "experiment_id",
+      "base_model_revision",
+      "training_corpus_id",
+      "train_sha256",
+      "validation_sha256",
+      "training_recipe_sha256",
+      "sealed_final_bank_commitment_sha256",
+      "effect=TRAIN_ONE_FRESH_QLORA_ADAPTER",
+      "max_training_runs=1",
+      "output_namespace"
+    ],
+    "protected_effect_boundaries": {
+      "paid_compute_authorized": false,
+      "merge_authorized": false,
+      "install_activate_deploy_authorized": false
+    },
+    "self_hash_required": true
+  },
+  "current_state": {
+    "sealed_final_bank_commitment_present": false,
+    "exact_training_authority_present": false,
+    "training_allowed": false
+  },
+  "claim_ceiling": "SEALED_PREFLIGHT_AND_AUTHORITY_MECHANISM_VERIFIED / NO_FINAL_BANK_COMMITMENT / NO_TRAINING_AUTHORITY / NO_WEIGHT_CHANGE"
+}
