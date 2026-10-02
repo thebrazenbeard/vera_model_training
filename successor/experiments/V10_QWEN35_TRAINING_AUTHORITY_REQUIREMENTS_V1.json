@@ -21,9 +21,17 @@
     "validation_sha256",
     "training_recipe_sha256",
     "sealed_final_bank_commitment_sha256",
+    "training_runtime_binding_sha256",
     "output_namespace",
     "receipt_sha256"
   ],
   "issuance_rule": "Create the actual V10_QWEN35_TRAINING_AUTHORITY_V1.json only after Patrick explicitly authorizes the exact bound weight-changing run in the current task.",
-  "claim_ceiling": "REQUIREMENTS_ONLY / DOES_NOT GRANT AUTHORITY"
+  "claim_ceiling": "REQUIREMENTS_ONLY / DOES_NOT GRANT AUTHORITY",
+  "runtime_binding": {
+    "filename": "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json",
+    "required_status": "FROZEN_TARGET_RUNTIME_SUPPLEMENT",
+    "expected_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "contract_boolean_alone_is_insufficient": true,
+    "live_reverification_required_immediately_before_weight_change": true
+  }
 }
