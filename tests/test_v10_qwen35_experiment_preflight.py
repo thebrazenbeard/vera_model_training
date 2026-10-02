@@ -154,7 +154,11 @@ def _v2_sealed_hold_fixture(root: Path) -> None:
             "status": "PREREGISTERED_BLOCKED",
             "experiment_id": "experiment-v2-test",
             "base_model": {
+                "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
                 "revision": "a" * 40,
+                "parent_adapter": None,
+                "fresh_adapter_required": True,
+                "mutable_revision_allowed": False,
             },
             "source_subject": {
                 "training_corpus_id": "corpus-v10-qwen512",
@@ -165,6 +169,34 @@ def _v2_sealed_hold_fixture(root: Path) -> None:
                 "method": "QLORA_SFT_ONLY",
                 "seed": 20261001,
                 "epochs": 1.0,
+                "learning_rate": 2e-5,
+                "lr_scheduler_type": "cosine",
+                "warmup_optimizer_steps": 3,
+                "per_device_train_batch_size": 1,
+                "gradient_accumulation_steps": 8,
+                "max_length": 512,
+                "overflow_policy": "ERROR_NO_TRUNCATION",
+                "optimizer": "adamw_torch",
+                "completion_only_loss": True,
+                "packing": False,
+                "shuffle_dataset": True,
+                "gradient_checkpointing": True,
+                "quantization": {
+                    "load_in_4bit": True,
+                    "type": "nf4",
+                    "double_quant": True,
+                    "compute_dtype": "bfloat16",
+                },
+                "lora": {
+                    "r": 4,
+                    "alpha": 16,
+                    "dropout": 0.0,
+                    "target_modules": "all-linear",
+                },
+                "validation_role": (
+                    "POST_TRAIN_DIAGNOSTIC_ONLY_"
+                    "NO_RECIPE_OR_CHECKPOINT_SELECTION"
+                ),
                 "runtime_target": {
                     "base_path": r"D:\\VERA\\models\\latest-trained\\base",
                     "cost_class": "LOCAL_ZERO_INCREMENTAL_COMPUTE_COST",
