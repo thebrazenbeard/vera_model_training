@@ -22,6 +22,7 @@
     "training_recipe_sha256",
     "sealed_final_bank_commitment_sha256",
     "training_runtime_binding_sha256",
+    "training_execution_binding_sha256",
     "output_namespace",
     "receipt_sha256"
   ],
@@ -33,5 +34,14 @@
     "expected_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
     "contract_boolean_alone_is_insufficient": true,
     "live_reverification_required_immediately_before_weight_change": true
+  },
+  "execution_binding": {
+    "filename": "V10_QWEN35_TRAINING_EXECUTION_BINDING_V1.json",
+    "expected_binding_sha256": "d618a0f8beedabdf1074b082e8f2692814770764b739ec935a7f95531e970555",
+    "runner_path": "successor/experiments/train_v10_qwen35_authorized.py",
+    "runner_git_blob_sha": "50327d8bde79e66abcf4101475988d036086b5e9",
+    "execution_spec_path": "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
+    "execution_spec_sha256": "4e290ff6be1b1d51be446c7ca3c7c22af3ccac2dbdc9395c17a3994c9335bd20",
+    "authority_must_bind_exact_execution_subject": true
   }
 }
