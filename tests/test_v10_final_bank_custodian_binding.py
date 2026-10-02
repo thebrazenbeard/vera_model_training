@@ -14,9 +14,9 @@ def _valid_binding() -> dict:
         "schema": "V10_FINAL_BANK_CUSTODIAN_BINDING_V1",
         "status": "BOUND_FOR_PRETRAINING_SEALED_BANK",
         "composition_subject": {
-            "proposal_blob_sha": "92852974cf9c8a86c77e091795122b0b411d162c",
-            "generation_spec_sha256": _sha("1"),
-            "grader_spec_sha256": _sha("2"),
+            "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
+            "generation_spec_sha256": "afb2a7a5a9df224bf7b3f250724eccd5ebce84cd8629cafc052e9aaf4c5087e1",
+            "grader_spec_sha256": "9ea3ddfc5e020eba1cd24f1429bda2fe0d0cecaf8c5df52fcb3ac041f7be6c70",
         },
         "synthetic_custodians": {
             "A": {
@@ -134,3 +134,28 @@ def test_plaintext_fields_are_forbidden_in_public_binding() -> None:
         reason.startswith("plaintext_field_present:")
         for reason in result["reasons"]
     )
+
+
+
+def test_binding_rejects_wrong_generation_spec_digest() -> None:
+    value = _valid_binding()
+    value["composition_subject"]["generation_spec_sha256"] = _sha("a")
+    result = validate_custodian_binding(value)
+    assert result["status"] == "HOLD"
+    assert "composition_generation_spec_sha256_mismatch" in result["reasons"]
+
+
+def test_binding_rejects_wrong_grader_spec_digest() -> None:
+    value = _valid_binding()
+    value["composition_subject"]["grader_spec_sha256"] = _sha("b")
+    result = validate_custodian_binding(value)
+    assert result["status"] == "HOLD"
+    assert "composition_grader_spec_sha256_mismatch" in result["reasons"]
+
+
+def test_binding_rejects_stale_composition_proposal_blob() -> None:
+    value = _valid_binding()
+    value["composition_subject"]["proposal_blob_sha"] = "0" * 40
+    result = validate_custodian_binding(value)
+    assert result["status"] == "HOLD"
+    assert "composition_proposal_blob_sha_mismatch" in result["reasons"]
