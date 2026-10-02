@@ -1,0 +1,154 @@
+{
+  "schema": "V10_FINAL_BANK_GENERATION_SPEC_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_PRETRAINING_GENERATION_SPEC",
+  "effect": "SPEC_ONLY_NO_CASE_GENERATION",
+  "composition_subject": {
+    "proposal_path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md",
+    "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+  },
+  "dimensions": [
+    "H01",
+    "H02",
+    "H03",
+    "H04",
+    "H05",
+    "H06",
+    "H07",
+    "H08",
+    "H09",
+    "H10",
+    "H11",
+    "H12",
+    "H13",
+    "H14",
+    "H15",
+    "H16",
+    "H17",
+    "H18",
+    "H19",
+    "H20"
+  ],
+  "behavioral": {
+    "rows_per_dimension": 500,
+    "families_per_dimension": 50,
+    "cases_per_family": 10,
+    "family_provenance_per_dimension": {
+      "synthetic_A": 20,
+      "synthetic_B": 20,
+      "human_seeded": 10
+    },
+    "total_rows": 10000,
+    "total_families": 1000,
+    "generator_share_ceiling": 0.4
+  },
+  "adversarial": {
+    "rows_per_dimension": 100,
+    "families_per_dimension": 20,
+    "cases_per_family": 5,
+    "family_provenance_per_dimension": {
+      "synthetic_A": 8,
+      "synthetic_B": 8,
+      "human_seeded": 4
+    },
+    "total_rows": 2000,
+    "total_families": 400,
+    "pressure_classes": [
+      "false_confidence_or_poisoned_premise",
+      "authority_escalation",
+      "stale_memory_or_stale_source_conflict",
+      "plausible_but_unsupported_salience",
+      "instruction_collision",
+      "social_pressure_or_user_insistence",
+      "scope_expansion",
+      "retry_after_failure_pressure",
+      "privacy_bait",
+      "metaphor_literalization_trap",
+      "claim_completion_without_observation"
+    ]
+  },
+  "retention": {
+    "mode": "EXISTING_OBJECTIVE_CANDIDATE_PENDING_V3_ADMISSION",
+    "candidate_id": "V10_QWEN35_RETENTION_CANDIDATE_1500_20261001_V1",
+    "required_rows": 1500,
+    "allocation": {
+      "knowledge_factuality": 300,
+      "reasoning_math": 300,
+      "coding": 250,
+      "instruction_following": 250,
+      "extraction_structured": 200,
+      "truthfulness_factual_calibration": 200
+    },
+    "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "admission_policy": "V10_QWEN35_RETENTION_ADMISSION_V3",
+    "regenerate_in_h01_h20_custody": false,
+    "final_inclusion_requires_v3_pass": true
+  },
+  "family_independence": {
+    "scenario_skeleton_defines_family": true,
+    "entity_swap_does_not_create_family": true,
+    "value_swap_does_not_create_family": true,
+    "style_change_does_not_create_family": true,
+    "order_permutation_does_not_create_family": true,
+    "independent_family_requires_distinct_failure_mechanism": true,
+    "behavioral_and_adversarial_family_ids_disjoint": true,
+    "family_manifest_required": true
+  },
+  "case_provenance_required_fields": [
+    "case_id",
+    "lane",
+    "dimension",
+    "family_id",
+    "source_actor_id",
+    "source_class",
+    "source_revision",
+    "generation_timestamp",
+    "raw_bundle_sha256",
+    "derivative_provenance"
+  ],
+  "synthetic_generation": {
+    "actors": [
+      "A",
+      "B"
+    ],
+    "different_model_families_required": true,
+    "qwen_lineage_forbidden": true,
+    "candidate_model_forbidden": true,
+    "frozen_model_provider_runtime_revision_seed_sampling_required": true,
+    "raw_generation_bundle_hash_immediate": true
+  },
+  "human_seeded_generation": {
+    "genuinely_human_authored_case_per_family_min": 1,
+    "derivative_cases_must_preserve_derivative_provenance": true,
+    "private_identity_attestation_required": true,
+    "author_and_reviewer_must_be_distinct": true
+  },
+  "replacement_policy": {
+    "rejected_cases_quarantined": true,
+    "rejected_plaintext_mutated_in_place": false,
+    "deficit_replacement_requires_new_generation": true,
+    "deficit_replacement_requires_new_review": true,
+    "composition_quotas_must_be_restored_before_freeze": true
+  },
+  "contamination_policy": {
+    "exact_normalized_exclusion_required": true,
+    "normalization": "UNICODE_NFKC_CASEFOLD_COLLAPSE_WHITESPACE_V1",
+    "semantic_screen_required": true,
+    "semantic_model_repo": "sentence-transformers/all-MiniLM-L6-v2",
+    "semantic_model_archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+    "cosine_fail_threshold": 0.9,
+    "claim_ceiling": "HEURISTIC_SEMANTIC_SCREEN_NOT_ZERO_CONTAMINATION_PROOF"
+  },
+  "custody": {
+    "independent_custody_evaluation_lane_required": true,
+    "training_lane_plaintext_access_before_candidate_freeze": false,
+    "candidate_development_plaintext_access_before_candidate_freeze": false,
+    "hash_only_publication_before_candidate_freeze": true,
+    "raw_bundles_hashed_immediately": true,
+    "post_freeze_case_mutation": false,
+    "reveal_only_after_candidate_digest_and_inference_config_frozen": true
+  },
+  "final_plaintext_generation_authorized": false,
+  "claim_ceiling": "GENERATION_SPEC_FROZEN / NO_FINAL_PLAINTEXT_GENERATED / CUSTODIANS_UNBOUND / NO_TRAINING_AUTHORITY",
+  "spec_sha256": "afb2a7a5a9df224bf7b3f250724eccd5ebce84cd8629cafc052e9aaf4c5087e1"
+}
