@@ -215,3 +215,66 @@ A future model claim must bind:
 - peak memory measurement method;
 - exact result artifacts;
 - independent or at least separately executed hostile review proportional to the claim.
+
+## Kaggle zero-cost accelerator lane
+
+Kaggle is an approved candidate compute lane for later neural experiments under the existing zero-monetary-cost constraint.
+
+As of 2026-10-02, Kaggle has retired the general P100 notebook accelerator and identifies T4x2 as the general replacement. A T4x2 notebook provides two NVIDIA T4 GPUs with 16 GB of VRAM each. Kaggle also exposes notebook/kernel creation and execution through its public API/CLI. Availability and quotas remain external runtime facts and must be re-read before each campaign rather than frozen as permanent project assumptions.
+
+Relevant current references:
+- Kaggle notebook/runtime docs: https://www.kaggle.com/docs/notebooks
+- Kaggle API docs: https://www.kaggle.com/docs/api
+- P100 retirement/T4x2 replacement announcement: https://www.kaggle.com/product-announcements/735239
+
+### Good fits
+
+Use Kaggle for experiments that materially benefit from accelerator access:
+
+- SPM learned latent bottleneck/LoRA training;
+- compact-memory-token and codec experiments;
+- late-relevance curriculum training;
+- dual-GPU data-parallel or split experimental runs where T4x2 topology is suitable;
+- local-model measurement of peak GPU memory, prefill/decode latency, and task fidelity;
+- repeated frozen benchmark runs that emit downloadable result manifests.
+
+Do not move Vera's deterministic exact-backed memory/runtime contract onto Kaggle. That substrate must remain locally executable and provider-independent.
+
+### Kaggle experiment contract
+
+Each submitted notebook/kernel must be reconstructible from source and bind:
+
+- repository + exact commit;
+- dataset/training manifest digest;
+- base model/revision;
+- adapter/codec revision;
+- notebook/kernel source digest;
+- accelerator actually observed at runtime;
+- software/runtime versions;
+- random seeds;
+- requested and observed compression budget;
+- peak GPU memory measurement;
+- exact output/result artifact digests;
+- claim ceiling.
+
+Kaggle output is experimental evidence, not canonical runtime state.
+
+### Secrets and authentication
+
+The owner has made a Kaggle API token available for this workstream. The token itself must not be committed, printed into logs, embedded in notebooks, placed in datasets, or copied into result artifacts. Configure it only through an ignored local credential/environment surface or Kaggle-supported secret mechanism.
+
+The current workstation did not expose a configured Kaggle CLI/token file at the time this section was written. Credential setup should happen immediately before the first Kaggle experiment and be verified with a minimal read-only/authenticated command before any notebook push or execution.
+
+### First Kaggle campaign
+
+After Vera V1's deterministic context benchmark is frozen:
+
+1. export the late-relevance corpus and exact expected-answer manifest;
+2. create a small SPM/Qwen-derived learned latent bottleneck experiment;
+3. run a full-context control and several fixed latent budgets on the same frozen holdout;
+4. measure task fidelity, exact-detail recovery, false reconstruction, rehydration frequency, peak VRAM, and latency separately;
+5. retain all notebook source, environment metadata, and result JSON;
+6. compare against the local deterministic multi-resolution baseline before making any model-level compression claim.
+
+A Kaggle win means measured model-level savings/fidelity on an exact experimental subject. It does not retroactively convert Vera's external context compression into a provider-internal KV/VRAM claim.
+
