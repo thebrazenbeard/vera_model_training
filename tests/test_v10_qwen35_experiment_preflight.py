@@ -253,6 +253,9 @@ def _v2_sealed_hold_fixture(root: Path) -> None:
     )
     runner_path.parent.mkdir(parents=True, exist_ok=True)
     runner_path.write_bytes(runner_raw)
+    evaluator_path = root / "successor/evaluate_successor.py"
+    evaluator_path.parent.mkdir(parents=True, exist_ok=True)
+    evaluator_path.write_bytes(TEST_PREFLIGHT_RAW)
     _write_json(
         root,
         "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
@@ -316,6 +319,9 @@ def _runtime_binding() -> dict:
     return value
 
 
+TEST_PREFLIGHT_RAW = b"# bound test preflight evaluator\n"
+
+
 def _execution_spec() -> dict:
     return {
         "schema": "V10_QWEN35_TRAINING_EXECUTION_SPEC_V1",
@@ -336,6 +342,13 @@ def _execution_spec() -> dict:
             "packing": False,
             "shuffle_dataset": True,
             "gradient_checkpointing": True,
+            "bf16": True,
+            "tf32": True,
+            "gradient_checkpointing_use_reentrant": False,
+            "logging_steps": 10,
+            "save_strategy": "no",
+            "eval_strategy": "no",
+            "report_to": "none",
             "validation_role": (
                 "POST_TRAIN_DIAGNOSTIC_ONLY_NO_RECIPE_OR_CHECKPOINT_SELECTION"
             ),
@@ -346,11 +359,19 @@ def _execution_spec() -> dict:
             "double_quant": True,
             "compute_dtype": "bfloat16",
         },
+        "model_load": {
+            "device_map": {"": 0},
+            "dtype": "bfloat16",
+            "use_cache": False,
+            "prepare_model_for_kbit_training_use_gradient_checkpointing": True,
+        },
         "lora": {
             "r": 4,
             "alpha": 16,
             "dropout": 0.0,
             "target_modules": "all-linear",
+            "bias": "none",
+            "task_type": "CAUSAL_LM",
         },
         "artifact_policy": {
             "fresh_adapter_only": True,
@@ -386,6 +407,10 @@ def _test_execution_binding() -> tuple[dict, bytes, dict]:
                 "train_v10_qwen35_authorized.py"
             ),
             "git_blob_sha": _git_blob_sha(runner_raw),
+        },
+        "preflight_evaluator": {
+            "path": "successor/evaluate_successor.py",
+            "git_blob_sha": _git_blob_sha(TEST_PREFLIGHT_RAW),
         },
         "execution_spec": {
             "path": (
