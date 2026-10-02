@@ -74,6 +74,8 @@ def reviewer_identity() -> dict:
         "temperature": TEMPERATURE,
         "seed": SEED,
         "url": OLLAMA_URL,
+        "format": "json",
+        "stream": False,
     }
 
 

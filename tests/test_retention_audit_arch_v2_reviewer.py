@@ -276,3 +276,30 @@ def test_batched_reviewer_qualification_uses_six_eight_control_calls() -> None:
     assert result["batch_size"] == 8
     assert result["batch_count"] == 6
     assert len(calls) == 6
+
+
+def test_reviewer_identity_reports_transport_fields(monkeypatch) -> None:
+    import successor.experiments.retention_audit_arch_v2_reviewer as reviewer
+
+    monkeypatch.setattr(
+        reviewer,
+        "_model_blob_path",
+        lambda: reviewer.Path("ignored"),
+    )
+    monkeypatch.setattr(
+        reviewer,
+        "_sha256_file",
+        lambda _: reviewer.MODEL_BLOB_SHA256,
+    )
+    monkeypatch.setattr(
+        reviewer,
+        "ollama_version",
+        lambda: "ollama version is 0.34.2",
+    )
+
+    identity = reviewer.reviewer_identity()
+
+    assert identity["format"] == "json"
+    assert identity["stream"] is False
+    assert identity["seed"] == 20261002
+    assert identity["temperature"] == 0
