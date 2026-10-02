@@ -81,6 +81,15 @@ Any subject mutation after first successor output forces HOLD and a new lineage.
 
 Validate every retention row. Do not sample mechanical validity.
 
+The canonical 1,500-row candidate intentionally stores source identifiers and source hashes but does not embed source_evidence. Architecture V2 therefore owns an independent source-resolution layer before validation:
+
+- location-backed rows are resolved from the frozen 2026-09-20T1335Z location manifest and the manifest bytes must hash to bf5a2dc0bb0f1ba15f7149e9fa1184aa632f280a72fe306c154a9e05cfacab29 before any row is evaluated;
+- generated-code and generated-instruction source records are reconstructed independently from source_id, prompt, and grader metadata;
+- Architecture V2 must not import `_coding_spec`, `_instruction_spec`, `reference_coding_source`, `reference_instruction_output`, or other generator answer-producing helpers;
+- every reconstructed source record must hash exactly to the row's frozen source_hash before the validator may use it.
+
+A source-resolution failure is BINDING_DEFECT, not BANK_DEFECT.
+
 Each row is routed by contract family into one validator class.
 
 ### A. Direct source lookup validator

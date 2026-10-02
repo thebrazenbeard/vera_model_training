@@ -30,8 +30,8 @@
 - Create: `tests/test_retention_audit_arch_v2_validators.py`
 
 **Interfaces:**
-- Consumes candidate row dictionaries.
-- Produces `validator_class_for_row(row)`, `validate_row_mechanically(row)`, and `validate_candidate_mechanically(rows)`.
+- Consumes candidate row dictionaries plus independently resolved source evidence.
+- Produces `resolve_source_evidence(row, *, location_manifest=None)`, `validator_class_for_row(row)`, `validate_row_mechanically(row, *, source_evidence=None)`, and `validate_candidate_mechanically(rows, *, location_manifest=None)`.
 
 - [ ] **Step 1: Add failing tests**
   Cover all six classes: direct source lookup, source arithmetic, evidence calibration, generated code, generated instruction, structured extraction. Include good controls and one mechanically seeded defect per class.
@@ -39,7 +39,7 @@
   Run `python -m pytest -q tests/test_retention_audit_arch_v2_validators.py`.
   Expected: collection/import failure because the module is absent.
 - [ ] **Step 3: Implement minimum behavior**
-  Independently recompute source hashes, prompt/source/grader relationships, answer keys, instruction constraints, code contract metadata, and extraction output. Do not import answer-producing functions from candidate generation or `retention_graders.py`.
+  Add an Architecture V2 source resolver. Location rows come only from the exact pinned location manifest SHA-256; generated code/instruction records are reconstructed from source_id + prompt + grader metadata. Independently recompute source hashes, prompt/source/grader relationships, answer keys, instruction constraints, code contract metadata, and extraction output. Do not import answer-producing functions from candidate generation or `retention_graders.py`.
 - [ ] **Step 4: Verify green**
   Run the focused test file; expect all pass.
 - [ ] **Step 5: Regression check**
