@@ -10,6 +10,14 @@ from successor.experiments.sealed_final_bank_commitment import (
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 
+EXPECTED_PROPOSAL_BLOB_SHA = "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+EXPECTED_GENERATION_SPEC_SHA256 = (
+    "afb2a7a5a9df224bf7b3f250724eccd5ebce84cd8629cafc052e9aaf4c5087e1"
+)
+EXPECTED_GRADER_SPEC_SHA256 = (
+    "9ea3ddfc5e020eba1cd24f1429bda2fe0d0cecaf8c5df52fcb3ac041f7be6c70"
+)
+
 
 def _nonempty(value) -> bool:
     return isinstance(value, str) and bool(value.strip())
@@ -156,12 +164,20 @@ def validate_custodian_binding(binding: dict) -> dict:
         and bool(_GIT_SHA.fullmatch(proposal_blob))
     ):
         reasons.append("composition_proposal_blob_sha_invalid")
-    for field in (
-        "generation_spec_sha256",
-        "grader_spec_sha256",
-    ):
-        if not _sha256(subject.get(field)):
-            reasons.append(f"composition_{field}_invalid")
+    elif proposal_blob != EXPECTED_PROPOSAL_BLOB_SHA:
+        reasons.append("composition_proposal_blob_sha_mismatch")
+
+    generation_sha = subject.get("generation_spec_sha256")
+    if not _sha256(generation_sha):
+        reasons.append("composition_generation_spec_sha256_invalid")
+    elif generation_sha != EXPECTED_GENERATION_SPEC_SHA256:
+        reasons.append("composition_generation_spec_sha256_mismatch")
+
+    grader_sha = subject.get("grader_spec_sha256")
+    if not _sha256(grader_sha):
+        reasons.append("composition_grader_spec_sha256_invalid")
+    elif grader_sha != EXPECTED_GRADER_SPEC_SHA256:
+        reasons.append("composition_grader_spec_sha256_mismatch")
 
     synthetic = binding.get("synthetic_custodians")
     if not isinstance(synthetic, dict):
