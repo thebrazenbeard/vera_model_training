@@ -307,3 +307,96 @@ def test_plan_only_never_loads_training_stack(monkeypatch, tmp_path: Path) -> No
     )
     assert result["status"] == "HOLD"
     assert called is False
+
+
+
+class _FakeTokenizer:
+    eos_token = "<eos>"
+
+    def apply_chat_template(
+        self,
+        messages,
+        *,
+        tokenize,
+        add_generation_prompt,
+        enable_thinking=False,
+    ):
+        assert tokenize is False
+        assert add_generation_prompt is True
+        assert enable_thinking is False
+        return "USER " + messages[0]["content"] + " ASSISTANT"
+
+    def __call__(self, text, *, add_special_tokens=False):
+        assert add_special_tokens is False
+        return {"input_ids": text.split()}
+
+
+def test_prepare_sft_rows_enforces_no_truncation_budget() -> None:
+    tok = _FakeTokenizer()
+    rows = [{"prompt": "short", "response": "answer"}]
+    prepared, report = runner.prepare_sft_rows(
+        tok,
+        rows,
+        max_length=16,
+    )
+    assert len(prepared) == 1
+    assert report["over_budget"] == 0
+
+    long_rows = [
+        {
+            "prompt": " ".join(["p"] * 10),
+            "response": " ".join(["r"] * 10),
+        }
+    ]
+    with pytest.raises(runner.TrainingHold, match="token budget exceeded"):
+        runner.prepare_sft_rows(
+            tok,
+            long_rows,
+            max_length=8,
+        )
+
+
+def test_lora_target_coverage_requires_all_three_families() -> None:
+    good = [
+        "model.layers.0.linear_attn.in_proj_qkv",
+        "model.layers.1.self_attn.q_proj",
+        "model.layers.2.mlp.gate_proj",
+    ]
+    result = runner.validate_lora_target_coverage(good)
+    assert result["status"] == "PASS"
+    with pytest.raises(runner.TrainingHold, match="LoRA coverage incomplete"):
+        runner.validate_lora_target_coverage(good[:2])
+
+
+def test_execute_hold_never_loads_stack_or_touches_output(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.setattr(
+        runner,
+        "assess_preflight",
+        lambda root: {
+            "status": "HOLD",
+            "training_allowed": False,
+            "reasons": ["patrick_exact_weight_change_authority"],
+            "training_authority": {"status": "ABSENT"},
+        },
+    )
+    called = False
+
+    def loader():
+        nonlocal called
+        called = True
+        raise AssertionError("training stack must not load")
+
+    output = tmp_path / "run"
+    with pytest.raises(runner.TrainingHold, match="preflight HOLD"):
+        runner.execute_authorized_training(
+            tmp_path,
+            train_jsonl=tmp_path / "missing-train.jsonl",
+            validation_jsonl=tmp_path / "missing-validation.jsonl",
+            output_dir=output,
+            training_stack_loader=loader,
+        )
+    assert called is False
+    assert not output.exists()
