@@ -5,7 +5,9 @@
   "composition_subject": {
     "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
     "generation_spec_sha256": "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0",
-    "grader_spec_sha256": "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
+    "grader_spec_sha256": "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0",
+    "family_manifest_spec_sha256": "657ed4b9bfa6af2a059720c288f7f05d8c1bdfb5aba965956e3f5a771062ce69",
+    "diversity_diagnostic_spec_sha256": "fd3380bcbc10b89229bc03eea17bfe108f66394d8b168e352a1e6c9ba469be84"
   },
   "synthetic_custodians": {
     "A": {
@@ -58,7 +60,13 @@
     "synthetic_A_and_B_must_be_different_non_Qwen_model_families": true,
     "human_author_and_reviewer_actor_ids_must_be_disjoint": true,
     "do_not_add_final_plaintext_to_this_file": true,
-    "verify_with": "successor/experiments/verify_v10_final_bank_custodian_handoff.py"
+    "verify_with": "successor/experiments/verify_v10_final_bank_custodian_handoff.py",
+    "verify_exact_specs": [
+      "generation_spec_sha256",
+      "grader_spec_sha256",
+      "family_manifest_spec_sha256",
+      "diversity_diagnostic_spec_sha256"
+    ]
   },
   "claim_ceiling": "TEMPLATE_ONLY / NO IDENTITIES BOUND / NO FINAL PLAINTEXT / NOT READY FOR GENERATION / NO TRAINING"
 }
