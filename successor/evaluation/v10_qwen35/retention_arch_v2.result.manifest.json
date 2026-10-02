@@ -1,0 +1,83 @@
+{
+  "admission": {
+    "defect_classes": [
+      "AUDIT_METHOD_DEFECT",
+      "BINDING_DEFECT",
+      "REVIEWER_DEFECT"
+    ],
+    "reasons": [
+      "reviewer_not_qualified",
+      "semantic_audit_not_complete",
+      "semantic_row_count:0",
+      "semantic_packet_case_ids_mismatch",
+      "reconciliation_hold",
+      "reconciliation_defects_present"
+    ],
+    "status": "RETENTION_HOLD_ARCH_V2"
+  },
+  "artifacts": {
+    "admission_result": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v2.admission.result.json",
+      "sha256": "9d3a2efcbeff53b3edb96514e9c766ebe8ef752a6656fc884ca2d8fc005df4bf"
+    },
+    "execution_binding_v2": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V2_EXECUTION_BINDING_V2.json",
+      "sha256": "6ec781e6db02e8c50cea81ae54432f15dc64ce4e858eeb6ebf8925b47fd70b5c"
+    },
+    "reconciliation": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v2.reconciliation.json",
+      "sha256": "e9c808fd12eda69947ca7b5fc91ce510fc12d9e5b9bf030961ef2418466e749d"
+    },
+    "reviewer_qualification": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v2.reviewer_qualification.json",
+      "sha256": "bf544fc6dc1096fbed238fda3eecf6a51ac451ed632887f0e30d62cb6f8a54c0"
+    },
+    "semantic_receipt": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v2.semantic.receipt.json",
+      "sha256": "759b2d989ce2686c666cd3ae7f6f28dc9f530220ff52e39786c942cc9201a5a7"
+    }
+  },
+  "boundaries": {
+    "candidate_changed": false,
+    "semantic_packet_changed": false,
+    "semantic_packet_consumed": false,
+    "training_started": false,
+    "weights_changed": false
+  },
+  "date": "2026-10-02",
+  "primary_failure": {
+    "batch_count": 4,
+    "failed_batch_case_ids": [
+      "arch-v2-reviewer-underspecified_output_format-defect-0",
+      "arch-v2-reviewer-underspecified_output_format-good-0",
+      "arch-v2-reviewer-underspecified_output_format-defect-1",
+      "arch-v2-reviewer-underspecified_output_format-good-1",
+      "arch-v2-reviewer-underspecified_output_format-defect-2",
+      "arch-v2-reviewer-underspecified_output_format-good-2",
+      "arch-v2-reviewer-underspecified_output_format-defect-3",
+      "arch-v2-reviewer-underspecified_output_format-good-3"
+    ],
+    "reason": "qualification_transport_failure",
+    "stage": "REVIEWER_QUALIFICATION",
+    "status": "REVIEWER_UNQUALIFIED",
+    "transport_failures": [
+      "attempt_1:ValueError:qualification witness is required",
+      "attempt_2:ValueError:qualification witness is required",
+      "attempt_3:ValueError:qualification witness is required"
+    ]
+  },
+  "reconciliation": {
+    "defect_counts": {
+      "AUDIT_METHOD_DEFECT": 1
+    },
+    "status": "RETENTION_HOLD_ARCH_V2"
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V2_RESULT_MANIFEST_V1",
+  "semantic_review": {
+    "expected_count": 130,
+    "packet_exposed_to_reviewer": false,
+    "reviewed": 0,
+    "status": "SEMANTIC_AUDIT_HOLD"
+  },
+  "status": "RETENTION_HOLD_ARCH_V2"
+}
