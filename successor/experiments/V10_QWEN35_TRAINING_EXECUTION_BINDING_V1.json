@@ -1,0 +1,13 @@
+{
+  "schema": "V10_QWEN35_TRAINING_EXECUTION_BINDING_V1",
+  "status": "FROZEN_AUTHORIZABLE_EXECUTION_SUBJECT",
+  "runner": {
+    "path": "successor/experiments/train_v10_qwen35_authorized.py",
+    "git_blob_sha": "50327d8bde79e66abcf4101475988d036086b5e9"
+  },
+  "execution_spec": {
+    "path": "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
+    "sha256": "4e290ff6be1b1d51be446c7ca3c7c22af3ccac2dbdc9395c17a3994c9335bd20"
+  },
+  "binding_sha256": "d618a0f8beedabdf1074b082e8f2692814770764b739ec935a7f95531e970555"
+}
