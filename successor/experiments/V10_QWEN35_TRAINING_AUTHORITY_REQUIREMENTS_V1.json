@@ -1,0 +1,29 @@
+{
+  "schema": "V10_QWEN35_TRAINING_AUTHORITY_REQUIREMENTS_V1",
+  "date": "2026-10-01",
+  "status": "SCHEMA_REQUIREMENTS_ONLY_NOT_AUTHORITY",
+  "receipt_schema": "V10_QWEN35_TRAINING_AUTHORITY_V1",
+  "required_exact_fields": {
+    "status": "AUTHORIZED",
+    "authority_actor_id": "PATRICK_USER_AUTHORITY",
+    "authorization_source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "effect": "TRAIN_ONE_FRESH_QLORA_ADAPTER",
+    "max_training_runs": 1,
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "install_activate_deploy_authorized": false
+  },
+  "required_subject_bindings": [
+    "experiment_id",
+    "base_model_revision",
+    "training_corpus_id",
+    "train_sha256",
+    "validation_sha256",
+    "training_recipe_sha256",
+    "sealed_final_bank_commitment_sha256",
+    "output_namespace",
+    "receipt_sha256"
+  ],
+  "issuance_rule": "Create the actual V10_QWEN35_TRAINING_AUTHORITY_V1.json only after Patrick explicitly authorizes the exact bound weight-changing run in the current task.",
+  "claim_ceiling": "REQUIREMENTS_ONLY / DOES_NOT GRANT AUTHORITY"
+}
