@@ -121,7 +121,7 @@ Requirements:
 - recompute the arithmetic independently;
 - verify the prompt names/values match the bound operands;
 - verify exact grader answer;
-- for region_sum and settlement_sum, verify commutativity by swapping left/right operands and requiring the same answer; for settlement_difference, swap operands and require the sign/order to change consistently with left-minus-right semantics.
+- for region_sum, settlement_sum, and settlement_difference, verify commutativity by swapping left/right operands and requiring the same answer; settlement_difference is defined as absolute difference.
 
 ### C. Evidence-calibration validator
 

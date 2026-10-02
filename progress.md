@@ -1,3 +1,11 @@
+docs/plans/2026-10-02-retention-audit-architecture-v2-implementation.md
+Task 1: complete
+Task 2: pending
+Task 3: pending
+Task 4: pending
+Task 5: pending
+
+Previous ledger:
 docs/superpowers/plans/2026-10-01-v10-qwen35-preregistered-experiment.md
 Task 1: complete — V2 experiment subject frozen after predecessor falsification
 Task 2: blocked — admission/exclusion/semantic-screen policy implemented; zero genuine final cases admitted; independent semantic review path not authenticated
