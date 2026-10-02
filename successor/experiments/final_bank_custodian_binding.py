@@ -275,3 +275,119 @@ def validate_custodian_binding(binding: dict) -> dict:
             "NO_BANK_ADMISSION / NO_TRAINING_AUTHORITY"
         ),
     }
+
+
+
+def validate_custodian_handoff(
+    *,
+    binding: dict,
+    contract: dict,
+    proposal_blob_sha: str,
+    generation_spec_sha256: str,
+    grader_spec_sha256: str,
+) -> dict:
+    reasons: list[str] = []
+
+    binding_check = validate_custodian_binding(binding)
+    if binding_check["status"] != "CUSTODIAN_BINDING_PASS":
+        reasons.extend(
+            "binding:" + reason
+            for reason in binding_check["reasons"]
+        )
+
+    if not isinstance(contract, dict):
+        reasons.append("contract_not_object")
+        contract = {}
+    if (
+        contract.get("schema")
+        != "V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1"
+    ):
+        reasons.append(f"contract_schema:{contract.get('schema')}")
+    if (
+        contract.get("status")
+        != "FROZEN_REQUIREMENTS_NO_CUSTODIANS_BOUND"
+    ):
+        reasons.append(f"contract_status:{contract.get('status')}")
+
+    contract_subject = contract.get("composition_subject")
+    if not isinstance(contract_subject, dict):
+        reasons.append("contract_composition_subject_missing")
+        contract_subject = {}
+
+    binding_subject = binding.get("composition_subject")
+    if not isinstance(binding_subject, dict):
+        reasons.append("binding_composition_subject_missing")
+        binding_subject = {}
+
+    expected = {
+        "proposal_blob_sha": proposal_blob_sha,
+        "generation_spec_sha256": generation_spec_sha256,
+        "grader_spec_sha256": grader_spec_sha256,
+    }
+
+    for field, actual in (
+        ("proposal_blob_sha", proposal_blob_sha),
+        ("generation_spec_sha256", generation_spec_sha256),
+        ("grader_spec_sha256", grader_spec_sha256),
+    ):
+        contract_value = contract_subject.get(field)
+        if contract_value != actual:
+            reasons.append(
+                f"{field}_file_subject_mismatch:"
+                f"{actual}!={contract_value}"
+            )
+
+    for field, expected_value in expected.items():
+        if binding_subject.get(field) != expected_value:
+            reasons.append(f"binding_subject_mismatch:{field}")
+
+    if not isinstance(proposal_blob_sha, str) or not _GIT_SHA.fullmatch(
+        proposal_blob_sha
+    ):
+        reasons.append("proposal_blob_sha_invalid")
+    if not _sha256(generation_spec_sha256):
+        reasons.append("generation_spec_file_sha256_invalid")
+    if not _sha256(grader_spec_sha256):
+        reasons.append("grader_spec_file_sha256_invalid")
+
+    if (
+        generation_spec_sha256
+        != contract_subject.get("generation_spec_sha256")
+    ):
+        reasons.append("generation_spec_file_sha256_mismatch")
+    if (
+        grader_spec_sha256
+        != contract_subject.get("grader_spec_sha256")
+    ):
+        reasons.append("grader_spec_file_sha256_mismatch")
+
+    reasons = sorted(set(reasons))
+    return {
+        "schema": "V10_FINAL_BANK_CUSTODIAN_HANDOFF_CHECK_V1",
+        "status": (
+            "HANDOFF_READY_FOR_INDEPENDENT_CUSTODY"
+            if not reasons
+            else "HOLD"
+        ),
+        "reasons": reasons,
+        "proposal_blob_sha": proposal_blob_sha,
+        "generation_spec_sha256": generation_spec_sha256,
+        "grader_spec_sha256": grader_spec_sha256,
+        "synthetic_actor_ids": binding_check.get(
+            "synthetic_actor_ids", []
+        ),
+        "human_author_count": binding_check.get(
+            "human_author_count", 0
+        ),
+        "human_reviewer_count": binding_check.get(
+            "human_reviewer_count", 0
+        ),
+        "custody_surface_id": binding_check.get(
+            "custody_surface_id"
+        ),
+        "claim_ceiling": (
+            "CUSTODIAN_HANDOFF_SUBJECT_AND_IDENTITIES_VERIFIED / "
+            "NO_FINAL_PLAINTEXT GENERATED / "
+            "NO_BANK ADMISSION / NO TRAINING AUTHORITY"
+        ),
+    }
