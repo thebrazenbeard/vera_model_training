@@ -165,6 +165,23 @@ def _v2_sealed_hold_fixture(root: Path) -> None:
                 "method": "QLORA_SFT_ONLY",
                 "seed": 20261001,
                 "epochs": 1.0,
+                "runtime_target": {
+                    "base_path": r"D:\\VERA\\models\\latest-trained\\base",
+                    "cost_class": "LOCAL_ZERO_INCREMENTAL_COMPUTE_COST",
+                    "driver": "616.92",
+                    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+                    "vram_mib": 4096,
+                },
+                "runtime_versions": {
+                    "python": "3.12.10",
+                    "torch": "2.14.0+cu130",
+                    "transformers": "5.17.0",
+                    "trl": "1.13.0",
+                    "peft": "0.21.0",
+                },
+                "token_preflight": {
+                    "file_sha256": "d" * 64,
+                },
             },
             "evaluation_bank": {
                 "behavioral": {"sha256": None},
