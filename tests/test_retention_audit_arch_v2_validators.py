@@ -183,3 +183,44 @@ def test_pinned_location_manifest_rejects_wrong_bytes() -> None:
         assert "location manifest hash mismatch" in str(exc)
     else:
         raise AssertionError("wrong manifest bytes were accepted")
+
+
+def test_direct_lookup_detects_prompt_source_mismatch() -> None:
+    row = deepcopy(_candidate_row("ret-kf-me-code_from_name"))
+    row["prompt"] = row["prompt"].replace("Montenegro", "Malta")
+
+    result = validate_row_mechanically(
+        row,
+        source_evidence=_source_evidence("ret-kf-me-code_from_name"),
+    )
+
+    assert result["status"] == "BANK_DEFECT"
+    assert "prompt_source_mismatch" in result["defects"]
+
+
+def test_source_arithmetic_detects_prompt_operand_mismatch() -> None:
+    row = deepcopy(_candidate_row("ret-math-eg-uy-region_sum"))
+    row["prompt"] = row["prompt"].replace("28 regions", "999 regions")
+
+    result = validate_row_mechanically(
+        row,
+        source_evidence=_source_evidence("ret-math-eg-uy-region_sum"),
+    )
+
+    assert result["status"] == "BANK_DEFECT"
+    assert "prompt_source_mismatch" in result["defects"]
+
+
+def test_calibration_detects_prompt_evidence_source_mismatch() -> None:
+    row = deepcopy(_candidate_row("ret-cal-bd-2"))
+    prompt_lines = row["prompt"].splitlines()
+    prompt_lines[1] = prompt_lines[1].replace('"code":"BD"', '"code":"ZZ"')
+    row["prompt"] = "\n".join(prompt_lines)
+
+    result = validate_row_mechanically(
+        row,
+        source_evidence=_source_evidence("ret-cal-bd-2"),
+    )
+
+    assert result["status"] == "BANK_DEFECT"
+    assert "prompt_source_mismatch" in result["defects"]

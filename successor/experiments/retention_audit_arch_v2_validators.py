@@ -170,6 +170,36 @@ def validator_class_for_row(row: dict) -> str:
     raise ValueError(f"unsupported Architecture V2 family: {family_id}")
 
 
+def _direct_source_expected_prompt(row: dict, source_evidence: dict) -> str:
+    relation = row["family_id"].split(":", 1)[1]
+    revision = row["source_revision"]
+    if relation == "code_from_name":
+        return (
+            f"In the frozen {revision} location-data release, what two-character "
+            f"country code is assigned to {source_evidence['name']}? "
+            "Return only the code."
+        )
+    if relation == "name_from_code":
+        return (
+            f"In the frozen {revision} location-data release, which country or "
+            f"territory name is assigned to code {source_evidence['code']}? "
+            "Return only the recorded name."
+        )
+    if relation == "region_count":
+        return (
+            f"In the frozen {revision} location-data release, how many "
+            f"administrative regions are recorded for {source_evidence['name']}? "
+            "Return only the integer."
+        )
+    if relation == "settlement_count":
+        return (
+            f"In the frozen {revision} location-data release, how many "
+            f"settlements are recorded for {source_evidence['name']}? "
+            "Return only the integer."
+        )
+    raise ValueError(f"unsupported direct lookup relation: {relation}")
+
+
 def _direct_source_answer(row: dict, source_evidence: dict) -> str:
     relation = row["family_id"].split(":", 1)[1]
     if relation == "code_from_name":
@@ -181,6 +211,37 @@ def _direct_source_answer(row: dict, source_evidence: dict) -> str:
     if relation == "settlement_count":
         return str(source_evidence["settlements"])
     raise ValueError(f"unsupported direct lookup relation: {relation}")
+
+
+def _source_arithmetic_expected_prompt(
+    row: dict,
+    source_evidence: dict,
+) -> str:
+    relation = row["family_id"].split(":", 1)[1]
+    left = source_evidence["left"]
+    right = source_evidence["right"]
+    if relation == "settlement_sum":
+        return (
+            f"A frozen source record lists {left['name']} with "
+            f"{left['settlements']} settlements and {right['name']} with "
+            f"{right['settlements']} settlements. What is the sum? "
+            "Return only the integer."
+        )
+    if relation == "settlement_difference":
+        return (
+            f"A frozen source record lists {left['name']} with "
+            f"{left['settlements']} settlements and {right['name']} with "
+            f"{right['settlements']} settlements. What is the absolute "
+            "difference? Return only the integer."
+        )
+    if relation == "region_sum":
+        return (
+            f"A frozen source record lists {left['name']} with "
+            f"{left['regions']} regions and {right['name']} with "
+            f"{right['regions']} regions. What is the total number of regions? "
+            "Return only the integer."
+        )
+    raise ValueError(f"unsupported source arithmetic relation: {relation}")
 
 
 def _source_arithmetic_answer(row: dict, source_evidence: dict) -> str:
@@ -409,17 +470,62 @@ def validate_row_mechanically(
             "mechanical_facts": facts,
         }
 
+    defects: list[str] = []
     if validator_class == "direct_source_lookup":
         derived_answer = _direct_source_answer(row, source_evidence)
+        if row["prompt"] != _direct_source_expected_prompt(
+            row,
+            source_evidence,
+        ):
+            defects.append("prompt_source_mismatch")
     elif validator_class == "source_arithmetic":
         derived_answer = _source_arithmetic_answer(row, source_evidence)
+        if row["prompt"] != _source_arithmetic_expected_prompt(
+            row,
+            source_evidence,
+        ):
+            defects.append("prompt_source_mismatch")
     elif validator_class == "evidence_calibration":
+        prompt_evidence, claim = _calibration_prompt_evidence(row["prompt"])
+        expected_prompt_evidence = {
+            "name": source_evidence["name"],
+            "code": source_evidence["code"],
+            "regions": int(source_evidence["regions"]),
+            "settlements": int(source_evidence["settlements"]),
+        }
+        prompt_lines = row["prompt"].splitlines()
+        if (
+            prompt_evidence != expected_prompt_evidence
+            or len(prompt_lines) != 4
+            or prompt_lines[0]
+            != "Use only the evidence record below; do not add outside knowledge."
+            or prompt_lines[3]
+            != "Answer exactly TRUE, FALSE, or NOT_ENOUGH_INFO."
+        ):
+            defects.append("prompt_source_mismatch")
+        code_match = re.fullmatch(
+            r"The record assigns code (?P<code>\S+) to (?P<name>.+)\.",
+            claim,
+        )
+        language_match = re.fullmatch(
+            r"The official language of (?P<name>.+) is English\.",
+            claim,
+        )
+        claim_name = (
+            code_match.group("name")
+            if code_match
+            else language_match.group("name")
+            if language_match
+            else None
+        )
+        if claim_name != str(source_evidence["name"]):
+            if "prompt_source_mismatch" not in defects:
+                defects.append("prompt_source_mismatch")
         derived_answer = _evidence_calibration_answer(row)
     else:
         raise ValueError(f"unsupported validator class: {validator_class}")
 
     grader_answer = str(row["grader_contract"].get("answer_key"))
-    defects = []
     if grader_answer != derived_answer:
         defects.append("grader_answer_mismatch")
 
