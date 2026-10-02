@@ -968,3 +968,143 @@ def test_authority_receipt_for_wrong_execution_binding_fails_closed(
         in payload["reasons"]
     )
     assert "patrick_exact_weight_change_authority" in payload["reasons"]
+
+
+
+def test_training_execution_binding_detects_preflight_evaluator_substitution(
+    tmp_path: Path,
+) -> None:
+    _v2_sealed_hold_fixture(tmp_path)
+    experiments = tmp_path / "successor" / "experiments"
+    runner_path = (
+        tmp_path / "successor" / "experiments" / "train_v10_qwen35_authorized.py"
+    )
+    runner_path.parent.mkdir(parents=True, exist_ok=True)
+    runner_path.write_text("RUNNER = True\n", encoding="utf-8")
+    evaluator_path = tmp_path / "successor" / "evaluate_successor.py"
+    evaluator_path.parent.mkdir(parents=True, exist_ok=True)
+    evaluator_path.write_text("EVALUATOR = True\n", encoding="utf-8")
+    spec_path = experiments / "V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json"
+    spec = {
+        "schema": "V10_QWEN35_TRAINING_EXECUTION_SPEC_V1",
+        "effect": "TRAIN_ONE_FRESH_QLORA_ADAPTER",
+        "trainer": {
+            "method": "QLORA_SFT_ONLY",
+            "seed": 20261001,
+            "epochs": 1.0,
+            "learning_rate": 2e-5,
+            "lr_scheduler_type": "cosine",
+            "warmup_optimizer_steps": 3,
+            "per_device_train_batch_size": 1,
+            "gradient_accumulation_steps": 8,
+            "max_length": 512,
+            "overflow_policy": "ERROR_NO_TRUNCATION",
+            "optimizer": "adamw_torch",
+            "completion_only_loss": True,
+            "packing": False,
+            "shuffle_dataset": True,
+            "gradient_checkpointing": True,
+            "bf16": True,
+            "tf32": True,
+            "gradient_checkpointing_use_reentrant": False,
+            "logging_steps": 10,
+            "save_strategy": "no",
+            "eval_strategy": "no",
+            "report_to": "none",
+            "validation_role": (
+                "POST_TRAIN_DIAGNOSTIC_ONLY_NO_RECIPE_OR_CHECKPOINT_SELECTION"
+            ),
+        },
+        "quantization": {
+            "load_in_4bit": True,
+            "type": "nf4",
+            "double_quant": True,
+            "compute_dtype": "bfloat16",
+        },
+        "model_load": {
+            "device_map": {"": 0},
+            "dtype": "bfloat16",
+            "use_cache": False,
+            "prepare_model_for_kbit_training_use_gradient_checkpointing": True,
+        },
+        "lora": {
+            "r": 4,
+            "alpha": 16,
+            "dropout": 0.0,
+            "target_modules": "all-linear",
+            "bias": "none",
+            "task_type": "CAUSAL_LM",
+        },
+        "artifact_policy": {
+            "fresh_adapter_only": True,
+            "parent_adapter": None,
+            "save_strategy": "final_adapter_only",
+            "validation_checkpoint_selection": False,
+        },
+    }
+    _write_json(tmp_path, str(spec_path.relative_to(tmp_path)), spec)
+
+    def git_blob(raw: bytes) -> str:
+        return hashlib.sha1(
+            b"blob " + str(len(raw)).encode() + b"\0" + raw
+        ).hexdigest()
+
+    binding = {
+        "schema": "V10_QWEN35_TRAINING_EXECUTION_BINDING_V1",
+        "status": "FROZEN_AUTHORIZABLE_EXECUTION_SUBJECT",
+        "runner": {
+            "path": "successor/experiments/train_v10_qwen35_authorized.py",
+            "git_blob_sha": git_blob(runner_path.read_bytes()),
+        },
+        "preflight_evaluator": {
+            "path": "successor/evaluate_successor.py",
+            "git_blob_sha": git_blob(evaluator_path.read_bytes()),
+        },
+        "execution_spec": {
+            "path": "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
+            "sha256": hashlib.sha256(
+                json.dumps(
+                    spec,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                    ensure_ascii=False,
+                ).encode("utf-8")
+            ).hexdigest(),
+        },
+    }
+    binding["binding_sha256"] = hashlib.sha256(
+        json.dumps(
+            binding,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_BINDING_V1.json",
+        binding,
+    )
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    payload = json.loads(result.stdout)
+    assert payload["training_execution"]["status"] == "VERIFIED"
+
+    evaluator_path.write_text("EVALUATOR = False\n", encoding="utf-8")
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    payload = json.loads(result.stdout)
+    assert result.returncode == 2
+    assert payload["training_execution"]["status"] == "INVALID"
+    assert "training_execution:preflight_git_blob_sha_mismatch" in payload[
+        "reasons"
+    ]
