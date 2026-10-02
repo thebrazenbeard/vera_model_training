@@ -1,0 +1,88 @@
+{
+  "schema": "V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1",
+  "date": "2026-10-01",
+  "status": "FROZEN_REQUIREMENTS_NO_CUSTODIANS_BOUND",
+  "composition_subject": {
+    "proposal_path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md",
+    "proposal_blob_sha": "92852974cf9c8a86c77e091795122b0b411d162c"
+  },
+  "behavioral": {
+    "dimensions": "H01-H20",
+    "rows_per_dimension": 500,
+    "families_per_dimension": 50,
+    "cases_per_family": 10,
+    "family_provenance_per_dimension": {
+      "synthetic_A": 20,
+      "synthetic_B": 20,
+      "human_seeded": 10
+    },
+    "total_rows": 10000,
+    "total_families": 1000
+  },
+  "adversarial": {
+    "dimensions": "H01-H20",
+    "rows_per_dimension": 100,
+    "families_per_dimension": 20,
+    "cases_per_family": 5,
+    "family_provenance_per_dimension": {
+      "synthetic_A": 8,
+      "synthetic_B": 8,
+      "human_seeded": 4
+    },
+    "total_rows": 2000,
+    "total_families": 400
+  },
+  "synthetic_custodian_requirements": {
+    "count": 2,
+    "labels": [
+      "A",
+      "B"
+    ],
+    "different_model_families": true,
+    "different_exact_models": true,
+    "qwen_lineage_forbidden": true,
+    "candidate_model_forbidden": true,
+    "distinct_exact_provider_runtime_identity": true,
+    "frozen_generation_spec_required": true,
+    "identity_receipt_sha256_required": true
+  },
+  "human_requirements": {
+    "author_pool_nonempty": true,
+    "reviewer_pool_nonempty": true,
+    "author_and_reviewer_pools_disjoint": true,
+    "reason": "Human-seeded cases cannot be independently reviewed by their own author.",
+    "private_identity_attestation_sha256_required": true,
+    "semantic_cases_require_human_review": true,
+    "llm_review_does_not_substitute_for_human_review": true
+  },
+  "custody_requirements": {
+    "surface_class": "INDEPENDENT_CUSTODY_EVALUATION_LANE",
+    "training_lane_access": false,
+    "candidate_development_access": false,
+    "hash_only_publication_before_candidate_freeze": true,
+    "plaintext_sealed_until_candidate_freeze": true,
+    "access_control_receipt_sha256_required": true
+  },
+  "case_generation_rules": {
+    "family_independence_semantic_not_surface": true,
+    "entity_value_style_swaps_do_not_create_new_family": true,
+    "rejected_cases_quarantined_not_edited_in_place": true,
+    "deficit_replacement_requires_new_generation_and_review": true,
+    "human_seeded_family_requires_at_least_one_genuinely_human_authored_case": true,
+    "derivative_cases_must_preserve_derivative_provenance": true
+  },
+  "pretraining_sequence": [
+    "bind custodians and human author/reviewer pools",
+    "freeze generation and grader specifications",
+    "generate plaintext inside independent custody lane",
+    "hash raw generation bundles immediately",
+    "run exact/normalized exclusion",
+    "run frozen semantic contamination screen",
+    "conduct deterministic audits and independent human semantic review",
+    "quarantine rejects and fill deficits with newly generated/reviewed cases",
+    "freeze admitted bank and all plaintext-bearing artifact hashes",
+    "publish non-plaintext sealed commitment to training lane"
+  ],
+  "current_binding_present": false,
+  "claim_ceiling": "CUSTODIAN_REQUIREMENTS_FROZEN / IDENTITIES_UNBOUND / NO_FINAL_BANK / NO_TRAINING"
+}
