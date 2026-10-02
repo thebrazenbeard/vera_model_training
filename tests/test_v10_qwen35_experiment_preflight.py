@@ -192,6 +192,64 @@ def _v2_sealed_hold_fixture(root: Path) -> None:
     )
 
 
+    _write_json(
+        root,
+        "successor/experiments/V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json",
+        _runtime_binding(),
+    )
+
+
+def _runtime_binding() -> dict:
+    value = {
+        "schema": "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1",
+        "date": "2026-10-01",
+        "status": "FROZEN_TARGET_RUNTIME_SUPPLEMENT",
+        "target": {
+            "python_path": r"C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+            "python_version": "3.12.10",
+            "base_path": r"D:\\VERA\\models\\latest-trained\\base",
+            "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+            "vram_mib": 4096,
+            "driver": "616.92",
+            "cuda_runtime": "13.0",
+            "cost_class": "LOCAL_ZERO_INCREMENTAL_COMPUTE_COST",
+        },
+        "packages": {
+            "torch": "2.14.0+cu130",
+            "transformers": "5.17.0",
+            "trl": "1.13.0",
+            "peft": "0.21.0",
+            "bitsandbytes": "0.50.2",
+            "datasets": "5.0.1",
+            "accelerate": "1.15.0",
+            "safetensors": "0.8.0",
+            "huggingface_hub": "1.33.0",
+            "tokenizers": "0.23.2",
+            "jinja2": "3.1.6",
+            "numpy": "2.5.3",
+        },
+        "base_artifacts": {
+            "model.safetensors-00001-of-00002.safetensors": "a" * 64,
+            "model.safetensors-00002-of-00002.safetensors": "b" * 64,
+            "tokenizer.json": "c" * 64,
+        },
+        "provenance": {
+            "token_preflight_path": "successor/corpus/v10_qwen512/token_preflight.json",
+            "token_preflight_file_sha256": "d" * 64,
+        },
+        "claim_ceiling": "TEST_RUNTIME_BINDING",
+    }
+    value["binding_sha256"] = hashlib.sha256(
+        json.dumps(
+            value,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    return value
+
+
 def _sealed_commitment() -> dict:
     dimensions = [f"H{i:02d}" for i in range(1, 21)]
     value = {
@@ -369,6 +427,9 @@ def _training_authority_receipt(contract: dict, commitment: dict) -> dict:
         "sealed_final_bank_commitment_sha256": commitment[
             "commitment_sha256"
         ],
+        "training_runtime_binding_sha256": _runtime_binding()[
+            "binding_sha256"
+        ],
         "max_training_runs": 1,
         "output_namespace": "successor/artifacts/test-authorized-run-v1",
         "paid_compute_authorized": False,
@@ -504,4 +565,124 @@ def test_authority_receipt_for_wrong_bank_fails_closed(
     assert "training_authority:sealed_commitment_sha256_mismatch" in payload[
         "reasons"
     ]
+    assert "patrick_exact_weight_change_authority" in payload["reasons"]
+
+
+
+def test_runtime_boolean_cannot_replace_exact_runtime_binding(
+    tmp_path: Path,
+) -> None:
+    _v2_sealed_hold_fixture(tmp_path)
+    runtime_path = (
+        tmp_path
+        / "successor/experiments/V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json"
+    )
+    runtime_path.unlink()
+    commitment = _sealed_commitment()
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_SEALED_FINAL_BANK_COMMITMENT_V1.json",
+        commitment,
+    )
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    payload = json.loads(result.stdout)
+    assert result.returncode == 2
+    assert "exact_training_runtime_versions_bound" in payload["reasons"]
+    assert payload["training_runtime"]["status"] == "ABSENT"
+
+
+def test_runtime_binding_core_package_mismatch_fails_closed(
+    tmp_path: Path,
+) -> None:
+    _v2_sealed_hold_fixture(tmp_path)
+    runtime_path = (
+        tmp_path
+        / "successor/experiments/V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json"
+    )
+    runtime = json.loads(runtime_path.read_text(encoding="utf-8"))
+    runtime["packages"]["torch"] = "0.0.0"
+    unsigned = dict(runtime)
+    unsigned.pop("binding_sha256")
+    runtime["binding_sha256"] = hashlib.sha256(
+        json.dumps(
+            unsigned,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    runtime_path.write_text(json.dumps(runtime), encoding="utf-8")
+    commitment = _sealed_commitment()
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_SEALED_FINAL_BANK_COMMITMENT_V1.json",
+        commitment,
+    )
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    payload = json.loads(result.stdout)
+    assert result.returncode == 2
+    assert "training_runtime:package_version_mismatch:torch" in payload[
+        "reasons"
+    ]
+    assert "exact_training_runtime_versions_bound" in payload["reasons"]
+    assert payload["training_runtime"]["status"] == "INVALID"
+
+
+def test_authority_receipt_for_wrong_runtime_binding_fails_closed(
+    tmp_path: Path,
+) -> None:
+    _v2_sealed_hold_fixture(tmp_path)
+    contract_path = (
+        tmp_path
+        / "successor/experiments/V10_QWEN35_EXPERIMENT_CONTRACT_V2.json"
+    )
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    commitment = _sealed_commitment()
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_SEALED_FINAL_BANK_COMMITMENT_V1.json",
+        commitment,
+    )
+    authority = _training_authority_receipt(contract, commitment)
+    authority["training_runtime_binding_sha256"] = "e" * 64
+    unsigned = dict(authority)
+    unsigned.pop("receipt_sha256")
+    authority["receipt_sha256"] = hashlib.sha256(
+        json.dumps(
+            unsigned,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_QWEN35_TRAINING_AUTHORITY_V1.json",
+        authority,
+    )
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    payload = json.loads(result.stdout)
+    assert result.returncode == 2
+    assert (
+        "training_authority:training_runtime_binding_sha256_mismatch"
+        in payload["reasons"]
+    )
     assert "patrick_exact_weight_change_authority" in payload["reasons"]
