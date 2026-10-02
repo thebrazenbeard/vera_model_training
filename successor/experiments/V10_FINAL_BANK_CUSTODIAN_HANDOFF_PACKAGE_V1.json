@@ -20,17 +20,27 @@
     },
     "custodian_contract": {
       "path": "successor/experiments/V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1.json",
-      "git_blob_sha": "8ced2824b49ffbdb378283f29dc0fcce7f0c7fc5"
+      "git_blob_sha": "48e7e775bb1e73043a5e7c8c0d9ddb7f7672c43b"
+    },
+    "family_manifest_spec": {
+      "path": "successor/experiments/V10_FINAL_BANK_FAMILY_MANIFEST_SPEC_V1.json",
+      "git_blob_sha": "e0991beefad07058beab7d06cfeb061322f1ee52",
+      "file_sha256": "657ed4b9bfa6af2a059720c288f7f05d8c1bdfb5aba965956e3f5a771062ce69"
+    },
+    "diversity_diagnostic_spec": {
+      "path": "successor/experiments/V10_FINAL_BANK_DIVERSITY_DIAGNOSTIC_SPEC_V1.json",
+      "git_blob_sha": "09e97497e5513ca339622aaf5b7c0ff86835bcd2",
+      "file_sha256": "fd3380bcbc10b89229bc03eea17bfe108f66394d8b168e352a1e6c9ba469be84"
     }
   },
   "binding_template": {
     "path": "successor/experiments/V10_FINAL_BANK_CUSTODIAN_BINDING_TEMPLATE_V1.json",
-    "git_blob_sha": "123233a8994f93c51270fa364cad716791727350",
+    "git_blob_sha": "f2d7463b27f8005dc1c9472a3f65948430e5746d",
     "status": "UNBOUND_TEMPLATE_DO_NOT_USE_AS_BINDING"
   },
   "verifier": {
     "path": "successor/experiments/verify_v10_final_bank_custodian_handoff.py",
-    "git_blob_sha": "1923e298348b15a14ee14a1598db343a4fda6e53",
+    "git_blob_sha": "e42856080fe82c4fe53697c39ee77bd8e1e6e0d8",
     "pass_status": "HANDOFF_READY_FOR_INDEPENDENT_CUSTODY",
     "hold_exit_code": 2
   },
@@ -41,6 +51,7 @@
     "bind at least one disjoint human reviewer",
     "bind independent custody/evaluation surface with training and candidate-development access disabled",
     "produce private identity/access-control attestation digests",
+    "bind exact generation, grader, family-manifest, and diversity-diagnostic spec hashes",
     "run standalone verifier and obtain HANDOFF_READY_FOR_INDEPENDENT_CUSTODY"
   ],
   "currently_unresolved": [
@@ -63,5 +74,5 @@
     "merge_authorized": false,
     "deploy_install_activate_authorized": false
   },
-  "claim_ceiling": "NONPLAINTEXT_HANDOFF_PACKAGE_READY / IDENTITIES AND CUSTODY SURFACE UNBOUND / FINAL PLAINTEXT NOT GENERATED / NO TRAINING AUTHORITY"
+  "claim_ceiling": "NONPLAINTEXT_HANDOFF_PACKAGE_AND_COMPOSITION_METHODS_READY / IDENTITIES AND CUSTODY SURFACE UNBOUND / FINAL PLAINTEXT NOT GENERATED / NO TRAINING AUTHORITY"
 }
