@@ -356,6 +356,13 @@ def default_execution_spec() -> dict:
             "packing": False,
             "shuffle_dataset": True,
             "gradient_checkpointing": True,
+            "bf16": True,
+            "tf32": True,
+            "gradient_checkpointing_use_reentrant": False,
+            "logging_steps": 10,
+            "save_strategy": "no",
+            "eval_strategy": "no",
+            "report_to": "none",
             "validation_role": (
                 "POST_TRAIN_DIAGNOSTIC_ONLY_NO_RECIPE_OR_CHECKPOINT_SELECTION"
             ),
@@ -366,11 +373,19 @@ def default_execution_spec() -> dict:
             "double_quant": True,
             "compute_dtype": "bfloat16",
         },
+        "model_load": {
+            "device_map": {"": 0},
+            "dtype": "bfloat16",
+            "use_cache": False,
+            "prepare_model_for_kbit_training_use_gradient_checkpointing": True,
+        },
         "lora": {
             "r": 4,
             "alpha": 16,
             "dropout": 0.0,
             "target_modules": "all-linear",
+            "bias": "none",
+            "task_type": "CAUSAL_LM",
         },
         "artifact_policy": {
             "fresh_adapter_only": True,
@@ -451,6 +466,46 @@ def validate_execution_spec(
         reasons.append("contract_parent_adapter_not_null")
     if policy.get("validation_checkpoint_selection") is not False:
         reasons.append("validation_checkpoint_selection_not_false")
+
+    exact_trainer = {
+        "bf16": True,
+        "tf32": True,
+        "gradient_checkpointing_use_reentrant": False,
+        "logging_steps": 10,
+        "save_strategy": "no",
+        "eval_strategy": "no",
+        "report_to": "none",
+    }
+    for field, expected in exact_trainer.items():
+        if trainer.get(field) != expected:
+            reasons.append(
+                f"{field}:{trainer.get(field)}!={expected}"
+            )
+
+    expected_model_load = {
+        "device_map": {"": 0},
+        "dtype": "bfloat16",
+        "use_cache": False,
+        "prepare_model_for_kbit_training_use_gradient_checkpointing": True,
+    }
+    model_load = execution_spec.get("model_load")
+    if model_load != expected_model_load:
+        reasons.append(
+            "model_load:"
+            + json.dumps(model_load, sort_keys=True)
+            + "!="
+            + json.dumps(expected_model_load, sort_keys=True)
+        )
+
+    if lora.get("bias") != "none":
+        reasons.append(f"lora.bias:{lora.get('bias')}!=none")
+    if lora.get("task_type") != "CAUSAL_LM":
+        reasons.append(
+            f"lora.task_type:{lora.get('task_type')}!=CAUSAL_LM"
+        )
+
+    if quant.get("compute_dtype") != model_load.get("dtype", None) if isinstance(model_load, dict) else True:
+        reasons.append("model_load.dtype_must_equal_quantization.compute_dtype")
 
     if reasons:
         raise TrainingHold(
@@ -806,17 +861,20 @@ def execute_authorized_training(
             quant["compute_dtype"],
         ),
     )
+    model_load = execution_spec["model_load"]
     model = stack["Qwen3_5ForCausalLM"].from_pretrained(
         base_path,
         quantization_config=bits_config,
-        device_map={"": 0},
-        dtype=getattr(torch, quant["compute_dtype"]),
+        device_map=model_load["device_map"],
+        dtype=getattr(torch, model_load["dtype"]),
     )
-    model.config.use_cache = False
+    model.config.use_cache = model_load["use_cache"]
     topology = _validate_qwen_topology(model)
     model = stack["prepare_model_for_kbit_training"](
         model,
-        use_gradient_checkpointing=True,
+        use_gradient_checkpointing=model_load[
+            "prepare_model_for_kbit_training_use_gradient_checkpointing"
+        ],
     )
 
     lora_spec = execution_spec["lora"]
@@ -824,8 +882,8 @@ def execute_authorized_training(
         r=lora_spec["r"],
         lora_alpha=lora_spec["alpha"],
         lora_dropout=lora_spec["dropout"],
-        bias="none",
-        task_type="CAUSAL_LM",
+        bias=lora_spec["bias"],
+        task_type=lora_spec["task_type"],
         target_modules=lora_spec["target_modules"],
     )
 
@@ -865,13 +923,15 @@ def execute_authorized_training(
             lr_scheduler_type=trainer_spec["lr_scheduler_type"],
             warmup_steps=trainer_spec["warmup_optimizer_steps"],
             optim=trainer_spec["optimizer"],
-            bf16=True,
-            tf32=True,
+            bf16=trainer_spec["bf16"],
+            tf32=trainer_spec["tf32"],
             gradient_checkpointing=trainer_spec[
                 "gradient_checkpointing"
             ],
             gradient_checkpointing_kwargs={
-                "use_reentrant": False
+                "use_reentrant": trainer_spec[
+                    "gradient_checkpointing_use_reentrant"
+                ]
             },
             max_length=trainer_spec["max_length"],
             completion_only_loss=trainer_spec[
@@ -879,10 +939,10 @@ def execute_authorized_training(
             ],
             packing=trainer_spec["packing"],
             shuffle_dataset=trainer_spec["shuffle_dataset"],
-            logging_steps=10,
-            save_strategy="no",
-            eval_strategy="no",
-            report_to="none",
+            logging_steps=trainer_spec["logging_steps"],
+            save_strategy=trainer_spec["save_strategy"],
+            eval_strategy=trainer_spec["eval_strategy"],
+            report_to=trainer_spec["report_to"],
             seed=trainer_spec["seed"],
             data_seed=trainer_spec["seed"],
         )
