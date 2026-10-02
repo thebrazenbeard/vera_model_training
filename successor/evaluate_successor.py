@@ -7,6 +7,7 @@ import json
 REQUIRED_FIELDS = {"item_id", "prompt_family", "prompt", "rubric"}
 SEALED_COMMITMENT_FILENAME = "V10_SEALED_FINAL_BANK_COMMITMENT_V1.json"
 TRAINING_AUTHORITY_FILENAME = "V10_QWEN35_TRAINING_AUTHORITY_V1.json"
+TRAINING_RUNTIME_FILENAME = "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json"
 SEALED_DERIVABLE_PRECONDITIONS = {
     "fresh_evaluation_bank_frozen",
     "independent_bank_admission_verified",
@@ -165,7 +166,153 @@ def _sealed_commitment_evidence(base, preconditions):
     )
 
 
-def _training_authority_evidence(base, contract, sealed):
+def _training_runtime_evidence(base, contract):
+    path = base / TRAINING_RUNTIME_FILENAME
+    if not path.exists():
+        return (
+            {
+                "status": "ABSENT",
+                "binding_sha256": None,
+            },
+            [],
+            False,
+        )
+
+    binding = _read_json(path)
+    raw_reasons = []
+    if binding.get("schema") != "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1":
+        raw_reasons.append("schema_mismatch")
+    if binding.get("status") != "FROZEN_TARGET_RUNTIME_SUPPLEMENT":
+        raw_reasons.append("status_mismatch")
+
+    recipe = contract.get("training_recipe", {})
+    contract_target = recipe.get("runtime_target", {})
+    contract_versions = recipe.get("runtime_versions", {})
+    target = binding.get("target")
+    if not isinstance(target, dict):
+        raw_reasons.append("target_missing")
+        target = {}
+
+    target_pairs = {
+        "python_version": contract_versions.get("python"),
+        "base_path": contract_target.get("base_path"),
+        "gpu": contract_target.get("gpu"),
+        "vram_mib": contract_target.get("vram_mib"),
+        "driver": contract_target.get("driver"),
+        "cost_class": contract_target.get("cost_class"),
+    }
+    for field, expected in target_pairs.items():
+        if target.get(field) != expected:
+            raw_reasons.append(f"target_mismatch:{field}")
+    if not isinstance(target.get("python_path"), str) or not target[
+        "python_path"
+    ].strip():
+        raw_reasons.append("target_python_path_missing")
+    if not isinstance(target.get("cuda_runtime"), str) or not target[
+        "cuda_runtime"
+    ].strip():
+        raw_reasons.append("target_cuda_runtime_missing")
+
+    packages = binding.get("packages")
+    if not isinstance(packages, dict):
+        raw_reasons.append("packages_missing")
+        packages = {}
+    required_packages = (
+        "torch",
+        "transformers",
+        "trl",
+        "peft",
+        "bitsandbytes",
+        "datasets",
+        "accelerate",
+        "safetensors",
+        "huggingface_hub",
+        "tokenizers",
+        "jinja2",
+        "numpy",
+    )
+    for package in required_packages:
+        value = packages.get(package)
+        if not isinstance(value, str) or not value.strip():
+            raw_reasons.append(f"package_version_missing:{package}")
+    for package in ("torch", "transformers", "trl", "peft"):
+        expected = contract_versions.get(package)
+        if packages.get(package) != expected:
+            raw_reasons.append(
+                f"package_version_mismatch:{package}"
+            )
+
+    artifacts = binding.get("base_artifacts")
+    if not isinstance(artifacts, dict):
+        raw_reasons.append("base_artifacts_missing")
+        artifacts = {}
+    for filename in (
+        "model.safetensors-00001-of-00002.safetensors",
+        "model.safetensors-00002-of-00002.safetensors",
+        "tokenizer.json",
+    ):
+        if not _valid_sha256(artifacts.get(filename)):
+            raw_reasons.append(f"base_artifact_hash_invalid:{filename}")
+
+    provenance = binding.get("provenance")
+    if not isinstance(provenance, dict):
+        raw_reasons.append("provenance_missing")
+        provenance = {}
+    expected_preflight_sha = recipe.get("token_preflight", {}).get(
+        "file_sha256"
+    )
+    if (
+        provenance.get("token_preflight_file_sha256")
+        != expected_preflight_sha
+    ):
+        raw_reasons.append("token_preflight_file_sha256_mismatch")
+    if not isinstance(
+        provenance.get("token_preflight_path"), str
+    ) or not provenance["token_preflight_path"].strip():
+        raw_reasons.append("token_preflight_path_missing")
+
+    claimed_sha = binding.get("binding_sha256")
+    unsigned = dict(binding)
+    unsigned.pop("binding_sha256", None)
+    expected_sha = hashlib.sha256(_canonical(unsigned)).hexdigest()
+    if claimed_sha != expected_sha:
+        raw_reasons.append("binding_sha256_mismatch")
+
+    raw_reasons = sorted(set(raw_reasons))
+    if raw_reasons:
+        return (
+            {
+                "status": "INVALID",
+                "binding_sha256": claimed_sha,
+                "python_path": target.get("python_path"),
+                "python_version": target.get("python_version"),
+                "gpu": target.get("gpu"),
+            },
+            ["training_runtime:" + reason for reason in raw_reasons],
+            False,
+        )
+
+    return (
+        {
+            "status": "VERIFIED",
+            "binding_sha256": claimed_sha,
+            "python_path": target.get("python_path"),
+            "python_version": target.get("python_version"),
+            "base_path": target.get("base_path"),
+            "gpu": target.get("gpu"),
+            "vram_mib": target.get("vram_mib"),
+            "driver": target.get("driver"),
+            "cuda_runtime": target.get("cuda_runtime"),
+            "cost_class": target.get("cost_class"),
+            "packages": packages,
+            "base_artifacts": artifacts,
+        },
+        [],
+        True,
+    )
+
+
+def _training_authority_evidence(base, contract, sealed, runtime):
     path = base / TRAINING_AUTHORITY_FILENAME
     if not path.exists():
         return (
@@ -214,6 +361,14 @@ def _training_authority_evidence(base, contract, sealed):
         != sealed.get("commitment_sha256")
     ):
         raw_reasons.append("sealed_commitment_sha256_mismatch")
+
+    if runtime.get("status") != "VERIFIED":
+        raw_reasons.append("training_runtime_not_verified")
+    elif (
+        receipt.get("training_runtime_binding_sha256")
+        != runtime.get("binding_sha256")
+    ):
+        raw_reasons.append("training_runtime_binding_sha256_mismatch")
 
     if receipt.get("max_training_runs") != 1:
         raw_reasons.append("max_training_runs_must_equal_1")
@@ -302,8 +457,14 @@ def assess_v10_experiment_state(repo_root):
     )
     reasons.extend(sealed_reasons)
     sealed_verified = sealed["status"] == "VERIFIED"
+    training_runtime, runtime_reasons, runtime_verified = (
+        _training_runtime_evidence(base, contract)
+    )
+    reasons.extend(runtime_reasons)
     training_authority, authority_reasons, authority_verified = (
-        _training_authority_evidence(base, contract, sealed)
+        _training_authority_evidence(
+            base, contract, sealed, training_runtime
+        )
     )
     reasons.extend(authority_reasons)
 
@@ -317,6 +478,8 @@ def assess_v10_experiment_state(repo_root):
     for key, value in sorted(preconditions.items()):
         if key == "patrick_exact_weight_change_authority":
             effective_value = authority_verified
+        elif key == "exact_training_runtime_versions_bound":
+            effective_value = runtime_verified
         else:
             effective_value = derived_preconditions.get(key, value)
         effective_preconditions[key] = effective_value
@@ -344,6 +507,7 @@ def assess_v10_experiment_state(repo_root):
         "reasons": reasons,
         "derived_preconditions": derived_preconditions,
         "sealed_final_bank": sealed,
+        "training_runtime": training_runtime,
         "training_authority": training_authority,
         "effect": "READ_ONLY_PREFLIGHT_NO_WEIGHT_CHANGE",
     }
@@ -370,6 +534,10 @@ def _main(argv=None) -> int:
                 "status": "ERROR",
                 "bank_id": None,
                 "commitment_sha256": None,
+            },
+            "training_runtime": {
+                "status": "ERROR",
+                "binding_sha256": None,
             },
             "training_authority": {
                 "status": "ERROR",
