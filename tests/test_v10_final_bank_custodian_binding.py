@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from successor.experiments.final_bank_custodian_binding import (
     validate_custodian_binding,
+    validate_custodian_handoff,
 )
 
 
@@ -14,9 +15,13 @@ def _valid_binding() -> dict:
         "schema": "V10_FINAL_BANK_CUSTODIAN_BINDING_V1",
         "status": "BOUND_FOR_PRETRAINING_SEALED_BANK",
         "composition_subject": {
-            "proposal_blob_sha": "92852974cf9c8a86c77e091795122b0b411d162c",
-            "generation_spec_sha256": _sha("1"),
-            "grader_spec_sha256": _sha("2"),
+            "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
+            "generation_spec_sha256": (
+                "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0"
+            ),
+            "grader_spec_sha256": (
+                "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
+            ),
         },
         "synthetic_custodians": {
             "A": {
@@ -133,4 +138,112 @@ def test_plaintext_fields_are_forbidden_in_public_binding() -> None:
     assert any(
         reason.startswith("plaintext_field_present:")
         for reason in result["reasons"]
+    )
+
+
+
+def _contract() -> dict:
+    return {
+        "schema": "V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1",
+        "status": "FROZEN_REQUIREMENTS_NO_CUSTODIANS_BOUND",
+        "composition_subject": {
+            "proposal_path": (
+                "research/measurement/"
+                "V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md"
+            ),
+            "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
+            "generation_spec_path": (
+                "successor/experiments/"
+                "V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1.json"
+            ),
+            "generation_spec_sha256": (
+                "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0"
+            ),
+            "grader_spec_path": (
+                "successor/experiments/"
+                "V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1.json"
+            ),
+            "grader_spec_sha256": (
+                "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
+            ),
+        },
+    }
+
+
+def test_handoff_passes_only_when_binding_and_frozen_subject_match() -> None:
+    result = validate_custodian_handoff(
+        binding=_valid_binding(),
+        contract=_contract(),
+        proposal_blob_sha=(
+            "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+        ),
+        generation_spec_sha256=(
+            "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0"
+        ),
+        grader_spec_sha256=(
+            "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
+        ),
+    )
+    assert result["status"] == "HANDOFF_READY_FOR_INDEPENDENT_CUSTODY"
+    assert result["reasons"] == []
+
+
+def test_handoff_rejects_stale_proposal_binding() -> None:
+    binding = _valid_binding()
+    binding["composition_subject"]["proposal_blob_sha"] = (
+        "92852974cf9c8a86c77e091795122b0b411d162c"
+    )
+    result = validate_custodian_handoff(
+        binding=binding,
+        contract=_contract(),
+        proposal_blob_sha=(
+            "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+        ),
+        generation_spec_sha256=(
+            "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0"
+        ),
+        grader_spec_sha256=(
+            "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
+        ),
+    )
+    assert result["status"] == "HOLD"
+    assert "binding_subject_mismatch:proposal_blob_sha" in result["reasons"]
+
+
+def test_handoff_rejects_generation_spec_substitution() -> None:
+    result = validate_custodian_handoff(
+        binding=_valid_binding(),
+        contract=_contract(),
+        proposal_blob_sha=(
+            "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+        ),
+        generation_spec_sha256="f" * 64,
+        grader_spec_sha256=(
+            "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
+        ),
+    )
+    assert result["status"] == "HOLD"
+    assert "generation_spec_file_sha256_mismatch" in result["reasons"]
+
+
+def test_handoff_propagates_invalid_identity_binding() -> None:
+    binding = _valid_binding()
+    binding["synthetic_custodians"]["A"]["model_family"] = "Qwen3.5"
+    result = validate_custodian_handoff(
+        binding=binding,
+        contract=_contract(),
+        proposal_blob_sha=(
+            "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+        ),
+        generation_spec_sha256=(
+            "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0"
+        ),
+        grader_spec_sha256=(
+            "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
+        ),
+    )
+    assert result["status"] == "HOLD"
+    assert (
+        "binding:synthetic_A_qwen_lineage_forbidden"
+        in result["reasons"]
     )
