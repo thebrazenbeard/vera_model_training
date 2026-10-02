@@ -37,6 +37,8 @@ def verify_handoff_files(
     proposal_path: Path,
     generation_spec_path: Path,
     grader_spec_path: Path,
+    family_manifest_spec_path: Path,
+    diversity_spec_path: Path,
 ) -> dict:
     binding = _read_json(binding_path)
     contract = _read_json(contract_path)
@@ -45,6 +47,12 @@ def verify_handoff_files(
     proposal_blob_sha = git_blob_sha(proposal_raw)
     generation_spec_sha256 = sha256_file(generation_spec_path)
     grader_spec_sha256 = sha256_file(grader_spec_path)
+    family_manifest_spec_sha256 = sha256_file(
+        family_manifest_spec_path
+    )
+    diversity_diagnostic_spec_sha256 = sha256_file(
+        diversity_spec_path
+    )
 
     result = validate_custodian_handoff(
         binding=binding,
@@ -52,6 +60,10 @@ def verify_handoff_files(
         proposal_blob_sha=proposal_blob_sha,
         generation_spec_sha256=generation_spec_sha256,
         grader_spec_sha256=grader_spec_sha256,
+        family_manifest_spec_sha256=family_manifest_spec_sha256,
+        diversity_diagnostic_spec_sha256=(
+            diversity_diagnostic_spec_sha256
+        ),
     )
     return {
         **result,
@@ -64,6 +76,16 @@ def verify_handoff_files(
             "generation_spec_sha256": generation_spec_sha256,
             "grader_spec_path": str(grader_spec_path),
             "grader_spec_sha256": grader_spec_sha256,
+            "family_manifest_spec_path": str(
+                family_manifest_spec_path
+            ),
+            "family_manifest_spec_sha256": (
+                family_manifest_spec_sha256
+            ),
+            "diversity_spec_path": str(diversity_spec_path),
+            "diversity_diagnostic_spec_sha256": (
+                diversity_diagnostic_spec_sha256
+            ),
         },
         "effect": "READ_ONLY_CUSTODIAN_HANDOFF_VERIFICATION",
     }
@@ -76,6 +98,16 @@ def main(argv=None) -> int:
     parser.add_argument("--proposal", type=Path, required=True)
     parser.add_argument("--generation-spec", type=Path, required=True)
     parser.add_argument("--grader-spec", type=Path, required=True)
+    parser.add_argument(
+        "--family-manifest-spec",
+        type=Path,
+        required=True,
+    )
+    parser.add_argument(
+        "--diversity-spec",
+        type=Path,
+        required=True,
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -85,6 +117,8 @@ def main(argv=None) -> int:
             proposal_path=args.proposal,
             generation_spec_path=args.generation_spec,
             grader_spec_path=args.grader_spec,
+            family_manifest_spec_path=args.family_manifest_spec,
+            diversity_spec_path=args.diversity_spec,
         )
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         result = {
