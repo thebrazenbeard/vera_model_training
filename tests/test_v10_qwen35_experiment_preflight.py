@@ -152,6 +152,20 @@ def _v2_sealed_hold_fixture(root: Path) -> None:
         {
             "schema": "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V2",
             "status": "PREREGISTERED_BLOCKED",
+            "experiment_id": "experiment-v2-test",
+            "base_model": {
+                "revision": "a" * 40,
+            },
+            "source_subject": {
+                "training_corpus_id": "corpus-v10-qwen512",
+                "train_sha256": "8" * 64,
+                "validation_sha256": "9" * 64,
+            },
+            "training_recipe": {
+                "method": "QLORA_SFT_ONLY",
+                "seed": 20261001,
+                "epochs": 1.0,
+            },
             "evaluation_bank": {
                 "behavioral": {"sha256": None},
                 "adversarial": {"sha256": None},
@@ -328,3 +342,166 @@ def test_sealed_commitment_with_plaintext_field_fails_closed(
         for reason in payload["reasons"]
     )
     assert "independent_bank_admission_verified" in payload["reasons"]
+
+
+
+def _training_authority_receipt(contract: dict, commitment: dict) -> dict:
+    recipe_sha = hashlib.sha256(
+        json.dumps(
+            contract["training_recipe"],
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    value = {
+        "schema": "V10_QWEN35_TRAINING_AUTHORITY_V1",
+        "status": "AUTHORIZED",
+        "authority_actor_id": "PATRICK_USER_AUTHORITY",
+        "authorization_source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+        "experiment_id": contract["experiment_id"],
+        "effect": "TRAIN_ONE_FRESH_QLORA_ADAPTER",
+        "base_model_revision": contract["base_model"]["revision"],
+        "training_corpus_id": contract["source_subject"]["training_corpus_id"],
+        "train_sha256": contract["source_subject"]["train_sha256"],
+        "validation_sha256": contract["source_subject"]["validation_sha256"],
+        "training_recipe_sha256": recipe_sha,
+        "sealed_final_bank_commitment_sha256": commitment[
+            "commitment_sha256"
+        ],
+        "max_training_runs": 1,
+        "output_namespace": "successor/artifacts/test-authorized-run-v1",
+        "paid_compute_authorized": False,
+        "merge_authorized": False,
+        "install_activate_deploy_authorized": False,
+    }
+    value["receipt_sha256"] = hashlib.sha256(
+        json.dumps(
+            value,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    return value
+
+
+def test_boolean_authority_flag_cannot_replace_exact_authority_receipt(
+    tmp_path: Path,
+) -> None:
+    _v2_sealed_hold_fixture(tmp_path)
+    contract_path = (
+        tmp_path
+        / "successor/experiments/V10_QWEN35_EXPERIMENT_CONTRACT_V2.json"
+    )
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    contract["blocking_preconditions"][
+        "patrick_exact_weight_change_authority"
+    ] = True
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    commitment = _sealed_commitment()
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_SEALED_FINAL_BANK_COMMITMENT_V1.json",
+        commitment,
+    )
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    payload = json.loads(result.stdout)
+    assert result.returncode == 2
+    assert payload["status"] == "HOLD"
+    assert "patrick_exact_weight_change_authority" in payload["reasons"]
+    assert payload["training_authority"]["status"] == "ABSENT"
+
+
+def test_exact_authority_receipt_can_clear_only_final_authority_gate(
+    tmp_path: Path,
+) -> None:
+    _v2_sealed_hold_fixture(tmp_path)
+    contract_path = (
+        tmp_path
+        / "successor/experiments/V10_QWEN35_EXPERIMENT_CONTRACT_V2.json"
+    )
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    commitment = _sealed_commitment()
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_SEALED_FINAL_BANK_COMMITMENT_V1.json",
+        commitment,
+    )
+    authority = _training_authority_receipt(contract, commitment)
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_QWEN35_TRAINING_AUTHORITY_V1.json",
+        authority,
+    )
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    payload = json.loads(result.stdout)
+    assert result.returncode == 0
+    assert payload["status"] == "READY_PRECONDITIONS"
+    assert payload["training_allowed"] is True
+    assert payload["reasons"] == []
+    assert payload["training_authority"]["status"] == "VERIFIED"
+    assert (
+        payload["training_authority"]["receipt_sha256"]
+        == authority["receipt_sha256"]
+    )
+
+
+def test_authority_receipt_for_wrong_bank_fails_closed(
+    tmp_path: Path,
+) -> None:
+    _v2_sealed_hold_fixture(tmp_path)
+    contract_path = (
+        tmp_path
+        / "successor/experiments/V10_QWEN35_EXPERIMENT_CONTRACT_V2.json"
+    )
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    commitment = _sealed_commitment()
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_SEALED_FINAL_BANK_COMMITMENT_V1.json",
+        commitment,
+    )
+    authority = _training_authority_receipt(contract, commitment)
+    authority["sealed_final_bank_commitment_sha256"] = "f" * 64
+    unsigned = dict(authority)
+    unsigned.pop("receipt_sha256")
+    authority["receipt_sha256"] = hashlib.sha256(
+        json.dumps(
+            unsigned,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    _write_json(
+        tmp_path,
+        "successor/experiments/V10_QWEN35_TRAINING_AUTHORITY_V1.json",
+        authority,
+    )
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    payload = json.loads(result.stdout)
+    assert result.returncode == 2
+    assert payload["status"] == "HOLD"
+    assert "training_authority:sealed_commitment_sha256_mismatch" in payload[
+        "reasons"
+    ]
+    assert "patrick_exact_weight_change_authority" in payload["reasons"]
