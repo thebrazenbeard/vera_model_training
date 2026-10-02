@@ -92,7 +92,11 @@ def _fixture(tmp_path: Path) -> dict[str, Path]:
     }]
     audit_sha = _write_jsonl(audit, audit_rows)
 
-    _write_json(protocol, {"schema": "protocol-v3"})
+    _write_json(protocol, {
+        "schema": "protocol-v3",
+        "candidate_sha256": candidate_sha,
+        "packet_sha256": packet_sha,
+    })
     protocol_sha = _sha_file(protocol)
     exclusion.write_bytes(b"")
     exclusion_sha = _sha_file(exclusion)
