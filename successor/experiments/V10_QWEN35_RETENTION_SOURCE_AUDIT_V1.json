@@ -1,0 +1,39 @@
+{
+  "schema": "V10_QWEN35_RETENTION_SOURCE_AUDIT_V1",
+  "date": "2026-10-01",
+  "status": "SOURCE_BOUND_MECHANICAL_AUDIT",
+  "source": {
+    "repository": "mindstellar/location-data",
+    "repository_visibility": "public",
+    "repository_commit": "a0cf799530bb61d1ce2adaf00b6473e39c006c1a",
+    "repository_code_license": "GPL-3.0",
+    "release_id": 392443259,
+    "release_tag": "2026-09-20T1335Z",
+    "release_content_fingerprint": "0ebd427903c150a6",
+    "manifest_url": "https://geo.mindstellar.com/releases/2026-09-20T1335Z/manifest.json",
+    "manifest_sha256": "bf5a2dc0bb0f1ba15f7149e9fa1184aa632f280a72fe306c154a9e05cfacab29",
+    "manifest_license": "CC0-1.0",
+    "manifest_source": "Wikidata truthy dump, CC0",
+    "release_api_snapshot_sha256": "31047be9de6e6cb3262e6c447394ffba44851c27a10e0999fc37bfe7869ed8dc",
+    "consumed_material": "release manifest data only",
+    "pipeline_code_consumed": false
+  },
+  "license_boundary": {
+    "data_terms": "CC0-1.0",
+    "pipeline_code_terms": "GPL-3.0",
+    "decision": "USE_PINNED_CC0_RELEASE_MANIFEST_DATA; DO_NOT_IMPORT_PIPELINE_CODE"
+  },
+  "public_benchmark_boundary": {
+    "raw_case_imports": [],
+    "shadow_only": [
+      "MMLU-Pro",
+      "GSM8K",
+      "MBPP",
+      "IFEval",
+      "TruthfulQA"
+    ],
+    "rationale": "Preserve the predeclared public-benchmark shadow/design role and avoid copying static benchmark prompts into the final-bank candidate."
+  },
+  "evidence_class": "SOURCE_BOUND_MECHANICAL_AUDIT_NOT_INDEPENDENT_REVIEW",
+  "claim_ceiling": "SOURCE_REVISION_LICENSE_AND_HASH_BOUND / NOT_CASE_ADMISSION / NOT_FINAL_BANK"
+}

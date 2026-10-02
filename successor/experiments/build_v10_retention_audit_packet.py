@@ -7,6 +7,11 @@ import json
 from pathlib import Path
 from urllib.request import urlopen
 
+from successor.experiments.build_v10_qwen35_retention_candidate import (
+    _coding_spec,
+    _instruction_spec,
+)
+
 
 LOCATION_MANIFEST_URL = (
     "https://geo.mindstellar.com/releases/"
@@ -26,7 +31,7 @@ def sha256_bytes(value: bytes) -> str:
 def select_audit_sample(
     rows: list[dict],
     *,
-    per_category: int,
+    per_category: int | None,
     candidate_sha256: str,
 ) -> list[dict]:
     grouped: dict[str, list[dict]] = defaultdict(list)
@@ -46,10 +51,53 @@ def select_audit_sample(
                 ).encode("utf-8")
             ).hexdigest(),
         )
+        if per_category is None:
+            selected.extend(ranked)
+            continue
+        if per_category < 1:
+            raise ValueError("per_category must be positive or None")
         if len(ranked) < per_category:
             raise ValueError(f"{category}: only {len(ranked)} rows")
         selected.extend(ranked[:per_category])
     return selected
+
+
+def select_family_audit_sample(
+    rows: list[dict],
+    *,
+    per_family: int,
+    candidate_sha256: str,
+) -> list[dict]:
+    if per_family < 1:
+        raise ValueError("per_family must be positive")
+    grouped: dict[str, list[dict]] = defaultdict(list)
+    for row in rows:
+        family_id = row.get("family_id")
+        if not isinstance(family_id, str) or not family_id:
+            raise ValueError(f"case has invalid family_id: {row.get('case_id')}")
+        grouped[family_id].append(row)
+    selected = []
+    for family_id in sorted(grouped):
+        ranked = sorted(
+            grouped[family_id],
+            key=lambda row: hashlib.sha256(
+                (
+                    candidate_sha256
+                    + "\0"
+                    + family_id
+                    + "\0"
+                    + row["case_id"]
+                ).encode("utf-8")
+            ).hexdigest(),
+        )
+        if len(ranked) < per_family:
+            raise ValueError(
+                f"{family_id}: requested {per_family}, only {len(ranked)} rows"
+            )
+        selected.extend(ranked[:per_family])
+    return selected
+
+
 def source_evidence_for_row(
     row: dict,
     countries_by_code: dict[str, dict],
@@ -68,7 +116,17 @@ def source_evidence_for_row(
             "left": countries_by_code[pair[0]],
             "right": countries_by_code[pair[1]],
         }
-    return None
+    marker = ":coding:"
+    if marker in source_id:
+        suffix = source_id.rsplit(marker, 1)[1]
+        family, variant = suffix.rsplit(":", 1)
+        return _coding_spec(family, int(variant))
+    marker = ":instruction:"
+    if marker in source_id:
+        suffix = source_id.rsplit(marker, 1)[1]
+        family, variant = suffix.rsplit(":", 1)
+        return _instruction_spec(family, int(variant))
+    raise ValueError(f"unrecognized retention source id: {source_id}")
 
 
 def load_location_manifest() -> dict:
@@ -149,28 +207,39 @@ def build_packet(
     return packet, manifest
 
 
+def write_packet_files(
+    packet: list[dict],
+    manifest: dict,
+    output_path: Path,
+    manifest_path: Path,
+) -> dict:
+    payload = ("\n".join(canonical_json(row) for row in packet) + "\n").encode("utf-8")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_bytes(payload)
+    written_manifest = dict(manifest)
+    written_manifest["packet_sha256"] = sha256_bytes(payload)
+    written_manifest["packet_path"] = output_path.as_posix()
+    manifest_path.write_bytes(
+        (json.dumps(written_manifest, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    )
+    return written_manifest
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--candidate", type=Path, required=True)
     parser.add_argument("--candidate-sha256", required=True)
     parser.add_argument("--per-category", type=int, default=10)
+    parser.add_argument("--all-cases", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)
     args = parser.parse_args()
     packet, manifest = build_packet(
         candidate_path=args.candidate,
         expected_candidate_sha256=args.candidate_sha256,
-        per_category=args.per_category,
+        per_category=None if args.all_cases else args.per_category,
     )
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        "\n".join(canonical_json(row) for row in packet) + "\n",
-        encoding="utf-8",
-    )
-    args.manifest.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    manifest = write_packet_files(packet, manifest, args.output, args.manifest)
     print(json.dumps(manifest, sort_keys=True))
     return 0
 
