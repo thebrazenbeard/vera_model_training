@@ -1,15 +1,17 @@
+docs/plans/2026-10-02-retention-audit-architecture-v4-repair.md
+Task 1: complete
+Task 2: in_progress
+Task 3: pending
+Task 4: pending
+
+Previous Architecture V2/V3 ledger:
 docs/plans/2026-10-02-retention-audit-architecture-v2-implementation.md
 Task 1: complete
 Task 2: complete
 Task 3: complete
 Task 4: complete
-Task 5: in_progress
+Task 5: consumed through V2 and V3 HOLD evidence; successor repair continues in V4
 
-Previous ledger:
-docs/superpowers/plans/2026-10-01-v10-qwen35-preregistered-experiment.md
-Task 1: complete — V2 experiment subject frozen after predecessor falsification
-Task 2: blocked — admission/exclusion/semantic-screen policy implemented; zero genuine final cases admitted; independent semantic review path not authenticated
-Task 3: complete — repaired 50k/2.5k mixture reproducibly built and exact Qwen512/runtime preflight PASS; no weights changed
-Task 4: blocked — final bank + independent review + Patrick exact weight-change authority required
-Baseline note: inherited historical V4 negative_transfer_resistance generator/shard byte mismatch remains outside this lane
-Verification: focused V10 suite 28 passed; full repository 234 passed / 1 inherited historical V4 shard mismatch
+V2 result: RETENTION_HOLD_ARCH_V2; reviewer qualification failed; semantic rows reviewed 0/130.
+V3 result: reviewer qualification failed on non-string/non-null JSON witness representation; semantic rows reviewed 0/130; result committed at b22850ba046842d95d18669d5d110b2611222ae8.
+Training/model-weight mutation remains blocked.
