@@ -88,6 +88,7 @@ def main() -> int:
     args.output.write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
+        newline="\n",
     )
     print(json.dumps({
         "status": receipt["status"],

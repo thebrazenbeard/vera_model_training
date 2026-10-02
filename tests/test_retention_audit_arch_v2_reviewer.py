@@ -171,3 +171,108 @@ def test_qualification_response_parser_requires_concrete_witness_for_defect() ->
     })
     with pytest.raises(ValueError, match="witness"):
         parse_qualification_response(bad, control=control)
+
+
+def test_arch_v2_ollama_request_is_fully_bound() -> None:
+    from successor.experiments.retention_audit_arch_v2_reviewer import (
+        MODEL,
+        MODEL_BLOB_SHA256,
+        OLLAMA_URL,
+        SEED,
+        TEMPERATURE,
+        ollama_request_body,
+    )
+
+    body = ollama_request_body("test prompt")
+
+    assert MODEL == "ministral-3:14b"
+    assert MODEL_BLOB_SHA256 == (
+        "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e"
+    )
+    assert OLLAMA_URL == "http://127.0.0.1:11434/api/generate"
+    assert SEED == 20261002
+    assert TEMPERATURE == 0
+    assert body == {
+        "model": MODEL,
+        "prompt": "test prompt",
+        "stream": False,
+        "format": "json",
+        "options": {"temperature": 0, "seed": 20261002},
+    }
+
+
+def test_qualification_batch_prompt_and_parser_keep_labels_hidden() -> None:
+    from successor.experiments.retention_audit_arch_v2_reviewer import (
+        qualification_batch_prompt,
+        parse_qualification_batch_response,
+    )
+
+    controls = build_reviewer_qualification_controls()[:8]
+    prompt = qualification_batch_prompt(controls)
+    assert "expected_defect" not in prompt
+
+    rows = []
+    for control in controls:
+        rows.append({
+            "case_id": control["case_id"],
+            "observed_defect": control["expected_defect"],
+            "defect_class": control["defect_class"],
+            "witness": (
+                "concrete witness"
+                if control["expected_defect"]
+                else None
+            ),
+            "reason": "qualification response",
+        })
+    parsed = parse_qualification_batch_response(
+        json.dumps({"reviews": rows}),
+        controls=controls,
+    )
+    assert [row["case_id"] for row in parsed] == [
+        control["case_id"] for control in controls
+    ]
+
+
+def test_batched_reviewer_qualification_uses_six_eight_control_calls() -> None:
+    from successor.experiments.retention_audit_arch_v2_reviewer import (
+        run_batched_reviewer_qualification,
+    )
+
+    controls = build_reviewer_qualification_controls()
+    responses = []
+    for start in range(0, len(controls), 8):
+        batch = controls[start:start + 8]
+        responses.append(json.dumps({
+            "reviews": [
+                {
+                    "case_id": control["case_id"],
+                    "observed_defect": control["expected_defect"],
+                    "defect_class": control["defect_class"],
+                    "witness": (
+                        "concrete witness"
+                        if control["expected_defect"]
+                        else None
+                    ),
+                    "reason": "qualified",
+                }
+                for control in batch
+            ]
+        }))
+
+    calls = []
+    iterator = iter(responses)
+
+    def call_text(prompt: str) -> str:
+        calls.append(prompt)
+        return next(iterator)
+
+    result = run_batched_reviewer_qualification(
+        call_text=call_text,
+        batch_size=8,
+        max_attempts=3,
+    )
+
+    assert result["status"] == "REVIEWER_QUALIFIED"
+    assert result["batch_size"] == 8
+    assert result["batch_count"] == 6
+    assert len(calls) == 6

@@ -112,3 +112,36 @@ def test_semantic_run_holds_after_exhausted_transport_retries() -> None:
     assert result["status"] == "SEMANTIC_AUDIT_HOLD"
     assert result["reviewed"] == 0
     assert result["reasons"] == ["transport_failure:case-1"]
+
+
+def test_semantic_run_can_batch_five_cases_without_changing_case_results() -> None:
+    cases = [_case(f"case-{index}") for index in range(5)]
+    calls = []
+
+    def reviewer(prompt: str, batch: list[dict]) -> str:
+        calls.append([case["case_id"] for case in batch])
+        return json.dumps({
+            "reviews": [
+                {
+                    "case_id": case["case_id"],
+                    "observation": "NO_SEMANTIC_DEFECT_FOUND",
+                    "derived_answer": None,
+                    "witness": None,
+                    "reason": "clear",
+                    "confidence": "high",
+                }
+                for case in batch
+            ]
+        })
+
+    result = run_semantic_audit(
+        cases,
+        call_reviewer=reviewer,
+        expected_count=5,
+        max_attempts=3,
+        batch_size=5,
+    )
+
+    assert calls == [[f"case-{index}" for index in range(5)]]
+    assert result["status"] == "SEMANTIC_AUDIT_COMPLETE"
+    assert result["reviewed"] == 5

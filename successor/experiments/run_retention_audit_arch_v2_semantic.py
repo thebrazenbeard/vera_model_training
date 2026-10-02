@@ -16,9 +16,12 @@ def run_semantic_audit(
     call_reviewer: Callable[[str, list[dict]], str],
     expected_count: int,
     max_attempts: int = 3,
+    batch_size: int = 1,
 ) -> dict:
     if max_attempts < 1:
         raise ValueError("max_attempts must be positive")
+    if batch_size < 1:
+        raise ValueError("batch_size must be positive")
     if len(cases) != expected_count:
         return {
             "status": "SEMANTIC_AUDIT_HOLD",
@@ -29,22 +32,29 @@ def run_semantic_audit(
             "rows": [],
         }
 
+    case_ids = [case.get("case_id") for case in cases]
+    if any(not isinstance(case_id, str) or not case_id for case_id in case_ids):
+        raise ValueError("semantic review case_id invalid")
+    if len(case_ids) != len(set(case_ids)):
+        raise ValueError("semantic review case IDs must be unique")
+
     rows: list[dict] = []
-    for case in cases:
-        case_id = case["case_id"]
-        prompt = review_prompt([case])
+    for start in range(0, len(cases), batch_size):
+        batch = cases[start:start + batch_size]
+        batch_ids = [case["case_id"] for case in batch]
+        prompt = review_prompt(batch)
         failures: list[str] = []
 
         parsed: list[dict] | None = None
         attempts = 0
         for attempts in range(1, max_attempts + 1):
             try:
-                response_text = call_reviewer(prompt, [case])
+                response_text = call_reviewer(prompt, batch)
                 if not isinstance(response_text, str) or not response_text.strip():
                     raise ValueError("empty reviewer response")
                 parsed = parse_witness_response(
                     response_text,
-                    expected_case_ids=[case_id],
+                    expected_case_ids=batch_ids,
                 )
                 break
             except (ValueError, json.JSONDecodeError) as exc:
@@ -64,29 +74,34 @@ def run_semantic_audit(
                         ).items()
                     )
                 ),
-                "reasons": [f"transport_failure:{case_id}"],
+                "reasons": [f"transport_failure:{batch_ids[0]}"],
                 "rows": rows,
                 "transport_failures": failures,
+                "failed_batch_case_ids": batch_ids,
             }
 
-        review = parsed[0]
-        rows.append({
-            "case_id": case_id,
-            "family_id": case.get("family_id"),
-            "observation": review["observation"],
-            "derived_answer": review["derived_answer"],
-            "witness": review["witness"],
-            "reason": review["reason"],
-            "confidence": review["confidence"],
-            "attempts": attempts,
-            "prior_attempt_failures": failures,
-        })
+        by_id = {case["case_id"]: case for case in batch}
+        for review in parsed:
+            case_id = review["case_id"]
+            case = by_id[case_id]
+            rows.append({
+                "case_id": case_id,
+                "family_id": case.get("family_id"),
+                "observation": review["observation"],
+                "derived_answer": review["derived_answer"],
+                "witness": review["witness"],
+                "reason": review["reason"],
+                "confidence": review["confidence"],
+                "attempts": attempts,
+                "prior_attempt_failures": failures,
+            })
 
     counts = Counter(row["observation"] for row in rows)
     return {
         "status": "SEMANTIC_AUDIT_COMPLETE",
         "reviewed": len(rows),
         "expected_count": expected_count,
+        "batch_size": batch_size,
         "observation_counts": dict(sorted(counts.items())),
         "reasons": [],
         "rows": rows,

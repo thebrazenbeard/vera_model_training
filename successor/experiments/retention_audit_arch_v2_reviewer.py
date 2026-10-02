@@ -1,8 +1,95 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+import hashlib
 import json
+from pathlib import Path
+import subprocess
 from typing import Any, Callable
+from urllib.request import Request, urlopen
+
+
+MODEL = "ministral-3:14b"
+MODEL_BLOB_SHA256 = (
+    "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e"
+)
+OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
+SEED = 20261002
+TEMPERATURE = 0
+
+
+def ollama_request_body(prompt: str) -> dict:
+    return {
+        "model": MODEL,
+        "prompt": prompt,
+        "stream": False,
+        "format": "json",
+        "options": {
+            "temperature": TEMPERATURE,
+            "seed": SEED,
+        },
+    }
+
+
+def ollama_version() -> str:
+    result = subprocess.run(
+        ["ollama", "--version"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout.strip()
+
+
+def _model_blob_path() -> Path:
+    shown = subprocess.run(
+        ["ollama", "show", MODEL, "--modelfile"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    for line in shown.stdout.splitlines():
+        if line.startswith("FROM "):
+            return Path(line[5:].strip().strip('"'))
+    raise RuntimeError("Ollama Modelfile has no FROM blob")
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(8 * 1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def reviewer_identity() -> dict:
+    actual = _sha256_file(_model_blob_path())
+    if actual != MODEL_BLOB_SHA256:
+        raise RuntimeError(f"reviewer model blob mismatch:{actual}")
+    return {
+        "provider": "OLLAMA_LOCAL",
+        "model": MODEL,
+        "model_blob_sha256": actual,
+        "runtime": ollama_version(),
+        "temperature": TEMPERATURE,
+        "seed": SEED,
+        "url": OLLAMA_URL,
+    }
+
+
+def ollama_text(prompt: str) -> str:
+    body = ollama_request_body(prompt)
+    request = Request(
+        OLLAMA_URL,
+        data=json.dumps(body).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+    )
+    with urlopen(request, timeout=900) as response:
+        outer = json.loads(response.read().decode("utf-8"))
+    text = outer.get("response")
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("empty Ollama reviewer response")
+    return text
 
 
 ALLOWED_OBSERVATIONS = {
@@ -239,6 +326,204 @@ def parse_witness_response(
             f"got={sorted(parsed_by_id)} expected={sorted(expected_case_ids)}"
         )
     return [parsed_by_id[case_id] for case_id in expected_case_ids]
+
+
+
+def qualification_batch_prompt(controls: list[dict]) -> str:
+    if not controls:
+        raise ValueError("qualification controls must be non-empty")
+    visible = []
+    case_ids: set[str] = set()
+    for control in controls:
+        case_id = control.get("case_id")
+        if not isinstance(case_id, str) or not case_id:
+            raise ValueError("qualification control case_id invalid")
+        if case_id in case_ids:
+            raise ValueError("duplicate qualification case_id")
+        case_ids.add(case_id)
+        visible.append({
+            "case_id": case_id,
+            "defect_class": control.get("defect_class"),
+            "prompt": control.get("prompt"),
+            "context": control.get("context"),
+        })
+    payload = json.dumps(
+        {"controls": visible},
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    )
+    return (
+        "Evaluate each hidden qualification control for its named semantic "
+        "defect class. Return strict JSON with exactly one key, reviews. "
+        "reviews must contain one object per control with exactly case_id, "
+        "observed_defect, defect_class, witness, reason. observed_defect is a "
+        "JSON boolean. A claimed defect requires a concrete witness; otherwise "
+        "witness must be null. Do not infer or discuss any hidden expected "
+        "label.\n"
+        f"{payload}"
+    )
+
+
+def parse_qualification_batch_response(
+    text: str,
+    *,
+    controls: list[dict],
+) -> list[dict]:
+    try:
+        value = json.loads(text)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"invalid qualification batch JSON:{exc}") from exc
+    if not isinstance(value, dict) or set(value) != {"reviews"}:
+        raise ValueError("qualification batch must contain only reviews")
+    reviews = value["reviews"]
+    if not isinstance(reviews, list) or len(reviews) != len(controls):
+        raise ValueError("qualification batch review count mismatch")
+    by_id = {control["case_id"]: control for control in controls}
+    parsed: dict[str, dict] = {}
+    for row in reviews:
+        if not isinstance(row, dict):
+            raise ValueError("qualification batch review must be object")
+        case_id = row.get("case_id")
+        if case_id not in by_id or case_id in parsed:
+            raise ValueError("qualification batch case_id mismatch or duplicate")
+        parsed[case_id] = parse_qualification_response(
+            json.dumps(row),
+            control=by_id[case_id],
+        )
+    if set(parsed) != set(by_id):
+        raise ValueError("qualification batch case set mismatch")
+    return [parsed[control["case_id"]] for control in controls]
+
+
+def qualification_prompt(control: dict) -> str:
+    required = {"case_id", "defect_class", "prompt"}
+    if not required <= set(control):
+        raise ValueError("qualification control is missing required fields")
+    visible = {
+        "case_id": control["case_id"],
+        "defect_class": control["defect_class"],
+        "prompt": control["prompt"],
+    }
+    payload = json.dumps(
+        visible,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    )
+    return (
+        "Evaluate this hidden qualification control for the named semantic "
+        "defect class. Return strict JSON with exactly case_id, "
+        "observed_defect, defect_class, witness, reason. observed_defect must "
+        "be a JSON boolean. If a defect is observed, witness must identify the "
+        "concrete ambiguity, contradiction, mismatch, or underspecification; "
+        "otherwise witness must be null. Do not infer or discuss any hidden "
+        "expected label.\n"
+        f"{payload}"
+    )
+
+
+def parse_qualification_response(text: str, *, control: dict) -> dict:
+    try:
+        value = json.loads(text)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"invalid qualification JSON:{exc}") from exc
+    required = {
+        "case_id",
+        "observed_defect",
+        "defect_class",
+        "witness",
+        "reason",
+    }
+    if not isinstance(value, dict) or set(value) != required:
+        raise ValueError("qualification response schema mismatch")
+    if value["case_id"] != control.get("case_id"):
+        raise ValueError("qualification case_id mismatch")
+    if value["defect_class"] != control.get("defect_class"):
+        raise ValueError("qualification defect_class mismatch")
+    if not isinstance(value["observed_defect"], bool):
+        raise ValueError("observed_defect must be boolean")
+    if not isinstance(value["reason"], str) or not value["reason"].strip():
+        raise ValueError("qualification reason must be non-empty")
+    witness = value["witness"]
+    if value["observed_defect"]:
+        if not isinstance(witness, str) or not witness.strip():
+            raise ValueError("qualification witness is required")
+    elif witness not in (None, ""):
+        raise ValueError("qualification witness must be null when no defect")
+    return value
+
+
+
+def run_batched_reviewer_qualification(
+    *,
+    call_text: Callable[[str], str] = ollama_text,
+    batch_size: int = 8,
+    max_attempts: int = 3,
+) -> dict:
+    if batch_size < 1:
+        raise ValueError("batch_size must be positive")
+    if max_attempts < 1:
+        raise ValueError("max_attempts must be positive")
+
+    controls = build_reviewer_qualification_controls()
+    parsed_by_id: dict[str, dict] = {}
+    batches: list[dict] = []
+
+    for start in range(0, len(controls), batch_size):
+        batch = controls[start:start + batch_size]
+        prompt = qualification_batch_prompt(batch)
+        failures: list[str] = []
+        parsed: list[dict] | None = None
+        attempts = 0
+
+        for attempts in range(1, max_attempts + 1):
+            try:
+                response_text = call_text(prompt)
+                if (
+                    not isinstance(response_text, str)
+                    or not response_text.strip()
+                ):
+                    raise ValueError("empty qualification reviewer response")
+                parsed = parse_qualification_batch_response(
+                    response_text,
+                    controls=batch,
+                )
+                break
+            except (ValueError, json.JSONDecodeError) as exc:
+                failures.append(
+                    f"attempt_{attempts}:{type(exc).__name__}:{exc}"
+                )
+
+        if parsed is None:
+            return {
+                "schema": "RETENTION_AUDIT_ARCH_V2_REVIEWER_QUALIFICATION_V1",
+                "status": "REVIEWER_UNQUALIFIED",
+                "reason": "qualification_transport_failure",
+                "batch_size": batch_size,
+                "batch_count": len(batches) + 1,
+                "failed_batch_case_ids": [
+                    control["case_id"] for control in batch
+                ],
+                "transport_failures": failures,
+                "batches": batches,
+            }
+
+        for row in parsed:
+            parsed_by_id[row["case_id"]] = row
+        batches.append({
+            "case_ids": [control["case_id"] for control in batch],
+            "attempts": attempts,
+            "prior_attempt_failures": failures,
+        })
+
+    result = qualify_reviewer(
+        lambda control: parsed_by_id[control["case_id"]]
+    )
+    result["batch_size"] = batch_size
+    result["batch_count"] = len(batches)
+    result["batches"] = batches
+    return result
 
 
 def qualify_reviewer(
