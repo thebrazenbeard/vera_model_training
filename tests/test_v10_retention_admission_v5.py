@@ -45,7 +45,9 @@ def _fixture():
     for row in rows:
         grouped.setdefault(row["family_id"], []).append(row)
     for family in sorted(grouped):
-        predecessor.append(sorted(grouped[family], key=lambda r: r["case_id"])[0])
+        family_rows = sorted(grouped[family], key=lambda r: r["case_id"])
+        if len(family_rows) > 1:
+            predecessor.append(family_rows[0])
     excluded = {row["case_id"] for row in predecessor}
     packet = select_disjoint_family_audit_sample(
         rows,
