@@ -749,7 +749,10 @@ def execute_authorized_training(
     sealed = _read_json(sealed_path)
 
     validate_output_namespace(output_dir, authority)
-    execution_spec = default_execution_spec()
+    execution_spec_path = (
+        experiment_dir / "V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json"
+    )
+    execution_spec = _read_json(execution_spec_path)
     spec_check = validate_execution_spec(contract, execution_spec)
 
     subject = contract.get("source_subject", {})
