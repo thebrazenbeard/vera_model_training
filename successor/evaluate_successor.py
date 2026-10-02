@@ -75,9 +75,29 @@ def _valid_sha256(value) -> bool:
     return all(ch in "0123456789abcdef" for ch in value)
 
 
+def _load_sealed_commitment_validator():
+    import importlib.util
+    from pathlib import Path
+
+    module_path = (
+        Path(__file__).resolve().parent
+        / "experiments"
+        / "sealed_final_bank_commitment.py"
+    )
+    spec = importlib.util.spec_from_file_location(
+        "_v10_sealed_final_bank_commitment",
+        module_path,
+    )
+    if spec is None or spec.loader is None:
+        raise RuntimeError("sealed commitment validator could not be loaded")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.validate_sealed_final_bank_commitment
+
+
 def _sealed_commitment_evidence(base, preconditions):
-    from successor.experiments.sealed_final_bank_commitment import (
-        validate_sealed_final_bank_commitment,
+    validate_sealed_final_bank_commitment = (
+        _load_sealed_commitment_validator()
     )
 
     path = base / SEALED_COMMITMENT_FILENAME
