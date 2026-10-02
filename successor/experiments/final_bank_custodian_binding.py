@@ -162,6 +162,12 @@ def validate_custodian_binding(binding: dict) -> dict:
     ):
         if not _sha256(subject.get(field)):
             reasons.append(f"composition_{field}_invalid")
+    for field in (
+        "family_manifest_spec_sha256",
+        "diversity_diagnostic_spec_sha256",
+    ):
+        if field in subject and not _sha256(subject.get(field)):
+            reasons.append(f"composition_{field}_invalid")
 
     synthetic = binding.get("synthetic_custodians")
     if not isinstance(synthetic, dict):
@@ -285,6 +291,8 @@ def validate_custodian_handoff(
     proposal_blob_sha: str,
     generation_spec_sha256: str,
     grader_spec_sha256: str,
+    family_manifest_spec_sha256: str | None = None,
+    diversity_diagnostic_spec_sha256: str | None = None,
 ) -> dict:
     reasons: list[str] = []
 
@@ -324,12 +332,30 @@ def validate_custodian_handoff(
         "generation_spec_sha256": generation_spec_sha256,
         "grader_spec_sha256": grader_spec_sha256,
     }
+    if "family_manifest_spec_sha256" in contract_subject:
+        expected["family_manifest_spec_sha256"] = (
+            family_manifest_spec_sha256
+        )
+    if "diversity_diagnostic_spec_sha256" in contract_subject:
+        expected["diversity_diagnostic_spec_sha256"] = (
+            diversity_diagnostic_spec_sha256
+        )
 
     for field, actual in (
         ("proposal_blob_sha", proposal_blob_sha),
         ("generation_spec_sha256", generation_spec_sha256),
         ("grader_spec_sha256", grader_spec_sha256),
+        (
+            "family_manifest_spec_sha256",
+            family_manifest_spec_sha256,
+        ),
+        (
+            "diversity_diagnostic_spec_sha256",
+            diversity_diagnostic_spec_sha256,
+        ),
     ):
+        if field not in contract_subject:
+            continue
         contract_value = contract_subject.get(field)
         if contract_value != actual:
             reasons.append(
@@ -349,6 +375,16 @@ def validate_custodian_handoff(
         reasons.append("generation_spec_file_sha256_invalid")
     if not _sha256(grader_spec_sha256):
         reasons.append("grader_spec_file_sha256_invalid")
+    if (
+        "family_manifest_spec_sha256" in contract_subject
+        and not _sha256(family_manifest_spec_sha256)
+    ):
+        reasons.append("family_manifest_spec_file_sha256_invalid")
+    if (
+        "diversity_diagnostic_spec_sha256" in contract_subject
+        and not _sha256(diversity_diagnostic_spec_sha256)
+    ):
+        reasons.append("diversity_diagnostic_spec_file_sha256_invalid")
 
     if (
         generation_spec_sha256
@@ -360,6 +396,18 @@ def validate_custodian_handoff(
         != contract_subject.get("grader_spec_sha256")
     ):
         reasons.append("grader_spec_file_sha256_mismatch")
+    if (
+        "family_manifest_spec_sha256" in contract_subject
+        and family_manifest_spec_sha256
+        != contract_subject.get("family_manifest_spec_sha256")
+    ):
+        reasons.append("family_manifest_spec_file_sha256_mismatch")
+    if (
+        "diversity_diagnostic_spec_sha256" in contract_subject
+        and diversity_diagnostic_spec_sha256
+        != contract_subject.get("diversity_diagnostic_spec_sha256")
+    ):
+        reasons.append("diversity_diagnostic_spec_file_sha256_mismatch")
 
     reasons = sorted(set(reasons))
     return {
@@ -373,6 +421,10 @@ def validate_custodian_handoff(
         "proposal_blob_sha": proposal_blob_sha,
         "generation_spec_sha256": generation_spec_sha256,
         "grader_spec_sha256": grader_spec_sha256,
+        "family_manifest_spec_sha256": family_manifest_spec_sha256,
+        "diversity_diagnostic_spec_sha256": (
+            diversity_diagnostic_spec_sha256
+        ),
         "synthetic_actor_ids": binding_check.get(
             "synthetic_actor_ids", []
         ),
