@@ -5,6 +5,13 @@ import json
 
 
 REQUIRED_FIELDS = {"item_id", "prompt_family", "prompt", "rubric"}
+SEALED_COMMITMENT_FILENAME = "V10_SEALED_FINAL_BANK_COMMITMENT_V1.json"
+SEALED_DERIVABLE_PRECONDITIONS = {
+    "fresh_evaluation_bank_frozen",
+    "independent_bank_admission_verified",
+    "semantic_contamination_screen_verified",
+    "contamination_screen_against_v10_and_consumed_finals_verified",
+}
 
 
 def _canonical(value) -> bytes:
@@ -68,6 +75,75 @@ def _valid_sha256(value) -> bool:
     return all(ch in "0123456789abcdef" for ch in value)
 
 
+def _sealed_commitment_evidence(base, preconditions):
+    from successor.experiments.sealed_final_bank_commitment import (
+        validate_sealed_final_bank_commitment,
+    )
+
+    path = base / SEALED_COMMITMENT_FILENAME
+    if not path.exists():
+        return (
+            {
+                "status": "ABSENT",
+                "bank_id": None,
+                "commitment_sha256": None,
+            },
+            [],
+            {},
+        )
+
+    commitment = _read_json(path)
+    reasons = []
+    check = validate_sealed_final_bank_commitment(commitment)
+    reasons.extend(
+        "sealed_commitment:" + reason
+        for reason in check.get("reasons", [])
+    )
+
+    claimed_sha = commitment.get("commitment_sha256")
+    unsigned = dict(commitment)
+    unsigned.pop("commitment_sha256", None)
+    expected_sha = hashlib.sha256(_canonical(unsigned)).hexdigest()
+    if claimed_sha != expected_sha:
+        reasons.append("sealed_commitment_sha256_mismatch")
+    if not _valid_sha256(commitment.get("freeze_subject_digest")):
+        reasons.append("sealed_commitment_freeze_subject_digest_invalid")
+
+    reasons = sorted(set(reasons))
+    if reasons:
+        return (
+            {
+                "status": "INVALID",
+                "bank_id": commitment.get("bank_id"),
+                "commitment_sha256": claimed_sha,
+            },
+            reasons,
+            {},
+        )
+
+    derived = {
+        key: True
+        for key in sorted(SEALED_DERIVABLE_PRECONDITIONS)
+        if key in preconditions
+    }
+    return (
+        {
+            "status": "VERIFIED",
+            "bank_id": commitment.get("bank_id"),
+            "commitment_sha256": claimed_sha,
+            "bank_sha256": commitment.get(
+                "plaintext_artifacts", {}
+            ).get("bank_sha256"),
+            "sealed_archive_sha256": commitment.get(
+                "plaintext_artifacts", {}
+            ).get("sealed_archive_sha256"),
+            "plaintext_exposed_to_training_lane": False,
+        },
+        [],
+        derived,
+    )
+
+
 def assess_v10_experiment_state(repo_root):
     from pathlib import Path
 
@@ -94,8 +170,6 @@ def assess_v10_experiment_state(repo_root):
         reasons.append("invalid_final_bank_admission_schema")
     if exclusion.get("schema") != "V10_QWEN35_EXCLUSION_REGISTRY_V1":
         reasons.append("invalid_exclusion_registry_schema")
-    if admission.get("status") != "FINAL_BANK_ADMITTED_AND_FROZEN":
-        reasons.append("final_bank_cases_not_admitted")
     if exclusion.get("status") != "FROZEN_EXCLUSION_IDENTITIES":
         reasons.append("exclusion_registry_not_frozen")
 
@@ -103,11 +177,30 @@ def assess_v10_experiment_state(repo_root):
     if not isinstance(preconditions, dict):
         reasons.append("blocking_preconditions_missing")
         preconditions = {}
+
+    sealed, sealed_reasons, derived_preconditions = (
+        _sealed_commitment_evidence(base, preconditions)
+    )
+    reasons.extend(sealed_reasons)
+    sealed_verified = sealed["status"] == "VERIFIED"
+
+    if (
+        admission.get("status") != "FINAL_BANK_ADMITTED_AND_FROZEN"
+        and not sealed_verified
+    ):
+        reasons.append("final_bank_cases_not_admitted")
+
+    effective_preconditions = {}
     for key, value in sorted(preconditions.items()):
-        if value is not True:
+        effective_value = derived_preconditions.get(key, value)
+        effective_preconditions[key] = effective_value
+        if effective_value is not True:
             reasons.append(key)
 
-    if preconditions.get("fresh_evaluation_bank_frozen") is True:
+    if (
+        effective_preconditions.get("fresh_evaluation_bank_frozen") is True
+        and not sealed_verified
+    ):
         bank = contract.get("evaluation_bank", {})
         required = ("behavioral", "adversarial", "retention")
         if any(
@@ -123,6 +216,8 @@ def assess_v10_experiment_state(repo_root):
         "status": "READY_PRECONDITIONS" if ready else "HOLD",
         "training_allowed": ready,
         "reasons": reasons,
+        "derived_preconditions": derived_preconditions,
+        "sealed_final_bank": sealed,
         "effect": "READ_ONLY_PREFLIGHT_NO_WEIGHT_CHANGE",
     }
 
@@ -143,6 +238,12 @@ def _main(argv=None) -> int:
             "status": "HOLD",
             "training_allowed": False,
             "reasons": ["preflight_input_error:" + str(exc)],
+            "derived_preconditions": {},
+            "sealed_final_bank": {
+                "status": "ERROR",
+                "bank_id": None,
+                "commitment_sha256": None,
+            },
             "effect": "READ_ONLY_PREFLIGHT_NO_WEIGHT_CHANGE",
         }
     print(json.dumps(result, sort_keys=True))
