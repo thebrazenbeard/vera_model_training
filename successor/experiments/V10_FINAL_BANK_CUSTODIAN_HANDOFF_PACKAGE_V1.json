@@ -1,0 +1,67 @@
+{
+  "schema": "V10_FINAL_BANK_CUSTODIAN_HANDOFF_PACKAGE_V1",
+  "date": "2026-10-02",
+  "status": "HANDOFF_SPEC_READY_IDENTITIES_UNBOUND",
+  "repository": "thebrazenbeard/vera_model_training",
+  "composition_subject": {
+    "proposal": {
+      "path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md",
+      "git_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+    },
+    "generation_spec": {
+      "path": "successor/experiments/V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1.json",
+      "git_blob_sha": "ec342cd4f2035123cd10a4ba329f2dbefbda58c4",
+      "file_sha256": "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0"
+    },
+    "grader_spec": {
+      "path": "successor/experiments/V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1.json",
+      "git_blob_sha": "7692c19282c90b8ac815788203e9202805acb66f",
+      "file_sha256": "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
+    },
+    "custodian_contract": {
+      "path": "successor/experiments/V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1.json",
+      "git_blob_sha": "8ced2824b49ffbdb378283f29dc0fcce7f0c7fc5"
+    }
+  },
+  "binding_template": {
+    "path": "successor/experiments/V10_FINAL_BANK_CUSTODIAN_BINDING_TEMPLATE_V1.json",
+    "git_blob_sha": "123233a8994f93c51270fa364cad716791727350",
+    "status": "UNBOUND_TEMPLATE_DO_NOT_USE_AS_BINDING"
+  },
+  "verifier": {
+    "path": "successor/experiments/verify_v10_final_bank_custodian_handoff.py",
+    "git_blob_sha": "1923e298348b15a14ee14a1598db343a4fda6e53",
+    "pass_status": "HANDOFF_READY_FOR_INDEPENDENT_CUSTODY",
+    "hold_exit_code": 2
+  },
+  "required_before_generation": [
+    "replace template with actual V10_FINAL_BANK_CUSTODIAN_BINDING_V1",
+    "bind two distinct non-Qwen synthetic model families",
+    "bind at least one genuine human author",
+    "bind at least one disjoint human reviewer",
+    "bind independent custody/evaluation surface with training and candidate-development access disabled",
+    "produce private identity/access-control attestation digests",
+    "run standalone verifier and obtain HANDOFF_READY_FOR_INDEPENDENT_CUSTODY"
+  ],
+  "currently_unresolved": [
+    "synthetic_custodian_A_identity",
+    "synthetic_custodian_B_identity",
+    "human_author_identity",
+    "human_reviewer_identity",
+    "independent_custody_surface",
+    "access_control_receipt"
+  ],
+  "plaintext_policy": {
+    "final_plaintext_allowed_in_training_lane": false,
+    "final_plaintext_allowed_in_candidate_development_lane": false,
+    "final_plaintext_allowed_only_in_bound_independent_custody_lane": true,
+    "public_handoff_contains_plaintext": false
+  },
+  "protected_effects": {
+    "training_authorized": false,
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_install_activate_authorized": false
+  },
+  "claim_ceiling": "NONPLAINTEXT_HANDOFF_PACKAGE_READY / IDENTITIES AND CUSTODY SURFACE UNBOUND / FINAL PLAINTEXT NOT GENERATED / NO TRAINING AUTHORITY"
+}
