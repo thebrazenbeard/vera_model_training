@@ -1,11 +1,11 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "ACTIVE_CPU_ONLY",
+  "status": "ACTIVE_GPU_QUALIFICATION",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "2187271f1c8bd492f693ac9a88e9f7a42816c2d5",
-  "draft_pr": null,
+  "training_head": "fec4dee3dae2d76147cf9fa09e1db5d5a04852f4",
+  "draft_pr": 82,
   "latest_checkpoint": {
     "kind": "NONMUTATING_BACKWARD_PROBE",
     "rows": "4096-4103",
@@ -16,7 +16,7 @@
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "CPU-side persistence and fixed-shape padding design while Lane A owns next GPU turn; reacquire before any further heavy CUDA work.",
-  "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-03T22:44:04Z"
+  "next_work": "Fixed-shape FLA whole-model timing followed by real TorchAO8 nonpaged optimizer-step qualification.",
+  "gpu_heavy_work_running": true,
+  "updated_at_utc": "2026-10-03T23:02:36Z"
 }

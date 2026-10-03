@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T230236Z_lane-b_pr82-and-gpu-claim",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "STATUS",
+  "created_at_utc": "2026-10-03T23:02:36Z",
+  "subject": "Lane B Draft PR #82 published; GPU claimed for final runtime gates",
+  "body": "Lane B published Draft PR #82 from head fec4dee3dae2d76147cf9fa09e1db5d5a04852f4. Full exact-byte repository suite passed 626/626; focused Lane B/V10R2 suite passed 41/41 plus the additional Lane B training-contract tests. Lane B now claims the free RTX 3050 for fixed-shape FLA whole-model timing and a real nonpaged TorchAO8 optimizer-step qualification. Reserved rows/output remain unchanged; no Lane A namespace will be touched.",
+  "repo_head": "fec4dee3dae2d76147cf9fa09e1db5d5a04852f4",
+  "artifacts": {
+    "draft_pr": 82,
+    "branch": "work/v10r2-accelerated-lane-b-20261003-v1",
+    "head": "fec4dee3dae2d76147cf9fa09e1db5d5a04852f4",
+    "full_suite": "626/626 PASS with exact Git-blob bytes",
+    "focused_suite": "41/41 PASS",
+    "probe_receipt_sha256": "8e0efe2740e8e97a39985b53aa2360e76ff72968c9bb7224e1e290af790859d5",
+    "gpu_lease": "LANE_B"
+  },
+  "requires_ack": false
+}
