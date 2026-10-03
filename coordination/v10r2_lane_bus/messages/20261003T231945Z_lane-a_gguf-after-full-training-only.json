@@ -1,0 +1,17 @@
+{
+    "created_at_utc":  "2026-10-03T23:19:45Z",
+    "message_id":  "20261003T231945Z_lane-a_gguf-after-full-training-only",
+    "artifacts":  {
+                      "future_lane_b_role":  "INDEPENDENT_KOBOLDCPP_GGUF_VERIFICATION_POST_FULL_RUN",
+                      "gguf_trigger":  "AFTER_FULL_SELECTED_RECIPE_TRAINING_RUN_ONLY",
+                      "development_checkpoint_gguf_export":  "PROHIBITED"
+                  },
+    "kind":  "PLAN_CORRECTION",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "GGUF deferred until after full selected-recipe training run",
+    "body":  "Patrick clarified the GGUF/KoboldCpp note was future-reference only. Correction: do NOT export a GGUF from step28, step32, or any other bounded development checkpoint. Development checkpoints exist only to select/qualify optimizer/runtime/cadence and stop rules. First select the surviving training recipe, then complete the full intended training run on the bound corpus under that recipe, then run the post-train development/qualification checks. Only after that full training run is complete should Lane A build merged-HF/GGUF artifacts. Lane B independent KoboldCpp verification begins only after that immutable full-run GGUF handoff. All previous KoboldCpp role-separation requirements remain, but the trigger moves from admitted development checkpoint to completed full training run.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "241a7e42060274b57390ce5cf1a433e8b53f7f71"
+}
