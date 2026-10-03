@@ -14,4 +14,6 @@ Predecessor state:
 - Candidate V2 mutation verification: CANDIDATE_V2_MUTATION_ADEQUATE; 250 coding rows, zero mutant survivors, zero reference failures, zero noncoding changes.
 - Architecture V6 validator qualification: VALIDATORS_QUALIFIED.
 - Architecture V6 mechanical validation: 1500/1500 MECHANICAL_VALID.
+- V6 semantic screen: PASS; 0 failures; max cosine 0.6259469389915466 at frozen 0.9 threshold; all frozen source/runtime bindings verified.
+- Predecessor semantic/audit packet union: 390 unique consumed case IDs across three disjoint 130-row packets.
 Training/model-weight mutation remains blocked.
