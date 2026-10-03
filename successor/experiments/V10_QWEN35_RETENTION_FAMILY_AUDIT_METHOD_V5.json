@@ -1,0 +1,63 @@
+{
+  "schema": "V10_QWEN35_RETENTION_FAMILY_AUDIT_METHOD_V5",
+  "date": "2026-10-02",
+  "status": "PREREGISTERED_BEFORE_V5_PACKET_SELECTION",
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "predecessor": {
+    "v4_status": "HOLD",
+    "prior_packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "prior_packet_case_count": 130,
+    "prior_packet_cases_reusable": false,
+    "v4_result_manifest": "successor/experiments/V10_QWEN35_RETENTION_V4_RESULT_MANIFEST_V1.json",
+    "cause_classification": "successor/experiments/V10_QWEN35_RETENTION_V4_CAUSE_CLASSIFICATION_V1.json"
+  },
+  "selection": {
+    "namespace": "RETENTION_FAMILY_AUDIT_V5_DISJOINT_20261002",
+    "exclude_all_prior_packet_case_ids": true,
+    "ranking": "SHA256(candidate_sha256, NUL, namespace, NUL, family_id, NUL, case_id) ascending over remaining rows",
+    "per_family": 5,
+    "family_count": 26,
+    "sample_rows": 130,
+    "require_exact_disjointness": true
+  },
+  "reviewer": {
+    "provider": "OLLAMA_LOCAL",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "runtime": "ollama version is 0.34.2",
+    "temperature": 0,
+    "seed": 20261001
+  },
+  "response_contract": {
+    "reviewer_emits_verdict": false,
+    "required_fields": [
+      "case_id",
+      "prompt_well_posed",
+      "grader_matches_prompt",
+      "evidence_policy_supports_expected_answer",
+      "issue_code",
+      "reason",
+      "confidence"
+    ],
+    "derived_verdict": "ADMIT iff prompt_well_posed AND grader_matches_prompt AND evidence_policy_supports_expected_answer; otherwise REJECT",
+    "evidence_policy_definition": "Whether the prompt plus attached/source evidence make the grader's expected answer justified under the prompt's stated evidence policy.",
+    "not_enough_info_rule": "When the grader expects NOT_ENOUGH_INFO and the prompt forbids outside knowledge, evidence_policy_supports_expected_answer is true if the supplied prompt evidence lacks the fact required to resolve the claim. Do not require external evidence of the real-world claim.",
+    "true_false_rule": "For TRUE/FALSE expected answers, the supplied prompt evidence itself must support or refute the claim as required.",
+    "executable_rule": "For generated code/instruction cases, attached deterministic source/spec evidence must be sufficient to justify the grader contract."
+  },
+  "execution": {
+    "request_unit": "ONE_FAMILY_PER_REQUEST",
+    "cases_per_request": 5,
+    "max_identical_prompt_retries_for_invalid_json_or_schema": 3,
+    "semantic_negative_consumes_no_retry": true,
+    "retry_may_change_prompt": false,
+    "stop_on_first_reject": true,
+    "any_reject_policy": "HOLD",
+    "missing_case_policy": "HOLD",
+    "extra_case_policy": "HOLD",
+    "resume_policy": "PRESERVE_ONLY_COMPLETED_V5_FAMILY_RECORDS_BOUND_TO_EXACT_V5_PROTOCOL_SHA"
+  },
+  "independence_limit": "V5 is a methodology-repair audit designed after V4 failure; disjoint cases prevent direct case reuse but do not make the methodology history independent.",
+  "truth_boundary": "External model audits benchmark prompt/grader/evidence-policy alignment. Deterministic source or executable-test truth remains authoritative for all 1500 cases.",
+  "claim_ceiling": "V5_METHOD_PREREGISTERED / PACKET_NOT_SELECTED / NO_V5_RESULT / NOT_RETENTION_ADMITTED / NO_TRAINING"
+}

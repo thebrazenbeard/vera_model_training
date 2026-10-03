@@ -1,0 +1,59 @@
+{
+  "claim_ceiling": "RETENTION_AUDIT_ARCH_V5_ONLY / METHODOLOGY_DESIGNED_AFTER_V2_V3_V4_FAILURES / NOT_FULL_FINAL_BANK / NOT_TRAINING_AUTHORIZATION",
+  "date": "2026-10-02",
+  "diagnosis": {
+    "accepted_objection": "Do not guess which field drifted and then loosen the parser. Remove serialization conformance from the semantic reviewer by constraining the transport with JSON Schema.",
+    "candidate_changed": false,
+    "qualification_thresholds_lowered": false,
+    "reviewer_model_changed": false,
+    "sampler_changed": false,
+    "semantic_packet_changed": false,
+    "v4_exact_missing_or_extra_fields": "UNKNOWN because V4 retained failed-response SHA-256 values but not raw bodies.",
+    "v4_primary_failure": "Closed-schema row mismatch during reviewer qualification."
+  },
+  "historical_methodology_independence": false,
+  "predecessors": {
+    "v2": {
+      "result_manifest_path": "successor/evaluation/v10_qwen35/retention_arch_v2.result.manifest.json",
+      "semantic_rows_reviewed": 0
+    },
+    "v3": {
+      "result_manifest_path": "successor/evaluation/v10_qwen35/retention_arch_v3.result.manifest.json",
+      "semantic_rows_reviewed": 0
+    },
+    "v4": {
+      "result_manifest_path": "successor/evaluation/v10_qwen35/retention_arch_v4.result.manifest.json",
+      "semantic_rows_reviewed": 0
+    }
+  },
+  "repair_class": "AUDIT_TRANSPORT_SCHEMA_ENFORCEMENT",
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V5_METHOD_V1",
+  "semantic_packet_reuse": {
+    "justification": "V2, V3, and V4 all failed reviewer qualification before semantic packet review.",
+    "path": "successor/evaluation/v10_qwen35/retention_arch_v2.semantic.packet.jsonl",
+    "reviewed_before_v5": 0,
+    "rows": 130,
+    "sha256": "d746d8eafc69b0c2610be77f985c38b59377fbe3953f812bdbbdbc644113e75e"
+  },
+  "status": "FROZEN_BEFORE_FIRST_V5_LIVE_REVIEW_CALL",
+  "v5_changes": {
+    "exclusive_execution_lock": true,
+    "fresh_qualification_controls": 48,
+    "hidden_expected_labels_in_schema": false,
+    "ollama_structured_output_json_schema": true,
+    "qualification_batch_size": 4,
+    "qualification_controls_disjoint_from_v2_v3_v4": true,
+    "schema_fields_additional_properties_false": true,
+    "semantic_batch_size": 5,
+    "semantic_witness_contract_violation_class": "REVIEWER_DEFECT",
+    "witness_evidence_policy": "V4 meaningful-witness policy unchanged",
+    "witness_representation_types": [
+      "string",
+      "array",
+      "object",
+      "null",
+      "number",
+      "boolean"
+    ]
+  }
+}

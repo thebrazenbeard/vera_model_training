@@ -1,0 +1,117 @@
+{
+  "code_behavior": {
+    "families": {
+      "chunk_list": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "clamp_values": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "count_vowels": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "digit_sum": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "flatten_once": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "frequency_map": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "pairwise_sums": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "reverse_words": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "rotate_left": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "unique_preserve": {
+        "good_passed": true,
+        "mutant_killed": true
+      }
+    },
+    "status": "QUALIFIED"
+  },
+  "instruction_behavior": {
+    "families": {
+      "forbidden_character": {
+        "good_passed": true,
+        "mutant_rejected": true
+      },
+      "json_keys": {
+        "good_passed": true,
+        "mutant_rejected": true
+      },
+      "line_prefixes": {
+        "good_passed": true,
+        "mutant_rejected": true
+      },
+      "prefix_suffix": {
+        "good_passed": true,
+        "mutant_rejected": true
+      },
+      "token_count": {
+        "good_passed": true,
+        "mutant_rejected": true
+      }
+    },
+    "status": "QUALIFIED"
+  },
+  "status": "VALIDATORS_QUALIFIED",
+  "validators": {
+    "direct_source_lookup": {
+      "false_positives": [],
+      "good_controls": 1,
+      "missed_defects": [],
+      "seeded_defects": 4,
+      "status": "QUALIFIED"
+    },
+    "evidence_calibration": {
+      "false_positives": [],
+      "good_controls": 1,
+      "missed_defects": [],
+      "seeded_defects": 4,
+      "status": "QUALIFIED"
+    },
+    "generated_code": {
+      "false_positives": [],
+      "good_controls": 1,
+      "missed_defects": [],
+      "seeded_defects": 3,
+      "status": "QUALIFIED"
+    },
+    "generated_instruction": {
+      "false_positives": [],
+      "good_controls": 1,
+      "missed_defects": [],
+      "seeded_defects": 1,
+      "status": "QUALIFIED"
+    },
+    "source_arithmetic": {
+      "false_positives": [],
+      "good_controls": 1,
+      "missed_defects": [],
+      "seeded_defects": 3,
+      "status": "QUALIFIED"
+    },
+    "structured_extraction": {
+      "false_positives": [],
+      "good_controls": 1,
+      "missed_defects": [],
+      "seeded_defects": 3,
+      "status": "QUALIFIED"
+    }
+  }
+}

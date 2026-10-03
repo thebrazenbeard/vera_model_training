@@ -1,0 +1,18 @@
+{
+  "case_count": 1500,
+  "case_id_order_match": true,
+  "category_counts_match": true,
+  "coding_changed": 250,
+  "coding_revision_failures": [],
+  "coding_rows": 250,
+  "mutant_survivors": [],
+  "noncoding_changed": 0,
+  "reasons": [],
+  "reference_failures": [],
+  "schema": "V10_QWEN35_RETENTION_CANDIDATE_V2_VERIFY_V1",
+  "status": "CANDIDATE_V2_MUTATION_ADEQUATE",
+  "v1_path": "successor/evaluation/v10_qwen35/retention_candidate_v1.jsonl",
+  "v1_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "v2_path": "successor/evaluation/v10_qwen35/retention_candidate_v2.jsonl",
+  "v2_sha256": "4ed78c578b7c99504f52a2a8cc29d10396ddb2460471704340b915871c1441dc"
+}

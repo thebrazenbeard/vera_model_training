@@ -1,0 +1,15 @@
+{
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "disjoint_from_predecessor": true,
+  "excluded_case_count": 130,
+  "family_count": 26,
+  "packet_path": "D:/VERA/.scratch/v10-retention-family-audit-v5-20261002/packet.jsonl",
+  "packet_sha256": "1be692e63d76cbcdd3a4943a82272c5d41ad3f202a0fd7f08ef40a18446c06ba",
+  "per_family": 5,
+  "predecessor_packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+  "review_role": "fresh methodology-repair benchmark audit; deterministic source/test truth remains authoritative",
+  "sample_rows": 130,
+  "schema": "V10_RETENTION_FAMILY_AUDIT_PACKET_V5",
+  "selection": "Exclude all predecessor packet case IDs; then rank remaining rows per family by SHA256(candidate_sha256,NUL,namespace,NUL,family_id,NUL,case_id) ascending and take lowest per_family.",
+  "selection_namespace": "RETENTION_FAMILY_AUDIT_V5_DISJOINT_20261002"
+}

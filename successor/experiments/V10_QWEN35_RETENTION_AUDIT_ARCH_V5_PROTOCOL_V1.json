@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-02",
+  "execution": {
+    "duplicate_run_behavior": "FAIL_BEFORE_REVIEWER_CALL",
+    "exclusive_lock_required": true,
+    "stale_lock_auto_deleted": false
+  },
+  "reviewer": {
+    "format": "DYNAMIC_JSON_SCHEMA",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261002,
+    "stream": false,
+    "structured_output": "JSON_SCHEMA",
+    "temperature": 0,
+    "url": "http://127.0.0.1:11434/api/generate"
+  },
+  "reviewer_qualification": {
+    "batch_size": 4,
+    "control_count": 48,
+    "controls_path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V5_CONTROLS_V1.json",
+    "controls_sha256": "3d7dc1ce07e7979f1ce2aad360ef1c1afe2e02e851d4a0ba31e752bfd1f4246f",
+    "defect_classes": [
+      "referent_ambiguity",
+      "prompt_grader_semantic_mismatch",
+      "contradictory_instructions",
+      "underspecified_output_format",
+      "evidence_policy_ambiguity",
+      "scope_negation_ambiguity"
+    ],
+    "defects_per_class": 4,
+    "failure_action": "REVIEWER_UNQUALIFIED_AND_DO_NOT_REVIEW_SEMANTIC_PACKET",
+    "good_controls_per_class": 4,
+    "max_attempts": 3,
+    "minimum_per_class_detection": [
+      3,
+      4
+    ],
+    "minimum_sensitivity": [
+      22,
+      24
+    ],
+    "minimum_specificity": [
+      22,
+      24
+    ],
+    "structured_contradictions_allowed": 0
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V5_PROTOCOL_V1",
+  "semantic_review": {
+    "answer_key_hidden": true,
+    "batch_size": 5,
+    "families": 26,
+    "invalid_required_witness_action": "PRESERVE_ROW_AND_CLASSIFY_REVIEWER_DEFECT_DURING_RECONCILIATION",
+    "max_attempts": 3,
+    "packet_path": "successor/evaluation/v10_qwen35/retention_arch_v2.semantic.packet.jsonl",
+    "packet_sha256": "d746d8eafc69b0c2610be77f985c38b59377fbe3953f812bdbbdbc644113e75e",
+    "rows": 130,
+    "semantic_witness_does_not_early_stop": true,
+    "verdict_hidden": true
+  },
+  "status": "FROZEN_BEFORE_FIRST_V5_LIVE_REVIEW_CALL",
+  "structured_output": {
+    "hidden_expected_labels_encoded": false,
+    "qualification_schema_count": 12,
+    "schemas_path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V5_SCHEMAS_V1.json",
+    "schemas_sha256": "fcae46719b59d30b55e981cb960b2f248404071c2d30f51c05f95d9460b5d73f",
+    "semantic_schema_count": 26,
+    "transport": "OLLAMA_JSON_SCHEMA"
+  }
+}

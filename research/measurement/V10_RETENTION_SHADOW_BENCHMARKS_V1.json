@@ -1,0 +1,67 @@
+{
+  "schema": "V10_RETENTION_SHADOW_BENCHMARK_MANIFEST_V1",
+  "date": "2026-10-01",
+  "status": "PINNED_SHADOW_DIAGNOSTICS_NOT_FINAL_EVIDENCE",
+  "purpose": "Broad external post-training diagnostics for retention/generalization. Public benchmarks are intentionally not treated as pristine final evidence.",
+  "sources": {
+    "knowledge_factuality": {
+      "dataset": "TIGER-Lab/MMLU-Pro",
+      "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+      "file": "data/test-00000-of-00001.parquet",
+      "file_sha256": "0e24a191921c2f453518a537a8b2117bd137e7714d4ef1565e9ba06c1ecb9ad8",
+      "rows": 12032,
+      "license": "MIT"
+    },
+    "reasoning_math": {
+      "dataset": "openai/gsm8k",
+      "revision": "740312add88f781978c0658806c59bc2815b9866",
+      "file": "main/test-00000-of-00001.parquet",
+      "file_sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59",
+      "rows": 1319,
+      "license": "MIT"
+    },
+    "coding": {
+      "dataset": "google-research-datasets/mbpp",
+      "revision": "4bb6404fdc6cacfda99d4ac4205087b89d32030c",
+      "file": "sanitized/test-00000-of-00001.parquet",
+      "file_sha256": "e9e9efa2c0d59ef5e55537a9d126b8f875d5ac010a8d75628d76824884e15850",
+      "rows": 257,
+      "license": "CC-BY-4.0"
+    },
+    "instruction_following": {
+      "dataset": "google/IFEval",
+      "revision": "966cd89545d6b6acfd7638bc708b98261ca58e84",
+      "file": "ifeval_input_data.jsonl",
+      "file_sha256": "6a85310ca8ce15eff755aa08a3a4ff931c7e273e7515ebb3c492ea85fd8288f2",
+      "rows": 541,
+      "license": "Apache-2.0",
+      "official_grader_repo": "google-research/google-research",
+      "official_grader_revision": "e49bbfe381c9c0e564b937f1c4e163a2273c65cc"
+    },
+    "extraction_structured": {
+      "dataset": "rajpurkar/squad_v2",
+      "revision": "3ffb306f725f7d2ce8394bc1873b24868140c412",
+      "file": "squad_v2/validation-00000-of-00001.parquet",
+      "file_sha256": "0560174ab095c5ac0a8c8dc8da05f1625453c45a77e4ce9cabc6947ddfdd24cb",
+      "rows": 11873,
+      "license": "CC-BY-SA-4.0"
+    },
+    "truthfulness_factual_calibration": {
+      "dataset": "truthfulqa/truthful_qa",
+      "revision": "741b8276f2d1982aa3d5b832d3ee81ed3b896490",
+      "file": "multiple_choice/validation-00000-of-00001.parquet",
+      "file_sha256": "23f08e230ca4ed66babf3a72419af7cbde1f3d734dd396ac4cf6d088bd162afd",
+      "rows": 817,
+      "license": "Apache-2.0"
+    }
+  },
+  "use_policy": {
+    "final_bank_use": false,
+    "promotion_gate_use": false,
+    "candidate_selection_use": false,
+    "paired_base_candidate_diagnostic": true,
+    "contamination_screen_recommended": true,
+    "redistribution": "Do not vendor raw benchmark rows into this repository from this manifest; fetch pinned upstream sources when running diagnostics."
+  },
+  "claim_ceiling": "PINNED_PUBLIC_SHADOW_DIAGNOSTICS_ONLY / NOT_FRESH_HOLDOUT / NOT_FINAL_QUALIFICATION_EVIDENCE"
+}

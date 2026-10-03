@@ -1,0 +1,64 @@
+{
+  "schema": "V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V5",
+  "date": "2026-10-02",
+  "status": "PREREGISTERED_BEFORE_V5_REVIEW_CALL",
+  "methodology_lineage": {
+    "method_path": "successor/experiments/V10_QWEN35_RETENTION_FAMILY_AUDIT_METHOD_V5.json",
+    "method_sha256": "e2f000bea2db007b281b8f4f35722a8de49d9e1f9f90897814d6e19af0e68517",
+    "cause_classification_path": "successor/experiments/V10_QWEN35_RETENTION_V4_CAUSE_CLASSIFICATION_V1.json",
+    "cause_classification_sha256": "242f3bd21910ae8618825e397929cea9f05f0bc403e3ee570f7882de44ec25c8",
+    "builder_path": "successor/experiments/build_v10_retention_family_audit_v5.py",
+    "builder_sha256": "5885f69d4bd8932c59ae830061c5b163434ed743b84544b6c970e782c19e8005",
+    "runner_path": "successor/experiments/run_v10_retention_family_audit_v5.py",
+    "runner_sha256": "0e204bf03fce8489fc458c9cf33739a5926bdc426d61b3363a2da033aec336d2"
+  },
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "predecessor_packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+  "predecessor_packet_case_count": 130,
+  "predecessor_cases_reusable": false,
+  "packet_sha256": "1be692e63d76cbcdd3a4943a82272c5d41ad3f202a0fd7f08ef40a18446c06ba",
+  "packet_manifest_sha256": "dfa3b0d137738e1dabe9e42583b86db5e75a1089c113f6e616b1c59e37a3a796",
+  "sample_rows": 130,
+  "family_count": 26,
+  "cases_per_family": 5,
+  "selection_namespace": "RETENTION_FAMILY_AUDIT_V5_DISJOINT_20261002",
+  "disjoint_from_predecessor": true,
+  "reviewer": {
+    "provider": "OLLAMA_LOCAL",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "runtime": "ollama version is 0.34.2",
+    "temperature": 0,
+    "seed": 20261001
+  },
+  "response_contract": {
+    "reviewer_emits_verdict": false,
+    "required_fields": [
+      "case_id",
+      "prompt_well_posed",
+      "grader_matches_prompt",
+      "evidence_policy_supports_expected_answer",
+      "issue_code",
+      "reason",
+      "confidence"
+    ],
+    "derived_verdict": "ADMIT iff prompt_well_posed AND grader_matches_prompt AND evidence_policy_supports_expected_answer; otherwise REJECT",
+    "evidence_policy_definition": "Whether the prompt plus attached/source evidence make the grader's expected answer justified under the prompt's stated evidence policy.",
+    "not_enough_info_rule": "When the grader expects NOT_ENOUGH_INFO and the prompt forbids outside knowledge, evidence_policy_supports_expected_answer is true if the supplied prompt evidence lacks the fact required to resolve the claim. Do not require external evidence of the real-world claim."
+  },
+  "execution": {
+    "request_unit": "ONE_FAMILY_PER_REQUEST",
+    "cases_per_request": 5,
+    "max_identical_prompt_retries_for_invalid_json_or_schema": 3,
+    "semantic_negative_consumes_no_retry": true,
+    "retry_may_change_prompt": false,
+    "stop_on_first_reject": true,
+    "any_reject_policy": "HOLD",
+    "missing_case_policy": "HOLD",
+    "extra_case_policy": "HOLD",
+    "resume_policy": "PRESERVE_ONLY_COMPLETED_V5_FAMILY_RECORDS_BOUND_TO_EXACT_V5_PROTOCOL_SHA"
+  },
+  "independence_limit": "V5 is a methodology-repair audit designed after V4 failure. All predecessor packet cases are excluded, but methodology history is not independent.",
+  "truth_boundary": "External model audits benchmark prompt/grader/evidence-policy alignment. Deterministic source or executable-test truth remains authoritative for all 1500 cases.",
+  "claim_ceiling": "V5_PROTOCOL_FROZEN / FRESH_DISJOINT_PACKET_BOUND / NO_V5_REVIEW_CALL YET / NOT_RETENTION_ADMITTED / NO_TRAINING"
+}

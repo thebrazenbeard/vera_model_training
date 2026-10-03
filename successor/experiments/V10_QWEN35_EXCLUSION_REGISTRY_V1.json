@@ -1,0 +1,65 @@
+{
+  "schema": "V10_QWEN35_EXCLUSION_REGISTRY_V1",
+  "date": "2026-10-01",
+  "status": "FROZEN_EXCLUSION_IDENTITIES",
+  "experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_20261001_V1",
+  "current_v10": [
+    {
+      "id": "V10_TRAIN",
+      "rows": 50000,
+      "sha256": "04fbb3a2012ef3fd0506ad1188cc9f3b8d850161301fb9e0d00edd7f8ec78e90"
+    },
+    {
+      "id": "V10_VALIDATION",
+      "rows": 2500,
+      "sha256": "26e3387852283d399cea3df0758c3abf877d2884d298860668de7e5fe0b3bd93"
+    },
+    {
+      "id": "V10_REVIEW_SAMPLE",
+      "path": "successor/corpus/v4_1/behavioral_review_set.jsonl",
+      "source_head": "af27db57edf41a06601a2ed2e25d3757f9037ba3"
+    }
+  ],
+  "historical_consumed": [
+    {
+      "id": "V3_BEHAVIORAL",
+      "sha256": "1b80a0ef64e765e8d901bb2237edb0c7e14163c4211c2ee1b7032891f15261b3"
+    },
+    {
+      "id": "V3_RETENTION",
+      "sha256": "4105efadbfe3cd0b63edfa3f4f336f2098b8e544beda968ddbd4b46a40fa4766"
+    },
+    {
+      "id": "V3_ADVERSARIAL",
+      "sha256": "b952154d2e9424161f54d825b29e7569c6e02f22fe350f2b698b7d5c22a75229"
+    },
+    {
+      "id": "HISTORY_BEHAVIOR_HOLDOUT_V1",
+      "sha256": "93bbe6605f9b80e71aa6badebab3aaf13125cc5c00305b91f8811961f5edbb8c"
+    },
+    {
+      "id": "H07_FINAL_HOLDOUT_V1",
+      "sha256": "19ca7a8df3c7bb9d6dbe419e41cb8d56b034219870dc0a8bcc801baa325c50f5"
+    },
+    {
+      "id": "V4_BEHAVIORAL",
+      "sha256": "43065d16085d115c5744c3ce1fdb918a092e974a072a9283af0200338288cb91"
+    },
+    {
+      "id": "V4_RETENTION",
+      "sha256": "85a450c8b796162572fc406a5413eb29998d22817e8b8f9d8c448b4a5823c262"
+    },
+    {
+      "id": "V4_ADVERSARIAL",
+      "sha256": "a9985763a24562ef87b3b7afb93da8190d6c71e6d1456eb523f875ed1f5372a8"
+    }
+  ],
+  "policy": {
+    "final_bank_must_be_source_disjoint": true,
+    "exact_or_normalized_prompt_overlap": "REJECT",
+    "semantic_screen": "REQUIRED_BEFORE_FREEZE_WITH_PINNED_MODEL_AND_PREDECLARED_THRESHOLD",
+    "semantic_screen_claim_ceiling": "HEURISTIC_NOT_ZERO_CONTAMINATION_PROOF",
+    "prior_consumed_material_reuse": "NOT_ADMISSIBLE_AS_FRESH_FINAL_EVIDENCE"
+  },
+  "claim_ceiling": "EXCLUSION_IDENTITIES_FROZEN / PROMPT_FINGERPRINT_REGISTRY_NOT_YET_MATERIALIZED / FINAL_BANK_NOT_ADMITTED"
+}

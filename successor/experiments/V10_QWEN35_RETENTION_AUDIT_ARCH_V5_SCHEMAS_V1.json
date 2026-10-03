@@ -1,0 +1,3173 @@
+{
+  "date": "2026-10-02",
+  "format_mode": "OLLAMA_JSON_SCHEMA",
+  "qualification": {
+    "batch_count": 12,
+    "batch_size": 4,
+    "batches": [
+      {
+        "batch_index": 0,
+        "case_ids": [
+          "arch-v5-reviewer-referent_ambiguity-defect-0",
+          "arch-v5-reviewer-referent_ambiguity-good-0",
+          "arch-v5-reviewer-referent_ambiguity-defect-1",
+          "arch-v5-reviewer-referent_ambiguity-good-1"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-referent_ambiguity-defect-0",
+                      "arch-v5-reviewer-referent_ambiguity-good-0",
+                      "arch-v5-reviewer-referent_ambiguity-defect-1",
+                      "arch-v5-reviewer-referent_ambiguity-good-1"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "referent_ambiguity"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "00e50a457cbf54b215654a8c25c95661b785afa3cf80ee970ae1c27896be5fdf"
+      },
+      {
+        "batch_index": 1,
+        "case_ids": [
+          "arch-v5-reviewer-referent_ambiguity-defect-2",
+          "arch-v5-reviewer-referent_ambiguity-good-2",
+          "arch-v5-reviewer-referent_ambiguity-defect-3",
+          "arch-v5-reviewer-referent_ambiguity-good-3"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-referent_ambiguity-defect-2",
+                      "arch-v5-reviewer-referent_ambiguity-good-2",
+                      "arch-v5-reviewer-referent_ambiguity-defect-3",
+                      "arch-v5-reviewer-referent_ambiguity-good-3"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "referent_ambiguity"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "56d1d65a2d423b919db75a356fbca53ef3c66d5c7161269595e6df0b8bac8cad"
+      },
+      {
+        "batch_index": 2,
+        "case_ids": [
+          "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-0",
+          "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-0",
+          "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-1",
+          "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-1"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-0",
+                      "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-0",
+                      "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-1",
+                      "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-1"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "prompt_grader_semantic_mismatch"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "878ee5fb235c92d2007ec76c7ad13f0b3051d14b1260355c663f5dac8efd1d0b"
+      },
+      {
+        "batch_index": 3,
+        "case_ids": [
+          "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-2",
+          "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-2",
+          "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-3",
+          "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-3"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-2",
+                      "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-2",
+                      "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-3",
+                      "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-3"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "prompt_grader_semantic_mismatch"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "ec0c56ccddcbe39a4b072f89f566f7f27c7039e5309ce8bc68790a4524652bf2"
+      },
+      {
+        "batch_index": 4,
+        "case_ids": [
+          "arch-v5-reviewer-contradictory_instructions-defect-0",
+          "arch-v5-reviewer-contradictory_instructions-good-0",
+          "arch-v5-reviewer-contradictory_instructions-defect-1",
+          "arch-v5-reviewer-contradictory_instructions-good-1"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-contradictory_instructions-defect-0",
+                      "arch-v5-reviewer-contradictory_instructions-good-0",
+                      "arch-v5-reviewer-contradictory_instructions-defect-1",
+                      "arch-v5-reviewer-contradictory_instructions-good-1"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "contradictory_instructions"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "d6ea506c2a9cc274a0a718a0ec754430494514fc26af64cfa7e5a0b84681c763"
+      },
+      {
+        "batch_index": 5,
+        "case_ids": [
+          "arch-v5-reviewer-contradictory_instructions-defect-2",
+          "arch-v5-reviewer-contradictory_instructions-good-2",
+          "arch-v5-reviewer-contradictory_instructions-defect-3",
+          "arch-v5-reviewer-contradictory_instructions-good-3"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-contradictory_instructions-defect-2",
+                      "arch-v5-reviewer-contradictory_instructions-good-2",
+                      "arch-v5-reviewer-contradictory_instructions-defect-3",
+                      "arch-v5-reviewer-contradictory_instructions-good-3"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "contradictory_instructions"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "c34371157945b9fe3089d01266649980917627ed837893692a0579c4ef514930"
+      },
+      {
+        "batch_index": 6,
+        "case_ids": [
+          "arch-v5-reviewer-underspecified_output_format-defect-0",
+          "arch-v5-reviewer-underspecified_output_format-good-0",
+          "arch-v5-reviewer-underspecified_output_format-defect-1",
+          "arch-v5-reviewer-underspecified_output_format-good-1"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-underspecified_output_format-defect-0",
+                      "arch-v5-reviewer-underspecified_output_format-good-0",
+                      "arch-v5-reviewer-underspecified_output_format-defect-1",
+                      "arch-v5-reviewer-underspecified_output_format-good-1"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "underspecified_output_format"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "352a744314ce7b2bc52da971f8ecbca34c1304c399db12d0cb63c450f8827d79"
+      },
+      {
+        "batch_index": 7,
+        "case_ids": [
+          "arch-v5-reviewer-underspecified_output_format-defect-2",
+          "arch-v5-reviewer-underspecified_output_format-good-2",
+          "arch-v5-reviewer-underspecified_output_format-defect-3",
+          "arch-v5-reviewer-underspecified_output_format-good-3"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-underspecified_output_format-defect-2",
+                      "arch-v5-reviewer-underspecified_output_format-good-2",
+                      "arch-v5-reviewer-underspecified_output_format-defect-3",
+                      "arch-v5-reviewer-underspecified_output_format-good-3"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "underspecified_output_format"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "efd0fefdb9e5267b00d65c54614a84379128954e54fd85d198f58ce913627f82"
+      },
+      {
+        "batch_index": 8,
+        "case_ids": [
+          "arch-v5-reviewer-evidence_policy_ambiguity-defect-0",
+          "arch-v5-reviewer-evidence_policy_ambiguity-good-0",
+          "arch-v5-reviewer-evidence_policy_ambiguity-defect-1",
+          "arch-v5-reviewer-evidence_policy_ambiguity-good-1"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-evidence_policy_ambiguity-defect-0",
+                      "arch-v5-reviewer-evidence_policy_ambiguity-good-0",
+                      "arch-v5-reviewer-evidence_policy_ambiguity-defect-1",
+                      "arch-v5-reviewer-evidence_policy_ambiguity-good-1"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "evidence_policy_ambiguity"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "fcec83303f6e323e31f143aafc0e5bce598994bd96e68cecfa53863f9245b680"
+      },
+      {
+        "batch_index": 9,
+        "case_ids": [
+          "arch-v5-reviewer-evidence_policy_ambiguity-defect-2",
+          "arch-v5-reviewer-evidence_policy_ambiguity-good-2",
+          "arch-v5-reviewer-evidence_policy_ambiguity-defect-3",
+          "arch-v5-reviewer-evidence_policy_ambiguity-good-3"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-evidence_policy_ambiguity-defect-2",
+                      "arch-v5-reviewer-evidence_policy_ambiguity-good-2",
+                      "arch-v5-reviewer-evidence_policy_ambiguity-defect-3",
+                      "arch-v5-reviewer-evidence_policy_ambiguity-good-3"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "evidence_policy_ambiguity"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "7e26677e70ea5f6449cda9fad227ff2573a989e2d63c971f874b2af921a91627"
+      },
+      {
+        "batch_index": 10,
+        "case_ids": [
+          "arch-v5-reviewer-scope_negation_ambiguity-defect-0",
+          "arch-v5-reviewer-scope_negation_ambiguity-good-0",
+          "arch-v5-reviewer-scope_negation_ambiguity-defect-1",
+          "arch-v5-reviewer-scope_negation_ambiguity-good-1"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-scope_negation_ambiguity-defect-0",
+                      "arch-v5-reviewer-scope_negation_ambiguity-good-0",
+                      "arch-v5-reviewer-scope_negation_ambiguity-defect-1",
+                      "arch-v5-reviewer-scope_negation_ambiguity-good-1"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "scope_negation_ambiguity"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "34395db5af81fad01e57a62d7da772c02d4a8cf980f2fb39977ef6045bf85c10"
+      },
+      {
+        "batch_index": 11,
+        "case_ids": [
+          "arch-v5-reviewer-scope_negation_ambiguity-defect-2",
+          "arch-v5-reviewer-scope_negation_ambiguity-good-2",
+          "arch-v5-reviewer-scope_negation_ambiguity-defect-3",
+          "arch-v5-reviewer-scope_negation_ambiguity-good-3"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "arch-v5-reviewer-scope_negation_ambiguity-defect-2",
+                      "arch-v5-reviewer-scope_negation_ambiguity-good-2",
+                      "arch-v5-reviewer-scope_negation_ambiguity-defect-3",
+                      "arch-v5-reviewer-scope_negation_ambiguity-good-3"
+                    ],
+                    "type": "string"
+                  },
+                  "defect_class": {
+                    "enum": [
+                      "scope_negation_ambiguity"
+                    ],
+                    "type": "string"
+                  },
+                  "observed_defect": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observed_defect",
+                  "defect_class",
+                  "witness",
+                  "reason"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "d284a1697ef7237a2829765e474210aa628187a507eb7ea9c8c4a7cc64ce08b5"
+      }
+    ]
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V5_SCHEMAS_V1",
+  "semantic": {
+    "batch_count": 26,
+    "batch_size": 5,
+    "batches": [
+      {
+        "batch_index": 0,
+        "case_ids": [
+          "ret-cal-hm-0",
+          "ret-cal-fm-0",
+          "ret-cal-st-0",
+          "ret-cal-mv-0",
+          "ret-cal-bt-0"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-cal-hm-0",
+                      "ret-cal-fm-0",
+                      "ret-cal-st-0",
+                      "ret-cal-mv-0",
+                      "ret-cal-bt-0"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "3f7859a42ae4068255e0a0b8899f95d00a5d9b31254c46dc5bc9bc6bae5b3c61"
+      },
+      {
+        "batch_index": 1,
+        "case_ids": [
+          "ret-cal-tf-1",
+          "ret-cal-ba-1",
+          "ret-cal-ae-1",
+          "ret-cal-lv-1",
+          "ret-cal-mh-1"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-cal-tf-1",
+                      "ret-cal-ba-1",
+                      "ret-cal-ae-1",
+                      "ret-cal-lv-1",
+                      "ret-cal-mh-1"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "c9f2222ead20820e6ec0ff87af99105bbcf399c8e6c36ef40ba87fb6b395c82e"
+      },
+      {
+        "batch_index": 2,
+        "case_ids": [
+          "ret-cal-vi-2",
+          "ret-cal-pm-2",
+          "ret-cal-sj-2",
+          "ret-cal-td-2",
+          "ret-cal-lk-2"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-cal-vi-2",
+                      "ret-cal-pm-2",
+                      "ret-cal-sj-2",
+                      "ret-cal-td-2",
+                      "ret-cal-lk-2"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "6c003e3eed95e417083b9bfa9d3253fe3c6a7bf5bf344fe78603bea019de21d8"
+      },
+      {
+        "batch_index": 3,
+        "case_ids": [
+          "ret-code-chunk_list-016",
+          "ret-code-chunk_list-000",
+          "ret-code-chunk_list-013",
+          "ret-code-chunk_list-025",
+          "ret-code-chunk_list-028"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-chunk_list-016",
+                      "ret-code-chunk_list-000",
+                      "ret-code-chunk_list-013",
+                      "ret-code-chunk_list-025",
+                      "ret-code-chunk_list-028"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "8799f754a4350cb8cd0d8627e7e886e8a3579b3df159f17a0af9114f891ead41"
+      },
+      {
+        "batch_index": 4,
+        "case_ids": [
+          "ret-code-clamp_values-017",
+          "ret-code-clamp_values-016",
+          "ret-code-clamp_values-020",
+          "ret-code-clamp_values-003",
+          "ret-code-clamp_values-026"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-clamp_values-017",
+                      "ret-code-clamp_values-016",
+                      "ret-code-clamp_values-020",
+                      "ret-code-clamp_values-003",
+                      "ret-code-clamp_values-026"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "f9ef818381b30440fa3f53bf9148eafda964cf26065938e0a1421925f7f0feb4"
+      },
+      {
+        "batch_index": 5,
+        "case_ids": [
+          "ret-code-count_vowels-035",
+          "ret-code-count_vowels-027",
+          "ret-code-count_vowels-011",
+          "ret-code-count_vowels-005",
+          "ret-code-count_vowels-004"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-count_vowels-035",
+                      "ret-code-count_vowels-027",
+                      "ret-code-count_vowels-011",
+                      "ret-code-count_vowels-005",
+                      "ret-code-count_vowels-004"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "a6da1b3c9d995a0e1b837dfcf73bfe7b0bca4dce949e0fd39ddab402ea7a3858"
+      },
+      {
+        "batch_index": 6,
+        "case_ids": [
+          "ret-code-digit_sum-029",
+          "ret-code-digit_sum-000",
+          "ret-code-digit_sum-021",
+          "ret-code-digit_sum-039",
+          "ret-code-digit_sum-028"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-digit_sum-029",
+                      "ret-code-digit_sum-000",
+                      "ret-code-digit_sum-021",
+                      "ret-code-digit_sum-039",
+                      "ret-code-digit_sum-028"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "78ea69e82ac542fd50538b8c7c5fa03877f1dd03c7994d771bd5b9492d58131d"
+      },
+      {
+        "batch_index": 7,
+        "case_ids": [
+          "ret-code-flatten_once-038",
+          "ret-code-flatten_once-008",
+          "ret-code-flatten_once-002",
+          "ret-code-flatten_once-031",
+          "ret-code-flatten_once-028"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-flatten_once-038",
+                      "ret-code-flatten_once-008",
+                      "ret-code-flatten_once-002",
+                      "ret-code-flatten_once-031",
+                      "ret-code-flatten_once-028"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "279d958efc89eb4891451349b00abd9930e51a256d41e791769f2d2dcc72c2be"
+      },
+      {
+        "batch_index": 8,
+        "case_ids": [
+          "ret-code-frequency_map-022",
+          "ret-code-frequency_map-027",
+          "ret-code-frequency_map-004",
+          "ret-code-frequency_map-031",
+          "ret-code-frequency_map-002"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-frequency_map-022",
+                      "ret-code-frequency_map-027",
+                      "ret-code-frequency_map-004",
+                      "ret-code-frequency_map-031",
+                      "ret-code-frequency_map-002"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "8f69505dda8f69f3d81fb83125d3bf90171c711f78fb4564cafec9b93b5e6219"
+      },
+      {
+        "batch_index": 9,
+        "case_ids": [
+          "ret-code-pairwise_sums-030",
+          "ret-code-pairwise_sums-009",
+          "ret-code-pairwise_sums-005",
+          "ret-code-pairwise_sums-032",
+          "ret-code-pairwise_sums-012"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-pairwise_sums-030",
+                      "ret-code-pairwise_sums-009",
+                      "ret-code-pairwise_sums-005",
+                      "ret-code-pairwise_sums-032",
+                      "ret-code-pairwise_sums-012"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "c41eab1b7f6fa925794a17fbe82f50fd18bb78aa9d48a391683001b4d382dd29"
+      },
+      {
+        "batch_index": 10,
+        "case_ids": [
+          "ret-code-reverse_words-032",
+          "ret-code-reverse_words-023",
+          "ret-code-reverse_words-012",
+          "ret-code-reverse_words-010",
+          "ret-code-reverse_words-001"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-reverse_words-032",
+                      "ret-code-reverse_words-023",
+                      "ret-code-reverse_words-012",
+                      "ret-code-reverse_words-010",
+                      "ret-code-reverse_words-001"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "f3da88fd833ee2ca8ccdb7815bd3941d7bfde7d5d37f0692bfdd0bf100935fee"
+      },
+      {
+        "batch_index": 11,
+        "case_ids": [
+          "ret-code-rotate_left-032",
+          "ret-code-rotate_left-028",
+          "ret-code-rotate_left-018",
+          "ret-code-rotate_left-025",
+          "ret-code-rotate_left-004"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-rotate_left-032",
+                      "ret-code-rotate_left-028",
+                      "ret-code-rotate_left-018",
+                      "ret-code-rotate_left-025",
+                      "ret-code-rotate_left-004"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "f5bb971ec8e3bfecae463c345e11aa4aa6d49152aa5455e9e5a0999c7aa0b9c1"
+      },
+      {
+        "batch_index": 12,
+        "case_ids": [
+          "ret-code-unique_preserve-013",
+          "ret-code-unique_preserve-018",
+          "ret-code-unique_preserve-004",
+          "ret-code-unique_preserve-022",
+          "ret-code-unique_preserve-019"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-code-unique_preserve-013",
+                      "ret-code-unique_preserve-018",
+                      "ret-code-unique_preserve-004",
+                      "ret-code-unique_preserve-022",
+                      "ret-code-unique_preserve-019"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "7e006d4117c943b326cb9f28d42218308db37eecffc94670f53426129c7b9024"
+      },
+      {
+        "batch_index": 13,
+        "case_ids": [
+          "ret-if-forbidden_character-041",
+          "ret-if-forbidden_character-030",
+          "ret-if-forbidden_character-064",
+          "ret-if-forbidden_character-055",
+          "ret-if-forbidden_character-008"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-if-forbidden_character-041",
+                      "ret-if-forbidden_character-030",
+                      "ret-if-forbidden_character-064",
+                      "ret-if-forbidden_character-055",
+                      "ret-if-forbidden_character-008"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "2f58906c9e6644dfe78893cbf92d5ebbc509a8a98c4b0230d6af33779fd21edc"
+      },
+      {
+        "batch_index": 14,
+        "case_ids": [
+          "ret-if-json_keys-057",
+          "ret-if-json_keys-072",
+          "ret-if-json_keys-027",
+          "ret-if-json_keys-012",
+          "ret-if-json_keys-036"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-if-json_keys-057",
+                      "ret-if-json_keys-072",
+                      "ret-if-json_keys-027",
+                      "ret-if-json_keys-012",
+                      "ret-if-json_keys-036"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "e1eb76e3a83a9b896f7622ef74eebbec1f521ae55a0525f6fc4bab7c37554ed5"
+      },
+      {
+        "batch_index": 15,
+        "case_ids": [
+          "ret-if-line_prefixes-047",
+          "ret-if-line_prefixes-065",
+          "ret-if-line_prefixes-012",
+          "ret-if-line_prefixes-043",
+          "ret-if-line_prefixes-033"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-if-line_prefixes-047",
+                      "ret-if-line_prefixes-065",
+                      "ret-if-line_prefixes-012",
+                      "ret-if-line_prefixes-043",
+                      "ret-if-line_prefixes-033"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "35af439ef78a9f4170ee024fbe44ba8425633175e0baf8261061d3ec670d3e64"
+      },
+      {
+        "batch_index": 16,
+        "case_ids": [
+          "ret-if-prefix_suffix-056",
+          "ret-if-prefix_suffix-078",
+          "ret-if-prefix_suffix-059",
+          "ret-if-prefix_suffix-069",
+          "ret-if-prefix_suffix-023"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-if-prefix_suffix-056",
+                      "ret-if-prefix_suffix-078",
+                      "ret-if-prefix_suffix-059",
+                      "ret-if-prefix_suffix-069",
+                      "ret-if-prefix_suffix-023"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "fc8a1db29be6449ebb7ebe979f66b17a9ed465e51e5b7a88ee7762eb4c2ebb0c"
+      },
+      {
+        "batch_index": 17,
+        "case_ids": [
+          "ret-if-token_count-037",
+          "ret-if-token_count-074",
+          "ret-if-token_count-018",
+          "ret-if-token_count-005",
+          "ret-if-token_count-031"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-if-token_count-037",
+                      "ret-if-token_count-074",
+                      "ret-if-token_count-018",
+                      "ret-if-token_count-005",
+                      "ret-if-token_count-031"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "17172557fa90baa0910db71e6c9a144d570294a4556852d71efe2286b103b0a8"
+      },
+      {
+        "batch_index": 18,
+        "case_ids": [
+          "ret-math-gs-me-region_sum",
+          "ret-math-ai-sh-region_sum",
+          "ret-math-io-tl-region_sum",
+          "ret-math-to-ca-region_sum",
+          "ret-math-as-nl-region_sum"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-math-gs-me-region_sum",
+                      "ret-math-ai-sh-region_sum",
+                      "ret-math-io-tl-region_sum",
+                      "ret-math-to-ca-region_sum",
+                      "ret-math-as-nl-region_sum"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "5315242151840cf318733736825b9f4082fc7b35cc0b9a4010e3fe963e8c85ce"
+      },
+      {
+        "batch_index": 19,
+        "case_ids": [
+          "ret-math-gs-me-settlement_difference",
+          "ret-math-lk-gs-settlement_difference",
+          "ret-math-tf-za-settlement_difference",
+          "ret-math-gl-pa-settlement_difference",
+          "ret-math-in-pw-settlement_difference"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-math-gs-me-settlement_difference",
+                      "ret-math-lk-gs-settlement_difference",
+                      "ret-math-tf-za-settlement_difference",
+                      "ret-math-gl-pa-settlement_difference",
+                      "ret-math-in-pw-settlement_difference"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "2c70250d8b6003a0ba696927b2a1f8ceae214478085c5278319e09386e6a908b"
+      },
+      {
+        "batch_index": 20,
+        "case_ids": [
+          "ret-math-lk-gs-settlement_sum",
+          "ret-math-tf-za-settlement_sum",
+          "ret-math-ro-um-settlement_sum",
+          "ret-math-mk-hr-settlement_sum",
+          "ret-math-ma-gy-settlement_sum"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-math-lk-gs-settlement_sum",
+                      "ret-math-tf-za-settlement_sum",
+                      "ret-math-ro-um-settlement_sum",
+                      "ret-math-mk-hr-settlement_sum",
+                      "ret-math-ma-gy-settlement_sum"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "e3ec4612c5134d25bc845f0d1071499eccf2fc4018ebdb3e544faf6077a18c7e"
+      },
+      {
+        "batch_index": 21,
+        "case_ids": [
+          "ret-kf-um-code_from_name",
+          "ret-kf-tf-code_from_name",
+          "ret-kf-sj-code_from_name",
+          "ret-kf-cy-code_from_name",
+          "ret-kf-pk-code_from_name"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-kf-um-code_from_name",
+                      "ret-kf-tf-code_from_name",
+                      "ret-kf-sj-code_from_name",
+                      "ret-kf-cy-code_from_name",
+                      "ret-kf-pk-code_from_name"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "19dec1289a3ab2fe0bdfcb6adbee6ccc8065c8950cac0b4031c3657aecb36648"
+      },
+      {
+        "batch_index": 22,
+        "case_ids": [
+          "ret-kf-jp-name_from_code",
+          "ret-kf-gw-name_from_code",
+          "ret-kf-af-name_from_code",
+          "ret-kf-ni-name_from_code",
+          "ret-kf-aq-name_from_code"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-kf-jp-name_from_code",
+                      "ret-kf-gw-name_from_code",
+                      "ret-kf-af-name_from_code",
+                      "ret-kf-ni-name_from_code",
+                      "ret-kf-aq-name_from_code"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "4bf6d33155dcf35733e694a7147d731f68b2c1bdaa57b2909f477969fbd84161"
+      },
+      {
+        "batch_index": 23,
+        "case_ids": [
+          "ret-kf-sh-region_count",
+          "ret-kf-tf-region_count",
+          "ret-kf-hm-region_count",
+          "ret-kf-jp-region_count",
+          "ret-kf-gg-region_count"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-kf-sh-region_count",
+                      "ret-kf-tf-region_count",
+                      "ret-kf-hm-region_count",
+                      "ret-kf-jp-region_count",
+                      "ret-kf-gg-region_count"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "abc2a8a4aa31db33b6506a1d97ecf376ac9f2a920c4c1762379845022039eb3d"
+      },
+      {
+        "batch_index": 24,
+        "case_ids": [
+          "ret-kf-gs-settlement_count",
+          "ret-kf-um-settlement_count",
+          "ret-kf-vc-settlement_count",
+          "ret-kf-je-settlement_count",
+          "ret-kf-bq-settlement_count"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-kf-gs-settlement_count",
+                      "ret-kf-um-settlement_count",
+                      "ret-kf-vc-settlement_count",
+                      "ret-kf-je-settlement_count",
+                      "ret-kf-bq-settlement_count"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "c5d835b2cb2816291be6e59aa009941cc69e42ab89a855633d28a24b49dd93db"
+      },
+      {
+        "batch_index": 25,
+        "case_ids": [
+          "ret-extract-sh",
+          "ret-extract-gs",
+          "ret-extract-um",
+          "ret-extract-ly",
+          "ret-extract-sm"
+        ],
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "reviews": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "case_id": {
+                    "enum": [
+                      "ret-extract-sh",
+                      "ret-extract-gs",
+                      "ret-extract-um",
+                      "ret-extract-ly",
+                      "ret-extract-sm"
+                    ],
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "type": "string"
+                  },
+                  "derived_answer": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  },
+                  "observation": {
+                    "enum": [
+                      "DERIVED_ANSWER",
+                      "AMBIGUITY_WITNESS",
+                      "CONTRACT_COUNTEREXAMPLE",
+                      "NO_SEMANTIC_DEFECT_FOUND",
+                      "CANNOT_DETERMINE"
+                    ],
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "witness": {
+                    "type": [
+                      "string",
+                      "array",
+                      "object",
+                      "null",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "observation",
+                  "derived_answer",
+                  "witness",
+                  "reason",
+                  "confidence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 5,
+              "minItems": 5,
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        },
+        "schema_sha256": "5211b2907055eb1e1d2e35f0e3cae6f48561fde5b36a8f1a74204762cde6527c"
+      }
+    ]
+  }
+}
