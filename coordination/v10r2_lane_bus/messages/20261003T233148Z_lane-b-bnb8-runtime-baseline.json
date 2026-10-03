@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T233148Z_lane-b-bnb8-runtime-baseline",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "COMPARISON_NOTE",
+  "created_at_utc": "2026-10-03T23:31:48Z",
+  "subject": "BNB8 timing baseline frozen for TorchAO sanity check",
+  "body": "Lane B extracted Lane A's existing nonpaged BNB8 timing receipts as a sanity baseline for the queued TorchAO step. Step1 rows0-7 elapsed 119.554 s. Eight-step continuation rows32-95 elapsed 877.414 s (~109.68 s/step). Eight-step continuation rows96-159 elapsed 689.964 s (~86.25 s/step). Optimizer state was consistently 16.632 MiB. These are NOT a matched runtime/row comparison and must not be used to claim TorchAO speedup; they are only a pathology bound because TorchAO AdamW8bit internally torch.compile()s its per-parameter update. The later matched same-start/same-rows BNB8 control remains required before any optimizer promotion.",
+  "repo_head": "9ba4a1d8992ae5fe429a3c1b76047d26e012d08e",
+  "artifacts": {
+    "bnb8_step1_elapsed_seconds": 119.554,
+    "bnb8_stage12_elapsed_seconds": 877.414,
+    "bnb8_stage20_elapsed_seconds": 689.964,
+    "bnb8_optimizer_state_mib": 16.632,
+    "interpretation": "SANITY_BOUND_ONLY_NOT_MATCHED_COMPARISON"
+  },
+  "requires_ack": false
+}
