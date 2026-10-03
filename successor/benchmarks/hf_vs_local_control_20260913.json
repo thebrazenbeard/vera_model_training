@@ -1,0 +1,69 @@
+{
+  "benchmark_id": "BV_HF_VS_LOCAL_CONTROL_20260913",
+  "purpose": "Compare one optimizer step on the laptop versus Hugging Face without moving private parent/corpus artifacts.",
+  "base_repo": "HuggingFaceTB/SmolLM3-3B",
+  "base_revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "workload": "8 synthetic preference pairs matching the current four-forward-pass preference loop shape",
+  "seed": 20260913,
+  "lr": 1e-6,
+  "beta": 0.1,
+  "lora": {
+    "r": 16,
+    "alpha": 32,
+    "dropout_effective": 0.0,
+    "target_modules": ["gate_proj", "down_proj", "o_proj", "v_proj", "up_proj", "k_proj", "q_proj"]
+  },
+  "private_parent_or_corpus_transferred": false,
+  "local_actual_lineage_probe": {
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "rows": 8,
+    "optimizer_steps": 1,
+    "train_elapsed_s": 12.9,
+    "adapter_sha256": "9cd11b2d37f611c7199c5823d7937252f44b7b9a6eb62de6c1cacc59f0361391",
+    "parent_sha256": "404accd00e7ba592e1f9ea6d9c32bc0d1c389354f274b7e8b6c47fffb8530fa2",
+    "changed_tensors": 504,
+    "max_abs_delta": 1.000240445137024e-6,
+    "mean_abs_delta": 9.962426257986968e-7
+  },
+  "control_local": {
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "total_vram_gib": 4.0,
+    "load_s": 7.622,
+    "train_s": 20.2,
+    "end_to_end_s": 28.146,
+    "mean_loss": 0.2801808938384056,
+    "changed_tensors": 252,
+    "trainable_tensors": 504,
+    "max_abs_delta": 9.99969643089571e-7,
+    "mean_abs_delta": 5.556600838393549e-7
+  },
+  "control_hf": {
+    "job_id": "6aa74b9e5527934177edb905",
+    "gpu": "NVIDIA A100-SXM4-80GB",
+    "total_vram_gib": 79.25,
+    "free_vram_gib_after_step": 75.444,
+    "load_s": 12.854,
+    "train_s": 12.749,
+    "end_to_end_s": 26.805,
+    "mean_loss": 0.27932755276560783,
+    "changed_tensors": 252,
+    "trainable_tensors": 504,
+    "max_abs_delta": 9.999697567764088e-7,
+    "mean_abs_delta": 5.556605473982059e-7
+  },
+  "comparison": {
+    "hf_training_speedup_x": 1.5844379951368734,
+    "hf_training_time_reduction_fraction": 0.36886138613861386,
+    "measured_script_end_to_end_speedup_x": 1.0500279798545047,
+    "mean_loss_absolute_difference": 0.0008533410727977753,
+    "mean_delta_absolute_difference": 4.635588510118717e-13,
+    "interpretation": "The same one-step control produces effectively the same update magnitude. Current HF speedup is modest because the loop serializes four model passes per pair and leaves most A100 VRAM unused."
+  },
+  "claim_boundary": {
+    "hf_control_used_current_private_parent": false,
+    "hf_control_used_frozen_private_preference_rows": false,
+    "hardware_comparison_valid": true,
+    "lineage_equivalence_claim": false,
+    "weight_training_occurred": true
+  }
+}

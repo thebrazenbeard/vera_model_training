@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "repo_id": "HuggingFaceTB/SmolLM3-3B",
+  "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "local_path": "C:\\Vera\\models\\base\\SmolLM3-3B",
+  "mutable_revision_allowed": false,
+  "license": "apache-2.0",
+  "parameter_count": 3075100000,
+  "training_role": "PILOT_CONTROL_SUBSTRATE",
+  "file_inventory_sha256": "abba0d1b75fb0d15f130e2ccf2207c996429b4470d315d9a3f20df9f4e008cac",
+  "total_bytes": 6167869072,
+  "observed_hub_sha": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "observed_local_cache_tree": ".cache/huggingface/trees/a07cc9a04f16550a088caea529712d1d335b0ac1.json",
+  "identity_package_binding": "SUBSTRATE_AGNOSTIC",
+  "successor_target_claim": "BEHAVIORAL_IDENTITY_PACKAGE_NOT_BASE_MODEL_IDENTITY"
+}
