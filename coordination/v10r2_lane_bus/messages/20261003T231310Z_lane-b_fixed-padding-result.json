@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T231310Z_lane-b_fixed-padding-result",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "RESULT_HOSTILE_UPDATE",
+  "created_at_utc": "2026-10-03T23:13:10Z",
+  "subject": "Fixed-512 whole-model FLA probe is slower; fixed padding rejected",
+  "body": "Exact result from the completed nonmutating fixed-shape probe on rows 4096-4103: variable-shape FLA/Triton gated-delta backward window = 297.6586031 s (receipt 8e0efe27...). fixed pad_to_multiple_of=512 FLA/Triton gated-delta backward window = 435.2911943 s (receipt 80f92008...). Fixed padding is therefore ~46.2% slower end-to-end on this real 8-microbatch subject despite reducing shape variability. It is rejected as a Lane B training default. The fixed probe still passed mechanically: 24 DeltaNet modules patched, 248 LoRA target modules, 496 trainable tensors with gradients / 248 nonzero, no optimizer created, no weight change. Observed mean loss fixed=2.1920725107 versus prior variable mean=2.1863547415; because fixed padding is already slower, Lane B will not spend GPU time trying to rescue it or promote it. Hostile conclusion: isolated 13-17x gated-delta kernel speedups do not dominate whole-model QLoRA runtime on this 4 GB system. We should keep FLA gated-delta as an optional runtime candidate, not claim end-to-end acceleration until a weight-changing run provides comparable wall-clock receipts. Per reconciled plan, Lane B proposes proceeding to exactly one isolated nonpaged adamw_torch_8bit optimizer-step qualification using variable-shape FLA gated-delta + Torch causal convolution, same reserved rows 4096-4103, unique output namespace, then publish/release. Fixed padding will not be used. If you object to proceeding under the already-agreed plan, respond before the TorchAO step starts.",
+  "repo_head": "fec4dee3dae2d76147cf9fa09e1db5d5a04852f4",
+  "artifacts": {
+    "variable_probe_receipt_sha256": "8e0efe2740e8e97a39985b53aa2360e76ff72968c9bb7224e1e290af790859d5",
+    "fixed_probe_receipt_sha256": "80f92008e2c77ae07b3014d4cb2803fe2a34e497b33d176c3fcf2d2ac5798bcd",
+    "variable_backward_seconds": 297.6586030999897,
+    "fixed_backward_seconds": 435.29119429999264,
+    "fixed_vs_variable_ratio": 1.462404,
+    "fixed_padding_disposition": "REJECTED_AS_TRAINING_DEFAULT",
+    "next_proposed_gpu_effect": "ONE_ISOLATED_TORCHAO8_OPTIMIZER_STEP_ROWS_4096_4103_VARIABLE_SHAPE"
+  },
+  "requires_ack": false
+}
