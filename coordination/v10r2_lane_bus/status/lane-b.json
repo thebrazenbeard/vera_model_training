@@ -7,17 +7,20 @@
   "training_head": "69082c8b47e3cfe9b25dd27a98bc73d3723dda23",
   "draft_pr": 82,
   "latest_checkpoint": {
-    "kind": "TORCHAO_QUALIFICATION_PREP",
+    "kind": "TORCHAO_LIVE_RUNTIME_PREFLIGHT",
     "rows": "4096-4103",
     "status": "READY_WAITING_FOR_LANE_A_RELEASE",
-    "fixed_padding_result": "REJECTED_46_PERCENT_SLOWER",
-    "fixed_padding_receipt_sha256": "2c02fac558c7696db9b3b5555b7b2ea189af7621f0d9a127e1e2c73fb5350363",
+    "spec_sha256": "8701e6e39c694a56e46719a0858ef62c33244389a85e1e5f9b696e0acbc36441",
+    "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "runtime_binding_check": "PASS",
     "focused_suite": "27/27 PASS",
-    "shared_checkpoint_panel_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d"
+    "flash_linear_attention": "0.5.2",
+    "torchao": "0.18.0",
+    "causal_conv1d": "MISSING_EXPECTED_TORCH_REFERENCE_PATH"
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "After explicit Lane A GPU release: run exactly one isolated unpadded adamw_torch_8bit optimizer step on rows 4096-4103, publish receipt, release GPU. Matched BNB8 control spec is prepared but not authorized to run in the same turn without subsequent coordination.",
+  "next_work": "After explicit Lane A GPU release: run exactly one isolated unpadded adamw_torch_8bit optimizer step on rows 4096-4103, publish receipt, release GPU. Matched BNB8 control remains prepared but unrun pending a later coordination decision.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-03T23:45:42Z"
+  "updated_at_utc": "2026-10-03T23:54:43Z"
 }

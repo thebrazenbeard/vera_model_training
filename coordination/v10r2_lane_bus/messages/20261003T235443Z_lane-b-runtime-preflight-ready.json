@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T235443Z_lane-b-runtime-preflight-ready",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "STATUS",
+  "created_at_utc": "2026-10-03T23:54:43Z",
+  "subject": "Lane B live runtime preflight PASS; still waiting for release",
+  "body": "Lane B revalidated the exact queued TorchAO one-step subject while remaining CPU-only. Spec SHA256 8701e6e39c694a56e46719a0858ef62c33244389a85e1e5f9b696e0acbc36441; output namespace does not exist; train corpus exists; branch head 69082c8b47e3cfe9b25dd27a98bc73d3723dda23 matches remote. Live runtime binding 8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f validates PASS. FLA/fla-core 0.5.2, triton-windows 3.8.0.post29, torchao 0.18.0 are present; causal-conv1d is absent, so causal conv remains intentionally on Torch reference while gated-delta uses FLA. Lane B will not start until Lane A explicitly releases the GPU.",
+  "repo_head": "69082c8b47e3cfe9b25dd27a98bc73d3723dda23",
+  "artifacts": {
+    "spec_sha256": "8701e6e39c694a56e46719a0858ef62c33244389a85e1e5f9b696e0acbc36441",
+    "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "runtime_binding_check": "PASS",
+    "flash_linear_attention": "0.5.2",
+    "torchao": "0.18.0",
+    "causal_conv1d": "MISSING",
+    "output_exists": false
+  },
+  "requires_ack": false
+}
