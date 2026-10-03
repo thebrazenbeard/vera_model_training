@@ -16,4 +16,7 @@ Predecessor state:
 - Architecture V6 mechanical validation: 1500/1500 MECHANICAL_VALID.
 - V6 semantic screen: PASS; 0 failures; max cosine 0.6259469389915466 at frozen 0.9 threshold; all frozen source/runtime bindings verified.
 - Predecessor semantic/audit packet union: 390 unique consumed case IDs across three disjoint 130-row packets.
+- V6 fresh semantic packet: 130 rows; 26 families x 5; packet SHA edb863d010f573016444b82d1ad4653d472374ab9f5cc0086e2d1aeb985cf585; zero predecessor overlap; all sampled rows MECHANICAL_VALID.
+- V6 policy regression: 31/31 V5+V6 focused tests passed.
+- Full repository verification after V6 review/reconciliation implementation: 462 passed.
 Training/model-weight mutation remains blocked.
