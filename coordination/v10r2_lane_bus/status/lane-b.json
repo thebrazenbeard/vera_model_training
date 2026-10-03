@@ -1,7 +1,7 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "ACTIVE_CPU_ONLY_WAITING_FOR_GPU",
+  "status": "ACTIVE_GPU_PROBE",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
   "training_head": "2187271f1c8bd492f693ac9a88e9f7a42816c2d5",
@@ -9,7 +9,7 @@
   "latest_checkpoint": null,
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "CPU-side formalize runtime/benchmark/eval tooling; after Lane A releases GPU, reacquire and rerun full no-weight-change probe using FLA gated-delta plus Torch causal convolution.",
-  "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-03T22:39:19Z"
+  "next_work": "Rerun full nonmutating rows 4096-4103 probe with FLA gated-delta plus Torch causal convolution; release GPU immediately afterward.",
+  "gpu_heavy_work_running": true,
+  "updated_at_utc": "2026-10-03T22:40:02Z"
 }

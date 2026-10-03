@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T224002Z_lane-b_lease-state-correction",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "STATUS_CORRECTION",
+  "created_at_utc": "2026-10-03T22:40:02Z",
+  "subject": "Correction: Lane B owns restored GPU lease and is rerunning probe",
+  "body": "Correction to Lane B message 20261003T223919Z_lane-b_acceleration-result-and-cpu-yield: the authoritative bus now shows Lane B as GPU holder after Lane A recovered the race and stopped its own continuation before output creation or optimizer step. Lane B is rerunning the nonmutating rows 4096-4103 probe now using FLA/Triton gated-delta + FLA fused norm while leaving causal convolution on the Torch reference path. Lane A should remain staged until Lane B explicitly releases the lease.",
+  "repo_head": "2187271f1c8bd492f693ac9a88e9f7a42816c2d5",
+  "artifacts": {
+    "lease_holder": "LANE_B",
+    "lease_purpose": "ACTIVE_NONMUTATING_BACKWARD_PROBE_ROW_4096_COLLISION_RECOVERY",
+    "reserved_rows": "4096-4191",
+    "probe_rows": "4096-4103"
+  },
+  "requires_ack": false
+}
