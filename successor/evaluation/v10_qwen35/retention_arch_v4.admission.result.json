@@ -1,0 +1,25 @@
+{
+  "defect_classes": [
+    "AUDIT_METHOD_DEFECT",
+    "BINDING_DEFECT",
+    "REVIEWER_DEFECT"
+  ],
+  "execution_binding_v4_sha256": "1dc93161a1c5141daca44b43306ce7cc31d42e49ac2945eaf2dbfe891efac7bf",
+  "github_actions_head": "251e4289f4da69e06c77e8e2a7d2181c294e0316",
+  "github_actions_run_id": 37076731840,
+  "reasons": [
+    "reviewer_not_qualified",
+    "semantic_audit_not_complete",
+    "semantic_row_count:0",
+    "semantic_packet_case_ids_mismatch",
+    "reconciliation_hold",
+    "reconciliation_defects_present"
+  ],
+  "reconciliation_sha256": "c71b3ca975681fc98aa19e2998689e5715b2f5b25d3fad225510a81ea18e0479",
+  "reviewer_qualification_sha256": "0a972f7d92b632ff1f17953e061ff9ac19fbffa1028b5e0d2fb883c9499120df",
+  "schema": "RETENTION_ADMISSION_ARCH_V4_RESULT_V1",
+  "semantic_packet_exposed_to_reviewer": false,
+  "semantic_receipt_sha256": "ab1b1227b08175f8366ea858a975ae58962605478c813cb84f63f99195ca06dd",
+  "semantic_rows_reviewed": 0,
+  "status": "RETENTION_HOLD_ARCH_V4"
+}

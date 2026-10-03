@@ -1,0 +1,55 @@
+{
+  "claim_ceiling": "RETENTION_AUDIT_ARCH_V4_ONLY / METHODOLOGY_DESIGNED_AFTER_V2_AND_V3_FAILURES / NOT_FULL_FINAL_BANK / NOT_TRAINING_AUTHORIZATION",
+  "date": "2026-10-02",
+  "diagnosis": {
+    "accepted_objection": "V3 still conflated witness representation with witness evidence by rejecting non-string/non-null JSON witness values as transport/schema failures.",
+    "admission_thresholds_lowered": false,
+    "candidate_changed": false,
+    "repair_class": "AUDIT_METHOD_DEFECT_REPAIR",
+    "reviewer_model_changed": false,
+    "sampler_changed": false,
+    "semantic_packet_changed": false
+  },
+  "historical_methodology_independence": false,
+  "predecessors": {
+    "v2": {
+      "result_manifest_path": "successor/evaluation/v10_qwen35/retention_arch_v2.result.manifest.json",
+      "result_manifest_sha256": "28204fd4b62e876765c82a06aad05dc6efce62fbc376ed13cac36689de5b258d",
+      "semantic_rows_reviewed": 0
+    },
+    "v3": {
+      "execution_incident_path": "successor/evaluation/v10_qwen35/retention_arch_v3.execution_incident.json",
+      "execution_incident_sha256": "427a84a4f5bb49ad157a521c047781c4d6a6a020f5e32a06c6287de0275134f2",
+      "result_manifest_path": "successor/evaluation/v10_qwen35/retention_arch_v3.result.manifest.json",
+      "result_manifest_sha256": "5df372d2557a66b457faff07bb45d406a4f6a9d9f2a45c83a31bf2e189aa867e",
+      "semantic_rows_reviewed": 0
+    }
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V4_METHOD_V1",
+  "semantic_packet_reuse": {
+    "justification": "Both V2 and V3 failed reviewer qualification before semantic review, so the exact packet remains unexposed.",
+    "path": "successor/evaluation/v10_qwen35/retention_arch_v2.semantic.packet.jsonl",
+    "reviewed_before_v4": 0,
+    "rows": 130,
+    "sha256": "d746d8eafc69b0c2610be77f985c38b59377fbe3953f812bdbbdbc644113e75e"
+  },
+  "status": "FROZEN_BEFORE_FIRST_V4_LIVE_REVIEW_CALL",
+  "v4_changes": {
+    "exclusive_execution_lock": true,
+    "failed_response_sha256_recorded": true,
+    "fresh_qualification_controls": 48,
+    "json_native_witness_representation": true,
+    "meaningful_claimed_defect_witness": "nonempty semantic JSON string, array, or object",
+    "qualification_batch_size": 4,
+    "qualification_controls_disjoint_from_v2_v3": true,
+    "scoreable_contradictions": [
+      "claimed defect with null witness",
+      "claimed defect with empty or NONE string",
+      "claimed defect with number or boolean witness",
+      "claimed defect with empty array or object",
+      "no-defect response without exact NONE witness"
+    ],
+    "semantic_witness_contract_violation_class": "REVIEWER_DEFECT",
+    "transport_retry_excludes_scoreable_witness_representation": true
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "admission": {
+    "defect_classes": [
+      "AUDIT_METHOD_DEFECT",
+      "BINDING_DEFECT",
+      "REVIEWER_DEFECT"
+    ],
+    "reasons": [
+      "reviewer_not_qualified",
+      "semantic_audit_not_complete",
+      "semantic_row_count:0",
+      "semantic_packet_case_ids_mismatch",
+      "reconciliation_hold",
+      "reconciliation_defects_present"
+    ],
+    "status": "RETENTION_HOLD_ARCH_V4"
+  },
+  "artifacts": {
+    "admission_result": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v4.admission.result.json",
+      "sha256": "d9745ab3ce480618846f2855b8d8ee1fb0ff33b7c5edf13ef2f9f46695465d5b"
+    },
+    "execution_binding_v4": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V4_EXECUTION_BINDING_V1.json",
+      "sha256": "1dc93161a1c5141daca44b43306ce7cc31d42e49ac2945eaf2dbfe891efac7bf"
+    },
+    "reconciliation": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v4.reconciliation.json",
+      "sha256": "c71b3ca975681fc98aa19e2998689e5715b2f5b25d3fad225510a81ea18e0479"
+    },
+    "reviewer_qualification": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v4.reviewer_qualification.json",
+      "sha256": "0a972f7d92b632ff1f17953e061ff9ac19fbffa1028b5e0d2fb883c9499120df"
+    },
+    "semantic_receipt": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v4.semantic.receipt.json",
+      "sha256": "ab1b1227b08175f8366ea858a975ae58962605478c813cb84f63f99195ca06dd"
+    }
+  },
+  "boundaries": {
+    "candidate_changed": false,
+    "methodology_history_independent": false,
+    "semantic_packet_changed": false,
+    "semantic_packet_consumed": false,
+    "training_started": false,
+    "weights_changed": false
+  },
+  "date": "2026-10-02",
+  "execution": {
+    "duplicate_execution_observed": false,
+    "exclusive_lock_used": true,
+    "github_actions_head": "251e4289f4da69e06c77e8e2a7d2181c294e0316",
+    "github_actions_run_id": 37076731840
+  },
+  "primary_failure": {
+    "batch_count": 7,
+    "cause_classification": "AUDIT_METHOD_OR_REVIEWER_SCHEMA_CONFORMANCE_UNRESOLVED",
+    "diagnosis": "Closed-schema qualification row mismatch persisted for the first underspecified_output_format batch across all three allowed identical attempts. V4 stored failed-response SHA-256 values but not raw response bodies, so the exact missing/additive field shape is UNKNOWN.",
+    "failed_batch_case_ids": [
+      "arch-v4-reviewer-underspecified_output_format-defect-0",
+      "arch-v4-reviewer-underspecified_output_format-good-0",
+      "arch-v4-reviewer-underspecified_output_format-defect-1",
+      "arch-v4-reviewer-underspecified_output_format-good-1"
+    ],
+    "reason": "qualification_transport_failure",
+    "stage": "REVIEWER_QUALIFICATION",
+    "status": "REVIEWER_UNQUALIFIED",
+    "transport_failures": [
+      {
+        "attempt": 1,
+        "error": "ValueError:V4 qualification row schema mismatch",
+        "response_sha256": "bd74ad03d2af65f37dd29715df78547c689a1297ca8bdbc73b73ba2bfcf3d985"
+      },
+      {
+        "attempt": 2,
+        "error": "ValueError:V4 qualification row schema mismatch",
+        "response_sha256": "c73a0953dbbcb486aa1126d443d00599170d90adeb1e415a95f0bb8cebd2ba58"
+      },
+      {
+        "attempt": 3,
+        "error": "ValueError:V4 qualification row schema mismatch",
+        "response_sha256": "c73a0953dbbcb486aa1126d443d00599170d90adeb1e415a95f0bb8cebd2ba58"
+      }
+    ]
+  },
+  "reconciliation": {
+    "defect_counts": {
+      "AUDIT_METHOD_DEFECT": 1
+    },
+    "status": "RETENTION_HOLD_ARCH_V4"
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V4_RESULT_MANIFEST_V1",
+  "semantic_review": {
+    "expected_count": 130,
+    "packet_exposed_to_reviewer": false,
+    "reviewed": 0,
+    "status": "SEMANTIC_AUDIT_HOLD"
+  },
+  "status": "RETENTION_HOLD_ARCH_V4"
+}

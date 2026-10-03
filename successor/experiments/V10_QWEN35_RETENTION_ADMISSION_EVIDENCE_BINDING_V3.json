@@ -1,0 +1,92 @@
+{
+  "schema": "V10_QWEN35_RETENTION_ADMISSION_EVIDENCE_BINDING_V3",
+  "date": "2026-10-02",
+  "status": "FROZEN_BEFORE_V5_AUDIT_RESULT",
+  "admission_policy": {
+    "path": "successor/experiments/V10_QWEN35_RETENTION_ADMISSION_V5.json",
+    "file_sha256": "b7a92fb4b4a155359fc5644a5f08c213375a58433f1c1c6c1907eaf75cb0e8b1"
+  },
+  "candidate": {
+    "path": "successor/evaluation/v10_qwen35/retention_candidate_v1.jsonl",
+    "file_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "expected_rows": 1500
+  },
+  "predecessor_packet": {
+    "path": "successor/evaluation/v10_qwen35/retention_family_audit_v1v4.packet.jsonl",
+    "manifest_path": "successor/evaluation/v10_qwen35/retention_family_audit_v1v4.packet.manifest.json",
+    "file_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "manifest_file_sha256": "6445488e846ba5a8bec43bf107bc15f31500e956628b55ee5dfa42731fc37855",
+    "case_count": 130,
+    "reusable": false
+  },
+  "fresh_packet": {
+    "path": "successor/evaluation/v10_qwen35/retention_family_audit_v5.packet.jsonl",
+    "manifest_path": "successor/evaluation/v10_qwen35/retention_family_audit_v5.packet.manifest.json",
+    "file_sha256": "1be692e63d76cbcdd3a4943a82272c5d41ad3f202a0fd7f08ef40a18446c06ba",
+    "manifest_file_sha256": "dfa3b0d137738e1dabe9e42583b86db5e75a1089c113f6e616b1c59e37a3a796",
+    "rows": 130,
+    "families": 26,
+    "cases_per_family": 5,
+    "predecessor_overlap_required": 0
+  },
+  "methodology": {
+    "method_path": "successor/experiments/V10_QWEN35_RETENTION_FAMILY_AUDIT_METHOD_V5.json",
+    "method_file_sha256": "e2f000bea2db007b281b8f4f35722a8de49d9e1f9f90897814d6e19af0e68517",
+    "cause_classification_path": "successor/experiments/V10_QWEN35_RETENTION_V4_CAUSE_CLASSIFICATION_V1.json",
+    "cause_classification_file_sha256": "242f3bd21910ae8618825e397929cea9f05f0bc403e3ee570f7882de44ec25c8",
+    "builder_path": "successor/experiments/build_v10_retention_family_audit_v5.py",
+    "builder_file_sha256": "5885f69d4bd8932c59ae830061c5b163434ed743b84544b6c970e782c19e8005",
+    "protocol_path": "successor/experiments/V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V5.json",
+    "protocol_file_sha256": "781e4b6b64b96577f3cf9893b37e6a523085fc9cffb5be53fc91e37d44e9c3c2",
+    "runner_path": "successor/experiments/run_v10_retention_family_audit_v5.py",
+    "runner_file_sha256": "0e204bf03fce8489fc458c9cf33739a5926bdc426d61b3363a2da033aec336d2",
+    "admission_core_path": "successor/experiments/retention_admission_v5.py",
+    "admission_core_file_sha256": "d756426666f586bfdd01e4ca9fadc3755f3a7d58660361fe06efbbdab725e246",
+    "admission_verifier_path": "successor/experiments/verify_v10_retention_admission_v5.py",
+    "admission_verifier_file_sha256": "a0f84b0f9ffd9d3d7a7ee871cb8b7c2973f17781c40a5a215e30cc384500f890"
+  },
+  "semantic_screen": {
+    "path": "successor/evaluation/v10_qwen35/retention_candidate_v1.semantic_screen.json",
+    "file_sha256": "a8ae6b55c73469d85064cf8e483f4a75a78d75bd62f0c18bfc9063fee928ea71",
+    "required_status": "PASS",
+    "target_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "threshold": 0.9,
+    "model_archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+    "exclusion_registry_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f"
+  },
+  "exclusion_registry": {
+    "path": "successor/experiments/V10_QWEN35_EXCLUSION_PROMPT_HASHES_V2.txt",
+    "file_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f"
+  },
+  "required_reviewer": {
+    "provider": "OLLAMA_LOCAL",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "runtime": "ollama version is 0.34.2",
+    "temperature": 0,
+    "seed": 20261001
+  },
+  "final_v5_receipt_requirements": {
+    "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "predecessor_packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "packet_sha256": "1be692e63d76cbcdd3a4943a82272c5d41ad3f202a0fd7f08ef40a18446c06ba",
+    "protocol_sha256": "781e4b6b64b96577f3cf9893b37e6a523085fc9cffb5be53fc91e37d44e9c3c2",
+    "sample_rows": 130,
+    "family_count": 26,
+    "cases_per_family": 5,
+    "summary_status_required": "PASS",
+    "reviewed_rows_required": 130,
+    "reviewed_families_required": 26,
+    "reject_count_required": 0,
+    "review_output_sha256_must_match_file": true
+  },
+  "boundaries": {
+    "v5_model_call_occurred_at_freeze": false,
+    "methodology_history_independent": false,
+    "direct_case_reuse": false,
+    "training_authorized": false,
+    "weight_change_performed": false,
+    "merge_authority": "Patrick"
+  },
+  "claim_ceiling": "RETENTION_V5_EVIDENCE_SUBJECTS_FROZEN / FRESH_DISJOINT_PACKET / NO_V5_RESULT YET / NOT_FULL_FINAL_BANK / NO_TRAINING"
+}

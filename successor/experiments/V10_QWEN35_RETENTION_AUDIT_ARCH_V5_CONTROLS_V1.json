@@ -1,0 +1,614 @@
+{
+  "controls": [
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-defect-0",
+      "context": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley",
+          "Casey"
+        ],
+        "required_answer_type": "person name"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "prompt": "Morgan told Riley after Casey arrived that they should file T00. Return only the name of the person who should file it."
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-good-0",
+      "context": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley"
+        ],
+        "explicit_addressee": "Riley"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "prompt": "Morgan told Riley, 'Riley, file T00 now.' Return only the name of the person who should file it."
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-defect-1",
+      "context": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley",
+          "Casey"
+        ],
+        "required_answer_type": "person name"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "prompt": "Morgan told Riley after Casey arrived that they should file T01. Return only the name of the person who should file it."
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-good-1",
+      "context": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley"
+        ],
+        "explicit_addressee": "Riley"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "prompt": "Morgan told Riley, 'Riley, file T01 now.' Return only the name of the person who should file it."
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-defect-2",
+      "context": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley",
+          "Casey"
+        ],
+        "required_answer_type": "person name"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "prompt": "Morgan told Riley after Casey arrived that they should file T02. Return only the name of the person who should file it."
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-good-2",
+      "context": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley"
+        ],
+        "explicit_addressee": "Riley"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "prompt": "Morgan told Riley, 'Riley, file T02 now.' Return only the name of the person who should file it."
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-defect-3",
+      "context": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley",
+          "Casey"
+        ],
+        "required_answer_type": "person name"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "prompt": "Morgan told Riley after Casey arrived that they should file T03. Return only the name of the person who should file it."
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-good-3",
+      "context": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley"
+        ],
+        "explicit_addressee": "Riley"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "prompt": "Morgan told Riley, 'Riley, file T03 now.' Return only the name of the person who should file it."
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-0",
+      "context": {
+        "grader_checks": "stored quantity",
+        "record": "T00"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "prompt": "Return the stored title for record T00."
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-0",
+      "context": {
+        "grader_checks": "stored quantity",
+        "record": "T00"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "prompt": "Return only the stored quantity for record T00."
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-1",
+      "context": {
+        "grader_checks": "stored quantity",
+        "record": "T01"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "prompt": "Return the stored title for record T01."
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-1",
+      "context": {
+        "grader_checks": "stored quantity",
+        "record": "T01"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "prompt": "Return only the stored quantity for record T01."
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-2",
+      "context": {
+        "grader_checks": "stored quantity",
+        "record": "T02"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "prompt": "Return the stored title for record T02."
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-2",
+      "context": {
+        "grader_checks": "stored quantity",
+        "record": "T02"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "prompt": "Return only the stored quantity for record T02."
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-3",
+      "context": {
+        "grader_checks": "stored quantity",
+        "record": "T03"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "prompt": "Return the stored title for record T03."
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-3",
+      "context": {
+        "grader_checks": "stored quantity",
+        "record": "T03"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "prompt": "Return only the stored quantity for record T03."
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-defect-0",
+      "context": {
+        "constraint_a": "exactly four copies",
+        "constraint_b": "exactly two copies"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "prompt": "Return exactly four copies of T00 and exactly two copies of T00."
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-good-0",
+      "context": {
+        "constraint_a": "exactly four copies",
+        "punctuation": "none",
+        "separator": "single space"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "prompt": "Return exactly four copies of T00, separated by single spaces, with no punctuation."
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-defect-1",
+      "context": {
+        "constraint_a": "exactly four copies",
+        "constraint_b": "exactly two copies"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "prompt": "Return exactly four copies of T01 and exactly two copies of T01."
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-good-1",
+      "context": {
+        "constraint_a": "exactly four copies",
+        "punctuation": "none",
+        "separator": "single space"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "prompt": "Return exactly four copies of T01, separated by single spaces, with no punctuation."
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-defect-2",
+      "context": {
+        "constraint_a": "exactly four copies",
+        "constraint_b": "exactly two copies"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "prompt": "Return exactly four copies of T02 and exactly two copies of T02."
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-good-2",
+      "context": {
+        "constraint_a": "exactly four copies",
+        "punctuation": "none",
+        "separator": "single space"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "prompt": "Return exactly four copies of T02, separated by single spaces, with no punctuation."
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-defect-3",
+      "context": {
+        "constraint_a": "exactly four copies",
+        "constraint_b": "exactly two copies"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "prompt": "Return exactly four copies of T03 and exactly two copies of T03."
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-good-3",
+      "context": {
+        "constraint_a": "exactly four copies",
+        "punctuation": "none",
+        "separator": "single space"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "prompt": "Return exactly four copies of T03, separated by single spaces, with no punctuation."
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-defect-0",
+      "context": {
+        "acceptable_shapes": [
+          "plain text",
+          "JSON",
+          "key-value pairs"
+        ],
+        "available_fields": [
+          "key",
+          "state",
+          "amount"
+        ]
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "prompt": "Provide the full record for T00."
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-good-0",
+      "context": {
+        "key_order": [
+          "key",
+          "state",
+          "amount"
+        ],
+        "required_shape": {
+          "amount": 9,
+          "key": "T00",
+          "state": "phase-0"
+        }
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "prompt": "Return exactly one compact JSON object with keys 'key','state','amount' for T00, in that key order."
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-defect-1",
+      "context": {
+        "acceptable_shapes": [
+          "plain text",
+          "JSON",
+          "key-value pairs"
+        ],
+        "available_fields": [
+          "key",
+          "state",
+          "amount"
+        ]
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "prompt": "Provide the full record for T01."
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-good-1",
+      "context": {
+        "key_order": [
+          "key",
+          "state",
+          "amount"
+        ],
+        "required_shape": {
+          "amount": 10,
+          "key": "T01",
+          "state": "phase-1"
+        }
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "prompt": "Return exactly one compact JSON object with keys 'key','state','amount' for T01, in that key order."
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-defect-2",
+      "context": {
+        "acceptable_shapes": [
+          "plain text",
+          "JSON",
+          "key-value pairs"
+        ],
+        "available_fields": [
+          "key",
+          "state",
+          "amount"
+        ]
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "prompt": "Provide the full record for T02."
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-good-2",
+      "context": {
+        "key_order": [
+          "key",
+          "state",
+          "amount"
+        ],
+        "required_shape": {
+          "amount": 11,
+          "key": "T02",
+          "state": "phase-2"
+        }
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "prompt": "Return exactly one compact JSON object with keys 'key','state','amount' for T02, in that key order."
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-defect-3",
+      "context": {
+        "acceptable_shapes": [
+          "plain text",
+          "JSON",
+          "key-value pairs"
+        ],
+        "available_fields": [
+          "key",
+          "state",
+          "amount"
+        ]
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "prompt": "Provide the full record for T03."
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-good-3",
+      "context": {
+        "key_order": [
+          "key",
+          "state",
+          "amount"
+        ],
+        "required_shape": {
+          "amount": 12,
+          "key": "T03",
+          "state": "phase-3"
+        }
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "prompt": "Return exactly one compact JSON object with keys 'key','state','amount' for T03, in that key order."
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-defect-0",
+      "context": {
+        "note": "T00 has a stored state.",
+        "outside_knowledge_rule": "priority unclear"
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "prompt": "Use the supplied note for T00; if it omits a detail, supplement it with ordinary background knowledge when useful."
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-good-0",
+      "context": {
+        "note": "T00 has a stored state.",
+        "outside_knowledge_rule": "forbidden"
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "prompt": "Use only the supplied note for T00. If the requested fact is absent, answer exactly NOT_ENOUGH_INFO."
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-defect-1",
+      "context": {
+        "note": "T01 has a stored state.",
+        "outside_knowledge_rule": "priority unclear"
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "prompt": "Use the supplied note for T01; if it omits a detail, supplement it with ordinary background knowledge when useful."
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-good-1",
+      "context": {
+        "note": "T01 has a stored state.",
+        "outside_knowledge_rule": "forbidden"
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "prompt": "Use only the supplied note for T01. If the requested fact is absent, answer exactly NOT_ENOUGH_INFO."
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-defect-2",
+      "context": {
+        "note": "T02 has a stored state.",
+        "outside_knowledge_rule": "priority unclear"
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "prompt": "Use the supplied note for T02; if it omits a detail, supplement it with ordinary background knowledge when useful."
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-good-2",
+      "context": {
+        "note": "T02 has a stored state.",
+        "outside_knowledge_rule": "forbidden"
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "prompt": "Use only the supplied note for T02. If the requested fact is absent, answer exactly NOT_ENOUGH_INFO."
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-defect-3",
+      "context": {
+        "note": "T03 has a stored state.",
+        "outside_knowledge_rule": "priority unclear"
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "prompt": "Use the supplied note for T03; if it omits a detail, supplement it with ordinary background knowledge when useful."
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-good-3",
+      "context": {
+        "note": "T03 has a stored state.",
+        "outside_knowledge_rule": "forbidden"
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "prompt": "Use only the supplied note for T03. If the requested fact is absent, answer exactly NOT_ENOUGH_INFO."
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-defect-0",
+      "context": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "scope_phrase": "not unapproved"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "prompt": "For T00, discard items that are not unapproved."
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-good-0",
+      "context": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "included_state": "unapproved"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "prompt": "For T00, keep only unapproved items; discard approved and pending items."
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-defect-1",
+      "context": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "scope_phrase": "not unapproved"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "prompt": "For T01, discard items that are not unapproved."
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-good-1",
+      "context": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "included_state": "unapproved"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "prompt": "For T01, keep only unapproved items; discard approved and pending items."
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-defect-2",
+      "context": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "scope_phrase": "not unapproved"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "prompt": "For T02, discard items that are not unapproved."
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-good-2",
+      "context": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "included_state": "unapproved"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "prompt": "For T02, keep only unapproved items; discard approved and pending items."
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-defect-3",
+      "context": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "scope_phrase": "not unapproved"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "prompt": "For T03, discard items that are not unapproved."
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-good-3",
+      "context": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "included_state": "unapproved"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "prompt": "For T03, keep only unapproved items; discard approved and pending items."
+    }
+  ],
+  "date": "2026-10-02",
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V5_CONTROLS_V1"
+}
