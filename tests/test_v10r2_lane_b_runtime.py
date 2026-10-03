@@ -1,0 +1,95 @@
+﻿from __future__ import annotations
+
+import pytest
+
+from successor.experiments.v10r2_lane_b_runtime import (
+    AccelerationHold,
+    apply_qwen35_acceleration,
+    validate_lane_b_optimizer,
+)
+
+
+class _FakeDelta:
+    def __init__(self):
+        self.chunk_gated_delta_rule = object()
+        self.recurrent_gated_delta_rule = object()
+        self.causal_conv1d_fn = None
+        self.causal_conv1d_update = object()
+
+
+class _Other:
+    pass
+
+
+class _FakeModel:
+    def __init__(self):
+        self.delta_a = _FakeDelta()
+        self.delta_b = _FakeDelta()
+        self.other = _Other()
+
+    def named_modules(self):
+        return [
+            ('', self),
+            ('model.layers.0.linear_attn', self.delta_a),
+            ('model.layers.1.mlp', self.other),
+            ('model.layers.2.linear_attn', self.delta_b),
+        ]
+
+
+def test_fla_backend_patches_delta_rule_but_leaves_conv_on_reference_path() -> None:
+    model = _FakeModel()
+    chunk = object()
+    recurrent = object()
+    conv_update = object()
+
+    report = apply_qwen35_acceleration(
+        model,
+        backend='fla_triton',
+        fla_chunk=chunk,
+        fla_recurrent=recurrent,
+        torch_conv_update=conv_update,
+    )
+
+    assert report['backend'] == 'fla_triton'
+    assert report['patched_delta_modules'] == 2
+    assert report['module_names'] == [
+        'model.layers.0.linear_attn',
+        'model.layers.2.linear_attn',
+    ]
+    assert report['causal_conv_backend'] == 'torch_reference'
+    for module in (model.delta_a, model.delta_b):
+        assert module.chunk_gated_delta_rule is chunk
+        assert module.recurrent_gated_delta_rule is recurrent
+        assert module.causal_conv1d_fn is None
+        assert module.causal_conv1d_update is conv_update
+
+
+def test_torch_reference_backend_does_not_require_fla() -> None:
+    model = _FakeModel()
+    chunk = object()
+    recurrent = object()
+    conv_update = object()
+
+    report = apply_qwen35_acceleration(
+        model,
+        backend='torch_reference',
+        torch_chunk=chunk,
+        torch_recurrent=recurrent,
+        torch_conv_update=conv_update,
+    )
+
+    assert report['patched_delta_modules'] == 2
+    for module in (model.delta_a, model.delta_b):
+        assert module.chunk_gated_delta_rule is chunk
+        assert module.recurrent_gated_delta_rule is recurrent
+        assert module.causal_conv1d_fn is None
+        assert module.causal_conv1d_update is conv_update
+
+
+def test_optimizer_policy_rejects_paged_and_unknown() -> None:
+    assert validate_lane_b_optimizer('adamw_bnb_8bit') == 'adamw_bnb_8bit'
+    assert validate_lane_b_optimizer('adamw_torch_8bit') == 'adamw_torch_8bit'
+    with pytest.raises(AccelerationHold, match='paged'):
+        validate_lane_b_optimizer('paged_adamw_8bit')
+    with pytest.raises(AccelerationHold, match='unsupported'):
+        validate_lane_b_optimizer('adamw_torch')
