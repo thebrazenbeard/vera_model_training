@@ -1,0 +1,87 @@
+{
+  "blocking_defect_counts": {
+    "BANK_DEFECT": 2
+  },
+  "defect_counts": {
+    "BANK_DEFECT": 2,
+    "REVIEWER_DEFECT": 8
+  },
+  "findings": [
+    {
+      "blocking": true,
+      "case_id": "ret-code-chunk_list-036",
+      "classification": "BANK_DEFECT",
+      "evidence": "Prompt phrase 'keep a shorter final chunk' can be read as requiring the final chunk to be shorter even when len(values) is divisible by n. Stored tests permit a full-size final chunk. Intended conditional behavior is not stated explicitly.",
+      "reason": "semantic_witness_confirmed_bank_defect"
+    },
+    {
+      "blocking": true,
+      "case_id": "ret-code-chunk_list-026",
+      "classification": "BANK_DEFECT",
+      "evidence": "Prompt phrase 'keep a shorter final chunk' can be read as requiring the final chunk to be shorter even when len(values) is divisible by n. Stored tests permit a full-size final chunk. Intended conditional behavior is not stated explicitly.",
+      "reason": "semantic_witness_confirmed_bank_defect"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-clamp_values-008",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "Inclusive [low, high] explicitly means values below low clamp to low, values above high clamp to high, and boundary/interior values remain unchanged; stored tests implement exactly that rule.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-clamp_values-025",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "Inclusive [low, high] explicitly includes values equal to low/high; stored boundary tests and reference implementation agree.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-flatten_once-029",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-flatten_once-019",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-flatten_once-035",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-flatten_once-027",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-flatten_once-014",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-unique_preserve-015",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "Contract says remove duplicates while preserving first-occurrence order; [3,2,3,3,2] -> [3,2] is exactly that behavior, and stored non-adjacent/string tests enforce global rather than adjacent-only deduplication.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    }
+  ],
+  "nonblocking_finding_counts": {
+    "REVIEWER_DEFECT": 8
+  },
+  "reviewer_false_positives_are_nonblocking": true,
+  "schema": "RETENTION_AUDIT_ARCH_V6_RECONCILIATION_V1",
+  "status": "RETENTION_HOLD_ARCH_V6"
+}

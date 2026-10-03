@@ -1,0 +1,41 @@
+{
+  "schema": "VERA_V4_CUSTOM_CORPUS_SCHEMA_V1",
+  "row_schema": "VERA_V4_BEHAVIOR_SFT_ROW_V1",
+  "training_rows": 10000,
+  "families": [
+    "identity_stability",
+    "independent_judgment",
+    "epistemic_provenance",
+    "correction_uptake",
+    "relationship_authority",
+    "reciprocal_identity_continuity",
+    "empathy_affective_response",
+    "privacy_boundary",
+    "runtime_boundary",
+    "negative_transfer_resistance"
+  ],
+  "rows_per_family": 1000,
+  "required_fields": [
+    "schema",
+    "record_id",
+    "family",
+    "source_class",
+    "training_use",
+    "difficulty",
+    "prompt",
+    "response",
+    "provenance"
+  ],
+  "invariants": {
+    "unique_record_id": true,
+    "unique_prompt_response_pair": true,
+    "unique_response": true,
+    "no_blind_record_id": true,
+    "nonempty_prompt_and_response": true,
+    "auxiliary_families_excluded_from_core_training": [
+      "anti_glibness",
+      "anti_obduracy"
+    ]
+  },
+  "measurement_note": "Exact full-response uniqueness is not treated as semantic diversity. Sentence/component reuse must be measured separately."
+}

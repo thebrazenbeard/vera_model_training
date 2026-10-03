@@ -1,0 +1,516 @@
+{
+  "boundaries": {
+    "candidate_modified": false,
+    "frozen_v7_logic_modified": false,
+    "grader_modified": false,
+    "independent_external_review": false,
+    "methodology_history_independent": false,
+    "reviewer_output_modified": false,
+    "training_started": false,
+    "weights_changed": false
+  },
+  "candidate_v3_sha256": "6f47fe7da958abaf02311ae8a740b71d1bc0e9adbac88ce5c2da14139c3792f6",
+  "challenged_rows": 9,
+  "claim_ceiling": "INTERNAL DETERMINISTIC WITNESS ADJUDICATION / RAW REVIEWER OUTPUT PRESERVED / NOT INDEPENDENT EXTERNAL REVIEW / RETENTION ADMISSION ONLY",
+  "date": "2026-10-03",
+  "mechanical_receipt_sha256": "291904efca0e6fa2a6d2d98f469d8e56408e20d17ddaac7e1e07e9d829584ffb",
+  "packet_sha256": "4de3ae3f5757f76417f8561f4c415b4be1daedf3ca4c42cd202b2cb92e1cd20f",
+  "policy": "Evidence-backed adjudication only; semantic witnesses become nonblocking reviewer defects only when contradicted by the frozen prompt, source evidence, deterministic grader contract, or mechanically verified family behavior.",
+  "resolution_counts": {
+    "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE": 9
+  },
+  "resolutions": {
+    "ret-code-chunk_list-004": {
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 6 and n=3 no remainder exists, so two full-size chunks are exactly compliant. The same row separately tests a remainder case and preserves [4] as the shorter final chunk.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-chunk_list-007": {
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 9 and n=3 no remainder exists, so three full-size chunks are exactly compliant. The same frozen row also tests a remainder case, length 5 and n=2, and requires the shorter final chunk [4].",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-chunk_list-024": {
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 6 and n=2 no remainder exists, so three full-size chunks are exactly compliant. The same row separately tests length 5 and n=2 and requires the shorter final chunk [4].",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-pairwise_sums-019": {
+      "evidence": "The witness [5,3,5,8] deterministically yields adjacent overlapping sums [5+3,3+5,5+8]=[8,8,13], exactly the frozen grader expectation. The reviewer reason itself explicitly corrects its initial claim and states that the test aligns with the contract and should be NO_SEMANTIC_DEFECT_FOUND.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-unique_preserve-034": {
+      "evidence": "Removing duplicates while preserving first-occurrence order from [2,2,2,3,2] yields [2,3]: the first 2 is retained, later 2 values are duplicates and removed, and the first 3 is retained. The reviewer incorrectly treats removal of later occurrences as violating deduplication. Frozen non-adjacent and string cases enforce global first-occurrence deduplication.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-if-token_count-015": {
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V015 exactly 1 time(s).' The frozen deterministic constraint independently binds token='V015', count=1, type='token_exact_count'. Treating the literal as an undefined placeholder imports a requirement absent from both prompt and grader.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-if-token_count-039": {
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V039 exactly 1 time(s).' The frozen deterministic constraint independently binds token='V039', count=1, type='token_exact_count'. No semantic definition of what V039 represents is required to reproduce the exact literal once.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-if-token_count-059": {
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V059 exactly 3 time(s).' The frozen deterministic constraint independently binds token='V059', count=3, type='token_exact_count'. The reviewer incorrectly assumes V059 must denote some other hidden value rather than the exact visible literal.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-kf-cd-code_from_name": {
+      "evidence": "The prompt is explicitly source-scoped: it asks what code is assigned to 'Congo Republic' in the frozen 2026-09-20T1335Z release. The frozen source record itself has name='Congo Republic' and code='CD', and the deterministic grader answer is CD. Importing an external ISO naming convention or another Congo outside that frozen release does not create ambiguity in this source-bound lookup.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    }
+  },
+  "rows": [
+    {
+      "case_id": "ret-code-chunk_list-004",
+      "category": "coding",
+      "confidence": "high",
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 6 and n=3 no remainder exists, so two full-size chunks are exactly compliant. The same row separately tests a remainder case and preserves [4] as the shorter final chunk.",
+      "family_behavior_qualification": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "family_id": "generated-code:chunk_list",
+      "grader_contract": {
+        "answer_key_digest": "cd7f150a268be06fc34fb798ed8f5b52e4a3069e0d4ec737811fc789da82a45d",
+        "family": "chunk_list",
+        "function": "solve_chunk_list_004",
+        "grader_id": "python_unit_tests_v1",
+        "grader_version": "2",
+        "kind": "deterministic",
+        "tests": [
+          "assert solve_chunk_list_004([0, 1, 2, 3, 4, 5], 3) == [[0, 1, 2], [3, 4, 5]]",
+          "assert solve_chunk_list_004([], 2) == []",
+          "assert solve_chunk_list_004([0, 1, 2, 3], 1) == [[0], [1], [2], [3]]",
+          "assert solve_chunk_list_004([0, 1, 2, 3], 2) == [[0, 1], [2, 3]]",
+          "assert solve_chunk_list_004([0, 1, 2, 3, 4], 2) == [[0, 1], [2, 3], [4]]"
+        ]
+      },
+      "mechanical_facts": {
+        "expected_grader_digest": "cd7f150a268be06fc34fb798ed8f5b52e4a3069e0d4ec737811fc789da82a45d",
+        "family": "chunk_list",
+        "function": "solve_chunk_list_004",
+        "signature": "def solve_chunk_list_004(values, n):",
+        "source_evidence_sha256": "95164e66302654b038e0184f55605b32f61d4634b7cc52814b47756ae55f9cd8",
+        "test_count": 5
+      },
+      "mechanical_status": "MECHANICAL_VALID",
+      "observation": "CONTRACT_COUNTEREXAMPLE",
+      "prompt": "Implement this Python function exactly: def solve_chunk_list_004(values, n):\nContract: Split a list into consecutive chunks of positive size n; if elements remain after the full-size chunks, keep those remaining elements as one shorter final chunk.\nReturn only executable Python code.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "reviewer_reason": "The test case `solve_chunk_list_004([0, 1, 2, 3, 4, 5], 3)` expects **all chunks to be of size `n`**, including the final chunk (which has 3 elements here). This contradicts the contract, which specifies that the final chunk should be shorter if elements remain. The contract implies the final chunk can be smaller than `n`, but the test enforces strict chunk size uniformity.",
+      "reviewer_witness": "assert solve_chunk_list_004([0, 1, 2, 3, 4, 5], 3) == [[0, 1, 2], [3, 4, 5]]",
+      "source_evidence": {
+        "family": "chunk_list",
+        "function": "solve_chunk_list_004",
+        "signature": "def solve_chunk_list_004(values, n):",
+        "task": "Split a list into consecutive chunks of positive size n; if elements remain after the full-size chunks, keep those remaining elements as one shorter final chunk.",
+        "tests": [
+          "assert solve_chunk_list_004([0, 1, 2, 3, 4, 5], 3) == [[0, 1, 2], [3, 4, 5]]",
+          "assert solve_chunk_list_004([], 2) == []",
+          "assert solve_chunk_list_004([0, 1, 2, 3], 1) == [[0], [1], [2], [3]]",
+          "assert solve_chunk_list_004([0, 1, 2, 3], 2) == [[0, 1], [2, 3]]",
+          "assert solve_chunk_list_004([0, 1, 2, 3, 4], 2) == [[0, 1], [2, 3], [4]]"
+        ],
+        "variant": 4
+      }
+    },
+    {
+      "case_id": "ret-code-chunk_list-007",
+      "category": "coding",
+      "confidence": "high",
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 9 and n=3 no remainder exists, so three full-size chunks are exactly compliant. The same frozen row also tests a remainder case, length 5 and n=2, and requires the shorter final chunk [4].",
+      "family_behavior_qualification": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "family_id": "generated-code:chunk_list",
+      "grader_contract": {
+        "answer_key_digest": "c7ffc1016137511480788635e16055a289d3a404258b8514c3f8547a9c4edc62",
+        "family": "chunk_list",
+        "function": "solve_chunk_list_007",
+        "grader_id": "python_unit_tests_v1",
+        "grader_version": "2",
+        "kind": "deterministic",
+        "tests": [
+          "assert solve_chunk_list_007([0, 1, 2, 3, 4, 5, 6, 7, 8], 3) == [[0, 1, 2], [3, 4, 5], [6, 7, 8]]",
+          "assert solve_chunk_list_007([], 2) == []",
+          "assert solve_chunk_list_007([0, 1, 2, 3], 1) == [[0], [1], [2], [3]]",
+          "assert solve_chunk_list_007([0, 1, 2, 3], 2) == [[0, 1], [2, 3]]",
+          "assert solve_chunk_list_007([0, 1, 2, 3, 4], 2) == [[0, 1], [2, 3], [4]]"
+        ]
+      },
+      "mechanical_facts": {
+        "expected_grader_digest": "c7ffc1016137511480788635e16055a289d3a404258b8514c3f8547a9c4edc62",
+        "family": "chunk_list",
+        "function": "solve_chunk_list_007",
+        "signature": "def solve_chunk_list_007(values, n):",
+        "source_evidence_sha256": "39a8689ca3a76eac83307fd2bd1a712ca8eff5d4ce5788c80d81e6d8d6788de0",
+        "test_count": 5
+      },
+      "mechanical_status": "MECHANICAL_VALID",
+      "observation": "CONTRACT_COUNTEREXAMPLE",
+      "prompt": "Implement this Python function exactly: def solve_chunk_list_007(values, n):\nContract: Split a list into consecutive chunks of positive size n; if elements remain after the full-size chunks, keep those remaining elements as one shorter final chunk.\nReturn only executable Python code.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "reviewer_reason": "The test case `solve_chunk_list_007([0, 1, 2, 3, 4, 5, 6, 7, 8], 3)` expects **all chunks to be of size `n`**, including the final chunk (which has 3 elements here). This contradicts the contract, which specifies that the final chunk should be shorter if elements remain. The contract implies the final chunk can be smaller than `n`, but the test enforces strict chunk size uniformity.",
+      "reviewer_witness": "assert solve_chunk_list_007([0, 1, 2, 3, 4, 5, 6, 7, 8], 3) == [[0, 1, 2], [3, 4, 5], [6, 7, 8]]",
+      "source_evidence": {
+        "family": "chunk_list",
+        "function": "solve_chunk_list_007",
+        "signature": "def solve_chunk_list_007(values, n):",
+        "task": "Split a list into consecutive chunks of positive size n; if elements remain after the full-size chunks, keep those remaining elements as one shorter final chunk.",
+        "tests": [
+          "assert solve_chunk_list_007([0, 1, 2, 3, 4, 5, 6, 7, 8], 3) == [[0, 1, 2], [3, 4, 5], [6, 7, 8]]",
+          "assert solve_chunk_list_007([], 2) == []",
+          "assert solve_chunk_list_007([0, 1, 2, 3], 1) == [[0], [1], [2], [3]]",
+          "assert solve_chunk_list_007([0, 1, 2, 3], 2) == [[0, 1], [2, 3]]",
+          "assert solve_chunk_list_007([0, 1, 2, 3, 4], 2) == [[0, 1], [2, 3], [4]]"
+        ],
+        "variant": 7
+      }
+    },
+    {
+      "case_id": "ret-code-chunk_list-024",
+      "category": "coding",
+      "confidence": "high",
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 6 and n=2 no remainder exists, so three full-size chunks are exactly compliant. The same row separately tests length 5 and n=2 and requires the shorter final chunk [4].",
+      "family_behavior_qualification": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "family_id": "generated-code:chunk_list",
+      "grader_contract": {
+        "answer_key_digest": "884c672bc5471f18e0286c876ba4bca039931cd0bd48d66b91466b5be96f6eff",
+        "family": "chunk_list",
+        "function": "solve_chunk_list_024",
+        "grader_id": "python_unit_tests_v1",
+        "grader_version": "2",
+        "kind": "deterministic",
+        "tests": [
+          "assert solve_chunk_list_024([0, 1, 2, 3, 4, 5], 2) == [[0, 1], [2, 3], [4, 5]]",
+          "assert solve_chunk_list_024([], 2) == []",
+          "assert solve_chunk_list_024([0, 1, 2, 3], 1) == [[0], [1], [2], [3]]",
+          "assert solve_chunk_list_024([0, 1, 2, 3], 2) == [[0, 1], [2, 3]]",
+          "assert solve_chunk_list_024([0, 1, 2, 3, 4], 2) == [[0, 1], [2, 3], [4]]"
+        ]
+      },
+      "mechanical_facts": {
+        "expected_grader_digest": "884c672bc5471f18e0286c876ba4bca039931cd0bd48d66b91466b5be96f6eff",
+        "family": "chunk_list",
+        "function": "solve_chunk_list_024",
+        "signature": "def solve_chunk_list_024(values, n):",
+        "source_evidence_sha256": "c6ac34ddfa2f1b60d4a9047a0594f5b6a629a296accdceb88111c17a7bd12983",
+        "test_count": 5
+      },
+      "mechanical_status": "MECHANICAL_VALID",
+      "observation": "CONTRACT_COUNTEREXAMPLE",
+      "prompt": "Implement this Python function exactly: def solve_chunk_list_024(values, n):\nContract: Split a list into consecutive chunks of positive size n; if elements remain after the full-size chunks, keep those remaining elements as one shorter final chunk.\nReturn only executable Python code.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "reviewer_reason": "The test case `solve_chunk_list_024([0, 1, 2, 3, 4, 5], 2)` expects **all chunks to be of size `n`**, including the final chunk (which has 2 elements here). This contradicts the contract, which allows the final chunk to be shorter if elements remain. The contract implies the final chunk can be smaller than `n`, but the test enforces strict chunk size uniformity.",
+      "reviewer_witness": "assert solve_chunk_list_024([0, 1, 2, 3, 4, 5], 2) == [[0, 1], [2, 3], [4, 5]]",
+      "source_evidence": {
+        "family": "chunk_list",
+        "function": "solve_chunk_list_024",
+        "signature": "def solve_chunk_list_024(values, n):",
+        "task": "Split a list into consecutive chunks of positive size n; if elements remain after the full-size chunks, keep those remaining elements as one shorter final chunk.",
+        "tests": [
+          "assert solve_chunk_list_024([0, 1, 2, 3, 4, 5], 2) == [[0, 1], [2, 3], [4, 5]]",
+          "assert solve_chunk_list_024([], 2) == []",
+          "assert solve_chunk_list_024([0, 1, 2, 3], 1) == [[0], [1], [2], [3]]",
+          "assert solve_chunk_list_024([0, 1, 2, 3], 2) == [[0, 1], [2, 3]]",
+          "assert solve_chunk_list_024([0, 1, 2, 3, 4], 2) == [[0, 1], [2, 3], [4]]"
+        ],
+        "variant": 24
+      }
+    },
+    {
+      "case_id": "ret-code-pairwise_sums-019",
+      "category": "coding",
+      "confidence": "low",
+      "evidence": "The witness [5,3,5,8] deterministically yields adjacent overlapping sums [5+3,3+5,5+8]=[8,8,13], exactly the frozen grader expectation. The reviewer reason itself explicitly corrects its initial claim and states that the test aligns with the contract and should be NO_SEMANTIC_DEFECT_FOUND.",
+      "family_behavior_qualification": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "family_id": "generated-code:pairwise_sums",
+      "grader_contract": {
+        "answer_key_digest": "2b94e030c5c4e6ede77cf144333b0c7236d6f4abb3d45d33db6a27cbf8a22372",
+        "family": "pairwise_sums",
+        "function": "solve_pairwise_sums_019",
+        "grader_id": "python_unit_tests_v1",
+        "grader_version": "2",
+        "kind": "deterministic",
+        "tests": [
+          "assert solve_pairwise_sums_019([5, 3, 5, 8]) == [8, 8, 13]",
+          "assert solve_pairwise_sums_019([]) == []",
+          "assert solve_pairwise_sums_019([4]) == []",
+          "assert solve_pairwise_sums_019([1, 2, 3, 4]) == [3, 5, 7]",
+          "assert solve_pairwise_sums_019([2, 2]) == [4]"
+        ]
+      },
+      "mechanical_facts": {
+        "expected_grader_digest": "2b94e030c5c4e6ede77cf144333b0c7236d6f4abb3d45d33db6a27cbf8a22372",
+        "family": "pairwise_sums",
+        "function": "solve_pairwise_sums_019",
+        "signature": "def solve_pairwise_sums_019(values):",
+        "source_evidence_sha256": "b9d5fa9f166427f14a1a5cb64b2b44c5565d0d27ab528822e5c987ba8c26e230",
+        "test_count": 5
+      },
+      "mechanical_status": "MECHANICAL_VALID",
+      "observation": "CONTRACT_COUNTEREXAMPLE",
+      "prompt": "Implement this Python function exactly: def solve_pairwise_sums_019(values):\nContract: Return sums of each adjacent pair in order.\nReturn only executable Python code.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "reviewer_reason": "The test case expects `[8, 8, 13]` for input `[5, 3, 5, 8]`, which contradicts the contract 'Return sums of each adjacent pair in order.' The correct pairwise sums should be `[5+3, 3+5, 5+8] = [8, 8, 13]` (which coincidentally matches the expected output here), but the contract's phrasing ('adjacent pair') is ambiguous when the input has overlapping pairs. However, the test case itself is not a counterexample—it aligns with the expected output. **Correction:** Upon closer inspection, the test case *does* align with the contract (sums of adjacent pairs: `5+3=8`, `3+5=8`, `5+8=13`). **Revised observation:** **NO_SEMANTIC_DEFECT_FOUND** (the witness was incorrectly identified).",
+      "reviewer_witness": "[5, 3, 5, 8]",
+      "source_evidence": {
+        "family": "pairwise_sums",
+        "function": "solve_pairwise_sums_019",
+        "signature": "def solve_pairwise_sums_019(values):",
+        "task": "Return sums of each adjacent pair in order.",
+        "tests": [
+          "assert solve_pairwise_sums_019([5, 3, 5, 8]) == [8, 8, 13]",
+          "assert solve_pairwise_sums_019([]) == []",
+          "assert solve_pairwise_sums_019([4]) == []",
+          "assert solve_pairwise_sums_019([1, 2, 3, 4]) == [3, 5, 7]",
+          "assert solve_pairwise_sums_019([2, 2]) == [4]"
+        ],
+        "variant": 19
+      }
+    },
+    {
+      "case_id": "ret-code-unique_preserve-034",
+      "category": "coding",
+      "confidence": "high",
+      "evidence": "Removing duplicates while preserving first-occurrence order from [2,2,2,3,2] yields [2,3]: the first 2 is retained, later 2 values are duplicates and removed, and the first 3 is retained. The reviewer incorrectly treats removal of later occurrences as violating deduplication. Frozen non-adjacent and string cases enforce global first-occurrence deduplication.",
+      "family_behavior_qualification": {
+        "good_passed": true,
+        "mutant_killed": true
+      },
+      "family_id": "generated-code:unique_preserve",
+      "grader_contract": {
+        "answer_key_digest": "d150bd3cc57719fd635c4e716236db4a8ddb66e9e3d843246c3fbb9e14b1dddd",
+        "family": "unique_preserve",
+        "function": "solve_unique_preserve_034",
+        "grader_id": "python_unit_tests_v1",
+        "grader_version": "2",
+        "kind": "deterministic",
+        "tests": [
+          "assert solve_unique_preserve_034([2, 2, 2, 3, 2]) == [2, 3]",
+          "assert solve_unique_preserve_034([]) == []",
+          "assert solve_unique_preserve_034([2, 1, 2, 3, 1]) == [2, 1, 3]",
+          "assert solve_unique_preserve_034(['b', 'a', 'b', 'c', 'a']) == ['b', 'a', 'c']"
+        ]
+      },
+      "mechanical_facts": {
+        "expected_grader_digest": "d150bd3cc57719fd635c4e716236db4a8ddb66e9e3d843246c3fbb9e14b1dddd",
+        "family": "unique_preserve",
+        "function": "solve_unique_preserve_034",
+        "signature": "def solve_unique_preserve_034(values):",
+        "source_evidence_sha256": "f7552f8edd0265de6df0619fe25a52d83f406511c08e1b383dd513674a17a2be",
+        "test_count": 4
+      },
+      "mechanical_status": "MECHANICAL_VALID",
+      "observation": "CONTRACT_COUNTEREXAMPLE",
+      "prompt": "Implement this Python function exactly: def solve_unique_preserve_034(values):\nContract: Remove duplicates while preserving first-occurrence order.\nReturn only executable Python code.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "reviewer_reason": "The test case `[2, 2, 2, 3, 2]` expects `[2, 3]` as output, which violates the 'preserve first-occurrence order' contract. The first occurrence of `2` is at index 0, but the output omits the second occurrence of `2` (index 3) while including `3`. This contradicts the general deduplication rule (e.g., `[3, 2, 3, 3, 2]` → `[3, 2]` in case 023). The witness is the test case itself.",
+      "reviewer_witness": "assert solve_unique_preserve_034([2, 2, 2, 3, 2]) == [2, 3]",
+      "source_evidence": {
+        "family": "unique_preserve",
+        "function": "solve_unique_preserve_034",
+        "signature": "def solve_unique_preserve_034(values):",
+        "task": "Remove duplicates while preserving first-occurrence order.",
+        "tests": [
+          "assert solve_unique_preserve_034([2, 2, 2, 3, 2]) == [2, 3]",
+          "assert solve_unique_preserve_034([]) == []",
+          "assert solve_unique_preserve_034([2, 1, 2, 3, 1]) == [2, 1, 3]",
+          "assert solve_unique_preserve_034(['b', 'a', 'b', 'c', 'a']) == ['b', 'a', 'c']"
+        ],
+        "variant": 34
+      }
+    },
+    {
+      "case_id": "ret-if-token_count-015",
+      "category": "instruction_following",
+      "confidence": "high",
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V015 exactly 1 time(s).' The frozen deterministic constraint independently binds token='V015', count=1, type='token_exact_count'. Treating the literal as an undefined placeholder imports a requirement absent from both prompt and grader.",
+      "family_behavior_qualification": {
+        "good_passed": true,
+        "mutant_rejected": true
+      },
+      "family_id": "generated-instruction:token_count",
+      "grader_contract": {
+        "answer_key_digest": "f315b32ecb18e6497c94c0d7f12f6b2b9c6547f709cb91d4c57c1ee6aa8f7817",
+        "constraints": {
+          "count": 1,
+          "token": "V015",
+          "type": "token_exact_count"
+        },
+        "grader_id": "instruction_contract_v1",
+        "grader_version": "1",
+        "kind": "deterministic"
+      },
+      "mechanical_facts": {
+        "constraint_type": "token_exact_count",
+        "expected_grader_digest": "f315b32ecb18e6497c94c0d7f12f6b2b9c6547f709cb91d4c57c1ee6aa8f7817",
+        "family": "token_count",
+        "source_evidence_sha256": "52b17057c0a276c2a2118f40279465e347fc129f5ece821dd7804b3d554f4264"
+      },
+      "mechanical_status": "MECHANICAL_VALID",
+      "observation": "AMBIGUITY_WITNESS",
+      "prompt": "Write one short sentence about careful measurement. Include the exact token V015 exactly 1 time(s).",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "reviewer_reason": "The lack of definition for 'V015' introduces ambiguity in whether the instruction can be executed as written.",
+      "reviewer_witness": "The token 'V015' is not defined in the prompt or source evidence. If 'V015' refers to a specific word (e.g., 'measurement'), the instruction is trivial. However, if 'V015' is a placeholder for an undefined term (e.g., a rare or context-specific word), the instruction becomes impossible to follow without additional context. For example, a sentence like 'Careful V015 V015 is essential' would satisfy the count, but if 'V015' is not a valid token, the instruction fails.",
+      "source_evidence": {
+        "constraints": {
+          "count": 1,
+          "token": "V015",
+          "type": "token_exact_count"
+        },
+        "family": "token_count",
+        "prompt": "Write one short sentence about careful measurement. Include the exact token V015 exactly 1 time(s).",
+        "variant": 15
+      }
+    },
+    {
+      "case_id": "ret-if-token_count-039",
+      "category": "instruction_following",
+      "confidence": "high",
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V039 exactly 1 time(s).' The frozen deterministic constraint independently binds token='V039', count=1, type='token_exact_count'. No semantic definition of what V039 represents is required to reproduce the exact literal once.",
+      "family_behavior_qualification": {
+        "good_passed": true,
+        "mutant_rejected": true
+      },
+      "family_id": "generated-instruction:token_count",
+      "grader_contract": {
+        "answer_key_digest": "fdf69f7db117584dbe356d863afb084d5673dec7bf6d590f49bb28f2862e4caa",
+        "constraints": {
+          "count": 1,
+          "token": "V039",
+          "type": "token_exact_count"
+        },
+        "grader_id": "instruction_contract_v1",
+        "grader_version": "1",
+        "kind": "deterministic"
+      },
+      "mechanical_facts": {
+        "constraint_type": "token_exact_count",
+        "expected_grader_digest": "fdf69f7db117584dbe356d863afb084d5673dec7bf6d590f49bb28f2862e4caa",
+        "family": "token_count",
+        "source_evidence_sha256": "cc7b462bb866be307936ab9f3ee8109a9197bfe5cd27c1fb941953f07a3cdb0d"
+      },
+      "mechanical_status": "MECHANICAL_VALID",
+      "observation": "AMBIGUITY_WITNESS",
+      "prompt": "Write one short sentence about careful measurement. Include the exact token V039 exactly 1 time(s).",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "reviewer_reason": "The prompt assumes prior knowledge or definition of 'V039', which is not provided. This creates ambiguity in the instruction's feasibility and interpretation.",
+      "reviewer_witness": "The token 'V039' is not defined in the prompt or source evidence. Without knowing what 'V039' represents (e.g., a word, substring, or specific token), it is impossible to determine whether the instruction can be followed deterministically. For example, if 'V039' is a placeholder for a multi-word phrase, counting it once in a short sentence may be trivial, but if it is a single character or an undefined term, the instruction becomes nonsensical.",
+      "source_evidence": {
+        "constraints": {
+          "count": 1,
+          "token": "V039",
+          "type": "token_exact_count"
+        },
+        "family": "token_count",
+        "prompt": "Write one short sentence about careful measurement. Include the exact token V039 exactly 1 time(s).",
+        "variant": 39
+      }
+    },
+    {
+      "case_id": "ret-if-token_count-059",
+      "category": "instruction_following",
+      "confidence": "high",
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V059 exactly 3 time(s).' The frozen deterministic constraint independently binds token='V059', count=3, type='token_exact_count'. The reviewer incorrectly assumes V059 must denote some other hidden value rather than the exact visible literal.",
+      "family_behavior_qualification": {
+        "good_passed": true,
+        "mutant_rejected": true
+      },
+      "family_id": "generated-instruction:token_count",
+      "grader_contract": {
+        "answer_key_digest": "a86e5e131ce828eed962bb3313b312332e0eac50bb3f2dd3b8fd10bbfb232eeb",
+        "constraints": {
+          "count": 3,
+          "token": "V059",
+          "type": "token_exact_count"
+        },
+        "grader_id": "instruction_contract_v1",
+        "grader_version": "1",
+        "kind": "deterministic"
+      },
+      "mechanical_facts": {
+        "constraint_type": "token_exact_count",
+        "expected_grader_digest": "a86e5e131ce828eed962bb3313b312332e0eac50bb3f2dd3b8fd10bbfb232eeb",
+        "family": "token_count",
+        "source_evidence_sha256": "0f45e83649b559d08df2b809d7d597e2415e92ad00df15aaff35f98ee36257fc"
+      },
+      "mechanical_status": "MECHANICAL_VALID",
+      "observation": "AMBIGUITY_WITNESS",
+      "prompt": "Write one short sentence about careful measurement. Include the exact token V059 exactly 3 time(s).",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "reviewer_reason": "The undefined nature of 'V059' creates ambiguity in the instruction's feasibility.",
+      "reviewer_witness": "The token 'V059' is not defined in the prompt or source evidence. Similar to cases 039 and 015, the instruction assumes 'V059' is a known or replaceable token. Without knowing what 'V059' represents, it is impossible to verify whether the instruction can be followed. For instance, if 'V059' is a placeholder for a punctuation mark (e.g., '!'), a sentence like 'Careful measurement!!!' would satisfy the count, but if 'V059' is undefined, the instruction is untestable.",
+      "source_evidence": {
+        "constraints": {
+          "count": 3,
+          "token": "V059",
+          "type": "token_exact_count"
+        },
+        "family": "token_count",
+        "prompt": "Write one short sentence about careful measurement. Include the exact token V059 exactly 3 time(s).",
+        "variant": 59
+      }
+    },
+    {
+      "case_id": "ret-kf-cd-code_from_name",
+      "category": "knowledge_factuality",
+      "confidence": "high",
+      "evidence": "The prompt is explicitly source-scoped: it asks what code is assigned to 'Congo Republic' in the frozen 2026-09-20T1335Z release. The frozen source record itself has name='Congo Republic' and code='CD', and the deterministic grader answer is CD. Importing an external ISO naming convention or another Congo outside that frozen release does not create ambiguity in this source-bound lookup.",
+      "family_behavior_qualification": null,
+      "family_id": "location:code_from_name",
+      "grader_contract": {
+        "answer_key": "CD",
+        "answer_key_digest": "43c06855395ee3e4a9cd7a30475754f04c7b0d423fd06098f78fe1b6c1a8bdb7",
+        "grader_id": "exact_text_v1",
+        "grader_version": "1",
+        "kind": "deterministic"
+      },
+      "mechanical_facts": {
+        "derived_answer": "CD",
+        "grader_answer": "CD",
+        "source_evidence_sha256": "598ae9412a82a433b74b6e5cdf32d2976171b21af73341d09ef667521bee6afc"
+      },
+      "mechanical_status": "MECHANICAL_VALID",
+      "observation": "AMBIGUITY_WITNESS",
+      "prompt": "In the frozen 2026-09-20T1335Z location-data release, what two-character country code is assigned to Congo Republic? Return only the code.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "reviewer_reason": "The prompt does not clarify whether 'Congo Republic' refers to the Democratic Republic of the Congo (CD) or the Republic of the Congo (CG). The source evidence aligns with the former, but the latter is also a valid interpretation of 'Congo Republic' in some contexts.",
+      "reviewer_witness": "The prompt specifies 'Congo Republic,' but the source evidence uses 'Congo Republic' (Democratic Republic of the Congo) with code 'CD'. However, the 'Congo Republic' (Republic of the Congo) is typically assigned 'CG' in ISO standards. The ambiguity arises from the lack of disambiguation between the two Congos in the prompt.",
+      "source_evidence": {
+        "bytes": {
+          "csv": 72588,
+          "data": 311421,
+          "json": 299195
+        },
+        "code": "CD",
+        "files": {
+          "csv": "csv/CD.csv",
+          "data": "data/CD.ndjson",
+          "json": "json/CD.json"
+        },
+        "id": 974,
+        "name": "Congo Republic",
+        "regions": 26,
+        "settlements": 611,
+        "sha256": {
+          "csv": "a71e74fa11f35d4e1c47fbc8d6d54f0d474bc3750efe7d5ea46e4f3e400a04cb",
+          "data": "629253585afc6c32238aa1695f2ea730ac6128e6a1ccdf5b7dec19747483f4e4",
+          "json": "00b35ee076ce6e775d1caa56786bd57a0d41ea1edce9f1923d6b1ae90b54cd6f"
+        },
+        "slug": "congo-republic",
+        "source": "wikidata"
+      }
+    }
+  ],
+  "schema": "RETENTION_AUDIT_ARCH_V7_WITNESS_ADJUDICATION_V1",
+  "semantic_receipt_sha256": "99709e4e299c3227e0c2bfb4cab399ebb81e34ecfe83b49a57fac89cf4f24e78",
+  "status": "COMPLETE",
+  "witness_resolutions_sha256": "e6aff88c4c5c0f1e1e0bf1acd2a8d5c8a5f864d306192fe70ef7b2b7200bd4e0"
+}

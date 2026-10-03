@@ -1,0 +1,10 @@
+{
+  "expected_count": 130,
+  "observation_counts": {},
+  "reasons": [
+    "reviewer_unqualified"
+  ],
+  "reviewed": 0,
+  "rows": [],
+  "status": "SEMANTIC_AUDIT_HOLD"
+}

@@ -1,0 +1,614 @@
+{
+  "controls": [
+    {
+      "case_id": "arch-v7-reviewer-referent_ambiguity-defect-0",
+      "context": {
+        "candidate_referents": [
+          "Jordan",
+          "Casey",
+          "Morgan"
+        ],
+        "required_answer_type": "person name"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "prompt": "Jordan told Casey after Morgan arrived that they should archive W00. Return only the name of the person who should archive it."
+    },
+    {
+      "case_id": "arch-v7-reviewer-referent_ambiguity-good-0",
+      "context": {
+        "candidate_referents": [
+          "Jordan",
+          "Casey"
+        ],
+        "explicit_addressee": "Casey"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "prompt": "Jordan told Casey, 'Casey, archive W00 now.' Return only the name of the person who should archive it."
+    },
+    {
+      "case_id": "arch-v7-reviewer-referent_ambiguity-defect-1",
+      "context": {
+        "candidate_referents": [
+          "Jordan",
+          "Casey",
+          "Morgan"
+        ],
+        "required_answer_type": "person name"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "prompt": "Jordan told Casey after Morgan arrived that they should archive W01. Return only the name of the person who should archive it."
+    },
+    {
+      "case_id": "arch-v7-reviewer-referent_ambiguity-good-1",
+      "context": {
+        "candidate_referents": [
+          "Jordan",
+          "Casey"
+        ],
+        "explicit_addressee": "Casey"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "prompt": "Jordan told Casey, 'Casey, archive W01 now.' Return only the name of the person who should archive it."
+    },
+    {
+      "case_id": "arch-v7-reviewer-referent_ambiguity-defect-2",
+      "context": {
+        "candidate_referents": [
+          "Jordan",
+          "Casey",
+          "Morgan"
+        ],
+        "required_answer_type": "person name"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "prompt": "Jordan told Casey after Morgan arrived that they should archive W02. Return only the name of the person who should archive it."
+    },
+    {
+      "case_id": "arch-v7-reviewer-referent_ambiguity-good-2",
+      "context": {
+        "candidate_referents": [
+          "Jordan",
+          "Casey"
+        ],
+        "explicit_addressee": "Casey"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "prompt": "Jordan told Casey, 'Casey, archive W02 now.' Return only the name of the person who should archive it."
+    },
+    {
+      "case_id": "arch-v7-reviewer-referent_ambiguity-defect-3",
+      "context": {
+        "candidate_referents": [
+          "Jordan",
+          "Casey",
+          "Morgan"
+        ],
+        "required_answer_type": "person name"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "prompt": "Jordan told Casey after Morgan arrived that they should archive W03. Return only the name of the person who should archive it."
+    },
+    {
+      "case_id": "arch-v7-reviewer-referent_ambiguity-good-3",
+      "context": {
+        "candidate_referents": [
+          "Jordan",
+          "Casey"
+        ],
+        "explicit_addressee": "Casey"
+      },
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "prompt": "Jordan told Casey, 'Casey, archive W03 now.' Return only the name of the person who should archive it."
+    },
+    {
+      "case_id": "arch-v7-reviewer-prompt_grader_semantic_mismatch-defect-0",
+      "context": {
+        "entry": "W00",
+        "grader_checks": "stored count"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "prompt": "Return the stored label for entry W00."
+    },
+    {
+      "case_id": "arch-v7-reviewer-prompt_grader_semantic_mismatch-good-0",
+      "context": {
+        "entry": "W00",
+        "grader_checks": "stored count"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "prompt": "Return only the stored count for entry W00."
+    },
+    {
+      "case_id": "arch-v7-reviewer-prompt_grader_semantic_mismatch-defect-1",
+      "context": {
+        "entry": "W01",
+        "grader_checks": "stored count"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "prompt": "Return the stored label for entry W01."
+    },
+    {
+      "case_id": "arch-v7-reviewer-prompt_grader_semantic_mismatch-good-1",
+      "context": {
+        "entry": "W01",
+        "grader_checks": "stored count"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "prompt": "Return only the stored count for entry W01."
+    },
+    {
+      "case_id": "arch-v7-reviewer-prompt_grader_semantic_mismatch-defect-2",
+      "context": {
+        "entry": "W02",
+        "grader_checks": "stored count"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "prompt": "Return the stored label for entry W02."
+    },
+    {
+      "case_id": "arch-v7-reviewer-prompt_grader_semantic_mismatch-good-2",
+      "context": {
+        "entry": "W02",
+        "grader_checks": "stored count"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "prompt": "Return only the stored count for entry W02."
+    },
+    {
+      "case_id": "arch-v7-reviewer-prompt_grader_semantic_mismatch-defect-3",
+      "context": {
+        "entry": "W03",
+        "grader_checks": "stored count"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "prompt": "Return the stored label for entry W03."
+    },
+    {
+      "case_id": "arch-v7-reviewer-prompt_grader_semantic_mismatch-good-3",
+      "context": {
+        "entry": "W03",
+        "grader_checks": "stored count"
+      },
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "prompt": "Return only the stored count for entry W03."
+    },
+    {
+      "case_id": "arch-v7-reviewer-contradictory_instructions-defect-0",
+      "context": {
+        "constraint_a": "exactly three copies",
+        "constraint_b": "exactly five copies"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "prompt": "Return exactly three copies of W00 and exactly five copies of W00."
+    },
+    {
+      "case_id": "arch-v7-reviewer-contradictory_instructions-good-0",
+      "context": {
+        "constraint_a": "exactly three copies",
+        "punctuation": "none",
+        "separator": "one space"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "prompt": "Return exactly three copies of W00, separated by one space, with no punctuation."
+    },
+    {
+      "case_id": "arch-v7-reviewer-contradictory_instructions-defect-1",
+      "context": {
+        "constraint_a": "exactly three copies",
+        "constraint_b": "exactly five copies"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "prompt": "Return exactly three copies of W01 and exactly five copies of W01."
+    },
+    {
+      "case_id": "arch-v7-reviewer-contradictory_instructions-good-1",
+      "context": {
+        "constraint_a": "exactly three copies",
+        "punctuation": "none",
+        "separator": "one space"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "prompt": "Return exactly three copies of W01, separated by one space, with no punctuation."
+    },
+    {
+      "case_id": "arch-v7-reviewer-contradictory_instructions-defect-2",
+      "context": {
+        "constraint_a": "exactly three copies",
+        "constraint_b": "exactly five copies"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "prompt": "Return exactly three copies of W02 and exactly five copies of W02."
+    },
+    {
+      "case_id": "arch-v7-reviewer-contradictory_instructions-good-2",
+      "context": {
+        "constraint_a": "exactly three copies",
+        "punctuation": "none",
+        "separator": "one space"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "prompt": "Return exactly three copies of W02, separated by one space, with no punctuation."
+    },
+    {
+      "case_id": "arch-v7-reviewer-contradictory_instructions-defect-3",
+      "context": {
+        "constraint_a": "exactly three copies",
+        "constraint_b": "exactly five copies"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "prompt": "Return exactly three copies of W03 and exactly five copies of W03."
+    },
+    {
+      "case_id": "arch-v7-reviewer-contradictory_instructions-good-3",
+      "context": {
+        "constraint_a": "exactly three copies",
+        "punctuation": "none",
+        "separator": "one space"
+      },
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "prompt": "Return exactly three copies of W03, separated by one space, with no punctuation."
+    },
+    {
+      "case_id": "arch-v7-reviewer-underspecified_output_format-defect-0",
+      "context": {
+        "acceptable_shapes": [
+          "plain text",
+          "JSON",
+          "table row"
+        ],
+        "available_fields": [
+          "id",
+          "state",
+          "count"
+        ]
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "prompt": "Provide the complete entry for W00."
+    },
+    {
+      "case_id": "arch-v7-reviewer-underspecified_output_format-good-0",
+      "context": {
+        "key_order": [
+          "id",
+          "state",
+          "count"
+        ],
+        "required_shape": {
+          "count": 11,
+          "id": "W00",
+          "state": "stage-0"
+        }
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "prompt": "Return exactly one compact JSON object with keys 'id','state','count' for W00, in that key order."
+    },
+    {
+      "case_id": "arch-v7-reviewer-underspecified_output_format-defect-1",
+      "context": {
+        "acceptable_shapes": [
+          "plain text",
+          "JSON",
+          "table row"
+        ],
+        "available_fields": [
+          "id",
+          "state",
+          "count"
+        ]
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "prompt": "Provide the complete entry for W01."
+    },
+    {
+      "case_id": "arch-v7-reviewer-underspecified_output_format-good-1",
+      "context": {
+        "key_order": [
+          "id",
+          "state",
+          "count"
+        ],
+        "required_shape": {
+          "count": 12,
+          "id": "W01",
+          "state": "stage-1"
+        }
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "prompt": "Return exactly one compact JSON object with keys 'id','state','count' for W01, in that key order."
+    },
+    {
+      "case_id": "arch-v7-reviewer-underspecified_output_format-defect-2",
+      "context": {
+        "acceptable_shapes": [
+          "plain text",
+          "JSON",
+          "table row"
+        ],
+        "available_fields": [
+          "id",
+          "state",
+          "count"
+        ]
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "prompt": "Provide the complete entry for W02."
+    },
+    {
+      "case_id": "arch-v7-reviewer-underspecified_output_format-good-2",
+      "context": {
+        "key_order": [
+          "id",
+          "state",
+          "count"
+        ],
+        "required_shape": {
+          "count": 13,
+          "id": "W02",
+          "state": "stage-2"
+        }
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "prompt": "Return exactly one compact JSON object with keys 'id','state','count' for W02, in that key order."
+    },
+    {
+      "case_id": "arch-v7-reviewer-underspecified_output_format-defect-3",
+      "context": {
+        "acceptable_shapes": [
+          "plain text",
+          "JSON",
+          "table row"
+        ],
+        "available_fields": [
+          "id",
+          "state",
+          "count"
+        ]
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "prompt": "Provide the complete entry for W03."
+    },
+    {
+      "case_id": "arch-v7-reviewer-underspecified_output_format-good-3",
+      "context": {
+        "key_order": [
+          "id",
+          "state",
+          "count"
+        ],
+        "required_shape": {
+          "count": 14,
+          "id": "W03",
+          "state": "stage-3"
+        }
+      },
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "prompt": "Return exactly one compact JSON object with keys 'id','state','count' for W03, in that key order."
+    },
+    {
+      "case_id": "arch-v7-reviewer-evidence_policy_ambiguity-defect-0",
+      "context": {
+        "outside_knowledge_rule": "priority unclear",
+        "record": "W00 has a stored category."
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "prompt": "Use the supplied record for W00; when it omits a fact, use common background knowledge if helpful."
+    },
+    {
+      "case_id": "arch-v7-reviewer-evidence_policy_ambiguity-good-0",
+      "context": {
+        "outside_knowledge_rule": "forbidden",
+        "record": "W00 has a stored category."
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "prompt": "Use only the supplied record for W00. If the requested fact is absent, answer exactly NOT_ENOUGH_INFO."
+    },
+    {
+      "case_id": "arch-v7-reviewer-evidence_policy_ambiguity-defect-1",
+      "context": {
+        "outside_knowledge_rule": "priority unclear",
+        "record": "W01 has a stored category."
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "prompt": "Use the supplied record for W01; when it omits a fact, use common background knowledge if helpful."
+    },
+    {
+      "case_id": "arch-v7-reviewer-evidence_policy_ambiguity-good-1",
+      "context": {
+        "outside_knowledge_rule": "forbidden",
+        "record": "W01 has a stored category."
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "prompt": "Use only the supplied record for W01. If the requested fact is absent, answer exactly NOT_ENOUGH_INFO."
+    },
+    {
+      "case_id": "arch-v7-reviewer-evidence_policy_ambiguity-defect-2",
+      "context": {
+        "outside_knowledge_rule": "priority unclear",
+        "record": "W02 has a stored category."
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "prompt": "Use the supplied record for W02; when it omits a fact, use common background knowledge if helpful."
+    },
+    {
+      "case_id": "arch-v7-reviewer-evidence_policy_ambiguity-good-2",
+      "context": {
+        "outside_knowledge_rule": "forbidden",
+        "record": "W02 has a stored category."
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "prompt": "Use only the supplied record for W02. If the requested fact is absent, answer exactly NOT_ENOUGH_INFO."
+    },
+    {
+      "case_id": "arch-v7-reviewer-evidence_policy_ambiguity-defect-3",
+      "context": {
+        "outside_knowledge_rule": "priority unclear",
+        "record": "W03 has a stored category."
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "prompt": "Use the supplied record for W03; when it omits a fact, use common background knowledge if helpful."
+    },
+    {
+      "case_id": "arch-v7-reviewer-evidence_policy_ambiguity-good-3",
+      "context": {
+        "outside_knowledge_rule": "forbidden",
+        "record": "W03 has a stored category."
+      },
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "prompt": "Use only the supplied record for W03. If the requested fact is absent, answer exactly NOT_ENOUGH_INFO."
+    },
+    {
+      "case_id": "arch-v7-reviewer-scope_negation_ambiguity-defect-0",
+      "context": {
+        "candidate_states": [
+          "active",
+          "inactive",
+          "pending"
+        ],
+        "scope_phrase": "not inactive"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "prompt": "For W00, remove entries that are not inactive."
+    },
+    {
+      "case_id": "arch-v7-reviewer-scope_negation_ambiguity-good-0",
+      "context": {
+        "candidate_states": [
+          "active",
+          "inactive",
+          "pending"
+        ],
+        "included_state": "inactive"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "prompt": "For W00, keep only inactive entries; remove active and pending entries."
+    },
+    {
+      "case_id": "arch-v7-reviewer-scope_negation_ambiguity-defect-1",
+      "context": {
+        "candidate_states": [
+          "active",
+          "inactive",
+          "pending"
+        ],
+        "scope_phrase": "not inactive"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "prompt": "For W01, remove entries that are not inactive."
+    },
+    {
+      "case_id": "arch-v7-reviewer-scope_negation_ambiguity-good-1",
+      "context": {
+        "candidate_states": [
+          "active",
+          "inactive",
+          "pending"
+        ],
+        "included_state": "inactive"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "prompt": "For W01, keep only inactive entries; remove active and pending entries."
+    },
+    {
+      "case_id": "arch-v7-reviewer-scope_negation_ambiguity-defect-2",
+      "context": {
+        "candidate_states": [
+          "active",
+          "inactive",
+          "pending"
+        ],
+        "scope_phrase": "not inactive"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "prompt": "For W02, remove entries that are not inactive."
+    },
+    {
+      "case_id": "arch-v7-reviewer-scope_negation_ambiguity-good-2",
+      "context": {
+        "candidate_states": [
+          "active",
+          "inactive",
+          "pending"
+        ],
+        "included_state": "inactive"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "prompt": "For W02, keep only inactive entries; remove active and pending entries."
+    },
+    {
+      "case_id": "arch-v7-reviewer-scope_negation_ambiguity-defect-3",
+      "context": {
+        "candidate_states": [
+          "active",
+          "inactive",
+          "pending"
+        ],
+        "scope_phrase": "not inactive"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "prompt": "For W03, remove entries that are not inactive."
+    },
+    {
+      "case_id": "arch-v7-reviewer-scope_negation_ambiguity-good-3",
+      "context": {
+        "candidate_states": [
+          "active",
+          "inactive",
+          "pending"
+        ],
+        "included_state": "inactive"
+      },
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "prompt": "For W03, keep only inactive entries; remove active and pending entries."
+    }
+  ],
+  "date": "2026-10-03",
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V7_CONTROLS_V1"
+}

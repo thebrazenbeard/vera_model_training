@@ -1,0 +1,118 @@
+{
+  "adjudication": {
+    "confirmed_bank_defects": [
+      "ret-code-chunk_list-036",
+      "ret-code-chunk_list-026"
+    ],
+    "contradicted_reviewer_findings": [
+      "ret-code-clamp_values-008",
+      "ret-code-clamp_values-025",
+      "ret-code-flatten_once-029",
+      "ret-code-flatten_once-019",
+      "ret-code-flatten_once-035",
+      "ret-code-flatten_once-027",
+      "ret-code-flatten_once-014",
+      "ret-code-unique_preserve-015"
+    ],
+    "resolution_count": 10
+  },
+  "admission": {
+    "defect_classes": [
+      "BANK_DEFECT"
+    ],
+    "nonblocking_findings": {
+      "REVIEWER_DEFECT": 8
+    },
+    "reasons": [
+      "reconciliation_hold",
+      "reconciliation_blocking_defects_present"
+    ],
+    "status": "RETENTION_HOLD_ARCH_V6"
+  },
+  "artifacts": {
+    "admission_result": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v6.admission.result.json",
+      "sha256": "aea5f1a1cfac3111cf5799b5546b9f507b3294197dd495fcee503cda8ad6eed7"
+    },
+    "execution_binding_v6": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V6_EXECUTION_BINDING_V1.json",
+      "sha256": "486265f2575ea937a91ba3e1b1b15841142408b1c50bbcba78a099335b022ed9"
+    },
+    "reconciliation": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v6.reconciliation.json",
+      "sha256": "c51d2f1dda2ccc950d3d1a1ea3e5f6fc166eaf22bccc9612e2a44fedc37fb5df"
+    },
+    "reviewer_qualification": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v6.reviewer_qualification.json",
+      "sha256": "954ca297d3762ceb84efbc925508a842698437b2a1333c69af15a7fcde6fd838"
+    },
+    "semantic_receipt": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v6.semantic.receipt.json",
+      "sha256": "747615f716334d21f1a49e04f1530ae9d5ab935840260cabd033289edb010b0a"
+    },
+    "witness_resolutions": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v6.witness_resolutions.json",
+      "sha256": "0336181a0ca71524593881518c1fc9d458cc0384ab50452f41973602a64dfbec"
+    }
+  },
+  "boundaries": {
+    "candidate_changed": false,
+    "methodology_history_independent": false,
+    "semantic_packet_consumed": true,
+    "training_started": false,
+    "weights_changed": false
+  },
+  "date": "2026-10-03",
+  "new_runtime_observation": {
+    "interpretation_ceiling": "Shows host/runtime identity context materially affects self-identification. Does not by itself prove whether Vera identity is or is not encoded in weights.",
+    "observation": "Without a Vera system identity, the model identified itself as Qwen3.5, then adopted Vera after user correction.",
+    "source": "User-provided KoboldCpp chat with the trained GGUF.",
+    "successor_requirement": "Add local KoboldCpp identity-retention evaluation separating no-system identity from host-composed Vera identity."
+  },
+  "reconciliation": {
+    "blocking_defect_counts": {
+      "BANK_DEFECT": 2
+    },
+    "defect_counts": {
+      "BANK_DEFECT": 2,
+      "REVIEWER_DEFECT": 8
+    },
+    "nonblocking_finding_counts": {
+      "REVIEWER_DEFECT": 8
+    },
+    "status": "RETENTION_HOLD_ARCH_V6"
+  },
+  "repair_target": {
+    "family_id": "generated-code:chunk_list",
+    "required_prompt_semantics": "State explicitly that a shorter final chunk is kept only if a remainder remains after full-size chunks.",
+    "scope": "All chunk_list rows in successor candidate, not only the two sampled defect rows."
+  },
+  "reviewer_qualification": {
+    "batch_count": 12,
+    "sensitivity": [
+      24,
+      24
+    ],
+    "specificity": [
+      24,
+      24
+    ],
+    "status": "REVIEWER_QUALIFIED",
+    "structured_contradictions": []
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V6_RESULT_MANIFEST_V1",
+  "semantic_review": {
+    "expected_count": 130,
+    "observation_counts": {
+      "AMBIGUITY_WITNESS": 2,
+      "CONTRACT_COUNTEREXAMPLE": 8,
+      "DERIVED_ANSWER": 10,
+      "NO_SEMANTIC_DEFECT_FOUND": 110
+    },
+    "packet_exposed_to_reviewer": true,
+    "reviewed": 130,
+    "status": "SEMANTIC_AUDIT_COMPLETE",
+    "witness_contract_violations": []
+  },
+  "status": "RETENTION_HOLD_ARCH_V6"
+}

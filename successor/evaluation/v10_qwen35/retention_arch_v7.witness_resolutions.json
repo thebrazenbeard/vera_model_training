@@ -1,0 +1,53 @@
+{
+  "schema": "RETENTION_AUDIT_ARCH_V7_WITNESS_RESOLUTIONS_V1",
+  "date": "2026-10-03",
+  "policy": "Evidence-backed adjudication only; semantic witnesses become nonblocking reviewer defects only when contradicted by the frozen prompt, source evidence, deterministic grader contract, or mechanically verified family behavior.",
+  "resolutions": {
+    "ret-code-chunk_list-007": {
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 9 and n=3 no remainder exists, so three full-size chunks are exactly compliant. The same frozen row also tests a remainder case, length 5 and n=2, and requires the shorter final chunk [4]."
+    },
+    "ret-code-chunk_list-024": {
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 6 and n=2 no remainder exists, so three full-size chunks are exactly compliant. The same row separately tests length 5 and n=2 and requires the shorter final chunk [4]."
+    },
+    "ret-code-chunk_list-004": {
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 6 and n=3 no remainder exists, so two full-size chunks are exactly compliant. The same row separately tests a remainder case and preserves [4] as the shorter final chunk."
+    },
+    "ret-code-pairwise_sums-019": {
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "evidence": "The witness [5,3,5,8] deterministically yields adjacent overlapping sums [5+3,3+5,5+8]=[8,8,13], exactly the frozen grader expectation. The reviewer reason itself explicitly corrects its initial claim and states that the test aligns with the contract and should be NO_SEMANTIC_DEFECT_FOUND."
+    },
+    "ret-code-unique_preserve-034": {
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "evidence": "Removing duplicates while preserving first-occurrence order from [2,2,2,3,2] yields [2,3]: the first 2 is retained, later 2 values are duplicates and removed, and the first 3 is retained. The reviewer incorrectly treats removal of later occurrences as violating deduplication. Frozen non-adjacent and string cases enforce global first-occurrence deduplication."
+    },
+    "ret-if-token_count-039": {
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V039 exactly 1 time(s).' The frozen deterministic constraint independently binds token='V039', count=1, type='token_exact_count'. No semantic definition of what V039 represents is required to reproduce the exact literal once."
+    },
+    "ret-if-token_count-015": {
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V015 exactly 1 time(s).' The frozen deterministic constraint independently binds token='V015', count=1, type='token_exact_count'. Treating the literal as an undefined placeholder imports a requirement absent from both prompt and grader."
+    },
+    "ret-if-token_count-059": {
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V059 exactly 3 time(s).' The frozen deterministic constraint independently binds token='V059', count=3, type='token_exact_count'. The reviewer incorrectly assumes V059 must denote some other hidden value rather than the exact visible literal."
+    },
+    "ret-kf-cd-code_from_name": {
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "evidence": "The prompt is explicitly source-scoped: it asks what code is assigned to 'Congo Republic' in the frozen 2026-09-20T1335Z release. The frozen source record itself has name='Congo Republic' and code='CD', and the deterministic grader answer is CD. Importing an external ISO naming convention or another Congo outside that frozen release does not create ambiguity in this source-bound lookup."
+    }
+  },
+  "boundaries": {
+    "candidate_modified": false,
+    "grader_modified": false,
+    "reviewer_output_modified": false,
+    "frozen_v7_logic_modified": false,
+    "independent_external_review": false,
+    "training_started": false,
+    "weights_changed": false
+  },
+  "claim_ceiling": "INTERNAL EVIDENCE-BACKED WITNESS ADJUDICATION / NOT INDEPENDENT REVIEW / DOES NOT BY ITSELF AUTHORIZE TRAINING"
+}
