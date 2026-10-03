@@ -15,6 +15,7 @@ from successor.pilot_sft import (
     validate_run_spec,
 )
 from successor.training_data import assistant_only_labels
+from successor.v3_training import V3_TRAINING_SCHEMA, preflight_v3_training
 
 SYSTEM = {"role": "system", "content": "/no_think /system_override"}
 
@@ -58,6 +59,12 @@ def prepare(spec_path: Path) -> tuple[dict, dict, list[dict], list[dict], Path]:
     repo_root = Path(__file__).resolve().parents[1]
     base_manifest = json.loads((repo_root / "successor" / "base_model_manifest.json").read_text(encoding="utf-8"))
     spec = json.loads(spec_path.read_text(encoding="utf-8"))
+    if spec.get("schema") == V3_TRAINING_SCHEMA:
+        decision = preflight_v3_training(spec_path, repo_root=repo_root)
+        if not decision.runnable:
+            raise RuntimeError(
+                "V3 training preflight blocked: " + ", ".join(decision.reasons)
+            )
     validate_run_spec(spec, base_manifest)
     train_path = Path(spec["train_path"])
     validation_path = Path(spec["validation_path"])
@@ -70,6 +77,14 @@ def prepare(spec_path: Path) -> tuple[dict, dict, list[dict], list[dict], Path]:
 
 
 def dry_run(spec_path: Path) -> dict:
+    repo_root = Path(__file__).resolve().parents[1]
+    raw_spec = json.loads(spec_path.read_text(encoding="utf-8"))
+    if raw_spec.get("schema") == V3_TRAINING_SCHEMA:
+        decision = preflight_v3_training(spec_path, repo_root=repo_root)
+        payload = decision.to_dict()
+        payload["run_id"] = raw_spec.get("run_id")
+        return payload
+
     spec, _base_manifest, train_rows, validation_rows, repo_root = prepare(spec_path)
     parent = Path(spec["parent_adapter_path"])
     train_path = Path(spec["train_path"])
@@ -86,6 +101,10 @@ def dry_run(spec_path: Path) -> dict:
 
 
 def train(spec_path: Path) -> dict:
+    # V3 readiness/authorization is checked inside prepare() before any model
+    # framework import or model-weight load can occur.
+    spec, base_manifest, train_rows, validation_rows, repo_root = prepare(spec_path)
+
     import torch
     import transformers
     import peft
@@ -93,8 +112,6 @@ def train(spec_path: Path) -> dict:
     from bitsandbytes.optim import PagedAdamW8bit
     from peft import PeftModel, prepare_model_for_kbit_training
     from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-
-    spec, base_manifest, train_rows, validation_rows, repo_root = prepare(spec_path)
     seed = int(spec["seed"])
     accum = int(spec["gradient_accumulation"])
     lr = float(spec["learning_rate"])
@@ -245,6 +262,30 @@ def train(spec_path: Path) -> dict:
             "warmup_steps": warmup_steps,
             "lr_floor": floor,
         })
+        if spec.get("schema") == V3_TRAINING_SCHEMA:
+            manifest["v3_gate"] = {
+                "task9_source_commit": spec["task9_source_commit"],
+                "task9_ready_receipt_sha256": sha256_file(
+                    spec["task9_ready_receipt_path"]
+                ),
+                "training_authorization_receipt_sha256": sha256_file(
+                    spec["training_authorization_receipt_path"]
+                ),
+                "corpus_manifest_sha256": sha256_file(
+                    spec["corpus_manifest_path"]
+                ),
+                "base_tree_sha256": spec["base_tree_sha256"],
+                "base_inventory_sha256": spec["base_inventory_sha256"],
+                "parent_adapter_config_sha256": spec[
+                    "parent_adapter_config_sha256"
+                ],
+                "parent_candidate_subject_digest": spec[
+                    "parent_candidate_subject_digest"
+                ],
+                "general_rehearsal_fraction": float(
+                    spec["general_rehearsal_fraction"]
+                ),
+            }
         manifest_path = output_root / f"run_{tag}.json"
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         results[tag] = manifest
