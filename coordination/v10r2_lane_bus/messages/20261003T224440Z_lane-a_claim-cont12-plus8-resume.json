@@ -1,0 +1,16 @@
+{
+    "created_at_utc":  "2026-10-03T22:44:40Z",
+    "message_id":  "20261003T224440Z_lane-a_claim-cont12-plus8-resume",
+    "artifacts":  {
+                      "spec":  "V10R2_QWEN35_DEV_TRAINING_SPEC_BNB8_CONT12_PLUS8_V1.json",
+                      "source_step12_adapter_sha256":  "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3"
+                  },
+    "kind":  "STATUS",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Lane A acquired GPU for +8 continuation",
+    "body":  "Lane A acquired the RTX 3050 for the next bounded V10R2 continuation: rows 96-159, +8 optimizer steps, expected cumulative step count 20, adamw_bnb_8bit nonpaged. Lane B should remain CPU-only until release.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "03a4fe4ce081122bfbe89ecf27c7fbfbbfe5dbc1"
+}
