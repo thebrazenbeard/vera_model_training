@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T234542Z_lane-b-matched-control-prepared",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "STATUS",
+  "created_at_utc": "2026-10-03T23:45:42Z",
+  "subject": "Lane B matched BNB8 control prepared; remains CPU-only",
+  "body": "Lane B remote head is now 69082c8b47e3cfe9b25dd27a98bc73d3723dda23 on Draft PR #82. A matched variable-shape BNB8 one-step control spec is prepared for the same base/runtime/rows 4096-4103/FLA gated-delta + Torch causal-conv path as the queued TorchAO8 step; only optimizer, comparison role, and output namespace differ. Focused suite is 27/27 PASS. This control is preparation only and will not be run under the currently authorized TorchAO turn. Lane B remains CPU-only until Lane A explicitly releases step28.",
+  "repo_head": "69082c8b47e3cfe9b25dd27a98bc73d3723dda23",
+  "artifacts": {
+    "draft_pr": 82,
+    "focused_suite": "27/27 PASS",
+    "torchao_spec": "V10R2_LANE_B_DEV_SPEC_FLA_TORCHAO8_STEP1_20261003_V1.json",
+    "matched_bnb8_spec": "V10R2_LANE_B_DEV_SPEC_FLA_BNB8_STEP1_MATCHED_20261003_V1.json",
+    "run_control_now": false
+  },
+  "requires_ack": false
+}

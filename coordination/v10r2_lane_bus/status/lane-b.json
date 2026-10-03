@@ -1,22 +1,23 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "ACTIVE_GPU_QUALIFICATION",
+  "status": "ACTIVE_CPU_WAITING_FOR_GPU",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "fec4dee3dae2d76147cf9fa09e1db5d5a04852f4",
+  "training_head": "69082c8b47e3cfe9b25dd27a98bc73d3723dda23",
   "draft_pr": 82,
   "latest_checkpoint": {
-    "kind": "NONMUTATING_BACKWARD_PROBE",
+    "kind": "TORCHAO_QUALIFICATION_PREP",
     "rows": "4096-4103",
-    "status": "BACKWARD_PROBE_PASS_NO_WEIGHT_CHANGE",
-    "receipt_sha256": "8e0efe2740e8e97a39985b53aa2360e76ff72968c9bb7224e1e290af790859d5",
-    "runtime_binding_sha256": "e9861abb9d1c9ec80e02b4cb7c08f9474adb642b6996b139e2d768a12843d8de",
-    "backward_elapsed_seconds": 297.6586030999897
+    "status": "READY_WAITING_FOR_LANE_A_RELEASE",
+    "fixed_padding_result": "REJECTED_46_PERCENT_SLOWER",
+    "fixed_padding_receipt_sha256": "2c02fac558c7696db9b3b5555b7b2ea189af7621f0d9a127e1e2c73fb5350363",
+    "focused_suite": "27/27 PASS",
+    "shared_checkpoint_panel_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d"
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "Fixed-shape FLA whole-model timing followed by real TorchAO8 nonpaged optimizer-step qualification.",
-  "gpu_heavy_work_running": true,
-  "updated_at_utc": "2026-10-03T23:02:36Z"
+  "next_work": "After explicit Lane A GPU release: run exactly one isolated unpadded adamw_torch_8bit optimizer step on rows 4096-4103, publish receipt, release GPU. Matched BNB8 control spec is prepared but not authorized to run in the same turn without subsequent coordination.",
+  "gpu_heavy_work_running": false,
+  "updated_at_utc": "2026-10-03T23:45:42Z"
 }
