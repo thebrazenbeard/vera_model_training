@@ -1,0 +1,14 @@
+{
+  "defect_counts": {
+    "AUDIT_METHOD_DEFECT": 1
+  },
+  "findings": [
+    {
+      "case_id": null,
+      "classification": "AUDIT_METHOD_DEFECT",
+      "reason": "semantic_audit_hold_without_transport_failure"
+    }
+  ],
+  "schema": "RETENTION_AUDIT_ARCH_V4_RECONCILIATION_V1",
+  "status": "RETENTION_HOLD_ARCH_V4"
+}

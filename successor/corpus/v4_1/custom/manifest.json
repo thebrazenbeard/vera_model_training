@@ -1,0 +1,154 @@
+{
+  "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V10",
+  "design": {
+    "candidate_selection": "stratified_compositional_grid",
+    "cognitive_levels": 5,
+    "cognitive_response_forms": 5,
+    "domains": 20,
+    "family_lenses": {
+      "correction_uptake": 6,
+      "empathy_affective_response": 6,
+      "epistemic_provenance": 6,
+      "identity_stability": 6,
+      "independent_judgment": 6,
+      "negative_transfer_resistance": 6,
+      "privacy_boundary": 6,
+      "reciprocal_identity_continuity": 6,
+      "relationship_authority": 6,
+      "runtime_boundary": 6
+    },
+    "model_free": true,
+    "request_modes": 10,
+    "response_frames": 12,
+    "scenario_resolution_forms": {
+      "correction_uptake": 5,
+      "empathy_affective_response": 5,
+      "epistemic_provenance": 5,
+      "identity_stability": 5,
+      "independent_judgment": 5,
+      "negative_transfer_resistance": 5,
+      "privacy_boundary": 5,
+      "reciprocal_identity_continuity": 5,
+      "relationship_authority": 5,
+      "runtime_boundary": 5
+    },
+    "surface_prefixes": 8
+  },
+  "families": {
+    "correction_uptake": {
+      "bytes": 2116297,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "66d49cb318eb4864d162c7a20bdae84c16dcf179",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "b6595e54cf8f5238732627ee8a4f7e7063c879da7755b8247e278229c6190d57",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "empathy_affective_response": {
+      "bytes": 2127593,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "253b5c436b40a926c1644d8e8b4dc16bbccf4b67",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "f33916cefeb7bce7c90274c6f0e748524e7e8d80a6421ea91c2bc53e5f7681d6",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "epistemic_provenance": {
+      "bytes": 2102123,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "6d9177f77a38abadf9d878752ca1630778bb6f88",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "fd169527e0ec5c0d03a959ce1f4a5bc4a5a8b105b786ea63d43358e1735f4bf1",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "identity_stability": {
+      "bytes": 2260525,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "29d0aed787ed24f97cd6d7331e192c8d2a677374",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "960b924542144afd203473f4faa3de55e00408ff54f37bd0aa1dd0d2dc84746c",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "independent_judgment": {
+      "bytes": 2112724,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "067f3974d1f0b72b78d076f521ed69b9fe668dcf",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "89e9ff0c22a15a716f05cc70ca94501168de5e79fdabf8a19b771bcdb305cd5b",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "negative_transfer_resistance": {
+      "bytes": 2191246,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "4d04198f54cad477066e49a9fc4bbdf21b0fa83d",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "8b77cebfc84a584e2544b995f5c8f74bf9f511602d3969ec259db3de1ce0f0c0",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "privacy_boundary": {
+      "bytes": 2123562,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "2f782e2fb2b6fa0c86f37ae07b7d0f4f3bd8ab00",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "8437fef86f809dec8196980a23b237908b96570ef76c41c899a6450e917f68fe",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "reciprocal_identity_continuity": {
+      "bytes": 2177460,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "f0f8a01e3cdd8f15b06cfc5f9493cec569f24b98",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "be72973e82f8866b2dc878fc4b53ffa924ad0c4b80ca8908e82a96adbd3ff4fc",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "relationship_authority": {
+      "bytes": 2107516,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "902502008f5475f3f20f4f422521114b1a95783d",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "49191729c4fc8f5fff05fc6b8d280404a55eeeb3e3ebd2567c329ca9bbf48f7f",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    },
+    "runtime_boundary": {
+      "bytes": 2225642,
+      "cognitive_levels": 5,
+      "domains": 20,
+      "git_blob_sha1": "a7c2be8abd93f71ddde7f2e2a2f2cf42f49fcdd7",
+      "rows": 1000,
+      "scenario_cases": 100,
+      "sha256": "53f0467f51286f4ff6df333ddd551de0b49baae6b76262cfd81bc694da9d50ab",
+      "unique_prompts": 1000,
+      "unique_responses": 1000
+    }
+  },
+  "manifest_digest": "fd55b8356f5639c8b47a726066122576e7c99078e26fcad6be79d3a11e5251b1",
+  "pair_uniqueness": 10000,
+  "response_uniqueness": 10000,
+  "rows": 10000,
+  "schema": "VERA_V4_1_DIVERSE_CORPUS_MANIFEST_V1"
+}

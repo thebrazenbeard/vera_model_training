@@ -1,0 +1,45 @@
+{
+  "schema": "V10_RETENTION_FAMILY_STRUCTURE_POLICY_V1",
+  "date": "2026-10-01",
+  "status": "PRE_RESULT_HOSTILE_REVIEW_REPAIR",
+  "rationale": {
+    "inherited_behavioral_design": "500 cases per H dimension with at least 50 families = approximately 10 cases/family",
+    "retention_problem": "Family-cluster uncertainty is not credible when hundreds of nominal rows share only a few task families.",
+    "planning_rule": "Use the same approximately 10 cases/family ceiling for each retention category before final-bank freeze.",
+    "cluster_design_effect": "DE = 1 + (m - 1) * ICC; limiting mean m controls pseudo-replication."
+  },
+  "allocation": {
+    "knowledge_factuality": {
+      "rows": 300,
+      "min_families": 30
+    },
+    "reasoning_math": {
+      "rows": 300,
+      "min_families": 30
+    },
+    "coding": {
+      "rows": 250,
+      "min_families": 25
+    },
+    "instruction_following": {
+      "rows": 250,
+      "min_families": 25
+    },
+    "extraction_structured": {
+      "rows": 200,
+      "min_families": 20
+    },
+    "truthfulness_factual_calibration": {
+      "rows": 200,
+      "min_families": 20
+    }
+  },
+  "policy": {
+    "max_mean_cases_per_family": 10,
+    "final_freeze_requires_family_floor": true,
+    "family_id_must_represent_materially_distinct_task_or_generation_structure": true,
+    "superficial_parameter_variants_do_not_create_independent_families": true,
+    "public_shadow_benchmarks_do_not_count_toward_final_bank_family_quota": true
+  },
+  "claim_ceiling": "RETENTION_FAMILY_STRUCTURE_POLICY_FROZEN_PRE_MODEL_RESULTS / DOES_NOT_ADMIT_ANY_CASE / DOES_NOT_VALIDATE_CURRENT_CANDIDATE"
+}

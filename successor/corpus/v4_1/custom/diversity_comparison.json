@@ -1,0 +1,76 @@
+{
+  "baseline": {
+    "distinct_2": 0.002897,
+    "distinct_3": 0.004602,
+    "distinct_4": 0.006348,
+    "hapax_tokens": 0,
+    "response_gzip_ratio": 0.018224,
+    "response_prefix": {
+      "max_prefix_reuse": 800,
+      "prefixes_used_by_more_than_1pct": 14,
+      "unique_six_token_prefixes": 70
+    },
+    "rows": 10000,
+    "sampled_4gram_jaccard": 0.07533,
+    "sentence_count": {
+      "max": 6,
+      "mean": 5.06,
+      "min": 5
+    },
+    "sha256_response_stream": "cc93c635dcff6693842886351bc92ef8f1db5fbf6ebc480bf97a7a1c4a000591",
+    "tfidf_nearest_neighbor_cosine": 0.496519,
+    "tokens": 947118,
+    "top100_bigram_mass": 0.310007,
+    "top100_token_mass": 0.658163,
+    "top100_trigram_mass": 0.230102,
+    "ttr": 0.000776,
+    "unique_tokens": 735
+  },
+  "candidate": {
+    "distinct_2": 0.002991,
+    "distinct_3": 0.005193,
+    "distinct_4": 0.009009,
+    "hapax_tokens": 0,
+    "response_gzip_ratio": 0.062693,
+    "response_prefix": {
+      "max_prefix_reuse": 690,
+      "prefixes_used_by_more_than_1pct": 22,
+      "unique_six_token_prefixes": 505
+    },
+    "rows": 10000,
+    "sampled_4gram_jaccard": 0.023452,
+    "sentence_count": {
+      "max": 7,
+      "mean": 5.395,
+      "min": 5
+    },
+    "sha256_response_stream": "0ca1db80c44949e5cb20059d8b73adb235f81abcd3d6301331fec9d9e558e6f2",
+    "tfidf_nearest_neighbor_cosine": 0.421724,
+    "tokens": 1712889,
+    "top100_bigram_mass": 0.244531,
+    "top100_token_mass": 0.625795,
+    "top100_trigram_mass": 0.167035,
+    "ttr": 0.000702,
+    "unique_tokens": 1203
+  },
+  "delta": {
+    "distinct_2": 9.4e-05,
+    "distinct_3": 0.000591,
+    "distinct_4": 0.002661,
+    "response_gzip_ratio": 0.044469,
+    "sampled_4gram_jaccard": -0.051878,
+    "tfidf_nearest_neighbor_cosine": -0.074795,
+    "top100_bigram_mass": -0.065476,
+    "top100_token_mass": -0.032368,
+    "top100_trigram_mass": -0.063067,
+    "ttr": -7.4e-05,
+    "unique_tokens": 468
+  },
+  "interpretation": {
+    "gzip_ratio_is_compression_not_a_quality_score": true,
+    "lexical_and_ngram_metrics_are_structural": true,
+    "no_model_weights_were_changed": true,
+    "sampled_4gram_jaccard_is_not_semantic_similarity": true
+  },
+  "schema": "VERA_V4_V4_1_DIVERSITY_COMPARISON_V1"
+}

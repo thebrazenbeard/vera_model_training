@@ -1,0 +1,387 @@
+{
+  "date": "2026-10-01",
+  "dimension_500": [
+    {
+      "alpha": 0.01,
+      "approx_power": 0.8313980473486413,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.0,
+      "discordance": 0.1,
+      "effective_n": 500.0,
+      "icc": 0.0,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.6406780726592738,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.45,
+      "discordance": 0.1,
+      "effective_n": 344.82758620689657,
+      "icc": 0.05,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.49565836479258585,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.9,
+      "discordance": 0.1,
+      "effective_n": 263.15789473684214,
+      "icc": 0.1,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.3217037479381943,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 2.8,
+      "discordance": 0.1,
+      "effective_n": 178.57142857142858,
+      "icc": 0.2,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.46977764409268363,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.0,
+      "discordance": 0.2,
+      "effective_n": 500.0,
+      "icc": 0.0,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.3086475189460104,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.45,
+      "discordance": 0.2,
+      "effective_n": 344.82758620689657,
+      "icc": 0.05,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.2229943002502802,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.9,
+      "discordance": 0.2,
+      "effective_n": 263.15789473684214,
+      "icc": 0.1,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.139695658629685,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 2.8,
+      "discordance": 0.2,
+      "effective_n": 178.57142857142858,
+      "icc": 0.2,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.2964693890895221,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.0,
+      "discordance": 0.3,
+      "effective_n": 500.0,
+      "icc": 0.0,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.18925781246236267,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.45,
+      "discordance": 0.3,
+      "effective_n": 344.82758620689657,
+      "icc": 0.05,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.13679259905437088,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.9,
+      "discordance": 0.3,
+      "effective_n": 263.15789473684214,
+      "icc": 0.1,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.08763048087152439,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 2.8,
+      "discordance": 0.3,
+      "effective_n": 178.57142857142858,
+      "icc": 0.2,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.20953435334180412,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.0,
+      "discordance": 0.4,
+      "effective_n": 500.0,
+      "icc": 0.0,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.13400497567946576,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.45,
+      "discordance": 0.4,
+      "effective_n": 344.82758620689657,
+      "icc": 0.05,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.09800100618575552,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.9,
+      "discordance": 0.4,
+      "effective_n": 263.15789473684214,
+      "icc": 0.1,
+      "nominal_n": 500
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.064473089212424,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 2.8,
+      "discordance": 0.4,
+      "effective_n": 178.57142857142858,
+      "icc": 0.2,
+      "nominal_n": 500
+    }
+  ],
+  "interpretation": {
+    "overall_behavioral": "10k is amply powered for the predeclared +0.05 overall effect across the explored discordance/ICC grid.",
+    "per_dimension": "500 rows per dimension must not be represented as independently powered proof of +0.05 improvement; use as coverage/regression/critical-failure sentinel unless observed clustering/discordance supports stronger inference.",
+    "quota_status": "SUPPORTED_FOR_OVERALL_INFERENCE_AND_DIMENSION_COVERAGE_NOT_TWENTY_INDEPENDENT_SIGNIFICANCE_CLAIMS"
+  },
+  "method": {
+    "alpha": 0.01,
+    "cluster_adjustment": "design_effect=1+(cluster_size-1)*ICC",
+    "cluster_size": 10,
+    "limitation": "planning approximation only; final inference must use paired family-cluster bootstrap/CI and exact McNemar on observed cases",
+    "target_delta": 0.05,
+    "test_family": "two-sided paired McNemar normal-approximation planning"
+  },
+  "overall_10000": [
+    {
+      "alpha": 0.01,
+      "approx_power": 1.0,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.0,
+      "discordance": 0.1,
+      "effective_n": 10000.0,
+      "icc": 0.0,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 1.0,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.45,
+      "discordance": 0.1,
+      "effective_n": 6896.551724137931,
+      "icc": 0.05,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 1.0,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.9,
+      "discordance": 0.1,
+      "effective_n": 5263.1578947368425,
+      "icc": 0.1,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.999999999996863,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 2.8,
+      "discordance": 0.1,
+      "effective_n": 3571.4285714285716,
+      "icc": 0.2,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 1.0,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.0,
+      "discordance": 0.2,
+      "effective_n": 10000.0,
+      "icc": 0.0,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.9999999999901977,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.45,
+      "discordance": 0.2,
+      "effective_n": 6896.551724137931,
+      "icc": 0.05,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.9999999844600319,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.9,
+      "discordance": 0.2,
+      "effective_n": 5263.1578947368425,
+      "icc": 0.1,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.9999798455347383,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 2.8,
+      "discordance": 0.2,
+      "effective_n": 3571.4285714285716,
+      "icc": 0.2,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.999999999971781,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.0,
+      "discordance": 0.3,
+      "effective_n": 10000.0,
+      "icc": 0.0,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.9999997209089029,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.45,
+      "discordance": 0.3,
+      "effective_n": 6896.551724137931,
+      "icc": 0.05,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.9999740423168558,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.9,
+      "discordance": 0.3,
+      "effective_n": 5263.1578947368425,
+      "icc": 0.1,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.9980092133491187,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 2.8,
+      "discordance": 0.3,
+      "effective_n": 3571.4285714285716,
+      "icc": 0.2,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.9999999508570591,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.0,
+      "discordance": 0.4,
+      "effective_n": 10000.0,
+      "icc": 0.0,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.9999668925712224,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.45,
+      "discordance": 0.4,
+      "effective_n": 6896.551724137931,
+      "icc": 0.05,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.9992099731498286,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 1.9,
+      "discordance": 0.4,
+      "effective_n": 5263.1578947368425,
+      "icc": 0.1,
+      "nominal_n": 10000
+    },
+    {
+      "alpha": 0.01,
+      "approx_power": 0.984171960954139,
+      "cluster_size": 10,
+      "delta": 0.05,
+      "design_effect": 2.8,
+      "discordance": 0.4,
+      "effective_n": 3571.4285714285716,
+      "icc": 0.2,
+      "nominal_n": 10000
+    }
+  ],
+  "required_n_unclustered": {
+    "power_0_80": {
+      "0.1": 468,
+      "0.2": 935,
+      "0.3": 1402,
+      "0.4": 1869
+    },
+    "power_0_90": {
+      "0.1": 596,
+      "0.2": 1191,
+      "0.3": 1786,
+      "0.4": 2381
+    }
+  },
+  "schema": "V10_QWEN35_PAIRED_POWER_RECEIPT_V1"
+}

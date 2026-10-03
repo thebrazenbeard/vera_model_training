@@ -1,0 +1,43 @@
+{
+  "blocking_classes": [
+    "BANK_DEFECT",
+    "AUDIT_METHOD_DEFECT",
+    "TRANSPORT_DEFECT",
+    "BINDING_DEFECT",
+    "UNRESOLVED"
+  ],
+  "date": "2026-10-03",
+  "nonblocking_classes": [
+    "REVIEWER_DEFECT"
+  ],
+  "required": {
+    "blocking_defect_counts": {},
+    "candidate_mutation_adequacy_status": "CANDIDATE_V2_MUTATION_ADEQUATE",
+    "candidate_sha256": "4ed78c578b7c99504f52a2a8cc29d10396ddb2460471704340b915871c1441dc",
+    "coding_rows": 250,
+    "mechanical_row_status_counts": {
+      "MECHANICAL_VALID": 1500
+    },
+    "mechanical_rows": 1500,
+    "mechanical_status": "MECHANICAL_VALIDATED",
+    "mutant_survivors": 0,
+    "noncoding_changes": 0,
+    "reconciliation_status": "RETENTION_ADMITTED_ARCH_V6",
+    "reference_failures": 0,
+    "reviewer_qualification_status": "REVIEWER_QUALIFIED",
+    "reviewer_structured_contradictions": 0,
+    "semantic_case_ids_must_exactly_match_packet": true,
+    "semantic_family_count": 26,
+    "semantic_packet_rows": 130,
+    "semantic_packet_sha256": "edb863d010f573016444b82d1ad4653d472374ab9f5cc0086e2d1aeb985cf585",
+    "semantic_reviewed_rows": 130,
+    "semantic_rows_per_family": 5,
+    "semantic_screen_failure_count": 0,
+    "semantic_screen_status": "PASS",
+    "semantic_status": "SEMANTIC_AUDIT_COMPLETE",
+    "validator_qualification_status": "VALIDATORS_QUALIFIED"
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V6_ADMISSION_V1",
+  "status": "FROZEN_BEFORE_FIRST_V6_LIVE_REVIEW_CALL",
+  "training_authorized": false
+}

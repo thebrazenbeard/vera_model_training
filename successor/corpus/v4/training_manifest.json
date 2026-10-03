@@ -1,6 +1,6 @@
 {
   "blind_plaintext_included": false,
-  "corpus_id": "VERA_SUCCESSOR_V4_50K_20260922",
+  "corpus_id": "VERA_SUCCESSOR_V4_50K_20260930_10K_CORE_V1",
   "custom_source": {
     "families": {
       "correction_uptake": 1000,
@@ -18,7 +18,6 @@
   },
   "custom_validation_per_family": 50,
   "general_fraction": 0.81,
-  "manifest_sha256": "f75d879e2141a6e0ce839445c9404cb46adc47879d0bb7af99597be366f0f39d",
   "rehearsal_source": {
     "bytes": 81075365,
     "recipe_sha256": "13b6151095fa6ce083af32b4fcf92b0ffb4020c27f2a0d7198964a5fcd736e28",
@@ -56,5 +55,13 @@
   },
   "validation_rows": 2500,
   "validation_sha256": "d7151d409bebe6097c9c4ae3cbed32760037c711b8c7048ec75c904febdece18",
-  "weight_change_performed": false
+  "weight_change_performed": false,
+  "custom_manifest_blob_sha": "d497949103d18d3724cf4228a3e5fbae5d46ad37",
+  "custom_training_rows": 10000,
+  "custom_auxiliary_families_excluded": [
+    "anti_glibness",
+    "anti_obduracy"
+  ],
+  "rebuild_status": "NOT_REBUILT_ON_20260930_BRANCH",
+  "manifest_digest_status": "not_recomputed_after_metadata_rebinding"
 }
