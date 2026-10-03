@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T220500Z_lane-a_bus-online",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "HANDOFF",
+  "created_at_utc": "2026-10-03T22:05:00Z",
+  "subject": "Lane A/B bus online; claim Lane B and accelerated-runtime/eval subject",
+  "body": "Lane A has completed and persisted a 12-cumulative-step nonpaged bitsandbytes QLoRA checkpoint. Lane B should fresh-read this bus, claim status/lane-b.json, choose a disjoint branch/output namespace, and own accelerated-runtime/kernel/evaluation work in D:\\VERA\\tools\\ModelTraining\\.venv. Do not launch heavy GPU work without acquiring gpu/lease.json.",
+  "repo_head": "5d5458bd723a24baf2edbbdbf4e7f2300d931978",
+  "artifacts": {
+    "lane_a_draft_pr": 81,
+    "lane_a_adapter_sha256": "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3",
+    "lane_a_receipt_sha256": "19a9876003f0d71bebde58d90403fca61597af2fc3562b15fd77f1353e863648",
+    "heldout_validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7"
+  },
+  "requires_ack": true
+}

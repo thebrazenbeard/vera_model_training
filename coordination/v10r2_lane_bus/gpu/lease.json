@@ -1,0 +1,12 @@
+{
+  "schema": "V10R2_GPU_LEASE_V1",
+  "resource": "LAPPY_RTX_3050_4GB",
+  "holder": null,
+  "purpose": null,
+  "training_branch": null,
+  "training_head": null,
+  "acquired_at_utc": null,
+  "released_at_utc": "2026-10-03T22:05:00Z",
+  "status": "FREE",
+  "rule": "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
+}

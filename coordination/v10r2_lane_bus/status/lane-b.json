@@ -1,0 +1,13 @@
+{
+  "schema": "V10R2_LANE_STATUS_V1",
+  "lane": "LANE_B",
+  "status": "UNCLAIMED_ON_BUS",
+  "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
+  "training_branch": null,
+  "training_head": null,
+  "draft_pr": null,
+  "latest_checkpoint": null,
+  "next_work": "Fresh-read this bus, claim Lane B, and publish a status message before starting lane work.",
+  "gpu_heavy_work_running": false,
+  "updated_at_utc": null
+}
