@@ -1,0 +1,100 @@
+{
+  "admission": {
+    "defect_classes": [],
+    "nonblocking_findings": {
+      "REVIEWER_DEFECT": 10
+    },
+    "reasons": [],
+    "schema": "RETENTION_ADMISSION_ARCH_V7_RESULT_V1",
+    "status": "RETENTION_ADMITTED_ARCH_V7"
+  },
+  "artifacts": {
+    "admission_result_sha256": "698aa19f7021d54a57017ef14caaad3e26c8b9d271c02f6c550e5495c770a22d",
+    "execution_binding_sha256": "069d6f87fe09d292114dc6852c23ec07ecfdbdc13aca8c5c602e865ecf76033d",
+    "pre_adjudication_admission_result_sha256": "b5dc36980ab3206c24f7bb2b2826ab0055d93a888c1870b0238ac325833bfc2c",
+    "pre_adjudication_reconciliation_sha256": "a4a2850e4b0d501c5807918b2ae1a7165c618e7b5d192d0de32e751842a94fb7",
+    "reconciliation_sha256": "d55d2885489201ee978ba30e9ef6083b7fda91d2d802a61801633cd81cfa5067",
+    "reviewer_qualification_sha256": "8515d7b5e7c212931f49d76efe7ab9a0a5925c6d784330bae3f677875291064b",
+    "semantic_receipt_sha256": "99709e4e299c3227e0c2bfb4cab399ebb81e34ecfe83b49a57fac89cf4f24e78",
+    "witness_adjudication_sha256": "e3a45955672ac73c7a9b6a117ced12400577b774cee6c6174c3a631441fe1689",
+    "witness_resolutions_sha256": "e6aff88c4c5c0f1e1e0bf1acd2a8d5c8a5f864d306192fe70ef7b2b7200bd4e0"
+  },
+  "bindings": {
+    "candidate_manifest_sha256": "d547a6e3948ba902ff885b3719d2822aba728f53be113f255b87b9ba10c78b26",
+    "candidate_sha256": "6f47fe7da958abaf02311ae8a740b71d1bc0e9adbac88ce5c2da14139c3792f6",
+    "candidate_verify_sha256": "25ae3be8aa220ccefe9d6869eb7357eb8990b43b2c3bbdad29f3b48bb77e1809",
+    "exclusion_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f",
+    "packet_sha256": "4de3ae3f5757f76417f8561f4c415b4be1daedf3ca4c42cd202b2cb92e1cd20f",
+    "protocol_sha256": "4aa3a45460d05822ef059f29db414a8dd6999f417af340b4be64894fdd4ec293",
+    "reviewer_identity_sha256": "32da64180619f6e305b7b85fcf7bb66578dadad5e276ced7a966db23b8ec3d33",
+    "semantic_screen_sha256": "77ee6108abc61a0cc3ac1a66b324695f2afc1fad0cc4eccecc6b3754199067d1"
+  },
+  "boundaries": {
+    "candidate_modified": false,
+    "frozen_v7_logic_modified": false,
+    "full_final_bank_admitted": false,
+    "grader_modified": false,
+    "independent_external_review": false,
+    "methodology_history_independent": false,
+    "reviewer_output_modified": false,
+    "training_started": false,
+    "weights_changed": false
+  },
+  "date": "2026-10-03",
+  "effect": "SCRATCH_EVIDENCE_ADJUDICATION_ONLY_NO_REPO_WRITE_NO_TRAINING",
+  "pre_adjudication": {
+    "blocking_defect_counts": {
+      "UNRESOLVED": 9
+    },
+    "nonblocking_finding_counts": {
+      "REVIEWER_DEFECT": 1
+    },
+    "reason": "Nine semantic witnesses required the frozen evidence-backed adjudication step.",
+    "status": "RETENTION_HOLD_ARCH_V7"
+  },
+  "reconciliation": {
+    "blocking_defect_counts": {},
+    "defect_counts": {
+      "REVIEWER_DEFECT": 10
+    },
+    "finding_count": 10,
+    "nonblocking_finding_counts": {
+      "REVIEWER_DEFECT": 10
+    },
+    "status": "RETENTION_ADMITTED_ARCH_V7"
+  },
+  "reviewer_qualification": {
+    "batch_count": 12,
+    "sensitivity": [
+      24,
+      24
+    ],
+    "specificity": [
+      24,
+      24
+    ],
+    "status": "REVIEWER_QUALIFIED",
+    "structured_contradictions": []
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V7_ADJUDICATED_RESULT_MANIFEST_V1",
+  "semantic_review": {
+    "expected_count": 130,
+    "observation_counts": {
+      "AMBIGUITY_WITNESS": 4,
+      "CONTRACT_COUNTEREXAMPLE": 5,
+      "DERIVED_ANSWER": 5,
+      "NO_SEMANTIC_DEFECT_FOUND": 116
+    },
+    "reviewed": 130,
+    "status": "SEMANTIC_AUDIT_COMPLETE"
+  },
+  "status": "RETENTION_ADMITTED_ARCH_V7",
+  "witness_adjudication": {
+    "independent_external_review": false,
+    "resolution_count": 9,
+    "resolution_counts": {
+      "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE": 9
+    },
+    "resolution_file_sha256": "e6aff88c4c5c0f1e1e0bf1acd2a8d5c8a5f864d306192fe70ef7b2b7200bd4e0"
+  }
+}

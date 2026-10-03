@@ -1,0 +1,83 @@
+{
+  "blocking_defect_counts": {},
+  "defect_counts": {
+    "REVIEWER_DEFECT": 10
+  },
+  "findings": [
+    {
+      "blocking": false,
+      "case_id": "ret-code-chunk_list-007",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 9 and n=3 no remainder exists, so three full-size chunks are exactly compliant. The same frozen row also tests a remainder case, length 5 and n=2, and requires the shorter final chunk [4].",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-chunk_list-024",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 6 and n=2 no remainder exists, so three full-size chunks are exactly compliant. The same row separately tests length 5 and n=2 and requires the shorter final chunk [4].",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-chunk_list-004",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "The frozen V3 contract explicitly says a shorter final chunk is kept only 'if elements remain after the full-size chunks.' For length 6 and n=3 no remainder exists, so two full-size chunks are exactly compliant. The same row separately tests a remainder case and preserves [4] as the shorter final chunk.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-pairwise_sums-019",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "The witness [5,3,5,8] deterministically yields adjacent overlapping sums [5+3,3+5,5+8]=[8,8,13], exactly the frozen grader expectation. The reviewer reason itself explicitly corrects its initial claim and states that the test aligns with the contract and should be NO_SEMANTIC_DEFECT_FOUND.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-code-unique_preserve-034",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "Removing duplicates while preserving first-occurrence order from [2,2,2,3,2] yields [2,3]: the first 2 is retained, later 2 values are duplicates and removed, and the first 3 is retained. The reviewer incorrectly treats removal of later occurrences as violating deduplication. Frozen non-adjacent and string cases enforce global first-occurrence deduplication.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-if-token_count-039",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V039 exactly 1 time(s).' The frozen deterministic constraint independently binds token='V039', count=1, type='token_exact_count'. No semantic definition of what V039 represents is required to reproduce the exact literal once.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-if-token_count-015",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V015 exactly 1 time(s).' The frozen deterministic constraint independently binds token='V015', count=1, type='token_exact_count'. Treating the literal as an undefined placeholder imports a requirement absent from both prompt and grader.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-if-token_count-059",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "The instruction defines the literal counting target syntactically: 'Include the exact token V059 exactly 3 time(s).' The frozen deterministic constraint independently binds token='V059', count=3, type='token_exact_count'. The reviewer incorrectly assumes V059 must denote some other hidden value rather than the exact visible literal.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-math-cz-kn-settlement_difference",
+      "classification": "REVIEWER_DEFECT",
+      "reason": "derived_answer_conflicts_with_deterministic_evidence"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-kf-cd-code_from_name",
+      "classification": "REVIEWER_DEFECT",
+      "evidence": "The prompt is explicitly source-scoped: it asks what code is assigned to 'Congo Republic' in the frozen 2026-09-20T1335Z release. The frozen source record itself has name='Congo Republic' and code='CD', and the deterministic grader answer is CD. Importing an external ISO naming convention or another Congo outside that frozen release does not create ambiguity in this source-bound lookup.",
+      "reason": "semantic_witness_contradicted_by_deterministic_evidence"
+    }
+  ],
+  "nonblocking_finding_counts": {
+    "REVIEWER_DEFECT": 10
+  },
+  "reviewer_false_positives_are_nonblocking": true,
+  "schema": "RETENTION_AUDIT_ARCH_V7_RECONCILIATION_V1",
+  "status": "RETENTION_ADMITTED_ARCH_V7"
+}
