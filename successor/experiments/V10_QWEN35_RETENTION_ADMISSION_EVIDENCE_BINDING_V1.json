@@ -1,0 +1,73 @@
+{
+  "schema": "V10_QWEN35_RETENTION_ADMISSION_EVIDENCE_BINDING_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_AFTER_PROTOCOL_START_BEFORE_AUDIT_COMPLETION",
+  "freeze_context": {
+    "protocol_v3_already_started": true,
+    "audit_complete_at_freeze": false,
+    "observed_progress_only": "family-count progress was observed; no case verdict content was used to choose or alter these bindings",
+    "acceptance_criteria_changed": false
+  },
+  "admission_policy": {
+    "path": "successor/experiments/V10_QWEN35_RETENTION_ADMISSION_V3.json",
+    "file_sha256": "8732f6fc615c1dd813263af155c15094cb5104adb43b98dd36196787775250e4"
+  },
+  "candidate": {
+    "path": "successor/evaluation/v10_qwen35/retention_candidate_v1.jsonl",
+    "file_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "expected_rows": 1500
+  },
+  "family_audit_packet": {
+    "scratch_path": "D:\\VERA\\.scratch\\v10-retention-family-audit-20261001\\packet.jsonl",
+    "file_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "manifest_scratch_path": "D:\\VERA\\.scratch\\v10-retention-family-audit-20261001\\packet.manifest.json",
+    "manifest_file_sha256": "6445488e846ba5a8bec43bf107bc15f31500e956628b55ee5dfa42731fc37855",
+    "rows": 130,
+    "families": 26,
+    "cases_per_family": 5
+  },
+  "family_audit_protocol": {
+    "path": "successor/experiments/V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V3.json",
+    "file_sha256": "1e97bad32714f6b3dc6511b18a33ea33d8110262625864fb3d04d2ef49ad9add",
+    "required_reviewer": {
+      "provider": "OLLAMA_LOCAL",
+      "model": "ministral-3:14b",
+      "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+      "runtime": "ollama version is 0.34.2",
+      "temperature": 0,
+      "seed": 20261001
+    }
+  },
+  "semantic_screen": {
+    "path": "successor/evaluation/v10_qwen35/retention_candidate_v1.semantic_screen.json",
+    "file_sha256": "a8ae6b55c73469d85064cf8e483f4a75a78d75bd62f0c18bfc9063fee928ea71",
+    "required_status": "PASS",
+    "target_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "threshold": 0.9,
+    "model_archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+    "exclusion_registry_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f"
+  },
+  "exclusion_registry": {
+    "path": "successor/experiments/V10_QWEN35_EXCLUSION_PROMPT_HASHES_V2.txt",
+    "file_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f"
+  },
+  "final_audit_receipt_requirements": {
+    "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "protocol_sha256": "1e97bad32714f6b3dc6511b18a33ea33d8110262625864fb3d04d2ef49ad9add",
+    "sample_rows": 130,
+    "family_count": 26,
+    "cases_per_family": 5,
+    "summary_status_required": "PASS",
+    "all_case_verdict_required": "ADMIT",
+    "review_output_sha256_must_match_file": true
+  },
+  "boundaries": {
+    "retention_lane_only": true,
+    "behavioral_adversarial_not_admitted": true,
+    "training_authorized": false,
+    "weight_change_performed": false,
+    "merge_authority": "Patrick"
+  },
+  "claim_ceiling": "RETENTION_EVIDENCE_SUBJECTS_FROZEN / AUDIT IN PROGRESS / NO ADMISSION RESULT YET / NOT FULL FINAL BANK / NO TRAINING"
+}

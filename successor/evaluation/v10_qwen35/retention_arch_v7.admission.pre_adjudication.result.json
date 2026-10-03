@@ -1,0 +1,14 @@
+{
+  "defect_classes": [
+    "UNRESOLVED"
+  ],
+  "nonblocking_findings": {
+    "REVIEWER_DEFECT": 1
+  },
+  "reasons": [
+    "reconciliation_hold",
+    "reconciliation_blocking_defects_present"
+  ],
+  "schema": "RETENTION_ADMISSION_ARCH_V7_RESULT_V1",
+  "status": "RETENTION_HOLD_ARCH_V7"
+}

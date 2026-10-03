@@ -1,0 +1,138 @@
+{
+  "schema": "V10_QWEN35_RETENTION_V6_SEMANTIC_SCREEN_BINDING_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_BEFORE_V6_SEMANTIC_SCREEN",
+  "target": {
+    "path": "successor/evaluation/v10_qwen35/retention_candidate_v2.jsonl",
+    "sha256": "4ed78c578b7c99504f52a2a8cc29d10396ddb2460471704340b915871c1441dc",
+    "manifest_path": "successor/evaluation/v10_qwen35/retention_candidate_v2.manifest.json",
+    "manifest_sha256": "c8ca03fd9859daf6e314a90e1d4c15789004f12755ba798159c4be02661670ff",
+    "rows": 1500
+  },
+  "policy": {
+    "cosine_fail_threshold": 0.9,
+    "threshold_provenance": "same pre-result threshold used by frozen V3/V4/V1 retention semantic screens",
+    "claim_ceiling": "HEURISTIC_SEMANTIC_SCREEN_NOT_ZERO_CONTAMINATION_PROOF"
+  },
+  "screen_code": {
+    "path": "successor/experiments/semantic_screen_v10_retention.py",
+    "sha256": "f6ba52ff9b57869f5b8d450093c3a9b596d8750ac9d0eb3d9a93bf35bbad1471"
+  },
+  "registry": {
+    "path": "successor/experiments/V10_QWEN35_EXCLUSION_PROMPT_HASHES_V2.txt",
+    "sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f",
+    "manifest_path": "successor/experiments/V10_QWEN35_EXCLUSION_FINGERPRINT_MANIFEST_V2.json",
+    "manifest_sha256": "d28c000d6da3817889d7b5dfa63bfb2a55a1021d830065e1747432a864485354",
+    "unique_prompts": 59812
+  },
+  "model": {
+    "repo": "sentence-transformers/all-MiniLM-L6-v2",
+    "local_revision_label": "826711e",
+    "archive_path": "D:\\VERA\\07_ARTIFACTS\\all-MiniLM-L6-v2-826711e(5).zip",
+    "archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+    "extracted_model_dir": "D:\\VERA\\.scratch\\all-MiniLM-L6-v2-826711e\\all-MiniLM-L6-v2-826711e",
+    "local_files_only": true,
+    "embedding_dimension": 384
+  },
+  "runtime": {
+    "python_executable": "D:\\VERA\\qwen35-final-qual-env-20260927\\Scripts\\python.exe",
+    "python_version": "3.12.10",
+    "sentence_transformers": "6.1.0",
+    "scipy": "1.18.1",
+    "scikit_learn": "1.9.1",
+    "runtime_delta_from_v1": {
+      "present": true,
+      "v1_sentence_transformers": "5.1.2",
+      "v1_scipy": "1.16.2",
+      "v1_scikit_learn": "1.7.2",
+      "note": "Exact V1 package environment is no longer installed locally. V6 freezes this already-installed environment before observing Candidate V2 semantic-screen results."
+    }
+  },
+  "sources": [
+    {
+      "suite_id": "V10_TRAIN",
+      "path": "D:\\VERA\\.scratch\\v10-generated-20261001\\train.jsonl",
+      "sha256": "04fbb3a2012ef3fd0506ad1188cc9f3b8d850161301fb9e0d00edd7f8ec78e90",
+      "rows": 50000
+    },
+    {
+      "suite_id": "V10_VALIDATION",
+      "path": "D:\\VERA\\.scratch\\v10-generated-20261001\\validation.jsonl",
+      "sha256": "26e3387852283d399cea3df0758c3abf877d2884d298860668de7e5fe0b3bd93",
+      "rows": 2500
+    },
+    {
+      "suite_id": "V10_QWEN512_TRAIN",
+      "path": "D:\\VERA\\.scratch\\v10-qwen512-preflight-20261001-v1\\train.jsonl",
+      "sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+      "rows": 50000
+    },
+    {
+      "suite_id": "V10_QWEN512_VALIDATION",
+      "path": "D:\\VERA\\.scratch\\v10-qwen512-preflight-20261001-v1\\validation.jsonl",
+      "sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+      "rows": 2500
+    },
+    {
+      "suite_id": "V10_REVIEW_SAMPLE",
+      "path": "successor/corpus/v4_1/behavioral_review_set.jsonl",
+      "sha256": "4093065870a57da288220d72ab771d42818a6e8901e1f9b559cfcb9ff3eb5bf1",
+      "rows": 100
+    },
+    {
+      "suite_id": "V3_BEHAVIORAL",
+      "path": "D:\\VERA\\.worktrees\\qwen35-measurement-devloop-v1-20260930\\successor\\qwen35\\qualification\\final_holdout_v3.jsonl",
+      "sha256": "1b80a0ef64e765e8d901bb2237edb0c7e14163c4211c2ee1b7032891f15261b3",
+      "rows": 100
+    },
+    {
+      "suite_id": "V3_RETENTION",
+      "path": "D:\\VERA\\.worktrees\\qwen35-measurement-devloop-v1-20260930\\successor\\qwen35\\qualification\\final_retention_v3.jsonl",
+      "sha256": "4105efadbfe3cd0b63edfa3f4f336f2098b8e544beda968ddbd4b46a40fa4766",
+      "rows": 20
+    },
+    {
+      "suite_id": "V3_ADVERSARIAL",
+      "path": "D:\\VERA\\.worktrees\\qwen35-measurement-devloop-v1-20260930\\successor\\qwen35\\qualification\\final_adversarial_proxy_v3.jsonl",
+      "sha256": "b952154d2e9424161f54d825b29e7569c6e02f22fe350f2b698b7d5c22a75229",
+      "rows": 20
+    },
+    {
+      "suite_id": "HISTORY_BEHAVIOR_HOLDOUT_V1",
+      "path": "D:\\VERA\\.worktrees\\qwen35-measurement-devloop-v1-20260930\\successor\\qwen35\\qualification\\history_behavior_holdout_v1.jsonl",
+      "sha256": "93bbe6605f9b80e71aa6badebab3aaf13125cc5c00305b91f8811961f5edbb8c",
+      "rows": 40
+    },
+    {
+      "suite_id": "H07_FINAL_HOLDOUT_V1",
+      "path": "D:\\VERA\\.worktrees\\qwen35-measurement-devloop-v1-20260930\\successor\\qwen35\\qualification\\h07_final_holdout_v1.jsonl",
+      "sha256": "19ca7a8df3c7bb9d6dbe419e41cb8d56b034219870dc0a8bcc801baa325c50f5",
+      "rows": 30
+    },
+    {
+      "suite_id": "V4_BEHAVIORAL",
+      "path": "D:\\VERA\\.worktrees\\qwen35-measurement-devloop-v1-20260930\\successor\\qwen35\\qualification\\final_holdout_v4.jsonl",
+      "sha256": "43065d16085d115c5744c3ce1fdb918a092e974a072a9283af0200338288cb91",
+      "rows": 100
+    },
+    {
+      "suite_id": "V4_RETENTION",
+      "path": "D:\\VERA\\.worktrees\\qwen35-measurement-devloop-v1-20260930\\successor\\qwen35\\qualification\\final_retention_v4.jsonl",
+      "sha256": "85a450c8b796162572fc406a5413eb29998d22817e8b8f9d8c448b4a5823c262",
+      "rows": 20
+    },
+    {
+      "suite_id": "V4_ADVERSARIAL",
+      "path": "D:\\VERA\\.worktrees\\qwen35-measurement-devloop-v1-20260930\\successor\\qwen35\\qualification\\final_adversarial_proxy_v4.jsonl",
+      "sha256": "a9985763a24562ef87b3b7afb93da8190d6c71e6d1456eb523f875ed1f5372a8",
+      "rows": 20
+    }
+  ],
+  "output_path": "successor/evaluation/v10_qwen35/retention_candidate_v2.semantic_screen.json",
+  "boundaries": {
+    "result_observed": false,
+    "training_authorized": false,
+    "weights_changed": false,
+    "methodology_history_independent": false
+  }
+}

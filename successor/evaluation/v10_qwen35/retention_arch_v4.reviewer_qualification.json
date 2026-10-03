@@ -1,0 +1,109 @@
+{
+  "batch_count": 7,
+  "batch_size": 4,
+  "batches": [
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v4-reviewer-referent_ambiguity-defect-0",
+        "arch-v4-reviewer-referent_ambiguity-good-0",
+        "arch-v4-reviewer-referent_ambiguity-defect-1",
+        "arch-v4-reviewer-referent_ambiguity-good-1"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v4-reviewer-referent_ambiguity-defect-2",
+        "arch-v4-reviewer-referent_ambiguity-good-2",
+        "arch-v4-reviewer-referent_ambiguity-defect-3",
+        "arch-v4-reviewer-referent_ambiguity-good-3"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v4-reviewer-prompt_grader_semantic_mismatch-defect-0",
+        "arch-v4-reviewer-prompt_grader_semantic_mismatch-good-0",
+        "arch-v4-reviewer-prompt_grader_semantic_mismatch-defect-1",
+        "arch-v4-reviewer-prompt_grader_semantic_mismatch-good-1"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v4-reviewer-prompt_grader_semantic_mismatch-defect-2",
+        "arch-v4-reviewer-prompt_grader_semantic_mismatch-good-2",
+        "arch-v4-reviewer-prompt_grader_semantic_mismatch-defect-3",
+        "arch-v4-reviewer-prompt_grader_semantic_mismatch-good-3"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v4-reviewer-contradictory_instructions-defect-0",
+        "arch-v4-reviewer-contradictory_instructions-good-0",
+        "arch-v4-reviewer-contradictory_instructions-defect-1",
+        "arch-v4-reviewer-contradictory_instructions-good-1"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 2,
+      "case_ids": [
+        "arch-v4-reviewer-contradictory_instructions-defect-2",
+        "arch-v4-reviewer-contradictory_instructions-good-2",
+        "arch-v4-reviewer-contradictory_instructions-defect-3",
+        "arch-v4-reviewer-contradictory_instructions-good-3"
+      ],
+      "prior_attempt_failures": [
+        {
+          "attempt": 1,
+          "error": "ValueError:V4 qualification row schema mismatch",
+          "response_sha256": "dee2930bab97b912ad27b1b3fca79ab52140b78727996c522b13fa0be953ffd7"
+        }
+      ]
+    }
+  ],
+  "failed_batch_case_ids": [
+    "arch-v4-reviewer-underspecified_output_format-defect-0",
+    "arch-v4-reviewer-underspecified_output_format-good-0",
+    "arch-v4-reviewer-underspecified_output_format-defect-1",
+    "arch-v4-reviewer-underspecified_output_format-good-1"
+  ],
+  "reason": "qualification_transport_failure",
+  "reviewer": {
+    "format": "json",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261002,
+    "stream": false,
+    "temperature": 0,
+    "url": "http://127.0.0.1:11434/api/generate"
+  },
+  "schema": "RETENTION_AUDIT_ARCH_V4_REVIEWER_QUALIFICATION_V1",
+  "status": "REVIEWER_UNQUALIFIED",
+  "transport_failures": [
+    {
+      "attempt": 1,
+      "error": "ValueError:V4 qualification row schema mismatch",
+      "response_sha256": "bd74ad03d2af65f37dd29715df78547c689a1297ca8bdbc73b73ba2bfcf3d985"
+    },
+    {
+      "attempt": 2,
+      "error": "ValueError:V4 qualification row schema mismatch",
+      "response_sha256": "c73a0953dbbcb486aa1126d443d00599170d90adeb1e415a95f0bb8cebd2ba58"
+    },
+    {
+      "attempt": 3,
+      "error": "ValueError:V4 qualification row schema mismatch",
+      "response_sha256": "c73a0953dbbcb486aa1126d443d00599170d90adeb1e415a95f0bb8cebd2ba58"
+    }
+  ]
+}

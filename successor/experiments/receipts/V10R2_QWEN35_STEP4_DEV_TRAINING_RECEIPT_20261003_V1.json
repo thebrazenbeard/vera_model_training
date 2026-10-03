@@ -1,0 +1,170 @@
+{
+  "adapter_artifacts": {
+    "files": {
+      "README.md": "8b198dc324251a999377ce4c8e0fb216b68277437bc4101220c2dc6d3660aa0e",
+      "adapter_config.json": "07418946c3316bc84af2bd705ee13488e54a0243b9fdbab13f0a1b5c0825c48c",
+      "adapter_model.safetensors": "c3df08fe4ae7cea25595f1f2bda91a9bb0b06eb9a8e94b21c3f5fd9ca0772e4b"
+    },
+    "manifest_sha256": "ea131a1aa71d3d25001b9c56c1d97983f855aea05bcc252dcabb8f2737d80f42"
+  },
+  "base_topology": {
+    "full_attention": 8,
+    "layers": 32,
+    "linear_attention": 24,
+    "module_counts": {
+      "in_proj_a": 24,
+      "in_proj_b": 24,
+      "in_proj_qkv": 24,
+      "in_proj_z": 24,
+      "k_proj": 8,
+      "o_proj": 8,
+      "q_proj": 8,
+      "v_proj": 8
+    }
+  },
+  "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED",
+  "deployment_status": "NOT_DEPLOYED",
+  "development_window": {
+    "row_count": 32,
+    "row_ids": [
+      "bound-train-row-0",
+      "bound-train-row-1",
+      "bound-train-row-2",
+      "bound-train-row-3",
+      "bound-train-row-4",
+      "bound-train-row-5",
+      "bound-train-row-6",
+      "bound-train-row-7",
+      "bound-train-row-8",
+      "bound-train-row-9",
+      "bound-train-row-10",
+      "bound-train-row-11",
+      "bound-train-row-12",
+      "bound-train-row-13",
+      "bound-train-row-14",
+      "bound-train-row-15",
+      "bound-train-row-16",
+      "bound-train-row-17",
+      "bound-train-row-18",
+      "bound-train-row-19",
+      "bound-train-row-20",
+      "bound-train-row-21",
+      "bound-train-row-22",
+      "bound-train-row-23",
+      "bound-train-row-24",
+      "bound-train-row-25",
+      "bound-train-row-26",
+      "bound-train-row-27",
+      "bound-train-row-28",
+      "bound-train-row-29",
+      "bound-train-row-30",
+      "bound-train-row-31"
+    ],
+    "start_row": 0
+  },
+  "effect": "ONE_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEP",
+  "elapsed_seconds_observed": 531.1,
+  "gpu_memory_after": {
+    "allocated_mib": 4240.428,
+    "peak_allocated_mib": 6581.743,
+    "peak_reserved_mib": 7068.0,
+    "reserved_mib": 7068.0
+  },
+  "gpu_memory_before": {
+    "allocated_mib": 4208.129,
+    "reserved_mib": 5538.0
+  },
+  "live_runtime": {
+    "base_artifacts": {
+      "model.safetensors-00001-of-00002.safetensors": "36dd0f7de62c546e7d163c2a4461208d731fad91ebea9bc31226b54c1c86511f",
+      "model.safetensors-00002-of-00002.safetensors": "e2fb50b735a8e10210eece763097f906955ca9db6ba557215f549a46b622157f",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+    },
+    "cuda_runtime": "13.0",
+    "driver": "616.92",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "packages": {
+      "accelerate": "1.15.0",
+      "bitsandbytes": "0.50.2",
+      "datasets": "5.0.1",
+      "huggingface_hub": "1.33.0",
+      "jinja2": "3.1.6",
+      "numpy": "2.5.3",
+      "peft": "0.21.0",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.23.2",
+      "torch": "2.14.0+cu130",
+      "transformers": "5.17.0",
+      "trl": "1.13.0"
+    },
+    "python_version": "3.12.10",
+    "vram_mib": 4095
+  },
+  "live_runtime_check": {
+    "binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "schema": "V10_QWEN35_LIVE_RUNTIME_CHECK_V1",
+    "status": "PASS",
+    "vram_delta_mib": 1
+  },
+  "lora_coverage": {
+    "families": {
+      "linear_attn": 120,
+      "mlp": 96,
+      "self_attn": 32
+    },
+    "status": "PASS",
+    "targeted_module_count": 248
+  },
+  "merge_status": "NOT_MERGED",
+  "optimizer": {
+    "backend": "bitsandbytes",
+    "class": "AdamW",
+    "is_paged": false,
+    "min_8bit_size": 4096,
+    "module": "bitsandbytes.optim.adamw",
+    "optim_bits": 8,
+    "wrapper_chain": []
+  },
+  "optimizer_state": {
+    "state_tensor_bytes": 17440256,
+    "state_tensor_count": 2784,
+    "state_tensor_devices": {
+      "cuda:0": 2784
+    },
+    "state_tensor_dtypes": {
+      "torch.float32": 1888,
+      "torch.uint8": 896
+    },
+    "state_tensor_mib": 16.632
+  },
+  "paid_compute": false,
+  "qualification_status": "NOT_EXTERNALLY_EVALUATED",
+  "receipt_sha256": "8c02cad57d1ec6f89139623310d9de8a0ac13a484701e5a371a868a0baa3bc38",
+  "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+  "schema": "V10R2_QWEN35_DEV_TRAINING_RECEIPT_V1",
+  "source_parent_revision": "37c58ec6dc0f8b2d1278a9120209198131746e88",
+  "spec_sha256": "f1f9f07736dfb26630326feec3b25b794d52e7ce08b0c366bc01a054d440fc04",
+  "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+  "token_budget": {
+    "max_length": 512,
+    "max_tokens": 479,
+    "min_tokens": 69,
+    "over_budget": 0,
+    "rows": 32
+  },
+  "train_metrics": {
+    "epoch": 1.0,
+    "total_flos": 174092201441280.0,
+    "train_loss": 1.3964267075061798,
+    "train_runtime": 530.8214,
+    "train_samples_per_second": 0.06,
+    "train_steps_per_second": 0.008
+  },
+  "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+  "trainable_parameter_count": 8116224,
+  "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+  "training_loss": 1.3964267075061798,
+  "weight_digest_after": "0a6fde7105311cf14b7edf57b70e9985921217f9da26502a5dfccf0800a03d33",
+  "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+  "weight_digest_changed": true
+}

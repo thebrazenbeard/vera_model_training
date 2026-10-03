@@ -1,0 +1,9 @@
+{
+  "defect_classes": [],
+  "nonblocking_findings": {
+    "REVIEWER_DEFECT": 10
+  },
+  "reasons": [],
+  "schema": "RETENTION_ADMISSION_ARCH_V7_RESULT_V1",
+  "status": "RETENTION_ADMITTED_ARCH_V7"
+}

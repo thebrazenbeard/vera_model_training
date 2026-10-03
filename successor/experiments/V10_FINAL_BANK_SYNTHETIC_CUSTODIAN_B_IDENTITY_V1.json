@@ -1,0 +1,25 @@
+{
+  "actor_id": "custodian-B-smollm3-3b-transformers-v1",
+  "artifacts": {
+    "config_sha256": "c72b1031274ff4626e434d0019e88e95a767460135db9ee492eb80652b786af1",
+    "model_index_sha256": "e3a7254c086c4a78f95ad5864f435d165ffed1ed8998326ce5107b4423c15b76",
+    "model_shard_1_sha256": "e5eed4113a925264c33e3cdf76cd9f547c06a207ef2270914a7274a2bf685ffd",
+    "model_shard_2_sha256": "6c3ad90646457295723e4da5ee8afac47006e20407b122df5174693dd8d68a43",
+    "tokenizer_sha256": "7b6a500b662a34eb3f0374db856ba4ad7de4c81040571d78dc0d357238930005"
+  },
+  "identity_receipt_sha256": "0c97476ecce0f58ee7e4bce57cd2b91893de7b6f7fe57bb86e2d8a2b82e5896c",
+  "model": "HuggingFaceTB/SmolLM3-3B",
+  "model_family": "smollm3",
+  "provider": "LOCAL_TRANSFORMERS",
+  "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "runtime": "python 3.12.10 / transformers 5.17.0 / torch 2.14.0+cu130",
+  "sampling": {
+    "do_sample": true,
+    "seed_strategy": "SHA256(actor_id,lane,dimension,family_index)->uint32",
+    "temperature": 0.6,
+    "top_k": 40,
+    "top_p": 0.9
+  },
+  "schema": "V10_FINAL_BANK_SYNTHETIC_CUSTODIAN_IDENTITY_V1",
+  "seed": 2026100302
+}

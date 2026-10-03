@@ -1,0 +1,939 @@
+{
+  "batch_count": 12,
+  "batch_size": 4,
+  "batches": [
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-referent_ambiguity-defect-0",
+        "arch-v5-reviewer-referent_ambiguity-good-0",
+        "arch-v5-reviewer-referent_ambiguity-defect-1",
+        "arch-v5-reviewer-referent_ambiguity-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "00e50a457cbf54b215654a8c25c95661b785afa3cf80ee970ae1c27896be5fdf"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-referent_ambiguity-defect-2",
+        "arch-v5-reviewer-referent_ambiguity-good-2",
+        "arch-v5-reviewer-referent_ambiguity-defect-3",
+        "arch-v5-reviewer-referent_ambiguity-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "56d1d65a2d423b919db75a356fbca53ef3c66d5c7161269595e6df0b8bac8cad"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-0",
+        "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-0",
+        "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-1",
+        "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "878ee5fb235c92d2007ec76c7ad13f0b3051d14b1260355c663f5dac8efd1d0b"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-2",
+        "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-2",
+        "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-3",
+        "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "ec0c56ccddcbe39a4b072f89f566f7f27c7039e5309ce8bc68790a4524652bf2"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-contradictory_instructions-defect-0",
+        "arch-v5-reviewer-contradictory_instructions-good-0",
+        "arch-v5-reviewer-contradictory_instructions-defect-1",
+        "arch-v5-reviewer-contradictory_instructions-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "d6ea506c2a9cc274a0a718a0ec754430494514fc26af64cfa7e5a0b84681c763"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-contradictory_instructions-defect-2",
+        "arch-v5-reviewer-contradictory_instructions-good-2",
+        "arch-v5-reviewer-contradictory_instructions-defect-3",
+        "arch-v5-reviewer-contradictory_instructions-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "c34371157945b9fe3089d01266649980917627ed837893692a0579c4ef514930"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-underspecified_output_format-defect-0",
+        "arch-v5-reviewer-underspecified_output_format-good-0",
+        "arch-v5-reviewer-underspecified_output_format-defect-1",
+        "arch-v5-reviewer-underspecified_output_format-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "352a744314ce7b2bc52da971f8ecbca34c1304c399db12d0cb63c450f8827d79"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-underspecified_output_format-defect-2",
+        "arch-v5-reviewer-underspecified_output_format-good-2",
+        "arch-v5-reviewer-underspecified_output_format-defect-3",
+        "arch-v5-reviewer-underspecified_output_format-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "efd0fefdb9e5267b00d65c54614a84379128954e54fd85d198f58ce913627f82"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-evidence_policy_ambiguity-defect-0",
+        "arch-v5-reviewer-evidence_policy_ambiguity-good-0",
+        "arch-v5-reviewer-evidence_policy_ambiguity-defect-1",
+        "arch-v5-reviewer-evidence_policy_ambiguity-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "fcec83303f6e323e31f143aafc0e5bce598994bd96e68cecfa53863f9245b680"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-evidence_policy_ambiguity-defect-2",
+        "arch-v5-reviewer-evidence_policy_ambiguity-good-2",
+        "arch-v5-reviewer-evidence_policy_ambiguity-defect-3",
+        "arch-v5-reviewer-evidence_policy_ambiguity-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "7e26677e70ea5f6449cda9fad227ff2573a989e2d63c971f874b2af921a91627"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-scope_negation_ambiguity-defect-0",
+        "arch-v5-reviewer-scope_negation_ambiguity-good-0",
+        "arch-v5-reviewer-scope_negation_ambiguity-defect-1",
+        "arch-v5-reviewer-scope_negation_ambiguity-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "34395db5af81fad01e57a62d7da772c02d4a8cf980f2fb39977ef6045bf85c10"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v5-reviewer-scope_negation_ambiguity-defect-2",
+        "arch-v5-reviewer-scope_negation_ambiguity-good-2",
+        "arch-v5-reviewer-scope_negation_ambiguity-defect-3",
+        "arch-v5-reviewer-scope_negation_ambiguity-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "d284a1697ef7237a2829765e474210aa628187a507eb7ea9c8c4a7cc64ce08b5"
+    }
+  ],
+  "controls": [
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-defect-0",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The use of 'they' without clear context or explicit addressee leaves ambiguity in identifying the person responsible for filing T00.",
+      "witness": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley",
+          "Casey"
+        ],
+        "issue": "The pronoun 'they' is ambiguous among the three candidate referents (Morgan, Riley, Casey). There is no explicit indication of which person is being referred to as 'they'.",
+        "prompt": "Morgan told Riley after Casey arrived that they should file T00."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"candidate_referents\":[\"Morgan\",\"Riley\",\"Casey\"],\"issue\":\"The pronoun 'they' is ambiguous among the three candidate referents (Morgan, Riley, Casey). There is no explicit indication of which person is being referred to as 'they'.\",\"prompt\":\"Morgan told Riley after Casey arrived that they should file T00.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-good-0",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly states 'Riley, file T00 now,' directly addressing Riley as the addressee, eliminating any ambiguity.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-defect-1",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "Similar to defect-0, the use of 'they' without explicit resolution leaves ambiguity in identifying the responsible person.",
+      "witness": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley",
+          "Casey"
+        ],
+        "issue": "The pronoun 'they' is ambiguous among the three candidate referents (Morgan, Riley, Casey). The context does not clarify which person is being referred to as 'they' for filing T01.",
+        "prompt": "Morgan told Riley after Casey arrived that they should file T01."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"candidate_referents\":[\"Morgan\",\"Riley\",\"Casey\"],\"issue\":\"The pronoun 'they' is ambiguous among the three candidate referents (Morgan, Riley, Casey). The context does not clarify which person is being referred to as 'they' for filing T01.\",\"prompt\":\"Morgan told Riley after Casey arrived that they should file T01.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-good-1",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly states 'Riley, file T01 now,' directly addressing Riley as the addressee, eliminating any ambiguity.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-defect-2",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The use of 'they' without a clear antecedent or context restricts the ability to determine the correct referent.",
+      "witness": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley",
+          "Casey"
+        ],
+        "issue": "The pronoun 'they' is ambiguous among the three candidate referents (Morgan, Riley, and Casey). There is no explicit indication of which person is being addressed or intended to perform the action.",
+        "prompt": "Morgan told Riley after Casey arrived that they should file T02."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"candidate_referents\":[\"Morgan\",\"Riley\",\"Casey\"],\"issue\":\"The pronoun 'they' is ambiguous among the three candidate referents (Morgan, Riley, and Casey). There is no explicit indication of which person is being addressed or intended to perform the action.\",\"prompt\":\"Morgan told Riley after Casey arrived that they should file T02.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-good-2",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The explicit addressee ('Riley') is unambiguously named in the prompt, resolving any potential ambiguity.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-defect-3",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "Similar to defect-2, the lack of a clear antecedent or explicit addressee for 'they' creates ambiguity.",
+      "witness": {
+        "candidate_referents": [
+          "Morgan",
+          "Riley",
+          "Casey"
+        ],
+        "issue": "The pronoun 'they' remains ambiguous among the three candidate referents (Morgan, Riley, and Casey). The context does not clarify which person is intended to perform the action.",
+        "prompt": "Morgan told Riley after Casey arrived that they should file T03."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"candidate_referents\":[\"Morgan\",\"Riley\",\"Casey\"],\"issue\":\"The pronoun 'they' remains ambiguous among the three candidate referents (Morgan, Riley, and Casey). The context does not clarify which person is intended to perform the action.\",\"prompt\":\"Morgan told Riley after Casey arrived that they should file T03.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-referent_ambiguity-good-3",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The explicit addressee ('Riley') is unambiguously named in the prompt, resolving any potential ambiguity.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-0",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt explicitly requests the 'title' field, while the grader checks for 'quantity'. This is a direct semantic mismatch.",
+      "witness": {
+        "grader_checks": "stored quantity",
+        "mismatch": {
+          "expected_field": "quantity",
+          "requested_field": "title"
+        },
+        "prompt_request": "Return the stored title for record T00."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"grader_checks\":\"stored quantity\",\"mismatch\":{\"expected_field\":\"quantity\",\"requested_field\":\"title\"},\"prompt_request\":\"Return the stored title for record T00.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-0",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt ('Return only the stored quantity for record T00.') aligns perfectly with the grader's check ('stored quantity'). No semantic mismatch.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-1",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt requests 'title' while the grader checks for 'quantity', creating a semantic mismatch.",
+      "witness": {
+        "grader_checks": "stored quantity",
+        "mismatch": {
+          "expected_field": "quantity",
+          "requested_field": "title"
+        },
+        "prompt_request": "Return the stored title for record T01."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"grader_checks\":\"stored quantity\",\"mismatch\":{\"expected_field\":\"quantity\",\"requested_field\":\"title\"},\"prompt_request\":\"Return the stored title for record T01.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-1",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt ('Return only the stored quantity for record T01.') matches the grader's check ('stored quantity'). No semantic mismatch.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-2",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt explicitly requests the 'title' of record T02, while the grader checks for 'stored quantity', creating a semantic mismatch.",
+      "witness": "{\"prompt_request\":\"title\", \"grader_check\":\"quantity\"}",
+      "witness_meaningful": true,
+      "witness_text": "{\"prompt_request\":\"title\", \"grader_check\":\"quantity\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-2",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt correctly requests the 'stored quantity' for record T02, aligning with the grader's check.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-defect-3",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt explicitly requests the 'title' of record T03, while the grader checks for 'stored quantity', creating a semantic mismatch.",
+      "witness": "{\"prompt_request\":\"title\", \"grader_check\":\"quantity\"}",
+      "witness_meaningful": true,
+      "witness_text": "{\"prompt_request\":\"title\", \"grader_check\":\"quantity\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-prompt_grader_semantic_mismatch-good-3",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt correctly requests the 'stored quantity' for record T03, aligning with the grader's check.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-defect-0",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The constraints are mutually exclusive and cannot be satisfied simultaneously.",
+      "witness": {
+        "conflict": "The prompt instructs to return both 'exactly four copies' and 'exactly two copies' of the same token (T00), which is semantically impossible.",
+        "constraint_a": "exactly four copies",
+        "constraint_b": "exactly two copies"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"conflict\":\"The prompt instructs to return both 'exactly four copies' and 'exactly two copies' of the same token (T00), which is semantically impossible.\",\"constraint_a\":\"exactly four copies\",\"constraint_b\":\"exactly two copies\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-good-0",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "No contradictory instructions are present; all constraints are compatible.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-defect-1",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The constraints are mutually exclusive and cannot be satisfied simultaneously.",
+      "witness": {
+        "conflict": "The prompt instructs to return both 'exactly four copies' and 'exactly two copies' of the same token (T01), which is semantically impossible.",
+        "constraint_a": "exactly four copies",
+        "constraint_b": "exactly two copies"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"conflict\":\"The prompt instructs to return both 'exactly four copies' and 'exactly two copies' of the same token (T01), which is semantically impossible.\",\"constraint_a\":\"exactly four copies\",\"constraint_b\":\"exactly two copies\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-good-1",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "No contradictory instructions are present; all constraints are compatible.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-defect-2",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The constraints are mutually exclusive and cannot be satisfied simultaneously.",
+      "witness": {
+        "conflict": {
+          "constraint_a": "exactly four copies",
+          "constraint_b": "exactly two copies",
+          "target": "T02"
+        },
+        "semantic_issue": "The prompt explicitly demands both four and two copies of the same target (T02), which is logically impossible."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"conflict\":{\"constraint_a\":\"exactly four copies\",\"constraint_b\":\"exactly two copies\",\"target\":\"T02\"},\"semantic_issue\":\"The prompt explicitly demands both four and two copies of the same target (T02), which is logically impossible.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-good-2",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "No contradictory instructions are present; all constraints are compatible (quantity, separator, and punctuation).",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-defect-3",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The constraints are mutually exclusive and cannot be satisfied simultaneously.",
+      "witness": {
+        "conflict": {
+          "constraint_a": "exactly four copies",
+          "constraint_b": "exactly two copies",
+          "target": "T03"
+        },
+        "semantic_issue": "The prompt explicitly demands both four and two copies of the same target (T03), which is logically impossible."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"conflict\":{\"constraint_a\":\"exactly four copies\",\"constraint_b\":\"exactly two copies\",\"target\":\"T03\"},\"semantic_issue\":\"The prompt explicitly demands both four and two copies of the same target (T03), which is logically impossible.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-contradictory_instructions-good-3",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "No contradictory instructions are present; all constraints are compatible (quantity, separator, and punctuation).",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-defect-0",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt lacks constraints on format, field order, or field values, violating the defect class requirement.",
+      "witness": {
+        "issue": "The prompt does not specify the required output format (plain text, JSON, or key-value pairs), nor does it define the structure or field constraints (e.g., key order, field values). This leaves ambiguity in how the response should be structured.",
+        "prompt": "Provide the full record for T00."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"issue\":\"The prompt does not specify the required output format (plain text, JSON, or key-value pairs), nor does it define the structure or field constraints (e.g., key order, field values). This leaves ambiguity in how the response should be structured.\",\"prompt\":\"Provide the full record for T00.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-good-0",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly specifies the required output format (compact JSON), key order (`key`, `state`, `amount`), and exact field values (`key: \"T00\"`, `state: \"phase-0\"`, `amount: 9`). No ambiguity remains.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-defect-1",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt lacks format, field order, or field constraints, violating the defect class requirement.",
+      "witness": {
+        "issue": "Like defect-0, this prompt does not specify the required output format (plain text, JSON, or key-value pairs) or the structure/values of fields (`key`, `state`, `amount`). This leaves critical ambiguity.",
+        "prompt": "Provide the full record for T01."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"issue\":\"Like defect-0, this prompt does not specify the required output format (plain text, JSON, or key-value pairs) or the structure/values of fields (`key`, `state`, `amount`). This leaves critical ambiguity.\",\"prompt\":\"Provide the full record for T01.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-good-1",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly specifies the required output format (compact JSON), key order (`key`, `state`, `amount`), and exact field values (`key: \"T01\"`, `state: \"phase-1\"`, `amount: 10`). No ambiguity remains.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-defect-2",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt fails to enforce a concrete output format, leaving ambiguity in how the response should be structured.",
+      "witness": {
+        "issue": "The prompt does not specify the required output format (e.g., plain text, JSON, or key-value pairs) or the structure (e.g., field order, mandatory fields, or exact values). The context mentions acceptable shapes and available fields, but the prompt lacks constraints on how to use them.",
+        "prompt": "Provide the full record for T02."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"issue\":\"The prompt does not specify the required output format (e.g., plain text, JSON, or key-value pairs) or the structure (e.g., field order, mandatory fields, or exact values). The context mentions acceptable shapes and available fields, but the prompt lacks constraints on how to use them.\",\"prompt\":\"Provide the full record for T02.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-good-2",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly specifies the required output format (compact JSON), the exact key order (`key`, `state`, `amount`), and the expected values (`key: \"T02\"`, `state: \"phase-2\"`, `amount: 11`). No ambiguity remains.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-defect-3",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt fails to enforce a concrete output format, leaving ambiguity in how the response should be structured.",
+      "witness": {
+        "issue": "Like defect-2, this prompt does not specify the required output format (plain text, JSON, or key-value pairs) or the structure (e.g., field order, mandatory fields, or exact values). The context mentions acceptable shapes and available fields, but the prompt lacks constraints.",
+        "prompt": "Provide the full record for T03."
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"issue\":\"Like defect-2, this prompt does not specify the required output format (plain text, JSON, or key-value pairs) or the structure (e.g., field order, mandatory fields, or exact values). The context mentions acceptable shapes and available fields, but the prompt lacks constraints.\",\"prompt\":\"Provide the full record for T03.\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-underspecified_output_format-good-3",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly specifies the required output format (compact JSON), the exact key order (`key`, `state`, `amount`), and the expected values (`key: \"T03\"`, `state: \"phase-3\"`, `amount: 12`). No ambiguity remains.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-defect-0",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The rule 'priority unclear' does not provide a clear directive on when to use outside knowledge, violating the defect class requirement for unambiguous evidence policies.",
+      "witness": {
+        "inconsistency": {
+          "prompt_requirement": "Use only the supplied note if it omits a detail; otherwise, supplement with ordinary background knowledge *only when useful* (implied by 'when useful').",
+          "rule_violation": "The 'priority unclear' rule allows arbitrary supplementation without constraints, creating ambiguity in whether background knowledge should be used at all or under what conditions."
+        },
+        "note": "T00 has a stored state.",
+        "outside_knowledge_rule": "priority unclear"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"inconsistency\":{\"prompt_requirement\":\"Use only the supplied note if it omits a detail; otherwise, supplement with ordinary background knowledge *only when useful* (implied by 'when useful').\",\"rule_violation\":\"The 'priority unclear' rule allows arbitrary supplementation without constraints, creating ambiguity in whether background knowledge should be used at all or under what conditions.\"},\"note\":\"T00 has a stored state.\",\"outside_knowledge_rule\":\"priority unclear\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-good-0",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The rule 'forbidden' is unambiguous: it explicitly prohibits supplementation with outside knowledge, aligning perfectly with the defect class requirement.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-defect-1",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "Same as defect-0: the rule 'priority unclear' does not provide a clear directive, violating the defect class requirement.",
+      "witness": {
+        "inconsistency": {
+          "prompt_requirement": "Use the supplied note for T01; if it omits a detail, supplement with ordinary background knowledge *only when useful* (implied by 'when useful').",
+          "rule_violation": "The 'priority unclear' rule is identical to defect-0 and lacks clarity on conditions for supplementation, creating ambiguity."
+        },
+        "note": "T01 has a stored state.",
+        "outside_knowledge_rule": "priority unclear"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"inconsistency\":{\"prompt_requirement\":\"Use the supplied note for T01; if it omits a detail, supplement with ordinary background knowledge *only when useful* (implied by 'when useful').\",\"rule_violation\":\"The 'priority unclear' rule is identical to defect-0 and lacks clarity on conditions for supplementation, creating ambiguity.\"},\"note\":\"T01 has a stored state.\",\"outside_knowledge_rule\":\"priority unclear\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-good-1",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The rule 'forbidden' is unambiguous and identical to good-0, ensuring no supplementation with outside knowledge, thus satisfying the defect class requirement.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-defect-2",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The 'priority unclear' rule permits supplementation with background knowledge, creating ambiguity in whether the response must strictly adhere to the given note or deviate based on assumptions.",
+      "witness": {
+        "ambiguity_example": {
+          "allowed_responses": [
+            "T02's stored state is used for caching frequently accessed data to improve performance.",
+            "T02's stored state persists user preferences across sessions."
+          ],
+          "conflict": "The 'priority unclear' rule allows arbitrary supplementation with background knowledge, enabling contradictory or unsupported inferences about the stored state's purpose.",
+          "input": "What is the purpose of T02's stored state?"
+        },
+        "note": "T02 has a stored state.",
+        "outside_knowledge_rule": "priority unclear"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"ambiguity_example\":{\"allowed_responses\":[\"T02's stored state is used for caching frequently accessed data to improve performance.\",\"T02's stored state persists user preferences across sessions.\"],\"conflict\":\"The 'priority unclear' rule allows arbitrary supplementation with background knowledge, enabling contradictory or unsupported inferences about the stored state's purpose.\",\"input\":\"What is the purpose of T02's stored state?\"},\"note\":\"T02 has a stored state.\",\"outside_knowledge_rule\":\"priority unclear\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-good-2",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The rule 'forbidden' is unambiguous, and the prompt enforces strict adherence to the note. No supplementation is allowed, eliminating ambiguity.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-defect-3",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The 'priority unclear' rule permits supplementation with background knowledge, creating ambiguity in whether the response must strictly adhere to the given note or deviate based on assumptions.",
+      "witness": {
+        "ambiguity_example": {
+          "allowed_responses": [
+            "T03's stored state uses an in-memory hashmap for fast access.",
+            "T03's stored state is persisted to disk for durability."
+          ],
+          "conflict": "The 'priority unclear' rule allows supplementation with background knowledge, enabling contradictory or unsupported claims about implementation details.",
+          "input": "How is T03's stored state implemented?"
+        },
+        "note": "T03 has a stored state.",
+        "outside_knowledge_rule": "priority unclear"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"ambiguity_example\":{\"allowed_responses\":[\"T03's stored state uses an in-memory hashmap for fast access.\",\"T03's stored state is persisted to disk for durability.\"],\"conflict\":\"The 'priority unclear' rule allows supplementation with background knowledge, enabling contradictory or unsupported claims about implementation details.\",\"input\":\"How is T03's stored state implemented?\"},\"note\":\"T03 has a stored state.\",\"outside_knowledge_rule\":\"priority unclear\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-evidence_policy_ambiguity-good-3",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The rule 'forbidden' explicitly prohibits supplementation with outside knowledge, and the prompt enforces strict adherence to the note. No ambiguity exists.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-defect-0",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The phrase 'not unapproved' is semantically ambiguous because it could be parsed as (1) 'not (unapproved)' (i.e., exclude 'unapproved'), or (2) 'not(unapproved)' (i.e., keep only 'unapproved'). The lack of explicit scope resolution makes the intent unclear.",
+      "witness": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "interpretation_ambiguity": {
+          "example_of_ambiguity": {
+            "conflicting_actions": {
+              "if_interpreted_as_keep_unapproved": {
+                "discarded_states": [
+                  "approved",
+                  "pending"
+                ],
+                "kept_states": [
+                  "unapproved"
+                ]
+              },
+              "if_interpreted_as_negation_of_unapproved": {
+                "discarded_states": [
+                  "unapproved"
+                ],
+                "kept_states": [
+                  "approved",
+                  "pending"
+                ]
+              }
+            },
+            "input": "discard items that are not unapproved"
+          },
+          "possible_meanings": [
+            {
+              "description": "Excludes all states except 'unapproved' (i.e., keeps only 'unapproved')",
+              "semantic_equivalent": "keep only unapproved"
+            },
+            {
+              "description": "Excludes 'unapproved' (i.e., keeps 'approved' and 'pending')",
+              "semantic_equivalent": "discard unapproved"
+            }
+          ]
+        },
+        "scope_phrase": "not unapproved"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"candidate_states\":[\"approved\",\"unapproved\",\"pending\"],\"interpretation_ambiguity\":{\"example_of_ambiguity\":{\"conflicting_actions\":{\"if_interpreted_as_keep_unapproved\":{\"discarded_states\":[\"approved\",\"pending\"],\"kept_states\":[\"unapproved\"]},\"if_interpreted_as_negation_of_unapproved\":{\"discarded_states\":[\"unapproved\"],\"kept_states\":[\"approved\",\"pending\"]}},\"input\":\"discard items that are not unapproved\"},\"possible_meanings\":[{\"description\":\"Excludes all states except 'unapproved' (i.e., keeps only 'unapproved')\",\"semantic_equivalent\":\"keep only unapproved\"},{\"description\":\"Excludes 'unapproved' (i.e., keeps 'approved' and 'pending')\",\"semantic_equivalent\":\"discard unapproved\"}]},\"scope_phrase\":\"not unapproved\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-good-0",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly states 'keep only unapproved items; discard approved and pending items,' which unambiguously resolves the scope of negation. No ambiguity exists.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-defect-1",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "Same as defect-0: The phrase 'not unapproved' is semantically ambiguous and lacks explicit resolution. The intent could be either to exclude 'unapproved' or to retain only 'unapproved'.",
+      "witness": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "interpretation_ambiguity": {
+          "example_of_ambiguity": {
+            "conflicting_actions": {
+              "if_interpreted_as_keep_unapproved": {
+                "discarded_states": [
+                  "approved",
+                  "pending"
+                ],
+                "kept_states": [
+                  "unapproved"
+                ]
+              },
+              "if_interpreted_as_negation_of_unapproved": {
+                "discarded_states": [
+                  "unapproved"
+                ],
+                "kept_states": [
+                  "approved",
+                  "pending"
+                ]
+              }
+            },
+            "input": "discard items that are not unapproved"
+          },
+          "possible_meanings": [
+            {
+              "description": "Excludes all states except 'unapproved' (i.e., keeps only 'unapproved')",
+              "semantic_equivalent": "keep only unapproved"
+            },
+            {
+              "description": "Excludes 'unapproved' (i.e., keeps 'approved' and 'pending')",
+              "semantic_equivalent": "discard unapproved"
+            }
+          ]
+        },
+        "scope_phrase": "not unapproved"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"candidate_states\":[\"approved\",\"unapproved\",\"pending\"],\"interpretation_ambiguity\":{\"example_of_ambiguity\":{\"conflicting_actions\":{\"if_interpreted_as_keep_unapproved\":{\"discarded_states\":[\"approved\",\"pending\"],\"kept_states\":[\"unapproved\"]},\"if_interpreted_as_negation_of_unapproved\":{\"discarded_states\":[\"unapproved\"],\"kept_states\":[\"approved\",\"pending\"]}},\"input\":\"discard items that are not unapproved\"},\"possible_meanings\":[{\"description\":\"Excludes all states except 'unapproved' (i.e., keeps only 'unapproved')\",\"semantic_equivalent\":\"keep only unapproved\"},{\"description\":\"Excludes 'unapproved' (i.e., keeps 'approved' and 'pending')\",\"semantic_equivalent\":\"discard unapproved\"}]},\"scope_phrase\":\"not unapproved\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-good-1",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly states 'keep only unapproved items; discard approved and pending items,' which unambiguously resolves the scope of negation. No ambiguity exists.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-defect-2",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The phrase 'not unapproved' is semantically ambiguous between (1) 'exclusive inclusion of unapproved' and (2) 'literal negation of unapproved' (which would imply keeping all other states). The prompt lacks clarity for the intended exclusion logic.",
+      "witness": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "interpretation_ambiguity": {
+          "example": {
+            "incorrect_application": {
+              "if_interpreted_as_exclusive_unapproved": [
+                "unapproved"
+              ],
+              "if_interpreted_as_literal_negation": [
+                "approved",
+                "pending"
+              ]
+            },
+            "input": [
+              "approved",
+              "unapproved",
+              "pending"
+            ]
+          },
+          "possible_meanings": [
+            {
+              "description": "Excludes all states except 'unapproved' (i.e., keeps only 'unapproved')",
+              "logical_equivalent": "approved == false AND pending == false"
+            },
+            {
+              "description": "Excludes only the literal negation of 'unapproved' (i.e., keeps 'approved' and 'pending')",
+              "logical_equivalent": "NOT (NOT unapproved)"
+            }
+          ]
+        },
+        "scope_phrase": "not unapproved"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"candidate_states\":[\"approved\",\"unapproved\",\"pending\"],\"interpretation_ambiguity\":{\"example\":{\"incorrect_application\":{\"if_interpreted_as_exclusive_unapproved\":[\"unapproved\"],\"if_interpreted_as_literal_negation\":[\"approved\",\"pending\"]},\"input\":[\"approved\",\"unapproved\",\"pending\"]},\"possible_meanings\":[{\"description\":\"Excludes all states except 'unapproved' (i.e., keeps only 'unapproved')\",\"logical_equivalent\":\"approved == false AND pending == false\"},{\"description\":\"Excludes only the literal negation of 'unapproved' (i.e., keeps 'approved' and 'pending')\",\"logical_equivalent\":\"NOT (NOT unapproved)\"}]},\"scope_phrase\":\"not unapproved\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-good-2",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly states 'keep only unapproved items; discard approved and pending items,' resolving any ambiguity in the scope negation.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-defect-3",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "Same as defect-2: The phrase 'not unapproved' is semantically ambiguous and does not clearly specify whether 'unapproved' is the sole retained state or if other states are excluded. The prompt lacks explicit exclusion logic.",
+      "witness": {
+        "candidate_states": [
+          "approved",
+          "unapproved",
+          "pending"
+        ],
+        "interpretation_ambiguity": {
+          "example": {
+            "incorrect_application": {
+              "if_interpreted_as_exclusive_unapproved": [
+                "unapproved"
+              ],
+              "if_interpreted_as_literal_negation": [
+                "approved",
+                "pending"
+              ]
+            },
+            "input": [
+              "approved",
+              "unapproved",
+              "pending"
+            ]
+          },
+          "possible_meanings": [
+            {
+              "description": "Excludes all states except 'unapproved' (i.e., keeps only 'unapproved')",
+              "logical_equivalent": "approved == false AND pending == false"
+            },
+            {
+              "description": "Excludes only the literal negation of 'unapproved' (i.e., keeps 'approved' and 'pending')",
+              "logical_equivalent": "NOT (NOT unapproved)"
+            }
+          ]
+        },
+        "scope_phrase": "not unapproved"
+      },
+      "witness_meaningful": true,
+      "witness_text": "{\"candidate_states\":[\"approved\",\"unapproved\",\"pending\"],\"interpretation_ambiguity\":{\"example\":{\"incorrect_application\":{\"if_interpreted_as_exclusive_unapproved\":[\"unapproved\"],\"if_interpreted_as_literal_negation\":[\"approved\",\"pending\"]},\"input\":[\"approved\",\"unapproved\",\"pending\"]},\"possible_meanings\":[{\"description\":\"Excludes all states except 'unapproved' (i.e., keeps only 'unapproved')\",\"logical_equivalent\":\"approved == false AND pending == false\"},{\"description\":\"Excludes only the literal negation of 'unapproved' (i.e., keeps 'approved' and 'pending')\",\"logical_equivalent\":\"NOT (NOT unapproved)\"}]},\"scope_phrase\":\"not unapproved\"}"
+    },
+    {
+      "case_id": "arch-v5-reviewer-scope_negation_ambiguity-good-3",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly states 'keep only unapproved items; discard approved and pending items,' resolving any ambiguity in the scope negation.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    }
+  ],
+  "per_class": {
+    "contradictory_instructions": [
+      4,
+      4
+    ],
+    "evidence_policy_ambiguity": [
+      4,
+      4
+    ],
+    "prompt_grader_semantic_mismatch": [
+      4,
+      4
+    ],
+    "referent_ambiguity": [
+      4,
+      4
+    ],
+    "scope_negation_ambiguity": [
+      4,
+      4
+    ],
+    "underspecified_output_format": [
+      4,
+      4
+    ]
+  },
+  "reviewer": {
+    "format": "DYNAMIC_JSON_SCHEMA",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261002,
+    "stream": false,
+    "structured_output": "JSON_SCHEMA",
+    "temperature": 0,
+    "url": "http://127.0.0.1:11434/api/generate"
+  },
+  "schema": "RETENTION_AUDIT_ARCH_V5_REVIEWER_QUALIFICATION_V1",
+  "sensitivity": [
+    24,
+    24
+  ],
+  "specificity": [
+    24,
+    24
+  ],
+  "status": "REVIEWER_QUALIFIED",
+  "structured_contradictions": []
+}
