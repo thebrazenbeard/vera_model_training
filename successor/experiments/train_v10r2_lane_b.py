@@ -190,6 +190,13 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
             raise DevTrainingHold(
                 "resume_adapter previous_optimizer_steps invalid"
             )
+        cumulative = resume.get("source_cumulative_optimizer_steps")
+        if cumulative is not None and (
+            not isinstance(cumulative, int) or cumulative < prior_steps
+        ):
+            raise DevTrainingHold(
+                "resume_adapter source_cumulative_optimizer_steps invalid"
+            )
         next_train_row = resume.get("next_train_row")
         if not isinstance(next_train_row, int) or next_train_row < 0:
             raise DevTrainingHold("resume_adapter next_train_row invalid")
@@ -326,6 +333,8 @@ def _trainable_parameter_digest(model, torch) -> tuple[str, int]:
 def _optimizer_state_summary(optimizer) -> dict:
     tensor_bytes = 0
     tensor_count = 0
+    floating_state_tensor_count = 0
+    nonfinite_state_tensor_count = 0
     devices: dict[str, int] = {}
     dtypes: dict[str, int] = {}
     for state in optimizer.state.values():
@@ -340,12 +349,103 @@ def _optimizer_state_summary(optimizer) -> dict:
             dtype = str(item.dtype)
             devices[device] = devices.get(device, 0) + 1
             dtypes[dtype] = dtypes.get(dtype, 0) + 1
+            if hasattr(item, "is_floating_point") and item.is_floating_point():
+                floating_state_tensor_count += 1
+                if not bool(item.detach().isfinite().all().item()):
+                    nonfinite_state_tensor_count += 1
     return {
         "state_tensor_count": tensor_count,
         "state_tensor_bytes": tensor_bytes,
         "state_tensor_mib": round(tensor_bytes / (1024**2), 3),
         "state_tensor_devices": devices,
         "state_tensor_dtypes": dtypes,
+        "floating_state_tensor_count": floating_state_tensor_count,
+        "nonfinite_state_tensor_count": nonfinite_state_tensor_count,
+        "all_floating_state_finite": nonfinite_state_tensor_count == 0,
+    }
+
+
+def _trainable_parameter_snapshot(model, torch) -> dict:
+    snapshot = {}
+    for name, parameter in sorted(model.named_parameters()):
+        if not parameter.requires_grad:
+            continue
+        snapshot[name] = (
+            parameter.detach()
+            .to(device="cpu", dtype=torch.float32)
+            .contiguous()
+            .clone()
+        )
+    if not snapshot:
+        raise DevTrainingHold("no trainable parameters to snapshot")
+    return snapshot
+
+
+def _weight_delta_summary(before: dict, model, torch) -> dict:
+    total_elements = 0
+    changed_elements = 0
+    absolute_sum = 0.0
+    delta_sq_sum = 0.0
+    before_sq_sum = 0.0
+    delta_max_abs = 0.0
+    all_finite = True
+    seen = set()
+
+    for name, parameter in sorted(model.named_parameters()):
+        if not parameter.requires_grad:
+            continue
+        if name not in before:
+            raise DevTrainingHold(f"trainable parameter missing from snapshot:{name}")
+        after = (
+            parameter.detach()
+            .to(device="cpu", dtype=torch.float32)
+            .contiguous()
+        )
+        prior = before[name]
+        if tuple(after.shape) != tuple(prior.shape):
+            raise DevTrainingHold(f"trainable parameter shape changed:{name}")
+        seen.add(name)
+        delta = after - prior
+        if not bool(torch.isfinite(after).all().item()):
+            all_finite = False
+        if not bool(torch.isfinite(delta).all().item()):
+            all_finite = False
+
+        abs_delta = delta.abs()
+        count = int(delta.numel())
+        total_elements += count
+        changed_elements += int(torch.count_nonzero(delta).item())
+        absolute_sum += float(abs_delta.double().sum().item())
+        delta_sq_sum += float(delta.double().square().sum().item())
+        before_sq_sum += float(prior.double().square().sum().item())
+        if count:
+            delta_max_abs = max(
+                delta_max_abs,
+                float(abs_delta.max().item()),
+            )
+
+    missing = set(before) - seen
+    if missing:
+        raise DevTrainingHold(
+            "trainable parameters disappeared:"
+            + ",".join(sorted(missing)[:5])
+        )
+    if total_elements < 1:
+        raise DevTrainingHold("no trainable parameter elements")
+
+    delta_l2 = math.sqrt(delta_sq_sum)
+    before_l2 = math.sqrt(before_sq_sum)
+    return {
+        "total_elements": total_elements,
+        "changed_elements": changed_elements,
+        "delta_l2": delta_l2,
+        "delta_max_abs": delta_max_abs,
+        "delta_mean_abs": absolute_sum / total_elements,
+        "before_l2": before_l2,
+        "relative_l2_to_before": (
+            delta_l2 / before_l2 if before_l2 > 0 else None
+        ),
+        "all_finite": all_finite,
     }
 
 
@@ -466,6 +566,18 @@ def verify_resume_adapter(root: Path | str, resume: dict) -> dict:
         raise DevTrainingHold(
             "resume source receipt does not prove weight change"
         )
+    source_cumulative = resume.get("source_cumulative_optimizer_steps")
+    if not isinstance(source_cumulative, int):
+        raise DevTrainingHold(
+            "resume source_cumulative_optimizer_steps missing"
+        )
+    receipt_cumulative = receipt.get("cumulative_optimizer_steps")
+    if receipt_cumulative != source_cumulative:
+        raise DevTrainingHold(
+            "resume source_cumulative_optimizer_steps mismatch:"
+            f"{resume['source_cumulative_optimizer_steps']}!="
+            f"{receipt_cumulative}"
+        )
 
     adapter_config = _read_json(adapter_config_path)
     expected_adapter = {
@@ -493,6 +605,9 @@ def verify_resume_adapter(root: Path | str, resume: dict) -> dict:
         "source_receipt_sha256": actual_receipt_sha,
         "source_weight_digest_after": receipt["weight_digest_after"],
         "previous_optimizer_steps": resume["previous_optimizer_steps"],
+        "source_cumulative_optimizer_steps": resume[
+            "source_cumulative_optimizer_steps"
+        ],
         "next_train_row": resume["next_train_row"],
     }
 
@@ -705,6 +820,10 @@ def execute_dev_training(
         trainer.model,
         torch,
     )
+    parameter_snapshot_before = _trainable_parameter_snapshot(
+        trainer.model,
+        torch,
+    )
     if (
         resume_check is not None
         and weight_before
@@ -740,7 +859,19 @@ def execute_dev_training(
     if weight_after == weight_before:
         raise DevTrainingHold("optimizer step did not change trainable weights")
 
+    weight_delta = _weight_delta_summary(
+        parameter_snapshot_before,
+        trainer.model,
+        torch,
+    )
+    if not weight_delta["all_finite"]:
+        raise DevTrainingHold("nonfinite trainable weight/update observed")
+    if not math.isfinite(float(train_result.training_loss)):
+        raise DevTrainingHold("nonfinite training loss observed")
+
     state_summary = _optimizer_state_summary(trainer.optimizer)
+    if not state_summary["all_floating_state_finite"]:
+        raise DevTrainingHold("nonfinite optimizer state observed")
     optimizer_after = summarize_optimizer(trainer.optimizer)
     identity_fields = (
         "class",
@@ -805,7 +936,7 @@ def execute_dev_training(
         "cumulative_optimizer_steps": (
             trainer_spec["max_optimizer_steps"]
             + (
-                resume_check["previous_optimizer_steps"]
+                resume_check["source_cumulative_optimizer_steps"]
                 if resume_check is not None
                 else 0
             )
@@ -817,6 +948,7 @@ def execute_dev_training(
         "weight_digest_before": weight_before,
         "weight_digest_after": weight_after,
         "weight_digest_changed": True,
+        "weight_delta": weight_delta,
         "training_loss": float(train_result.training_loss),
         "train_metrics": dict(train_result.metrics),
         "elapsed_seconds_observed": round(elapsed, 3),
