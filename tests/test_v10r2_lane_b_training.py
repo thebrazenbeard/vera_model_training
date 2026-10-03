@@ -205,3 +205,29 @@ def test_lane_b_torchao_spec_is_one_step_unpadded_and_isolated() -> None:
     assert spec['acceleration']['backend'] == 'fla_triton'
     assert spec['acceleration']['causal_conv_backend'] == 'torch_reference'
     assert spec['output']['namespace'].endswith('fla-torchao8-step1-v1')
+
+def test_optimizer_state_summary_handles_torchao_optimstate8bit() -> None:
+    import torch
+    from torchao.optim.subclass_8bit import OptimState8bit
+    from successor.experiments.train_v10r2_lane_b import _optimizer_state_summary
+
+    state = OptimState8bit.zeros(
+        (4096,), signed=True, block_size=256, device='cpu', dtype=torch.bfloat16
+    )
+
+    class FakeOptimizer:
+        pass
+
+    opt = FakeOptimizer()
+    opt.state = {1: {'exp_avg': state}}
+    summary = _optimizer_state_summary(opt)
+    expected_bytes = sum(
+        int(t.numel()) * int(t.element_size())
+        for t in (state.codes, state.scale, state.qmap)
+    )
+    assert summary['state_object_count'] == 1
+    assert summary['state_tensor_count'] == 3
+    assert summary['state_tensor_bytes'] == expected_bytes
+    assert summary['floating_state_tensor_count'] == 2
+    assert summary['nonfinite_state_tensor_count'] == 0
+    assert summary['all_floating_state_finite'] is True

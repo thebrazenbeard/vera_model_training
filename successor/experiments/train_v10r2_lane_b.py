@@ -331,29 +331,47 @@ def _trainable_parameter_digest(model, torch) -> tuple[str, int]:
 
 
 def _optimizer_state_summary(optimizer) -> dict:
+    state_object_count = 0
     tensor_bytes = 0
     tensor_count = 0
     floating_state_tensor_count = 0
     nonfinite_state_tensor_count = 0
     devices: dict[str, int] = {}
     dtypes: dict[str, int] = {}
+
     for state in optimizer.state.values():
         if not isinstance(state, dict):
             continue
         for item in state.values():
             if not hasattr(item, "numel") or not hasattr(item, "element_size"):
                 continue
-            tensor_count += 1
-            tensor_bytes += int(item.numel()) * int(item.element_size())
-            device = str(item.device)
-            dtype = str(item.dtype)
-            devices[device] = devices.get(device, 0) + 1
-            dtypes[dtype] = dtypes.get(dtype, 0) + 1
-            if hasattr(item, "is_floating_point") and item.is_floating_point():
-                floating_state_tensor_count += 1
-                if not bool(item.detach().isfinite().all().item()):
-                    nonfinite_state_tensor_count += 1
+            state_object_count += 1
+
+            if all(hasattr(item, field) for field in ("codes", "scale", "qmap")):
+                physical_tensors = [item.codes, item.scale, item.qmap]
+            else:
+                physical_tensors = [item]
+
+            for tensor in physical_tensors:
+                if not hasattr(tensor, "numel") or not hasattr(
+                    tensor, "element_size"
+                ):
+                    continue
+                tensor_count += 1
+                tensor_bytes += int(tensor.numel()) * int(
+                    tensor.element_size()
+                )
+                device = str(tensor.device)
+                dtype = str(tensor.dtype)
+                devices[device] = devices.get(device, 0) + 1
+                dtypes[dtype] = dtypes.get(dtype, 0) + 1
+                if tensor.is_floating_point():
+                    floating_state_tensor_count += 1
+                    if not bool(tensor.detach().isfinite().all().item()):
+                        nonfinite_state_tensor_count += 1
+
     return {
+        "state_object_count": state_object_count,
         "state_tensor_count": tensor_count,
         "state_tensor_bytes": tensor_bytes,
         "state_tensor_mib": round(tensor_bytes / (1024**2), 3),
