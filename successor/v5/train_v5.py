@@ -23,6 +23,18 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def training_input_lineage(
+    general_sft_path: Path,
+    general_pref_path: Path,
+    targeted_path: Path,
+) -> dict[str, str]:
+    return {
+        "general_sft_input_sha256": sha256_file(general_sft_path),
+        "general_preference_input_sha256": sha256_file(general_pref_path),
+        "targeted_input_sha256": sha256_file(targeted_path),
+    }
+
+
 def sft_record(row: dict) -> dict:
     return {
         "prompt":[SYSTEM,{"role":"user","content":row["prompt"]}],
@@ -85,6 +97,10 @@ def train(
     output_dir:Path,
     *,
     smoke:bool=False,
+    model_loader=None,
+    base_repo:str=BASE_REPO,
+    base_revision:str=BASE_REV,
+    lora_receipt:dict|None=None,
 )->dict:
     import torch,transformers,trl,peft as peft_lib
     from datasets import Dataset, load_dataset
@@ -136,7 +152,10 @@ def train(
     dev_ds=Dataset.from_list(dev_rows)
     pref_ds=Dataset.from_list(pref_rows)
 
-    model,tokenizer,lora_config=load_model()
+    loader=load_model if model_loader is None else model_loader
+    model,tokenizer,lora_config=loader()
+    loaded_model_class=type(model).__name__
+    loaded_config_class=type(model.config).__name__
     output_dir.mkdir(parents=True,exist_ok=True)
     sft_out=output_dir/"sft_work"
     sft_args=SFTConfig(
@@ -219,14 +238,16 @@ def train(
     manifest={
         "schema":"VERA_SUCCESSOR_V5_TRAINING_RECEIPT_V1",
         "smoke":smoke,
-        "base_repo":BASE_REPO,
-        "base_revision":BASE_REV,
+        "base_repo":base_repo,
+        "base_revision":base_revision,
+        "loaded_model_class":loaded_model_class,
+        "loaded_config_class":loaded_config_class,
         "seed":SEED,
         "general_sft_rows":len(general_sft),
         "generated_targeted_rows":sum(r.get("schema")!="VERA_V5_GOLD_TARGETED_PAIR_V1" for r in targeted),
         "gold_targeted_rows":sum(r.get("schema")=="VERA_V5_GOLD_TARGETED_PAIR_V1" for r in targeted),
         "targeted_sft_rows":len(targeted),
-        "targeted_input_sha256":sha256_file(targeted_path),
+        **training_input_lineage(general_sft_path, general_pref_path, targeted_path),
         "sft_total_rows":len(sft_rows),
         "general_preference_rows":len(general_pref),
         "targeted_preference_rows":len(targeted),
@@ -244,7 +265,7 @@ def train(
             "peft":peft_lib.__version__,
         },
         "objective_sequence":["completion_only_sft","orpo"],
-        "lora":{"r":4,"alpha":16,"dropout":0.0,"target_modules":["q_proj","v_proj"]},
+        "lora":lora_receipt or {"r":4,"alpha":16,"dropout":0.0,"target_modules":["q_proj","v_proj"]},
     }
     (output_dir/"training_receipt.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\\n",encoding="utf-8")
     return manifest
