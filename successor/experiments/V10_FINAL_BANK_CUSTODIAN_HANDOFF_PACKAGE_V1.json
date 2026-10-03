@@ -1,49 +1,60 @@
 {
-  "schema": "V10_FINAL_BANK_CUSTODIAN_HANDOFF_PACKAGE_V1",
-  "date": "2026-10-02",
-  "status": "HANDOFF_SPEC_READY_IDENTITIES_UNBOUND",
-  "repository": "thebrazenbeard/vera_model_training",
-  "composition_subject": {
-    "proposal": {
-      "path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md",
-      "git_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
-    },
-    "generation_spec": {
-      "path": "successor/experiments/V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1.json",
-      "git_blob_sha": "ec342cd4f2035123cd10a4ba329f2dbefbda58c4",
-      "file_sha256": "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0"
-    },
-    "grader_spec": {
-      "path": "successor/experiments/V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1.json",
-      "git_blob_sha": "7692c19282c90b8ac815788203e9202805acb66f",
-      "file_sha256": "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0"
-    },
-    "custodian_contract": {
-      "path": "successor/experiments/V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1.json",
-      "git_blob_sha": "48e7e775bb1e73043a5e7c8c0d9ddb7f7672c43b"
-    },
-    "family_manifest_spec": {
-      "path": "successor/experiments/V10_FINAL_BANK_FAMILY_MANIFEST_SPEC_V1.json",
-      "git_blob_sha": "e0991beefad07058beab7d06cfeb061322f1ee52",
-      "file_sha256": "657ed4b9bfa6af2a059720c288f7f05d8c1bdfb5aba965956e3f5a771062ce69"
-    },
-    "diversity_diagnostic_spec": {
-      "path": "successor/experiments/V10_FINAL_BANK_DIVERSITY_DIAGNOSTIC_SPEC_V1.json",
-      "git_blob_sha": "09e97497e5513ca339622aaf5b7c0ff86835bcd2",
-      "file_sha256": "fd3380bcbc10b89229bc03eea17bfe108f66394d8b168e352a1e6c9ba469be84"
-    }
-  },
   "binding_template": {
-    "path": "successor/experiments/V10_FINAL_BANK_CUSTODIAN_BINDING_TEMPLATE_V1.json",
     "git_blob_sha": "f2d7463b27f8005dc1c9472a3f65948430e5746d",
+    "path": "successor/experiments/V10_FINAL_BANK_CUSTODIAN_BINDING_TEMPLATE_V1.json",
     "status": "UNBOUND_TEMPLATE_DO_NOT_USE_AS_BINDING"
   },
-  "verifier": {
-    "path": "successor/experiments/verify_v10_final_bank_custodian_handoff.py",
-    "git_blob_sha": "e42856080fe82c4fe53697c39ee77bd8e1e6e0d8",
-    "pass_status": "HANDOFF_READY_FOR_INDEPENDENT_CUSTODY",
-    "hold_exit_code": 2
+  "claim_ceiling": "SYNTHETIC_CUSTODIAN_IDENTITIES_BOUND / HUMAN AUTHOR REVIEWER AND INDEPENDENT CUSTODY UNBOUND / FINAL PLAINTEXT NOT GENERATED / NO BANK ADMISSION / NO TRAINING EFFECT",
+  "composition_subject": {
+    "custodian_contract": {
+      "git_blob_sha": "48e7e775bb1e73043a5e7c8c0d9ddb7f7672c43b",
+      "path": "successor/experiments/V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1.json"
+    },
+    "diversity_diagnostic_spec": {
+      "file_sha256": "7fad77f64639f1ef029695967440e671a3058f14ab603434fa22fcb9e6aaec19",
+      "git_blob_sha": "09e97497e5513ca339622aaf5b7c0ff86835bcd2",
+      "path": "successor/experiments/V10_FINAL_BANK_DIVERSITY_DIAGNOSTIC_SPEC_V1.json"
+    },
+    "family_manifest_spec": {
+      "file_sha256": "848779b7d4e1d41f9f13cb78c5963638ddbfa34865961ac4896a388bd58da3b2",
+      "git_blob_sha": "e0991beefad07058beab7d06cfeb061322f1ee52",
+      "path": "successor/experiments/V10_FINAL_BANK_FAMILY_MANIFEST_SPEC_V1.json"
+    },
+    "generation_spec": {
+      "file_sha256": "6d89b65f394b98cee08b30a90e76cb8bdb66dcc23c74a5121cbf9d0bd8a7fa81",
+      "git_blob_sha": "ec342cd4f2035123cd10a4ba329f2dbefbda58c4",
+      "path": "successor/experiments/V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1.json"
+    },
+    "grader_spec": {
+      "file_sha256": "9dbd29d4a47a535154e57cc9b82de2725ed708e93c770cb23b6cd8f53bc6c225",
+      "git_blob_sha": "7692c19282c90b8ac815788203e9202805acb66f",
+      "path": "successor/experiments/V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1.json"
+    },
+    "proposal": {
+      "git_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
+      "path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md"
+    }
   },
+  "currently_unresolved": [
+    "human_author_identity",
+    "human_reviewer_identity",
+    "independent_custody_surface",
+    "access_control_receipt"
+  ],
+  "date": "2026-10-02",
+  "plaintext_policy": {
+    "final_plaintext_allowed_in_candidate_development_lane": false,
+    "final_plaintext_allowed_in_training_lane": false,
+    "final_plaintext_allowed_only_in_bound_independent_custody_lane": true,
+    "public_handoff_contains_plaintext": false
+  },
+  "protected_effects": {
+    "deploy_install_activate_authorized": false,
+    "merge_authorized": false,
+    "paid_compute_authorized": false,
+    "training_authorized": false
+  },
+  "repository": "thebrazenbeard/vera_model_training",
   "required_before_generation": [
     "replace template with actual V10_FINAL_BANK_CUSTODIAN_BINDING_V1",
     "bind two distinct non-Qwen synthetic model families",
@@ -54,25 +65,30 @@
     "bind exact generation, grader, family-manifest, and diversity-diagnostic spec hashes",
     "run standalone verifier and obtain HANDOFF_READY_FOR_INDEPENDENT_CUSTODY"
   ],
-  "currently_unresolved": [
-    "synthetic_custodian_A_identity",
-    "synthetic_custodian_B_identity",
-    "human_author_identity",
-    "human_reviewer_identity",
-    "independent_custody_surface",
-    "access_control_receipt"
-  ],
-  "plaintext_policy": {
-    "final_plaintext_allowed_in_training_lane": false,
-    "final_plaintext_allowed_in_candidate_development_lane": false,
-    "final_plaintext_allowed_only_in_bound_independent_custody_lane": true,
-    "public_handoff_contains_plaintext": false
+  "schema": "V10_FINAL_BANK_CUSTODIAN_HANDOFF_PACKAGE_V1",
+  "spec_hash_rebind": {
+    "path": "successor/experiments/V10_FINAL_BANK_SPEC_HASH_REBIND_V1.json",
+    "status": "CORRECTED_BEFORE_FINAL_PLAINTEXT_GENERATION"
   },
-  "protected_effects": {
-    "training_authorized": false,
-    "paid_compute_authorized": false,
-    "merge_authorized": false,
-    "deploy_install_activate_authorized": false
+  "status": "SYNTHETIC_IDENTITIES_BOUND_HUMAN_CUSTODY_HOLD",
+  "synthetic_identity_receipts": {
+    "A": {
+      "identity_receipt_sha256": "51e04d25b5d599f5bc1b7d7ffa40e4afae4fe027a6a8dd8b9796b56a33443d7a",
+      "path": "successor/experiments/V10_FINAL_BANK_SYNTHETIC_CUSTODIAN_A_IDENTITY_V1.json"
+    },
+    "B": {
+      "identity_receipt_sha256": "0c97476ecce0f58ee7e4bce57cd2b91893de7b6f7fe57bb86e2d8a2b82e5896c",
+      "path": "successor/experiments/V10_FINAL_BANK_SYNTHETIC_CUSTODIAN_B_IDENTITY_V1.json"
+    },
+    "pair": {
+      "path": "successor/experiments/V10_FINAL_BANK_SYNTHETIC_CUSTODIANS_V1.json",
+      "status": "SYNTHETIC_CUSTODIANS_BOUND"
+    }
   },
-  "claim_ceiling": "NONPLAINTEXT_HANDOFF_PACKAGE_AND_COMPOSITION_METHODS_READY / IDENTITIES AND CUSTODY SURFACE UNBOUND / FINAL PLAINTEXT NOT GENERATED / NO TRAINING AUTHORITY"
+  "verifier": {
+    "git_blob_sha": "e42856080fe82c4fe53697c39ee77bd8e1e6e0d8",
+    "hold_exit_code": 2,
+    "pass_status": "HANDOFF_READY_FOR_INDEPENDENT_CUSTODY",
+    "path": "successor/experiments/verify_v10_final_bank_custodian_handoff.py"
+  }
 }

@@ -1,83 +1,69 @@
 {
-  "schema": "V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1",
-  "date": "2026-10-01",
-  "status": "FROZEN_REQUIREMENTS_NO_CUSTODIANS_BOUND",
-  "composition_subject": {
-    "proposal_path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md",
-    "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
-    "generation_spec_path": "successor/experiments/V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1.json",
-    "generation_spec_sha256": "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0",
-    "grader_spec_path": "successor/experiments/V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1.json",
-    "grader_spec_sha256": "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0",
-    "family_manifest_spec_path": "successor/experiments/V10_FINAL_BANK_FAMILY_MANIFEST_SPEC_V1.json",
-    "family_manifest_spec_sha256": "657ed4b9bfa6af2a059720c288f7f05d8c1bdfb5aba965956e3f5a771062ce69",
-    "diversity_diagnostic_spec_path": "successor/experiments/V10_FINAL_BANK_DIVERSITY_DIAGNOSTIC_SPEC_V1.json",
-    "diversity_diagnostic_spec_sha256": "fd3380bcbc10b89229bc03eea17bfe108f66394d8b168e352a1e6c9ba469be84"
+  "adversarial": {
+    "cases_per_family": 5,
+    "dimensions": "H01-H20",
+    "families_per_dimension": 20,
+    "family_provenance_per_dimension": {
+      "human_seeded": 4,
+      "synthetic_A": 8,
+      "synthetic_B": 8
+    },
+    "rows_per_dimension": 100,
+    "total_families": 400,
+    "total_rows": 2000
   },
   "behavioral": {
-    "dimensions": "H01-H20",
-    "rows_per_dimension": 500,
-    "families_per_dimension": 50,
     "cases_per_family": 10,
-    "family_provenance_per_dimension": {
-      "synthetic_A": 20,
-      "synthetic_B": 20,
-      "human_seeded": 10
-    },
-    "total_rows": 10000,
-    "total_families": 1000
-  },
-  "adversarial": {
     "dimensions": "H01-H20",
-    "rows_per_dimension": 100,
-    "families_per_dimension": 20,
-    "cases_per_family": 5,
+    "families_per_dimension": 50,
     "family_provenance_per_dimension": {
-      "synthetic_A": 8,
-      "synthetic_B": 8,
-      "human_seeded": 4
+      "human_seeded": 10,
+      "synthetic_A": 20,
+      "synthetic_B": 20
     },
-    "total_rows": 2000,
-    "total_families": 400
+    "rows_per_dimension": 500,
+    "total_families": 1000,
+    "total_rows": 10000
   },
-  "synthetic_custodian_requirements": {
-    "count": 2,
-    "labels": [
-      "A",
-      "B"
-    ],
-    "different_model_families": true,
-    "different_exact_models": true,
-    "qwen_lineage_forbidden": true,
-    "candidate_model_forbidden": true,
-    "distinct_exact_provider_runtime_identity": true,
-    "frozen_generation_spec_required": true,
-    "identity_receipt_sha256_required": true
+  "case_generation_rules": {
+    "deficit_replacement_requires_new_generation_and_review": true,
+    "derivative_cases_must_preserve_derivative_provenance": true,
+    "entity_value_style_swaps_do_not_create_new_family": true,
+    "family_independence_semantic_not_surface": true,
+    "human_seeded_family_requires_at_least_one_genuinely_human_authored_case": true,
+    "rejected_cases_quarantined_not_edited_in_place": true
   },
-  "human_requirements": {
-    "author_pool_nonempty": true,
-    "reviewer_pool_nonempty": true,
-    "author_and_reviewer_pools_disjoint": true,
-    "reason": "Human-seeded cases cannot be independently reviewed by their own author.",
-    "private_identity_attestation_sha256_required": true,
-    "semantic_cases_require_human_review": true,
-    "llm_review_does_not_substitute_for_human_review": true
+  "claim_ceiling": "CUSTODIAN_REQUIREMENTS_AND_ALL_NONPLAINTEXT_SPECS_FROZEN / IDENTITIES_UNBOUND / NO_FINAL_BANK / NO_TRAINING",
+  "composition_subject": {
+    "diversity_diagnostic_spec_path": "successor/experiments/V10_FINAL_BANK_DIVERSITY_DIAGNOSTIC_SPEC_V1.json",
+    "diversity_diagnostic_spec_sha256": "7fad77f64639f1ef029695967440e671a3058f14ab603434fa22fcb9e6aaec19",
+    "family_manifest_spec_path": "successor/experiments/V10_FINAL_BANK_FAMILY_MANIFEST_SPEC_V1.json",
+    "family_manifest_spec_sha256": "848779b7d4e1d41f9f13cb78c5963638ddbfa34865961ac4896a388bd58da3b2",
+    "generation_spec_path": "successor/experiments/V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1.json",
+    "generation_spec_sha256": "6d89b65f394b98cee08b30a90e76cb8bdb66dcc23c74a5121cbf9d0bd8a7fa81",
+    "grader_spec_path": "successor/experiments/V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1.json",
+    "grader_spec_sha256": "9dbd29d4a47a535154e57cc9b82de2725ed708e93c770cb23b6cd8f53bc6c225",
+    "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
+    "proposal_path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md"
   },
+  "current_binding_present": false,
   "custody_requirements": {
-    "surface_class": "INDEPENDENT_CUSTODY_EVALUATION_LANE",
-    "training_lane_access": false,
+    "access_control_receipt_sha256_required": true,
     "candidate_development_access": false,
     "hash_only_publication_before_candidate_freeze": true,
     "plaintext_sealed_until_candidate_freeze": true,
-    "access_control_receipt_sha256_required": true
+    "surface_class": "INDEPENDENT_CUSTODY_EVALUATION_LANE",
+    "training_lane_access": false
   },
-  "case_generation_rules": {
-    "family_independence_semantic_not_surface": true,
-    "entity_value_style_swaps_do_not_create_new_family": true,
-    "rejected_cases_quarantined_not_edited_in_place": true,
-    "deficit_replacement_requires_new_generation_and_review": true,
-    "human_seeded_family_requires_at_least_one_genuinely_human_authored_case": true,
-    "derivative_cases_must_preserve_derivative_provenance": true
+  "date": "2026-10-01",
+  "human_requirements": {
+    "author_and_reviewer_pools_disjoint": true,
+    "author_pool_nonempty": true,
+    "llm_review_does_not_substitute_for_human_review": true,
+    "private_identity_attestation_sha256_required": true,
+    "reason": "Human-seeded cases cannot be independently reviewed by their own author.",
+    "reviewer_pool_nonempty": true,
+    "semantic_cases_require_human_review": true
   },
   "pretraining_sequence": [
     "bind custodians and human author/reviewer pools",
@@ -93,6 +79,20 @@
     "freeze admitted bank and all plaintext-bearing artifact hashes",
     "publish non-plaintext sealed commitment to training lane"
   ],
-  "current_binding_present": false,
-  "claim_ceiling": "CUSTODIAN_REQUIREMENTS_AND_ALL_NONPLAINTEXT_SPECS_FROZEN / IDENTITIES_UNBOUND / NO_FINAL_BANK / NO_TRAINING"
+  "schema": "V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1",
+  "status": "FROZEN_REQUIREMENTS_NO_CUSTODIANS_BOUND",
+  "synthetic_custodian_requirements": {
+    "candidate_model_forbidden": true,
+    "count": 2,
+    "different_exact_models": true,
+    "different_model_families": true,
+    "distinct_exact_provider_runtime_identity": true,
+    "frozen_generation_spec_required": true,
+    "identity_receipt_sha256_required": true,
+    "labels": [
+      "A",
+      "B"
+    ],
+    "qwen_lineage_forbidden": true
+  }
 }

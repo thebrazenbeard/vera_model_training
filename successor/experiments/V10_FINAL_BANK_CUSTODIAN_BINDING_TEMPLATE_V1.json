@@ -1,38 +1,22 @@
 {
-  "schema": "V10_FINAL_BANK_CUSTODIAN_BINDING_TEMPLATE_V1",
-  "date": "2026-10-02",
-  "status": "UNBOUND_TEMPLATE_DO_NOT_USE_AS_BINDING",
+  "claim_ceiling": "TEMPLATE_ONLY / NO IDENTITIES BOUND / NO FINAL PLAINTEXT / NOT READY FOR GENERATION / NO TRAINING",
   "composition_subject": {
-    "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
-    "generation_spec_sha256": "2e405ffe2bb7ff6c9451cfbaf96c8c263121c1e024aa394111b876d0517332e0",
-    "grader_spec_sha256": "073a06b08aa41554f1a3726c896d7d27008e2b5b43df48e3eef24f57150dc0c0",
-    "family_manifest_spec_sha256": "657ed4b9bfa6af2a059720c288f7f05d8c1bdfb5aba965956e3f5a771062ce69",
-    "diversity_diagnostic_spec_sha256": "fd3380bcbc10b89229bc03eea17bfe108f66394d8b168e352a1e6c9ba469be84"
+    "diversity_diagnostic_spec_sha256": "7fad77f64639f1ef029695967440e671a3058f14ab603434fa22fcb9e6aaec19",
+    "family_manifest_spec_sha256": "848779b7d4e1d41f9f13cb78c5963638ddbfa34865961ac4896a388bd58da3b2",
+    "generation_spec_sha256": "6d89b65f394b98cee08b30a90e76cb8bdb66dcc23c74a5121cbf9d0bd8a7fa81",
+    "grader_spec_sha256": "9dbd29d4a47a535154e57cc9b82de2725ed708e93c770cb23b6cd8f53bc6c225",
+    "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
   },
-  "synthetic_custodians": {
-    "A": {
-      "actor_id": null,
-      "provider": null,
-      "model": null,
-      "model_family": null,
-      "revision": null,
-      "runtime": null,
-      "seed": null,
-      "sampling": null,
-      "identity_receipt_sha256": null
-    },
-    "B": {
-      "actor_id": null,
-      "provider": null,
-      "model": null,
-      "model_family": null,
-      "revision": null,
-      "runtime": null,
-      "seed": null,
-      "sampling": null,
-      "identity_receipt_sha256": null
-    }
+  "custody": {
+    "access_control_receipt_sha256": null,
+    "candidate_development_access": false,
+    "hash_only_publication_before_candidate_freeze": true,
+    "plaintext_sealed_until_candidate_freeze": true,
+    "surface_class": "INDEPENDENT_CUSTODY_EVALUATION_LANE",
+    "surface_id": null,
+    "training_lane_access": false
   },
+  "date": "2026-10-02",
   "human_authors": [
     {
       "actor_id": null,
@@ -45,28 +29,44 @@
       "private_identity_attestation_sha256": null
     }
   ],
-  "custody": {
-    "surface_id": null,
-    "surface_class": "INDEPENDENT_CUSTODY_EVALUATION_LANE",
-    "training_lane_access": false,
-    "candidate_development_access": false,
-    "hash_only_publication_before_candidate_freeze": true,
-    "plaintext_sealed_until_candidate_freeze": true,
-    "access_control_receipt_sha256": null
-  },
   "instructions": {
+    "do_not_add_final_plaintext_to_this_file": true,
+    "human_author_and_reviewer_actor_ids_must_be_disjoint": true,
     "required_runtime_schema_after_filling": "V10_FINAL_BANK_CUSTODIAN_BINDING_V1",
     "required_runtime_status_after_filling": "BOUND_FOR_PRETRAINING_SEALED_BANK",
     "synthetic_A_and_B_must_be_different_non_Qwen_model_families": true,
-    "human_author_and_reviewer_actor_ids_must_be_disjoint": true,
-    "do_not_add_final_plaintext_to_this_file": true,
-    "verify_with": "successor/experiments/verify_v10_final_bank_custodian_handoff.py",
     "verify_exact_specs": [
       "generation_spec_sha256",
       "grader_spec_sha256",
       "family_manifest_spec_sha256",
       "diversity_diagnostic_spec_sha256"
-    ]
+    ],
+    "verify_with": "successor/experiments/verify_v10_final_bank_custodian_handoff.py"
   },
-  "claim_ceiling": "TEMPLATE_ONLY / NO IDENTITIES BOUND / NO FINAL PLAINTEXT / NOT READY FOR GENERATION / NO TRAINING"
+  "schema": "V10_FINAL_BANK_CUSTODIAN_BINDING_TEMPLATE_V1",
+  "status": "UNBOUND_TEMPLATE_DO_NOT_USE_AS_BINDING",
+  "synthetic_custodians": {
+    "A": {
+      "actor_id": null,
+      "identity_receipt_sha256": null,
+      "model": null,
+      "model_family": null,
+      "provider": null,
+      "revision": null,
+      "runtime": null,
+      "sampling": null,
+      "seed": null
+    },
+    "B": {
+      "actor_id": null,
+      "identity_receipt_sha256": null,
+      "model": null,
+      "model_family": null,
+      "provider": null,
+      "revision": null,
+      "runtime": null,
+      "sampling": null,
+      "seed": null
+    }
+  }
 }

@@ -1,0 +1,65 @@
+{
+  "boundaries": {
+    "contains_final_plaintext": false,
+    "generation_authorized": false,
+    "training_authorized": false
+  },
+  "claim_ceiling": "CURRENT NONPLAINTEXT CUSTODY BINDING STATE / SYNTHETIC A B BOUND / HUMAN AUTHOR REVIEWER AND INDEPENDENT CUSTODY UNBOUND / HOLD",
+  "composition_subject": {
+    "diversity_diagnostic_spec_sha256": "7fad77f64639f1ef029695967440e671a3058f14ab603434fa22fcb9e6aaec19",
+    "family_manifest_spec_sha256": "848779b7d4e1d41f9f13cb78c5963638ddbfa34865961ac4896a388bd58da3b2",
+    "generation_spec_sha256": "6d89b65f394b98cee08b30a90e76cb8bdb66dcc23c74a5121cbf9d0bd8a7fa81",
+    "grader_spec_sha256": "9dbd29d4a47a535154e57cc9b82de2725ed708e93c770cb23b6cd8f53bc6c225",
+    "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+  },
+  "custody": {
+    "access_control_receipt_sha256": null,
+    "candidate_development_access": false,
+    "hash_only_publication_before_candidate_freeze": true,
+    "plaintext_sealed_until_candidate_freeze": true,
+    "surface_class": "INDEPENDENT_CUSTODY_EVALUATION_LANE",
+    "surface_id": null,
+    "training_lane_access": false
+  },
+  "date": "2026-10-03",
+  "human_authors": [],
+  "human_reviewers": [],
+  "schema": "V10_FINAL_BANK_CUSTODIAN_BINDING_V1",
+  "status": "HOLD_HUMAN_AND_INDEPENDENT_CUSTODY_UNBOUND",
+  "synthetic_custodians": {
+    "A": {
+      "actor_id": "custodian-A-ministral3-14b-ollama-v1",
+      "identity_receipt_sha256": "51e04d25b5d599f5bc1b7d7ffa40e4afae4fe027a6a8dd8b9796b56a33443d7a",
+      "model": "ministral-3:14b",
+      "model_family": "mistral3",
+      "provider": "OLLAMA_LOCAL",
+      "revision": "ollama-manifest-sha256:4760c35aeb9d9e9c6174c2492562c0b999e80a222804fd96b1915ab72bbcdcf7",
+      "runtime": "ollama version is 0.34.2",
+      "sampling": {
+        "do_sample": true,
+        "seed_strategy": "SHA256(actor_id,lane,dimension,family_index)->uint32",
+        "temperature": 0.6,
+        "top_k": 40,
+        "top_p": 0.9
+      },
+      "seed": 2026100301
+    },
+    "B": {
+      "actor_id": "custodian-B-smollm3-3b-transformers-v1",
+      "identity_receipt_sha256": "0c97476ecce0f58ee7e4bce57cd2b91893de7b6f7fe57bb86e2d8a2b82e5896c",
+      "model": "HuggingFaceTB/SmolLM3-3B",
+      "model_family": "smollm3",
+      "provider": "LOCAL_TRANSFORMERS",
+      "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+      "runtime": "python 3.12.10 / transformers 5.17.0 / torch 2.14.0+cu130",
+      "sampling": {
+        "do_sample": true,
+        "seed_strategy": "SHA256(actor_id,lane,dimension,family_index)->uint32",
+        "temperature": 0.6,
+        "top_k": 40,
+        "top_p": 0.9
+      },
+      "seed": 2026100302
+    }
+  }
+}
