@@ -1133,3 +1133,34 @@ def test_training_execution_binding_detects_preflight_evaluator_substitution(
     assert "training_execution:preflight_git_blob_sha_mismatch" in payload[
         "reasons"
     ]
+
+def test_execution_binding_accepts_git_clean_filter_identity_for_crlf_checkout(
+    tmp_path: Path,
+) -> None:
+    _v2_sealed_hold_fixture(tmp_path)
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "config", "core.autocrlf", "true"],
+        cwd=tmp_path,
+        check=True,
+    )
+    (tmp_path / ".gitattributes").write_text("*.py text\n", encoding="utf-8")
+
+    paths = [
+        tmp_path / "successor/evaluate_successor.py",
+        tmp_path / "successor/experiments/train_v10_qwen35_authorized.py",
+    ]
+    for path in paths:
+        raw = path.read_bytes()
+        path.write_bytes(raw.replace(b"\n", b"\r\n"))
+
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--v10-preflight-root", str(tmp_path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    payload = json.loads(result.stdout)
+    assert result.returncode == 2
+    assert payload["training_execution"]["status"] == "VERIFIED"
+    assert not any("git_blob_sha_mismatch" in reason for reason in payload["reasons"])

@@ -228,6 +228,42 @@ def test_runtime_observation_requires_exact_bound_packages() -> None:
         runner.validate_runtime_observation(binding, observed)
 
 
+def test_runtime_observation_allows_one_mib_vram_reporting_rounding() -> None:
+    binding = _runtime_binding()
+    observed = {
+        "python_version": "3.12.10",
+        "gpu": "gpu",
+        "vram_mib": 4095,
+        "driver": "driver",
+        "cuda_runtime": "13.0",
+        "packages": dict(binding["packages"]),
+        "base_artifacts": dict(binding["base_artifacts"]),
+    }
+
+    result = runner.validate_runtime_observation(binding, observed)
+    assert result["status"] == "PASS"
+    assert result["vram_delta_mib"] == 1
+
+
+def test_runtime_observation_rejects_material_vram_difference() -> None:
+    binding = _runtime_binding()
+    observed = {
+        "python_version": "3.12.10",
+        "gpu": "gpu",
+        "vram_mib": 4080,
+        "driver": "driver",
+        "cuda_runtime": "13.0",
+        "packages": dict(binding["packages"]),
+        "base_artifacts": dict(binding["base_artifacts"]),
+    }
+
+    with pytest.raises(
+        runner.TrainingHold,
+        match="runtime target mismatch:vram_mib:4080!=4096",
+    ):
+        runner.validate_runtime_observation(binding, observed)
+
+
 def test_execution_spec_matches_frozen_recipe() -> None:
     spec = runner.default_execution_spec()
     result = runner.validate_execution_spec(_contract(), spec)

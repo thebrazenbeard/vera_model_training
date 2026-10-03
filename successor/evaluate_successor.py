@@ -318,6 +318,29 @@ def _git_blob_sha(raw: bytes) -> str:
     return hashlib.sha1(header + raw).hexdigest()
 
 
+def _working_tree_git_blob_sha(root, path) -> str:
+    import subprocess
+
+    if not (root / ".git").exists():
+        return _git_blob_sha(path.read_bytes())
+    try:
+        relative = path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        return _git_blob_sha(path.read_bytes())
+    result = subprocess.run(
+        ["git", "-C", str(root), "hash-object", f"--path={relative}", str(path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    observed = result.stdout.strip().lower()
+    if result.returncode == 0 and len(observed) == 40 and all(
+        ch in "0123456789abcdef" for ch in observed
+    ):
+        return observed
+    return _git_blob_sha(path.read_bytes())
+
+
 def _execution_spec_contract_reasons(contract, spec):
     reasons = []
     recipe = contract.get("training_recipe", {})
@@ -453,7 +476,7 @@ def _training_execution_evidence(root, base, contract):
         if not runner_path.is_file():
             raw_reasons.append("runner_file_missing")
         else:
-            observed_blob = _git_blob_sha(runner_path.read_bytes())
+            observed_blob = _working_tree_git_blob_sha(root, runner_path)
             if observed_blob != runner.get("git_blob_sha"):
                 raw_reasons.append("runner_git_blob_sha_mismatch")
 
@@ -476,8 +499,8 @@ def _training_execution_evidence(root, base, contract):
         if not preflight_path.is_file():
             raw_reasons.append("preflight_file_missing")
         else:
-            observed_preflight_blob = _git_blob_sha(
-                preflight_path.read_bytes()
+            observed_preflight_blob = _working_tree_git_blob_sha(
+                root, preflight_path
             )
             if observed_preflight_blob != preflight.get("git_blob_sha"):
                 raw_reasons.append("preflight_git_blob_sha_mismatch")
