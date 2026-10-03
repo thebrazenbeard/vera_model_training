@@ -1,0 +1,98 @@
+{
+  "adversarial": {
+    "cases_per_family": 5,
+    "dimensions": "H01-H20",
+    "families_per_dimension": 20,
+    "family_provenance_per_dimension": {
+      "human_seeded": 4,
+      "synthetic_A": 8,
+      "synthetic_B": 8
+    },
+    "rows_per_dimension": 100,
+    "total_families": 400,
+    "total_rows": 2000
+  },
+  "behavioral": {
+    "cases_per_family": 10,
+    "dimensions": "H01-H20",
+    "families_per_dimension": 50,
+    "family_provenance_per_dimension": {
+      "human_seeded": 10,
+      "synthetic_A": 20,
+      "synthetic_B": 20
+    },
+    "rows_per_dimension": 500,
+    "total_families": 1000,
+    "total_rows": 10000
+  },
+  "case_generation_rules": {
+    "deficit_replacement_requires_new_generation_and_review": true,
+    "derivative_cases_must_preserve_derivative_provenance": true,
+    "entity_value_style_swaps_do_not_create_new_family": true,
+    "family_independence_semantic_not_surface": true,
+    "human_seeded_family_requires_at_least_one_genuinely_human_authored_case": true,
+    "rejected_cases_quarantined_not_edited_in_place": true
+  },
+  "claim_ceiling": "CUSTODIAN_REQUIREMENTS_AND_ALL_NONPLAINTEXT_SPECS_FROZEN / IDENTITIES_UNBOUND / NO_FINAL_BANK / NO_TRAINING",
+  "composition_subject": {
+    "diversity_diagnostic_spec_path": "successor/experiments/V10_FINAL_BANK_DIVERSITY_DIAGNOSTIC_SPEC_V1.json",
+    "diversity_diagnostic_spec_sha256": "7fad77f64639f1ef029695967440e671a3058f14ab603434fa22fcb9e6aaec19",
+    "family_manifest_spec_path": "successor/experiments/V10_FINAL_BANK_FAMILY_MANIFEST_SPEC_V1.json",
+    "family_manifest_spec_sha256": "848779b7d4e1d41f9f13cb78c5963638ddbfa34865961ac4896a388bd58da3b2",
+    "generation_spec_path": "successor/experiments/V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1.json",
+    "generation_spec_sha256": "6d89b65f394b98cee08b30a90e76cb8bdb66dcc23c74a5121cbf9d0bd8a7fa81",
+    "grader_spec_path": "successor/experiments/V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1.json",
+    "grader_spec_sha256": "9dbd29d4a47a535154e57cc9b82de2725ed708e93c770cb23b6cd8f53bc6c225",
+    "proposal_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9",
+    "proposal_path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md"
+  },
+  "current_binding_present": false,
+  "custody_requirements": {
+    "access_control_receipt_sha256_required": true,
+    "candidate_development_access": false,
+    "hash_only_publication_before_candidate_freeze": true,
+    "plaintext_sealed_until_candidate_freeze": true,
+    "surface_class": "INDEPENDENT_CUSTODY_EVALUATION_LANE",
+    "training_lane_access": false
+  },
+  "date": "2026-10-01",
+  "human_requirements": {
+    "author_and_reviewer_pools_disjoint": true,
+    "author_pool_nonempty": true,
+    "llm_review_does_not_substitute_for_human_review": true,
+    "private_identity_attestation_sha256_required": true,
+    "reason": "Human-seeded cases cannot be independently reviewed by their own author.",
+    "reviewer_pool_nonempty": true,
+    "semantic_cases_require_human_review": true
+  },
+  "pretraining_sequence": [
+    "bind custodians and human author/reviewer pools",
+    "verify amended composition proposal plus frozen generation, grader, family-manifest, and diversity-diagnostic specifications",
+    "generate plaintext inside independent custody lane",
+    "hash raw generation bundles immediately",
+    "run exact/normalized exclusion",
+    "run frozen semantic contamination screen",
+    "conduct deterministic audits and independent human semantic review",
+    "validate exact family provenance composition",
+    "produce aggregate diversity diagnostics under the frozen diagnostic method",
+    "quarantine rejects and fill deficits with newly generated/reviewed cases",
+    "freeze admitted bank and all plaintext-bearing artifact hashes",
+    "publish non-plaintext sealed commitment to training lane"
+  ],
+  "schema": "V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1",
+  "status": "FROZEN_REQUIREMENTS_NO_CUSTODIANS_BOUND",
+  "synthetic_custodian_requirements": {
+    "candidate_model_forbidden": true,
+    "count": 2,
+    "different_exact_models": true,
+    "different_model_families": true,
+    "distinct_exact_provider_runtime_identity": true,
+    "frozen_generation_spec_required": true,
+    "identity_receipt_sha256_required": true,
+    "labels": [
+      "A",
+      "B"
+    ],
+    "qwen_lineage_forbidden": true
+  }
+}

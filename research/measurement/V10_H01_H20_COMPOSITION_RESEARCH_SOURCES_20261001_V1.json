@@ -1,0 +1,94 @@
+{
+  "schema": "V10_H01_H20_COMPOSITION_RESEARCH_SOURCES_V1",
+  "date": "2026-10-01",
+  "purpose": "Design provenance for V10 H01-H20 final-bank composition and custody proposal.",
+  "sources": [
+    {
+      "id": "LIVEBENCH",
+      "role": "DESIGN_AND_SHADOW_REFERENCE",
+      "repository": "LiveBench/LiveBench",
+      "revision": "8f8e5c381a16e3f24257776edd53471fe86f8091",
+      "observed_head_date": "2026-09-29",
+      "license_observation": "Repository LICENSE contains Apache-2.0 and MIT upstream notices.",
+      "relevant_claims": [
+        "rolling refreshed questions to reduce contamination risk",
+        "objective verifiable ground truth without LLM judge",
+        "multiple capability categories"
+      ],
+      "final_bank_plaintext_source": false
+    },
+    {
+      "id": "HELM_CAPABILITIES",
+      "role": "DESIGN_REFERENCE",
+      "source": "Stanford CRFM HELM Capabilities",
+      "observed_version": "v1.7.0",
+      "observed_on": "2026-10-01",
+      "relevant_claims": [
+        "scenario taxonomy and transparent prompt-level reporting",
+        "reproducible evaluation framework",
+        "capability-specific scenario selection"
+      ],
+      "final_bank_plaintext_source": false
+    },
+    {
+      "id": "HELM_INSTRUCT",
+      "role": "DESIGN_REFERENCE",
+      "source": "Stanford CRFM HELM Instruct",
+      "observed_on": "2026-10-01",
+      "relevant_claims": [
+        "multidimensional instruction evaluation",
+        "multiple evaluator and criterion design"
+      ],
+      "final_bank_plaintext_source": false
+    },
+    {
+      "id": "GPQA",
+      "role": "SHADOW_REFERENCE_ONLY",
+      "source": "GPQA as described by HELM Capabilities",
+      "observed_on": "2026-10-01",
+      "custody_note": "HELM records a request not to reveal examples publicly to reduce training leakage.",
+      "final_bank_plaintext_source": false
+    },
+    {
+      "id": "BIG_BENCH",
+      "role": "HISTORICAL_DESIGN_REFERENCE",
+      "repository": "google/BIG-bench",
+      "observed_on": "2026-10-01",
+      "archived_on": "2026-04-17",
+      "license": "Apache-2.0",
+      "final_bank_plaintext_source": false
+    },
+    {
+      "id": "MT_BENCH_JUDGE",
+      "role": "JUDGE_BIAS_EVIDENCE",
+      "arxiv": "2306.05685",
+      "title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+      "relevant_claims": [
+        "position bias",
+        "verbosity bias",
+        "self-enhancement bias",
+        "limited reasoning as judge"
+      ]
+    },
+    {
+      "id": "POSITION_BIAS_2024",
+      "role": "JUDGE_BIAS_EVIDENCE",
+      "arxiv": "2406.07791",
+      "title": "Judging the Judges: A Systematic Study of Position Bias in LLM-as-a-Judge"
+    },
+    {
+      "id": "SELF_PREFERENCE_2024",
+      "role": "JUDGE_BIAS_EVIDENCE",
+      "arxiv": "2410.21819",
+      "title": "Self-Preference Bias in LLM-as-a-Judge"
+    },
+    {
+      "id": "JUDGEARENA_2026",
+      "role": "CURRENT_JUDGE_FRAMEWORK_REFERENCE",
+      "arxiv": "2608.02620",
+      "title": "JudgeArena: A Unified Framework for Reproducible LLM-Judge Evaluation",
+      "observed_on": "2026-10-01"
+    }
+  ],
+  "claim_ceiling": "RESEARCH_PROVENANCE_ONLY / DOES_NOT ADMIT FINAL CASES / DOES_NOT AUTHORIZE TRAINING"
+}

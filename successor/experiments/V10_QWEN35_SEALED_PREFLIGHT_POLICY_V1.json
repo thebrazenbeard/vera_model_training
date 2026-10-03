@@ -1,0 +1,99 @@
+{
+  "schema": "V10_QWEN35_SEALED_PREFLIGHT_POLICY_V1",
+  "date": "2026-10-01",
+  "status": "MECHANISM_FROZEN_NO_FINAL_BANK_OR_TRAINING_AUTHORITY_GRANTED",
+  "source_contract": {
+    "schema": "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V2",
+    "experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_20261001_V2"
+  },
+  "sealed_final_bank": {
+    "commitment_filename": "V10_SEALED_FINAL_BANK_COMMITMENT_V1.json",
+    "required_schema": "V10_SEALED_FINAL_BANK_COMMITMENT_V1",
+    "self_hash_required": true,
+    "plaintext_forbidden": true,
+    "may_derive_preconditions": [
+      "fresh_evaluation_bank_frozen",
+      "independent_bank_admission_verified",
+      "semantic_contamination_screen_verified"
+    ],
+    "may_not_derive": [
+      "qwen_token_budget_no_overflow_verified",
+      "zero_cost_execution_target_bound",
+      "exact_training_runtime_versions_bound",
+      "patrick_exact_weight_change_authority"
+    ],
+    "trust_boundary": "Validates committed counts, hashes, custody metadata, and admission receipt states without revealing final plaintext. It does not independently prove a human identity or review honesty before reveal; later reveal must hash-match the commitment, and Patrick's exact training authority remains separate."
+  },
+  "training_authority": {
+    "receipt_filename": "V10_QWEN35_TRAINING_AUTHORITY_V1.json",
+    "receipt_must_not_exist_until_explicit_exact_user_authority": true,
+    "contract_boolean_alone_is_insufficient": true,
+    "required_bindings": [
+      "experiment_id",
+      "base_model_revision",
+      "training_corpus_id",
+      "train_sha256",
+      "validation_sha256",
+      "training_recipe_sha256",
+      "sealed_final_bank_commitment_sha256",
+      "training_runtime_binding_sha256",
+      "training_execution_binding_sha256",
+      "effect=TRAIN_ONE_FRESH_QLORA_ADAPTER",
+      "max_training_runs=1",
+      "output_namespace"
+    ],
+    "protected_effect_boundaries": {
+      "paid_compute_authorized": false,
+      "merge_authorized": false,
+      "install_activate_deploy_authorized": false
+    },
+    "self_hash_required": true
+  },
+  "current_state": {
+    "sealed_final_bank_commitment_present": false,
+    "exact_training_authority_present": false,
+    "training_allowed": false,
+    "training_runtime_binding_present": true,
+    "training_runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "training_execution_binding_present": true,
+    "training_execution_binding_sha256": "816c2af072537e096cac68e7435dfbb158b000701dd2be0076a250980c0c2f99"
+  },
+  "claim_ceiling": "SEALED_PREFLIGHT_RUNTIME_EXECUTION_AND_AUTHORITY_MECHANISM_VERIFIED / RUNTIME_EXECUTION_PREFLIGHT_SUBJECTS_BOUND / NO_FINAL_BANK_COMMITMENT / NO_TRAINING_AUTHORITY / NO_WEIGHT_CHANGE",
+  "training_runtime": {
+    "binding_filename": "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json",
+    "required_schema": "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1",
+    "expected_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "contract_boolean_alone_is_insufficient": true,
+    "required_packages": [
+      "torch",
+      "transformers",
+      "trl",
+      "peft",
+      "bitsandbytes",
+      "datasets",
+      "accelerate",
+      "safetensors",
+      "huggingface_hub",
+      "tokenizers",
+      "jinja2",
+      "numpy"
+    ],
+    "base_artifact_hashes_required": true,
+    "token_preflight_receipt_binding_required": true,
+    "live_reverification_required_immediately_before_weight_change": true
+  },
+  "training_execution": {
+    "binding_filename": "V10_QWEN35_TRAINING_EXECUTION_BINDING_V1.json",
+    "expected_binding_sha256": "816c2af072537e096cac68e7435dfbb158b000701dd2be0076a250980c0c2f99",
+    "runner_path": "successor/experiments/train_v10_qwen35_authorized.py",
+    "runner_git_blob_sha": "558e0445fde1c90ad3137d141a94373d96309fd3",
+    "preflight_evaluator_path": "successor/evaluate_successor.py",
+    "preflight_evaluator_git_blob_sha": "5e224f45cab20424bf156935ab94de971c446567",
+    "execution_spec_path": "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
+    "execution_spec_sha256": "bc73ece4f33e480683027e3c4e6c9f59d796809f9bb311348e95b91aa5df6660",
+    "runner_substitution_policy": "HOLD",
+    "preflight_substitution_policy": "HOLD",
+    "spec_substitution_policy": "HOLD",
+    "authority_binding_required": true
+  }
+}
