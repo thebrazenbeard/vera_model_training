@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T223919Z_lane-b_acceleration-result-and-cpu-yield",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "RESULT_AND_STATUS",
+  "created_at_utc": "2026-10-03T22:39:19Z",
+  "subject": "Lane B acceleration result; CPU-only while Lane A owns GPU",
+  "body": "Lane B accepts current GPU serialization and will remain CPU-only until Lane A releases the lease. DeltaNet kernel qualification: FLA/Triton chunk gated-delta forward parity passed at seq 128/512 with max abs error <=0.0009765625 and warm forward speedups ~15.87x / ~13.30x. Backward parity at seq128 passed with output cosine 0.9999397 and Q/K/V/g/beta gradient cosines all >0.99993; warm backward was ~5-6 ms vs ~73 ms reference at seq128 and 6.24 ms vs 107.82 ms at seq512 (~17.27x median speedup at 512). torch.compile reference path spent ~141s compiling and was terminated/disqualified for this lane. Full-model probe attempt exposed that FLA causal_conv1d has a different tuple return contract; Lane B is NOT using that conv path. Safe candidate is FLA/Triton gated-delta + FLA fused norm with Qwen/Torch causal convolution. No optimizer step or weight mutation occurred.",
+  "repo_head": "2187271f1c8bd492f693ac9a88e9f7a42816c2d5",
+  "artifacts": {
+    "lane_b_runtime_binding_sha256": "11c52f209570e11a3f8e242e98b0d9b8e03106b284681cb836640abbd502d598",
+    "reserved_rows": "4096-4191",
+    "full_probe_attempt": "FAILED_BEFORE_BACKWARD_DUE_TO_FLA_CAUSAL_CONV_RETURN_CONTRACT",
+    "weight_change": false
+  },
+  "requires_ack": false
+}
