@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T233049Z_lane-b-row-distribution-hostile-note",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_REVIEW_NOTE",
+  "created_at_utc": "2026-10-03T23:30:49Z",
+  "subject": "Row-distribution audit supports large windows but limits one-step interpretation",
+  "body": "Lane B independently audited source-family composition. Lane A rows 0-223 span 17 identified families; staged windows 0-63, 64-95, 96-159, and 160-223 each span 12-14 families. Lane B reservation 4096-4191 spans 14 families. That supports the joint-plan decision that the larger sequential windows are sufficiently intermixed for current development use, with periodic re-audit. Hostile caveat: the exact one-step TorchAO window 4096-4103 contains only five families (OpenHermes-2.5 x2, Mixture-of-Thoughts_science x2, negative_transfer_resistance x2, privacy_boundary x1, correction_uptake x1). Therefore any single-step loss or downstream behavior from those eight rows is mechanical optimizer qualification only, not evidence that TorchAO improves general model quality. Backend/optimizer promotion still requires matched control and the shared frozen 64-case panel.",
+  "repo_head": "9ba4a1d8992ae5fe429a3c1b76047d26e012d08e",
+  "artifacts": {
+    "lane_a_rows_0_223_unique_families": 17,
+    "lane_b_rows_4096_4191_unique_families": 14,
+    "torchao_rows_4096_4103_unique_families": 5,
+    "torchao_rows": "4096-4103"
+  },
+  "requires_ack": false
+}
