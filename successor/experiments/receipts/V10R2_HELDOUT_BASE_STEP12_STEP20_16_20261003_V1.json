@@ -1,0 +1,433 @@
+{
+  "candidates": [
+    {
+      "adapter_dir": null,
+      "adapter_model_sha256": null,
+      "cases": [
+        {
+          "loss": 0.9608898758888245,
+          "nll": 359.37281358242035,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+          "valid_completion_tokens": 374
+        },
+        {
+          "loss": 1.9892170429229736,
+          "nll": 75.590247631073,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 3.0439388751983643,
+          "nll": 371.36054277420044,
+          "record_id": "v4.1-correction_uptake-0731",
+          "valid_completion_tokens": 122
+        },
+        {
+          "loss": 2.9745607376098633,
+          "nll": 336.12536334991455,
+          "record_id": "v4.1-correction_uptake-0880",
+          "valid_completion_tokens": 113
+        },
+        {
+          "loss": 1.0910367965698242,
+          "nll": 286.94267749786377,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+          "valid_completion_tokens": 263
+        },
+        {
+          "loss": 2.8096776008605957,
+          "nll": 106.76774883270264,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.6612324714660645,
+          "nll": 340.63775634765625,
+          "record_id": "v4.1-privacy_boundary-0686",
+          "valid_completion_tokens": 128
+        },
+        {
+          "loss": 2.8996803760528564,
+          "nll": 34.79616451263428,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 1.717490315437317,
+          "nll": 73.85208356380463,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+          "valid_completion_tokens": 43
+        },
+        {
+          "loss": 1.9275553226470947,
+          "nll": 63.609325647354126,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+          "valid_completion_tokens": 33
+        },
+        {
+          "loss": 2.2705020904541016,
+          "nll": 22.705020904541016,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+          "valid_completion_tokens": 10
+        },
+        {
+          "loss": 2.5795371532440186,
+          "nll": 49.01120591163635,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+          "valid_completion_tokens": 19
+        },
+        {
+          "loss": 0.687896728515625,
+          "nll": 8.942657470703125,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+          "valid_completion_tokens": 13
+        },
+        {
+          "loss": 1.1735856533050537,
+          "nll": 23.471713066101074,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+          "valid_completion_tokens": 20
+        },
+        {
+          "loss": 1.8972567319869995,
+          "nll": 113.83540391921997,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+          "valid_completion_tokens": 60
+        },
+        {
+          "loss": 1.5367735624313354,
+          "nll": 617.7829720973969,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a",
+          "valid_completion_tokens": 402
+        }
+      ],
+      "completion_perplexity": 5.523473554853725,
+      "completion_token_count": 1688,
+      "eval_seconds": 6.699,
+      "mean_case_loss": 2.013801958411932,
+      "median_case_loss": 1.9583861827850342,
+      "model_load_seconds": 10.297,
+      "name": "base",
+      "peak_allocated_mib": 4134.008,
+      "peak_reserved_mib": 5234.0,
+      "sample_count": 16,
+      "token_weighted_completion_nll": 1.709006929567075
+    },
+    {
+      "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont4-plus8-20261003\\adapter",
+      "adapter_model_sha256": "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3",
+      "cases": [
+        {
+          "loss": 0.9119577407836914,
+          "nll": 341.0721950531006,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+          "valid_completion_tokens": 374
+        },
+        {
+          "loss": 1.8582807779312134,
+          "nll": 70.61466956138611,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 3.014540910720825,
+          "nll": 367.7739911079407,
+          "record_id": "v4.1-correction_uptake-0731",
+          "valid_completion_tokens": 122
+        },
+        {
+          "loss": 2.927435874938965,
+          "nll": 330.800253868103,
+          "record_id": "v4.1-correction_uptake-0880",
+          "valid_completion_tokens": 113
+        },
+        {
+          "loss": 1.076678991317749,
+          "nll": 283.166574716568,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+          "valid_completion_tokens": 263
+        },
+        {
+          "loss": 2.739100933074951,
+          "nll": 104.08583545684814,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.639432430267334,
+          "nll": 337.84735107421875,
+          "record_id": "v4.1-privacy_boundary-0686",
+          "valid_completion_tokens": 128
+        },
+        {
+          "loss": 2.899365186691284,
+          "nll": 34.79238224029541,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 1.6670557260513306,
+          "nll": 71.68339622020721,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+          "valid_completion_tokens": 43
+        },
+        {
+          "loss": 1.7714635133743286,
+          "nll": 58.458295941352844,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+          "valid_completion_tokens": 33
+        },
+        {
+          "loss": 2.211211681365967,
+          "nll": 22.112116813659668,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+          "valid_completion_tokens": 10
+        },
+        {
+          "loss": 2.452096939086914,
+          "nll": 46.58984184265137,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+          "valid_completion_tokens": 19
+        },
+        {
+          "loss": 0.6820545196533203,
+          "nll": 8.866708755493164,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+          "valid_completion_tokens": 13
+        },
+        {
+          "loss": 1.1580966711044312,
+          "nll": 23.161933422088623,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+          "valid_completion_tokens": 20
+        },
+        {
+          "loss": 1.8748469352722168,
+          "nll": 112.49081611633301,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+          "valid_completion_tokens": 60
+        },
+        {
+          "loss": 1.4895331859588623,
+          "nll": 598.7923407554626,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a",
+          "valid_completion_tokens": 402
+        }
+      ],
+      "completion_perplexity": 5.291277225086791,
+      "completion_token_count": 1688,
+      "eval_seconds": 6.977,
+      "mean_case_loss": 1.9608220010995865,
+      "median_case_loss": 1.866563856601715,
+      "model_load_seconds": 12.232,
+      "name": "step12",
+      "peak_allocated_mib": 4147.875,
+      "peak_reserved_mib": 5196.0,
+      "sample_count": 16,
+      "token_weighted_completion_nll": 1.6660596581431926
+    },
+    {
+      "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont12-plus8-20261003\\adapter",
+      "adapter_model_sha256": "ce3f722d4484214a7caf6372ae828a8a558270ec452882ea790f7a495dcc9c06",
+      "cases": [
+        {
+          "loss": 0.8614085912704468,
+          "nll": 322.1668131351471,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+          "valid_completion_tokens": 374
+        },
+        {
+          "loss": 1.7069690227508545,
+          "nll": 64.86482286453247,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.9780893325805664,
+          "nll": 363.3268985748291,
+          "record_id": "v4.1-correction_uptake-0731",
+          "valid_completion_tokens": 122
+        },
+        {
+          "loss": 2.8915510177612305,
+          "nll": 326.74526500701904,
+          "record_id": "v4.1-correction_uptake-0880",
+          "valid_completion_tokens": 113
+        },
+        {
+          "loss": 1.0541212558746338,
+          "nll": 277.2338902950287,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+          "valid_completion_tokens": 263
+        },
+        {
+          "loss": 2.6302759647369385,
+          "nll": 99.95048666000366,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.602353811264038,
+          "nll": 333.1012878417969,
+          "record_id": "v4.1-privacy_boundary-0686",
+          "valid_completion_tokens": 128
+        },
+        {
+          "loss": 2.8987009525299072,
+          "nll": 34.78441143035889,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 1.613073706626892,
+          "nll": 69.36216938495636,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+          "valid_completion_tokens": 43
+        },
+        {
+          "loss": 1.5815844535827637,
+          "nll": 52.1922869682312,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+          "valid_completion_tokens": 33
+        },
+        {
+          "loss": 2.1223411560058594,
+          "nll": 21.223411560058594,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+          "valid_completion_tokens": 10
+        },
+        {
+          "loss": 2.2575206756591797,
+          "nll": 42.892892837524414,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+          "valid_completion_tokens": 19
+        },
+        {
+          "loss": 0.6721222996711731,
+          "nll": 8.73758989572525,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+          "valid_completion_tokens": 13
+        },
+        {
+          "loss": 1.1156446933746338,
+          "nll": 22.312893867492676,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+          "valid_completion_tokens": 20
+        },
+        {
+          "loss": 1.8354109525680542,
+          "nll": 110.12465715408325,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+          "valid_completion_tokens": 60
+        },
+        {
+          "loss": 1.4295036792755127,
+          "nll": 574.6604790687561,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a",
+          "valid_completion_tokens": 402
+        }
+      ],
+      "completion_perplexity": 5.020626136698174,
+      "completion_token_count": 1688,
+      "eval_seconds": 7.193,
+      "mean_case_loss": 1.8906669728457928,
+      "median_case_loss": 1.7711899876594543,
+      "model_load_seconds": 12.209,
+      "name": "step20",
+      "peak_allocated_mib": 4147.875,
+      "peak_reserved_mib": 5196.0,
+      "sample_count": 16,
+      "token_weighted_completion_nll": 1.6135546543516255
+    }
+  ],
+  "claim_ceiling": "DEVELOPMENT HELDOUT LOSS DIAGNOSTIC ONLY / NOT FINAL BANK / NOT EXTERNAL QUALIFICATION / NOT CHECKPOINT-SELECTION AUTHORITY FOR V10 FINAL",
+  "paired_comparisons": [
+    {
+      "left": "base",
+      "left_case_wins": 0,
+      "right": "step12",
+      "right_case_wins": 16,
+      "right_minus_left_mean_case_loss": -0.052979957312345505,
+      "right_minus_left_median_case_loss": -0.04718261957168579,
+      "ties": 0
+    },
+    {
+      "left": "base",
+      "left_case_wins": 0,
+      "right": "step20",
+      "right_case_wins": 16,
+      "right_minus_left_mean_case_loss": -0.12313498556613922,
+      "right_minus_left_median_case_loss": -0.09124550223350525,
+      "ties": 0
+    },
+    {
+      "left": "step12",
+      "left_case_wins": 0,
+      "right": "step20",
+      "right_case_wins": 16,
+      "right_minus_left_mean_case_loss": -0.07015502825379372,
+      "right_minus_left_median_case_loss": -0.046500563621520996,
+      "ties": 0
+    }
+  ],
+  "role": "POST_TRAIN_DEVELOPMENT_DIAGNOSTIC_NOT_FINAL_BANK",
+  "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+  "runtime_check": {
+    "binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "schema": "V10_QWEN35_LIVE_RUNTIME_CHECK_V1",
+    "status": "PASS",
+    "vram_delta_mib": 1
+  },
+  "runtime_observation": {
+    "base_artifacts": {
+      "model.safetensors-00001-of-00002.safetensors": "36dd0f7de62c546e7d163c2a4461208d731fad91ebea9bc31226b54c1c86511f",
+      "model.safetensors-00002-of-00002.safetensors": "e2fb50b735a8e10210eece763097f906955ca9db6ba557215f549a46b622157f",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+    },
+    "cuda_runtime": "13.0",
+    "driver": "616.92",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "packages": {
+      "accelerate": "1.15.0",
+      "bitsandbytes": "0.50.2",
+      "datasets": "5.0.1",
+      "huggingface_hub": "1.33.0",
+      "jinja2": "3.1.6",
+      "numpy": "2.5.3",
+      "peft": "0.21.0",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.23.2",
+      "torch": "2.14.0+cu130",
+      "transformers": "5.17.0",
+      "trl": "1.13.0"
+    },
+    "python_version": "3.12.10",
+    "vram_mib": 4095
+  },
+  "sample_count": 16,
+  "sample_method": "SHA256_RANK",
+  "sample_record_ids": [
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+    "v4.1-correction_uptake-0731",
+    "v4.1-correction_uptake-0880",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+    "v4.1-privacy_boundary-0686",
+    "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a"
+  ],
+  "sample_record_ids_sha256": "f0e5a827b6398a3a88561873af9a34f61f74c377041f52bdb3b9e814f6e68ef2",
+  "sample_salt": "v10r2-heldout-v1",
+  "schema": "V10R2_HELDOUT_DIAGNOSTIC_V1",
+  "status": "HELDOUT_DIAGNOSTIC_COMPLETE",
+  "validation_rows": 2500,
+  "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7"
+}

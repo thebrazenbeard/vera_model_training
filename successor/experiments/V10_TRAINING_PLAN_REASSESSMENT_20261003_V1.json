@@ -1,0 +1,93 @@
+{
+  "schema": "V10_TRAINING_PLAN_REASSESSMENT_V1",
+  "date": "2026-10-03",
+  "status": "ACTIVE_REASSESSED_PLAN",
+  "qualification_spine": {
+    "retention_lane": {
+      "status": "RETENTION_ADMITTED_ARCH_V7",
+      "cases": 1500,
+      "candidate_sha256": "6f47fe7da958abaf02311ae8a740b71d1bc0e9adbac88ce5c2da14139c3792f6",
+      "final_bank_binding": "BOUND"
+    },
+    "behavioral_adversarial_lane": {
+      "required_cases": 12000,
+      "status": "NOT_FINAL_ADMITTED",
+      "human_seed_slots": 280,
+      "mandatory_human_semantic_review_slots": 5400,
+      "mixed_dimension_slots": 6600
+    },
+    "final_bank": {
+      "required_cases": 13500,
+      "status": "NOT_SEALED",
+      "external_human_and_independent_custody_required": true,
+      "requirement_may_not_be_satisfied_by_model_review": true
+    },
+    "claim_rule": "Development adapters may be trained and compared, but none becomes externally qualified V10 until the frozen final-bank gates are genuinely satisfied."
+  },
+  "development_training": {
+    "lane_a": {
+      "role": "CONSERVATIVE_NONPAGED_QLORA_CONTINUATION",
+      "optimizer": "adamw_bnb_8bit",
+      "paged": false,
+      "runtime": "Python 3.12.10 / torch 2.14.0+cu130 / transformers 5.17.0",
+      "latest_checkpoint": {
+        "cumulative_optimizer_steps": 20,
+        "rows_consumed": "0-159",
+        "adapter_sha256": "ce3f722d4484214a7caf6372ae828a8a558270ec452882ea790f7a495dcc9c06",
+        "receipt_sha256": "8ae9ae5de8374f259d89867eee59f0c60c36f1c26a83d01aefb20eac44c62393"
+      },
+      "stage_policy": {
+        "optimizer_steps_per_stage": 8,
+        "rows_per_stage": 64,
+        "row_reuse_forbidden": true,
+        "post_stage_fixed_heldout_diagnostic_required": true,
+        "next_stage_rows": "160-223",
+        "next_expected_cumulative_steps": 28
+      },
+      "checkpoint_rule": "Preserve every stage. Continue only when the fixed held-out diagnostic improves or remains credibly non-regressive; stop or roll back on material regression."
+    },
+    "lane_b": {
+      "role": "ACCELERATED_RUNTIME_KERNEL_AND_EVALUATION",
+      "reserved_rows": "4096-4191",
+      "current_result": "FLA/Triton gated-delta forward/backward mechanically qualified with Torch causal convolution; no optimizer step or weight change in probe.",
+      "collision_rule": "Lane B must use distinct rows, branches, output namespaces, and the shared GPU lease."
+    }
+  },
+  "diagnostics": {
+    "fixed_sample": {
+      "method": "SHA256_RANK",
+      "salt": "v10r2-heldout-v1",
+      "sample_count": 16,
+      "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7"
+    },
+    "step12_token_weighted_completion_nll": 1.6660596581431926,
+    "step20_token_weighted_completion_nll": 1.6135546543516255,
+    "step20_vs_step12_case_wins": 16,
+    "interpretation": "Development evidence supports another bounded stage but is not final-bank qualification.",
+    "expansion_rule": "Use a larger held-out diagnostic before promoting any development checkpoint to a preferred candidate for final-bank evaluation."
+  },
+  "hardware_and_runtime": {
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU 4GB",
+    "shared_gpu_requires_lease": true,
+    "paged_optimizers_forbidden": true,
+    "cuda_toolkit_system": "13.4",
+    "lane_a_torch_cuda_runtime": "13.0",
+    "lane_b_accelerated_runtime": "Python 3.13.5 / torch 2.14.1+cu132 / Triton-Windows 3.8 / FLA",
+    "hot_swap_kernel_mid_checkpoint_forbidden": true
+  },
+  "stop_conditions": [
+    "Held-out regression after a bounded stage.",
+    "Runtime instability, OOM, repeated GPU reset, or unsafe thermal behavior.",
+    "Any mismatch in adapter/spec/receipt/corpus hashes.",
+    "Collision with another lane's GPU lease, rows, output namespace, or exact subject.",
+    "Any attempt to relabel development evidence as final external qualification."
+  ],
+  "authority_boundaries": {
+    "local_development_training_authorized": true,
+    "reasonable_training_method_changes_authorized": true,
+    "paid_compute": false,
+    "merge": false,
+    "deploy_activate": false,
+    "fabricate_human_review_or_custody": false
+  }
+}
