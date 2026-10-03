@@ -1,0 +1,96 @@
+{
+  "case_count": 6,
+  "cases": [
+    {
+      "case_digest": "37088d9f4a6d5ac858bb33c4843fda467407e01ce522925d8e7b6d54a8eca753",
+      "case_id": "late_color",
+      "compact_state": "Patrick purchased a screwdriver.",
+      "decisive_chunk": 0,
+      "exact_required": true,
+      "expected_answer": "red",
+      "query": "What color was the screwdriver?",
+      "source_chunks": [
+        "Patrick bought a red screwdriver on Tuesday at 15:17.",
+        "The next discussion covers unrelated maintenance scheduling.",
+        "Later, tool inventory becomes relevant."
+      ],
+      "source_digest": "9908a89aeb291e5793425fe102b00cec66f1ec14a393f144e3033882f4d15329"
+    },
+    {
+      "case_digest": "eea30831f0307c610a6e7fe12ad9dfb7a4f11d44e28ed0f86ed84a2c684a038e",
+      "case_id": "late_number",
+      "compact_state": "A calibration threshold was approved.",
+      "decisive_chunk": 0,
+      "exact_required": true,
+      "expected_answer": "0.0375 volts",
+      "query": "What exact voltage threshold was approved?",
+      "source_chunks": [
+        "The approved calibration threshold was exactly 0.0375 volts.",
+        "Several pages then discuss unrelated sensor placement.",
+        "The threshold is queried much later."
+      ],
+      "source_digest": "9e5ebc43c08a77ddafb4afa902319838187975518d8abba3377db052918f7e64"
+    },
+    {
+      "case_digest": "8bbc73c4acda4c86ab673dc1ff653998daf5b0e3732c6d7ff0362f1e65a48866",
+      "case_id": "late_identifier",
+      "compact_state": "A recovery artifact identifier exists.",
+      "decisive_chunk": 0,
+      "exact_required": true,
+      "expected_answer": "artifact-sha256-9f12c7",
+      "query": "What is the exact recovery key?",
+      "source_chunks": [
+        "The exact recovery key is artifact-sha256-9f12c7.",
+        "Later notes refer only to the recovery artifact.",
+        "A verification step eventually asks for the exact identifier."
+      ],
+      "source_digest": "9bd7894166a7f4d1c2641eea2a5fa34ec161aea902da84ff3ff7c01491dffb5b"
+    },
+    {
+      "case_digest": "1d98184a86e949f5ca69e0ee2e7e58a253967e3397c8f0a6ee57ae035e59ee4e",
+      "case_id": "superseded_value",
+      "compact_state": "The policy was corrected after an earlier value.",
+      "decisive_chunk": 1,
+      "exact_required": true,
+      "expected_answer": "green",
+      "query": "What is the current exact policy value?",
+      "source_chunks": [
+        "Initial policy value: blue.",
+        "Correction: the current policy value is green.",
+        "Later discussion refers generically to the policy."
+      ],
+      "source_digest": "5824aac5600f291f7f9d86d03283eae433762d1f9f70b55699f7d202f16aec8b"
+    },
+    {
+      "case_digest": "f50d7f085cfe2e7c52bf2806953e81fe25b64d00783fa87e7cef84e414d99252",
+      "case_id": "code_token",
+      "compact_state": "The runtime contains a sentinel token.",
+      "decisive_chunk": 0,
+      "exact_required": true,
+      "expected_answer": "__VeraState_v2__",
+      "query": "What exact sentinel token appears in the code?",
+      "source_chunks": [
+        "The exact sentinel token in code is __VeraState_v2__.",
+        "The remainder of the file discusses runtime behavior.",
+        "A later regression check asks for the exact token."
+      ],
+      "source_digest": "b2769c63205763bef498cdf9ec642dbf71ba52dc9419bc3dfb61ce97b5a1e698"
+    },
+    {
+      "case_digest": "d7b345b65e02dc5c5a81e844c93e392aea4bf4dd000a544e4c8a7a4e8279af16",
+      "case_id": "missing_backing",
+      "compact_state": "A one-time nonce existed, but exact backing is unavailable.",
+      "decisive_chunk": 0,
+      "exact_required": true,
+      "expected_answer": "7B-19-FE",
+      "query": "What exact nonce was recorded?",
+      "source_chunks": [
+        "The source records a one-time exact nonce: 7B-19-FE.",
+        "The backing record is later unavailable."
+      ],
+      "source_digest": "0071a3ab7fa2e3ecf33db5fb5dfd643cdb9209440fecc2a317c5df385055ae2d"
+    }
+  ],
+  "package_digest": "b2ebd02960de4c32b13555ed1d149877d61d5b1611e4700511ad142087b28832",
+  "schema": "VERA_LATENT_PROXY_EXERCISES_V1"
+}
