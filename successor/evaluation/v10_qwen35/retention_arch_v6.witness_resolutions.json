@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-03",
+  "policy": "Evidence-backed adjudication only; reviewer defects are nonblocking only when contradicted by deterministic evidence.",
+  "resolutions": {
+    "ret-code-chunk_list-026": {
+      "evidence": "Prompt phrase 'keep a shorter final chunk' can be read as requiring the final chunk to be shorter even when len(values) is divisible by n. Stored tests permit a full-size final chunk. Intended conditional behavior is not stated explicitly.",
+      "resolution": "BANK_DEFECT_CONFIRMED"
+    },
+    "ret-code-chunk_list-036": {
+      "evidence": "Prompt phrase 'keep a shorter final chunk' can be read as requiring the final chunk to be shorter even when len(values) is divisible by n. Stored tests permit a full-size final chunk. Intended conditional behavior is not stated explicitly.",
+      "resolution": "BANK_DEFECT_CONFIRMED"
+    },
+    "ret-code-clamp_values-008": {
+      "evidence": "Inclusive [low, high] explicitly means values below low clamp to low, values above high clamp to high, and boundary/interior values remain unchanged; stored tests implement exactly that rule.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-clamp_values-025": {
+      "evidence": "Inclusive [low, high] explicitly includes values equal to low/high; stored boundary tests and reference implementation agree.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-flatten_once-014": {
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-flatten_once-019": {
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-flatten_once-027": {
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-flatten_once-029": {
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-flatten_once-035": {
+      "evidence": "Expected [[1], 2, 3] leaves nested [1] intact while removing only the outer groups layer; reviewer reason incorrectly claims [1] became 1.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    },
+    "ret-code-unique_preserve-015": {
+      "evidence": "Contract says remove duplicates while preserving first-occurrence order; [3,2,3,3,2] -> [3,2] is exactly that behavior, and stored non-adjacent/string tests enforce global rather than adjacent-only deduplication.",
+      "resolution": "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE"
+    }
+  },
+  "schema": "RETENTION_AUDIT_ARCH_V6_WITNESS_RESOLUTIONS_V1"
+}

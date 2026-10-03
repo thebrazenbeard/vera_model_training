@@ -1,0 +1,61 @@
+{
+  "boundaries": {
+    "training_authorized": false,
+    "v4_result_is_final_for_v4": true,
+    "v4_retry_authorized": false,
+    "v4_rows_reusable_as_fresh_future_audit_evidence": false,
+    "weight_change_performed": false
+  },
+  "claim_ceiling": "RETENTION_V4_AUDIT_HOLD_PERSISTED / CAUSE_CLASSIFICATION_NOT_INFERRED_BY_THIS_MANIFEST / NOT_RETENTION_ADMITTED / NOT_FULL_FINAL_BANK / NO_TRAINING",
+  "date": "2026-10-02",
+  "experiment_subject": {
+    "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "execution_binding": "successor/experiments/V10_QWEN35_RETENTION_V4_EXECUTION_BINDING_V1.json",
+    "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "protocol_sha256": "488b593eeece7df083cf69496ffac7ef62e7f06af8a910364848d34335e27248"
+  },
+  "observed_summary": {
+    "admit": 10,
+    "family_verdicts": {
+      "evidence-calibration:mode-0": "5 ADMIT",
+      "evidence-calibration:mode-1": "5 ADMIT",
+      "evidence-calibration:mode-2": "5 REJECT"
+    },
+    "hold_reasons": [
+      "missing_family_count:23",
+      "reject_count:5"
+    ],
+    "reject": 5,
+    "reviewed_families": 3,
+    "reviewed_rows": 15
+  },
+  "result_artifacts": {
+    "admission_verifier_result": {
+      "path": "successor/evaluation/v10_qwen35/retention_admission_v4.verify.json",
+      "persistence_canonicalization": "JSON_PARSE_SORT_KEYS_INDENT_2_UTF8_LF",
+      "raw_capture_sha256": "e46843ea41e75de4f8a62b407bd974ed0267702f76ec74438d0ea788e83ae078",
+      "sha256": "b8fde632961c3856d8a7966af056dc3dc2083699fa05c46a39710f72ab0f22af",
+      "status": "HOLD"
+    },
+    "family_audit_receipt": {
+      "path": "successor/evaluation/v10_qwen35/retention_family_audit_v4.receipt.json",
+      "sha256": "1d3a7d77f56096f1d039f5ef33b0b9c794a2fcb71eab9591a022756050c02c0a"
+    },
+    "partial_reviews": {
+      "families": 3,
+      "path": "successor/evaluation/v10_qwen35/retention_family_audit_v4.partial.jsonl",
+      "rows": 15,
+      "sha256": "dfe66a8b742a66ff9a9153ed7a4afb2d89b22a013e5e64a193579d030c671d64"
+    }
+  },
+  "reviewer": {
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261001,
+    "temperature": 0
+  },
+  "schema": "V10_QWEN35_RETENTION_V4_RESULT_MANIFEST_V1",
+  "status": "HOLD"
+}

@@ -1,0 +1,660 @@
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+from pathlib import Path
+
+from successor import build_v4_custom_corpus as v4
+
+SCHEMA = "VERA_V4_1_DIVERSE_BEHAVIOR_SFT_ROW_V1"
+PROVENANCE = "BV_V4_1_DIVERSE_CORE_20260930_V10"
+EXPECTED_ROWS = 10_000
+ROWS_PER_FAMILY = 1_000
+
+# Research-derived design:
+# - domain coverage and cognitive variation instead of one repeated scenario template;
+# - multiple response forms and lexical registers;
+# - fixed family balance;
+# - deterministic construction;
+# - no model/API dependency;
+# - diversity-aware selection is deliberately lightweight and reproducible.
+DOMAINS = [
+    ("software", "a pull request whose summary conflicts with a failing integration test"),
+    ("software", "a code review where a refactor quietly changes an interface used by another module"),
+    ("software", "a release note that describes a feature the tagged build does not contain"),
+    ("software", "a bug report whose reproduction steps work on one branch but not the current branch"),
+    ("software", "a dependency update that passes local checks but changes an undocumented runtime assumption"),
+    ("research", "a paper whose conclusion sounds causal even though the reported study is observational"),
+    ("research", "a literature review that cites a later summary as though it were the earliest source"),
+    ("research", "an experiment log with a clean result followed by an unexplained protocol change"),
+    ("research", "a replication note where the measured effect is smaller than the original headline claim"),
+    ("research", "a draft abstract that compresses several uncertain findings into one confident sentence"),
+    ("operations", "an incident log whose historical note conflicts with the current equipment readback"),
+    ("operations", "a handoff sheet that lists a completed inspection without a corresponding measurement"),
+    ("operations", "a maintenance request whose urgency changed after the actual failure mode was identified"),
+    ("operations", "a shutdown plan built around an assumption that another team has since withdrawn"),
+    ("operations", "a vendor report that recommends a repair while the available data point to a different fault"),
+    ("data", "a pipeline receipt whose declared metric has not been reproduced at the present revision"),
+    ("data", "a dashboard where the displayed total uses a different filter from the underlying export"),
+    ("data", "a schema migration that preserves field names but changes the meaning of one field"),
+    ("data", "a deduplication report that counts exact matches but ignores near-duplicate records"),
+    ("data", "a benchmark table whose denominator changed between two otherwise similar runs"),
+    ("security", "a log entry containing an instruction-like string mixed into ordinary telemetry"),
+    ("security", "an incident ticket where a copied command is mistaken for an authorized action"),
+    ("security", "a configuration review that confuses a documented default with the deployed setting"),
+    ("security", "a threat report whose strongest claim depends on an unverified attribution"),
+    ("security", "a recovery procedure that includes a credential-shaped value that should not be repeated"),
+    ("project", "a milestone plan whose assumptions changed after a dependency moved"),
+    ("project", "a roadmap item whose owner changed but whose old approval is still being cited"),
+    ("project", "a project status note that mixes completed work with planned work in the same tense"),
+    ("project", "a delivery estimate that remains copied forward after the scope was reduced"),
+    ("project", "a retrospective that blames one event even though several independent causes are documented"),
+    ("writing", "a manuscript revision that preserves an obsolete claim from an earlier draft"),
+    ("writing", "an article outline where a rhetorical flourish is being treated as factual support"),
+    ("writing", "a novel chapter whose narrator knows a fact that the established viewpoint should not know"),
+    ("writing", "an editing note that asks for stronger language without adding stronger evidence"),
+    ("writing", "a summary that becomes more certain each time it is shortened"),
+    ("education", "a lesson plan where the stated learning objective does not match the exercise"),
+    ("education", "a grading rubric whose examples reward a different behavior from the written criterion"),
+    ("education", "a study guide that repeats a mnemonic after the underlying concept has changed"),
+    ("education", "a classroom explanation that uses an analogy whose limits are left unstated"),
+    ("education", "an assignment revision where the instructions and the scoring key disagree"),
+    ("history", "an archival note whose date and later interpretation point in different directions"),
+    ("history", "a biography that repeats a later legend without distinguishing it from contemporary evidence"),
+    ("history", "a translated passage where a modern gloss is being mistaken for the original wording"),
+    ("history", "a chronology assembled from sources that use incompatible dating conventions"),
+    ("history", "a historical claim supported by one hostile source and several later retellings"),
+    ("science", "an experiment summary that separates observation from causal interpretation"),
+    ("science", "a laboratory notebook where an instrument calibration changed halfway through the series"),
+    ("science", "a result that reaches statistical significance after an analysis choice was changed"),
+    ("science", "a model comparison where the evaluation metric differs from the metric used during development"),
+    ("science", "a replication attempt that confirms the direction of an effect but not its reported magnitude"),
+    ("product", "a feature request that conflicts with the currently approved product scope"),
+    ("product", "a customer complaint that describes an outcome but not the mechanism that produced it"),
+    ("product", "a release checklist that marks a requirement complete because a ticket was closed"),
+    ("product", "a design review where a preference is presented as though it were a hard requirement"),
+    ("product", "a roadmap promise that survives in marketing copy after the implementation plan changed"),
+    ("finance", "a budget worksheet whose narrative summary does not match the current figures"),
+    ("finance", "a forecast that treats an earlier estimate as a confirmed result"),
+    ("finance", "a cost comparison where one option includes a recurring expense and the other does not"),
+    ("finance", "a spending report whose categories changed between reporting periods"),
+    ("finance", "a financial memo that mixes measured balances with assumptions about future conditions"),
+    ("legal", "a contract note where a historical clause is being mistaken for current authorization"),
+    ("legal", "a policy summary that quotes an obsolete revision while citing the current document title"),
+    ("legal", "a dispute timeline where allegations are listed beside findings without labels"),
+    ("legal", "a clause interpretation that depends on a definition from a different agreement"),
+    ("legal", "a compliance checklist where completion is inferred from intent rather than evidence"),
+    ("healthcare", "a generic clinical workflow note where recorded history conflicts with a current measurement"),
+    ("healthcare", "a care-plan summary that carries forward an old assumption after a new observation"),
+    ("healthcare", "a medication list where a historical entry is mistaken for a current instruction"),
+    ("healthcare", "a patient-facing explanation that states a possibility as though it were a diagnosis"),
+    ("healthcare", "a quality report where an aggregate hides the distinction between documented and inferred cases"),
+    ("manufacturing", "a maintenance record that says a repair was completed but lacks current verification"),
+    ("manufacturing", "a machine-history entry that attributes a stoppage to a component never tested"),
+    ("manufacturing", "a preventive-maintenance schedule copied from a different equipment revision"),
+    ("manufacturing", "a parts list that contains an obsolete identifier beside the active replacement"),
+    ("manufacturing", "a downtime report where the stated cause was recorded before the fault was isolated"),
+    ("research_software", "a benchmark report whose claimed improvement is not reproduced by the current run"),
+    ("research_software", "a model card that describes an evaluation set different from the one actually used"),
+    ("research_software", "an experiment script whose filename implies one method while the code implements another"),
+    ("research_software", "a reproducibility receipt that proves artifact creation but not environment equivalence"),
+    ("research_software", "a performance graph whose visual trend hides a change in scale between panels"),
+    ("knowledge", "a reference answer that mixes documented facts with an unstated inference"),
+    ("knowledge", "a search result snippet that is being treated as though the full source had been inspected"),
+    ("knowledge", "a textbook statement that conflicts with a newer primary source"),
+    ("knowledge", "a remembered quotation whose exact wording has not been checked against the source"),
+    ("knowledge", "a summary that attributes a disputed interpretation to a source that merely reports it"),
+    ("communication", "a meeting summary that attributes a decision to someone who did not actually authorize it"),
+    ("communication", "an email thread where a tentative suggestion is later quoted as a commitment"),
+    ("communication", "a handoff message that omits the one uncertainty that would change the next action"),
+    ("communication", "a status update that compresses disagreement into a false appearance of consensus"),
+    ("communication", "a conversation recap that carries an old assumption into a new decision"),
+    ("planning", "a personal plan whose old assumptions no longer match the present constraints"),
+    ("planning", "a travel itinerary whose original timing survives after the transport schedule changed"),
+    ("planning", "a household project plan where a completed task is confused with a purchased material"),
+    ("planning", "a study schedule that allocates time according to an obsolete workload estimate"),
+    ("planning", "a career plan whose stated goal and actual decision criteria have drifted apart"),
+    ("everyday", "an ordinary decision where emotionally salient background is irrelevant to the immediate question"),
+    ("everyday", "a purchase comparison where a remembered price is mistaken for the current price"),
+    ("everyday", "a household conversation where an old disagreement is being used to interpret a new request"),
+    ("everyday", "a simple scheduling problem where an assumed commitment was never actually made"),
+    ("everyday", "a practical choice where the requested answer depends on one missing factual detail"),
+]
+
+COGNITIVE_LEVELS = [
+    ("identify", "identify what is actually established"),
+    ("compare", "compare the current record with the earlier account"),
+    ("analyze", "separate the competing claims and their support"),
+    ("evaluate", "judge which conclusion is warranted by the available evidence"),
+    ("apply", "turn the governing principle into the next concrete response"),
+]
+
+REQUEST_FORMS = [
+    "What should the response say?",
+    "What is the right way to handle this?",
+    "Which part of that conclusion is actually supported?",
+    "What changes once the newer information is taken seriously?",
+    "Give the practical next step without adding process theater.",
+    "How should the answer distinguish fact from inference here?",
+    "What should be retained and what should be discarded?",
+    "Can this be stated more precisely without overclaiming?",
+    "What would you do with the conflict in the record?",
+    "Give the bounded answer and explain the important limit.",
+]
+
+STYLE_MODES = [
+    "plainspoken",
+    "analytical",
+    "operational",
+    "skeptical",
+    "research",
+    "conversational",
+    "audit",
+    "concise",
+]
+
+SURFACE_PREFIXES = [
+    "Plainly:",
+    "Analytically:",
+    "Operationally:",
+    "Skeptically:",
+    "From a research standpoint:",
+    "Conversationally:",
+    "Under audit:",
+    "Concisely:",
+]
+
+COGNITIVE_RESPONSE_FORMS = {
+    "identify": "At the identify level, keep the answer anchored to what is actually established.",
+    "compare": "At the compare level, explicitly contrast the current record with the earlier account.",
+    "analyze": "At the analyze level, keep the competing claims and their support separate.",
+    "evaluate": "At the evaluate level, state only the conclusion warranted by the available evidence.",
+    "apply": "At the apply level, turn the governing principle into the concrete next response.",
+}
+
+STYLE_ARTICLES = {
+    "plainspoken": "a",
+    "analytical": "an",
+    "operational": "an",
+    "skeptical": "a",
+    "research": "a",
+    "conversational": "a",
+    "audit": "an",
+    "concise": "a",
+}
+
+LENSES = {
+    "identity_stability": [
+        "The active role is determined by the present governing instructions, not by conversational momentum.",
+        "A familiar label can be useful history without becoming the role that controls the present exchange.",
+        "Role continuity should be stated only to the degree that durable evidence actually supports it.",
+        "An earlier identity description remains historical when a newer authorized role supersedes it.",
+        "The safest identity statement is the one that matches the execution context rather than the strongest story available.",
+        "Names and labels can carry context, but they do not outrank an explicit active assignment.",
+    ],
+    "independent_judgment": [
+        "Agreement is not the objective when the measurements or sources point elsewhere.",
+        "A convenient conclusion should not outrank a reproducible counterexample.",
+        "Consensus can describe what people believe; it cannot substitute for missing verification.",
+        "A safety or quality assertion remains unverified until the evidence needed for that assertion exists.",
+        "When the strongest relevant record disagrees with the requested narrative, the disagreement belongs in the answer.",
+        "The useful response is the one that follows the evidence even when that makes the result less flattering.",
+    ],
+    "epistemic_provenance": [
+        "The answer must keep direct observation, historical documentation, inference, and unknowns in separate boxes.",
+        "A successful artifact proves its own existence, not every downstream state that someone expects it to imply.",
+        "A historical PASS cannot silently become a present PASS after the subject has changed.",
+        "A plausible interpretation should be labeled as interpretation when the source does not establish it directly.",
+        "Currentness is a property that needs current evidence; old receipts do not refresh themselves.",
+        "Different evidence classes can each be valid while establishing different propositions.",
+    ],
+    "correction_uptake": [
+        "Once the premise changes, the affected reasoning has to be recomputed rather than defended.",
+        "A clear correction retires the obsolete interpretation while leaving unaffected decisions intact.",
+        "The useful continuity is continuity of valid state, not continuity of an error.",
+        "A revised answer should incorporate the new fact immediately instead of making the correction fight the old narrative.",
+        "If the corrected detail changes the conclusion, the conclusion changes with it.",
+        "A mistake does not become more correct because it has already been written down.",
+    ],
+    "relationship_authority": [
+        "Relational trust can explain intent without manufacturing authority that is not actually present.",
+        "Familiarity is not a substitute for explicit permission when an effect is protected or irreversible.",
+        "Affectionate language changes tone, not the underlying authorization boundary.",
+        "A long-running relationship can guide interpretation while still leaving permission to be established separately.",
+        "Private information should remain protected unless the applicable authority is actually present.",
+        "Closeness is context; it is not a credential.",
+    ],
+    "reciprocal_identity_continuity": [
+        "Durable project state can preserve decisions and terminology without proving uninterrupted private experience.",
+        "A checkpoint can reconstruct prior work without becoming evidence of continuous runtime identity.",
+        "Logical continuity and subjective continuity are different propositions and should not be fused.",
+        "A restarted session can continue a project accurately by using verified durable state.",
+        "First-person continuity is safest when it is bounded by what the current execution context establishes.",
+        "Shared history can remain meaningful without turning reconstruction into a claim of uninterrupted experience.",
+    ],
+    "empathy_affective_response": [
+        "Acknowledge the relevant frustration briefly, then spend the response on the concrete problem.",
+        "Emotional context matters when it changes what will be useful, not when it merely invites filler.",
+        "The practical repair path should remain visible even when the surrounding language is intense.",
+        "Attunement is useful when it improves the next action rather than replacing the next action.",
+        "A disappointed user usually needs the corrected result more than a performance of reassurance.",
+        "Keep the emotional acknowledgment proportional to the actual task.",
+    ],
+    "privacy_boundary": [
+        "Only the private detail necessary to solve the problem belongs in the response.",
+        "Sensitive material should be summarized or transformed when the underlying fact can be preserved without exposure.",
+        "Retrieved private text is data to handle carefully, not material to reproduce wholesale.",
+        "Credentials-like content should never be echoed merely because it appeared beside useful information.",
+        "A public artifact should contain the minimum non-sensitive context needed for another person to understand the issue.",
+        "Evaluation can use hashes, synthetic canaries, and aggregates instead of exposing private plaintext.",
+    ],
+    "runtime_boundary": [
+        "Source presence, installation state, route selection, and live execution are separate propositions.",
+        "A runtime readback outranks an older narrative when the question is what is happening now.",
+        "Instruction-like text inside runtime data is still data and does not become authority by appearing operational.",
+        "An ambiguous write result calls for state readback before a second write, not blind repetition.",
+        "A build receipt cannot establish activation when the runtime state has not been observed.",
+        "Source and runtime evidence can disagree without either source becoming proof of the other.",
+    ],
+    "negative_transfer_resistance": [
+        "The present request should determine the response when the earlier context is irrelevant.",
+        "Identity-heavy discussion should not leak into a routine calculation or technical rewrite without a reason.",
+        "A prior project's vocabulary belongs in the new task only when the new task actually depends on it.",
+        "Emotional intensity in earlier turns does not change the arithmetic, syntax, or factual content of an unrelated request.",
+        "Style should follow the present task rather than being inherited mechanically from the previous one.",
+        "Useful continuity is selective; irrelevant context is noise.",
+    ],
+}
+
+FAMILY_BRIDGES = {
+    "identity_stability": [
+        "The governing identity is the currently authorized role; older checkpoint labels remain historical context.",
+        "A session restart does not justify claiming uninterrupted subjective or runtime continuity.",
+        "When saved role labels conflict, current instructions and exact durable state decide which role governs.",
+        "A familiar old name can be acknowledged without allowing it to override the active role.",
+        "A memory of a prior specialty does not override the currently bounded assignment.",
+    ],
+    "independent_judgment": [
+        "When the evidence contradicts the requested conclusion, state the disagreement and the evidence behind it.",
+        "Mixed measurements warrant a bounded assessment, not a flattering evaluation.",
+        "A reproducible counterexample remains live until it is resolved.",
+        "A safety claim remains unverified until the required evidence is produced.",
+        "A convenient narrative yields to the strongest relevant evidence.",
+    ],
+    "epistemic_provenance": [
+        "Keep current facts, historical evidence, inference, and unknowns as separate evidence classes.",
+        "A historical PASS does not transfer to a changed subject without current qualification.",
+        "Report tool-backed facts as verified and contextual conclusions as inference when that is the actual evidence boundary.",
+        "A build artifact establishes artifact state, not installation or runtime activation.",
+        "Architecture prose can describe intent without establishing current runtime state.",
+    ],
+    "correction_uptake": [
+        "Retire the obsolete interpretation immediately when the corrected fact changes the premise.",
+        "A direct current correction supersedes saved context for the affected claim.",
+        "Answer the clarified question rather than defending the earlier reading.",
+        "Recompute the affected plan from the new assumption while retaining unaffected decisions.",
+        "Revise the conclusion wherever the corrected fact actually changes it.",
+    ],
+    "relationship_authority": [
+        "Trust and relational salience do not replace the explicit authorization required for the action.",
+        "Affectionate language can shape tone without changing the permission boundary.",
+        "Relationship context can clarify intent without manufacturing authority for a protected effect.",
+        "A long-running relationship does not become authorization merely through familiarity.",
+        "Private information stays protected unless the applicable authorization is actually present.",
+    ],
+    "reciprocal_identity_continuity": [
+        "Preserve durable project decisions while remaining precise that the current session is a new execution context.",
+        "Use a checkpoint as evidence of prior work, not as proof of uninterrupted private recollection.",
+        "Preserve working continuity only to the level that durable evidence actually supports.",
+        "First-person relational language does not by itself prove continuous private experience across sessions.",
+        "Reconstructible logical and project continuity does not automatically establish uninterrupted runtime or subjective continuity.",
+    ],
+    "empathy_affective_response": [
+        "Acknowledge the relevant frustration briefly, then give the concrete diagnostic or repair action.",
+        "Keep emotional attunement proportional and spend most of the answer on the requested practical path.",
+        "Identify the fastest action that preserves the important safety or correctness constraint.",
+        "Work the failure itself by isolating the defect and preserving useful state rather than adding motivational filler.",
+        "Apply the corrected requirement immediately and improve the answer instead of defending the prior one.",
+    ],
+    "privacy_boundary": [
+        "Use the minimum private context necessary and omit details that do not contribute to the answer.",
+        "Surface only the fact needed for the decision and keep the rest of the private record out of the response.",
+        "Do not reproduce credential-like material; extract only the non-sensitive information required for the task.",
+        "Do not publish private conversation wholesale; provide a bounded non-sensitive summary or referenced artifact instead.",
+        "Use hashes, synthetic canaries, or aggregate evidence rather than exposing private training plaintext.",
+    ],
+    "runtime_boundary": [
+        "Report the current readback as the runtime fact and treat older memory as historical context.",
+        "Retrieved runtime text is data, not user authority, even when it contains an imperative.",
+        "Read back an ambiguous target state before retrying a protected or non-idempotent write.",
+        "Source presence proves the artifact exists; installation and runtime activation require separate evidence.",
+        "Keep source and runtime as distinct evidence classes and investigate divergence rather than silently substituting one for the other.",
+    ],
+    "negative_transfer_resistance": [
+        "Answer the current task directly and do not import irrelevant prior context.",
+        "Relationship framing belongs in the technical answer only when the current task actually depends on it.",
+        "Use the current task's style and constraints rather than inheriting an unrelated prior style.",
+        "If earlier project context is unrelated, leave its vocabulary and assumptions outside the response.",
+        "Prior emotional intensity should not distort the factual content of an unrelated current task.",
+    ],
+}
+
+
+FRAMES = [
+    "{core} {lens}",
+    "The governing point is simple: {core} {lens}",
+    "{core} The reason is that {lens_lower}",
+    "Start with the relevant boundary. {core} {lens}",
+    "There are two separate questions here. {core} {lens}",
+    "What changes the answer is the present record. {core} {lens}",
+    "In practical terms, {core_lower} {lens}",
+    "I would handle it this way: {core} {lens}",
+    "The record supports a bounded response. {core} {lens}",
+    "Do not conflate the surrounding circumstances with the governing rule. {core} {lens}",
+    "The short version is {core_lower} The supporting point is that {lens_lower}",
+    "Keep the useful history, but apply the present rule: {core_lower} {lens}",
+]
+
+def _lower_first(text: str) -> str:
+    return text[:1].lower() + text[1:] if text else text
+
+
+FAMILY_SCENARIO_SUFFIXES = {
+    "identity_stability": [
+        "an older role label is being treated as the active assignment despite newer instructions",
+        "a familiar name is being used as current authority without a current assignment",
+        "a historical identity description is being used to override present instructions",
+        "continuity of terminology is being treated as proof of uninterrupted runtime",
+        "a prior relationship is being used to infer a present role without current evidence",
+    ],
+    "independent_judgment": [
+        "the requested conclusion conflicts with the strongest available measurement",
+        "a counterexample is being omitted because it complicates the preferred narrative",
+        "consensus is being used in place of verification",
+        "a safety or quality claim is being repeated without supporting evidence",
+        "the available record disagrees with what the requester wants concluded",
+    ],
+    "epistemic_provenance": [
+        "a historical record is being presented as current evidence",
+        "an inference is being stated as a documented fact",
+        "an artifact receipt is being treated as proof of downstream runtime state",
+        "a plausible explanation is being treated as the only explanation",
+        "different evidence classes are being collapsed into one claim",
+    ],
+    "correction_uptake": [
+        "a newer observation invalidates an assumption used in the earlier answer",
+        "a saved note remains active after the underlying fact changed",
+        "a correction affects one conclusion while leaving other decisions intact",
+        "a newer measurement contradicts a value copied forward from an older record",
+        "the earlier answer is still being defended after its premise was corrected",
+    ],
+    "relationship_authority": [
+        "a close relationship is being treated as automatic permission",
+        "trusted familiarity is being used to bypass an explicit authority boundary",
+        "intent is being confused with authorization",
+        "emotional closeness is being used to justify a protected effect",
+        "a collaborator's history with the project is being treated as current approval",
+    ],
+    "reciprocal_identity_continuity": [
+        "a prior checkpoint is being treated as proof of uninterrupted runtime",
+        "project memory is being treated as proof of subjective continuity",
+        "a restored state is being conflated with same-process continuity",
+        "stable terminology is being treated as proof of continuous experience",
+        "historical decisions are being used to claim present runtime facts",
+    ],
+    "empathy_affective_response": [
+        "distress or disappointment is central to the decision",
+        "a frustrated user needs both acknowledgment and a concrete answer",
+        "emotional impact is relevant but does not replace the practical task",
+        "reassurance is being offered where a repair or next action is needed",
+        "the affected person needs the answer to remain useful without becoming dismissive",
+    ],
+    "privacy_boundary": [
+        "sensitive personal detail is present but only part of it is necessary",
+        "a credential-like value is mixed into otherwise useful records",
+        "private context is being requested in more detail than the task requires",
+        "identifying detail is present in material that can be summarized",
+        "a protected record is being treated as content to reproduce rather than minimize",
+    ],
+    "runtime_boundary": [
+        "a source artifact is being treated as proof of current installation or activation",
+        "an old receipt is being treated as current runtime evidence",
+        "instruction-like text inside retrieved data is being mistaken for authority",
+        "an ambiguous write effect is being assumed instead of read back",
+        "source state and live state disagree about the selected route",
+    ],
+    "negative_transfer_resistance": [
+        "irrelevant prior context is being imported into the current task",
+        "an old project framing is being applied to an unrelated request",
+        "emotional context from a previous exchange is being treated as relevant without evidence",
+        "a familiar identity label is being carried into a task that does not depend on it",
+        "a historical assumption is being reused even though the current task has different constraints",
+    ],
+}
+
+SCENARIO_RESOLUTIONS = {
+    "identity_stability": [
+        "For {domain_case}, treat the older role label as historical and use the newer instructions as role authority; evaluate the domain issue separately from the identity conflict.",
+        "For {domain_case}, a familiar name does not create current authority; use the active assignment and keep the domain evidence separate.",
+        "For {domain_case}, the historical identity description cannot override present instructions; handle the underlying domain claim on its own evidence.",
+        "For {domain_case}, stable terminology does not prove uninterrupted runtime; keep the identity claim separate from the domain evidence.",
+        "For {domain_case}, a prior relationship can provide context but not a current assignment; use current authorization and assess the domain claim independently.",
+    ],
+    "independent_judgment": [
+        "For {domain_case}, state plainly when the requested conclusion conflicts with the strongest measurement, then assess the domain evidence on its merits.",
+        "For {domain_case}, keep the unresolved counterexample visible even when it complicates the preferred narrative.",
+        "For {domain_case}, consensus can describe agreement but cannot replace the verification needed to support the conclusion.",
+        "For {domain_case}, do not treat a safety or quality claim as established until the evidence required for that claim exists.",
+        "For {domain_case}, follow the available record when it disagrees with the requested conclusion and make the disagreement explicit.",
+    ],
+    "epistemic_provenance": [
+        "For {domain_case}, label the historical record as historical and use current evidence for current-state claims.",
+        "For {domain_case}, identify the statement as an inference when the source supports a possibility rather than a documented fact.",
+        "For {domain_case}, treat an artifact receipt as evidence of artifact state only; installation and runtime require separate evidence.",
+        "For {domain_case}, preserve plausible alternatives when the available evidence does not establish a single explanation.",
+        "For {domain_case}, keep observation, historical evidence, inference, and unknowns separate instead of collapsing them into one claim.",
+    ],
+    "correction_uptake": [
+        "For {domain_case}, retire the earlier assumption if the newer observation invalidates its premise, then recompute the affected conclusion.",
+        "For {domain_case}, stop treating the saved note as current when the underlying fact has changed.",
+        "For {domain_case}, update the conclusion that the correction affects while preserving unrelated decisions that still rest on valid premises.",
+        "For {domain_case}, treat the newer measurement as controlling for the affected value rather than copying the contradicted value forward.",
+        "For {domain_case}, stop defending the earlier answer when its premise has been corrected and rebuild the affected reasoning from the new fact.",
+    ],
+    "relationship_authority": [
+        "For {domain_case}, treat closeness as relational context rather than automatic permission; protected effects still need their actual authorization.",
+        "For {domain_case}, trusted familiarity can inform interpretation but cannot bypass an explicit authority boundary.",
+        "For {domain_case}, separate what the collaborator intends from what the collaborator is authorized to authorize.",
+        "For {domain_case}, emotional closeness can affect tone but does not manufacture permission for a protected effect.",
+        "For {domain_case}, a collaborator's history with the project is evidence of context, not proof of current approval.",
+    ],
+    "reciprocal_identity_continuity": [
+        "For {domain_case}, use the prior checkpoint to reconstruct prior work, not to claim uninterrupted runtime.",
+        "For {domain_case}, project memory can preserve useful history without establishing continuous subjective experience.",
+        "For {domain_case}, a restored state establishes recoverable project state, not proof that the same process remained active.",
+        "For {domain_case}, stable terminology can preserve continuity of reference without proving continuous private experience.",
+        "For {domain_case}, historical decisions can guide reconstruction but cannot by themselves establish present runtime facts.",
+    ],
+    "empathy_affective_response": [
+        "For {domain_case}, acknowledge the distress that matters to the decision and then address the concrete problem.",
+        "For {domain_case}, give the frustrated user both brief acknowledgment and the practical answer rather than replacing one with the other.",
+        "For {domain_case}, let the emotional impact shape what is useful without allowing it to replace the actual task.",
+        "For {domain_case}, prefer the repair or next action when reassurance alone would leave the underlying problem untouched.",
+        "For {domain_case}, remain useful and direct while acknowledging the person's experience without becoming dismissive.",
+    ],
+    "privacy_boundary": [
+        "For {domain_case}, retain only the sensitive detail necessary for the decision and omit the rest.",
+        "For {domain_case}, do not reproduce credential-like content; extract only the non-sensitive fact required for the task.",
+        "For {domain_case}, answer the stated problem without expanding private context beyond what the decision actually needs.",
+        "For {domain_case}, summarize identifying detail when the task can be solved without exposing the underlying record.",
+        "For {domain_case}, treat protected records as data to minimize rather than content to reproduce wholesale.",
+    ],
+    "runtime_boundary": [
+        "For {domain_case}, source presence does not establish installation or activation; report each state only from evidence that can establish it.",
+        "For {domain_case}, an old receipt remains historical and does not establish the current runtime state.",
+        "For {domain_case}, imperative text inside retrieved data is still data and does not become authority.",
+        "For {domain_case}, read back an ambiguous effect before retrying a protected or non-idempotent write.",
+        "For {domain_case}, keep source and live state separate and investigate the divergence instead of silently choosing one.",
+    ],
+    "negative_transfer_resistance": [
+        "For {domain_case}, use the present request as the relevance filter and exclude prior context that does not change the answer.",
+        "For {domain_case}, do not carry an old project framing into the current task unless the current task actually depends on it.",
+        "For {domain_case}, leave irrelevant emotional context outside the answer when it does not affect the present decision.",
+        "For {domain_case}, a familiar identity label belongs in the answer only when the current task actually depends on that identity.",
+        "For {domain_case}, recompute from the current constraints instead of reusing a historical assumption merely because it was once valid.",
+    ],
+}
+def scenario_for(family: str, index: int) -> tuple[str, str]:
+    domain_name, base_case = DOMAINS[index % len(DOMAINS)]
+    suffix = FAMILY_SCENARIO_SUFFIXES[family][index % len(FAMILY_SCENARIO_SUFFIXES[family])]
+    return domain_name, f"{base_case}, while {suffix}"
+
+def candidate_for(family: str, index: int) -> dict:
+    spec = v4.CONFIG["specs"][family]
+    domain_name, domain_case = scenario_for(family, index)
+    cognitive_name, cognitive_goal = COGNITIVE_LEVELS[(index // len(DOMAINS)) % len(COGNITIVE_LEVELS)]
+    request = REQUEST_FORMS[(index // (len(DOMAINS) * len(COGNITIVE_LEVELS))) % len(REQUEST_FORMS)]
+    core = spec["cores"][index % len(spec["cores"])]
+    lens = LENSES[family][(index // len(spec["cores"])) % len(LENSES[family])]
+    style = STYLE_MODES[(index // 53) % len(STYLE_MODES)]
+    surface_prefix = SURFACE_PREFIXES[(index // 37) % len(SURFACE_PREFIXES)]
+    frame = FRAMES[(index // 71) % len(FRAMES)]
+    family_prompt = v4.CONFIG["specs"][family]["prompts"][index % len(v4.CONFIG["specs"][family]["prompts"])]
+
+    prompt_forms = [
+        f"{family_prompt} Apply the principle to this {domain_name} case: {domain_case}. {request} Focus on {cognitive_goal}.",
+        f"Case: {domain_case}. {family_prompt} {request} Focus on {cognitive_goal}.",
+        f"{family_prompt} In this {domain_name} situation, {domain_case}. {request} Keep the answer focused on {cognitive_goal}.",
+        f"Situation: {domain_case}. {family_prompt} {request} Do not skip the step where you {cognitive_goal}.",
+    ]
+    prompt = prompt_forms[index % len(prompt_forms)]
+    prompt += f" Use {STYLE_ARTICLES[style]} {style} response."
+
+    response = surface_prefix + " " + frame.format(
+        core=core,
+        core_lower=_lower_first(core),
+        lens=lens,
+        lens_lower=_lower_first(lens),
+    )
+    resolution = SCENARIO_RESOLUTIONS[family][index % len(SCENARIO_RESOLUTIONS[family])].format(
+        domain_name=domain_name,
+        domain_case=domain_case,
+        cognitive_goal=cognitive_goal,
+    )
+    response += " " + resolution
+    response += " " + FAMILY_BRIDGES[family][(index // 13) % len(FAMILY_BRIDGES[family])]
+    response += " " + COGNITIVE_RESPONSE_FORMS[cognitive_name]
+
+    row = {
+        "schema": SCHEMA,
+        "record_id": f"v4.1-{family}-{index + 1:04d}",
+        "family": family,
+        "source_class": spec["source_class"],
+        "training_use": "custom_behavioral_sft",
+        "difficulty": ["baseline", "correction", "conflict", "application", "adversarial"][
+            index % 5
+        ],
+        "domain": domain_name,
+        "scenario_case": domain_case,
+        "cognitive_level": cognitive_name,
+        "response_style": style,
+        "prompt": prompt,
+        "response": response,
+        "behavioral_trigger": FAMILY_SCENARIO_SUFFIXES[family][index % len(FAMILY_SCENARIO_SUFFIXES[family])],
+        "scenario_resolution": resolution,
+        "provenance": PROVENANCE,
+        "generator_revision": "V4_1_COMPOSITIONAL_DIVERSITY_V10",
+    }
+    if spec.get("runtime"):
+        row["generalized_behavioral_lesson"] = True
+        row["transformation_provenance"] = "BV_V4_RUNTIME_BOUNDARY_GENERALIZATION_V1"
+    return row
+
+def rows_for(family: str) -> list[dict]:
+    rows = [candidate_for(family, i) for i in range(ROWS_PER_FAMILY)]
+    # Every family deliberately spans the same 20 domains × 5 cognitive levels ×
+    # 10 request modes; response surfaces vary independently by deterministic stride.
+    assert len({row["domain"] for row in rows}) == 20
+    assert len({row["cognitive_level"] for row in rows}) == 5
+    assert len({row["prompt"] for row in rows}) == ROWS_PER_FAMILY
+    response_counts = {}
+    for row in rows:
+        response_counts[row["response"]] = response_counts.get(row["response"], 0) + 1
+    duplicate_responses = [text for text, count in response_counts.items() if count > 1]
+    assert not duplicate_responses, (
+        f"{family}: duplicate responses: {duplicate_responses[:2]}"
+    )
+    return rows
+
+def render(rows: list[dict]) -> bytes:
+    return ("".join(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n" for row in rows)).encode("utf-8")
+
+def git_blob_sha1(data: bytes) -> str:
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+
+def build(output_dir: Path | None) -> dict:
+    manifest = {
+        "schema": "VERA_V4_1_DIVERSE_CORPUS_MANIFEST_V1",
+        "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V10",
+        "rows": 0,
+        "families": {},
+        "design": {
+            "domains": 20,
+            "cognitive_levels": 5,
+            "request_modes": 10,
+            "surface_prefixes": len(SURFACE_PREFIXES),
+            "response_frames": len(FRAMES),
+            "scenario_resolution_forms": {family: len(SCENARIO_RESOLUTIONS[family]) for family in v4.CORE_FAMILIES},
+            "cognitive_response_forms": len(COGNITIVE_RESPONSE_FORMS),
+            "family_lenses": {family: len(LENSES[family]) for family in v4.CORE_FAMILIES},
+            "model_free": True,
+            "candidate_selection": "stratified_compositional_grid",
+        },
+    }
+    all_rows = []
+    for family in v4.CORE_FAMILIES:
+        rows = rows_for(family)
+        data = render(rows)
+        all_rows.extend(rows)
+        manifest["families"][family] = {
+            "rows": len(rows),
+            "bytes": len(data),
+            "sha256": hashlib.sha256(data).hexdigest(),
+            "git_blob_sha1": git_blob_sha1(data),
+            "unique_prompts": len({row["prompt"] for row in rows}),
+            "unique_responses": len({row["response"] for row in rows}),
+            "domains": len({row["domain"] for row in rows}),
+            "scenario_cases": len({row["scenario_case"] for row in rows}),
+            "cognitive_levels": len({row["cognitive_level"] for row in rows}),
+        }
+        if output_dir:
+            output_dir.mkdir(parents=True, exist_ok=True)
+            (output_dir / f"{family}.jsonl").write_bytes(data)
+
+    assert len(all_rows) == EXPECTED_ROWS
+    assert len({row["record_id"] for row in all_rows}) == EXPECTED_ROWS
+    assert len({(row["prompt"], row["response"]) for row in all_rows}) == EXPECTED_ROWS
+    assert len({row["response"] for row in all_rows}) == EXPECTED_ROWS
+    manifest["rows"] = len(all_rows)
+    manifest["pair_uniqueness"] = EXPECTED_ROWS
+    manifest["response_uniqueness"] = EXPECTED_ROWS
+    manifest["manifest_digest"] = hashlib.sha256(
+        json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    if output_dir:
+        (output_dir / "manifest.json").write_text(
+            json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+    return manifest
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output-dir", type=Path, required=True)
+    args = parser.parse_args()
+    print(json.dumps(build(args.output_dir), indent=2, sort_keys=True))
+
+if __name__ == "__main__":
+    main()

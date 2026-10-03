@@ -1,0 +1,71 @@
+{
+  "schema": "V10_QWEN35_RETENTION_V4_EXECUTION_BINDING_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_BEFORE_FIRST_V4_REVIEW_CALL",
+  "repository": "thebrazenbeard/vera_model_training",
+  "branch": "work/v10-retention-bank-salvage-20261001",
+  "freeze_parent_head": "6885ab27f9a1893b523a0eebec3beea4b81a4398",
+  "code_subjects": {
+    "family_audit_protocol": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V4.json",
+      "sha256": "488b593eeece7df083cf69496ffac7ef62e7f06af8a910364848d34335e27248"
+    },
+    "family_audit_runner": {
+      "path": "successor/experiments/run_v10_retention_family_audit_v4.py",
+      "sha256": "c85def55c8e592dcfd2d8795b82299801e7c50dc6bd318645d76ac47fbf5ea9f"
+    },
+    "admission_policy": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_ADMISSION_V4.json",
+      "sha256": "9edae01242d7eebbe3078e06639a53c1b30fc2016b8238eaf3677c78f8523b6e"
+    },
+    "admission_evidence_binding": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_ADMISSION_EVIDENCE_BINDING_V2.json",
+      "sha256": "256f9ca8e280f26f6e872854786abcab02339afa074dc9e9d77c75174287316d"
+    },
+    "admission_core": {
+      "path": "successor/experiments/retention_admission_v4.py",
+      "sha256": "caa8a3edcfd4c4d3965d9c3ffb7de7507bab5d9817a2b2c8124e1066a18a6ce4"
+    },
+    "admission_file_verifier": {
+      "path": "successor/experiments/verify_v10_retention_admission_v4.py",
+      "sha256": "a384f0f47b3af43a51b75c56b216cbc2e664654768d50aeed69791d82ebd8962"
+    }
+  },
+  "data_subjects": {
+    "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "packet_manifest_sha256": "6445488e846ba5a8bec43bf107bc15f31500e956628b55ee5dfa42731fc37855",
+    "semantic_receipt_sha256": "a8ae6b55c73469d85064cf8e483f4a75a78d75bd62f0c18bfc9063fee928ea71",
+    "exclusion_registry_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f"
+  },
+  "reviewer": {
+    "provider": "OLLAMA_LOCAL",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "runtime": "ollama version is 0.34.2",
+    "temperature": 0,
+    "seed": 20261001
+  },
+  "predecessor_v3": {
+    "protocol_sha256": "1e97bad32714f6b3dc6511b18a33ea33d8110262625864fb3d04d2ef49ad9add",
+    "partial_review_output_sha256": "5c04a624592c3a2dae82072a65a758b0e0ae3020494b4297d470a0a85452c939",
+    "hold_receipt_sha256": "d0432f10ced22c168d8dd1371144e661c27c7d18e31ed4eb7be2483eb8ed46c3",
+    "reusable_in_v4": false
+  },
+  "execution_rules": {
+    "fresh_v4_output_required": true,
+    "v3_output_reuse_forbidden": true,
+    "stop_on_first_derived_reject": true,
+    "max_identical_prompt_retries_for_invalid_json_or_schema": 3,
+    "semantic_negative_consumes_no_retry": true,
+    "reviewer_supplied_verdict_forbidden": true,
+    "derived_verdict": "ADMIT iff all three reviewer booleans are true; otherwise REJECT"
+  },
+  "boundaries": {
+    "v4_model_call_occurred_at_freeze": false,
+    "training_authorized": false,
+    "weight_change_performed": false,
+    "merge_authority": "Patrick"
+  },
+  "claim_ceiling": "RETENTION_V4_EXECUTION_SUBJECT_FROZEN / NO_V4_REVIEW CALL YET / NOT_RETENTION_ADMITTED / NOT_FULL_FINAL_BANK / NO_TRAINING"
+}

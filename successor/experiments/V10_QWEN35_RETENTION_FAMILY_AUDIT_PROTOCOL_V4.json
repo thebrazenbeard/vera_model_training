@@ -1,0 +1,59 @@
+{
+  "schema": "V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V4",
+  "date": "2026-10-02",
+  "status": "PREREGISTERED_AFTER_V3_TRANSPORT_FAILURE_BEFORE_V4_REVIEW_CALL",
+  "supersedes": "V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V3",
+  "supersession_reason": "V3 consumed exactly three identical-prompt attempts on the third family because the reviewer repeatedly emitted an internally inconsistent response: verdict=ADMIT while at least one required boolean check was false. V3 therefore remains HOLD and is not resumed. V4 repairs only the redundant verdict transport: the reviewer no longer emits verdict; the runner derives ADMIT iff all three boolean judgments are true, otherwise REJECT.",
+  "predecessor_v3": {
+    "protocol_sha256": "1e97bad32714f6b3dc6511b18a33ea33d8110262625864fb3d04d2ef49ad9add",
+    "partial_review_output_sha256": "5c04a624592c3a2dae82072a65a758b0e0ae3020494b4297d470a0a85452c939",
+    "hold_receipt_sha256": "d0432f10ced22c168d8dd1371144e661c27c7d18e31ed4eb7be2483eb8ed46c3",
+    "completed_rows": 10,
+    "completed_families": 2,
+    "failure_family_result_not_admitted": true,
+    "v3_rows_reusable_in_v4": false,
+    "extra_v3_retry_authorized": false
+  },
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+  "sample_rows": 130,
+  "family_count": 26,
+  "cases_per_family": 5,
+  "selection": "SHA256(candidate_sha256, family_id, case_id) lowest 5 per family",
+  "reviewer": {
+    "provider": "OLLAMA_LOCAL",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "runtime": "ollama version is 0.34.2",
+    "temperature": 0,
+    "seed": 20261001
+  },
+  "response_contract": {
+    "reviewer_emits_verdict": false,
+    "required_judgment_fields": [
+      "case_id",
+      "prompt_well_posed",
+      "grader_matches_prompt",
+      "source_evidence_sufficient",
+      "issue_code",
+      "reason",
+      "confidence"
+    ],
+    "derived_verdict": "ADMIT iff prompt_well_posed AND grader_matches_prompt AND source_evidence_sufficient; otherwise REJECT",
+    "semantic_negative_is_valid_response": true
+  },
+  "execution": {
+    "request_unit": "ONE_FAMILY_PER_REQUEST",
+    "cases_per_request": 5,
+    "max_identical_prompt_retries_for_invalid_json_or_schema": 3,
+    "semantic_negative_consumes_no_retry": true,
+    "retry_may_change_prompt": false,
+    "stop_on_first_reject": true,
+    "any_reject_policy": "HOLD",
+    "missing_case_policy": "HOLD",
+    "extra_case_policy": "HOLD",
+    "resume_policy": "PRESERVE_ONLY_COMPLETED_V4_FAMILY_RECORDS_BOUND_TO_EXACT_V4_PROTOCOL_SHA"
+  },
+  "truth_boundary": "External model audits prompt/grader/source-evidence alignment. Deterministic source or executable-test truth remains authoritative for all 1500 cases.",
+  "claim_ceiling": "V4_REVIEW_TRANSPORT_REPAIR_PREREGISTERED / V3 REMAINS HOLD / NO_V4_RESULT_CONSUMED / NOT_RETENTION_ADMISSION"
+}

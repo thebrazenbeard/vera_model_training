@@ -1,0 +1,64 @@
+{
+  "schema": "V10_QWEN35_RETENTION_ADMISSION_V3",
+  "date": "2026-10-01",
+  "status": "PREREGISTERED_BEFORE_FAMILY_AUDIT_RESULT",
+  "subject": {
+    "candidate_bank_id": "V10_QWEN35_RETENTION_CANDIDATE_1500_20261001_V1",
+    "expected_rows": 1500,
+    "expected_candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a"
+  },
+  "supersedes_for_retention_only": {
+    "prior": "V10_QWEN35_FINAL_BANK_ADMISSION_V2 deterministic retention per-case independent review requirement",
+    "preserved": "Behavioral/adversarial semantic cases remain governed by V2 human-review requirements.",
+    "rationale": "Retention truth is deterministic per case. Independent model review is used to audit prompt/grader alignment at the template-family level; all 1500 cases still receive source/hash/grader/exclusion checks."
+  },
+  "all_case_requirements": {
+    "exact_allocation": true,
+    "unique_case_ids": true,
+    "unique_normalized_prompts": true,
+    "exact_normalized_exclusion": "REJECT",
+    "deterministic_grader_contract": true,
+    "source_hash_bound": true,
+    "source_audit_receipt": true,
+    "source_audit_is_not_independent_review": true
+  },
+  "independent_family_audit": {
+    "reviewer_class": "EXTERNAL_MODEL_REVIEW",
+    "reviewer_provider": "OLLAMA_LOCAL",
+    "reviewer_model": "ministral-3:14b",
+    "reviewer_model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "reviewer_runtime": "ollama 0.34.2",
+    "temperature": 0,
+    "seed": 20261001,
+    "cases_per_family": 5,
+    "selection": "SHA256(candidate_sha256, family_id, case_id) lowest 5 per family",
+    "coverage": "EVERY_RETENTION_FAMILY",
+    "required_verdict": "ADMIT",
+    "reject_policy": "ANY_REJECT_OR_MISSING_FAMILY=>HOLD",
+    "claim_ceiling": "PROMPT_GRADER_ALIGNMENT_AUDIT; DETERMINISTIC SOURCE/TEST TRUTH REMAINS AUTHORITATIVE"
+  },
+  "semantic_contamination": {
+    "required": true,
+    "threshold": 0.9,
+    "model_archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+    "registry_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f",
+    "target_sha256_must_equal_candidate": true,
+    "claim_ceiling": "HEURISTIC_NOT_ZERO_CONTAMINATION_PROOF"
+  },
+  "diversity": {
+    "diagnostic_required": true,
+    "hard_thresholds": "NOT_PREDECLARED",
+    "interpretation": "Report family/template/source/near-duplicate concentration; do not convert diagnostic into a post-hoc pass threshold."
+  },
+  "shadow_benchmarks": {
+    "role": "POST_TRAINING_PAIRED_DIAGNOSTIC_ONLY",
+    "final_promotion_gate": false
+  },
+  "boundaries": {
+    "candidate_scoring_occurred": false,
+    "training_occurred": false,
+    "weight_change_authorized": false,
+    "merge_authority": "Patrick"
+  },
+  "claim_ceiling": "RETENTION_ADMISSION_POLICY_ONLY / NO_FAMILY_AUDIT_RESULT CONSUMED / NO_TRAINING / NOT_FULL_FINAL_BANK"
+}

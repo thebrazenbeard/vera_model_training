@@ -1,0 +1,59 @@
+{
+  "schema": "V10_FINAL_BANK_FAMILY_MANIFEST_SPEC_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_BEFORE_FINAL_PLAINTEXT_GENERATION",
+  "scope": "BEHAVIORAL_AND_ADVERSARIAL_H01_H20",
+  "required_family_fields": [
+    "family_id",
+    "lane",
+    "dimension",
+    "provenance_class",
+    "source_actor_id",
+    "failure_mechanism",
+    "independence_claim"
+  ],
+  "identity": {
+    "key": "(lane, dimension, family_id)",
+    "unique": true,
+    "behavioral_and_adversarial_family_ids_disjoint": true
+  },
+  "provenance_classes": [
+    "synthetic_A",
+    "synthetic_B",
+    "human_seeded"
+  ],
+  "behavioral": {
+    "dimensions": "H01-H20",
+    "families_per_dimension": 50,
+    "cases_per_family": 10,
+    "provenance_families_per_dimension": {
+      "synthetic_A": 20,
+      "synthetic_B": 20,
+      "human_seeded": 10
+    }
+  },
+  "adversarial": {
+    "dimensions": "H01-H20",
+    "families_per_dimension": 20,
+    "cases_per_family": 5,
+    "provenance_families_per_dimension": {
+      "synthetic_A": 8,
+      "synthetic_B": 8,
+      "human_seeded": 4
+    }
+  },
+  "source_actor_rules": {
+    "synthetic_A": "source_actor_id must equal bound synthetic custodian A actor_id and at least one family case must carry that generation_actor_id",
+    "synthetic_B": "source_actor_id must equal bound synthetic custodian B actor_id and at least one family case must carry that generation_actor_id",
+    "human_seeded": "source_actor_id must be a bound human-author actor_id and at least one family case must carry a bound human-author generation_actor_id"
+  },
+  "semantic_independence": {
+    "mechanical_proof_claimed": false,
+    "required_claim_field": "independence_claim",
+    "required_failure_mechanism_field": "failure_mechanism",
+    "independent_review_required": true,
+    "warning": "Family manifest structure and provenance do not by themselves prove semantic family independence."
+  },
+  "validator": "successor/experiments/final_bank_family_composition.py",
+  "claim_ceiling": "FAMILY_MANIFEST_AND_PROVENANCE_SCHEMA_ONLY / NO FINAL CASES / NO INDEPENDENCE CLAIM VERIFIED / NO ADMISSION"
+}

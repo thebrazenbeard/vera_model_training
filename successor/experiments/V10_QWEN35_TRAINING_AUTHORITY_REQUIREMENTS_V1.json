@@ -1,0 +1,49 @@
+{
+  "schema": "V10_QWEN35_TRAINING_AUTHORITY_REQUIREMENTS_V1",
+  "date": "2026-10-01",
+  "status": "SCHEMA_REQUIREMENTS_ONLY_NOT_AUTHORITY",
+  "receipt_schema": "V10_QWEN35_TRAINING_AUTHORITY_V1",
+  "required_exact_fields": {
+    "status": "AUTHORIZED",
+    "authority_actor_id": "PATRICK_USER_AUTHORITY",
+    "authorization_source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "effect": "TRAIN_ONE_FRESH_QLORA_ADAPTER",
+    "max_training_runs": 1,
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "install_activate_deploy_authorized": false
+  },
+  "required_subject_bindings": [
+    "experiment_id",
+    "base_model_revision",
+    "training_corpus_id",
+    "train_sha256",
+    "validation_sha256",
+    "training_recipe_sha256",
+    "sealed_final_bank_commitment_sha256",
+    "training_runtime_binding_sha256",
+    "training_execution_binding_sha256",
+    "output_namespace",
+    "receipt_sha256"
+  ],
+  "issuance_rule": "Create the actual V10_QWEN35_TRAINING_AUTHORITY_V1.json only after Patrick explicitly authorizes the exact bound weight-changing run in the current task.",
+  "claim_ceiling": "REQUIREMENTS_ONLY / DOES_NOT GRANT AUTHORITY",
+  "runtime_binding": {
+    "filename": "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json",
+    "required_status": "FROZEN_TARGET_RUNTIME_SUPPLEMENT",
+    "expected_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "contract_boolean_alone_is_insufficient": true,
+    "live_reverification_required_immediately_before_weight_change": true
+  },
+  "execution_binding": {
+    "filename": "V10_QWEN35_TRAINING_EXECUTION_BINDING_V1.json",
+    "expected_binding_sha256": "816c2af072537e096cac68e7435dfbb158b000701dd2be0076a250980c0c2f99",
+    "runner_path": "successor/experiments/train_v10_qwen35_authorized.py",
+    "runner_git_blob_sha": "558e0445fde1c90ad3137d141a94373d96309fd3",
+    "preflight_evaluator_path": "successor/evaluate_successor.py",
+    "preflight_evaluator_git_blob_sha": "5e224f45cab20424bf156935ab94de971c446567",
+    "execution_spec_path": "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
+    "execution_spec_sha256": "bc73ece4f33e480683027e3c4e6c9f59d796809f9bb311348e95b91aa5df6660",
+    "authority_must_bind_exact_execution_subject": true
+  }
+}

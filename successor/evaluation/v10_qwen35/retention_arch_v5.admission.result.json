@@ -1,0 +1,20 @@
+{
+  "defect_classes": [
+    "REVIEWER_DEFECT",
+    "UNRESOLVED"
+  ],
+  "execution_binding_v5_sha256": "de360b397f54001cfde5b7cc47a54151eaa5a87da3c59fb58960111148e34c1e",
+  "github_actions_head": "3be250ce90bbd1d77591517a481b4db7f019c6a7",
+  "github_actions_run_id": 37080632538,
+  "reasons": [
+    "reconciliation_hold",
+    "reconciliation_defects_present"
+  ],
+  "reconciliation_sha256": "6934cdc9297349ea578b352f29204ecb1841f39308aff39609f7cc42418cf2ad",
+  "reviewer_qualification_sha256": "191a9112b87e8bb888ccaf18835b36bb5e3c311b3c68091249ee9d3ee09b4f65",
+  "schema": "RETENTION_ADMISSION_ARCH_V5_RESULT_V1",
+  "semantic_packet_exposed_to_reviewer": true,
+  "semantic_receipt_sha256": "6be4891225b446065c38c99de449b2523a64be263fcb40d9df9c9374a30a5ff6",
+  "semantic_rows_reviewed": 130,
+  "status": "RETENTION_HOLD_ARCH_V5"
+}

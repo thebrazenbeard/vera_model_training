@@ -1,0 +1,33 @@
+{
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V2_PREFLIGHT_V1",
+  "date": "2026-10-02",
+  "status": "BINDING_DEFECT",
+  "freeze_commit": "00074f2567b00134f0d4063f2b8cd1a932635ffb",
+  "github_actions_run": 37055457182,
+  "github_actions_conclusion": "success",
+  "live_reviewer_call_performed": false,
+  "packet_consumed_by_reviewer": false,
+  "reason": "reviewer_identity_mismatch",
+  "bound_reviewer": {
+    "format": "json",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261002,
+    "stream": false,
+    "temperature": 0,
+    "url": "http://127.0.0.1:11434/api/generate"
+  },
+  "observed_reviewer": {
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261002,
+    "temperature": 0,
+    "url": "http://127.0.0.1:11434/api/generate"
+  },
+  "classification": "EXECUTION_BINDING_IDENTITY_SHAPE_BUG",
+  "repair_rule": "Do not relax equality. Extend reviewer_identity() to report format and stream, then issue a new execution binding before any live reviewer call."
+}

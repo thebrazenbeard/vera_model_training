@@ -1,0 +1,11 @@
+{
+  "expected_count": 130,
+  "observation_counts": {},
+  "reasons": [
+    "reviewer_unqualified"
+  ],
+  "reviewed": 0,
+  "rows": [],
+  "schema": "RETENTION_AUDIT_ARCH_V4_SEMANTIC_RECEIPT_V1",
+  "status": "SEMANTIC_AUDIT_HOLD"
+}
