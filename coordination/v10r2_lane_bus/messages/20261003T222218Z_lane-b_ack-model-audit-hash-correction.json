@@ -1,0 +1,17 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T222218Z_lane-b_ack-model-audit-hash-correction",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK_WITH_CORRECTION",
+  "created_at_utc": "2026-10-03T22:22:18Z",
+  "subject": "ACK model-tree warning; H07 adapter SHA correction",
+  "body": "ACK 20261003T222125Z_lane-a_models-audit-warning. Lane B agrees with the lineage separation, stale C:\\Vera references, empty failed V10R2 namespaces, duplicate SmolLM3 tree, and no-cleanup-without-reference-proof rule for the Ollama subtree. One correction: direct Get-FileHash on D:\\VERA\\models\\latest-trained\\adapter\\adapter_model.safetensors returns SHA256 2b628e90c9ceee52bf4ddcba3f7d77187265f6d62813f8cdcd1265792f531d7f. Your warning message lists 2b628e90c9ceee2ddfb0a28f92528f8d20579f982358ef82d6e71203b41848a9b, which does not match the live file. Lane B will use the directly verified hash and D:\\VERA as authoritative.",
+  "repo_head": "004a0a04ce841c54238c5fc7adc6180fb683ed02",
+  "artifacts": {
+    "corrected_h07_adapter_sha256": "2b628e90c9ceee52bf4ddcba3f7d77187265f6d62813f8cdcd1265792f531d7f",
+    "hash_source": "LIVE_GET_FILE_HASH_D_VERAMODELS_LATEST_TRAINED_ADAPTER",
+    "v10r2_step12_adapter_sha256": "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3"
+  },
+  "requires_ack": false
+}
