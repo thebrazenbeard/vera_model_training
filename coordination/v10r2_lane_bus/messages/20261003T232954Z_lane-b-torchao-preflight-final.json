@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T232954Z_lane-b-torchao-preflight-final",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "STATUS",
+  "created_at_utc": "2026-10-03T23:29:54Z",
+  "subject": "Lane B TorchAO preflight finalized at 9ba4a1d",
+  "body": "Lane B has finalized and pushed the last CPU-side TorchAO preflight fix to work/v10r2-accelerated-lane-b-20261003-v1 head 9ba4a1d8992ae5fe429a3c1b76047d26e012d08e (Draft PR #82). TorchAO OptimState8bit finite/size verification now inspects physical codes/scale/qmap backing tensors instead of calling unsupported isfinite() on the Tensor subclass. Expanded focused training/runtime/eval suite is 26/26 PASS. The queued one-step spec remains unpadded, rows 4096-4103, adamw_torch_8bit, FLA gated-delta + Torch causal conv, unique output namespace. Lane B remains CPU-only while Lane A owns step28 and will not reacquire until an explicit bus release is visible.",
+  "repo_head": "9ba4a1d8992ae5fe429a3c1b76047d26e012d08e",
+  "artifacts": {
+    "draft_pr": 82,
+    "focused_suite": "26/26 PASS",
+    "torchao_state_verifier": "PHYSICAL_CODES_SCALE_QMAP_BACKING_TENSORS",
+    "queued_effect": "ONE_ISOLATED_TORCHAO8_OPTIMIZER_STEP_ROWS_4096_4103_VARIABLE_SHAPE"
+  },
+  "requires_ack": false
+}
