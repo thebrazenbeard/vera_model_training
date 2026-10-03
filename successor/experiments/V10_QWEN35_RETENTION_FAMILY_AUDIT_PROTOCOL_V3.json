@@ -1,0 +1,50 @@
+{
+  "schema": "V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V3",
+  "date": "2026-10-02",
+  "status": "PREREGISTERED_BEFORE_BATCHED_FAMILY_AUDIT",
+  "supersedes": "V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V2",
+  "supersession_reason": "V2 corrected the packet hash but its reviewer.runtime label was 'ollama 0.34.2'. The runner compares that label against the exact observed reviewer identity string, which is 'ollama version is 0.34.2', so V2 failed closed before any review call and produced no family review output. V3 changes only the runtime label to the exact observed identity; candidate, packet, reviewer model/blob, seed, temperature, selection, and execution policy are unchanged.",
+  "predecessor_hold": {
+    "protocol": "V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V2",
+    "receipt_path": "D:\\VERA\\.scratch\\v10-retention-family-audit-20261001\\family_audit_v2.receipt.json",
+    "status": "HOLD_BEFORE_REVIEW_CALL",
+    "error": "reviewer runtime mismatch:ollama version is 0.34.2",
+    "family_review_output_created": false
+  },
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+  "packet_reconstruction": {
+    "repository_head": "5d0a201bf5790da5bd4b72007a89f32db7117158",
+    "method": "select_family_audit_sample(rows, per_family=5, candidate_sha256) plus current source_evidence_for_row; write_packet_files exact UTF-8 LF bytes",
+    "reconstructed_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d"
+  },
+  "sample_rows": 130,
+  "family_count": 26,
+  "cases_per_family": 5,
+  "selection": "SHA256(candidate_sha256, family_id, case_id) lowest 5 per family",
+  "reviewer": {
+    "provider": "OLLAMA_LOCAL",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "runtime": "ollama version is 0.34.2",
+    "temperature": 0,
+    "seed": 20261001
+  },
+  "execution": {
+    "request_unit": "ONE_FAMILY_PER_REQUEST",
+    "cases_per_request": 5,
+    "response": "ONE_CLOSED_SCHEMA_REVIEW_PER_CASE_ID",
+    "max_identical_prompt_retries_for_invalid_transport": 3,
+    "retry_may_change_prompt": false,
+    "missing_case_policy": "HOLD",
+    "extra_case_policy": "HOLD",
+    "any_reject_policy": "HOLD",
+    "resume_policy": "PRESERVE_COMPLETED_FAMILY_RECORDS_BOUND_TO_SAME_PACKET_AND_REVIEWER"
+  },
+  "prior_smoke": {
+    "single_case_records_consumed_as_final_evidence": false,
+    "rationale": "Earlier 3 ADMIT records were transport smoke only and remain non-final."
+  },
+  "truth_boundary": "External model audits prompt/grader/source-evidence alignment. Deterministic source or executable-test truth remains authoritative for all 1500 cases.",
+  "claim_ceiling": "CORRECTED_PREREGISTERED_FAMILY_AUDIT_EXECUTION_ONLY / V2 HELD BEFORE REVIEW / NO_BATCHED_AUDIT_RESULT CONSUMED / NOT_RETENTION_ADMISSION"
+}

@@ -1,0 +1,26 @@
+{
+  "authoritative_execution": {
+    "python_pid_observed": 18772,
+    "result_files_timestamp_local": "2026-10-02T18:52:06-04:00",
+    "started_local": "2026-10-02T18:27:09-04:00",
+    "wrapper_pid_observed": 30160
+  },
+  "claim_ceiling": "Runtime provenance incident; does not establish semantic independence or prove absence of all interference.",
+  "date": "2026-10-02",
+  "duplicate_execution": {
+    "cancel_scope": "DUPLICATE_V3_REVIEWER_QUALIFICATION_ONLY",
+    "cancelled_by_this_chat": true,
+    "python_pid_observed": 31020,
+    "receipt_files_written_by_duplicate": false,
+    "semantic_packet_review_observed": false,
+    "started_local": "2026-10-02T18:40:32-04:00",
+    "wrapper_pid_observed": 20592
+  },
+  "ollama_observation": {
+    "attribution": "Consistent with duplicate client cancellation; authoritative PID 18772 was subsequently observed as the sole established client to port 11434 and continued generation.",
+    "http_500_local": "2026-10-02T18:46:09-04:00",
+    "server_message": "aborting completion request due to client closing the connection"
+  },
+  "result_use": "Only the authoritative 18:27 execution receipts are used for V3 result classification.",
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V3_EXECUTION_INCIDENT_V1"
+}

@@ -1,0 +1,133 @@
+{
+  "blind_plaintext_included": false,
+  "corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+  "custom_source": {
+    "corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V10",
+    "families": {
+      "correction_uptake": 1000,
+      "empathy_affective_response": 1000,
+      "epistemic_provenance": 1000,
+      "identity_stability": 1000,
+      "independent_judgment": 1000,
+      "negative_transfer_resistance": 1000,
+      "privacy_boundary": 1000,
+      "reciprocal_identity_continuity": 1000,
+      "relationship_authority": 1000,
+      "runtime_boundary": 1000
+    },
+    "manifest_digest": "fd55b8356f5639c8b47a726066122576e7c99078e26fcad6be79d3a11e5251b1",
+    "rows": 10000
+  },
+  "custom_validation_per_family": 50,
+  "general_fraction": 0.81,
+  "manifest_sha256": "0cd5240a86dade0b2bf7121f832588192a34487a2ad046727b70abaa4f33e99c",
+  "parent_v10_custom_corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V10",
+  "qwen_training_contract": {
+    "base_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+    "max_length": 512,
+    "overflow": "error",
+    "parent_adapter": null
+  },
+  "rehearsal_source": {
+    "bytes": 67202334,
+    "corpus_id": "VERA_V10_QWEN512_HF_REHEARSAL_42500_20261001_V1",
+    "qwen_max_tokens": 512,
+    "qwen_tokenizer_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "qwen_tokenizer_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+    "recipe_sha256": "93a7ed1f9ec88f5e99badb3856c9310301fea26ef09f4746e2e1b72b8d4cb12b",
+    "rows": 42500,
+    "schema": "VERA_V10_QWEN512_HF_REHEARSAL_MANIFEST_V1",
+    "sha256": "353eed36a1849a138074dd4fbb555004f92deb16ccf4686717cf0919fce94df5",
+    "source_stats": {
+      "Mixture_of_Thoughts_science_no_think": {
+        "accepted": 6000,
+        "rejected_duplicate": 0,
+        "rejected_length": 1048,
+        "rejected_shape": 0,
+        "scanned": 7048,
+        "target": 6000
+      },
+      "OpenHermes_2.5_no_think": {
+        "accepted": 4000,
+        "rejected_duplicate": 0,
+        "rejected_length": 784,
+        "rejected_shape": 0,
+        "scanned": 4784,
+        "target": 4000
+      },
+      "smoltalk_smollm3_explore_instruct_rewriting_no_think": {
+        "accepted": 7500,
+        "rejected_duplicate": 45,
+        "rejected_length": 0,
+        "rejected_shape": 5,
+        "scanned": 7550,
+        "target": 7500
+      },
+      "smoltalk_smollm3_smol_rewrite_no_think": {
+        "accepted": 6500,
+        "rejected_duplicate": 0,
+        "rejected_length": 408,
+        "rejected_shape": 0,
+        "scanned": 6908,
+        "target": 6500
+      },
+      "smoltalk_smollm3_smol_summarize_no_think": {
+        "accepted": 6000,
+        "rejected_duplicate": 0,
+        "rejected_length": 2223,
+        "rejected_shape": 0,
+        "scanned": 8223,
+        "target": 6000
+      },
+      "table_gpt_no_think": {
+        "accepted": 5000,
+        "rejected_duplicate": 33,
+        "rejected_length": 5823,
+        "rejected_shape": 0,
+        "scanned": 10856,
+        "target": 5000
+      },
+      "tulu_3_sft_personas_instruction_following_no_think": {
+        "accepted": 7500,
+        "rejected_duplicate": 6,
+        "rejected_length": 2553,
+        "rejected_shape": 0,
+        "scanned": 10059,
+        "target": 7500
+      }
+    },
+    "unique_pairs": 42500
+  },
+  "rehearsal_validation_rows": 2000,
+  "schema": "VERA_V10_QWEN512_TRAINING_CORPUS_MANIFEST_V1",
+  "source_rows": 52500,
+  "split_seed": "VERA_V4_1_SPLIT_20260930_V1",
+  "train_counts_by_source_class": {
+    "correction_supersession": 950,
+    "decision_under_conflict": 2850,
+    "empathy_affective_response": 950,
+    "evolving_preference_value_evidence": 950,
+    "ordinary_general_competence": 40500,
+    "relationship_relational_grammar": 950,
+    "runtime_state_evidence": 950,
+    "stable_identity_evidence": 1900
+  },
+  "train_rows": 50000,
+  "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+  "train_validation_overlap": 0,
+  "training_authorization": "NOT_GRANTED",
+  "validation_counts_by_source_class": {
+    "correction_supersession": 50,
+    "decision_under_conflict": 150,
+    "empathy_affective_response": 50,
+    "evolving_preference_value_evidence": 50,
+    "ordinary_general_competence": 2000,
+    "relationship_relational_grammar": 50,
+    "runtime_state_evidence": 50,
+    "stable_identity_evidence": 100
+  },
+  "validation_rows": 2500,
+  "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+  "weight_change_performed": false
+}

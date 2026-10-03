@@ -1,0 +1,133 @@
+{
+  "blockers": [
+    "NO_AUTHENTICATED_INDEPENDENT_REVIEWER_PATH_BOUND",
+    "NO_CASES_ADMITTED",
+    "NO_SEMANTIC_SCREEN_RECEIPT",
+    "NO_FROZEN_BANK_MANIFEST"
+  ],
+  "case_contract": {
+    "allowed_reviewer_classes": [
+      "HUMAN_REVIEW",
+      "EXTERNAL_MODEL_REVIEW",
+      "EXTERNAL_REVIEW"
+    ],
+    "behavioral_additional_fields": [
+      "dimension"
+    ],
+    "case_id_unique": true,
+    "independent_review_required": true,
+    "license_or_terms_required": true,
+    "normalized_prompt_unique": true,
+    "required_fields": [
+      "case_id",
+      "lane",
+      "family_id",
+      "prompt",
+      "source_id",
+      "source_revision",
+      "source_terms",
+      "source_hash",
+      "generation_method",
+      "generation_actor_id",
+      "grader_contract",
+      "review_receipt"
+    ],
+    "review_receipt_required_fields": [
+      "verdict",
+      "reviewer_id",
+      "reviewer_class",
+      "provider",
+      "runtime",
+      "independent_from_generation",
+      "artifact_digest",
+      "subject_digest"
+    ],
+    "reviewer_must_differ_from_generation_actor": true,
+    "semantic_review_allowed_reviewer_classes": [
+      "HUMAN_REVIEW"
+    ],
+    "source_revision_required": true,
+    "unreviewed_case_admissible": false
+  },
+  "claim_ceiling": "ADMISSION_AND_CONTAMINATION_POLICY_FROZEN / ZERO_FINAL_CASES_ADMITTED / INDEPENDENT_REVIEW_UNBOUND / FINAL_BANK_NOT_FROZEN / TRAINING_HOLD",
+  "contamination_policy": {
+    "consumed_prompt_fingerprints_required": true,
+    "exact_overlap": "REJECT",
+    "exclusion_registry": "successor/experiments/V10_QWEN35_EXCLUSION_REGISTRY_V1.json",
+    "normalized_overlap": "REJECT",
+    "prompt_fingerprint_registry": "successor/experiments/V10_QWEN35_EXCLUSION_FINGERPRINT_MANIFEST_V2.json",
+    "prompt_hashes": "successor/experiments/V10_QWEN35_EXCLUSION_PROMPT_HASHES_V2.txt",
+    "semantic_screen": {
+      "claim_ceiling": "HEURISTIC_SCREEN_NOT_ZERO_CONTAMINATION_PROOF",
+      "cosine_fail_threshold": 0.9,
+      "freeze_rule": "POLICY_FROZEN_BEFORE_ANY_V2_FINAL_BANK_CASE_RESULTS",
+      "local_archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+      "local_revision_label": "826711e",
+      "model_repo": "sentence-transformers/all-MiniLM-L6-v2",
+      "required": true
+    },
+    "source_or_family_group_leak": "REJECT",
+    "train_validation_prompt_fingerprints_required": true
+  },
+  "date": "2026-10-01",
+  "experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_20261001_V2",
+  "freeze_receipt_required_fields": [
+    "bank_id",
+    "case_count",
+    "lane_counts",
+    "dimension_counts",
+    "family_counts",
+    "data_sha256",
+    "manifest_sha256",
+    "exclusion_registry_sha256",
+    "contamination_receipt_sha256",
+    "grader_bundle_sha256",
+    "review_bundle_sha256",
+    "source_revisions",
+    "freeze_commit"
+  ],
+  "grader_policy": {
+    "deterministic_first": true,
+    "deterministic_grader_requires_validated_answer_key_or_contract": true,
+    "external_model_review_role": "OBJECTIVE_CASE_AUDIT_OR_SECONDARY_DIAGNOSTIC_ONLY",
+    "llm_judge_primary": false,
+    "llm_judge_secondary_only_if_calibrated": true,
+    "runtime_effect_cases": "SEPARATE_EVIDENCE_DOMAIN",
+    "semantic_cases_require_independent_human_review": true,
+    "semantic_cases_require_independent_review": true
+  },
+  "one_shot_policy": {
+    "base_revision_bound_before_scoring": true,
+    "candidate_digest_bound_before_scoring": true,
+    "failed_or_incomplete_final_consumes_candidate_bank_pair": true,
+    "generation_config_bound_before_scoring": true,
+    "grader_bundle_bound_before_scoring": true,
+    "no_iterative_tuning_on_final": true
+  },
+  "quotas": {
+    "adversarial": {
+      "dimensions": "H01-H20",
+      "rows": 2000,
+      "rows_per_dimension": 100
+    },
+    "behavioral": {
+      "dimensions": "H01-H20",
+      "min_independent_families_per_dimension": 50,
+      "rows": 10000,
+      "rows_per_dimension": 500
+    },
+    "retention": {
+      "allocation": {
+        "coding": 250,
+        "extraction_structured": 200,
+        "instruction_following": 250,
+        "knowledge_factuality": 300,
+        "reasoning_math": 300,
+        "truthfulness_factual_calibration": 200
+      },
+      "rows": 1500
+    }
+  },
+  "schema": "V10_QWEN35_FINAL_BANK_ADMISSION_V2",
+  "status": "SPEC_FROZEN_NO_CASES_ADMITTED"
+}

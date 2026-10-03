@@ -1,0 +1,46 @@
+{
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "cases_per_family": 5,
+  "claim_ceiling": "INDEPENDENT_EXTERNAL_MODEL_FAMILY_AUDIT_V4 / V3_PREDECESSOR_REMAINS_HOLD / DETERMINISTIC_SOURCE_OR_TEST_TRUTH_REMAINS_AUTHORITATIVE / NOT_BEHAVIORAL_OR_ADVERSARIAL_FINAL_BANK_REVIEW",
+  "family_count": 26,
+  "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+  "protocol_sha256": "488b593eeece7df083cf69496ffac7ef62e7f06af8a910364848d34335e27248",
+  "response_contract": {
+    "derived_verdict": "ADMIT iff all three boolean judgments are true; otherwise REJECT",
+    "reviewer_emits_verdict": false
+  },
+  "review_output_sha256": "dfe66a8b742a66ff9a9153ed7a4afb2d89b22a013e5e64a193579d030c671d64",
+  "reviewer": {
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261001,
+    "temperature": 0
+  },
+  "sample_rows": 130,
+  "schema": "V10_RETENTION_FAMILY_MODEL_AUDIT_V4",
+  "summary": {
+    "admit": 10,
+    "by_family": {
+      "evidence-calibration:mode-0": {
+        "ADMIT": 5
+      },
+      "evidence-calibration:mode-1": {
+        "ADMIT": 5
+      },
+      "evidence-calibration:mode-2": {
+        "REJECT": 5
+      }
+    },
+    "families_expected": 26,
+    "families_reviewed": 3,
+    "reasons": [
+      "missing_family_count:23",
+      "reject_count:5"
+    ],
+    "reject": 5,
+    "reviewed": 15,
+    "status": "HOLD"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "defect_counts": {
+    "REVIEWER_DEFECT": 5,
+    "UNRESOLVED": 16
+  },
+  "findings": [
+    {
+      "case_id": "ret-cal-vi-2",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-cal-pm-2",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-cal-sj-2",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-cal-td-2",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-cal-lk-2",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-code-flatten_once-002",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-code-pairwise_sums-005",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-code-rotate_left-032",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-code-rotate_left-025",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-code-rotate_left-004",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-if-forbidden_character-008",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-if-token_count-037",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-if-token_count-074",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-if-token_count-018",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-if-token_count-005",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-if-token_count-031",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_reconciliation"
+    },
+    {
+      "case_id": "ret-math-gs-me-settlement_difference",
+      "classification": "REVIEWER_DEFECT",
+      "reason": "derived_answer_conflicts_with_mechanical_fact"
+    },
+    {
+      "case_id": "ret-math-lk-gs-settlement_difference",
+      "classification": "REVIEWER_DEFECT",
+      "reason": "derived_answer_conflicts_with_mechanical_fact"
+    },
+    {
+      "case_id": "ret-math-tf-za-settlement_difference",
+      "classification": "REVIEWER_DEFECT",
+      "reason": "derived_answer_conflicts_with_mechanical_fact"
+    },
+    {
+      "case_id": "ret-math-gl-pa-settlement_difference",
+      "classification": "REVIEWER_DEFECT",
+      "reason": "derived_answer_conflicts_with_mechanical_fact"
+    },
+    {
+      "case_id": "ret-math-in-pw-settlement_difference",
+      "classification": "REVIEWER_DEFECT",
+      "reason": "derived_answer_conflicts_with_mechanical_fact"
+    }
+  ],
+  "schema": "RETENTION_AUDIT_ARCH_V5_RECONCILIATION_V1",
+  "status": "RETENTION_HOLD_ARCH_V5"
+}

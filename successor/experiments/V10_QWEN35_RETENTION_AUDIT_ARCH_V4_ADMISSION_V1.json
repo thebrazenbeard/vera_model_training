@@ -1,0 +1,34 @@
+{
+  "blocking_classes": [
+    "BANK_DEFECT",
+    "REVIEWER_DEFECT",
+    "AUDIT_METHOD_DEFECT",
+    "TRANSPORT_DEFECT",
+    "BINDING_DEFECT",
+    "UNRESOLVED"
+  ],
+  "date": "2026-10-02",
+  "required": {
+    "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "mechanical_row_status_counts": {
+      "MECHANICAL_VALID": 1500
+    },
+    "mechanical_rows": 1500,
+    "mechanical_status": "MECHANICAL_VALIDATED",
+    "reconciliation_defect_counts": {},
+    "reconciliation_status": "RETENTION_ADMITTED_ARCH_V4",
+    "reviewer_qualification_status": "REVIEWER_QUALIFIED",
+    "reviewer_structured_contradictions": 0,
+    "semantic_case_ids_must_exactly_match_packet": true,
+    "semantic_family_count": 26,
+    "semantic_packet_rows": 130,
+    "semantic_packet_sha256": "d746d8eafc69b0c2610be77f985c38b59377fbe3953f812bdbbdbc644113e75e",
+    "semantic_reviewed_rows": 130,
+    "semantic_rows_per_family": 5,
+    "semantic_status": "SEMANTIC_AUDIT_COMPLETE",
+    "validator_qualification_status": "VALIDATORS_QUALIFIED"
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V4_ADMISSION_V1",
+  "status": "FROZEN_BEFORE_FIRST_V4_LIVE_REVIEW_CALL",
+  "training_authorized": false
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "V10_QWEN35_RETENTION_ADMISSION_V4",
+  "date": "2026-10-02",
+  "status": "PREREGISTERED_BEFORE_V4_AUDIT_RESULT",
+  "subject": {
+    "candidate_bank_id": "V10_QWEN35_RETENTION_CANDIDATE_1500_20261001_V1",
+    "expected_rows": 1500,
+    "expected_candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a"
+  },
+  "predecessor_v3": {
+    "protocol_sha256": "1e97bad32714f6b3dc6511b18a33ea33d8110262625864fb3d04d2ef49ad9add",
+    "partial_review_output_sha256": "5c04a624592c3a2dae82072a65a758b0e0ae3020494b4297d470a0a85452c939",
+    "hold_receipt_sha256": "d0432f10ced22c168d8dd1371144e661c27c7d18e31ed4eb7be2483eb8ed46c3",
+    "reusable_as_v4_admission_evidence": false,
+    "status": "HOLD"
+  },
+  "family_audit_v4": {
+    "protocol_path": "successor/experiments/V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V4.json",
+    "protocol_sha256": "488b593eeece7df083cf69496ffac7ef62e7f06af8a910364848d34335e27248",
+    "runner_path": "successor/experiments/run_v10_retention_family_audit_v4.py",
+    "runner_sha256": "c85def55c8e592dcfd2d8795b82299801e7c50dc6bd318645d76ac47fbf5ea9f",
+    "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "sample_rows": 130,
+    "family_count": 26,
+    "cases_per_family": 5,
+    "reviewer": {
+      "provider": "OLLAMA_LOCAL",
+      "model": "ministral-3:14b",
+      "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+      "runtime": "ollama version is 0.34.2",
+      "temperature": 0,
+      "seed": 20261001
+    },
+    "reviewer_emits_verdict": false,
+    "derived_verdict": "ADMIT iff prompt_well_posed AND grader_matches_prompt AND source_evidence_sufficient; otherwise REJECT",
+    "all_130_derived_verdicts_required": "ADMIT",
+    "any_reject": "HOLD",
+    "incomplete_or_early_stop": "HOLD",
+    "v3_rows_reusable": false
+  },
+  "semantic_contamination": {
+    "required": true,
+    "semantic_receipt_sha256": "a8ae6b55c73469d85064cf8e483f4a75a78d75bd62f0c18bfc9063fee928ea71",
+    "threshold": 0.9,
+    "model_archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+    "registry_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f",
+    "target_sha256_must_equal_candidate": true
+  },
+  "all_case_requirements": {
+    "exact_allocation": true,
+    "unique_case_ids": true,
+    "unique_normalized_prompts": true,
+    "exact_normalized_exclusion": "REJECT",
+    "deterministic_grader_contract": true,
+    "source_hash_bound": true,
+    "source_audit_receipt": true
+  },
+  "boundaries": {
+    "retention_lane_only": true,
+    "behavioral_adversarial_not_admitted": true,
+    "candidate_scoring_occurred": false,
+    "training_occurred": false,
+    "weight_change_authorized": false,
+    "merge_authority": "Patrick"
+  },
+  "claim_ceiling": "RETENTION_V4_ADMISSION_POLICY_ONLY / NO_V4_AUDIT_RESULT_CONSUMED / NOT_FULL_FINAL_BANK / NO_TRAINING"
+}

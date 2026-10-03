@@ -1,0 +1,79 @@
+{
+  "authority_separation": {
+    "allowed_witness_resolutions": [
+      "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "BANK_DEFECT_CONFIRMED",
+      "AUDIT_METHOD_DEFECT_CONFIRMED"
+    ],
+    "confirmed_audit_method_defect_blocks": true,
+    "confirmed_bank_defect_blocks": true,
+    "reviewer_false_positive_blocks_after_deterministic_contradiction": false,
+    "reviewer_false_positive_class": "REVIEWER_DEFECT",
+    "reviewer_role": "SEMANTIC_ADVERSARY_NOT_TRUTH_AUTHORITY",
+    "unresolved_semantic_witness_blocks": true,
+    "witness_resolution_requires_nonempty_evidence": true
+  },
+  "candidate_v3": {
+    "added_all_fresh": true,
+    "coding_rows": 250,
+    "fresh_deficits": {},
+    "mutant_survivors": 0,
+    "parent_candidate_v2_sha256": "4ed78c578b7c99504f52a2a8cc29d10396ddb2460471704340b915871c1441dc",
+    "path": "successor/evaluation/v10_qwen35/retention_candidate_v3.jsonl",
+    "reference_failures": 0,
+    "removed_all_consumed": true,
+    "repair": "All retained/generated chunk_list prompts use explicit conditional remainder semantics.",
+    "replacement_count": 12,
+    "sha256": "6f47fe7da958abaf02311ae8a740b71d1bc0e9adbac88ce5c2da14139c3792f6",
+    "verification_status": "CANDIDATE_V3_MUTATION_AND_FRESHNESS_ADEQUATE"
+  },
+  "claim_ceiling": "RETENTION_AUDIT_ARCH_V7_ONLY / METHODOLOGY_DESIGNED_AFTER_V6_FINDINGS / NOT_INDEPENDENT_EXTERNAL_REVIEW / NOT_FULL_FINAL_BANK / NOT_TRAINING_AUTHORIZATION",
+  "date": "2026-10-03",
+  "historical_methodology_independence": false,
+  "pre_admission_evidence": {
+    "mechanical_row_status_counts": {
+      "MECHANICAL_VALID": 1500
+    },
+    "mechanical_rows": 1500,
+    "mechanical_status": "MECHANICAL_VALIDATED",
+    "semantic_screen_failure_count": 0,
+    "semantic_screen_max_cosine": 0.6243317723274231,
+    "semantic_screen_status": "PASS",
+    "semantic_screen_threshold": 0.9,
+    "validator_qualification_status": "VALIDATORS_QUALIFIED"
+  },
+  "predecessor": {
+    "architecture": "V6",
+    "blocking_defect_counts": {
+      "BANK_DEFECT": 2
+    },
+    "nonblocking_finding_counts": {
+      "REVIEWER_DEFECT": 8
+    },
+    "result_manifest_path": "successor/evaluation/v10_qwen35/retention_arch_v6.result.manifest.json",
+    "semantic_rows_reviewed": 130,
+    "status": "RETENTION_HOLD_ARCH_V6",
+    "witness_adjudication_path": "successor/evaluation/v10_qwen35/retention_arch_v6.witness_adjudication.json"
+  },
+  "repair_class": "V6_CHUNK_WORDING_REPAIR_AND_FRESH_EVIDENCE_REPLENISHMENT",
+  "reviewer_changes": {
+    "admission_verdict_hidden": true,
+    "answer_key_hidden": true,
+    "derived_answer_rule": "Bare requested answer only; no explanation or surrounding prose.",
+    "fresh_v7_qualification_controls": 48,
+    "qualification_controls_disjoint_from_v6_by_case_id": true,
+    "structured_output_json_schema": true
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V7_METHOD_V1",
+  "semantic_packet": {
+    "disjoint_from_all_predecessors": true,
+    "excluded_predecessor_case_ids": 520,
+    "families": 26,
+    "path": "successor/evaluation/v10_qwen35/retention_arch_v7.semantic.packet.jsonl",
+    "rows": 130,
+    "rows_per_family": 5,
+    "selection_method": "Architecture V2 deterministic risk-plus-sentinel selection applied to Candidate V3 after exclusion of four consumed predecessor packets.",
+    "sha256": "4de3ae3f5757f76417f8561f4c415b4be1daedf3ca4c42cd202b2cb92e1cd20f"
+  },
+  "status": "FROZEN_BEFORE_FIRST_V7_LIVE_REVIEW_CALL"
+}

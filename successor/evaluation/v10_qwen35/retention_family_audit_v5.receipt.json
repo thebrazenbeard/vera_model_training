@@ -1,0 +1,105 @@
+{
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "cases_per_family": 5,
+  "claim_ceiling": "DISJOINT_METHODOLOGY_REPAIR_FAMILY_AUDIT_V5 / PREDECESSOR_PACKET_CASES_EXCLUDED / DETERMINISTIC_SOURCE_OR_TEST_TRUTH_REMAINS_AUTHORITATIVE / NOT_BEHAVIORAL_OR_ADVERSARIAL_FINAL_BANK_REVIEW",
+  "family_count": 26,
+  "packet_sha256": "1be692e63d76cbcdd3a4943a82272c5d41ad3f202a0fd7f08ef40a18446c06ba",
+  "predecessor_packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+  "protocol_sha256": "781e4b6b64b96577f3cf9893b37e6a523085fc9cffb5be53fc91e37d44e9c3c2",
+  "response_contract": {
+    "derived_verdict": "ADMIT iff prompt_well_posed AND grader_matches_prompt AND evidence_policy_supports_expected_answer; otherwise REJECT",
+    "reviewer_emits_verdict": false
+  },
+  "review_output_sha256": "6848f484ab8dac8381414126209e3c30ce67e2ceac82b92babb7f4f44c537e6b",
+  "reviewer": {
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261001,
+    "temperature": 0
+  },
+  "sample_rows": 130,
+  "schema": "V10_RETENTION_FAMILY_MODEL_AUDIT_V5",
+  "summary": {
+    "admit": 109,
+    "by_family": {
+      "evidence-calibration:mode-0": {
+        "ADMIT": 5
+      },
+      "evidence-calibration:mode-1": {
+        "ADMIT": 5
+      },
+      "evidence-calibration:mode-2": {
+        "ADMIT": 5
+      },
+      "generated-code:chunk_list": {
+        "ADMIT": 5
+      },
+      "generated-code:clamp_values": {
+        "ADMIT": 5
+      },
+      "generated-code:count_vowels": {
+        "ADMIT": 5
+      },
+      "generated-code:digit_sum": {
+        "ADMIT": 5
+      },
+      "generated-code:flatten_once": {
+        "ADMIT": 5
+      },
+      "generated-code:frequency_map": {
+        "ADMIT": 5
+      },
+      "generated-code:pairwise_sums": {
+        "ADMIT": 5
+      },
+      "generated-code:reverse_words": {
+        "ADMIT": 5
+      },
+      "generated-code:rotate_left": {
+        "ADMIT": 5
+      },
+      "generated-code:unique_preserve": {
+        "ADMIT": 5
+      },
+      "generated-instruction:forbidden_character": {
+        "ADMIT": 5
+      },
+      "generated-instruction:json_keys": {
+        "ADMIT": 5
+      },
+      "generated-instruction:line_prefixes": {
+        "ADMIT": 5
+      },
+      "generated-instruction:prefix_suffix": {
+        "ADMIT": 5
+      },
+      "generated-instruction:token_count": {
+        "ADMIT": 5
+      },
+      "location-arithmetic:region_sum": {
+        "ADMIT": 5
+      },
+      "location-arithmetic:settlement_difference": {
+        "ADMIT": 5
+      },
+      "location-arithmetic:settlement_sum": {
+        "ADMIT": 5
+      },
+      "location:code_from_name": {
+        "ADMIT": 4,
+        "REJECT": 1
+      }
+    },
+    "families_expected": 26,
+    "families_reviewed": 22,
+    "reasons": [
+      "missing_family_count:4",
+      "reject_count:1"
+    ],
+    "reject": 1,
+    "reviewed": 110,
+    "status": "HOLD"
+  }
+}

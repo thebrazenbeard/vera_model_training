@@ -1,0 +1,20 @@
+{
+  "schema": "V10_QWEN35_TRAINING_AUTHORITY_INTENT_V1",
+  "date": "2026-10-03",
+  "status": "USER_DIRECT_CONDITIONAL_ONE_RUN_AUTHORITY",
+  "authority_actor_id": "PATRICK_USER_AUTHORITY",
+  "authorization_source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+  "effect": "TRAIN_ONE_FRESH_QLORA_ADAPTER",
+  "max_training_runs": 1,
+  "paid_compute_authorized": false,
+  "merge_authorized": false,
+  "install_activate_deploy_authorized": false,
+  "condition_precedent": [
+    "retention lane admitted under the frozen current lineage",
+    "full 13500-case final bank admitted and sealed before training",
+    "sealed final-bank commitment available for exact receipt binding",
+    "exact runtime reverified immediately before weight change",
+    "training preflight has no blocker except the executable authority receipt before materialization"
+  ],
+  "claim_ceiling": "USER_DIRECT_CONDITIONAL_ONE_RUN_AUTHORITY_INTENT / NOT EXECUTABLE AUTHORITY / DOES NOT BYPASS BANK OR PREFLIGHT GATES / NO WEIGHT CHANGE"
+}
