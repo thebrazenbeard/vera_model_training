@@ -231,3 +231,33 @@ def test_optimizer_state_summary_handles_torchao_optimstate8bit() -> None:
     assert summary['floating_state_tensor_count'] == 2
     assert summary['nonfinite_state_tensor_count'] == 0
     assert summary['all_floating_state_finite'] is True
+
+def test_matched_bnb8_control_differs_only_in_optimizer_role_and_output() -> None:
+    torchao_path = (
+        _repo_root() / 'successor' / 'experiments' /
+        'V10R2_LANE_B_DEV_SPEC_FLA_TORCHAO8_STEP1_20261003_V1.json'
+    )
+    bnb8_path = (
+        _repo_root() / 'successor' / 'experiments' /
+        'V10R2_LANE_B_DEV_SPEC_FLA_BNB8_STEP1_MATCHED_20261003_V1.json'
+    )
+    torchao = load_and_validate_dev_spec(torchao_path)
+    bnb8 = load_and_validate_dev_spec(bnb8_path)
+    assert torchao['trainer']['optimizer'] == 'adamw_torch_8bit'
+    assert bnb8['trainer']['optimizer'] == 'adamw_bnb_8bit'
+    assert torchao['trainer']['pad_to_multiple_of'] is None
+    assert bnb8['trainer']['pad_to_multiple_of'] is None
+    assert torchao['development_window'] == bnb8['development_window'] == {
+        'start_row': 4096, 'row_count': 8
+    }
+    assert torchao['source_subject'] == bnb8['source_subject']
+    assert torchao['acceleration'] == bnb8['acceleration']
+    assert torchao['quantization'] == bnb8['quantization']
+    assert torchao['model_load'] == bnb8['model_load']
+    assert torchao['lora'] == bnb8['lora']
+    ignored_trainer = {'optimizer'}
+    assert {k:v for k,v in torchao['trainer'].items() if k not in ignored_trainer} == {
+        k:v for k,v in bnb8['trainer'].items() if k not in ignored_trainer
+    }
+    assert torchao['output']['namespace'] != bnb8['output']['namespace']
+    assert torchao['comparison']['role'] != bnb8['comparison']['role']
