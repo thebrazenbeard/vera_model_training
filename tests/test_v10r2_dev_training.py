@@ -242,6 +242,7 @@ def test_continuation_spec_binds_prior_adapter_and_next_row(tmp_path: Path) -> N
         "source_spec_sha256": "4" * 64,
         "source_weight_digest_after": "3" * 64,
         "previous_optimizer_steps": 4,
+        "source_cumulative_optimizer_steps": 4,
         "next_train_row": 32,
     }
     path.write_text(json.dumps(value), encoding="utf-8")
@@ -264,6 +265,7 @@ def test_continuation_spec_rejects_row_reuse(tmp_path: Path) -> None:
         "source_spec_sha256": "4" * 64,
         "source_weight_digest_after": "3" * 64,
         "previous_optimizer_steps": 4,
+        "source_cumulative_optimizer_steps": 4,
         "next_train_row": 32,
     }
     path.write_text(json.dumps(value), encoding="utf-8")
@@ -283,6 +285,7 @@ def test_continuation_spec_rejects_invalid_adapter_hash(tmp_path: Path) -> None:
         "source_spec_sha256": "4" * 64,
         "source_weight_digest_after": "3" * 64,
         "previous_optimizer_steps": 4,
+        "source_cumulative_optimizer_steps": 4,
         "next_train_row": 0,
     }
     path.write_text(json.dumps(value), encoding="utf-8")
@@ -321,6 +324,7 @@ def _make_resume_fixture(tmp_path: Path) -> tuple[Path, dict]:
         "spec_sha256": source_spec_sha,
         "weight_digest_after": "3" * 64,
         "weight_digest_changed": True,
+        "cumulative_optimizer_steps": 4,
     }
     receipt_sha = hashlib.sha256(
         json.dumps(
@@ -343,6 +347,7 @@ def _make_resume_fixture(tmp_path: Path) -> tuple[Path, dict]:
         "source_spec_sha256": source_spec_sha,
         "source_weight_digest_after": "3" * 64,
         "previous_optimizer_steps": 4,
+        "source_cumulative_optimizer_steps": 4,
         "next_train_row": 32,
     }
     return adapter_dir, resume
@@ -354,6 +359,7 @@ def test_verify_resume_adapter_binds_adapter_spec_and_receipt(tmp_path: Path) ->
     assert result["status"] == "RESUME_ADAPTER_VERIFIED"
     assert result["next_train_row"] == 32
     assert result["previous_optimizer_steps"] == 4
+    assert result["source_cumulative_optimizer_steps"] == 4
 
 
 def test_verify_resume_adapter_rejects_modified_adapter(tmp_path: Path) -> None:
@@ -361,3 +367,49 @@ def test_verify_resume_adapter_rejects_modified_adapter(tmp_path: Path) -> None:
     (adapter_dir / "adapter_model.safetensors").write_bytes(b"tampered")
     with pytest.raises(DevTrainingHold, match="adapter_model_sha256 mismatch"):
         verify_resume_adapter(tmp_path, resume)
+
+
+def test_verify_resume_adapter_uses_source_cumulative_steps_for_nested_continuation(tmp_path: Path) -> None:
+    adapter_dir, resume = _make_resume_fixture(tmp_path)
+    source_spec_path = Path(resume["source_spec_path"])
+    source_spec = json.loads(source_spec_path.read_text())
+    source_spec["trainer"]["max_optimizer_steps"] = 8
+    source_spec["development_window"] = {"start_row": 32, "row_count": 64}
+    source_spec["resume_adapter"] = {
+        "path": str(tmp_path / "earlier" / "adapter"),
+        "adapter_model_sha256": "a" * 64,
+        "source_receipt_path": str(tmp_path / "earlier-receipt.json"),
+        "source_receipt_sha256": "b" * 64,
+        "source_spec_path": str(tmp_path / "earlier-spec.json"),
+        "source_spec_sha256": "c" * 64,
+        "source_weight_digest_after": "d" * 64,
+        "previous_optimizer_steps": 4,
+        "source_cumulative_optimizer_steps": 4,
+        "next_train_row": 32,
+    }
+    source_spec_path.write_text(json.dumps(source_spec), encoding="utf-8")
+    source_spec_sha = hashlib.sha256(source_spec_path.read_bytes()).hexdigest()
+
+    receipt_path = Path(resume["source_receipt_path"])
+    receipt = {
+        "spec_sha256": source_spec_sha,
+        "weight_digest_after": "3" * 64,
+        "weight_digest_changed": True,
+        "cumulative_optimizer_steps": 12,
+    }
+    receipt_sha = hashlib.sha256(
+        json.dumps(receipt, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+    receipt["receipt_sha256"] = receipt_sha
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+
+    resume["source_spec_sha256"] = source_spec_sha
+    resume["source_receipt_sha256"] = receipt_sha
+    resume["previous_optimizer_steps"] = 8
+    resume["source_cumulative_optimizer_steps"] = 12
+    resume["next_train_row"] = 96
+
+    result = verify_resume_adapter(tmp_path, resume)
+    assert result["previous_optimizer_steps"] == 8
+    assert result["source_cumulative_optimizer_steps"] == 12
+    assert result["next_train_row"] == 96

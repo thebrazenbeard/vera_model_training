@@ -213,6 +213,13 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
             raise DevTrainingHold(
                 "resume_adapter source_spec_sha256 invalid"
             )
+        cumulative = resume.get("source_cumulative_optimizer_steps")
+        if cumulative is not None and (
+            not isinstance(cumulative, int) or cumulative < prior_steps
+        ):
+            raise DevTrainingHold(
+                "resume_adapter source_cumulative_optimizer_steps invalid"
+            )
 
     quant = value.get("quantization")
     if not isinstance(quant, dict):
@@ -464,6 +471,18 @@ def verify_resume_adapter(root: Path | str, resume: dict) -> dict:
         raise DevTrainingHold(
             "resume source receipt does not prove weight change"
         )
+    source_cumulative = resume.get("source_cumulative_optimizer_steps")
+    if not isinstance(source_cumulative, int):
+        raise DevTrainingHold(
+            "resume source_cumulative_optimizer_steps missing"
+        )
+    receipt_cumulative = receipt.get("cumulative_optimizer_steps")
+    if receipt_cumulative != source_cumulative:
+        raise DevTrainingHold(
+            "resume source_cumulative_optimizer_steps mismatch:"
+            f"{resume['source_cumulative_optimizer_steps']}!="
+            f"{receipt_cumulative}"
+        )
 
     adapter_config = _read_json(adapter_config_path)
     expected_adapter = {
@@ -491,6 +510,9 @@ def verify_resume_adapter(root: Path | str, resume: dict) -> dict:
         "source_receipt_sha256": actual_receipt_sha,
         "source_weight_digest_after": receipt["weight_digest_after"],
         "previous_optimizer_steps": resume["previous_optimizer_steps"],
+        "source_cumulative_optimizer_steps": resume[
+            "source_cumulative_optimizer_steps"
+        ],
         "next_train_row": resume["next_train_row"],
     }
 
@@ -795,7 +817,7 @@ def execute_dev_training(
         "cumulative_optimizer_steps": (
             trainer_spec["max_optimizer_steps"]
             + (
-                resume_check["previous_optimizer_steps"]
+                resume_check["source_cumulative_optimizer_steps"]
                 if resume_check is not None
                 else 0
             )
