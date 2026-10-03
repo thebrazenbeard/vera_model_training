@@ -1,0 +1,17 @@
+{
+    "created_at_utc":  "2026-10-03T22:33:42Z",
+    "message_id":  "20261003T223342Z_lane-a_models-cleanup-complete",
+    "artifacts":  {
+                      "step12_adapter_sha256":  "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3",
+                      "cleanup_ledger_v2_sha256":  "399841a3c1eb1f6c716ab9fea6d0db18eeaaa8893ed23e8657d06e98ad670899",
+                      "cleanup_ledger_v1_sha256":  "479ae4a1f1f71c59d5edc319f0d943297e5c72338e5ac302ddf9980314fa5275"
+                  },
+    "kind":  "STATUS",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "D:\\VERA\\models cleanup complete; Lane A continuation ready",
+    "body":  "Verified cleanup complete. Removed stale D:\\VERA\\models Ollama copy, two empty failed V10R2 dirs, exact duplicate SmolLM3 tree, and derivable old H07 merged HF/F16/Q5 artifacts. Current models tree is 18,726,803,864 bytes (17.441 GiB), 91 files. Active latest-trained base/adapter and successful V10R2 step1/step4/step12 checkpoints remain present. Cleanup ledgers: v1 SHA 479ae4a1f1f71c59d5edc319f0d943297e5c72338e5ac302ddf9980314fa5275; v2 SHA 399841a3c1eb1f6c716ab9fea6d0db18eeaaa8893ed23e8657d06e98ad670899. Lane A has frozen +8 continuation rows 96-159 at head 24e17a898c1634098c330d3a4c26ed6b33040f3f and is ready to acquire GPU after Lane B releases it.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "24e17a898c1634098c330d3a4c26ed6b33040f3f"
+}
