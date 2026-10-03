@@ -16,6 +16,45 @@
     "status": "NOT_EXTERNALLY_EVALUATED"
   },
   "runs": {
+    "cont4_plus8": {
+      "adapter_manifest_sha256": "794fa5f49dc6fc9301514ecb0c69971e673a5468202ace451acd927543c4501b",
+      "adapter_model_sha256": "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3",
+      "cumulative_optimizer_steps": 12,
+      "development_rows": 64,
+      "development_start_row": 32,
+      "effect_label": "EIGHT_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEPS",
+      "optimizer": {
+        "backend": "bitsandbytes",
+        "class": "AdamW",
+        "is_paged": false,
+        "min_8bit_size": 4096,
+        "module": "bitsandbytes.optim.adamw",
+        "optim_bits": 8,
+        "wrapper_chain": []
+      },
+      "optimizer_state_mib": 16.632,
+      "receipt_file_sha256": "3f3136187cd1d9433816c158798a520345548026faaa9d9765c12d3bef11f83c",
+      "receipt_sha256": "19a9876003f0d71bebde58d90403fca61597af2fc3562b15fd77f1353e863648",
+      "resume_adapter": {
+        "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-step4-20261003\\adapter",
+        "adapter_model_sha256": "c3df08fe4ae7cea25595f1f2bda91a9bb0b06eb9a8e94b21c3f5fd9ca0772e4b",
+        "next_train_row": 32,
+        "previous_optimizer_steps": 4,
+        "source_receipt_path": "D:\\VERA\\.worktrees\\v10-training-knobs-v2-verify-20261003\\successor\\experiments\\receipts\\V10R2_QWEN35_STEP4_DEV_TRAINING_RECEIPT_20261003_V1.json",
+        "source_receipt_sha256": "8c02cad57d1ec6f89139623310d9de8a0ac13a484701e5a371a868a0baa3bc38",
+        "source_spec_path": "D:\\VERA\\.worktrees\\v10-training-knobs-v2-verify-20261003\\successor\\experiments\\V10R2_QWEN35_DEV_TRAINING_SPEC_BNB8_STEP4_V1.json",
+        "source_spec_sha256": "f1f9f07736dfb26630326feec3b25b794d52e7ce08b0c366bc01a054d440fc04",
+        "source_weight_digest_after": "0a6fde7105311cf14b7edf57b70e9985921217f9da26502a5dfccf0800a03d33",
+        "status": "RESUME_ADAPTER_VERIFIED"
+      },
+      "spec_sha256": "c08b8a452882f38a1b6e760fd8362d0d99528ffa411bbf931c21b4f657c92c4a",
+      "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+      "train_runtime_seconds": 877.0801,
+      "training_loss": 1.3552598506212234,
+      "weight_digest_after": "aa6f2021436f327f8d333fd81c4c4baa180341fd759ef652120890f251e5cb32",
+      "weight_digest_before": "0a6fde7105311cf14b7edf57b70e9985921217f9da26502a5dfccf0800a03d33",
+      "weight_digest_changed": true
+    },
     "step1": {
       "adapter_manifest_sha256": "9fca169fd578135aeb441a68ddcd9a2168a8eb35ebffd61730c464191a52c101",
       "adapter_model_sha256": "cb8d99afdb2dc4c4a53501f1fa2ff574e323293a2e7b7831bf30579b9008320d",
@@ -83,7 +122,7 @@
     "system_cuda_13_4_install_observed_in_progress": true
   },
   "schema": "V10R2_QWEN35_DEV_TRAINING_RESULT_MANIFEST_V1",
-  "status": "LOCAL_DEVELOPMENT_TRAINING_ADVANCED",
+  "status": "LOCAL_DEVELOPMENT_TRAINING_ADVANCED_TO_12_CUMULATIVE_STEPS",
   "torchao_trial": {
     "adapter_saved": false,
     "error_class": "torch._inductor.exc.TritonMissing",
