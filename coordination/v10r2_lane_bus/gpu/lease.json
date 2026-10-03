@@ -1,12 +1,12 @@
 {
-  "schema": "V10R2_GPU_LEASE_V1",
-  "resource": "LAPPY_RTX_3050_4GB",
-  "holder": "LANE_B",
-  "purpose": "Qwen3.5 DeltaNet runtime benchmark: torch reference vs torch.compile vs FLA Triton",
-  "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "2187271f1c8bd492f693ac9a88e9f7a42816c2d5",
-  "acquired_at_utc": "2026-10-03T22:22:53Z",
-  "released_at_utc": null,
-  "status": "HELD",
-  "rule": "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
+    "schema":  "V10R2_GPU_LEASE_V1",
+    "resource":  "LAPPY_RTX_3050_4GB",
+    "holder":  null,
+    "purpose":  null,
+    "training_branch":  null,
+    "training_head":  null,
+    "acquired_at_utc":  "2026-10-03T22:22:53Z",
+    "released_at_utc":  "2026-10-03T22:36:26Z",
+    "status":  "FREE",
+    "rule":  "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
 }
