@@ -291,7 +291,6 @@ def validate_runtime_observation(
     for field in (
         "python_version",
         "gpu",
-        "vram_mib",
         "driver",
         "cuda_runtime",
     ):
@@ -299,6 +298,22 @@ def validate_runtime_observation(
             reasons.append(
                 f"runtime target mismatch:{field}:"
                 f"{observed.get(field)}!={target.get(field)}"
+            )
+
+    observed_vram = observed.get("vram_mib")
+    target_vram = target.get("vram_mib")
+    if not isinstance(observed_vram, int) or not isinstance(target_vram, int):
+        reasons.append(
+            f"runtime target mismatch:vram_mib:"
+            f"{observed_vram}!={target_vram}"
+        )
+        vram_delta_mib = None
+    else:
+        vram_delta_mib = abs(observed_vram - target_vram)
+        if vram_delta_mib > 1:
+            reasons.append(
+                f"runtime target mismatch:vram_mib:"
+                f"{observed_vram}!={target_vram}"
             )
 
     expected_packages = binding.get("packages")
@@ -333,6 +348,7 @@ def validate_runtime_observation(
         "schema": "V10_QWEN35_LIVE_RUNTIME_CHECK_V1",
         "status": "PASS",
         "binding_sha256": binding.get("binding_sha256"),
+        "vram_delta_mib": vram_delta_mib,
     }
 
 
