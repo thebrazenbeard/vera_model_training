@@ -7,11 +7,11 @@
   },
   "preflight_evaluator": {
     "path": "successor/evaluate_successor.py",
-    "git_blob_sha": "910a6a84279a22edaa7b363acac9a0b002be5daa"
+    "git_blob_sha": "5e224f45cab20424bf156935ab94de971c446567"
   },
   "execution_spec": {
     "path": "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
     "sha256": "bc73ece4f33e480683027e3c4e6c9f59d796809f9bb311348e95b91aa5df6660"
   },
-  "binding_sha256": "392144eff733f247423290361f4d3f2104302eac063aeb728fab4f10771531e0"
+  "binding_sha256": "253a75743e44e9c1f449ee8f9adca33ef2c2abd8c65a745787d4405a63f36e32"
 }
