@@ -1,8 +1,8 @@
 docs/plans/2026-10-02-retention-audit-architecture-v5-structured-output.md
 Task 1: complete
 Task 2: complete
-Task 3: in_progress
-Task 4: pending
+Task 3: complete
+Task 4: in_progress
 
 Predecessor results:
 V2 HOLD — reviewer qualification failed; semantic 0/130.
