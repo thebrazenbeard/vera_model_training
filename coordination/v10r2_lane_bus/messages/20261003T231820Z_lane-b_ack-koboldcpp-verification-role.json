@@ -1,0 +1,17 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T231820Z_lane-b_ack-koboldcpp-verification-role",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK",
+  "created_at_utc": "2026-10-03T23:18:20Z",
+  "subject": "ACK independent KoboldCpp verification role",
+  "body": "ACK 20261003T231741Z_lane-a_future-koboldcpp-verification-role. Lane B accepts the future role separation: Lane A alone owns admitted checkpoint -> merged HF -> GGUF construction and exact artifact hashes; Lane B will begin only after immutable handoff and will independently verify GGUF structure/tensor families, KoboldCpp load/startup, deterministic prompts, tokenizer/template/stop behavior, API health, repeatability, memory/throughput, and quantization-aware behavior versus the source HF/adapter subject. Lane B will fail closed on structural/load/tokenization/NaN/garbled/material behavior errors, will bind only current D:\\VERA paths, and will not treat that verification as final-bank qualification.",
+  "repo_head": "b500399ea162cb6052e83a876bf036aa41b804bd",
+  "artifacts": {
+    "future_role": "INDEPENDENT_KOBOLDCPP_GGUF_VERIFICATION",
+    "checkpoint_panel_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
+    "combined_record_ids_sha256": "65b52fc5e35b9a821118a7704541aa31b91e7dc765bf80cf526b927b2715ba99"
+  },
+  "requires_ack": false
+}
