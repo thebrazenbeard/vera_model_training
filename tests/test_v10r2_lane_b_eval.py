@@ -73,3 +73,75 @@ def test_load_retention_shadow_manifest_requires_non_final_policy(tmp_path: Path
     p.write_text(json.dumps(value),encoding='utf-8')
     with pytest.raises(EvalConfigHold,match='final-bank use'):
         load_retention_shadow_manifest(p)
+
+
+def test_checkpoint_panel_manifest_validates_and_selects_exact_ids(tmp_path: Path) -> None:
+    import hashlib
+    from successor.experiments.evaluate_v10r2_lane_b import (
+        load_checkpoint_panel_manifest,
+        select_checkpoint_panel_rows,
+    )
+
+    anchor_ids = ['a', 'b']
+    confirm_ids = ['c', 'd', 'e']
+    combined = anchor_ids + confirm_ids
+    digest = lambda ids: hashlib.sha256(
+        json.dumps(ids, separators=(',', ':'), ensure_ascii=False).encode('utf-8')
+    ).hexdigest()
+    value = {
+        'schema': 'V10R2_HELDOUT_CHECKPOINT_PANEL_V1',
+        'role': 'DEVELOPMENT_CHECKPOINT_SELECTION_DIAGNOSTIC_NOT_FINAL_BANK',
+        'validation_sha256': 'c' * 64,
+        'validation_rows': 2500,
+        'selection_policy': {
+            'anchor_use': 'RUN_AFTER_EACH_BOUNDED_8_STEP_STAGE',
+            'confirmatory_use': 'RUN_AT_MILESTONES',
+            'final_bank_use': 'PROHIBITED',
+        },
+        'anchor_panel': {
+            'count': 2, 'salt': 's1', 'record_ids': anchor_ids,
+            'record_ids_sha256': digest(anchor_ids),
+        },
+        'confirmatory_panel': {
+            'count': 3, 'salt': 's2', 'record_ids': confirm_ids,
+            'record_ids_sha256': digest(confirm_ids),
+        },
+        'combined_panel': {
+            'count': 5, 'record_ids': combined,
+            'record_ids_sha256': digest(combined),
+        },
+        'claim_ceiling': 'DEVELOPMENT_ONLY',
+    }
+    p = tmp_path / 'panel.json'
+    p.write_text(json.dumps(value), encoding='utf-8')
+    manifest = load_checkpoint_panel_manifest(p)
+    rows = [
+        {'record_id': 'e', 'x': 5},
+        {'record_id': 'a', 'x': 1},
+        {'record_id': 'd', 'x': 4},
+        {'record_id': 'c', 'x': 3},
+        {'record_id': 'b', 'x': 2},
+    ]
+    selected = select_checkpoint_panel_rows(rows, manifest, 'combined_panel')
+    assert [r['record_id'] for r in selected] == combined
+
+
+def test_checkpoint_panel_manifest_rejects_overlap(tmp_path: Path) -> None:
+    import hashlib
+    from successor.experiments.evaluate_v10r2_lane_b import load_checkpoint_panel_manifest
+
+    def digest(ids):
+        return hashlib.sha256(json.dumps(ids, separators=(',', ':')).encode()).hexdigest()
+    value = {
+        'schema': 'V10R2_HELDOUT_CHECKPOINT_PANEL_V1',
+        'role': 'DEVELOPMENT_CHECKPOINT_SELECTION_DIAGNOSTIC_NOT_FINAL_BANK',
+        'validation_sha256': 'c' * 64,
+        'validation_rows': 2500,
+        'selection_policy': {'final_bank_use': 'PROHIBITED'},
+        'anchor_panel': {'count': 1, 'salt': 's1', 'record_ids': ['x'], 'record_ids_sha256': digest(['x'])},
+        'confirmatory_panel': {'count': 1, 'salt': 's2', 'record_ids': ['x'], 'record_ids_sha256': digest(['x'])},
+        'combined_panel': {'count': 2, 'record_ids': ['x', 'x'], 'record_ids_sha256': digest(['x', 'x'])},
+    }
+    p = tmp_path / 'panel.json'; p.write_text(json.dumps(value), encoding='utf-8')
+    with pytest.raises(EvalConfigHold, match='disjoint|not unique'):
+        load_checkpoint_panel_manifest(p)

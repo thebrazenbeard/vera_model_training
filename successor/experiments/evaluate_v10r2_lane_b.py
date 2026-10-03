@@ -74,6 +74,110 @@ def resolve_runtime_binding_path(
     )
 
 
+def _checkpoint_record_id(row: dict) -> str:
+    for field in ("record_id", "case_id", "id"):
+        value = row.get(field)
+        if isinstance(value, str) and value:
+            return value
+    raise EvalConfigHold("checkpoint panel row missing record id")
+
+
+def _record_ids_sha256(record_ids: list[str]) -> str:
+    return hashlib.sha256(
+        json.dumps(
+            record_ids,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+
+
+def load_checkpoint_panel_manifest(path: Path) -> dict:
+    if not path.is_file():
+        raise EvalConfigHold(f"checkpoint panel manifest missing:{path}")
+    value = json.loads(path.read_text(encoding="utf-8-sig"))
+    if value.get("schema") != "V10R2_HELDOUT_CHECKPOINT_PANEL_V1":
+        raise EvalConfigHold("checkpoint panel schema mismatch")
+    if (
+        value.get("role")
+        != "DEVELOPMENT_CHECKPOINT_SELECTION_DIAGNOSTIC_NOT_FINAL_BANK"
+    ):
+        raise EvalConfigHold("checkpoint panel role mismatch")
+    policy = value.get("selection_policy")
+    if not isinstance(policy, dict):
+        raise EvalConfigHold("checkpoint panel selection policy missing")
+    if policy.get("final_bank_use") != "PROHIBITED":
+        raise EvalConfigHold("checkpoint panel must prohibit final-bank use")
+    validation_sha = value.get("validation_sha256")
+    if (
+        not isinstance(validation_sha, str)
+        or len(validation_sha) != 64
+        or any(ch not in "0123456789abcdef" for ch in validation_sha)
+    ):
+        raise EvalConfigHold("checkpoint panel validation sha invalid")
+    if not isinstance(value.get("validation_rows"), int):
+        raise EvalConfigHold("checkpoint panel validation row count invalid")
+
+    panels = {}
+    for name in ("anchor_panel", "confirmatory_panel", "combined_panel"):
+        panel = value.get(name)
+        if not isinstance(panel, dict):
+            raise EvalConfigHold(f"checkpoint panel section missing:{name}")
+        count = panel.get("count")
+        ids = panel.get("record_ids")
+        digest = panel.get("record_ids_sha256")
+        if not isinstance(count, int) or count < 1:
+            raise EvalConfigHold(f"checkpoint panel count invalid:{name}")
+        if (
+            not isinstance(ids, list)
+            or len(ids) != count
+            or any(not isinstance(item, str) or not item for item in ids)
+        ):
+            raise EvalConfigHold(f"checkpoint panel ids invalid:{name}")
+        if len(set(ids)) != len(ids):
+            raise EvalConfigHold(f"checkpoint panel ids not unique:{name}")
+        if digest != _record_ids_sha256(ids):
+            raise EvalConfigHold(f"checkpoint panel digest mismatch:{name}")
+        panels[name] = ids
+
+    if set(panels["anchor_panel"]) & set(panels["confirmatory_panel"]):
+        raise EvalConfigHold("checkpoint anchor/confirmatory panels must be disjoint")
+    if (
+        panels["combined_panel"]
+        != panels["anchor_panel"] + panels["confirmatory_panel"]
+    ):
+        raise EvalConfigHold("checkpoint combined panel ordering mismatch")
+    return value
+
+
+def select_checkpoint_panel_rows(
+    validation_rows: list[dict],
+    manifest: dict,
+    panel_name: str = "combined_panel",
+) -> list[dict]:
+    panel = manifest.get(panel_name)
+    if not isinstance(panel, dict):
+        raise EvalConfigHold(f"checkpoint panel section missing:{panel_name}")
+    wanted = panel.get("record_ids")
+    if not isinstance(wanted, list):
+        raise EvalConfigHold(f"checkpoint panel record ids missing:{panel_name}")
+
+    by_id = {}
+    for row in validation_rows:
+        record_id = _checkpoint_record_id(row)
+        if record_id in by_id:
+            raise EvalConfigHold(f"duplicate validation record id:{record_id}")
+        by_id[record_id] = row
+
+    missing = [record_id for record_id in wanted if record_id not in by_id]
+    if missing:
+        raise EvalConfigHold(
+            "checkpoint panel validation records missing:"
+            + ",".join(missing[:5])
+        )
+    return [by_id[record_id] for record_id in wanted]
+
+
 def pad_completion_example(
     item: dict,
     *,
@@ -305,6 +409,8 @@ def run_lane_b_heldout_eval(
     runtime_binding_path: Path | None = None,
     acceleration_backend: str = "fla_triton",
     fixed_eval_length: int = DEFAULT_FIXED_EVAL_LENGTH,
+    checkpoint_panel_path: Path | None = None,
+    checkpoint_panel_section: str = "combined_panel",
 ) -> dict:
     binding_path = resolve_runtime_binding_path(
         repo_root,
@@ -323,11 +429,44 @@ def run_lane_b_heldout_eval(
         expected_sha256=FROZEN_VALIDATION_SHA256,
         expected_rows=FROZEN_VALIDATION_ROWS,
     )
-    selected = deterministic_sample(
-        validation_rows,
-        count=sample_count,
-        salt=salt,
-    )
+    checkpoint_panel_binding = None
+    if checkpoint_panel_path is not None:
+        checkpoint_panel = load_checkpoint_panel_manifest(
+            checkpoint_panel_path,
+        )
+        if checkpoint_panel.get("validation_sha256") != FROZEN_VALIDATION_SHA256:
+            raise EvalConfigHold(
+                "checkpoint panel validation sha does not match frozen validation"
+            )
+        if checkpoint_panel.get("validation_rows") != FROZEN_VALIDATION_ROWS:
+            raise EvalConfigHold(
+                "checkpoint panel validation row count mismatch"
+            )
+        selected = select_checkpoint_panel_rows(
+            validation_rows,
+            checkpoint_panel,
+            checkpoint_panel_section,
+        )
+        sample_count = len(selected)
+        sample_method = "FROZEN_RECORD_ID_PANEL"
+        sample_salt = None
+        checkpoint_panel_binding = {
+            "path": str(checkpoint_panel_path),
+            "sha256": sha256_file(checkpoint_panel_path),
+            "section": checkpoint_panel_section,
+            "record_ids_sha256": checkpoint_panel[
+                checkpoint_panel_section
+            ]["record_ids_sha256"],
+            "claim_ceiling": checkpoint_panel.get("claim_ceiling"),
+        }
+    else:
+        selected = deterministic_sample(
+            validation_rows,
+            count=sample_count,
+            salt=salt,
+        )
+        sample_method = "SHA256_RANK"
+        sample_salt = salt
 
     base_path = Path(runtime_binding["target"]["base_path"])
     tokenizer = stack["AutoTokenizer"].from_pretrained(base_path)
@@ -395,9 +534,10 @@ def run_lane_b_heldout_eval(
         "role": "PAIRED_DEVELOPMENT_DIAGNOSTIC_NOT_FINAL_BANK",
         "validation_sha256": sha256_file(validation_jsonl),
         "validation_rows": FROZEN_VALIDATION_ROWS,
-        "sample_method": "SHA256_RANK",
-        "sample_salt": salt,
+        "sample_method": sample_method,
+        "sample_salt": sample_salt,
         "sample_count": sample_count,
+        "checkpoint_panel_binding": checkpoint_panel_binding,
         "sample_record_ids": sample_ids,
         "sample_record_ids_sha256": sample_sha,
         "fixed_eval_length": fixed_eval_length,
@@ -425,6 +565,12 @@ def _main(argv=None) -> int:
     parser.add_argument("--salt", default="v10r2-heldout-v1")
     parser.add_argument("--candidate", action="append", required=True)
     parser.add_argument("--runtime-binding", type=Path)
+    parser.add_argument("--checkpoint-panel", type=Path)
+    parser.add_argument(
+        "--checkpoint-panel-section",
+        choices=("anchor_panel", "confirmatory_panel", "combined_panel"),
+        default="combined_panel",
+    )
     parser.add_argument(
         "--acceleration-backend",
         choices=("torch_reference", "fla_triton"),
@@ -448,6 +594,8 @@ def _main(argv=None) -> int:
         runtime_binding_path=args.runtime_binding,
         acceleration_backend=args.acceleration_backend,
         fixed_eval_length=args.fixed_eval_length,
+        checkpoint_panel_path=args.checkpoint_panel,
+        checkpoint_panel_section=args.checkpoint_panel_section,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
