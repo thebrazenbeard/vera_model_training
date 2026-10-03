@@ -40,7 +40,7 @@ def verify_admission_v6(
         or candidate_verify.get("coding_rows") != 250
         or candidate_verify.get("reference_failures") not in ([], None)
         or candidate_verify.get("mutant_survivors") not in ([], None)
-        or candidate_verify.get("noncoding_changes") not in ([], None)
+        or candidate_verify.get("noncoding_changed") != 0
     ):
         _add(
             reasons,

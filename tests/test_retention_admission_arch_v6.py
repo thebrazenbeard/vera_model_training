@@ -21,7 +21,7 @@ def evidence():
             "coding_rows":250,
             "reference_failures":[],
             "mutant_survivors":[],
-            "noncoding_changes":[],
+            "noncoding_changed":0,
         },
         "mechanical":{
             "status":"MECHANICAL_VALIDATED",
@@ -89,3 +89,10 @@ def test_v6_admission_requires_semantic_screen_pass():
     result=verify_admission_v6(e, expected_bindings=EXPECTED)
     assert result["status"] == "RETENTION_HOLD_ARCH_V6"
     assert "semantic_screen_not_pass" in result["reasons"]
+
+def test_v6_admission_rejects_noncoding_drift():
+    e=evidence()
+    e["candidate_verify"]["noncoding_changed"]=1
+    result=verify_admission_v6(e, expected_bindings=EXPECTED)
+    assert result["status"] == "RETENTION_HOLD_ARCH_V6"
+    assert "candidate_mutation_adequacy_failed" in result["reasons"]
