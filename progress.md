@@ -26,13 +26,16 @@ V7 pre-review evidence:
 
 V7 semantic-audit implementation:
 - fresh reviewer controls disjoint from V6
-- V6 evidence hierarchy/authority separation retained
-- reviewer false positives remain nonblocking only after deterministic contradiction
+- reviewer false positives nonblocking only after deterministic contradiction
 - BANK_DEFECT / UNRESOLVED / AUDIT_METHOD_DEFECT / TRANSPORT_DEFECT / BINDING_DEFECT remain blocking
 - live runner requires exact packet binding and excluded_case_count=520
 - V6->V7 focused regression: 26/26 passed
-- full repository verification: 488 passed
-- git diff --check pending at commit checkpoint
+- full repository verification on exact frozen bytes: 488 passed
+- freeze binding verification: 38/38 artifacts
+- qualification schemas: 12/12 regenerate exactly
+- semantic schemas: 26/26 regenerate exactly
+- reviewer identity exact-match
+- V7 execution binding SHA-256: 069d6f87fe09d292114dc6852c23ec07ecfdbdc13aca8c5c602e865ecf76033d
 
 V7 local identity lane:
 - binding SHA-256: 5d638d8232dbae27283a6cefe214c9f00d5ccf3ddd6a27236f0fed3d53af6a17
@@ -41,7 +44,7 @@ V7 local identity lane:
 Objective training boundary:
 - Candidate V3 is retention/evaluation evidence, NOT SFT training data.
 - PR #69 contains the fail-closed single-run QLoRA trainer.
-- actual SFT uses the experiment contract's exact train/validation subject.
+- actual SFT uses the experiment contract's exact train/validation source subject.
 - PR #68 final-bank custody/sealing remains incomplete.
 - exact V10_QWEN35_TRAINING_AUTHORITY_V1.json does not exist.
 - model-weight mutation remains blocked.
