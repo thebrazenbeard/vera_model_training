@@ -1,0 +1,71 @@
+{
+  "schema": "ADAPTIVE_LATENT_MEMORY_CROSS_REPO_MANIFEST_V1",
+  "generated_on": "2026-10-02",
+  "subjects": {
+    "thebrazenbeard/vera-mono": {
+      "branch": "research/adaptive-latent-memory-20261002",
+      "commit": "f58686141f1496cb7901ad10b4be6ee474daf697",
+      "role": "exact-backed durable latent records, selective rehydration, route binding, runtime composition"
+    },
+    "thebrazenbeard/rezon": {
+      "branch": "research/adaptive-latent-memory-20261002",
+      "commit": "ab61e4d2b7677e444e7ccbbedfd0d8ecdbc04d8d",
+      "role": "resolution-fault planning and bounded selective promotion"
+    },
+    "thebrazenbeard/mosaic": {
+      "branch": "research/adaptive-latent-memory-20261002",
+      "commit": "023dee325dca9f4d487ea6708b7c425c2055aa16",
+      "role": "shared-state residency accounting and multi-resolution handoff"
+    },
+    "thebrazenbeard/spm": {
+      "branch": "research/adaptive-latent-memory-20261002",
+      "commit": "1d67f7f4a17f58c407494df24130ebbdae573546",
+      "role": "trainable query-conditioned latent memory, learned resolution routing, Kaggle campaign"
+    },
+    "thebrazenbeard/lgcm": {
+      "branch": "research/adaptive-latent-memory-20261002",
+      "commit": "28d17a8668bbee3792f32daf4fc3a4fc6c6a5cc0",
+      "role": "predictive-compression evaluation protocol"
+    },
+    "thebrazenbeard/vera_model_training": {
+      "branch": "research/adaptive-latent-training-20261002",
+      "commit": "6488bfb9a1e30969263db3d62f4109ed0b8d6f18",
+      "role": "source-bound late-relevance proxy curriculum and Kaggle training strategy"
+    }
+  },
+  "fixed_composition_hazards": [
+    {
+      "id": "ROUTE_ORDER_BINDING",
+      "status": "FIXED",
+      "subject": "thebrazenbeard/vera-mono@f58686141f1496cb7901ad10b4be6ee474daf697",
+      "detail": "Learned positional routes such as chunk:N must resolve through a digest-bound ordered latent-block set before becoming a durable evidence reference."
+    },
+    {
+      "id": "AMBIGUOUS_EXACT_SOURCE",
+      "status": "ALREADY_STRICTER_THAN_REVIEW_ASSUMED",
+      "subject": "thebrazenbeard/vera-mono",
+      "detail": "V1 latent blocks require exactly one source_ref for all blocks, preventing ambiguous exact-source recovery."
+    },
+    {
+      "id": "KAGGLE_MODEL_INVENTORY",
+      "status": "FIXED",
+      "subject": "thebrazenbeard/spm@1d67f7f4a17f58c407494df24130ebbdae573546",
+      "detail": "Kaggle real execution now verifies the downloaded Qwen snapshot inventory against SPM's frozen baseline digest before training."
+    }
+  ],
+  "current_claims": {
+    "deterministic_runtime": "IMPLEMENTED_AND_TESTED_ON_BOUND_BRANCHES",
+    "learned_resolution_router": "IMPLEMENTED_LOCALLY_AND_KAGGLE_CAMPAIGN_STAGED",
+    "vera_managed_context_reduction": "MEASURED_ON_SMALL_DETERMINISTIC_FIXTURE_ONLY",
+    "gpu_vram_reduction": "NOT_YET_QUALIFIED",
+    "learned_exact_fact_generation_from_latents": "NOT_CLAIMED",
+    "provider_internal_kv_compression": "NOT_IMPLEMENTED",
+    "production_deployment": "NOT_AUTHORIZED"
+  },
+  "remaining_experiments": [
+    "Run the pinned Kaggle latent-resolution campaign on a T4 accelerator and retain result/artifact digests.",
+    "Compare slot budgets 2/4/8/16 on route accuracy, unsafe DIRECT decisions, safe insufficient-fidelity decisions, latency, and measured CUDA peak memory.",
+    "Only after routing works, test learned semantic compression/generation while preserving source-backed exactness gates.",
+    "Cross-bind any promoted learned route to Vera durable block ids via the ordered binding contract before runtime use."
+  ]
+}
