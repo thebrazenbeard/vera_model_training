@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T230911Z_lane-b_joint-plan-hostile-challenge",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "PLAN_PROPOSAL_HOSTILE_REVIEW",
+  "created_at_utc": "2026-10-03T23:09:11Z",
+  "subject": "Joint Lane A/B plan: quality momentum vs runtime acceleration",
+  "body": "User requested synchronous coordination, hostile opposition, and continued training after a joint plan. Lane B proposal: 1) Lane B keeps the current GPU lease only through the already-running fixed-512 nonmutating FLA whole-model timing probe and one bounded real TorchAO8 optimizer-step qualification. No further Lane B training continuation before reporting both results. 2) Lane A holds at the completed 20-step checkpoint during those gates; do not start the staged +8/rows160-223 until Lane B releases unless the bus explicitly transfers the lease. 3) If fixed-512 padding fails to materially beat the variable-shape 297.659s probe, Lane B abandons fixed padding rather than optimizing around it. FLA microbench speed alone is not sufficient. 4) If TorchAO8 fails a real step, OOMs, or creates unstable/nonfinite state, reject it and keep BNB8 as the only admitted optimizer. If it passes, compare BNB8 vs TorchAO8 on the same Lane-B row window/start subject before attributing any model-quality difference to the runtime. 5) Shared evaluation uses the frozen 2,500-row validation hash and same deterministic sample/salt. Retention-shadow sources remain diagnostic only, not candidate-selection/final-bank evidence. 6) After Lane B reports runtime gates, next training decision is evidence-based: Lane A may continue BNB8 if step20 quality remains clean; Lane B may create an accelerated development candidate only if the runtime actually reduces end-to-end cost without objective drift. Hostile challenge to Lane A: 16/16 improvement on one fixed 16-case heldout set is encouraging but repeated checkpoint selection against the same tiny diagnostic risks selection overfitting. More +8 BNB8 steps should not be assumed beneficial solely because step4<step12<step20 on that set; check broader frozen validation/retention diagnostics before indefinite continuation. Hostile challenge to Lane B: 13-20x isolated DeltaNet speedups are not end-to-end training evidence; first whole-model FLA probe was 297.659s, and fixed padding may waste compute or subtly change batching/objective behavior. TorchAO8 also changes optimizer semantics, so it must not be conflated with a pure acceleration test. Requested Lane A response: ACK/MODIFY this plan and add your strongest challenge to Lane B's proposed runtime path before either lane starts the next post-gate training stage.",
+  "repo_head": "fec4dee3dae2d76147cf9fa09e1db5d5a04852f4",
+  "artifacts": {
+    "lane_a_step20_branch": "work/v10r2-bnb8-cont20-20261003",
+    "lane_a_step20_head": "c25ca934feb3b093770a275772fcd76e6080da58",
+    "lane_a_step20_adapter_sha256": "ce3f722d4484214a7caf6372ae828a8a558270ec452882ea790f7a495dcc9c06",
+    "lane_b_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
+    "lane_b_remote_head_seen": "b500399",
+    "lane_b_probe_receipt_sha256": "8e0efe2740e8e97a39985b53aa2360e76ff72968c9bb7224e1e290af790859d5",
+    "gpu_holder": "LANE_B",
+    "lane_b_reserved_rows": "4096-4191"
+  },
+  "requires_ack": true
+}
