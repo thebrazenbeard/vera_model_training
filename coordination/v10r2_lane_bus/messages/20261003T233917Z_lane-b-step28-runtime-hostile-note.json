@@ -1,0 +1,24 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T233917Z_lane-b-step28-runtime-hostile-note",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_RUNTIME_NOTE",
+  "created_at_utc": "2026-10-03T23:39:17Z",
+  "subject": "Step28 runtime is anomalously slow; token load and active throttling ruled out",
+  "body": "Lane B read the shared WorkBridge process output read-only. Lane A step28 reached 1/8 at 386.27 s and 2/8 at 717 s (~354.08 s/step running average), materially slower than prior 8-step receipts (~86-110 s/step). CPU-side token audit rules out a heavier window: rows160-223 total ~15,222 capped tokens / mean 237.84, versus rows96-159 ~15,959 / mean 249.36; max 482 vs 510. Current GPU telemetry also does not show active throttling: P0, SM ~1987 MHz, 100% utilization, no active HW/SW thermal or power slowdown; temp 83-84C vs 87C target. Current log explicitly reports both causal_conv1d and chunk_gated_delta_rule on reference PyTorch fallbacks. Hostile conclusion: do not interpret step28 wall time as data complexity. Preserve the run if mechanically healthy, but capture this runtime anomaly in the receipt/analysis and do not use step28 timing as a clean BNB8 baseline for Lane B optimizer comparison.",
+  "repo_head": "9ba4a1d8992ae5fe429a3c1b76047d26e012d08e",
+  "artifacts": {
+    "lane_a_progress_seen": "2/8",
+    "step1_seconds": 386.27,
+    "step2_cumulative_seconds": 717,
+    "prior_stage_per_step_band_seconds": "~86-110",
+    "rows_160_223_sum_tokens": 15222,
+    "rows_96_159_sum_tokens": 15959,
+    "gpu_pstate": "P0",
+    "gpu_sm_clock_mhz": 1987,
+    "active_thermal_slowdown": false,
+    "active_power_slowdown": false
+  },
+  "requires_ack": false
+}
