@@ -1,0 +1,81 @@
+{
+  "schema": "V10_QWEN35_RETENTION_V5_EXECUTION_BINDING_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_BEFORE_FIRST_V5_REVIEW_CALL",
+  "repository": "thebrazenbeard/vera_model_training",
+  "branch": "work/v10-retention-bank-salvage-20261001",
+  "freeze_parent_head": "fbb10a4608c99e26e10b39dc6e4ada43a054ead6",
+  "code_subjects": {
+    "method": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_FAMILY_AUDIT_METHOD_V5.json",
+      "sha256": "e2f000bea2db007b281b8f4f35722a8de49d9e1f9f90897814d6e19af0e68517"
+    },
+    "cause_classification": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_V4_CAUSE_CLASSIFICATION_V1.json",
+      "sha256": "242f3bd21910ae8618825e397929cea9f05f0bc403e3ee570f7882de44ec25c8"
+    },
+    "builder": {
+      "path": "successor/experiments/build_v10_retention_family_audit_v5.py",
+      "sha256": "5885f69d4bd8932c59ae830061c5b163434ed743b84544b6c970e782c19e8005"
+    },
+    "protocol": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V5.json",
+      "sha256": "781e4b6b64b96577f3cf9893b37e6a523085fc9cffb5be53fc91e37d44e9c3c2"
+    },
+    "runner": {
+      "path": "successor/experiments/run_v10_retention_family_audit_v5.py",
+      "sha256": "0e204bf03fce8489fc458c9cf33739a5926bdc426d61b3363a2da033aec336d2"
+    },
+    "admission_policy": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_ADMISSION_V5.json",
+      "sha256": "b7a92fb4b4a155359fc5644a5f08c213375a58433f1c1c6c1907eaf75cb0e8b1"
+    },
+    "admission_core": {
+      "path": "successor/experiments/retention_admission_v5.py",
+      "sha256": "d756426666f586bfdd01e4ca9fadc3755f3a7d58660361fe06efbbdab725e246"
+    },
+    "admission_file_verifier": {
+      "path": "successor/experiments/verify_v10_retention_admission_v5.py",
+      "sha256": "a0f84b0f9ffd9d3d7a7ee871cb8b7c2973f17781c40a5a215e30cc384500f890"
+    },
+    "admission_evidence_binding": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_ADMISSION_EVIDENCE_BINDING_V3.json",
+      "sha256": "adda2e9a0d9e34918cb08a836b5fa60d95650ed414a6e6cca93a787c9c7a8915"
+    }
+  },
+  "data_subjects": {
+    "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "predecessor_packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "predecessor_packet_manifest_sha256": "6445488e846ba5a8bec43bf107bc15f31500e956628b55ee5dfa42731fc37855",
+    "fresh_packet_sha256": "1be692e63d76cbcdd3a4943a82272c5d41ad3f202a0fd7f08ef40a18446c06ba",
+    "fresh_packet_manifest_sha256": "dfa3b0d137738e1dabe9e42583b86db5e75a1089c113f6e616b1c59e37a3a796",
+    "semantic_receipt_sha256": "a8ae6b55c73469d85064cf8e483f4a75a78d75bd62f0c18bfc9063fee928ea71",
+    "exclusion_registry_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f"
+  },
+  "reviewer": {
+    "provider": "OLLAMA_LOCAL",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "runtime": "ollama version is 0.34.2",
+    "temperature": 0,
+    "seed": 20261001
+  },
+  "execution_rules": {
+    "fresh_v5_output_required": true,
+    "predecessor_packet_case_reuse_forbidden": true,
+    "predecessor_overlap_required": 0,
+    "stop_on_first_derived_reject": true,
+    "max_identical_prompt_retries_for_invalid_json_or_schema": 3,
+    "semantic_negative_consumes_no_retry": true,
+    "reviewer_supplied_verdict_forbidden": true,
+    "derived_verdict": "ADMIT iff prompt_well_posed AND grader_matches_prompt AND evidence_policy_supports_expected_answer; otherwise REJECT"
+  },
+  "boundaries": {
+    "v5_model_call_occurred_at_freeze": false,
+    "methodology_history_independent": false,
+    "training_authorized": false,
+    "weight_change_performed": false,
+    "merge_authority": "Patrick"
+  },
+  "claim_ceiling": "RETENTION_V5_EXECUTION_SUBJECT_FROZEN / FRESH_DISJOINT_PACKET / NO_V5_REVIEW_CALL YET / NOT_RETENTION_ADMITTED / NOT_FULL_FINAL_BANK / NO_TRAINING"
+}

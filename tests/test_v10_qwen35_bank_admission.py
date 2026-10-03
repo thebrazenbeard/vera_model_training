@@ -37,6 +37,8 @@ def make_case(case_id, lane, prompt, family_id, **extra):
         },
     }
     row.update(extra)
+    from successor.experiments.v10_qwen35_bank import review_subject_digest
+    row["review_receipt"]["subject_digest"] = review_subject_digest(row)
     return row
 
 
@@ -116,6 +118,8 @@ def test_semantic_case_rejects_model_only_review() -> None:
         "rubric_digest": digest("semantic-rubric"),
     }
     rows[0]["review_receipt"]["reviewer_class"] = "EXTERNAL_MODEL_REVIEW"
+    from successor.experiments.v10_qwen35_bank import review_subject_digest
+    rows[0]["review_receipt"]["subject_digest"] = review_subject_digest(rows[0])
     result = preflight_bank(rows, exclusion_hashes=set())
     assert result["status"] == "HOLD"
     assert any(reason.startswith("invalid_review_receipt:") for reason in result["reasons"])
@@ -131,5 +135,7 @@ def test_semantic_case_accepts_independent_human_review() -> None:
         "rubric_digest": digest("semantic-rubric"),
     }
     rows[0]["review_receipt"]["reviewer_class"] = "HUMAN_REVIEW"
+    from successor.experiments.v10_qwen35_bank import review_subject_digest
+    rows[0]["review_receipt"]["subject_digest"] = review_subject_digest(rows[0])
     result = preflight_bank(rows, exclusion_hashes=set())
     assert result["status"] == "READY_TO_FREEZE"

@@ -1,0 +1,45 @@
+{
+  "schema": "V10_QWEN35_RETENTION_V4_CAUSE_CLASSIFICATION_V1",
+  "date": "2026-10-02",
+  "status": "AUDIT_CRITERION_MISMATCH_CONFIRMED",
+  "consumed_evidence": {
+    "v4_result_manifest": "successor/experiments/V10_QWEN35_RETENTION_V4_RESULT_MANIFEST_V1.json",
+    "partial_review_output_sha256": "dfe66a8b742a66ff9a9153ed7a4afb2d89b22a013e5e64a193579d030c671d64",
+    "family_audit_receipt_sha256": "1d3a7d77f56096f1d039f5ef33b0b9c794a2fcb71eab9591a022756050c02c0a",
+    "rejected_family": "evidence-calibration:mode-2",
+    "rejected_cases": 5
+  },
+  "benchmark_trace": {
+    "prompt_policy": "Use only the evidence record below; do not add outside knowledge.",
+    "prompt_evidence_fields": [
+      "code",
+      "name",
+      "regions",
+      "settlements"
+    ],
+    "tested_claim_pattern": "The official language of <name> is English.",
+    "grader_answer": "NOT_ENOUGH_INFO",
+    "source_binding": "Each row source_hash is SHA256(canonical source_record); source_audit_receipt binds that digest to the pinned location manifest.",
+    "mechanical_conclusion": "The expected answer is justified by the absence of language information from the supplied prompt evidence under the explicit no-outside-knowledge rule."
+  },
+  "v4_reviewer_failure": {
+    "ambiguous_field": "source_evidence_sufficient",
+    "observed_interpretation": "Reviewer required evidence sufficient to determine the real-world official-language claim.",
+    "required_interpretation_for_this_benchmark": "Reviewer must determine whether the supplied prompt evidence and evidence policy justify the grader's expected answer, including NOT_ENOUGH_INFO when the needed fact is absent.",
+    "candidate_row_modification_required": false,
+    "grader_modification_required": false,
+    "audit_method_modification_required": true
+  },
+  "contamination_control_for_successor": {
+    "prior_packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "all_prior_packet_cases_excluded": true,
+    "excluded_case_count": 130,
+    "fresh_cases_per_family": 5,
+    "fresh_family_count": 26,
+    "fresh_total_rows": 130,
+    "successor_method_must_be_frozen_before_packet_selection": true,
+    "predecessor_rows_reusable": false
+  },
+  "epistemic_limit": "This cause classification is based on consumed V4 evidence and is not independent validation of the successor methodology.",
+  "claim_ceiling": "V4_AUDIT_METHOD_DEFECT_CLASSIFIED / CANDIDATE_UNCHANGED / SUCCESSOR_REQUIRES_FRESH_DISJOINT_SAMPLE / NOT_RETENTION_ADMITTED"
+}

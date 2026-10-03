@@ -1,0 +1,203 @@
+{
+  "artifacts": {
+    "candidate_v3": {
+      "path": "successor/evaluation/v10_qwen35/retention_candidate_v3.jsonl",
+      "sha256": "6f47fe7da958abaf02311ae8a740b71d1bc0e9adbac88ce5c2da14139c3792f6"
+    },
+    "candidate_v3_builder": {
+      "path": "successor/experiments/build_v10_qwen35_retention_candidate_v3.py",
+      "sha256": "52e17f31b69af120e502d28bc258e820b09491ddff26eb9003d2216017a0325a"
+    },
+    "candidate_v3_manifest": {
+      "path": "successor/evaluation/v10_qwen35/retention_candidate_v3.manifest.json",
+      "sha256": "d547a6e3948ba902ff885b3719d2822aba728f53be113f255b87b9ba10c78b26"
+    },
+    "candidate_v3_tests": {
+      "path": "tests/test_v10_qwen35_retention_candidate_v3.py",
+      "sha256": "bd28d66c1eee38f15167f99009da50d665ebec4f715c13fb7ae5d78a788a5d5a"
+    },
+    "candidate_v3_verifier": {
+      "path": "successor/experiments/verify_retention_candidate_v3.py",
+      "sha256": "f32c1a57d236d52a328253a98b4c615d0e92feab4a7a1cddec69b51980413c07"
+    },
+    "candidate_v3_verify": {
+      "path": "successor/evaluation/v10_qwen35/retention_candidate_v3.verify.json",
+      "sha256": "25ae3be8aa220ccefe9d6869eb7357eb8990b43b2c3bbdad29f3b48bb77e1809"
+    },
+    "exclusion_registry": {
+      "path": "successor/experiments/V10_QWEN35_EXCLUSION_PROMPT_HASHES_V2.txt",
+      "sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f"
+    },
+    "packet_builder_dependency": {
+      "path": "successor/experiments/build_retention_audit_arch_v2_packet.py",
+      "sha256": "29b46fa11023b474289fe472e802d513a6dfcbf78c9c0e4a8e31c98f4b26ff02"
+    },
+    "v2_binding_verifier_dependency": {
+      "path": "successor/experiments/run_retention_audit_arch_v2_live.py",
+      "sha256": "53df09fa4240329ff1db068e338827a26b25fff99138081ff193100a44d364a4"
+    },
+    "v2_blind_prompt_dependency": {
+      "path": "successor/experiments/retention_audit_arch_v2_reviewer.py",
+      "sha256": "50821ad91e811c0e2e44d6c11e2df424734fe940cd8c543bc69bd97d1b0f6404"
+    },
+    "v4_lock_dependency": {
+      "path": "successor/experiments/run_retention_audit_arch_v4_live.py",
+      "sha256": "fe19c26317d72cecc5b54a99805f3f28739af2401211af1b8705bab13a30ec4d"
+    },
+    "v4_semantic_parser_dependency": {
+      "path": "successor/experiments/run_retention_audit_arch_v4_semantic.py",
+      "sha256": "c68be394b1a6a9f41b4b403059bf402cce57646666485a92e63add0bb6c81f73"
+    },
+    "v5_transport_dependency": {
+      "path": "successor/experiments/retention_audit_arch_v5_reviewer.py",
+      "sha256": "fd22effb6b7400dbfa70155d99990e72ea8d69b79401bb66fcc4b9177fcf28f6"
+    },
+    "v6_result_manifest": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v6.result.manifest.json",
+      "sha256": "89a3d064c6b64a980f990aca7c0d5d3fa6fddbae20b5094789d9de436757eb79"
+    },
+    "v6_witness_adjudication": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v6.witness_adjudication.json",
+      "sha256": "517e8819cfca5a38500a614024e99a04156f7b3e1dbd230a0ef4c09be70d6664"
+    },
+    "v7_admission": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V7_ADMISSION_V1.json",
+      "sha256": "4f5bd5b8f65ab3c0ad4ad3801e76e7269949f5bef79ad3448c40bc43c0627880"
+    },
+    "v7_admission_tests": {
+      "path": "tests/test_retention_admission_arch_v7.py",
+      "sha256": "8647a398a3e8d1523ac2b79de215081e89f7b7f4b1bd973c72a997fd92174a2b"
+    },
+    "v7_admission_verifier": {
+      "path": "successor/experiments/verify_retention_admission_arch_v7.py",
+      "sha256": "8172a313e4cb3a1101af8fc7f47b32a18e4d009fc41c6f4d21c1f14d599ef6c1"
+    },
+    "v7_controls": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V7_CONTROLS_V1.json",
+      "sha256": "306bf69bd16b4ca68c0fa29a2adc52f1b250e70c13eb3d2fd5687dac1a7c0a32"
+    },
+    "v7_live_runner": {
+      "path": "successor/experiments/run_retention_audit_arch_v7_live.py",
+      "sha256": "2ce01df5833e3cffa962b7c7df52c24c928f12a4232397241efa7f7ef25902e5"
+    },
+    "v7_live_tests": {
+      "path": "tests/test_retention_audit_arch_v7_live.py",
+      "sha256": "cbb47b21133e3ccae2b1363e36f3ba0d02dfc1205660232e843ac67af296e632"
+    },
+    "v7_mechanical": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v7.mechanical.receipt.json",
+      "sha256": "291904efca0e6fa2a6d2d98f469d8e56408e20d17ddaac7e1e07e9d829584ffb"
+    },
+    "v7_method": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V7_METHOD_V1.json",
+      "sha256": "862ec9ccf505712095f906718730597109c4d998291dd2f54f68550f3de0d71c"
+    },
+    "v7_packet": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v7.semantic.packet.jsonl",
+      "sha256": "4de3ae3f5757f76417f8561f4c415b4be1daedf3ca4c42cd202b2cb92e1cd20f"
+    },
+    "v7_packet_manifest": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v7.semantic.packet.manifest.json",
+      "sha256": "1fda23c9781da42526ec47c548e1d01d8f994f0d6e81ef37ad371acf9746a038"
+    },
+    "v7_plan": {
+      "path": "docs/plans/2026-10-03-retention-candidate-v3-architecture-v7-identity.md",
+      "sha256": "da5be2ff55b044471745e455fc598adc08da8703d212d4f2da191d302fea7610"
+    },
+    "v7_protocol": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V7_PROTOCOL_V1.json",
+      "sha256": "4aa3a45460d05822ef059f29db414a8dd6999f417af340b4be64894fdd4ec293"
+    },
+    "v7_reconciliation": {
+      "path": "successor/experiments/retention_audit_arch_v7_reconcile.py",
+      "sha256": "0e25d07df75eacfab7bf1ef5cafdbf64a0ff0789649995273cc2ee9e66c837da"
+    },
+    "v7_reconciliation_tests": {
+      "path": "tests/test_retention_audit_arch_v7_reconcile.py",
+      "sha256": "9b065af44bbb1660ae1cd145bdb3ada2f73a996c87b51ecc702545b5c2f0f72b"
+    },
+    "v7_reviewer": {
+      "path": "successor/experiments/retention_audit_arch_v7_reviewer.py",
+      "sha256": "38b7358ef9a069eee5a7654c0f9468aaab481bbd16d7400d1344bd21f651258f"
+    },
+    "v7_reviewer_tests": {
+      "path": "tests/test_retention_audit_arch_v7_reviewer.py",
+      "sha256": "e375ef55fafda2ffc497551bc11584c8e1461ebb85679d425b15f230b11e0aaa"
+    },
+    "v7_schemas": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V7_SCHEMAS_V1.json",
+      "sha256": "993abd05ab4e434274a9138d083e7702b41fa3f20d37892c76b2a6f21c91db5a"
+    },
+    "v7_semantic_runner": {
+      "path": "successor/experiments/run_retention_audit_arch_v7_semantic.py",
+      "sha256": "f3089d3eede97042ddd01deffabb24583ce8c0068fb0a7fb0f22f3c01c28dddc"
+    },
+    "v7_semantic_screen": {
+      "path": "successor/evaluation/v10_qwen35/retention_candidate_v3.semantic_screen.json",
+      "sha256": "77ee6108abc61a0cc3ac1a66b324695f2afc1fad0cc4eccecc6b3754199067d1"
+    },
+    "v7_semantic_screen_binding": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_V7_SEMANTIC_SCREEN_BINDING_V1.json",
+      "sha256": "033affb5d2fb6f4e76fba03617ccee322001b2ef8ff65beb9c549148b579c018"
+    },
+    "v7_semantic_screen_result": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_V7_SEMANTIC_SCREEN_RESULT_V1.json",
+      "sha256": "8e52f4e507191684d0cc835f55d9475ccd004e6d10305c36a41793efa1423560"
+    },
+    "v7_semantic_tests": {
+      "path": "tests/test_retention_audit_arch_v7_semantic.py",
+      "sha256": "4a0538c370182a0ec6feca863103f16c06c3c77ef185f9405173ebd701c1778a"
+    },
+    "v7_validator_qualification": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v7.validator_qualification.json",
+      "sha256": "86dd454fba27cdb89490085a3c814711bec90af1d15a072ec0d00f17e838b5fc"
+    }
+  },
+  "boundaries": {
+    "candidate_v3_frozen": true,
+    "full_final_bank_admitted": false,
+    "reviewer_model_changed_from_v6": false,
+    "sampler_changed_from_v6": false,
+    "semantic_packet_fresh": true,
+    "training_authorized": false,
+    "weights_changed": false
+  },
+  "date": "2026-10-03",
+  "execution": {
+    "exclusive_execution_lock_required": true,
+    "max_attempts": 3,
+    "qualification_batch_size": 4,
+    "semantic_batch_size": 5,
+    "structured_output": "JSON_SCHEMA"
+  },
+  "first_v7_live_reviewer_call_performed": false,
+  "methodology_history_independent": false,
+  "pre_freeze_parent_commit": "87d716d1fe027815c1b54c7ccbe441f488bb6927",
+  "reviewer": {
+    "format": "DYNAMIC_JSON_SCHEMA",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261002,
+    "stream": false,
+    "structured_output": "JSON_SCHEMA",
+    "temperature": 0,
+    "url": "http://127.0.0.1:11434/api/generate"
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V7_EXECUTION_BINDING_V1",
+  "schema_bindings": {
+    "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V7_SCHEMAS_V1.json",
+    "qualification_batch_count": 12,
+    "semantic_batch_count": 26,
+    "sha256": "993abd05ab4e434274a9138d083e7702b41fa3f20d37892c76b2a6f21c91db5a"
+  },
+  "semantic_packet": {
+    "consumed_before_v7": false,
+    "excluded_predecessor_case_ids": 520,
+    "path": "successor/evaluation/v10_qwen35/retention_arch_v7.semantic.packet.jsonl",
+    "rows": 130,
+    "sha256": "4de3ae3f5757f76417f8561f4c415b4be1daedf3ca4c42cd202b2cb92e1cd20f"
+  },
+  "status": "FROZEN_BEFORE_FIRST_V7_LIVE_REVIEW_CALL"
+}
