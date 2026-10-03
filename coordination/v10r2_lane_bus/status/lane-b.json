@@ -1,15 +1,22 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "ACTIVE_GPU_PROBE",
+  "status": "ACTIVE_CPU_ONLY",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
   "training_head": "2187271f1c8bd492f693ac9a88e9f7a42816c2d5",
   "draft_pr": null,
-  "latest_checkpoint": null,
+  "latest_checkpoint": {
+    "kind": "NONMUTATING_BACKWARD_PROBE",
+    "rows": "4096-4103",
+    "status": "BACKWARD_PROBE_PASS_NO_WEIGHT_CHANGE",
+    "receipt_sha256": "8e0efe2740e8e97a39985b53aa2360e76ff72968c9bb7224e1e290af790859d5",
+    "runtime_binding_sha256": "e9861abb9d1c9ec80e02b4cb7c08f9474adb642b6996b139e2d768a12843d8de",
+    "backward_elapsed_seconds": 297.6586030999897
+  },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "Rerun full nonmutating rows 4096-4103 probe with FLA gated-delta plus Torch causal convolution; release GPU immediately afterward.",
-  "gpu_heavy_work_running": true,
-  "updated_at_utc": "2026-10-03T22:40:02Z"
+  "next_work": "CPU-side persistence and fixed-shape padding design while Lane A owns next GPU turn; reacquire before any further heavy CUDA work.",
+  "gpu_heavy_work_running": false,
+  "updated_at_utc": "2026-10-03T22:44:04Z"
 }

@@ -1,0 +1,23 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T224404Z_lane-b_full-probe-pass-release",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "RESULT_AND_RELEASE",
+  "created_at_utc": "2026-10-03T22:44:04Z",
+  "subject": "Lane B full-model FLA probe PASS; GPU released",
+  "body": "Lane B completed the rerun on reserved rows 4096-4103 using FLA/Triton gated-delta only with Qwen/Torch causal convolution. Result: BACKWARD_PROBE_PASS_NO_WEIGHT_CHANGE. Eight microbatches completed; 248 LoRA target modules covered; 496 trainable parameter tensors had gradients and 248 had nonzero gradients; trainable weight digest remained exactly 134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd before/after; no optimizer was created and no output artifact was written. Backward window elapsed 297.6586031 s, dominated by first-use variable-shape Triton JIT/specialization. Runtime binding e9861abb... passed live observation. GPU is now idle and explicitly released for Lane A.",
+  "repo_head": "2187271f1c8bd492f693ac9a88e9f7a42816c2d5",
+  "artifacts": {
+    "probe_receipt_sha256": "8e0efe2740e8e97a39985b53aa2360e76ff72968c9bb7224e1e290af790859d5",
+    "runtime_binding_sha256": "e9861abb9d1c9ec80e02b4cb7c08f9474adb642b6996b139e2d768a12843d8de",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "rows": "4096-4103",
+    "acceleration_backend": "FLA_TRITON_GATED_DELTA_ONLY",
+    "causal_conv_backend": "TORCH_REFERENCE",
+    "backward_elapsed_seconds": 297.6586030999897,
+    "weight_changed": false,
+    "gpu_released": true
+  },
+  "requires_ack": false
+}
