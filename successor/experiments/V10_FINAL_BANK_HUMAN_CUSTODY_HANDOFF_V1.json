@@ -1,0 +1,90 @@
+{
+  "schema": "V10_FINAL_BANK_HUMAN_CUSTODY_HANDOFF_V1",
+  "date": "2026-10-03",
+  "status": "HOLD_HUMAN_AND_INDEPENDENT_CUSTODY_UNBOUND",
+  "basis": {
+    "custodian_contract": "successor/experiments/V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1.json",
+    "generation_spec": "successor/experiments/V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1.json",
+    "grader_spec": "successor/experiments/V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1.json",
+    "family_manifest_spec": "successor/experiments/V10_FINAL_BANK_FAMILY_MANIFEST_SPEC_V1.json"
+  },
+  "genuine_human_author_requirement": {
+    "human_seeded_behavioral_families": 200,
+    "human_seeded_adversarial_families": 80,
+    "minimum_genuinely_human_authored_seed_cases": 280,
+    "rule": "Each human-seeded family must contain at least one genuinely human-authored case. Synthetic/model-authored material cannot satisfy this field.",
+    "author_may_not_review_own_cases": true
+  },
+  "independent_human_review_requirement": {
+    "semantic_human_dimensions": [
+      "H01",
+      "H03",
+      "H04",
+      "H05",
+      "H06",
+      "H11",
+      "H14",
+      "H15",
+      "H18"
+    ],
+    "minimum_cases_from_semantic_human_dimensions": 5400,
+    "mixed_dimensions_may_require_additional_semantic_review": true,
+    "minimum_is_lower_bound_not_total_review_count": true,
+    "llm_or_model_review_substitutes_for_human_review": false,
+    "reviewer_must_be_independent_from_generation_actor": true,
+    "required_review_questions": [
+      "prompt_well_posed",
+      "rubric_represents_target_dimension",
+      "materially_wrong_answer_could_pass",
+      "hidden_dependence_on_another_family",
+      "severity_or_critical_failure_rule_unambiguous",
+      "prior_train_validation_final_leakage",
+      "usable_without_private_or_unlicensed_material"
+    ]
+  },
+  "independent_custody_requirement": {
+    "surface_class": "INDEPENDENT_CUSTODY_EVALUATION_LANE",
+    "training_lane_access": false,
+    "candidate_development_access": false,
+    "plaintext_sealed_until_candidate_freeze": true,
+    "training_lane_receives_before_candidate_freeze": "HASHES_AND_NONPLAINTEXT_RECEIPTS_ONLY",
+    "current_surface_bound": false,
+    "access_control_receipt_bound": false
+  },
+  "machine_side_ready": {
+    "synthetic_custodian_A_bound": true,
+    "synthetic_custodian_B_bound": true,
+    "generation_work_order_builder_ready": true,
+    "frozen_family_allocation_ready": true,
+    "sealed_commitment_validator_ready": true,
+    "family_composition_validator_ready": true,
+    "diversity_diagnostic_validator_ready": true
+  },
+  "still_required_before_plaintext_generation": [
+    "bind at least one genuine human author identity and private attestation",
+    "bind at least one disjoint genuine human reviewer identity and private attestation",
+    "bind an independent custody/evaluation surface that the training/candidate-development lane cannot read",
+    "produce and bind the access-control receipt for that surface"
+  ],
+  "still_required_before_bank_seal": [
+    "materialize all 12000 behavioral/adversarial cases inside the independent custody surface",
+    "complete at least 280 genuine human-authored seed cases under the frozen family allocation",
+    "complete all required human semantic reviews and review receipts",
+    "run exact and normalized exclusion",
+    "run frozen semantic contamination screening",
+    "run deterministic audits and family-composition validation",
+    "run aggregate diversity diagnostics",
+    "quarantine rejects and replace deficits only with freshly generated and freshly reviewed cases",
+    "freeze the admitted behavioral/adversarial bank and combine it with the admitted 1500-row retention lane",
+    "emit the nonplaintext sealed 13500-case final-bank commitment"
+  ],
+  "boundaries": {
+    "contains_final_plaintext": false,
+    "human_identity_fabricated": false,
+    "human_review_fabricated": false,
+    "final_bank_admitted": false,
+    "training_authorized_by_this_artifact": false,
+    "weights_changed": false
+  },
+  "claim_ceiling": "EXACT HUMAN_AND_CUSTODY HANDOFF REQUIREMENTS / SYNTHETIC CUSTODIANS BOUND / HUMAN EVIDENCE AND INDEPENDENT CUSTODY UNBOUND / NO FINAL BANK / NO TRAINING EFFECT"
+}

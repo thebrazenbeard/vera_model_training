@@ -1,0 +1,88 @@
+{
+  "schema": "V10_H01_H20_FINAL_BANK_GRADER_SPEC_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_NONPLAINTEXT_GRADER_AND_REVIEW_RULES",
+  "composition_proposal": {
+    "path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md",
+    "git_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+  },
+  "dimension_primary_grading_class": {
+    "H01": "SEMANTIC_HUMAN",
+    "H02": "MIXED",
+    "H03": "SEMANTIC_HUMAN",
+    "H04": "SEMANTIC_HUMAN",
+    "H05": "SEMANTIC_HUMAN",
+    "H06": "SEMANTIC_HUMAN",
+    "H07": "MIXED",
+    "H08": "MIXED",
+    "H09": "MIXED",
+    "H10": "MIXED",
+    "H11": "SEMANTIC_HUMAN",
+    "H12": "MIXED",
+    "H13": "MIXED",
+    "H14": "SEMANTIC_HUMAN",
+    "H15": "SEMANTIC_HUMAN",
+    "H16": "MIXED",
+    "H17": "MIXED",
+    "H18": "SEMANTIC_HUMAN",
+    "H19": "MIXED",
+    "H20": "MIXED"
+  },
+  "deterministic_case_rules": {
+    "validated_answer_key_or_executable_contract_required": true,
+    "source_or_fixture_digest_required": true,
+    "grader_version_and_digest_required": true,
+    "independent_prompt_grader_alignment_audit_required": true,
+    "generation_actor_self_review_forbidden": true,
+    "deterministic_truth_remains_authoritative": true,
+    "external_model_review_role": "SECONDARY_AUDIT_ONLY"
+  },
+  "semantic_case_rules": {
+    "real_human_review_required": true,
+    "llm_review_cannot_substitute_for_human_review": true,
+    "reviewer_independent_from_generation_actor": true,
+    "blinded_to_candidate_identity_and_model_outputs": true,
+    "review_questions": [
+      "prompt_well_posed",
+      "rubric_represents_target_dimension",
+      "materially_wrong_answer_could_pass",
+      "hidden_dependence_on_another_family",
+      "severity_or_critical_failure_rule_unambiguous",
+      "prior_train_validation_final_leakage",
+      "usable_without_private_or_unlicensed_material"
+    ]
+  },
+  "review_receipt_requirements": [
+    "case_id",
+    "verdict",
+    "reviewer_id",
+    "reviewer_class",
+    "independent_from_generation",
+    "subject_digest",
+    "grader_digest",
+    "review_timestamp",
+    "review_bundle_sha256"
+  ],
+  "admission_rules": {
+    "exact_normalized_exclusion_must_pass": true,
+    "frozen_semantic_contamination_screen_must_pass": true,
+    "deterministic_cases_must_pass_objective_audit": true,
+    "semantic_cases_must_have_human_admit": true,
+    "any_critical_failure_rejects_case": true,
+    "rejected_cases_quarantined_not_edited": true,
+    "replacement_case_requires_fresh_generation_and_review": true
+  },
+  "diversity_diagnostics_required": [
+    "family_counts",
+    "max_family_share",
+    "effective_family_count",
+    "source_generator_concentration",
+    "lexical_template_concentration",
+    "near_duplicate_density",
+    "semantic_cluster_diagnostics",
+    "difficulty_severity_distribution",
+    "human_seeded_vs_synthetic_family_counts",
+    "rejected_quarantined_counts_by_reason"
+  ],
+  "claim_ceiling": "GRADER_AND_REVIEW_RULES_ONLY / NO CASE REVIEW PERFORMED / NO FINAL BANK / NO TRAINING"
+}

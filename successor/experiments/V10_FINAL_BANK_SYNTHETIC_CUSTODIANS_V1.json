@@ -1,0 +1,50 @@
+{
+  "boundaries": {
+    "final_plaintext_generated": false,
+    "human_author_bound": false,
+    "independent_custody_surface_bound": false,
+    "independent_human_reviewer_bound": false,
+    "training_authorized_by_this_artifact": false
+  },
+  "claim_ceiling": "SYNTHETIC_CUSTODIAN_IDENTITIES_ONLY / NO HUMAN AUTHOR OR REVIEWER BOUND / NO CUSTODY SURFACE / NO FINAL PLAINTEXT / NO TRAINING",
+  "custodians": {
+    "A": {
+      "actor_id": "custodian-A-ministral3-14b-ollama-v1",
+      "identity_receipt_sha256": "51e04d25b5d599f5bc1b7d7ffa40e4afae4fe027a6a8dd8b9796b56a33443d7a",
+      "model": "ministral-3:14b",
+      "model_family": "mistral3",
+      "provider": "OLLAMA_LOCAL",
+      "revision": "ollama-manifest-sha256:4760c35aeb9d9e9c6174c2492562c0b999e80a222804fd96b1915ab72bbcdcf7",
+      "runtime": "ollama version is 0.34.2",
+      "sampling": {
+        "do_sample": true,
+        "seed_strategy": "SHA256(actor_id,lane,dimension,family_index)->uint32",
+        "temperature": 0.6,
+        "top_k": 40,
+        "top_p": 0.9
+      },
+      "seed": 2026100301
+    },
+    "B": {
+      "actor_id": "custodian-B-smollm3-3b-transformers-v1",
+      "identity_receipt_sha256": "0c97476ecce0f58ee7e4bce57cd2b91893de7b6f7fe57bb86e2d8a2b82e5896c",
+      "model": "HuggingFaceTB/SmolLM3-3B",
+      "model_family": "smollm3",
+      "provider": "LOCAL_TRANSFORMERS",
+      "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+      "runtime": "python 3.12.10 / transformers 5.17.0 / torch 2.14.0+cu130",
+      "sampling": {
+        "do_sample": true,
+        "seed_strategy": "SHA256(actor_id,lane,dimension,family_index)->uint32",
+        "temperature": 0.6,
+        "top_k": 40,
+        "top_p": 0.9
+      },
+      "seed": 2026100302
+    }
+  },
+  "date": "2026-10-03",
+  "reasons": [],
+  "schema": "V10_FINAL_BANK_SYNTHETIC_CUSTODIAN_PAIR_CHECK_V1",
+  "status": "SYNTHETIC_CUSTODIANS_BOUND"
+}

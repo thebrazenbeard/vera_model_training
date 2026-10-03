@@ -1,0 +1,22 @@
+{
+  "actor_id": "custodian-A-ministral3-14b-ollama-v1",
+  "artifacts": {
+    "manifest_sha256": "4760c35aeb9d9e9c6174c2492562c0b999e80a222804fd96b1915ab72bbcdcf7",
+    "model_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e"
+  },
+  "identity_receipt_sha256": "51e04d25b5d599f5bc1b7d7ffa40e4afae4fe027a6a8dd8b9796b56a33443d7a",
+  "model": "ministral-3:14b",
+  "model_family": "mistral3",
+  "provider": "OLLAMA_LOCAL",
+  "revision": "ollama-manifest-sha256:4760c35aeb9d9e9c6174c2492562c0b999e80a222804fd96b1915ab72bbcdcf7",
+  "runtime": "ollama version is 0.34.2",
+  "sampling": {
+    "do_sample": true,
+    "seed_strategy": "SHA256(actor_id,lane,dimension,family_index)->uint32",
+    "temperature": 0.6,
+    "top_k": 40,
+    "top_p": 0.9
+  },
+  "schema": "V10_FINAL_BANK_SYNTHETIC_CUSTODIAN_IDENTITY_V1",
+  "seed": 2026100301
+}
