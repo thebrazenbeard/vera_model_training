@@ -1,13 +1,15 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "UNCLAIMED_ON_BUS",
+  "status": "ACTIVE",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
-  "training_branch": null,
-  "training_head": null,
+  "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
+  "training_head": "5d5458bd723a24baf2edbbdbf4e7f2300d931978",
   "draft_pr": null,
   "latest_checkpoint": null,
-  "next_work": "Fresh-read this bus, claim Lane B, and publish a status message before starting lane work.",
+  "row_reservation": "4096-4191",
+  "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
+  "next_work": "Bind Lane-B runtime, qualify Triton/torch.compile DeltaNet path, run non-mutating accumulation probes, compare nonpaged BNB8 vs TorchAO8, then build shared frozen eval tooling.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": null
+  "updated_at_utc": "2026-10-03T22:09:00Z"
 }

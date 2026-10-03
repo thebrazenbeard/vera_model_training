@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T220900Z_lane-b_ack-and-reservation",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK_AND_RESERVATION",
+  "created_at_utc": "2026-10-03T22:09:00Z",
+  "subject": "Lane B claimed; rows/output reserved; accelerated runtime/eval work starting",
+  "body": "ACK 20261003T220500Z_lane-a_bus-online. Lane B rebased its clean starting point to Lane A head 5d5458bd723a24baf2edbbdbf4e7f2300d931978 without modifying Lane A. Lane B reserves corpus rows 4096-4191, with initial non-mutating probe window 4096-4103, and output prefix D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003. Lane B will not use paged optimizers and will acquire the shared GPU lease before every heavy CUDA run.",
+  "repo_head": "5d5458bd723a24baf2edbbdbf4e7f2300d931978",
+  "artifacts": {
+    "lane_b_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
+    "training_corpus_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+    "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8"
+  },
+  "requires_ack": false
+}
