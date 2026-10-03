@@ -1,0 +1,73 @@
+{
+  "authority_separation": {
+    "allowed_witness_resolutions": [
+      "CONTRADICTED_BY_DETERMINISTIC_EVIDENCE",
+      "BANK_DEFECT_CONFIRMED",
+      "AUDIT_METHOD_DEFECT_CONFIRMED"
+    ],
+    "confirmed_audit_method_defect_blocks": true,
+    "confirmed_bank_defect_blocks": true,
+    "reviewer_false_positive_blocks_after_deterministic_contradiction": false,
+    "reviewer_false_positive_class": "REVIEWER_DEFECT",
+    "reviewer_role": "SEMANTIC_ADVERSARY_NOT_TRUTH_AUTHORITY",
+    "unresolved_semantic_witness_blocks": true,
+    "witness_resolution_requires_nonempty_evidence": true
+  },
+  "candidate_v2": {
+    "coding_contract_revision": "V10_RETENTION_OBJECTIVE_CONTRACTS_20261002_V2",
+    "coding_rows_regenerated": 250,
+    "mutant_survivors": 0,
+    "mutation_adequacy_status": "CANDIDATE_V2_MUTATION_ADEQUATE",
+    "noncoding_rows_changed": 0,
+    "parent_candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+    "path": "successor/evaluation/v10_qwen35/retention_candidate_v2.jsonl",
+    "reference_failures": 0,
+    "sha256": "4ed78c578b7c99504f52a2a8cc29d10396ddb2460471704340b915871c1441dc"
+  },
+  "claim_ceiling": "RETENTION_AUDIT_ARCH_V6_ONLY / METHODOLOGY_DESIGNED_AFTER_V5_FINDINGS / NOT_INDEPENDENT_EXTERNAL_REVIEW / NOT_FULL_FINAL_BANK / NOT_TRAINING_AUTHORIZATION",
+  "date": "2026-10-03",
+  "historical_methodology_independence": false,
+  "pre_admission_evidence": {
+    "mechanical_row_status_counts": {
+      "MECHANICAL_VALID": 1500
+    },
+    "mechanical_rows": 1500,
+    "mechanical_status": "MECHANICAL_VALIDATED",
+    "semantic_screen_failure_count": 0,
+    "semantic_screen_max_cosine": 0.6259469389915466,
+    "semantic_screen_status": "PASS",
+    "semantic_screen_threshold": 0.9,
+    "validator_qualification_status": "VALIDATORS_QUALIFIED"
+  },
+  "predecessor": {
+    "architecture": "V5",
+    "frozen_defect_counts": {
+      "REVIEWER_DEFECT": 5,
+      "UNRESOLVED": 16
+    },
+    "result_manifest_path": "successor/evaluation/v10_qwen35/retention_arch_v5.result.manifest.json",
+    "semantic_rows_reviewed": 130,
+    "status": "RETENTION_HOLD_ARCH_V5"
+  },
+  "repair_class": "CODING_GRADER_ADEQUACY_AND_REVIEWER_AUTHORITY_SEPARATION",
+  "reviewer_changes": {
+    "admission_verdict_hidden": true,
+    "answer_key_hidden": true,
+    "derived_answer_rule": "Bare requested answer only; no explanation or surrounding prose.",
+    "fresh_v6_qualification_controls": 48,
+    "qualification_controls_disjoint_from_v5_by_case_id": true,
+    "structured_output_json_schema": true
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V6_METHOD_V1",
+  "semantic_packet": {
+    "disjoint_from_all_predecessors": true,
+    "excluded_predecessor_case_ids": 390,
+    "families": 26,
+    "path": "successor/evaluation/v10_qwen35/retention_arch_v6.semantic.packet.jsonl",
+    "rows": 130,
+    "rows_per_family": 5,
+    "selection_method": "Architecture V2 frozen risk-plus-sentinel selection applied to Candidate V2 after predecessor exclusion.",
+    "sha256": "edb863d010f573016444b82d1ad4653d472374ab9f5cc0086e2d1aeb985cf585"
+  },
+  "status": "FROZEN_BEFORE_FIRST_V6_LIVE_REVIEW_CALL"
+}

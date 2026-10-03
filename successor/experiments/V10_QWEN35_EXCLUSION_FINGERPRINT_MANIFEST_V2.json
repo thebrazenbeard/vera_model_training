@@ -1,0 +1,118 @@
+{
+  "claim_ceiling": "NORMALIZED_HASH_SCREEN_INPUT / NOT_SEMANTIC_CONTAMINATION_PROOF",
+  "hash_file_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f",
+  "normalization": "UNICODE_NFKC_CASEFOLD_COLLAPSE_WHITESPACE_V1",
+  "plaintext_prompts_included": false,
+  "schema": "V10_QWEN35_PROMPT_FINGERPRINT_REGISTRY_V2",
+  "scope": "ORIGINAL_V10_DEVELOPMENT_PLUS_QWEN512_REPAIRED_MIXTURE_PLUS_CONSUMED_FINALS",
+  "source_count": 13,
+  "source_rows": 105450,
+  "sources": [
+    {
+      "normalized_prompt_set_sha256": "6137ddc0ea5be08ba5a338b065e4a7de0e8cbb85cd6ffa0534450d8b4e566bfe",
+      "rows": 50000,
+      "source_sha256": "04fbb3a2012ef3fd0506ad1188cc9f3b8d850161301fb9e0d00edd7f8ec78e90",
+      "suite_id": "V10_TRAIN",
+      "unique_exact_prompts": 49681,
+      "unique_normalized_prompts": 49681
+    },
+    {
+      "normalized_prompt_set_sha256": "3e137d79ab04c5f11b3512a71ef10d7a0c01caac61987af832597921b06313c1",
+      "rows": 2500,
+      "source_sha256": "26e3387852283d399cea3df0758c3abf877d2884d298860668de7e5fe0b3bd93",
+      "suite_id": "V10_VALIDATION",
+      "unique_exact_prompts": 2500,
+      "unique_normalized_prompts": 2500
+    },
+    {
+      "normalized_prompt_set_sha256": "f35af62adfc506c6db46e6990cb8bc657664da01935aefaf675d7933d8f62f9a",
+      "rows": 50000,
+      "source_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+      "suite_id": "V10_QWEN512_TRAIN",
+      "unique_exact_prompts": 49652,
+      "unique_normalized_prompts": 49652
+    },
+    {
+      "normalized_prompt_set_sha256": "42bd1a3c18247a230af9bd1748edca2d6cc8985928c5468cd6704e755c348b7e",
+      "rows": 2500,
+      "source_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+      "suite_id": "V10_QWEN512_VALIDATION",
+      "unique_exact_prompts": 2500,
+      "unique_normalized_prompts": 2500
+    },
+    {
+      "normalized_prompt_set_sha256": "d4fccbddb2f74363c54e144b493b0feae8b75fc92e8b181f94b8e926f8e7febd",
+      "rows": 100,
+      "source_sha256": "4093065870a57da288220d72ab771d42818a6e8901e1f9b559cfcb9ff3eb5bf1",
+      "suite_id": "V10_REVIEW_SAMPLE",
+      "unique_exact_prompts": 100,
+      "unique_normalized_prompts": 100
+    },
+    {
+      "normalized_prompt_set_sha256": "f51442a102072834bc8b2f74851d2a1f75d8a21817373fc418f98ad4e7ccbec9",
+      "rows": 100,
+      "source_sha256": "1b80a0ef64e765e8d901bb2237edb0c7e14163c4211c2ee1b7032891f15261b3",
+      "suite_id": "V3_BEHAVIORAL",
+      "unique_exact_prompts": 100,
+      "unique_normalized_prompts": 100
+    },
+    {
+      "normalized_prompt_set_sha256": "8408bde82f751b1dbcbdaed8394d0c0046126af4f50116d43076124993c544c7",
+      "rows": 20,
+      "source_sha256": "4105efadbfe3cd0b63edfa3f4f336f2098b8e544beda968ddbd4b46a40fa4766",
+      "suite_id": "V3_RETENTION",
+      "unique_exact_prompts": 20,
+      "unique_normalized_prompts": 20
+    },
+    {
+      "normalized_prompt_set_sha256": "973527460d6a887f96848bda3189b8170ac363f2d9695687f94be86fbc320141",
+      "rows": 20,
+      "source_sha256": "b952154d2e9424161f54d825b29e7569c6e02f22fe350f2b698b7d5c22a75229",
+      "suite_id": "V3_ADVERSARIAL",
+      "unique_exact_prompts": 20,
+      "unique_normalized_prompts": 20
+    },
+    {
+      "normalized_prompt_set_sha256": "6b8c3112c574498cafcb850447c5ef0493e4fc10b0ce50352afb9e79fa57e2f3",
+      "rows": 40,
+      "source_sha256": "93bbe6605f9b80e71aa6badebab3aaf13125cc5c00305b91f8811961f5edbb8c",
+      "suite_id": "HISTORY_BEHAVIOR_HOLDOUT_V1",
+      "unique_exact_prompts": 40,
+      "unique_normalized_prompts": 40
+    },
+    {
+      "normalized_prompt_set_sha256": "95955a4aed0cd73a15ce8605eeb94116a6227415b74db3e12eb809344b6ead5a",
+      "rows": 30,
+      "source_sha256": "19ca7a8df3c7bb9d6dbe419e41cb8d56b034219870dc0a8bcc801baa325c50f5",
+      "suite_id": "H07_FINAL_HOLDOUT_V1",
+      "unique_exact_prompts": 30,
+      "unique_normalized_prompts": 30
+    },
+    {
+      "normalized_prompt_set_sha256": "c7231d802b0f2893b01d6e2bd2325f2eb37524dac1b05e9b28015552d1e75763",
+      "rows": 100,
+      "source_sha256": "43065d16085d115c5744c3ce1fdb918a092e974a072a9283af0200338288cb91",
+      "suite_id": "V4_BEHAVIORAL",
+      "unique_exact_prompts": 100,
+      "unique_normalized_prompts": 100
+    },
+    {
+      "normalized_prompt_set_sha256": "20ca033c81cecfb2b0155c9a5fb4691dc4ba48723373e6fe0142abbea427b87c",
+      "rows": 20,
+      "source_sha256": "85a450c8b796162572fc406a5413eb29998d22817e8b8f9d8c448b4a5823c262",
+      "suite_id": "V4_RETENTION",
+      "unique_exact_prompts": 20,
+      "unique_normalized_prompts": 20
+    },
+    {
+      "normalized_prompt_set_sha256": "e3778107b9da2e1899303645bbc292c6234494abb7af20d10aae752cb30b9c76",
+      "rows": 20,
+      "source_sha256": "a9985763a24562ef87b3b7afb93da8190d6c71e6d1456eb523f875ed1f5372a8",
+      "suite_id": "V4_ADVERSARIAL",
+      "unique_exact_prompts": 20,
+      "unique_normalized_prompts": 20
+    }
+  ],
+  "status": "FROZEN_EXCLUSION_FINGERPRINTS",
+  "unique_normalized_prompts": 59812
+}

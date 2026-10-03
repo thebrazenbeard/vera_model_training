@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-02",
+  "execution": {
+    "duplicate_run_behavior": "FAIL_BEFORE_REVIEWER_CALL",
+    "exclusive_lock_required": true,
+    "stale_lock_auto_deleted": false
+  },
+  "reviewer": {
+    "format": "json",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261002,
+    "stream": false,
+    "temperature": 0,
+    "url": "http://127.0.0.1:11434/api/generate"
+  },
+  "reviewer_qualification": {
+    "batch_size": 4,
+    "control_count": 48,
+    "controls_path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V4_CONTROLS_V1.json",
+    "controls_sha256": "b620e1b4007f4ed631a4e107373bc10299d7cdba2a5b243713d4d5cd38d84f79",
+    "defect_classes": [
+      "referent_ambiguity",
+      "prompt_grader_semantic_mismatch",
+      "contradictory_instructions",
+      "underspecified_output_format",
+      "evidence_policy_ambiguity",
+      "scope_negation_ambiguity"
+    ],
+    "defects_per_class": 4,
+    "do_not_retry": "SCOREABLE_WITNESS_CONTENT_OR_REPRESENTATION_CONTRADICTION",
+    "failure_action": "REVIEWER_UNQUALIFIED_AND_DO_NOT_REVIEW_SEMANTIC_PACKET",
+    "good_controls_per_class": 4,
+    "max_attempts": 3,
+    "minimum_per_class_detection": [
+      3,
+      4
+    ],
+    "minimum_sensitivity": [
+      22,
+      24
+    ],
+    "minimum_specificity": [
+      22,
+      24
+    ],
+    "retry_only_for": "MALFORMED_JSON_OR_UNSCORABLE_CLOSED_SCHEMA_FAILURE",
+    "structured_contradictions_allowed": 0,
+    "witness_policy": {
+      "claimed_defect_meaningful_types": [
+        "string",
+        "array",
+        "object"
+      ],
+      "no_defect_witness_exact": "NONE",
+      "representation_is_not_transport_validity": true
+    }
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V4_PROTOCOL_V1",
+  "semantic_review": {
+    "answer_key_hidden": true,
+    "batch_size": 5,
+    "families": 26,
+    "invalid_required_witness_action": "PRESERVE_ROW_AND_CLASSIFY_REVIEWER_DEFECT_DURING_RECONCILIATION",
+    "max_attempts": 3,
+    "packet_path": "successor/evaluation/v10_qwen35/retention_arch_v2.semantic.packet.jsonl",
+    "packet_sha256": "d746d8eafc69b0c2610be77f985c38b59377fbe3953f812bdbbdbc644113e75e",
+    "rows": 130,
+    "semantic_witness_does_not_early_stop": true,
+    "structured_witness_values_preserved": true,
+    "verdict_hidden": true
+  },
+  "status": "FROZEN_BEFORE_FIRST_V4_LIVE_REVIEW_CALL"
+}

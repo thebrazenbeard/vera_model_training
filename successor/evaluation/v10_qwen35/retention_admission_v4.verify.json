@@ -1,0 +1,12 @@
+{
+  "binding_reasons": [
+    "audit_receipt_reject_count_mismatch",
+    "audit_receipt_reviewed_families_mismatch",
+    "audit_receipt_reviewed_rows_mismatch",
+    "audit_receipt_summary_status_mismatch"
+  ],
+  "core_reasons": [],
+  "effect": "READ_ONLY_ADMISSION_VERIFICATION",
+  "schema": "V10_QWEN35_RETENTION_ADMISSION_FILE_CHECK_V2",
+  "status": "HOLD"
+}

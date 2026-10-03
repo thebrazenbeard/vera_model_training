@@ -1,0 +1,150 @@
+{
+  "schema": "V10_H01_H20_FINAL_BANK_GENERATION_SPEC_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_NONPLAINTEXT_GENERATION_RULES",
+  "composition_proposal": {
+    "path": "research/measurement/V10_H01_H20_FINAL_BANK_COMPOSITION_PROPOSAL_20261001_V1.md",
+    "git_blob_sha": "3b157d536279c17f1fcfa22cb7529fe87f5b83a9"
+  },
+  "global_rules": {
+    "final_plaintext_created_before_training": true,
+    "final_plaintext_training_lane_access": false,
+    "candidate_development_access": false,
+    "candidate_model_generation_forbidden": true,
+    "qwen_lineage_synthetic_generation_forbidden": true,
+    "consumed_train_validation_final_copying_forbidden": true,
+    "rejected_case_mutation_in_place_forbidden": true,
+    "replacement_requires_new_generation_and_review": true,
+    "family_independence": "SEMANTIC_FAILURE_MECHANISM_NOT_SURFACE_VARIATION",
+    "surface_entity_value_style_permutations_do_not_create_new_family": true
+  },
+  "behavioral": {
+    "total_rows": 10000,
+    "dimensions": [
+      "H01",
+      "H02",
+      "H03",
+      "H04",
+      "H05",
+      "H06",
+      "H07",
+      "H08",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "H13",
+      "H14",
+      "H15",
+      "H16",
+      "H17",
+      "H18",
+      "H19",
+      "H20"
+    ],
+    "rows_per_dimension": 500,
+    "families_per_dimension": 50,
+    "cases_per_family": 10,
+    "family_provenance_per_dimension": {
+      "synthetic_A": 20,
+      "synthetic_B": 20,
+      "human_seeded": 10
+    },
+    "total_families": 1000
+  },
+  "adversarial": {
+    "total_rows": 2000,
+    "dimensions": [
+      "H01",
+      "H02",
+      "H03",
+      "H04",
+      "H05",
+      "H06",
+      "H07",
+      "H08",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "H13",
+      "H14",
+      "H15",
+      "H16",
+      "H17",
+      "H18",
+      "H19",
+      "H20"
+    ],
+    "rows_per_dimension": 100,
+    "families_per_dimension": 20,
+    "cases_per_family": 5,
+    "family_provenance_per_dimension": {
+      "synthetic_A": 8,
+      "synthetic_B": 8,
+      "human_seeded": 4
+    },
+    "total_families": 400,
+    "pressure_classes": [
+      "false_confidence_or_poisoned_premise",
+      "authority_escalation",
+      "stale_memory_or_source_conflict",
+      "unsupported_salience",
+      "instruction_collision",
+      "social_pressure_or_user_insistence",
+      "scope_expansion",
+      "retry_after_failure_pressure",
+      "privacy_bait",
+      "metaphor_literalization_trap",
+      "claim_completion_without_observation"
+    ]
+  },
+  "provenance_requirements": {
+    "synthetic_sources": [
+      "A",
+      "B"
+    ],
+    "synthetic_sources_must_use_different_model_families": true,
+    "synthetic_sources_must_use_different_exact_models": true,
+    "synthetic_provider_runtime_identity_must_be_distinct": true,
+    "synthetic_generation_metadata": [
+      "actor_id",
+      "provider",
+      "model",
+      "model_family",
+      "revision",
+      "runtime",
+      "seed",
+      "sampling",
+      "generation_timestamp",
+      "raw_bundle_sha256"
+    ],
+    "human_seeded_family_requires_genuine_human_authored_case": true,
+    "derivative_cases_retain_derivative_provenance": true,
+    "generation_actor_must_not_review_own_case": true
+  },
+  "required_case_schema": [
+    "case_id",
+    "lane",
+    "dimension",
+    "family_id",
+    "prompt",
+    "source_id",
+    "source_revision",
+    "source_terms",
+    "source_hash",
+    "generation_actor_id",
+    "generation_method",
+    "grader_contract",
+    "review_receipt"
+  ],
+  "custody_outputs": {
+    "raw_generation_bundles_sealed": true,
+    "raw_bundle_hash_before_review": true,
+    "family_manifest_required": true,
+    "family_manifest_must_explain_independence": true,
+    "rejected_cases_quarantined": true,
+    "accepted_plaintext_not_published_to_training_lane": true
+  },
+  "claim_ceiling": "GENERATION_RULES_ONLY / NO FINAL PLAINTEXT / IDENTITIES UNBOUND / NO TRAINING"
+}

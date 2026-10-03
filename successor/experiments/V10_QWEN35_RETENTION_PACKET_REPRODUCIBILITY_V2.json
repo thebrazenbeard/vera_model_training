@@ -1,0 +1,31 @@
+{
+  "schema": "V10_QWEN35_RETENTION_PACKET_REPRODUCIBILITY_V2",
+  "date": "2026-10-02",
+  "status": "V1_PACKET_HASH_RETIRED_PRE_AUDIT_V2_REPRODUCED",
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "selection": "SHA256(candidate_sha256, family_id, case_id) lowest 5 per family",
+  "sample_rows": 130,
+  "family_count": 26,
+  "cases_per_family": 5,
+  "location_manifest_sha256": "bf5a2dc0bb0f1ba15f7149e9fa1184aa632f280a72fe306c154a9e05cfacab29",
+  "v1_protocol": {
+    "packet_sha256": "bed5c813b9b965105c4b1894b0c2748795c69344f3987de7908fd6709c278ccb",
+    "reproducible": false,
+    "status": "RETIRED_BEFORE_BATCHED_AUDIT"
+  },
+  "v2_rebuild": {
+    "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "candidate_sha256_verified": true,
+    "sample_rows_verified": 130,
+    "family_count_verified": 26,
+    "selection_unchanged": true,
+    "reviewer_unchanged": true
+  },
+  "audit_evidence_state": {
+    "batched_family_audit_started": false,
+    "batched_family_results_consumed": false,
+    "prior_three_single_case_smoke_records_consumed": false
+  },
+  "correction_rule": "Hash correction occurred before any batched family-audit result was observed or consumed. V1 remains historical evidence and is not overwritten.",
+  "claim_ceiling": "PACKET_REPRODUCIBILITY_CORRECTION_ONLY / NO REVIEW RESULT / NOT RETENTION ADMISSION"
+}

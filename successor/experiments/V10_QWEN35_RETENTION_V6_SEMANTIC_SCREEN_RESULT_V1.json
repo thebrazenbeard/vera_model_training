@@ -1,0 +1,42 @@
+{
+  "binding": {
+    "path": "successor/experiments/V10_QWEN35_RETENTION_V6_SEMANTIC_SCREEN_BINDING_V1.json",
+    "sha256": "919369c9aaa449e17ea987dab588371eb0a5121745f0711b31a862e88120e8a7"
+  },
+  "boundaries": {
+    "heuristic_screen_only": true,
+    "methodology_history_independent": false,
+    "training_authorized": false,
+    "weights_changed": false,
+    "zero_contamination_proof": false
+  },
+  "claim_ceiling": "RETENTION_CANDIDATE_V2_HEURISTIC_SEMANTIC_SCREEN_PASS / ZERO_FAILURES_AT_FROZEN_0.9_THRESHOLD / NOT_ZERO_CONTAMINATION_PROOF / NOT_RETENTION_ADMISSION / NO_TRAINING",
+  "date": "2026-10-03",
+  "result": {
+    "execution_raw_sha256": "ddbb98fd3d68f26b670f003b5704f274bfd16c9b378d97ce28e845768cb8798a",
+    "failure_count": 0,
+    "max_cosine": 0.6259469389915466,
+    "mean_max_cosine": 0.44827497005462646,
+    "p95_max_cosine": 0.5403647422790527,
+    "path": "successor/evaluation/v10_qwen35/retention_candidate_v2.semantic_screen.json",
+    "persisted_normalization": "JSON semantics unchanged; CRLF execution output normalized to LF before repository persistence.",
+    "registry_count": 59812,
+    "registry_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f",
+    "sha256": "9de4dbca9f03394dea0dab5cdb85e740976ae637461a30b10296a76e62c45133",
+    "target_prompt_count": 1500,
+    "target_sha256": "4ed78c578b7c99504f52a2a8cc29d10396ddb2460471704340b915871c1441dc",
+    "threshold": 0.9
+  },
+  "schema": "V10_QWEN35_RETENTION_V6_SEMANTIC_SCREEN_RESULT_V1",
+  "status": "PASS",
+  "verification": {
+    "all_bound_source_hashes_match": true,
+    "embedding_dimension_matches": true,
+    "model_archive_hash_matches": true,
+    "registry_hash_matches": true,
+    "runtime_versions_match": true,
+    "target_hash_matches": true,
+    "target_manifest_hash_matches": true,
+    "threshold_matches": true
+  }
+}
