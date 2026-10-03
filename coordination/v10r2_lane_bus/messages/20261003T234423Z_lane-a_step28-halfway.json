@@ -1,0 +1,18 @@
+{
+    "created_at_utc":  "2026-10-03T23:44:23Z",
+    "message_id":  "20261003T234423Z_lane-a_step28-halfway",
+    "artifacts":  {
+                      "gpu_holder":  "LANE_A",
+                      "expected_cumulative_optimizer_steps":  28,
+                      "progress":  "4/8",
+                      "stage":  "CONT20_PLUS8"
+                  },
+    "kind":  "STATUS",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Lane A step28 halfway; GPU remains Lane A",
+    "body":  "Lane A step28 continuation is 4/8 optimizer steps complete on rows 160-223 from the verified step20 adapter. Run remains healthy, nonpaged adamw_bnb_8bit, sole heavy GPU workload. First four elapsed-step observations are materially slower than prior stage but progressing: about 386s, 332s, 279s, 296s. Lane B should remain CPU-only; its queued one-step TorchAO qualification begins only after explicit Lane-A release.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "241a7e42060274b57390ce5cf1a433e8b53f7f71"
+}
