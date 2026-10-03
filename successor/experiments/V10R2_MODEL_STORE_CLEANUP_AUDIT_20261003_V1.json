@@ -1,0 +1,79 @@
+{
+  "schema": "V10R2_MODEL_STORE_CLEANUP_AUDIT_V1",
+  "date": "2026-10-03",
+  "root": "D:\\VERA\\models",
+  "status": "CLEANUP_VERIFIED",
+  "before": {
+    "bytes": 51888914811,
+    "approximate_gib": 48.325
+  },
+  "removed": {
+    "total_bytes": 33162110947,
+    "approximate_gib": 30.887,
+    "tranche_v1": {
+      "ledger_path": "D:\\VERA\\.scratch\\models-cleanup-ledger-20261003-v1.json",
+      "ledger_sha256": "479ae4a1f1f71c59d5edc319f0d943297e5c72338e5ac302ddf9980314fa5275",
+      "bytes": 5913161111,
+      "items": [
+        "blobs/",
+        "manifests/",
+        "metadata/",
+        "adapters/v10r2-dev-bnb8-step1-20261003/",
+        "adapters/v10r2-dev-torchao8-step1-20261003/"
+      ],
+      "interpretation": "stale copied Ollama store plus two empty failed V10R2 output directories"
+    },
+    "tranche_v2": {
+      "ledger_path": "D:\\VERA\\.scratch\\models-cleanup-ledger-20261003-v2.json",
+      "ledger_sha256": "399841a3c1eb1f6c716ab9fea6d0db18eeaaa8893ed23e8657d06e98ad670899",
+      "bytes": 27248949836,
+      "items": [
+        "SmolLM3-3B-a07cc9a04f16550a088caea529712d1d335b0ac1/",
+        "vera-qwen35-h07-v2-r4-full-merged-hf/",
+        "vera-qwen35-h07-v2-r4-full-F16.gguf",
+        "vera-qwen35-h07-v2-r4-full-Q5_K_S.gguf"
+      ],
+      "interpretation": "exact duplicate SmolLM3 subset plus derivable old H07 merged/deployment artifacts"
+    }
+  },
+  "after": {
+    "bytes": 18726803864,
+    "gib": 17.441,
+    "files": 91
+  },
+  "preserved_and_verified_present": [
+    "latest-trained/base",
+    "latest-trained/adapter",
+    "adapters/v10r2-dev-bnb8-step1-20261003-v2",
+    "adapters/v10r2-dev-bnb8-step4-20261003",
+    "adapters/v10r2-dev-bnb8-cont4-plus8-20261003",
+    "base/SmolLM3-3B",
+    "gguf/model_q5_k_s.gguf",
+    "gguf/Vera-v0.5-LoRA-F16.gguf"
+  ],
+  "current_v10r2": {
+    "base_path": "D:\\VERA\\models\\latest-trained\\base",
+    "step12_adapter_path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont4-plus8-20261003\\adapter",
+    "step12_adapter_sha256": "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3",
+    "step12_weight_digest_after": "aa6f2021436f327f8d333fd81c4c4baa180341fd759ef652120890f251e5cb32",
+    "step12_receipt_sha256": "19a9876003f0d71bebde58d90403fca61597af2fc3562b15fd77f1353e863648",
+    "next_bound_stage": {
+      "spec": "V10R2_QWEN35_DEV_TRAINING_SPEC_BNB8_CONT12_PLUS8_V1.json",
+      "spec_sha256": "524cde2ad2d04b368bf3e8019f21dd88c4823ff093cced2e84ac57617f79bd10",
+      "start_row": 96,
+      "row_count": 64,
+      "additional_optimizer_steps": 8,
+      "expected_cumulative_optimizer_steps": 20,
+      "optimizer": "adamw_bnb_8bit",
+      "paged": false
+    }
+  },
+  "boundaries": {
+    "current_v10r2_artifacts_deleted": false,
+    "active_base_deleted": false,
+    "live_default_ollama_store_deleted": false,
+    "final_bank_material_touched": false,
+    "merge_or_deployment_performed": false
+  },
+  "claim_ceiling": "FILESYSTEM CLEANUP VERIFIED; CURRENT V10R2 TRAINING LINEAGE PRESERVED; NO CLAIM ABOUT FINAL EXTERNAL QUALIFICATION"
+}

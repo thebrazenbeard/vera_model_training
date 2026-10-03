@@ -8,6 +8,7 @@ REQUIRED_FIELDS = {"item_id", "prompt_family", "prompt", "rubric"}
 SEALED_COMMITMENT_FILENAME = "V10_SEALED_FINAL_BANK_COMMITMENT_V1.json"
 TRAINING_AUTHORITY_FILENAME = "V10_QWEN35_TRAINING_AUTHORITY_V1.json"
 TRAINING_RUNTIME_FILENAME = "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json"
+TRAINING_EXECUTION_FILENAME = "V10_QWEN35_TRAINING_EXECUTION_BINDING_V1.json"
 SEALED_DERIVABLE_PRECONDITIONS = {
     "fresh_evaluation_bank_frozen",
     "independent_bank_admission_verified",
@@ -312,7 +313,266 @@ def _training_runtime_evidence(base, contract):
     )
 
 
-def _training_authority_evidence(base, contract, sealed, runtime):
+def _git_blob_sha(raw: bytes) -> str:
+    header = f"blob {len(raw)}\0".encode("ascii")
+    return hashlib.sha1(header + raw).hexdigest()
+
+
+def _working_tree_git_blob_sha(root, path) -> str:
+    import subprocess
+
+    if not (root / ".git").exists():
+        return _git_blob_sha(path.read_bytes())
+    try:
+        relative = path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        return _git_blob_sha(path.read_bytes())
+    result = subprocess.run(
+        ["git", "-C", str(root), "hash-object", f"--path={relative}", str(path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    observed = result.stdout.strip().lower()
+    if result.returncode == 0 and len(observed) == 40 and all(
+        ch in "0123456789abcdef" for ch in observed
+    ):
+        return observed
+    return _git_blob_sha(path.read_bytes())
+
+
+def _execution_spec_contract_reasons(contract, spec):
+    reasons = []
+    recipe = contract.get("training_recipe", {})
+    trainer = spec.get("trainer", {}) if isinstance(spec, dict) else {}
+    quant = spec.get("quantization", {}) if isinstance(spec, dict) else {}
+    model_load = spec.get("model_load", {}) if isinstance(spec, dict) else {}
+    lora = spec.get("lora", {}) if isinstance(spec, dict) else {}
+    if spec.get("schema") != "V10_QWEN35_TRAINING_EXECUTION_SPEC_V1":
+        reasons.append("execution_spec_schema_mismatch")
+    if spec.get("effect") != "TRAIN_ONE_FRESH_QLORA_ADAPTER":
+        reasons.append("execution_spec_effect_mismatch")
+
+    for field in (
+        "method",
+        "seed",
+        "epochs",
+        "learning_rate",
+        "lr_scheduler_type",
+        "warmup_optimizer_steps",
+        "per_device_train_batch_size",
+        "gradient_accumulation_steps",
+        "max_length",
+        "overflow_policy",
+        "optimizer",
+        "completion_only_loss",
+        "packing",
+        "shuffle_dataset",
+        "gradient_checkpointing",
+        "validation_role",
+    ):
+        if trainer.get(field) != recipe.get(field):
+            reasons.append(f"execution_spec_recipe_mismatch:{field}")
+
+    for field in (
+        "load_in_4bit",
+        "type",
+        "double_quant",
+        "compute_dtype",
+    ):
+        if quant.get(field) != recipe.get("quantization", {}).get(field):
+            reasons.append(f"execution_spec_quantization_mismatch:{field}")
+
+    for field in ("r", "alpha", "dropout", "target_modules"):
+        if lora.get(field) != recipe.get("lora", {}).get(field):
+            reasons.append(f"execution_spec_lora_mismatch:{field}")
+
+    exact_trainer = {
+        "bf16": True,
+        "tf32": True,
+        "gradient_checkpointing_use_reentrant": False,
+        "logging_steps": 10,
+        "save_strategy": "no",
+        "eval_strategy": "no",
+        "report_to": "none",
+    }
+    for field, expected in exact_trainer.items():
+        if trainer.get(field) != expected:
+            reasons.append(f"execution_spec_exact_trainer_mismatch:{field}")
+
+    expected_model_load = {
+        "device_map": {"": 0},
+        "dtype": "bfloat16",
+        "use_cache": False,
+        "prepare_model_for_kbit_training_use_gradient_checkpointing": True,
+    }
+    if model_load != expected_model_load:
+        reasons.append("execution_spec_model_load_mismatch")
+    if model_load.get("dtype") != quant.get("compute_dtype"):
+        reasons.append("execution_spec_model_quant_dtype_mismatch")
+    if lora.get("bias") != "none":
+        reasons.append("execution_spec_lora_mismatch:bias")
+    if lora.get("task_type") != "CAUSAL_LM":
+        reasons.append("execution_spec_lora_mismatch:task_type")
+
+    policy = spec.get("artifact_policy", {})
+    base_model = contract.get("base_model", {})
+    if policy.get("fresh_adapter_only") is not True:
+        reasons.append("execution_spec_fresh_adapter_only_not_true")
+    if policy.get("parent_adapter") is not None:
+        reasons.append("execution_spec_parent_adapter_not_null")
+    if base_model.get("parent_adapter") is not None:
+        reasons.append("contract_parent_adapter_not_null")
+    if base_model.get("fresh_adapter_required") is not True:
+        reasons.append("contract_fresh_adapter_required_not_true")
+    if policy.get("validation_checkpoint_selection") is not False:
+        reasons.append("execution_spec_validation_selection_not_false")
+    return reasons
+
+
+def _training_execution_evidence(root, base, contract):
+    path = base / TRAINING_EXECUTION_FILENAME
+    if not path.exists():
+        return (
+            {
+                "status": "ABSENT",
+                "binding_sha256": None,
+                "runner_git_blob_sha": None,
+                "execution_spec_sha256": None,
+            },
+            ["training_execution_binding_missing"],
+            False,
+        )
+
+    binding = _read_json(path)
+    raw_reasons = []
+    if (
+        binding.get("schema")
+        != "V10_QWEN35_TRAINING_EXECUTION_BINDING_V1"
+    ):
+        raw_reasons.append("schema_mismatch")
+    if (
+        binding.get("status")
+        != "FROZEN_AUTHORIZABLE_EXECUTION_SUBJECT"
+    ):
+        raw_reasons.append("status_mismatch")
+
+    runner = binding.get("runner")
+    if not isinstance(runner, dict):
+        raw_reasons.append("runner_binding_missing")
+        runner = {}
+    runner_rel = runner.get("path")
+    if not isinstance(runner_rel, str) or not runner_rel.strip():
+        raw_reasons.append("runner_path_missing")
+        runner_path = None
+    else:
+        runner_path = root / runner_rel
+        try:
+            runner_path.resolve().relative_to(root.resolve())
+        except ValueError:
+            raw_reasons.append("runner_path_escapes_repo")
+            runner_path = None
+    if runner_path is not None:
+        if not runner_path.is_file():
+            raw_reasons.append("runner_file_missing")
+        else:
+            observed_blob = _working_tree_git_blob_sha(root, runner_path)
+            if observed_blob != runner.get("git_blob_sha"):
+                raw_reasons.append("runner_git_blob_sha_mismatch")
+
+    preflight = binding.get("preflight_evaluator")
+    if not isinstance(preflight, dict):
+        raw_reasons.append("preflight_binding_missing")
+        preflight = {}
+    preflight_rel = preflight.get("path")
+    if not isinstance(preflight_rel, str) or not preflight_rel.strip():
+        raw_reasons.append("preflight_path_missing")
+        preflight_path = None
+    else:
+        preflight_path = root / preflight_rel
+        try:
+            preflight_path.resolve().relative_to(root.resolve())
+        except ValueError:
+            raw_reasons.append("preflight_path_escapes_repo")
+            preflight_path = None
+    if preflight_path is not None:
+        if not preflight_path.is_file():
+            raw_reasons.append("preflight_file_missing")
+        else:
+            observed_preflight_blob = _working_tree_git_blob_sha(
+                root, preflight_path
+            )
+            if observed_preflight_blob != preflight.get("git_blob_sha"):
+                raw_reasons.append("preflight_git_blob_sha_mismatch")
+
+    execution_spec = binding.get("execution_spec")
+    if not isinstance(execution_spec, dict):
+        raw_reasons.append("execution_spec_binding_missing")
+        execution_spec = {}
+    spec_rel = execution_spec.get("path")
+    if not isinstance(spec_rel, str) or not spec_rel.strip():
+        raw_reasons.append("execution_spec_path_missing")
+        spec_path = None
+    else:
+        spec_path = root / spec_rel
+        try:
+            spec_path.resolve().relative_to(root.resolve())
+        except ValueError:
+            raw_reasons.append("execution_spec_path_escapes_repo")
+            spec_path = None
+    observed_spec_sha = None
+    if spec_path is not None:
+        if not spec_path.is_file():
+            raw_reasons.append("execution_spec_file_missing")
+        else:
+            spec_value = _read_json(spec_path)
+            observed_spec_sha = hashlib.sha256(
+                _canonical(spec_value)
+            ).hexdigest()
+            if observed_spec_sha != execution_spec.get("sha256"):
+                raw_reasons.append("execution_spec_sha256_mismatch")
+            raw_reasons.extend(
+                _execution_spec_contract_reasons(contract, spec_value)
+            )
+
+    claimed_sha = binding.get("binding_sha256")
+    unsigned = dict(binding)
+    unsigned.pop("binding_sha256", None)
+    expected_sha = hashlib.sha256(_canonical(unsigned)).hexdigest()
+    if claimed_sha != expected_sha:
+        raw_reasons.append("binding_sha256_mismatch")
+
+    raw_reasons = sorted(set(raw_reasons))
+    if raw_reasons:
+        return (
+            {
+                "status": "INVALID",
+                "binding_sha256": claimed_sha,
+                "runner_git_blob_sha": runner.get("git_blob_sha"),
+                "preflight_git_blob_sha": preflight.get("git_blob_sha"),
+                "execution_spec_sha256": execution_spec.get("sha256"),
+            },
+            ["training_execution:" + reason for reason in raw_reasons],
+            False,
+        )
+
+    return (
+        {
+            "status": "VERIFIED",
+            "binding_sha256": claimed_sha,
+            "runner_path": runner.get("path"),
+            "runner_git_blob_sha": runner.get("git_blob_sha"),
+            "preflight_path": preflight.get("path"),
+            "preflight_git_blob_sha": preflight.get("git_blob_sha"),
+            "execution_spec_path": execution_spec.get("path"),
+            "execution_spec_sha256": observed_spec_sha,
+        },
+        [],
+        True,
+    )
+
+
+def _training_authority_evidence(base, contract, sealed, runtime, execution):
     path = base / TRAINING_AUTHORITY_FILENAME
     if not path.exists():
         return (
@@ -369,6 +629,16 @@ def _training_authority_evidence(base, contract, sealed, runtime):
         != runtime.get("binding_sha256")
     ):
         raw_reasons.append("training_runtime_binding_sha256_mismatch")
+
+    if execution.get("status") != "VERIFIED":
+        raw_reasons.append("training_execution_not_verified")
+    elif (
+        receipt.get("training_execution_binding_sha256")
+        != execution.get("binding_sha256")
+    ):
+        raw_reasons.append(
+            "training_execution_binding_sha256_mismatch"
+        )
 
     if receipt.get("max_training_runs") != 1:
         raw_reasons.append("max_training_runs_must_equal_1")
@@ -461,9 +731,17 @@ def assess_v10_experiment_state(repo_root):
         _training_runtime_evidence(base, contract)
     )
     reasons.extend(runtime_reasons)
+    training_execution, execution_reasons, execution_verified = (
+        _training_execution_evidence(root, base, contract)
+    )
+    reasons.extend(execution_reasons)
     training_authority, authority_reasons, authority_verified = (
         _training_authority_evidence(
-            base, contract, sealed, training_runtime
+            base,
+            contract,
+            sealed,
+            training_runtime,
+            training_execution,
         )
     )
     reasons.extend(authority_reasons)
@@ -508,6 +786,7 @@ def assess_v10_experiment_state(repo_root):
         "derived_preconditions": derived_preconditions,
         "sealed_final_bank": sealed,
         "training_runtime": training_runtime,
+        "training_execution": training_execution,
         "training_authority": training_authority,
         "effect": "READ_ONLY_PREFLIGHT_NO_WEIGHT_CHANGE",
     }
@@ -538,6 +817,12 @@ def _main(argv=None) -> int:
             "training_runtime": {
                 "status": "ERROR",
                 "binding_sha256": None,
+            },
+            "training_execution": {
+                "status": "ERROR",
+                "binding_sha256": None,
+                "runner_git_blob_sha": None,
+                "execution_spec_sha256": None,
             },
             "training_authority": {
                 "status": "ERROR",

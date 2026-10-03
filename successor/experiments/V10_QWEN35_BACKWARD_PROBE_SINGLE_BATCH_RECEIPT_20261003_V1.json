@@ -1,0 +1,105 @@
+{
+  "base_topology": {
+    "full_attention": 8,
+    "layers": 32,
+    "linear_attention": 24,
+    "module_counts": {
+      "in_proj_a": 24,
+      "in_proj_b": 24,
+      "in_proj_qkv": 24,
+      "in_proj_z": 24,
+      "k_proj": 8,
+      "o_proj": 8,
+      "q_proj": 8,
+      "v_proj": 8
+    }
+  },
+  "claim_ceiling": "REAL_BOUND_CORPUS_FORWARD_BACKWARD_OBSERVED / NO_OPTIMIZER_STEP / NO_WEIGHT_CHANGE / NO_ADAPTER_SAVED / DOES_NOT_SATISFY_FINAL_BANK_OR_TRAINING_AUTHORITY",
+  "contract_sha256": "58b6a3f1563a0d1517051cae1c45a1971579ddb3ad34f57b03b75f9dccbafa3a",
+  "cuda_memory": {
+    "allocated_after_backward_mib": 4243.701,
+    "allocated_before_backward_mib": 4208.133,
+    "peak_allocated_mib": 4848.588,
+    "peak_reserved_mib": 5550.0,
+    "reserved_after_backward_mib": 5550.0,
+    "reserved_before_backward_mib": 5538.0
+  },
+  "effect": "EPHEMERAL_FORWARD_BACKWARD_ONLY_NO_OPTIMIZER_NO_WEIGHT_CHANGE",
+  "execution_binding_sha256": "816c2af072537e096cac68e7435dfbb158b000701dd2be0076a250980c0c2f99",
+  "execution_spec_sha256": "bc73ece4f33e480683027e3c4e6c9f59d796809f9bb311348e95b91aa5df6660",
+  "gradient_parameter_count": 496,
+  "gradients_present": true,
+  "live_runtime": {
+    "base_artifacts": {
+      "model.safetensors-00001-of-00002.safetensors": "36dd0f7de62c546e7d163c2a4461208d731fad91ebea9bc31226b54c1c86511f",
+      "model.safetensors-00002-of-00002.safetensors": "e2fb50b735a8e10210eece763097f906955ca9db6ba557215f549a46b622157f",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+    },
+    "cuda_runtime": "13.0",
+    "driver": "616.92",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "packages": {
+      "accelerate": "1.15.0",
+      "bitsandbytes": "0.50.2",
+      "datasets": "5.0.1",
+      "huggingface_hub": "1.33.0",
+      "jinja2": "3.1.6",
+      "numpy": "2.5.3",
+      "peft": "0.21.0",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.23.2",
+      "torch": "2.14.0+cu130",
+      "transformers": "5.17.0",
+      "trl": "1.13.0"
+    },
+    "python_version": "3.12.10",
+    "vram_mib": 4095
+  },
+  "live_runtime_check": {
+    "binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "schema": "V10_QWEN35_LIVE_RUNTIME_CHECK_V1",
+    "status": "PASS",
+    "vram_delta_mib": 1
+  },
+  "lora_coverage": {
+    "families": {
+      "linear_attn": 120,
+      "mlp": 96,
+      "self_attn": 32
+    },
+    "status": "PASS",
+    "targeted_module_count": 248
+  },
+  "loss": 0.5422726273536682,
+  "nonzero_gradient_parameter_count": 248,
+  "optimizer_created": false,
+  "output_artifacts_written": false,
+  "qualification_status": "NOT_EVALUATED",
+  "receipt_sha256": "defe6e421ffd4e5d2a5e3bb4dba8bd6c6edd3d82c8bded17aed6525ecccca94b",
+  "row_case_id": "bound-train-row-0",
+  "row_index": 0,
+  "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+  "schema": "V10_QWEN35_BACKWARD_PROBE_RECEIPT_V1",
+  "scratch_output_directory": "TEMPORARY_REMOVED_ON_EXIT",
+  "status": "BACKWARD_PROBE_PASS_NO_WEIGHT_CHANGE",
+  "targeted_module_count": 248,
+  "token_budget": {
+    "max_length": 512,
+    "max_tokens": 149,
+    "min_tokens": 149,
+    "over_budget": 0,
+    "rows": 1
+  },
+  "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+  "trainable_parameter_count": 8116224,
+  "training_hold_reasons": [
+    "final_bank_cases_not_admitted",
+    "fresh_evaluation_bank_frozen",
+    "independent_bank_admission_verified",
+    "patrick_exact_weight_change_authority",
+    "semantic_contamination_screen_verified"
+  ],
+  "weight_digest_after": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+  "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+  "weight_digest_unchanged": true
+}
