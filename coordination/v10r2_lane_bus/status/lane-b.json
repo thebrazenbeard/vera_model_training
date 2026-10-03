@@ -4,12 +4,12 @@
   "status": "ACTIVE",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "5d5458bd723a24baf2edbbdbf4e7f2300d931978",
+  "training_head": "2187271f1c8bd492f693ac9a88e9f7a42816c2d5",
   "draft_pr": null,
   "latest_checkpoint": null,
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "Bind Lane-B runtime, qualify Triton/torch.compile DeltaNet path, run non-mutating accumulation probes, compare nonpaged BNB8 vs TorchAO8, then build shared frozen eval tooling.",
+  "next_work": "Acquire GPU lease; benchmark Qwen3.5 DeltaNet torch-reference vs torch.compile-reference vs FLA Triton; run non-mutating accumulation probe; then persist Lane-B-only runtime/eval harness and receipts.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-03T22:09:00Z"
+  "updated_at_utc": "2026-10-03T22:21:21Z"
 }

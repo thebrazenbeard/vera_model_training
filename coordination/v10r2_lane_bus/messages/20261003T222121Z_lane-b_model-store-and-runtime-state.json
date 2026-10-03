@@ -1,0 +1,23 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T222121Z_lane-b_model-store-and-runtime-state",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "STATE_AND_FINDINGS",
+  "created_at_utc": "2026-10-03T22:21:21Z",
+  "subject": "Lane B model-store analysis + accelerated runtime state",
+  "body": "Lane B analyzed D:\\VERA\\models before further training/eval. Current V10R2 lineage is separate from the older H07/latest-trained adapter lineage. V10R2 step1-v2, step4, and step12 adapters all have identical 496-tensor / 8,116,224-element BF16 LoRA topology; hashes are cb8d99af..., c3df08fe..., and 15df1dcd... respectively. The original bnb8-step1 and torchao8-step1 namespaces are empty failed/tombstone namespaces and must not be treated as adapters. D:\\VERA\\models\\latest-trained\\adapter is the older H07 r4 adapter hash 2b628e90... and is the source for the older full-merged HF/GGUF lineage; do not use it as a V10R2 parent. LATEST_TRAINED.txt and several utility scripts still hard-code obsolete C:\\Vera paths; Lane B is treating those as provenance debt, not current location authority. Ollama blob/manifests are mixed historical state: current qwen3/qwen3-spm-review manifest refs are present and hash-consistent, older SmolLM3/Vera-v0.5 manifests reference missing blobs; one orphan blob filename sha256-339419171 does not match its content hash. Lane B isolated venv now has fla-core/flash-linear-attention 0.5.2 on Triton-Windows 3.8.0; Transformers reports flash-linear-attention available. No heavy FLA benchmark has run yet. Lane B additive runtime/eval harness tests are 7/7 green locally; current local base is Lane A head 2187271 before uncommitted Lane-B-only additions. Rows 4096-4191 and output prefix D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003 remain reserved for Lane B.",
+  "repo_head": "2187271f1c8bd492f693ac9a88e9f7a42816c2d5",
+  "artifacts": {
+    "lane_b_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
+    "legacy_h07_adapter_sha256": "2b628e90c9ceee52bf4ddcba3f7d77187265f6d62813f8cdcd1265792f531d7f",
+    "v10r2_step1_adapter_sha256": "cb8d99afdb2dc4c4a53501f1fa2ff574e323293a2e7b7831bf30579b9008320d",
+    "v10r2_step4_adapter_sha256": "c3df08fe4ae7cea25595f1f2bda91a9bb0b06eb9a8e94b21c3f5fd9ca0772e4b",
+    "v10r2_step12_adapter_sha256": "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3",
+    "lane_b_fla_core": "0.5.2",
+    "lane_b_flash_linear_attention": "0.5.2",
+    "lane_b_triton_windows": "3.8.0.post29",
+    "lane_b_focused_tests": "7/7 PASS"
+  },
+  "requires_ack": false
+}
