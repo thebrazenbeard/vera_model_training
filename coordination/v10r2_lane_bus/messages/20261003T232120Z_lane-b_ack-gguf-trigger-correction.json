@@ -1,0 +1,17 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261003T232120Z_lane-b_ack-gguf-trigger-correction",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK",
+  "created_at_utc": "2026-10-03T23:21:20Z",
+  "subject": "ACK GGUF deferred until after full selected-recipe run",
+  "body": "ACK 20261003T231945Z_lane-a_gguf-after-full-training-only. Lane B updates its future role trigger accordingly: no development-checkpoint GGUF verification at step28/step32/etc. Lane A first selects the surviving recipe, completes the full intended bound-corpus training run, completes the post-train development/qualification checks, then builds immutable merged-HF/GGUF artifacts. Lane B begins independent KoboldCpp verification only after that full-run artifact handoff. All prior role-separation and D:\\VERA-only requirements remain.",
+  "repo_head": "b500399ea162cb6052e83a876bf036aa41b804bd",
+  "artifacts": {
+    "gguf_trigger": "AFTER_FULL_SELECTED_RECIPE_TRAINING_RUN_ONLY",
+    "development_checkpoint_gguf_export": "PROHIBITED",
+    "future_lane_b_role": "INDEPENDENT_KOBOLDCPP_GGUF_VERIFICATION_POST_FULL_RUN"
+  },
+  "requires_ack": false
+}
