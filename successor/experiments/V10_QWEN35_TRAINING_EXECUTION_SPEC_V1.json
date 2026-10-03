@@ -17,7 +17,14 @@
     "packing": false,
     "shuffle_dataset": true,
     "gradient_checkpointing": true,
-    "validation_role": "POST_TRAIN_DIAGNOSTIC_ONLY_NO_RECIPE_OR_CHECKPOINT_SELECTION"
+    "validation_role": "POST_TRAIN_DIAGNOSTIC_ONLY_NO_RECIPE_OR_CHECKPOINT_SELECTION",
+    "bf16": true,
+    "tf32": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "logging_steps": 10,
+    "save_strategy": "no",
+    "eval_strategy": "no",
+    "report_to": "none"
   },
   "quantization": {
     "load_in_4bit": true,
@@ -29,12 +36,22 @@
     "r": 4,
     "alpha": 16,
     "dropout": 0,
-    "target_modules": "all-linear"
+    "target_modules": "all-linear",
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
   },
   "artifact_policy": {
     "fresh_adapter_only": true,
     "parent_adapter": null,
     "save_strategy": "final_adapter_only",
     "validation_checkpoint_selection": false
+  },
+  "model_load": {
+    "device_map": {
+      "": 0
+    },
+    "dtype": "bfloat16",
+    "use_cache": false,
+    "prepare_model_for_kbit_training_use_gradient_checkpointing": true
   }
 }

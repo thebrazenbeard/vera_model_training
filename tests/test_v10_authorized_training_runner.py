@@ -228,6 +228,42 @@ def test_runtime_observation_requires_exact_bound_packages() -> None:
         runner.validate_runtime_observation(binding, observed)
 
 
+def test_runtime_observation_allows_one_mib_vram_reporting_rounding() -> None:
+    binding = _runtime_binding()
+    observed = {
+        "python_version": "3.12.10",
+        "gpu": "gpu",
+        "vram_mib": 4095,
+        "driver": "driver",
+        "cuda_runtime": "13.0",
+        "packages": dict(binding["packages"]),
+        "base_artifacts": dict(binding["base_artifacts"]),
+    }
+
+    result = runner.validate_runtime_observation(binding, observed)
+    assert result["status"] == "PASS"
+    assert result["vram_delta_mib"] == 1
+
+
+def test_runtime_observation_rejects_material_vram_difference() -> None:
+    binding = _runtime_binding()
+    observed = {
+        "python_version": "3.12.10",
+        "gpu": "gpu",
+        "vram_mib": 4080,
+        "driver": "driver",
+        "cuda_runtime": "13.0",
+        "packages": dict(binding["packages"]),
+        "base_artifacts": dict(binding["base_artifacts"]),
+    }
+
+    with pytest.raises(
+        runner.TrainingHold,
+        match="runtime target mismatch:vram_mib:4080!=4096",
+    ):
+        runner.validate_runtime_observation(binding, observed)
+
+
 def test_execution_spec_matches_frozen_recipe() -> None:
     spec = runner.default_execution_spec()
     result = runner.validate_execution_spec(_contract(), spec)
@@ -400,3 +436,34 @@ def test_execute_hold_never_loads_stack_or_touches_output(
         )
     assert called is False
     assert not output.exists()
+
+
+
+def test_execution_spec_freezes_material_runtime_knobs() -> None:
+    spec = runner.default_execution_spec()
+    assert spec["trainer"]["bf16"] is True
+    assert spec["trainer"]["tf32"] is True
+    assert spec["trainer"]["gradient_checkpointing_use_reentrant"] is False
+    assert spec["trainer"]["logging_steps"] == 10
+    assert spec["trainer"]["save_strategy"] == "no"
+    assert spec["trainer"]["eval_strategy"] == "no"
+    assert spec["trainer"]["report_to"] == "none"
+    assert spec["model_load"] == {
+        "device_map": {"": 0},
+        "dtype": "bfloat16",
+        "use_cache": False,
+        "prepare_model_for_kbit_training_use_gradient_checkpointing": True,
+    }
+    assert spec["lora"]["bias"] == "none"
+    assert spec["lora"]["task_type"] == "CAUSAL_LM"
+
+    for path, value in (
+        (("trainer", "tf32"), False),
+        (("trainer", "gradient_checkpointing_use_reentrant"), True),
+        (("model_load", "dtype"), "float16"),
+        (("lora", "bias"), "all"),
+    ):
+        changed = json.loads(json.dumps(spec))
+        changed[path[0]][path[1]] = value
+        with pytest.raises(runner.TrainingHold):
+            runner.validate_execution_spec(_contract(), changed)

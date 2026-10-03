@@ -318,11 +318,35 @@ def _git_blob_sha(raw: bytes) -> str:
     return hashlib.sha1(header + raw).hexdigest()
 
 
+def _working_tree_git_blob_sha(root, path) -> str:
+    import subprocess
+
+    if not (root / ".git").exists():
+        return _git_blob_sha(path.read_bytes())
+    try:
+        relative = path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        return _git_blob_sha(path.read_bytes())
+    result = subprocess.run(
+        ["git", "-C", str(root), "hash-object", f"--path={relative}", str(path)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    observed = result.stdout.strip().lower()
+    if result.returncode == 0 and len(observed) == 40 and all(
+        ch in "0123456789abcdef" for ch in observed
+    ):
+        return observed
+    return _git_blob_sha(path.read_bytes())
+
+
 def _execution_spec_contract_reasons(contract, spec):
     reasons = []
     recipe = contract.get("training_recipe", {})
     trainer = spec.get("trainer", {}) if isinstance(spec, dict) else {}
     quant = spec.get("quantization", {}) if isinstance(spec, dict) else {}
+    model_load = spec.get("model_load", {}) if isinstance(spec, dict) else {}
     lora = spec.get("lora", {}) if isinstance(spec, dict) else {}
     if spec.get("schema") != "V10_QWEN35_TRAINING_EXECUTION_SPEC_V1":
         reasons.append("execution_spec_schema_mismatch")
@@ -362,6 +386,34 @@ def _execution_spec_contract_reasons(contract, spec):
     for field in ("r", "alpha", "dropout", "target_modules"):
         if lora.get(field) != recipe.get("lora", {}).get(field):
             reasons.append(f"execution_spec_lora_mismatch:{field}")
+
+    exact_trainer = {
+        "bf16": True,
+        "tf32": True,
+        "gradient_checkpointing_use_reentrant": False,
+        "logging_steps": 10,
+        "save_strategy": "no",
+        "eval_strategy": "no",
+        "report_to": "none",
+    }
+    for field, expected in exact_trainer.items():
+        if trainer.get(field) != expected:
+            reasons.append(f"execution_spec_exact_trainer_mismatch:{field}")
+
+    expected_model_load = {
+        "device_map": {"": 0},
+        "dtype": "bfloat16",
+        "use_cache": False,
+        "prepare_model_for_kbit_training_use_gradient_checkpointing": True,
+    }
+    if model_load != expected_model_load:
+        reasons.append("execution_spec_model_load_mismatch")
+    if model_load.get("dtype") != quant.get("compute_dtype"):
+        reasons.append("execution_spec_model_quant_dtype_mismatch")
+    if lora.get("bias") != "none":
+        reasons.append("execution_spec_lora_mismatch:bias")
+    if lora.get("task_type") != "CAUSAL_LM":
+        reasons.append("execution_spec_lora_mismatch:task_type")
 
     policy = spec.get("artifact_policy", {})
     base_model = contract.get("base_model", {})
@@ -424,9 +476,34 @@ def _training_execution_evidence(root, base, contract):
         if not runner_path.is_file():
             raw_reasons.append("runner_file_missing")
         else:
-            observed_blob = _git_blob_sha(runner_path.read_bytes())
+            observed_blob = _working_tree_git_blob_sha(root, runner_path)
             if observed_blob != runner.get("git_blob_sha"):
                 raw_reasons.append("runner_git_blob_sha_mismatch")
+
+    preflight = binding.get("preflight_evaluator")
+    if not isinstance(preflight, dict):
+        raw_reasons.append("preflight_binding_missing")
+        preflight = {}
+    preflight_rel = preflight.get("path")
+    if not isinstance(preflight_rel, str) or not preflight_rel.strip():
+        raw_reasons.append("preflight_path_missing")
+        preflight_path = None
+    else:
+        preflight_path = root / preflight_rel
+        try:
+            preflight_path.resolve().relative_to(root.resolve())
+        except ValueError:
+            raw_reasons.append("preflight_path_escapes_repo")
+            preflight_path = None
+    if preflight_path is not None:
+        if not preflight_path.is_file():
+            raw_reasons.append("preflight_file_missing")
+        else:
+            observed_preflight_blob = _working_tree_git_blob_sha(
+                root, preflight_path
+            )
+            if observed_preflight_blob != preflight.get("git_blob_sha"):
+                raw_reasons.append("preflight_git_blob_sha_mismatch")
 
     execution_spec = binding.get("execution_spec")
     if not isinstance(execution_spec, dict):
@@ -472,6 +549,7 @@ def _training_execution_evidence(root, base, contract):
                 "status": "INVALID",
                 "binding_sha256": claimed_sha,
                 "runner_git_blob_sha": runner.get("git_blob_sha"),
+                "preflight_git_blob_sha": preflight.get("git_blob_sha"),
                 "execution_spec_sha256": execution_spec.get("sha256"),
             },
             ["training_execution:" + reason for reason in raw_reasons],
@@ -484,6 +562,8 @@ def _training_execution_evidence(root, base, contract):
             "binding_sha256": claimed_sha,
             "runner_path": runner.get("path"),
             "runner_git_blob_sha": runner.get("git_blob_sha"),
+            "preflight_path": preflight.get("path"),
+            "preflight_git_blob_sha": preflight.get("git_blob_sha"),
             "execution_spec_path": execution_spec.get("path"),
             "execution_spec_sha256": observed_spec_sha,
         },

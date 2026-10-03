@@ -37,11 +37,13 @@
   },
   "execution_binding": {
     "filename": "V10_QWEN35_TRAINING_EXECUTION_BINDING_V1.json",
-    "expected_binding_sha256": "d618a0f8beedabdf1074b082e8f2692814770764b739ec935a7f95531e970555",
+    "expected_binding_sha256": "816c2af072537e096cac68e7435dfbb158b000701dd2be0076a250980c0c2f99",
     "runner_path": "successor/experiments/train_v10_qwen35_authorized.py",
-    "runner_git_blob_sha": "50327d8bde79e66abcf4101475988d036086b5e9",
+    "runner_git_blob_sha": "558e0445fde1c90ad3137d141a94373d96309fd3",
+    "preflight_evaluator_path": "successor/evaluate_successor.py",
+    "preflight_evaluator_git_blob_sha": "5e224f45cab20424bf156935ab94de971c446567",
     "execution_spec_path": "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
-    "execution_spec_sha256": "4e290ff6be1b1d51be446c7ca3c7c22af3ccac2dbdc9395c17a3994c9335bd20",
+    "execution_spec_sha256": "bc73ece4f33e480683027e3c4e6c9f59d796809f9bb311348e95b91aa5df6660",
     "authority_must_bind_exact_execution_subject": true
   }
 }
