@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 from collections import Counter
+import argparse
+import hashlib
+import json
+from pathlib import Path as FsPath
 from typing import Any
 
 from successor.experiments import build_v10_qwen35_retention_candidate as v1
@@ -208,7 +212,7 @@ def _build_coding_v2(count: int) -> list[dict]:
             digest = v1.sha256_json(spec)
             grader = {
                 "kind": "deterministic",
-                "grader_id": "python_unit_tests_v2",
+                "grader_id": "python_unit_tests_v1",
                 "grader_version": "2",
                 "answer_key_digest": v1.sha256_json({"tests": spec["tests"]}),
                 "tests": list(spec["tests"]),
@@ -236,3 +240,146 @@ def _build_coding_v2(count: int) -> list[dict]:
         key=lambda row: row["case_id"],
         namespace="retention:coding",
     )
+
+
+def build_candidate_rows_v2(
+    countries: list[dict],
+    *,
+    scale_for_test: bool = False,
+) -> list[dict]:
+    allocation = v1.TEST_ALLOCATION if scale_for_test else v1.RETENTION_ALLOCATION
+    rows: list[dict] = []
+    rows.extend(v1._build_knowledge(countries, allocation["knowledge_factuality"]))
+    rows.extend(v1._build_math(countries, allocation["reasoning_math"]))
+    rows.extend(_build_coding_v2(allocation["coding"]))
+    rows.extend(
+        v1._build_instruction_following(
+            allocation["instruction_following"]
+        )
+    )
+    rows.extend(
+        v1._build_extraction(
+            countries,
+            allocation["extraction_structured"],
+        )
+    )
+    rows.extend(
+        v1._build_calibration(
+            countries,
+            allocation["truthfulness_factual_calibration"],
+        )
+    )
+    return sorted(rows, key=lambda row: row["case_id"])
+
+
+PARENT_CANDIDATE_V1_SHA256 = (
+    "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a"
+)
+
+
+def build_candidate_v2(
+    *,
+    exclusion_hashes: set[str],
+) -> tuple[list[dict], dict]:
+    location_manifest = v1.load_location_manifest()
+    countries = location_manifest["countries"]
+    rows = build_candidate_rows_v2(countries)
+    preflight = v1.preflight_retention_rows(
+        rows,
+        exclusion_hashes=exclusion_hashes,
+    )
+    if preflight["status"] != "STRUCTURE_READY":
+        raise RuntimeError(
+            "retention candidate V2 preflight failed: "
+            + v1.canonical_json(preflight)
+        )
+
+    payload = (
+        "\n".join(v1.canonical_json(row) for row in rows) + "\n"
+    ).encode("utf-8")
+    manifest = {
+        "schema": "V10_QWEN35_RETENTION_CANDIDATE_MANIFEST_V2",
+        "bank_id": "V10_QWEN35_RETENTION_CANDIDATE_1500_20261002_V2",
+        "status": (
+            "CANDIDATE_OBJECTIVE_STRUCTURE_READY_"
+            "STRENGTHENED_CODING_AUDIT_PENDING"
+        ),
+        "parent_candidate_sha256": PARENT_CANDIDATE_V1_SHA256,
+        "case_count": len(rows),
+        "category_counts": dict(
+            sorted(Counter(row["category"] for row in rows).items())
+        ),
+        "data_sha256": hashlib.sha256(payload).hexdigest(),
+        "location_source": {
+            "repo": v1.LOCATION_REPO,
+            "repo_commit": v1.LOCATION_REPO_COMMIT,
+            "release": v1.LOCATION_RELEASE,
+            "release_content_fingerprint": v1.LOCATION_CONTENT_FINGERPRINT,
+            "manifest_url": v1.LOCATION_MANIFEST_URL,
+            "manifest_sha256": v1.LOCATION_MANIFEST_SHA256,
+            "terms": v1.LOCATION_TERMS,
+        },
+        "generated_contracts": {
+            "coding_revision": CODING_CONTRACT_REVISION_V2,
+            "instruction_revision": v1.CONTRACT_REVISION,
+            "coding_generator_id": CODING_GENERATOR_ID_V2,
+            "coding_families": list(v1.CODING_FAMILIES),
+            "instruction_families": list(v1.INSTRUCTION_FAMILIES),
+        },
+        "coding_repair": {
+            "rows": 250,
+            "scope": "ALL_CODING_ROWS",
+            "per_row_reference_must_pass": True,
+            "per_row_all_frozen_mutants_must_be_killed": True,
+            "prompt_clarifications": {
+                "rotate_left": "normalize k modulo len(values)",
+                "chunk_list": "n must be positive",
+            },
+        },
+        "public_benchmark_raw_imports": [],
+        "external_shadow_policy": (
+            "Public benchmarks remain shadow/design references and are not "
+            "copied into this candidate."
+        ),
+        "preflight": preflight,
+        "successor_audit": {
+            "architecture": "V6",
+            "required": True,
+            "fresh_semantic_packet_required": True,
+            "v5_semantic_packet_reusable_as_fresh": False,
+            "status": "UNBOUND",
+        },
+        "claim_ceiling": (
+            "OBJECTIVE_RETENTION_CANDIDATE_V2_1500_STRUCTURALLY_READY / "
+            "CODING_GRADERS_STRENGTHENED / "
+            "MECHANICAL_AND_FRESH_SEMANTIC_AUDIT_PENDING / "
+            "NOT_FINAL_BANK / NO_TRAINING"
+        ),
+    }
+    return rows, manifest
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=FsPath, required=True)
+    parser.add_argument("--manifest", type=FsPath, required=True)
+    parser.add_argument("--exclusion-hashes", type=FsPath, required=True)
+    args = parser.parse_args()
+
+    rows, manifest = build_candidate_v2(
+        exclusion_hashes=v1.load_exclusion_hashes(
+            args.exclusion_hashes
+        )
+    )
+    manifest = v1.write_candidate_files(
+        rows,
+        manifest,
+        args.output,
+        args.manifest,
+    )
+    print(json.dumps(manifest, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

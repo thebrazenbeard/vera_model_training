@@ -125,3 +125,57 @@ def test_v2_strengthened_tests_are_not_single_mutant_patches() -> None:
     assert all(count >= 4 for count in counts.values())
     assert counts["rotate_left"] >= 5
     assert counts["chunk_list"] >= 5
+
+
+def _synthetic_countries(count: int = 260) -> list[dict]:
+    countries = []
+    for index in range(count):
+        first = chr(ord("A") + (index // 26) % 26)
+        second = chr(ord("A") + index % 26)
+        code = first + second
+        countries.append({
+            "code": code,
+            "name": f"Country {index:03d}",
+            "regions": index % 17 + 1,
+            "settlements": index * 3 + 5,
+        })
+    return countries
+
+
+def test_v2_full_candidate_rows_replace_only_coding_lane() -> None:
+    from successor.experiments.build_v10_qwen35_retention_candidate_v2 import (
+        build_candidate_rows_v2,
+    )
+
+    countries = _synthetic_countries()
+    old_rows = v1.build_candidate_rows(countries)
+    new_rows = build_candidate_rows_v2(countries)
+
+    assert len(old_rows) == len(new_rows) == 1500
+    assert [row["case_id"] for row in new_rows] == [
+        row["case_id"] for row in old_rows
+    ]
+
+    old_by_id = {row["case_id"]: row for row in old_rows}
+    changed = []
+    for row in new_rows:
+        old = old_by_id[row["case_id"]]
+        if row["category"] == "coding":
+            assert row != old
+            changed.append(row["case_id"])
+        else:
+            assert row == old
+
+    assert len(changed) == 250
+
+
+def test_v2_keeps_existing_python_grader_runtime_id() -> None:
+    rows = _build_coding_v2(250)
+    assert all(
+        row["grader_contract"]["grader_id"] == "python_unit_tests_v1"
+        for row in rows
+    )
+    assert all(
+        row["grader_contract"]["grader_version"] == "2"
+        for row in rows
+    )
