@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Verify zero-cost execution boundary
         shell: bash
@@ -52,7 +52,7 @@ jobs:
           echo "Zero-cost guard passed: public standard runner, no metered model API."
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -80,7 +80,7 @@ jobs:
 
       - name: Cache local model
         id: model-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: models
           key: qwen3-4b-q4km-${{ env.MODEL_SHA256 }}
@@ -128,7 +128,7 @@ jobs:
 
       - name: Upload training artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: identity-bootcamp-${{ github.run_id }}
           path: |
