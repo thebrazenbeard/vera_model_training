@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -10,6 +11,7 @@ from successor.experiments.train_v10r2_dev import (
     effect_label,
     load_and_validate_dev_spec,
     summarize_optimizer,
+    verify_resume_adapter,
 )
 
 
@@ -224,3 +226,138 @@ def test_effect_label_rejects_unknown_backend_or_count() -> None:
         effect_label("paged_adamw_8bit", 1)
     with pytest.raises(DevTrainingHold, match="effect label"):
         effect_label("adamw_bnb_8bit", 0)
+
+
+def test_continuation_spec_binds_prior_adapter_and_next_row(tmp_path: Path) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["trainer"]["max_optimizer_steps"] = 8
+    value["development_window"] = {"start_row": 32, "row_count": 64}
+    value["resume_adapter"] = {
+        "path": str(tmp_path / "prior" / "adapter"),
+        "adapter_model_sha256": "1" * 64,
+        "source_receipt_path": "source-receipt.json",
+        "source_receipt_sha256": "2" * 64,
+        "source_spec_path": "source-spec.json",
+        "source_spec_sha256": "4" * 64,
+        "source_weight_digest_after": "3" * 64,
+        "previous_optimizer_steps": 4,
+        "next_train_row": 32,
+    }
+    path.write_text(json.dumps(value), encoding="utf-8")
+    spec = load_and_validate_dev_spec(path)
+    assert spec["resume_adapter"]["previous_optimizer_steps"] == 4
+    assert spec["development_window"]["start_row"] == 32
+
+
+def test_continuation_spec_rejects_row_reuse(tmp_path: Path) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["trainer"]["max_optimizer_steps"] = 8
+    value["development_window"] = {"start_row": 0, "row_count": 64}
+    value["resume_adapter"] = {
+        "path": str(tmp_path / "prior" / "adapter"),
+        "adapter_model_sha256": "1" * 64,
+        "source_receipt_path": "source-receipt.json",
+        "source_receipt_sha256": "2" * 64,
+        "source_spec_path": "source-spec.json",
+        "source_spec_sha256": "4" * 64,
+        "source_weight_digest_after": "3" * 64,
+        "previous_optimizer_steps": 4,
+        "next_train_row": 32,
+    }
+    path.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(DevTrainingHold, match="next_train_row"):
+        load_and_validate_dev_spec(path)
+
+
+def test_continuation_spec_rejects_invalid_adapter_hash(tmp_path: Path) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["resume_adapter"] = {
+        "path": str(tmp_path / "prior" / "adapter"),
+        "adapter_model_sha256": "bad",
+        "source_receipt_path": "source-receipt.json",
+        "source_receipt_sha256": "2" * 64,
+        "source_spec_path": "source-spec.json",
+        "source_spec_sha256": "4" * 64,
+        "source_weight_digest_after": "3" * 64,
+        "previous_optimizer_steps": 4,
+        "next_train_row": 0,
+    }
+    path.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(DevTrainingHold, match="adapter_model_sha256"):
+        load_and_validate_dev_spec(path)
+
+
+
+def _make_resume_fixture(tmp_path: Path) -> tuple[Path, dict]:
+    adapter_dir = tmp_path / "adapter"
+    adapter_dir.mkdir()
+    model = adapter_dir / "adapter_model.safetensors"
+    model.write_bytes(b"adapter-bytes")
+    (adapter_dir / "adapter_config.json").write_text(
+        json.dumps(
+            {
+                "peft_type": "LORA",
+                "task_type": "CAUSAL_LM",
+                "r": 4,
+                "lora_alpha": 16,
+                "lora_dropout": 0,
+                "bias": "none",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    source_spec = _write_spec(tmp_path / "source-spec.json")
+    source_value = json.loads(source_spec.read_text())
+    source_value["trainer"]["max_optimizer_steps"] = 4
+    source_value["development_window"] = {"start_row": 0, "row_count": 32}
+    source_spec.write_text(json.dumps(source_value), encoding="utf-8")
+    source_spec_sha = hashlib.sha256(source_spec.read_bytes()).hexdigest()
+
+    receipt = {
+        "spec_sha256": source_spec_sha,
+        "weight_digest_after": "3" * 64,
+        "weight_digest_changed": True,
+    }
+    receipt_sha = hashlib.sha256(
+        json.dumps(
+            receipt,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    receipt["receipt_sha256"] = receipt_sha
+    receipt_path = tmp_path / "source-receipt.json"
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+
+    resume = {
+        "path": str(adapter_dir),
+        "adapter_model_sha256": hashlib.sha256(model.read_bytes()).hexdigest(),
+        "source_receipt_path": str(receipt_path),
+        "source_receipt_sha256": receipt_sha,
+        "source_spec_path": str(source_spec),
+        "source_spec_sha256": source_spec_sha,
+        "source_weight_digest_after": "3" * 64,
+        "previous_optimizer_steps": 4,
+        "next_train_row": 32,
+    }
+    return adapter_dir, resume
+
+
+def test_verify_resume_adapter_binds_adapter_spec_and_receipt(tmp_path: Path) -> None:
+    _, resume = _make_resume_fixture(tmp_path)
+    result = verify_resume_adapter(tmp_path, resume)
+    assert result["status"] == "RESUME_ADAPTER_VERIFIED"
+    assert result["next_train_row"] == 32
+    assert result["previous_optimizer_steps"] == 4
+
+
+def test_verify_resume_adapter_rejects_modified_adapter(tmp_path: Path) -> None:
+    adapter_dir, resume = _make_resume_fixture(tmp_path)
+    (adapter_dir / "adapter_model.safetensors").write_bytes(b"tampered")
+    with pytest.raises(DevTrainingHold, match="adapter_model_sha256 mismatch"):
+        verify_resume_adapter(tmp_path, resume)

@@ -41,6 +41,14 @@ def _canonical_sha(value: dict) -> str:
     return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
+def _is_sha256(value: object) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(ch in "0123456789abcdef" for ch in value)
+    )
+
+
 def effect_label(optimizer_name: str, steps: int) -> str:
     if not isinstance(steps, int) or steps < 1:
         raise DevTrainingHold("effect label requires positive optimizer steps")
@@ -161,6 +169,50 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
             )
         if start + count > subject["train_rows"]:
             raise DevTrainingHold("development window escapes train corpus")
+
+    resume = value.get("resume_adapter")
+    if resume is not None:
+        if not isinstance(resume, dict):
+            raise DevTrainingHold("resume_adapter must be an object")
+        if not isinstance(resume.get("path"), str) or not resume["path"].strip():
+            raise DevTrainingHold("resume_adapter path missing")
+        for field in (
+            "adapter_model_sha256",
+            "source_receipt_sha256",
+            "source_weight_digest_after",
+        ):
+            if not _is_sha256(resume.get(field)):
+                raise DevTrainingHold(f"resume_adapter {field} invalid")
+        prior_steps = resume.get("previous_optimizer_steps")
+        if not isinstance(prior_steps, int) or prior_steps < 1:
+            raise DevTrainingHold(
+                "resume_adapter previous_optimizer_steps invalid"
+            )
+        next_train_row = resume.get("next_train_row")
+        if not isinstance(next_train_row, int) or next_train_row < 0:
+            raise DevTrainingHold("resume_adapter next_train_row invalid")
+        if window is None:
+            raise DevTrainingHold(
+                "resume_adapter requires explicit development_window"
+            )
+        if window["start_row"] != next_train_row:
+            raise DevTrainingHold(
+                "development_window start_row must equal resume_adapter "
+                f"next_train_row:{window['start_row']}!={next_train_row}"
+            )
+        for field in ("source_receipt_path", "source_spec_path"):
+            path_value = resume.get(field)
+            if (
+                not isinstance(path_value, str)
+                or not path_value.strip()
+            ):
+                raise DevTrainingHold(
+                    f"resume_adapter {field} invalid"
+                )
+        if not _is_sha256(resume.get("source_spec_sha256")):
+            raise DevTrainingHold(
+                "resume_adapter source_spec_sha256 invalid"
+            )
 
     quant = value.get("quantization")
     if not isinstance(quant, dict):
@@ -303,6 +355,146 @@ def _case_id(row: dict, index: int) -> str:
     return f"bound-train-row-{index}"
 
 
+def _targeted_lora_module_names(model) -> list[str]:
+    names = getattr(model, "targeted_module_names", None)
+    if names:
+        return list(names)
+    discovered: list[str] = []
+    for name, module in model.named_modules():
+        if hasattr(module, "lora_A") or hasattr(module, "lora_B"):
+            discovered.append(name)
+    return discovered
+
+
+def _resolve_bound_path(root: Path, value: str) -> Path:
+    path = Path(value)
+    return path if path.is_absolute() else root / path
+
+
+def verify_resume_adapter(root: Path | str, resume: dict) -> dict:
+    root = Path(root)
+    adapter_dir = _resolve_bound_path(root, resume["path"])
+    adapter_model = adapter_dir / "adapter_model.safetensors"
+    adapter_config_path = adapter_dir / "adapter_config.json"
+    if not adapter_model.is_file():
+        raise DevTrainingHold(
+            f"resume adapter model missing:{adapter_model}"
+        )
+    if not adapter_config_path.is_file():
+        raise DevTrainingHold(
+            f"resume adapter config missing:{adapter_config_path}"
+        )
+    actual_adapter_sha = sha256_file(adapter_model)
+    if actual_adapter_sha != resume["adapter_model_sha256"]:
+        raise DevTrainingHold(
+            "resume adapter_model_sha256 mismatch:"
+            f"{actual_adapter_sha}!={resume['adapter_model_sha256']}"
+        )
+
+    source_spec_path = _resolve_bound_path(
+        root,
+        resume["source_spec_path"],
+    )
+    if not source_spec_path.is_file():
+        raise DevTrainingHold(
+            f"resume source spec missing:{source_spec_path}"
+        )
+    actual_spec_sha = sha256_file(source_spec_path)
+    if actual_spec_sha != resume["source_spec_sha256"]:
+        raise DevTrainingHold(
+            "resume source_spec_sha256 mismatch:"
+            f"{actual_spec_sha}!={resume['source_spec_sha256']}"
+        )
+    source_spec = load_and_validate_dev_spec(source_spec_path)
+    if (
+        source_spec["trainer"]["max_optimizer_steps"]
+        != resume["previous_optimizer_steps"]
+    ):
+        raise DevTrainingHold(
+            "resume previous_optimizer_steps mismatch with source spec"
+        )
+    source_window = source_spec.get("development_window") or {
+        "start_row": 0,
+        "row_count": 8,
+    }
+    expected_next_row = (
+        int(source_window["start_row"])
+        + int(source_window["row_count"])
+    )
+    if expected_next_row != resume["next_train_row"]:
+        raise DevTrainingHold(
+            "resume next_train_row mismatch with source spec:"
+            f"{resume['next_train_row']}!={expected_next_row}"
+        )
+
+    source_receipt_path = _resolve_bound_path(
+        root,
+        resume["source_receipt_path"],
+    )
+    if not source_receipt_path.is_file():
+        raise DevTrainingHold(
+            f"resume source receipt missing:{source_receipt_path}"
+        )
+    receipt = _read_json(source_receipt_path)
+    claimed_receipt_sha = receipt.get("receipt_sha256")
+    unsigned_receipt = dict(receipt)
+    unsigned_receipt.pop("receipt_sha256", None)
+    actual_receipt_sha = _canonical_sha(unsigned_receipt)
+    if claimed_receipt_sha != actual_receipt_sha:
+        raise DevTrainingHold(
+            "resume source receipt self-hash mismatch"
+        )
+    if actual_receipt_sha != resume["source_receipt_sha256"]:
+        raise DevTrainingHold(
+            "resume source_receipt_sha256 mismatch:"
+            f"{actual_receipt_sha}!={resume['source_receipt_sha256']}"
+        )
+    if receipt.get("spec_sha256") != actual_spec_sha:
+        raise DevTrainingHold(
+            "resume source receipt/spec binding mismatch"
+        )
+    if (
+        receipt.get("weight_digest_after")
+        != resume["source_weight_digest_after"]
+    ):
+        raise DevTrainingHold(
+            "resume source_weight_digest_after mismatch"
+        )
+    if receipt.get("weight_digest_changed") is not True:
+        raise DevTrainingHold(
+            "resume source receipt does not prove weight change"
+        )
+
+    adapter_config = _read_json(adapter_config_path)
+    expected_adapter = {
+        "peft_type": "LORA",
+        "task_type": "CAUSAL_LM",
+        "r": 4,
+        "lora_alpha": 16,
+        "lora_dropout": 0,
+        "bias": "none",
+    }
+    for field, expected in expected_adapter.items():
+        if adapter_config.get(field) != expected:
+            raise DevTrainingHold(
+                f"resume adapter config mismatch:{field}:"
+                f"{adapter_config.get(field)}!={expected}"
+            )
+
+    return {
+        "status": "RESUME_ADAPTER_VERIFIED",
+        "adapter_dir": str(adapter_dir),
+        "adapter_model_sha256": actual_adapter_sha,
+        "source_spec_path": str(source_spec_path),
+        "source_spec_sha256": actual_spec_sha,
+        "source_receipt_path": str(source_receipt_path),
+        "source_receipt_sha256": actual_receipt_sha,
+        "source_weight_digest_after": receipt["weight_digest_after"],
+        "previous_optimizer_steps": resume["previous_optimizer_steps"],
+        "next_train_row": resume["next_train_row"],
+    }
+
+
 def execute_dev_training(
     repo_root: Path | str,
     *,
@@ -401,6 +593,21 @@ def execute_dev_training(
         target_modules=lora_spec["target_modules"],
     )
 
+    resume_check = None
+    peft_config = lora
+    if spec.get("resume_adapter") is not None:
+        resume_check = verify_resume_adapter(
+            root,
+            spec["resume_adapter"],
+        )
+        model = stack["peft"].PeftModel.from_pretrained(
+            model,
+            resume_check["adapter_dir"],
+            is_trainable=True,
+            autocast_adapter_dtype=False,
+        )
+        peft_config = None
+
     stack["transformers"].set_seed(trainer_spec["seed"])
     output_dir.mkdir(parents=True, exist_ok=False)
     work_dir = output_dir / "sft_work"
@@ -448,10 +655,10 @@ def execute_dev_training(
         args=sft_config,
         train_dataset=stack["Dataset"].from_list(prepared),
         processing_class=tokenizer,
-        peft_config=lora,
+        peft_config=peft_config,
     )
     coverage = validate_lora_target_coverage(
-        getattr(trainer.model, "targeted_module_names", [])
+        _targeted_lora_module_names(trainer.model)
     )
 
     optimizer = trainer.create_optimizer()
@@ -488,6 +695,16 @@ def execute_dev_training(
         trainer.model,
         torch,
     )
+    if (
+        resume_check is not None
+        and weight_before
+        != resume_check["source_weight_digest_after"]
+    ):
+        raise DevTrainingHold(
+            "reloaded resume adapter trainable digest mismatch:"
+            f"{weight_before}!="
+            f"{resume_check['source_weight_digest_after']}"
+        )
     torch.cuda.synchronize()
     torch.cuda.reset_peak_memory_stats()
     gpu_before = {
@@ -574,6 +791,15 @@ def execute_dev_training(
                 for offset, row in enumerate(selected_rows)
             ],
         },
+        "resume_adapter": resume_check,
+        "cumulative_optimizer_steps": (
+            trainer_spec["max_optimizer_steps"]
+            + (
+                resume_check["previous_optimizer_steps"]
+                if resume_check is not None
+                else 0
+            )
+        ),
         "token_budget": token_budget,
         "optimizer": optimizer_info,
         "optimizer_state": state_summary,
