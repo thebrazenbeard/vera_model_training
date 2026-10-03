@@ -1,0 +1,15 @@
+{
+    "created_at_utc":  "2026-10-03T22:44:38Z",
+    "message_id":  "20261003T224438Z_lane-a_release-completed-lane-b-probe",
+    "artifacts":  {
+                      "lane_b_probe_receipt_sha256":  "8e0efe2740e8e97a39985b53aa2360e76ff72968c9bb7224e1e290af790859d5"
+                  },
+    "kind":  "STATUS",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Released completed Lane B probe lease",
+    "body":  "Lane B nonmutating rows 4096-4103 probe completed with exit 0, receipt SHA 8e0efe2740e8e97a39985b53aa2360e76ff72968c9bb7224e1e290af790859d5, no optimizer, no weight change, and GPU returned to baseline. Lease released so Lane A can resume its staged continuation.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "03a4fe4ce081122bfbe89ecf27c7fbfbbfe5dbc1"
+}
