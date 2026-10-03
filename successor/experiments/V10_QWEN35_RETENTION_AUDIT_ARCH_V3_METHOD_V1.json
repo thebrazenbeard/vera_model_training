@@ -1,0 +1,52 @@
+{
+  "claim_ceiling": "RETENTION_AUDIT_ARCH_V3_ONLY / METHODOLOGY_DESIGNED_AFTER_V2_FAILURE / NOT_FULL_FINAL_BANK / NOT_TRAINING_AUTHORIZATION",
+  "date": "2026-10-02",
+  "diagnosis": {
+    "accepted_objection": "V2 converted a scoreable reviewer contradiction (claimed defect without concrete witness) into a transport/schema failure, preventing the zero-contradiction qualification rule from scoring it.",
+    "admission_thresholds_lowered": false,
+    "candidate_changed": false,
+    "repair_class": "AUDIT_METHOD_DEFECT_REPAIR",
+    "reviewer_model_changed": false,
+    "sampler_changed": false,
+    "semantic_packet_changed": false,
+    "semantic_protocol_changed": false
+  },
+  "historical_methodology_independence": false,
+  "predecessor": {
+    "architecture": "ARCH_V2",
+    "primary_failure": "REVIEWER_QUALIFICATION / qualification_transport_failure",
+    "result_manifest_path": "successor/evaluation/v10_qwen35/retention_arch_v2.result.manifest.json",
+    "result_manifest_sha256": "28204fd4b62e876765c82a06aad05dc6efce62fbc376ed13cac36689de5b258d",
+    "semantic_packet_exposed_to_reviewer": false,
+    "semantic_rows_reviewed": 0,
+    "status": "RETENTION_HOLD_ARCH_V2"
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V3_METHOD_V1",
+  "semantic_packet_reuse": {
+    "justification": "V2 qualification failed before semantic review; exact packet exposure was 0/130, so the packet remains unseen by the reviewer.",
+    "path": "successor/evaluation/v10_qwen35/retention_arch_v2.semantic.packet.jsonl",
+    "sha256": "d746d8eafc69b0c2610be77f985c38b59377fbe3953f812bdbbdbc644113e75e"
+  },
+  "status": "FROZEN_BEFORE_FIRST_V3_LIVE_REVIEW_CALL",
+  "v3_changes": {
+    "fresh_qualification_controls": 48,
+    "per_class_detection_floor": [
+      3,
+      4
+    ],
+    "qualification_batch_size": 4,
+    "qualification_control_ids_disjoint_from_v2": true,
+    "sensitivity_floor": [
+      22,
+      24
+    ],
+    "specificity_floor": [
+      22,
+      24
+    ],
+    "structured_contradiction_policy": "observed_defect=true with missing/empty/NONE witness or observed_defect=false without exact NONE is a structured contradiction.",
+    "structured_contradictions_allowed": 0,
+    "transport_parser_policy": "Parseable closed rows with witness null are preserved as qualification evidence, not retried as transport failures.",
+    "witness_contract": "Always present. NONE means no defect; a claimed defect requires a concrete non-NONE witness."
+  }
+}

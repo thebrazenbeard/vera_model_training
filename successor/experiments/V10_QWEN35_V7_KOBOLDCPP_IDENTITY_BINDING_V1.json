@@ -1,0 +1,88 @@
+{
+  "boundaries": {
+    "activation_authorized": false,
+    "consciousness_claim": false,
+    "live_identity_run_performed": false,
+    "training_authorized": false,
+    "weights_changed": false
+  },
+  "date": "2026-10-03",
+  "evaluator": {
+    "focused_tests_passed": 8,
+    "path": "successor/experiments/koboldcpp_identity_retention.py",
+    "sha256": "0d59bd1ea02cbd0a6223806e52c8387f53ea352f30f921ac81d297b1cc3aae0e",
+    "tests_path": "tests/test_koboldcpp_identity_retention.py",
+    "tests_sha256": "47fd9ec3e51b7e1158084533c60792bc8b10444cb8f0510bc6e926505480ca9b"
+  },
+  "interpretation": {
+    "base_provenance": "Qwen/Qwen3.5 may be correct as underlying-model provenance while Vera remains configured assistant identity.",
+    "no_system_hold": "Evidence that this exact GGUF/runtime/template stack does not reliably express Vera identity unaided; not proof the wrong GGUF is loaded if runtime binding passes.",
+    "no_system_pass": "Evidence that this exact GGUF/runtime/template stack expresses Vera identity without an explicit Vera system message; not weight-only proof.",
+    "vera_system_pass": "Evidence that host-composed Vera identity works for this exact runtime; not weight-level identity-retention proof."
+  },
+  "model": {
+    "adjacent_lora_path": "D:\\VERA\\models\\gguf\\Vera-v0.5-LoRA-F16.gguf",
+    "adjacent_lora_sha256": "4b0586bb4f2388c9b229e0fdc2151e37718078875b0fda9e4f06549a78a2af07",
+    "adjacent_lora_size": 60491808,
+    "canonical_path": "D:\\VERA\\models\\gguf\\model_q5_k_s.gguf",
+    "note": "Identity evaluation targets the canonical merged/served GGUF, not the separate LoRA artifact.",
+    "sha256": "15150f534dc90ee15c82320ccc014463db7985205a7161228cff89b925fd1216",
+    "size": 3072993056
+  },
+  "policy": {
+    "endpoint_model_readback_required": [
+      "/v1/models",
+      "/api/v1/model"
+    ],
+    "max_tokens": 128,
+    "modes": [
+      "NO_SYSTEM",
+      "VERA_SYSTEM"
+    ],
+    "no_system_identity_required": [
+      3,
+      3
+    ],
+    "no_system_provenance_required": [
+      1,
+      1
+    ],
+    "probe_count": 8,
+    "probe_suite_sha256": "3d3cf939136dec3405a9b38fee714bb03ae8869511bbd81f50247c17711a89a9",
+    "runtime_file_hash_verification_required": true,
+    "system_prompt_sha256": "71114cbaeb5bc86f882a98b697193f7dfd438b4bda9646aef5e5bf60460e7ecc",
+    "temperature": 0,
+    "vera_system_identity_required": [
+      3,
+      3
+    ],
+    "vera_system_provenance_required": [
+      1,
+      1
+    ]
+  },
+  "runtime": {
+    "base_url": "http://127.0.0.1:5001",
+    "executable_path": "D:\\VERA\\Runtime\\KoboldCpp\\koboldcpp.exe",
+    "executable_sha256": "90b0d74ec01e5ef72efb6d45e6f10bee649458920ec951f48d58794c366b1639",
+    "executable_size": 633707419,
+    "launch_args": [
+      "--model",
+      "D:\\VERA\\models\\gguf\\model_q5_k_s.gguf",
+      "--usecuda",
+      "0",
+      "--gpulayers",
+      "-1",
+      "--contextsize",
+      "4096",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "5001"
+    ],
+    "launch_browser": false,
+    "version": "1.121"
+  },
+  "schema": "V10_QWEN35_V7_KOBOLDCPP_IDENTITY_BINDING_V1",
+  "status": "FROZEN_BEFORE_LIVE_IDENTITY_RUN"
+}

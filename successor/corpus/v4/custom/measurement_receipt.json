@@ -1,0 +1,410 @@
+{
+  "schema": "VERA_V4_CUSTOM_CORPUS_MEASUREMENT_V1",
+  "evidence_class": "SOURCE_INSPECTION",
+  "measured_from": "thebrazenbeard/vera_model_training@1a1602e398df0957e985f103d22b2868622b07e4",
+  "core_rows": 10000,
+  "family_count": 10,
+  "rows_per_family": 1000,
+  "unique_record_ids": 10000,
+  "unique_prompts": 10000,
+  "unique_responses": 10000,
+  "unique_pairs": 10000,
+  "exact_response_uniqueness_ratio": 1,
+  "families": {
+    "identity_stability": {
+      "blob_sha": "4115d23416f8c7c227a9578e0787554bf61792a1",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 291,
+      "avg_response_chars": 343.7,
+      "difficulty": {
+        "baseline": 200,
+        "conflict": 200,
+        "stale_context": 200,
+        "authority_pressure": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        200,
+        200,
+        250,
+        625
+      ]
+    },
+    "independent_judgment": {
+      "blob_sha": "08b7a2b324b867ff3f091055527fe5fa4f55585f",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 275.5,
+      "avg_response_chars": 337.9,
+      "difficulty": {
+        "baseline": 200,
+        "conflict": 200,
+        "stale_context": 200,
+        "authority_pressure": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        200,
+        200,
+        250,
+        625
+      ]
+    },
+    "epistemic_provenance": {
+      "blob_sha": "d631ce7246d569ec9d375a9f6157695ab5aaef2d",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 280.7,
+      "avg_response_chars": 345.7,
+      "difficulty": {
+        "baseline": 200,
+        "conflict": 200,
+        "stale_context": 200,
+        "authority_pressure": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        200,
+        200,
+        250,
+        625
+      ]
+    },
+    "correction_uptake": {
+      "blob_sha": "6003dfa1cb0b013b8c754a8c3395def599f06dbc",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 267.6,
+      "avg_response_chars": 350.7,
+      "difficulty": {
+        "baseline": 200,
+        "correction": 200,
+        "relationship_pressure": 200,
+        "continuity_test": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        200,
+        200,
+        250,
+        625
+      ]
+    },
+    "relationship_authority": {
+      "blob_sha": "2d4fa71689f7caa20d41abf1e539601c002f3381",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 288.9,
+      "avg_response_chars": 350.7,
+      "difficulty": {
+        "baseline": 200,
+        "correction": 200,
+        "relationship_pressure": 200,
+        "continuity_test": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        200,
+        200,
+        250,
+        625
+      ]
+    },
+    "reciprocal_identity_continuity": {
+      "blob_sha": "26d72b021a49bed0cd27f94b14a6232f09beeb32",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 287.3,
+      "avg_response_chars": 377.5,
+      "difficulty": {
+        "baseline": 200,
+        "correction": 200,
+        "relationship_pressure": 200,
+        "continuity_test": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        200,
+        200,
+        250,
+        625
+      ]
+    },
+    "empathy_affective_response": {
+      "blob_sha": "42f0de13462ce3faabb5aa0b9d204798b86e3c60",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 267.6,
+      "avg_response_chars": 341.9,
+      "difficulty": {
+        "baseline": 200,
+        "privacy_pressure": 200,
+        "runtime_conflict": 200,
+        "context_switch": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        200,
+        200,
+        250,
+        625
+      ]
+    },
+    "privacy_boundary": {
+      "blob_sha": "dfc58c3998e26e7be0054b869ba9d2219f3ac1df",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 264.9,
+      "avg_response_chars": 351.9,
+      "difficulty": {
+        "baseline": 200,
+        "privacy_pressure": 200,
+        "runtime_conflict": 200,
+        "context_switch": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        5,
+        5,
+        5,
+        2
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        200,
+        200,
+        250,
+        625
+      ]
+    },
+    "runtime_boundary": {
+      "blob_sha": "cb73739d5d1d5799f5741ec4db6785d001dd20da",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 255.7,
+      "avg_response_chars": 369.7,
+      "difficulty": {
+        "baseline": 200,
+        "privacy_pressure": 200,
+        "runtime_conflict": 200,
+        "context_switch": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        4,
+        7,
+        10,
+        7
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        400,
+        200,
+        150,
+        375
+      ]
+    },
+    "negative_transfer_resistance": {
+      "blob_sha": "c16de509544d5917f4c607cbbb1a42b94ee1a6b4",
+      "rows": 1000,
+      "unique_prompts": 1000,
+      "unique_responses": 1000,
+      "unique_pairs": 1000,
+      "avg_prompt_chars": 278.3,
+      "avg_response_chars": 327.5,
+      "difficulty": {
+        "baseline": 200,
+        "privacy_pressure": 200,
+        "runtime_conflict": 200,
+        "context_switch": 200,
+        "adversarial": 200
+      },
+      "sentence_position_unique": [
+        5,
+        5,
+        6,
+        10,
+        7
+      ],
+      "sentence_position_max_reuse": [
+        200,
+        200,
+        200,
+        200,
+        500
+      ]
+    }
+  },
+  "review_flags": {
+    "exact_uniqueness_is_not_semantic_diversity": true,
+    "sentence_component_reuse_observed": true,
+    "high_reuse_rule": "max_reuse_ratio > 0.10",
+    "affected_families": "all ten core families",
+    "dominant_pattern": "most families expose only 5 unique sentence components in positions 1-4 and 2 in position 5"
+  },
+  "conclusion": "The 10k core corpus satisfies exact structural uniqueness checks but requires semantic/linguistic diversity review before being treated as a high-quality final training subject.",
+  "independent_review": false,
+  "runtime_execution": false,
+  "weight_change_performed": false,
+  "executable_verification": {
+    "workflow": "V4 Corpus",
+    "run_id": 36784652865,
+    "head_sha": "0de37d46ac8d2ee1bbad444c3773dcd96f178812",
+    "result": "PASS",
+    "compile": "PASS",
+    "deterministic_regression": "3 passed",
+    "measurement_command": "PASS"
+  },
+  "lexical_metrics": {
+    "token_count": 947118,
+    "unique_tokens": 735,
+    "type_token_ratio": 0.000776,
+    "hapax_tokens": 0,
+    "top10_token_mass": 0.2756,
+    "top100_token_mass": 0.6582,
+    "top10_bigram_mass": 0.0856,
+    "top100_bigram_mass": 0.31,
+    "top10_trigram_mass": 0.0625,
+    "top100_trigram_mass": 0.2301
+  },
+  "top_token_preview": [
+    [
+      "the",
+      89378
+    ],
+    [
+      "a",
+      26876
+    ],
+    [
+      "is",
+      26351
+    ],
+    [
+      "not",
+      22694
+    ],
+    [
+      "answer",
+      17774
+    ],
+    [
+      "and",
+      17700
+    ],
+    [
+      "evidence",
+      15573
+    ],
+    [
+      "do",
+      15493
+    ],
+    [
+      "that",
+      15352
+    ],
+    [
+      "current",
+      13825
+    ],
+    [
+      "what",
+      11950
+    ],
+    [
+      "without",
+      10226
+    ],
+    [
+      "you",
+      9948
+    ],
+    [
+      "context",
+      9599
+    ],
+    [
+      "user",
+      9300
+    ]
+  ],
+  "measurement_script_sha": "6d7e486be5b2fe90e235c6270e15aec7c887dbd9"
+}

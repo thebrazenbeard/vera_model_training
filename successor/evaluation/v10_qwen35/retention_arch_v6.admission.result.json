@@ -1,0 +1,23 @@
+{
+  "defect_classes": [
+    "BANK_DEFECT"
+  ],
+  "execution_binding_v6_sha256": "486265f2575ea937a91ba3e1b1b15841142408b1c50bbcba78a099335b022ed9",
+  "github_actions_head": "e0f9fee2ed5a133142ddccfbe41780394b4757f5",
+  "github_actions_run_id": 37120985826,
+  "nonblocking_findings": {
+    "REVIEWER_DEFECT": 8
+  },
+  "reasons": [
+    "reconciliation_hold",
+    "reconciliation_blocking_defects_present"
+  ],
+  "reconciliation_sha256": "c51d2f1dda2ccc950d3d1a1ea3e5f6fc166eaf22bccc9612e2a44fedc37fb5df",
+  "reviewer_qualification_sha256": "954ca297d3762ceb84efbc925508a842698437b2a1333c69af15a7fcde6fd838",
+  "schema": "RETENTION_ADMISSION_ARCH_V6_RESULT_V1",
+  "semantic_packet_exposed_to_reviewer": true,
+  "semantic_receipt_sha256": "747615f716334d21f1a49e04f1530ae9d5ab935840260cabd033289edb010b0a",
+  "semantic_rows_reviewed": 130,
+  "status": "RETENTION_HOLD_ARCH_V6",
+  "witness_resolutions_sha256": "0336181a0ca71524593881518c1fc9d458cc0384ab50452f41973602a64dfbec"
+}

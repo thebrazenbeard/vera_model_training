@@ -1,0 +1,27 @@
+{
+  "claim_ceiling": "RETENTION_ONLY_HEURISTIC_SEMANTIC_SCREEN / NOT_ZERO_CONTAMINATION_PROOF / FULL_BANK_SCREEN_PENDING",
+  "embedding_dimension": 384,
+  "failure_count": 0,
+  "failures": [],
+  "max_cosine": 0.6259469389915466,
+  "mean_max_cosine": 0.44827497005462646,
+  "model_archive_expected_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+  "model_archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+  "p95_max_cosine": 0.5403647422790527,
+  "registry": {
+    "count": 59812,
+    "registry_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f"
+  },
+  "schema": "V10_QWEN35_RETENTION_SEMANTIC_SCREEN_V1",
+  "source_prompt_count": 59812,
+  "status": "PASS",
+  "target_expected_sha256": "4ed78c578b7c99504f52a2a8cc29d10396ddb2460471704340b915871c1441dc",
+  "target_prompt_count": 1500,
+  "target_sha256": "4ed78c578b7c99504f52a2a8cc29d10396ddb2460471704340b915871c1441dc",
+  "threshold": 0.9,
+  "versions": {
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "sentence-transformers": "6.1.0"
+  }
+}

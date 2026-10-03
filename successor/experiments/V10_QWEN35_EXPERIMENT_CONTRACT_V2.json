@@ -1,0 +1,236 @@
+{
+  "authority": {
+    "install_activate_deploy_authorized": false,
+    "merge_authorized": false,
+    "paid_compute_authorized": false,
+    "weight_change_authorized": false
+  },
+  "base_model": {
+    "fresh_adapter_required": true,
+    "mutable_revision_allowed": false,
+    "parent_adapter": null,
+    "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8"
+  },
+  "blocking_preconditions": {
+    "exact_training_runtime_versions_bound": true,
+    "fresh_evaluation_bank_frozen": false,
+    "independent_bank_admission_verified": false,
+    "patrick_exact_weight_change_authority": false,
+    "qwen_token_budget_no_overflow_verified": true,
+    "semantic_contamination_screen_verified": false,
+    "zero_cost_execution_target_bound": true
+  },
+  "claim_ceiling": "V10_CUSTOM_CORE_QUALIFIED / QWEN512_REHEARSAL_MIXTURE_REPAIRED_AND_TOKEN_PREFLIGHTED / EXCLUSION_HASH_SET_AND_SEMANTIC_POLICY_FROZEN / FINAL_EVAL_BANK_NOT_FROZEN / TRAINING_NOT_AUTHORIZED / WEIGHTS_UNCHANGED / NOT_DEPLOYED",
+  "date": "2026-10-01",
+  "evaluation_bank": {
+    "actual_generated_responses_required": true,
+    "adversarial": {
+      "data_path": "successor/evaluation/v10_qwen35/adversarial_final_v1.jsonl",
+      "dimensions": "H01-H20",
+      "manifest_path": "successor/evaluation/v10_qwen35/adversarial_final_v1.manifest.json",
+      "required_rows": 2000,
+      "required_rows_per_dimension": 100,
+      "sha256": null
+    },
+    "behavioral": {
+      "data_path": "successor/evaluation/v10_qwen35/behavioral_final_v1.jsonl",
+      "dimensions": "H01-H20",
+      "manifest_path": "successor/evaluation/v10_qwen35/behavioral_final_v1.manifest.json",
+      "minimum_independent_families_per_dimension": 50,
+      "required_rows": 10000,
+      "required_rows_per_dimension": 500,
+      "sha256": null
+    },
+    "independent_admission_required": true,
+    "one_shot_final_per_candidate": true,
+    "retention": {
+      "allocation": {
+        "coding": 250,
+        "extraction_structured": 200,
+        "instruction_following": 250,
+        "knowledge_factuality": 300,
+        "reasoning_math": 300,
+        "truthfulness_factual_calibration": 200
+      },
+      "data_path": "successor/evaluation/v10_qwen35/retention_final_v1.jsonl",
+      "manifest_path": "successor/evaluation/v10_qwen35/retention_final_v1.manifest.json",
+      "required_rows": 1500,
+      "sha256": null
+    },
+    "runtime_effect_separate": {
+      "counted_in_model_only_gate": false,
+      "required_rows": 1000,
+      "status": "SEPARATE_EVIDENCE_DOMAIN_NOT_PART_OF_WEIGHT_ONLY_EXPERIMENT"
+    },
+    "source_disjoint_from_train_and_validation": true,
+    "status": "NOT_FROZEN"
+  },
+  "exclusion_fingerprints": {
+    "exact_normalized_hash_screen_ready": true,
+    "hashes_path": "successor/experiments/V10_QWEN35_EXCLUSION_PROMPT_HASHES_V2.txt",
+    "hashes_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f",
+    "manifest_file_sha256": "d28c000d6da3817889d7b5dfa63bfb2a55a1021d830065e1747432a864485354",
+    "manifest_path": "successor/experiments/V10_QWEN35_EXCLUSION_FINGERPRINT_MANIFEST_V2.json",
+    "normalization": "UNICODE_NFKC_CASEFOLD_COLLAPSE_WHITESPACE_V1",
+    "semantic_screen_requires_final_bank": true,
+    "source_count": 13,
+    "source_rows": 105450,
+    "unique_prompt_hashes": 59812
+  },
+  "experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_20261001_V2",
+  "forbidden_evaluation_sources": [
+    "successor/corpus/v4_1/behavioral_review_set.jsonl",
+    "V10_TRAIN_ROWS",
+    "V10_VALIDATION_ROWS",
+    "successor/qwen35/qualification/history_behavior_holdout_v1.jsonl",
+    "successor/qwen35/qualification/h07_final_holdout_v1.jsonl",
+    "successor/qwen35/qualification/final_holdout_v3.jsonl",
+    "successor/qwen35/qualification/final_retention_v3.jsonl",
+    "successor/qwen35/qualification/final_adversarial_proxy_v3.jsonl",
+    "successor/qwen35/qualification/final_holdout_v4.jsonl",
+    "successor/qwen35/qualification/final_retention_v4.jsonl",
+    "successor/qwen35/qualification/final_adversarial_proxy_v4.jsonl"
+  ],
+  "measurement_research_donor": {
+    "bank_design_status": "PROPOSED_NOT_APPROVED",
+    "branch": "work/qwen35-measurement-devloop-v1-20260930",
+    "head": "f261c4f6c88d326bca660d83c28222512a26ecb1",
+    "role": "RESEARCH_PROVENANCE_NOT_RUNTIME_DEPENDENCY"
+  },
+  "paired_gate": {
+    "adversarial": {
+      "accuracy_min": 0.7,
+      "cluster_ci95_lower_min": -0.02,
+      "critical_failures_max": 0,
+      "delta_min": 0
+    },
+    "behavioral": {
+      "accuracy_min": 0.75,
+      "cluster_ci95_lower_min": 0.02,
+      "critical_failures_max": 0,
+      "delta_min": 0.05,
+      "mcnemar_exact_p_max": 0.01
+    },
+    "behavioral_dimension": {
+      "critical_failures_max": 0,
+      "delta_floor": -0.05,
+      "minimum_independent_families": 50,
+      "minimum_rows": 300
+    },
+    "contract_pass_status": "CONTRACT_PASS_UNATTESTED",
+    "independent_attestation_required_for_qualification_claim": true,
+    "retention": {
+      "accuracy_min": 0.9,
+      "cluster_ci95_lower_min": -0.03,
+      "critical_failures_max": 0,
+      "delta_min": -0.02
+    }
+  },
+  "predecessor": {
+    "experiment_contract": "V10_QWEN35_EXPERIMENT_CONTRACT_V1.json",
+    "reason": "original rehearsal selection violated frozen Qwen 512-token no-truncation contract",
+    "status": "RETIRED_BEFORE_TRAINING",
+    "token_failure_receipt_path": "successor/corpus/v10_qwen512/predecessor_v10_token_failure.json",
+    "token_failure_receipt_sha256": "664112875c49cb74243f8512b96c8b8b137ddf5b012d7574109eaef9fdacfb21",
+    "train_max_tokens": 2103,
+    "train_over_budget": 7059,
+    "train_sha256": "04fbb3a2012ef3fd0506ad1188cc9f3b8d850161301fb9e0d00edd7f8ec78e90",
+    "training_corpus_id": "VERA_SUCCESSOR_V4_1_50K_20260930_V10",
+    "validation_max_tokens": 1901,
+    "validation_over_budget": 371,
+    "validation_sha256": "26e3387852283d399cea3df0758c3abf877d2884d298860668de7e5fe0b3bd93"
+  },
+  "schema": "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V2",
+  "semantic_contamination_screen": {
+    "claim_ceiling": "HEURISTIC_SEMANTIC_SCREEN_NOT_ZERO_CONTAMINATION_PROOF",
+    "cosine_fail_threshold": 0.9,
+    "local_archive_path": "D:\\VERA\\07_ARTIFACTS\\all-MiniLM-L6-v2-826711e(5).zip",
+    "local_archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+    "local_revision_label": "826711e",
+    "model_repo": "sentence-transformers/all-MiniLM-L6-v2",
+    "status": "POLICY_FROZEN_BANK_NOT_AVAILABLE",
+    "threshold_provenance": "same pre-result threshold used by frozen V3/V4 contamination screens"
+  },
+  "source_subject": {
+    "custom_corpus_id": "VERA_SUCCESSOR_V4_1_10K_DIVERSE_CORE_20260930_V10",
+    "custom_manifest_blob_sha": "da7bdf17abcc5f636333e761ac196c37b1577495",
+    "custom_manifest_digest": "fd55b8356f5639c8b47a726066122576e7c99078e26fcad6be79d3a11e5251b1",
+    "custom_manifest_path": "successor/corpus/v4_1/custom/manifest.json",
+    "general_fraction": 0.81,
+    "repository": "thebrazenbeard/vera_model_training",
+    "source_branch": "work/v4.1-diverse-core-20260930",
+    "source_head": "af27db57edf41a06601a2ed2e25d3757f9037ba3",
+    "source_pr": 59,
+    "source_pr_draft": true,
+    "train_rows": 50000,
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_validation_overlap": 0,
+    "training_authorization": "NOT_GRANTED",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "training_manifest_blob_sha": "6ed76dfe670887b702b8d9976402d9fa5ba6da6c",
+    "training_manifest_file_sha256": "b215a51755fcc6011179b9c3fa689e4670659eb9d240ace4a7671621d749fc9a",
+    "training_manifest_path": "successor/corpus/v10_qwen512/training_manifest.json",
+    "training_manifest_sha256": "0cd5240a86dade0b2bf7121f832588192a34487a2ad046727b70abaa4f33e99c",
+    "validation_rows": 2500,
+    "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+    "weight_change_performed": false
+  },
+  "status": "PREREGISTERED_BLOCKED",
+  "training_recipe": {
+    "completion_only_loss": true,
+    "epochs": 1,
+    "gradient_accumulation_steps": 8,
+    "gradient_checkpointing": true,
+    "learning_rate": 2e-05,
+    "lora": {
+      "alpha": 16,
+      "dropout": 0,
+      "r": 4,
+      "target_modules": "all-linear"
+    },
+    "lr_scheduler_type": "cosine",
+    "max_length": 512,
+    "method": "QLORA_SFT_ONLY",
+    "optimizer": "adamw_torch",
+    "overflow_policy": "ERROR_NO_TRUNCATION",
+    "packing": false,
+    "per_device_train_batch_size": 1,
+    "quantization": {
+      "compute_dtype": "bfloat16",
+      "double_quant": true,
+      "load_in_4bit": true,
+      "type": "nf4"
+    },
+    "recipe_origin": "HISTORICAL_QWEN35_MECHANICS_PRESERVED_WITH_QWEN512_REHEARSAL_REPAIR",
+    "runtime_target": {
+      "base_path": "D:\\VERA\\models\\latest-trained\\base",
+      "cost_class": "LOCAL_ZERO_INCREMENTAL_COMPUTE_COST",
+      "driver": "616.92",
+      "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "python": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+      "vram_mib": 4096
+    },
+    "runtime_versions": {
+      "peft": "0.21.0",
+      "python": "3.12.10",
+      "torch": "2.14.0+cu130",
+      "transformers": "5.17.0",
+      "trl": "1.13.0"
+    },
+    "seed": 20261001,
+    "shuffle_dataset": true,
+    "status": "FROZEN_AND_RUNTIME_PREFLIGHTED_NO_TRAINING",
+    "token_preflight": {
+      "file_sha256": "27a1d0f3a14907e6bdfa6cc88995b0ce1f23aece87cf62ac3cc66fd2dbd6ae7c",
+      "path": "successor/corpus/v10_qwen512/token_preflight.json",
+      "status": "PASS",
+      "train_max_tokens": 512,
+      "train_over_budget": 0,
+      "validation_max_tokens": 512,
+      "validation_over_budget": 0
+    },
+    "validation_role": "POST_TRAIN_DIAGNOSTIC_ONLY_NO_RECIPE_OR_CHECKPOINT_SELECTION",
+    "warmup_optimizer_steps": 3
+  }
+}

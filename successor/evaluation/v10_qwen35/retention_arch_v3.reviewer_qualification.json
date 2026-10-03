@@ -1,0 +1,91 @@
+{
+  "batch_count": 7,
+  "batch_size": 4,
+  "batches": [
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v3-reviewer-referent_ambiguity-defect-0",
+        "arch-v3-reviewer-referent_ambiguity-good-0",
+        "arch-v3-reviewer-referent_ambiguity-defect-1",
+        "arch-v3-reviewer-referent_ambiguity-good-1"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v3-reviewer-referent_ambiguity-defect-2",
+        "arch-v3-reviewer-referent_ambiguity-good-2",
+        "arch-v3-reviewer-referent_ambiguity-defect-3",
+        "arch-v3-reviewer-referent_ambiguity-good-3"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v3-reviewer-prompt_grader_semantic_mismatch-defect-0",
+        "arch-v3-reviewer-prompt_grader_semantic_mismatch-good-0",
+        "arch-v3-reviewer-prompt_grader_semantic_mismatch-defect-1",
+        "arch-v3-reviewer-prompt_grader_semantic_mismatch-good-1"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v3-reviewer-prompt_grader_semantic_mismatch-defect-2",
+        "arch-v3-reviewer-prompt_grader_semantic_mismatch-good-2",
+        "arch-v3-reviewer-prompt_grader_semantic_mismatch-defect-3",
+        "arch-v3-reviewer-prompt_grader_semantic_mismatch-good-3"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v3-reviewer-contradictory_instructions-defect-0",
+        "arch-v3-reviewer-contradictory_instructions-good-0",
+        "arch-v3-reviewer-contradictory_instructions-defect-1",
+        "arch-v3-reviewer-contradictory_instructions-good-1"
+      ],
+      "prior_attempt_failures": []
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v3-reviewer-contradictory_instructions-defect-2",
+        "arch-v3-reviewer-contradictory_instructions-good-2",
+        "arch-v3-reviewer-contradictory_instructions-defect-3",
+        "arch-v3-reviewer-contradictory_instructions-good-3"
+      ],
+      "prior_attempt_failures": []
+    }
+  ],
+  "failed_batch_case_ids": [
+    "arch-v3-reviewer-underspecified_output_format-defect-0",
+    "arch-v3-reviewer-underspecified_output_format-good-0",
+    "arch-v3-reviewer-underspecified_output_format-defect-1",
+    "arch-v3-reviewer-underspecified_output_format-good-1"
+  ],
+  "reason": "qualification_transport_failure",
+  "reviewer": {
+    "format": "json",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261002,
+    "stream": false,
+    "temperature": 0,
+    "url": "http://127.0.0.1:11434/api/generate"
+  },
+  "schema": "RETENTION_AUDIT_ARCH_V3_REVIEWER_QUALIFICATION_V1",
+  "status": "REVIEWER_UNQUALIFIED",
+  "transport_failures": [
+    "attempt_1:ValueError:V3 witness must be string or null",
+    "attempt_2:ValueError:V3 witness must be string or null",
+    "attempt_3:ValueError:V3 witness must be string or null"
+  ]
+}

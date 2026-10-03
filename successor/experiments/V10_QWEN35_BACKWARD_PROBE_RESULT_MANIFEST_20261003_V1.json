@@ -1,0 +1,68 @@
+{
+  "accumulation_probe": {
+    "cuda_memory": {
+      "allocated_after_backward_mib": 4249.096,
+      "allocated_before_backward_mib": 4208.129,
+      "peak_allocated_mib": 5384.128,
+      "peak_reserved_mib": 5796.0,
+      "reserved_after_backward_mib": 5796.0,
+      "reserved_before_backward_mib": 5538.0
+    },
+    "expected_gradient_accumulation_steps": 8,
+    "file_sha256": "b201fd31a4bd2d03767b71a05899b431c91ddb53ca617a22423ec2383ba338e4",
+    "gradient_parameter_count": 496,
+    "loss": 1.1603311970829964,
+    "microbatches_completed": 8,
+    "nonzero_gradient_parameter_count": 248,
+    "optimizer_created": false,
+    "output_artifacts_written": false,
+    "path": "V10_QWEN35_BACKWARD_PROBE_ACCUM8_RECEIPT_20261003_V1.json",
+    "receipt_sha256": "13eadaec1e0f636b632ef1353e4b953bfd0b37807225e4160a50987c39626144",
+    "targeted_module_count": 248,
+    "trainable_parameter_count": 8116224,
+    "weight_digest_after": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+    "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd"
+  },
+  "boundaries": {
+    "adapter_saved": false,
+    "deployment_claimed": false,
+    "final_bank_requirement_satisfied": false,
+    "optimizer_step_performed": false,
+    "qualification_claimed": false,
+    "training_authority_receipt_created": false,
+    "weights_changed": false
+  },
+  "claim_ceiling": "REAL_BOUND_CORPUS 8-MICROBATCH FORWARD_BACKWARD ACCUMULATION OBSERVED / NO OPTIMIZER STEP / NO WEIGHT CHANGE / PERFORMANCE UNQUALIFIED / FINAL BANK AND EXECUTABLE TRAINING AUTHORITY STILL REQUIRED",
+  "date": "2026-10-03",
+  "performance_observation": {
+    "interpretation": "Mechanics and frozen gradient accumulation are observed. Full-epoch throughput is not qualified; reference linear-attention kernels are materially slow on this Windows laptop runtime.",
+    "observed_warnings": [
+      "triton not found; flop counting unavailable for Triton kernels",
+      "causal_conv1d not installed; Transformers used reference PyTorch implementation",
+      "flash-linear-attention not installed; chunk_gated_delta_rule used reference PyTorch implementation"
+    ],
+    "status": "PERFORMANCE_UNQUALIFIED"
+  },
+  "predecessor_runtime_hold": {
+    "reason": "runtime target mismatch:vram_mib:4095!=4096",
+    "resolution": "VRAM reporting tolerance narrowed to absolute delta <= 1 MiB; GPU name, driver, CUDA runtime, package versions, and base artifacts remain exact.",
+    "status": "HOLD_BEFORE_MODEL_LOAD",
+    "weight_change": false
+  },
+  "schema": "V10_QWEN35_BACKWARD_PROBE_RESULT_MANIFEST_V1",
+  "single_batch_probe": {
+    "file_sha256": "bd2df22e0cbb60f2999e289a6c5033a4466ec561a9943448070617a9cb9b5a4c",
+    "microbatches_completed": 1,
+    "path": "V10_QWEN35_BACKWARD_PROBE_SINGLE_BATCH_RECEIPT_20261003_V1.json",
+    "receipt_sha256": "defe6e421ffd4e5d2a5e3bb4dba8bd6c6edd3d82c8bded17aed6525ecccca94b",
+    "status": "BACKWARD_PROBE_PASS_NO_WEIGHT_CHANGE"
+  },
+  "status": "ACCUMULATION_WINDOW_PROBE_PASS_NO_WEIGHT_CHANGE",
+  "subject": {
+    "contract_sha256": "58b6a3f1563a0d1517051cae1c45a1971579ddb3ad34f57b03b75f9dccbafa3a",
+    "execution_binding_sha256": "816c2af072537e096cac68e7435dfbb158b000701dd2be0076a250980c0c2f99",
+    "execution_spec_sha256": "bc73ece4f33e480683027e3c4e6c9f59d796809f9bb311348e95b91aa5df6660",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema": "VERA_V4_HF_REHEARSAL_MANIFEST_V1",
+  "corpus_id": "VERA_V4_HF_REHEARSAL_42500_20260922",
+  "builder_commit": "84588cf0829c8af495a8b25f806e507d76b6ee6e",
+  "builder_path": "successor/build_v4_hf_rehearsal.py",
+  "builder_blob_sha": "eb3e7cd07e2d005fcdd731d383d44ba7936a6535",
+  "hf_validation_job": "6ab2e43c52d0dbd7f1d803c4",
+  "hf_validation_status": "COMPLETED",
+  "dataset_repo": "HuggingFaceTB/smoltalk2",
+  "dataset_revision": "fc6cc2103c066455aade5d7fbb346039ae36ca5e",
+  "dataset_config": "SFT",
+  "tokenizer_repo": "HuggingFaceTB/SmolLM3-3B",
+  "tokenizer_revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "rows": 42500,
+  "unique_pairs": 42500,
+  "bytes": 81075365,
+  "sha256": "efe41a8f89ac0a77265c5270d1770d250b579e113c1d20f98b808e22de674bf0",
+  "recipe_sha256": "13b6151095fa6ce083af32b4fcf92b0ffb4020c27f2a0d7198964a5fcd736e28",
+  "max_rendered_tokens": 1536,
+  "source_stats": {
+    "Mixture_of_Thoughts_science_no_think": {
+      "accepted": 6000,
+      "rejected_duplicate": 0,
+      "rejected_length": 1,
+      "rejected_shape": 0,
+      "scanned": 6001,
+      "target": 6000
+    },
+    "OpenHermes_2.5_no_think": {
+      "accepted": 5000,
+      "rejected_duplicate": 0,
+      "rejected_length": 50,
+      "rejected_shape": 0,
+      "scanned": 5050,
+      "target": 5000
+    },
+    "smoltalk_smollm3_explore_instruct_rewriting_no_think": {
+      "accepted": 8000,
+      "rejected_duplicate": 49,
+      "rejected_length": 0,
+      "rejected_shape": 5,
+      "scanned": 8054,
+      "target": 8000
+    },
+    "smoltalk_smollm3_smol_rewrite_no_think": {
+      "accepted": 6000,
+      "rejected_duplicate": 0,
+      "rejected_length": 0,
+      "rejected_shape": 0,
+      "scanned": 6000,
+      "target": 6000
+    },
+    "smoltalk_smollm3_smol_summarize_no_think": {
+      "accepted": 6000,
+      "rejected_duplicate": 0,
+      "rejected_length": 250,
+      "rejected_shape": 0,
+      "scanned": 6250,
+      "target": 6000
+    },
+    "table_gpt_no_think": {
+      "accepted": 4500,
+      "rejected_duplicate": 7,
+      "rejected_length": 808,
+      "rejected_shape": 0,
+      "scanned": 5315,
+      "target": 4500
+    },
+    "tulu_3_sft_personas_instruction_following_no_think": {
+      "accepted": 7000,
+      "rejected_duplicate": 5,
+      "rejected_length": 87,
+      "rejected_shape": 0,
+      "scanned": 7092,
+      "target": 7000
+    }
+  },
+  "blind_plaintext_included": false,
+  "weight_change_performed": false
+}

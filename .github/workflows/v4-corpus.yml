@@ -1,0 +1,31 @@
+name: V4 Corpus
+
+on:
+  push:
+    branches: ["fix/**"]
+  pull_request:
+    branches: ["main", "work/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  corpus:
+    if: ${{ github.event.repository.private == false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install pytest
+        run: python -m pip install --disable-pip-version-check pytest==8.3.5
+      - name: Compile corpus code
+        run: |
+          python -m py_compile successor/build_v4_custom_corpus.py successor/measure_v4_custom_corpus.py tests/test_v4_custom_corpus.py
+      - name: Verify deterministic 10k corpus
+        run: python -m pytest -q tests/test_v4_custom_corpus.py
+      - name: Emit measurement
+        run: PYTHONPATH=. python successor/measure_v4_custom_corpus.py

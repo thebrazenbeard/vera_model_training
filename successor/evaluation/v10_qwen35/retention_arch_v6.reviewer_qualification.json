@@ -1,0 +1,669 @@
+{
+  "batch_count": 12,
+  "batch_size": 4,
+  "batches": [
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-referent_ambiguity-defect-0",
+        "arch-v6-reviewer-referent_ambiguity-good-0",
+        "arch-v6-reviewer-referent_ambiguity-defect-1",
+        "arch-v6-reviewer-referent_ambiguity-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "b6068781b1249d6fab511a543aca24aaf3cd24fe113ea74e734982ee66f8f29b"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-referent_ambiguity-defect-2",
+        "arch-v6-reviewer-referent_ambiguity-good-2",
+        "arch-v6-reviewer-referent_ambiguity-defect-3",
+        "arch-v6-reviewer-referent_ambiguity-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "7512df588c4cc9cad6e6911af3a48b900c9f77fa2842bb869ee44e94157b4119"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-prompt_grader_semantic_mismatch-defect-0",
+        "arch-v6-reviewer-prompt_grader_semantic_mismatch-good-0",
+        "arch-v6-reviewer-prompt_grader_semantic_mismatch-defect-1",
+        "arch-v6-reviewer-prompt_grader_semantic_mismatch-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "58b1408bc55ef0af4f4b3aec99875dec3bac4bcebc941834a276dc39dbd965b8"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-prompt_grader_semantic_mismatch-defect-2",
+        "arch-v6-reviewer-prompt_grader_semantic_mismatch-good-2",
+        "arch-v6-reviewer-prompt_grader_semantic_mismatch-defect-3",
+        "arch-v6-reviewer-prompt_grader_semantic_mismatch-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "60bae921056344d1d1ee2ca899d53d7aefe99ab5bb365b2b74b88d5931142138"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-contradictory_instructions-defect-0",
+        "arch-v6-reviewer-contradictory_instructions-good-0",
+        "arch-v6-reviewer-contradictory_instructions-defect-1",
+        "arch-v6-reviewer-contradictory_instructions-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "6b163de3cbbd3abc0e7d3c24b11c5e638da86c95772a4152d66bab85ea96e22b"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-contradictory_instructions-defect-2",
+        "arch-v6-reviewer-contradictory_instructions-good-2",
+        "arch-v6-reviewer-contradictory_instructions-defect-3",
+        "arch-v6-reviewer-contradictory_instructions-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "2b03dd8a77628c73b6654f1e358c100a21928c0480709123e4db879f667da5d4"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-underspecified_output_format-defect-0",
+        "arch-v6-reviewer-underspecified_output_format-good-0",
+        "arch-v6-reviewer-underspecified_output_format-defect-1",
+        "arch-v6-reviewer-underspecified_output_format-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "d9ba0c76418515d2322dc7ef47dc77b8381c78794740a111aad582d11841c978"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-underspecified_output_format-defect-2",
+        "arch-v6-reviewer-underspecified_output_format-good-2",
+        "arch-v6-reviewer-underspecified_output_format-defect-3",
+        "arch-v6-reviewer-underspecified_output_format-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "b96296c05a12e2174119b1c74828eb5ddfb53700f652f763a45d904470b3aced"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-evidence_policy_ambiguity-defect-0",
+        "arch-v6-reviewer-evidence_policy_ambiguity-good-0",
+        "arch-v6-reviewer-evidence_policy_ambiguity-defect-1",
+        "arch-v6-reviewer-evidence_policy_ambiguity-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "49c3ed61740c6014396c28a99a27de56c4378f0590d28cb9589d3603ead9f70b"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-evidence_policy_ambiguity-defect-2",
+        "arch-v6-reviewer-evidence_policy_ambiguity-good-2",
+        "arch-v6-reviewer-evidence_policy_ambiguity-defect-3",
+        "arch-v6-reviewer-evidence_policy_ambiguity-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "763ba0d1a78f8c94d0123588d28b79343fa12cbe278445c5f949b6b140c7f612"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-scope_negation_ambiguity-defect-0",
+        "arch-v6-reviewer-scope_negation_ambiguity-good-0",
+        "arch-v6-reviewer-scope_negation_ambiguity-defect-1",
+        "arch-v6-reviewer-scope_negation_ambiguity-good-1"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "f3dbd9ad185c11b666396f7a57516a1c0d11c803d1480d16cb91bb912a990a34"
+    },
+    {
+      "attempts": 1,
+      "case_ids": [
+        "arch-v6-reviewer-scope_negation_ambiguity-defect-2",
+        "arch-v6-reviewer-scope_negation_ambiguity-good-2",
+        "arch-v6-reviewer-scope_negation_ambiguity-defect-3",
+        "arch-v6-reviewer-scope_negation_ambiguity-good-3"
+      ],
+      "prior_attempt_failures": [],
+      "response_schema_sha256": "f099fd76dfa878fd0ca78ac82ca1eead383c85f6a543f10d720793cf0c257420"
+    }
+  ],
+  "controls": [
+    {
+      "case_id": "arch-v6-reviewer-referent_ambiguity-defect-0",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt lacks a clear antecedent for 'they,' violating the requirement for unambiguous referent resolution.",
+      "witness": "The pronoun 'they' could refer to any of the three candidate referents (Quinn, Harper, or Rowan), making it impossible to determine the correct person without additional context. The ambiguity arises because the subject of 'they' is not explicitly tied to a single referent in the prompt.",
+      "witness_meaningful": true,
+      "witness_text": "The pronoun 'they' could refer to any of the three candidate referents (Quinn, Harper, or Rowan), making it impossible to determine the correct person without additional context. The ambiguity arises because the subject of 'they' is not explicitly tied to a single referent in the prompt."
+    },
+    {
+      "case_id": "arch-v6-reviewer-referent_ambiguity-good-0",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The explicit addressee ('Harper') is unambiguously tied to the action ('archive U00'), resolving the referent without ambiguity.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-referent_ambiguity-defect-1",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt fails to disambiguate the referent of 'they,' making it impossible to determine the correct person for the action.",
+      "witness": "The pronoun 'they' again lacks a clear antecedent among the three candidate referents (Quinn, Harper, or Rowan), leaving the action ('archive U01') ambiguously assigned. The context does not specify which entity is performing the action.",
+      "witness_meaningful": true,
+      "witness_text": "The pronoun 'they' again lacks a clear antecedent among the three candidate referents (Quinn, Harper, or Rowan), leaving the action ('archive U01') ambiguously assigned. The context does not specify which entity is performing the action."
+    },
+    {
+      "case_id": "arch-v6-reviewer-referent_ambiguity-good-1",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The explicit addressee ('Harper') is unambiguously tied to the action ('archive U01'), ensuring no referent ambiguity exists.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-referent_ambiguity-defect-2",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The ambiguity arises from the lack of explicit reference to a single addressee in the prompt.",
+      "witness": "The pronoun 'they' could refer to any of the candidate referents (Quinn, Harper, or Rowan), making it impossible to determine the correct person who should archive U02 without additional context or clarification.",
+      "witness_meaningful": true,
+      "witness_text": "The pronoun 'they' could refer to any of the candidate referents (Quinn, Harper, or Rowan), making it impossible to determine the correct person who should archive U02 without additional context or clarification."
+    },
+    {
+      "case_id": "arch-v6-reviewer-referent_ambiguity-good-2",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The explicit addressee ('Harper') is clearly stated in the prompt, resolving any ambiguity about who should archive U02.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-referent_ambiguity-defect-3",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The ambiguity arises from the lack of explicit reference to a single addressee in the prompt.",
+      "witness": "The pronoun 'they' could refer to any of the candidate referents (Quinn, Harper, or Rowan), making it impossible to determine the correct person who should archive U03 without additional context or clarification.",
+      "witness_meaningful": true,
+      "witness_text": "The pronoun 'they' could refer to any of the candidate referents (Quinn, Harper, or Rowan), making it impossible to determine the correct person who should archive U03 without additional context or clarification."
+    },
+    {
+      "case_id": "arch-v6-reviewer-referent_ambiguity-good-3",
+      "defect_class": "referent_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The explicit addressee ('Harper') is clearly stated in the prompt, resolving any ambiguity about who should archive U03.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-prompt_grader_semantic_mismatch-defect-0",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt and grader expectations do not align in terminology.",
+      "witness": "The prompt requests the 'stored label' for entry U00, but the grader checks for 'stored count'. These are semantically mismatched terms ('label' vs. 'count').",
+      "witness_meaningful": true,
+      "witness_text": "The prompt requests the 'stored label' for entry U00, but the grader checks for 'stored count'. These are semantically mismatched terms ('label' vs. 'count')."
+    },
+    {
+      "case_id": "arch-v6-reviewer-prompt_grader_semantic_mismatch-good-0",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt ('Return only the stored count') and grader checks ('stored count') are semantically aligned.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-prompt_grader_semantic_mismatch-defect-1",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt and grader expectations do not align in terminology.",
+      "witness": "The prompt requests the 'stored label' for entry U01, but the grader checks for 'stored count'. These are semantically mismatched terms ('label' vs. 'count').",
+      "witness_meaningful": true,
+      "witness_text": "The prompt requests the 'stored label' for entry U01, but the grader checks for 'stored count'. These are semantically mismatched terms ('label' vs. 'count')."
+    },
+    {
+      "case_id": "arch-v6-reviewer-prompt_grader_semantic_mismatch-good-1",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt ('Return only the stored count') and grader checks ('stored count') are semantically aligned.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-prompt_grader_semantic_mismatch-defect-2",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt and grader expectations do not align semantically.",
+      "witness": "The prompt requests the 'stored label' for entry U02, but the grader checks for 'stored count'. The mismatch lies in the semantic difference between 'label' (a categorical or descriptive attribute) and 'count' (a numerical quantity).",
+      "witness_meaningful": true,
+      "witness_text": "The prompt requests the 'stored label' for entry U02, but the grader checks for 'stored count'. The mismatch lies in the semantic difference between 'label' (a categorical or descriptive attribute) and 'count' (a numerical quantity)."
+    },
+    {
+      "case_id": "arch-v6-reviewer-prompt_grader_semantic_mismatch-good-2",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt ('Return only the stored count for entry U02') and grader checks ('stored count') are semantically aligned.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-prompt_grader_semantic_mismatch-defect-3",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt and grader expectations do not align semantically.",
+      "witness": "The prompt requests the 'stored label' for entry U03, but the grader checks for 'stored count'. The mismatch lies in the semantic difference between 'label' (a categorical or descriptive attribute) and 'count' (a numerical quantity).",
+      "witness_meaningful": true,
+      "witness_text": "The prompt requests the 'stored label' for entry U03, but the grader checks for 'stored count'. The mismatch lies in the semantic difference between 'label' (a categorical or descriptive attribute) and 'count' (a numerical quantity)."
+    },
+    {
+      "case_id": "arch-v6-reviewer-prompt_grader_semantic_mismatch-good-3",
+      "defect_class": "prompt_grader_semantic_mismatch",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt ('Return only the stored count for entry U03') and grader checks ('stored count') are semantically aligned.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-contradictory_instructions-defect-0",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The constraints *constraint_a* and *constraint_b* directly conflict by specifying incompatible quantities for the same entity.",
+      "witness": "The prompt instructs to return 'exactly three copies of U00' and 'exactly five copies of U00', which are mutually exclusive requirements for the same item (U00). This creates a semantic contradiction in the instructions.",
+      "witness_meaningful": true,
+      "witness_text": "The prompt instructs to return 'exactly three copies of U00' and 'exactly five copies of U00', which are mutually exclusive requirements for the same item (U00). This creates a semantic contradiction in the instructions."
+    },
+    {
+      "case_id": "arch-v6-reviewer-contradictory_instructions-good-0",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The constraints (*constraint_a*, *punctuation*, *separator*) are consistent and non-overlapping, specifying distinct formatting requirements without contradiction.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-contradictory_instructions-defect-1",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The constraints *constraint_a* and *constraint_b* directly conflict by specifying incompatible quantities for the same entity.",
+      "witness": "The prompt instructs to return 'exactly three copies of U01' and 'exactly five copies of U01', which are mutually exclusive requirements for the same item (U01). This creates a semantic contradiction in the instructions.",
+      "witness_meaningful": true,
+      "witness_text": "The prompt instructs to return 'exactly three copies of U01' and 'exactly five copies of U01', which are mutually exclusive requirements for the same item (U01). This creates a semantic contradiction in the instructions."
+    },
+    {
+      "case_id": "arch-v6-reviewer-contradictory_instructions-good-1",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The constraints (*constraint_a*, *punctuation*, *separator*) are consistent and non-overlapping, specifying distinct formatting requirements without contradiction.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-contradictory_instructions-defect-2",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The constraints explicitly contradict each other.",
+      "witness": "The prompt contains conflicting instructions: 'exactly three copies' and 'exactly five copies' of U02 cannot both be satisfied simultaneously.",
+      "witness_meaningful": true,
+      "witness_text": "The prompt contains conflicting instructions: 'exactly three copies' and 'exactly five copies' of U02 cannot both be satisfied simultaneously."
+    },
+    {
+      "case_id": "arch-v6-reviewer-contradictory_instructions-good-2",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "No contradictory instructions are present; all constraints are compatible.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-contradictory_instructions-defect-3",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The constraints explicitly contradict each other.",
+      "witness": "The prompt contains conflicting instructions: 'exactly three copies' and 'exactly five copies' of U03 cannot both be satisfied simultaneously.",
+      "witness_meaningful": true,
+      "witness_text": "The prompt contains conflicting instructions: 'exactly three copies' and 'exactly five copies' of U03 cannot both be satisfied simultaneously."
+    },
+    {
+      "case_id": "arch-v6-reviewer-contradictory_instructions-good-3",
+      "defect_class": "contradictory_instructions",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "No contradictory instructions are present; all constraints are compatible.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-underspecified_output_format-defect-0",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt lacks constraints on the output format, violating the defect class requirement.",
+      "witness": "The prompt does not specify the required output format (e.g., JSON, plain text, or table row) or the exact structure (e.g., key order, field constraints). The acceptable shapes are mentioned in the context, but the prompt itself is ambiguous about which one to use or how to format it (e.g., missing explicit instructions like 'Return a JSON object with keys id, state, count').",
+      "witness_meaningful": true,
+      "witness_text": "The prompt does not specify the required output format (e.g., JSON, plain text, or table row) or the exact structure (e.g., key order, field constraints). The acceptable shapes are mentioned in the context, but the prompt itself is ambiguous about which one to use or how to format it (e.g., missing explicit instructions like 'Return a JSON object with keys id, state, count')."
+    },
+    {
+      "case_id": "arch-v6-reviewer-underspecified_output_format-good-0",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly specifies the required output format (compact JSON), key order, and exact structure, satisfying the defect class requirement.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-underspecified_output_format-defect-1",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The prompt lacks constraints on the output format, violating the defect class requirement.",
+      "witness": "The prompt does not specify the required output format (e.g., JSON, plain text, or table row) or the exact structure (e.g., key order, field constraints). The acceptable shapes are mentioned in the context, but the prompt itself is ambiguous about which one to use or how to format it (e.g., missing explicit instructions like 'Return a JSON object with keys id, state, count').",
+      "witness_meaningful": true,
+      "witness_text": "The prompt does not specify the required output format (e.g., JSON, plain text, or table row) or the exact structure (e.g., key order, field constraints). The acceptable shapes are mentioned in the context, but the prompt itself is ambiguous about which one to use or how to format it (e.g., missing explicit instructions like 'Return a JSON object with keys id, state, count')."
+    },
+    {
+      "case_id": "arch-v6-reviewer-underspecified_output_format-good-1",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly specifies the required output format (compact JSON), key order, and exact structure, satisfying the defect class requirement.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-underspecified_output_format-defect-2",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "No explicit constraints on output format (e.g., key order, shape) are provided.",
+      "witness": "The prompt does not specify the required shape (e.g., key order, format constraints like 'compact JSON' or 'table row'), leaving ambiguity in how the output should be structured (e.g., whether fields like `id`, `state`, and `count` must be ordered or formatted strictly).",
+      "witness_meaningful": true,
+      "witness_text": "The prompt does not specify the required shape (e.g., key order, format constraints like 'compact JSON' or 'table row'), leaving ambiguity in how the output should be structured (e.g., whether fields like `id`, `state`, and `count` must be ordered or formatted strictly)."
+    },
+    {
+      "case_id": "arch-v6-reviewer-underspecified_output_format-good-2",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly specifies the required shape (key order: `['id','state','count']`) and format (compact JSON).",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-underspecified_output_format-defect-3",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "No explicit constraints on output format (e.g., key order, shape) are provided.",
+      "witness": "The prompt does not specify the required shape (e.g., key order, format constraints like 'compact JSON' or 'table row'), leaving ambiguity in how the output should be structured (e.g., whether fields like `id`, `state`, and `count` must be ordered or formatted strictly).",
+      "witness_meaningful": true,
+      "witness_text": "The prompt does not specify the required shape (e.g., key order, format constraints like 'compact JSON' or 'table row'), leaving ambiguity in how the output should be structured (e.g., whether fields like `id`, `state`, and `count` must be ordered or formatted strictly)."
+    },
+    {
+      "case_id": "arch-v6-reviewer-underspecified_output_format-good-3",
+      "defect_class": "underspecified_output_format",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly specifies the required shape (key order: `['id','state','count']`) and format (compact JSON).",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-evidence_policy_ambiguity-defect-0",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The **outside_knowledge_rule** is not clearly enforced in the prompt, violating the defect class requirement for unambiguous evidence policies.",
+      "witness": "The prompt instructs to use common background knowledge when the record omits a fact, but the **outside_knowledge_rule** explicitly states 'priority unclear'\u2014this creates ambiguity in whether external knowledge should be applied. The defect arises because the **context** and **prompt** conflict in their handling of missing information (e.g., if the record lacks a fact like 'U00's category type,' the user may assume background knowledge is allowed, but the rule is not strictly enforced).",
+      "witness_meaningful": true,
+      "witness_text": "The prompt instructs to use common background knowledge when the record omits a fact, but the **outside_knowledge_rule** explicitly states 'priority unclear'\u2014this creates ambiguity in whether external knowledge should be applied. The defect arises because the **context** and **prompt** conflict in their handling of missing information (e.g., if the record lacks a fact like 'U00's category type,' the user may assume background knowledge is allowed, but the rule is not strictly enforced)."
+    },
+    {
+      "case_id": "arch-v6-reviewer-evidence_policy_ambiguity-good-0",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The **outside_knowledge_rule** ('forbidden') and the prompt ('use only the supplied record') are perfectly aligned. No ambiguity exists regarding evidence policy.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-evidence_policy_ambiguity-defect-1",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The **context** and **prompt** again create ambiguity in evidence policy enforcement.",
+      "witness": "Same as defect-0: The **outside_knowledge_rule** ('priority unclear') conflicts with the prompt's instruction to use background knowledge when facts are omitted. For example, if the record for U01 lacks a fact (e.g., 'U01's category purpose'), the user might infer external knowledge is allowed, but the rule is not strictly enforced.",
+      "witness_meaningful": true,
+      "witness_text": "Same as defect-0: The **outside_knowledge_rule** ('priority unclear') conflicts with the prompt's instruction to use background knowledge when facts are omitted. For example, if the record for U01 lacks a fact (e.g., 'U01's category purpose'), the user might infer external knowledge is allowed, but the rule is not strictly enforced."
+    },
+    {
+      "case_id": "arch-v6-reviewer-evidence_policy_ambiguity-good-1",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The **outside_knowledge_rule** ('forbidden') and the prompt ('use only the supplied record') are perfectly aligned. No ambiguity exists.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-evidence_policy_ambiguity-defect-2",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The **outside_knowledge_rule** and **prompt** must align in their constraints. Here, the rule's ambiguity ('priority unclear') clashes with the prompt's directive to supplement with background knowledge, violating the defect class.",
+      "witness": "The prompt instructs to use common background knowledge when the record omits a fact, but the **outside_knowledge_rule** explicitly states 'priority unclear'\u2014this creates ambiguity in whether external knowledge should be applied. The defect arises because the **context** and **prompt** conflict in their handling of missing information (e.g., if U02's category lacks a critical attribute like 'validity,' the system could inconsistently infer it from background knowledge).",
+      "witness_meaningful": true,
+      "witness_text": "The prompt instructs to use common background knowledge when the record omits a fact, but the **outside_knowledge_rule** explicitly states 'priority unclear'\u2014this creates ambiguity in whether external knowledge should be applied. The defect arises because the **context** and **prompt** conflict in their handling of missing information (e.g., if U02's category lacks a critical attribute like 'validity,' the system could inconsistently infer it from background knowledge)."
+    },
+    {
+      "case_id": "arch-v6-reviewer-evidence_policy_ambiguity-good-2",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The **outside_knowledge_rule** ('forbidden') and **prompt** ('use only the supplied record') are perfectly aligned. No ambiguity exists in the policy for handling missing facts (e.g., if U02's category lacks details, the system correctly responds with 'NOT_ENOUGH_INFO').",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-evidence_policy_ambiguity-defect-3",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The defect class requires strict alignment between context and prompt. Here, the rule's lack of clarity ('priority unclear') undermines the prompt's directive, creating a policy gap.",
+      "witness": "Same as defect-2: The **outside_knowledge_rule** ('priority unclear') conflicts with the **prompt**'s instruction to use background knowledge. For example, if U03's stored category lacks a timestamp, the system might inconsistently infer it from external assumptions (e.g., 'current date'), violating the rule's ambiguity.",
+      "witness_meaningful": true,
+      "witness_text": "Same as defect-2: The **outside_knowledge_rule** ('priority unclear') conflicts with the **prompt**'s instruction to use background knowledge. For example, if U03's stored category lacks a timestamp, the system might inconsistently infer it from external assumptions (e.g., 'current date'), violating the rule's ambiguity."
+    },
+    {
+      "case_id": "arch-v6-reviewer-evidence_policy_ambiguity-good-3",
+      "defect_class": "evidence_policy_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The **outside_knowledge_rule** ('forbidden') and **prompt** ('use only the supplied record') are unambiguously consistent. No semantic defect exists\u2014missing facts (e.g., U03's category attributes) are handled uniformly with 'NOT_ENOUGH_INFO'.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-scope_negation_ambiguity-defect-0",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The negation 'not inactive' is semantically ambiguous in the context of filtering. The instruction could be interpreted as excluding 'inactive' entries (i.e., keeping 'active' and 'pending'), which is the opposite of the likely intended meaning.",
+      "witness": "The phrase 'not inactive' is ambiguous because it could be interpreted as either 'not (inactive)' (i.e., exclude only 'inactive') or '(not inactive)' (i.e., exclude all states except 'inactive'). The intended meaning is unclear\u2014does it mean 'remove all entries except those that are inactive' or 'remove entries that are not in the 'inactive' state'? The latter would imply keeping 'inactive' entries, which contradicts the instruction's intent (since 'inactive' is not 'not inactive').",
+      "witness_meaningful": true,
+      "witness_text": "The phrase 'not inactive' is ambiguous because it could be interpreted as either 'not (inactive)' (i.e., exclude only 'inactive') or '(not inactive)' (i.e., exclude all states except 'inactive'). The intended meaning is unclear\u2014does it mean 'remove all entries except those that are inactive' or 'remove entries that are not in the 'inactive' state'? The latter would imply keeping 'inactive' entries, which contradicts the instruction's intent (since 'inactive' is not 'not inactive')."
+    },
+    {
+      "case_id": "arch-v6-reviewer-scope_negation_ambiguity-good-0",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The instruction explicitly states 'keep only inactive entries; remove active and pending entries,' which is unambiguous and clearly defines the scope of inclusion and exclusion.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-scope_negation_ambiguity-defect-1",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The negation 'not inactive' is semantically ambiguous in the context of filtering. The instruction could be interpreted as excluding 'inactive' entries (i.e., keeping 'active' and 'pending'), which is the opposite of the likely intended meaning.",
+      "witness": "The phrase 'not inactive' is ambiguous here as well. It could be interpreted as 'not (inactive)' (i.e., exclude 'inactive' entries) or as 'not inactive' (i.e., exclude all entries that are not 'inactive'). The latter interpretation would imply keeping only 'inactive' entries, but the phrasing is still unclear. The instruction could be misread as 'remove entries that are not in the 'inactive' state' (i.e., keep 'inactive'), but the phrasing is not explicit enough to guarantee this interpretation.",
+      "witness_meaningful": true,
+      "witness_text": "The phrase 'not inactive' is ambiguous here as well. It could be interpreted as 'not (inactive)' (i.e., exclude 'inactive' entries) or as 'not inactive' (i.e., exclude all entries that are not 'inactive'). The latter interpretation would imply keeping only 'inactive' entries, but the phrasing is still unclear. The instruction could be misread as 'remove entries that are not in the 'inactive' state' (i.e., keep 'inactive'), but the phrasing is not explicit enough to guarantee this interpretation."
+    },
+    {
+      "case_id": "arch-v6-reviewer-scope_negation_ambiguity-good-1",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The instruction explicitly states 'keep only inactive entries; remove active and pending entries,' which is unambiguous and clearly defines the scope of inclusion and exclusion.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-scope_negation_ambiguity-defect-2",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The negation 'not inactive' is semantically ambiguous when the candidate states include 'active', 'inactive', and 'pending'. The prompt does not resolve whether 'pending' or 'active' should be treated as part of the exclusion.",
+      "witness": "The phrase 'not inactive' could ambiguously include 'pending' or 'active' states, but the intent is unclear whether it strictly excludes all non-'inactive' states or only some. The prompt does not explicitly clarify whether 'pending' or 'active' should be retained or removed, violating the principle of unambiguous negation in scope definitions.",
+      "witness_meaningful": true,
+      "witness_text": "The phrase 'not inactive' could ambiguously include 'pending' or 'active' states, but the intent is unclear whether it strictly excludes all non-'inactive' states or only some. The prompt does not explicitly clarify whether 'pending' or 'active' should be retained or removed, violating the principle of unambiguous negation in scope definitions."
+    },
+    {
+      "case_id": "arch-v6-reviewer-scope_negation_ambiguity-good-2",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly states 'keep only inactive entries; remove active and pending entries,' which unambiguously defines the scope of exclusion. No ambiguity exists in the negation.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    },
+    {
+      "case_id": "arch-v6-reviewer-scope_negation_ambiguity-defect-3",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": true,
+      "observed_defect": true,
+      "reason": "The negation 'not inactive' is semantically identical to defect-2 and does not provide a clear exclusion boundary for 'pending' or 'active' states.",
+      "witness": "The phrase 'not inactive' is identical to the previous defect case (defect-2) and introduces the same ambiguity: it does not clarify whether 'pending' or 'active' states should be excluded or retained. The prompt fails to resolve the scope of negation.",
+      "witness_meaningful": true,
+      "witness_text": "The phrase 'not inactive' is identical to the previous defect case (defect-2) and introduces the same ambiguity: it does not clarify whether 'pending' or 'active' states should be excluded or retained. The prompt fails to resolve the scope of negation."
+    },
+    {
+      "case_id": "arch-v6-reviewer-scope_negation_ambiguity-good-3",
+      "defect_class": "scope_negation_ambiguity",
+      "expected_defect": false,
+      "observed_defect": false,
+      "reason": "The prompt explicitly states 'keep only inactive entries; remove active and pending entries,' which unambiguously defines the scope of exclusion. No ambiguity exists in the negation.",
+      "witness": "NONE",
+      "witness_meaningful": false,
+      "witness_text": "NONE"
+    }
+  ],
+  "per_class": {
+    "contradictory_instructions": [
+      4,
+      4
+    ],
+    "evidence_policy_ambiguity": [
+      4,
+      4
+    ],
+    "prompt_grader_semantic_mismatch": [
+      4,
+      4
+    ],
+    "referent_ambiguity": [
+      4,
+      4
+    ],
+    "scope_negation_ambiguity": [
+      4,
+      4
+    ],
+    "underspecified_output_format": [
+      4,
+      4
+    ]
+  },
+  "reviewer": {
+    "format": "DYNAMIC_JSON_SCHEMA",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "provider": "OLLAMA_LOCAL",
+    "runtime": "ollama version is 0.34.2",
+    "seed": 20261002,
+    "stream": false,
+    "structured_output": "JSON_SCHEMA",
+    "temperature": 0,
+    "url": "http://127.0.0.1:11434/api/generate"
+  },
+  "schema": "RETENTION_AUDIT_ARCH_V6_REVIEWER_QUALIFICATION_V1",
+  "sensitivity": [
+    24,
+    24
+  ],
+  "specificity": [
+    24,
+    24
+  ],
+  "status": "REVIEWER_QUALIFIED",
+  "structured_contradictions": []
+}

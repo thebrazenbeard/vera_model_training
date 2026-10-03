@@ -1,0 +1,45 @@
+{
+  "schema": "V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V2",
+  "date": "2026-10-02",
+  "status": "PREREGISTERED_BEFORE_BATCHED_FAMILY_AUDIT",
+  "supersedes": "V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V1",
+  "supersession_reason": "V1 recorded packet_sha256 bed5c813b9b965105c4b1894b0c2748795c69344f3987de7908fd6709c278ccb, but exact reconstruction from PR #66 head 5d0a201bf5790da5bd4b72007a89f32db7117158 and candidate SHA 37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a deterministically reproduced packet SHA bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d. No batched family-audit result existed when V2 was frozen; prior single-case smoke records remain non-final evidence.",
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+  "packet_reconstruction": {
+    "repository_head": "5d0a201bf5790da5bd4b72007a89f32db7117158",
+    "method": "select_family_audit_sample(rows, per_family=5, candidate_sha256) plus current source_evidence_for_row; write_packet_files exact UTF-8 LF bytes",
+    "independent_reconstruction_scratch_path": "D:\\VERA\\.scratch\\v10-retention-family-audit-reconstructed-20261002\\packet.jsonl",
+    "reconstructed_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+    "matches_existing_scratch_packet": true
+  },
+  "sample_rows": 130,
+  "family_count": 26,
+  "cases_per_family": 5,
+  "selection": "SHA256(candidate_sha256, family_id, case_id) lowest 5 per family",
+  "reviewer": {
+    "provider": "OLLAMA_LOCAL",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "runtime": "ollama 0.34.2",
+    "temperature": 0,
+    "seed": 20261001
+  },
+  "execution": {
+    "request_unit": "ONE_FAMILY_PER_REQUEST",
+    "cases_per_request": 5,
+    "response": "ONE_CLOSED_SCHEMA_REVIEW_PER_CASE_ID",
+    "max_identical_prompt_retries_for_invalid_transport": 3,
+    "retry_may_change_prompt": false,
+    "missing_case_policy": "HOLD",
+    "extra_case_policy": "HOLD",
+    "any_reject_policy": "HOLD",
+    "resume_policy": "PRESERVE_COMPLETED_FAMILY_RECORDS_BOUND_TO_SAME_PACKET_AND_REVIEWER"
+  },
+  "prior_smoke": {
+    "single_case_records_consumed_as_final_evidence": false,
+    "rationale": "Earlier 3 ADMIT records were generated while validating transport behavior before the batched family protocol was frozen."
+  },
+  "truth_boundary": "External model audits prompt/grader/source-evidence alignment. Deterministic source or executable-test truth remains authoritative for all 1500 cases.",
+  "claim_ceiling": "CORRECTED_PREREGISTERED_FAMILY_AUDIT_EXECUTION_ONLY / NO_BATCHED_AUDIT_RESULT CONSUMED / NOT_RETENTION_ADMISSION"
+}

@@ -1,0 +1,26 @@
+{
+  "candidate_manifest_sha256": "363463299d747a694a4dc394155cacb81864167fbf8f5ca592e20a6cb63090df",
+  "candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "claim_ceiling": "ALL_CASE_DETERMINISTIC_MECHANICAL_AUDIT_PASS / FAMILY_LEVEL_EXTERNAL_MODEL_AUDIT_PENDING / NOT_FINAL_BANK",
+  "coding_reference_contracts": {
+    "passed": 250,
+    "total": 250
+  },
+  "exclusion_hash_file_sha256": "234d4c20b8d076a5004900ec797f250ae9e06241c7a370ceb9f2fb75a72adb6f",
+  "independent_family_audit": {
+    "cases_per_family": 5,
+    "policy": "V10_QWEN35_RETENTION_ADMISSION_V3",
+    "required": true,
+    "selection": "SHA256(candidate_sha256, family_id, case_id) lowest 5 per family",
+    "status": "UNBOUND",
+    "verified_family_receipts": 0
+  },
+  "instruction_contracts": {
+    "negative_reference_rejected": 250,
+    "positive_reference_passed": 250,
+    "total": 250
+  },
+  "rebuild_byte_identical": true,
+  "schema": "V10_QWEN35_RETENTION_CANDIDATE_AUDIT_V1",
+  "status": "MECHANICAL_AUDIT_PASS_INDEPENDENT_REVIEW_PENDING"
+}

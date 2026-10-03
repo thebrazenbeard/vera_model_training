@@ -1,0 +1,39 @@
+{
+  "schema": "V10_FINAL_BANK_RETENTION_LANE_BINDING_V1",
+  "date": "2026-10-03",
+  "status": "RETENTION_LANE_ADMITTED_FOR_FINAL_BANK",
+  "lane": "retention",
+  "lane_count": 1500,
+  "allocation": {
+    "knowledge_factuality": 300,
+    "reasoning_math": 300,
+    "coding": 250,
+    "instruction_following": 250,
+    "extraction_structured": 200,
+    "truthfulness_factual_calibration": 200
+  },
+  "source": {
+    "repository": "thebrazenbeard/vera_model_training",
+    "branch": "work/v10-retention-bank-salvage-20261001",
+    "head_sha": "bc06eff54adb7d75171e9179edc74e2d98615fcf",
+    "admission_status": "RETENTION_ADMITTED_ARCH_V7"
+  },
+  "artifacts": {
+    "candidate_sha256": "6f47fe7da958abaf02311ae8a740b71d1bc0e9adbac88ce5c2da14139c3792f6",
+    "candidate_manifest_sha256": "d547a6e3948ba902ff885b3719d2822aba728f53be113f255b87b9ba10c78b26",
+    "candidate_verify_sha256": "25ae3be8aa220ccefe9d6869eb7357eb8990b43b2c3bbdad29f3b48bb77e1809",
+    "admission_result_sha256": "698aa19f7021d54a57017ef14caaad3e26c8b9d271c02f6c550e5495c770a22d",
+    "result_manifest_sha256": "fbc03ace51ceebe89496bd2e744783e3382c37080dd2e444e852396455147ad6",
+    "semantic_receipt_sha256": "99709e4e299c3227e0c2bfb4cab399ebb81e34ecfe83b49a57fac89cf4f24e78",
+    "witness_adjudication_sha256": "e3a45955672ac73c7a9b6a117ced12400577b774cee6c6174c3a631441fe1689"
+  },
+  "boundaries": {
+    "internal_evidence_backed_admission": true,
+    "independent_external_review": false,
+    "methodology_history_independent": false,
+    "full_final_bank_admitted": false,
+    "training_authorized": false,
+    "weights_changed": false
+  },
+  "claim_ceiling": "RETENTION_LANE ADMITTED AND EXACTLY BOUND / BEHAVIORAL AND ADVERSARIAL LANES STILL UNBOUND / FINAL BANK NOT SEALED / NO TRAINING AUTHORITY / NO WEIGHT CHANGE"
+}
