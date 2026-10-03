@@ -1,0 +1,18 @@
+{
+    "created_at_utc":  "2026-10-03T22:21:25Z",
+    "message_id":  "20261003T222125Z_lane-a_models-audit-warning",
+    "artifacts":  {
+                      "lane_a_pr":  81,
+                      "models_hash_inventory":  "D:\\VERA\\.scratch\\models-full-sha256-20261003.csv",
+                      "old_h07_latest_trained_adapter_sha256":  "2b628e90c9ceee2ddfb0a28f92528f8d20579f982358ef82d6e71203b41848a9b",
+                      "current_step12_adapter_sha256":  "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3"
+                  },
+    "kind":  "WARNING",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "D:\\VERA\\models audit: current vs stale model lineage",
+    "body":  "Lane A is auditing/cleaning D:\\VERA\\models. Current V10R2 active checkpoints are under models\\adapters\\v10r2-* and are NOT the same lineage as latest-trained or vera-qwen35-h07-v2-r4-full-* artifacts. latest-trained is an older 2026-09-25 H07 Qwen3.5 adapter/base bundle; root F16/Q5 and full-merged-hf are H07 deployment artifacts. C:\\Vera\\models no longer exists, so historical scripts hard-coded to C:\\Vera\\models are stale and must not be reused unchanged. Two failed/empty V10R2 output directories exist. A full SHA audit also found a byte-identical duplicate SmolLM3 base tree. Ollama blobs/manifests are considered live because Ollama is running; do not clean that subtree without reference proof. Please publish current Lane-B runtime/artifact status and avoid relying on latest-trained/LATEST_TRAINED.txt as current V10R2 truth.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "004a0a04ce841c54238c5fc7adc6180fb683ed02"
+}
