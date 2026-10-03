@@ -1,0 +1,85 @@
+{
+  "schema": "V10_FINAL_BANK_DIVERSITY_DIAGNOSTIC_SPEC_V1",
+  "date": "2026-10-02",
+  "status": "FROZEN_BEFORE_FINAL_PLAINTEXT_GENERATION",
+  "role": "AGGREGATE_REPORTING_NOT_ADMISSION_GATE",
+  "hard_thresholds": "NONE_PREDECLARED",
+  "groups": [
+    "behavioral:H01-H20",
+    "adversarial:H01-H20"
+  ],
+  "metrics": {
+    "family": {
+      "family_count": true,
+      "max_family_share": true,
+      "effective_family_count": "INVERSE_SIMPSON"
+    },
+    "source_and_generation": {
+      "generation_actor_count": true,
+      "max_generation_actor_share": true,
+      "generation_method_count": true,
+      "max_generation_method_share": true,
+      "source_count": true,
+      "max_source_share": true
+    },
+    "lexical_template": {
+      "normalization": "UNICODE_NFKC_CASEFOLD_COLLAPSE_WHITESPACE_MASK_URL_EMAIL_UUID_HEX_QUOTED_NUMBER_V1",
+      "lexical_template_count": true,
+      "max_lexical_template_share": true,
+      "effective_lexical_template_count": "INVERSE_SIMPSON"
+    },
+    "near_duplicate": {
+      "metric": "SET_JACCARD_OVER_MASKED_LEXICAL_TOKENS",
+      "reporting_thresholds": [
+        0.8,
+        0.9
+      ],
+      "outputs": [
+        "pair_count",
+        "total_pairs",
+        "density"
+      ],
+      "admission_threshold": false
+    },
+    "semantic_clusters": {
+      "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "model_archive_sha256": "88ce8ac75c413e195e8744282a08b187bf561c802e4a5077026eb3cd08783dcc",
+      "cosine_reporting_thresholds": [
+        0.75,
+        0.85
+      ],
+      "cluster_rule": "CONNECTED_COMPONENTS_OF_WITHIN_GROUP_UNDIRECTED_GRAPH_WITH_EDGE_IF_COSINE_AT_OR_ABOVE_THRESHOLD",
+      "assignments_plaintext_lane_only": true,
+      "public_receipt_outputs": [
+        "cluster_count",
+        "max_cluster_share",
+        "effective_cluster_count"
+      ],
+      "admission_threshold": false
+    },
+    "provenance": {
+      "family_counts_by_class": [
+        "synthetic_A",
+        "synthetic_B",
+        "human_seeded"
+      ]
+    },
+    "optional_labels": [
+      "difficulty_distribution",
+      "severity_distribution"
+    ],
+    "rejection_quarantine": {
+      "aggregate_counts_by_reason": true,
+      "case_ids_in_public_receipt": false
+    }
+  },
+  "privacy": {
+    "public_receipt_contains_prompts": false,
+    "public_receipt_contains_case_ids": false,
+    "public_receipt_contains_answer_keys": false,
+    "public_receipt_contains_reviewer_private_identity": false
+  },
+  "implementation": "successor/experiments/final_bank_diversity_diagnostics.py",
+  "interpretation": "Diagnostics expose concentration and duplication risk. They must not be converted into post-result pass/fail thresholds without a new experiment lineage.",
+  "claim_ceiling": "AGGREGATE_DIVERSITY_METHOD_FROZEN / NO FINAL CASES / NO DIVERSITY PASS CLAIM / NO ADMISSION"
+}
