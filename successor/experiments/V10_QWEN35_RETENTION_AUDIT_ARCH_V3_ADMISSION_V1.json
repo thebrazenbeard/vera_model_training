@@ -1,0 +1,20 @@
+{
+  "additional_v3_reviewer_requirements": {
+    "fresh_control_count": 48,
+    "qualification_status": "REVIEWER_QUALIFIED",
+    "structured_contradictions": 0
+  },
+  "date": "2026-10-02",
+  "inherits_exact_bank_admission_semantics_from": {
+    "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V2_ADMISSION_V1.json",
+    "sha256": "638e7fb3fc78aa4e95c784c5f23ffc18b3a5a246736c066145315c6e7caa9e8b"
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V3_ADMISSION_V1",
+  "semantic_packet_must_remain_exact": {
+    "case_ids_exact_manifest_binding": true,
+    "rows": 130,
+    "sha256": "d746d8eafc69b0c2610be77f985c38b59377fbe3953f812bdbbdbc644113e75e"
+  },
+  "status": "FROZEN_BEFORE_FIRST_V3_LIVE_REVIEW_CALL",
+  "training_authorized": false
+}

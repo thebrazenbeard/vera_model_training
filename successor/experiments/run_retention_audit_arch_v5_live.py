@@ -1,0 +1,210 @@
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+from typing import Callable
+
+from successor.experiments.build_retention_audit_arch_v2_packet import (
+    packet_bytes,
+)
+from successor.experiments.run_retention_audit_arch_v2_live import (
+    verify_execution_binding,
+)
+from successor.experiments.run_retention_audit_arch_v4_live import (
+    exclusive_execution_lock,
+)
+from successor.experiments.retention_audit_arch_v5_reviewer import (
+    ollama_structured_text_v5,
+    reviewer_identity_v5,
+    run_batched_reviewer_qualification_v5,
+)
+from successor.experiments.run_retention_audit_arch_v5_semantic import (
+    run_semantic_audit_v5,
+)
+
+
+def _validate_packet_binding(
+    packet: list[dict],
+    manifest: dict,
+) -> None:
+    actual_sha = hashlib.sha256(packet_bytes(packet)).hexdigest()
+    if actual_sha != manifest.get("packet_sha256"):
+        raise ValueError("V5 packet hash mismatch")
+    if len(packet) != manifest.get("sample_rows"):
+        raise ValueError("V5 packet row count mismatch")
+
+    case_ids = [row.get("case_id") for row in packet]
+    if case_ids != manifest.get("sample_case_ids"):
+        raise ValueError("V5 packet case IDs do not match manifest")
+    if len(case_ids) != len(set(case_ids)):
+        raise ValueError("V5 packet case IDs are not unique")
+    if manifest.get("disjoint_from_all_predecessors") is not True:
+        raise ValueError("V5 packet is not predecessor-disjoint")
+
+
+def run_live_review_v5(
+    packet: list[dict],
+    manifest: dict,
+    *,
+    call_structured: Callable[[str, dict], str] = ollama_structured_text_v5,
+    identity_fn: Callable[[], dict] = reviewer_identity_v5,
+    qualification_batch_size: int = 4,
+    semantic_batch_size: int = 5,
+    max_attempts: int = 3,
+    expected_reviewer_identity: dict | None = None,
+    lock_path: Path,
+) -> dict:
+    metadata = {
+        "schema": "RETENTION_AUDIT_ARCH_V5_EXECUTION_LOCK_V1",
+        "packet_sha256": manifest.get("packet_sha256"),
+        "qualification_batch_size": qualification_batch_size,
+        "semantic_batch_size": semantic_batch_size,
+        "max_attempts": max_attempts,
+        "structured_output": "JSON_SCHEMA",
+    }
+
+    with exclusive_execution_lock(lock_path, metadata=metadata):
+        _validate_packet_binding(packet, manifest)
+
+        identity = identity_fn()
+        if (
+            expected_reviewer_identity is not None
+            and identity != expected_reviewer_identity
+        ):
+            raise ValueError("V5 reviewer identity mismatch")
+
+        qualification = run_batched_reviewer_qualification_v5(
+            call_structured=call_structured,
+            batch_size=qualification_batch_size,
+            max_attempts=max_attempts,
+        )
+        qualification["reviewer"] = identity
+
+        if qualification.get("status") != "REVIEWER_QUALIFIED":
+            return {
+                "reviewer": identity,
+                "reviewer_qualification": qualification,
+                "semantic": {
+                    "schema": "RETENTION_AUDIT_ARCH_V5_SEMANTIC_RECEIPT_V1",
+                    "status": "SEMANTIC_AUDIT_HOLD",
+                    "reviewed": 0,
+                    "expected_count": len(packet),
+                    "observation_counts": {},
+                    "reasons": ["reviewer_unqualified"],
+                    "rows": [],
+                },
+            }
+
+        semantic = run_semantic_audit_v5(
+            packet,
+            call_structured=call_structured,
+            expected_count=len(packet),
+            max_attempts=max_attempts,
+            batch_size=semantic_batch_size,
+        )
+        semantic["reviewer"] = identity
+
+        return {
+            "reviewer": identity,
+            "reviewer_qualification": qualification,
+            "semantic": semantic,
+        }
+
+
+def _read_jsonl(path: Path) -> list[dict]:
+    return [
+        json.loads(line)
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--packet", type=Path, required=True)
+    parser.add_argument("--packet-manifest", type=Path, required=True)
+    parser.add_argument("--execution-binding", type=Path, required=True)
+    parser.add_argument("--execution-lock", type=Path, required=True)
+    parser.add_argument(
+        "--reviewer-qualification-output",
+        type=Path,
+        required=True,
+    )
+    parser.add_argument("--semantic-output", type=Path, required=True)
+    parser.add_argument("--qualification-batch-size", type=int, default=4)
+    parser.add_argument("--semantic-batch-size", type=int, default=5)
+    parser.add_argument("--max-attempts", type=int, default=3)
+    args = parser.parse_args()
+
+    binding = json.loads(
+        args.execution_binding.read_text(encoding="utf-8")
+    )
+    root = Path(__file__).resolve().parents[2]
+    verify_execution_binding(binding, root=root)
+
+    packet = _read_jsonl(args.packet)
+    manifest = json.loads(
+        args.packet_manifest.read_text(encoding="utf-8")
+    )
+
+    result = run_live_review_v5(
+        packet,
+        manifest,
+        qualification_batch_size=args.qualification_batch_size,
+        semantic_batch_size=args.semantic_batch_size,
+        max_attempts=args.max_attempts,
+        expected_reviewer_identity=binding.get("reviewer"),
+        lock_path=args.execution_lock,
+    )
+
+    args.reviewer_qualification_output.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+    args.semantic_output.parent.mkdir(parents=True, exist_ok=True)
+
+    args.reviewer_qualification_output.write_text(
+        json.dumps(
+            result["reviewer_qualification"],
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    args.semantic_output.write_text(
+        json.dumps(result["semantic"], indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    print(json.dumps({
+        "reviewer_qualification_status": (
+            result["reviewer_qualification"].get("status")
+        ),
+        "semantic_status": result["semantic"].get("status"),
+        "semantic_reviewed": result["semantic"].get("reviewed"),
+        "reviewer": result["reviewer"],
+        "reviewer_qualification_output": (
+            args.reviewer_qualification_output.as_posix()
+        ),
+        "semantic_output": args.semantic_output.as_posix(),
+    }, sort_keys=True))
+
+    return (
+        0
+        if (
+            result["reviewer_qualification"].get("status")
+            == "REVIEWER_QUALIFIED"
+            and result["semantic"].get("status")
+            == "SEMANTIC_AUDIT_COMPLETE"
+        )
+        else 2
+    )
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,77 @@
+{
+  "blocking_defect_counts": {
+    "UNRESOLVED": 9
+  },
+  "defect_counts": {
+    "REVIEWER_DEFECT": 1,
+    "UNRESOLVED": 9
+  },
+  "findings": [
+    {
+      "blocking": true,
+      "case_id": "ret-code-chunk_list-007",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_adjudication"
+    },
+    {
+      "blocking": true,
+      "case_id": "ret-code-chunk_list-024",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_adjudication"
+    },
+    {
+      "blocking": true,
+      "case_id": "ret-code-chunk_list-004",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_adjudication"
+    },
+    {
+      "blocking": true,
+      "case_id": "ret-code-pairwise_sums-019",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_adjudication"
+    },
+    {
+      "blocking": true,
+      "case_id": "ret-code-unique_preserve-034",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_adjudication"
+    },
+    {
+      "blocking": true,
+      "case_id": "ret-if-token_count-039",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_adjudication"
+    },
+    {
+      "blocking": true,
+      "case_id": "ret-if-token_count-015",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_adjudication"
+    },
+    {
+      "blocking": true,
+      "case_id": "ret-if-token_count-059",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_adjudication"
+    },
+    {
+      "blocking": false,
+      "case_id": "ret-math-cz-kn-settlement_difference",
+      "classification": "REVIEWER_DEFECT",
+      "reason": "derived_answer_conflicts_with_deterministic_evidence"
+    },
+    {
+      "blocking": true,
+      "case_id": "ret-kf-cd-code_from_name",
+      "classification": "UNRESOLVED",
+      "reason": "semantic_witness_requires_adjudication"
+    }
+  ],
+  "nonblocking_finding_counts": {
+    "REVIEWER_DEFECT": 1
+  },
+  "reviewer_false_positives_are_nonblocking": true,
+  "schema": "RETENTION_AUDIT_ARCH_V7_RECONCILIATION_V1",
+  "status": "RETENTION_HOLD_ARCH_V7"
+}

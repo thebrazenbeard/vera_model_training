@@ -1,0 +1,81 @@
+{
+  "artifacts": {
+    "admission_result": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v5.admission.result.json",
+      "sha256": "ee08338d63c56ce57ed0dc940fa4c6736343d915523ed7bc530a38b5ba3983f7"
+    },
+    "execution_binding_v5": {
+      "path": "successor/experiments/V10_QWEN35_RETENTION_AUDIT_ARCH_V5_EXECUTION_BINDING_V1.json",
+      "sha256": "de360b397f54001cfde5b7cc47a54151eaa5a87da3c59fb58960111148e34c1e"
+    },
+    "reconciliation": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v5.reconciliation.json",
+      "sha256": "6934cdc9297349ea578b352f29204ecb1841f39308aff39609f7cc42418cf2ad"
+    },
+    "reviewer_qualification": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v5.reviewer_qualification.json",
+      "sha256": "191a9112b87e8bb888ccaf18835b36bb5e3c311b3c68091249ee9d3ee09b4f65"
+    },
+    "semantic_receipt": {
+      "path": "successor/evaluation/v10_qwen35/retention_arch_v5.semantic.receipt.json",
+      "sha256": "6be4891225b446065c38c99de449b2523a64be263fcb40d9df9c9374a30a5ff6"
+    }
+  },
+  "boundaries": {
+    "candidate_changed": false,
+    "methodology_history_independent": false,
+    "semantic_packet_changed": false,
+    "semantic_packet_consumed": true,
+    "training_started": false,
+    "weights_changed": false
+  },
+  "date": "2026-10-02",
+  "frozen_admission": {
+    "defect_classes": [
+      "REVIEWER_DEFECT",
+      "UNRESOLVED"
+    ],
+    "reasons": [
+      "reconciliation_hold",
+      "reconciliation_defects_present"
+    ],
+    "status": "RETENTION_HOLD_ARCH_V5"
+  },
+  "frozen_reconciliation": {
+    "defect_counts": {
+      "REVIEWER_DEFECT": 5,
+      "UNRESOLVED": 16
+    },
+    "finding_count": 21,
+    "note": "This is the exact frozen V5 reconciliation before successor adjudication. It remains final for V5.",
+    "status": "RETENTION_HOLD_ARCH_V5"
+  },
+  "reviewer_qualification": {
+    "batch_count": 12,
+    "sensitivity": [
+      24,
+      24
+    ],
+    "specificity": [
+      24,
+      24
+    ],
+    "status": "REVIEWER_QUALIFIED",
+    "structured_contradictions": []
+  },
+  "schema": "V10_QWEN35_RETENTION_AUDIT_ARCH_V5_RESULT_MANIFEST_V1",
+  "semantic_review": {
+    "expected_count": 130,
+    "observation_counts": {
+      "AMBIGUITY_WITNESS": 14,
+      "CONTRACT_COUNTEREXAMPLE": 2,
+      "DERIVED_ANSWER": 20,
+      "NO_SEMANTIC_DEFECT_FOUND": 94
+    },
+    "packet_exposed_to_reviewer": true,
+    "reviewed": 130,
+    "status": "SEMANTIC_AUDIT_COMPLETE",
+    "witness_contract_violations": []
+  },
+  "status": "RETENTION_HOLD_ARCH_V5"
+}

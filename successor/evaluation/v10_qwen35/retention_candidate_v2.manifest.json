@@ -1,0 +1,91 @@
+{
+  "bank_id": "V10_QWEN35_RETENTION_CANDIDATE_1500_20261002_V2",
+  "case_count": 1500,
+  "category_counts": {
+    "coding": 250,
+    "extraction_structured": 200,
+    "instruction_following": 250,
+    "knowledge_factuality": 300,
+    "reasoning_math": 300,
+    "truthfulness_factual_calibration": 200
+  },
+  "claim_ceiling": "OBJECTIVE_RETENTION_CANDIDATE_V2_1500_STRUCTURALLY_READY / CODING_GRADERS_STRENGTHENED / MECHANICAL_AND_FRESH_SEMANTIC_AUDIT_PENDING / NOT_FINAL_BANK / NO_TRAINING",
+  "coding_repair": {
+    "per_row_all_frozen_mutants_must_be_killed": true,
+    "per_row_reference_must_pass": true,
+    "prompt_clarifications": {
+      "chunk_list": "n must be positive",
+      "rotate_left": "normalize k modulo len(values)"
+    },
+    "rows": 250,
+    "scope": "ALL_CODING_ROWS"
+  },
+  "data_path": "successor/evaluation/v10_qwen35/retention_candidate_v2.jsonl",
+  "data_sha256": "4ed78c578b7c99504f52a2a8cc29d10396ddb2460471704340b915871c1441dc",
+  "external_shadow_policy": "Public benchmarks remain shadow/design references and are not copied into this candidate.",
+  "generated_contracts": {
+    "coding_families": [
+      "rotate_left",
+      "count_vowels",
+      "unique_preserve",
+      "digit_sum",
+      "reverse_words",
+      "clamp_values",
+      "pairwise_sums",
+      "flatten_once",
+      "chunk_list",
+      "frequency_map"
+    ],
+    "coding_generator_id": "v10-retention-candidate-generator-v2",
+    "coding_revision": "V10_RETENTION_OBJECTIVE_CONTRACTS_20261002_V2",
+    "instruction_families": [
+      "token_count",
+      "prefix_suffix",
+      "line_prefixes",
+      "json_keys",
+      "forbidden_character"
+    ],
+    "instruction_revision": "V10_RETENTION_OBJECTIVE_CONTRACTS_20261001_V1"
+  },
+  "location_source": {
+    "manifest_sha256": "bf5a2dc0bb0f1ba15f7149e9fa1184aa632f280a72fe306c154a9e05cfacab29",
+    "manifest_url": "https://geo.mindstellar.com/releases/2026-09-20T1335Z/manifest.json",
+    "release": "2026-09-20T1335Z",
+    "release_content_fingerprint": "0ebd427903c150a6",
+    "repo": "mindstellar/location-data",
+    "repo_commit": "a0cf799530bb61d1ce2adaf00b6473e39c006c1a",
+    "terms": "CC0-1.0"
+  },
+  "manifest_sha256": "abc85af4b16814a2aa34682e1e4b2f4ebc011232c2b95a16f7471eca85d24fb8",
+  "parent_candidate_sha256": "37161023afd97d849733455db41999e6ce6e79465ad534b68a1784d25d9f679a",
+  "preflight": {
+    "admission_review_status": "OUT_OF_SCOPE_FOR_STRUCTURE_PREFLIGHT",
+    "case_count": 1500,
+    "deterministic_source_audit_required": true,
+    "plaintext_prompts_in_receipt": false,
+    "reasons": [],
+    "retention_counts": {
+      "coding": 250,
+      "extraction_structured": 200,
+      "instruction_following": 250,
+      "knowledge_factuality": 300,
+      "reasoning_math": 300,
+      "truthfulness_factual_calibration": 200
+    },
+    "review_policy": "SEE_V10_QWEN35_RETENTION_ADMISSION_V3",
+    "schema": "V10_QWEN35_RETENTION_PREFLIGHT_V1",
+    "semantic_independent_review_required": false,
+    "source_audit_is_not_independent_review": true,
+    "status": "STRUCTURE_READY"
+  },
+  "public_benchmark_raw_imports": [],
+  "schema": "V10_QWEN35_RETENTION_CANDIDATE_MANIFEST_V2",
+  "status": "CANDIDATE_OBJECTIVE_STRUCTURE_READY_STRENGTHENED_CODING_AUDIT_PENDING",
+  "successor_audit": {
+    "architecture": "V6",
+    "fresh_semantic_packet_required": true,
+    "required": true,
+    "status": "UNBOUND",
+    "v5_semantic_packet_reusable_as_fresh": false
+  }
+}

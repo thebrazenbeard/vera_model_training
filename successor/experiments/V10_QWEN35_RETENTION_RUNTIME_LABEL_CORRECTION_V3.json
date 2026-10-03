@@ -1,0 +1,24 @@
+{
+  "schema": "V10_QWEN35_RETENTION_RUNTIME_LABEL_CORRECTION_V3",
+  "date": "2026-10-02",
+  "status": "V2_RUNTIME_LABEL_RETIRED_PRE_REVIEW_V3_BOUND_TO_OBSERVED_IDENTITY",
+  "predecessor_protocol": "V10_QWEN35_RETENTION_FAMILY_AUDIT_PROTOCOL_V2.json",
+  "v2_runtime_label": "ollama 0.34.2",
+  "observed_runtime_label": "ollama version is 0.34.2",
+  "reviewer_identity": {
+    "provider": "OLLAMA_LOCAL",
+    "model": "ministral-3:14b",
+    "model_blob_sha256": "bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+    "temperature": 0,
+    "seed": 20261001
+  },
+  "packet_sha256": "bed5c8133d23be9a5d67f74416fb63ce4f27fe84a080d5802ca21c2bb4ce421d",
+  "evidence_state": {
+    "v2_identity_check_passed_except_runtime_label": true,
+    "v2_family_review_requests_sent": 0,
+    "v2_family_review_results_consumed": 0,
+    "v2_hold_receipt_preserved": true
+  },
+  "correction_rule": "Only the exact runtime label changes. Candidate, packet, selection, model blob, temperature, seed, retry rules, and verdict rules are unchanged.",
+  "claim_ceiling": "REVIEWER_RUNTIME_LABEL_CORRECTION_ONLY / NO FAMILY REVIEW RESULT / NOT RETENTION ADMISSION"
+}

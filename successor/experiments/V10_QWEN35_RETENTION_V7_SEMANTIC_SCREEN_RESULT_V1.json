@@ -1,0 +1,51 @@
+{
+  "binding": {
+    "path": "successor/experiments/V10_QWEN35_RETENTION_V7_SEMANTIC_SCREEN_BINDING_V1.json",
+    "sha256": "033affb5d2fb6f4e76fba03617ccee322001b2ef8ff65beb9c549148b579c018"
+  },
+  "boundaries": {
+    "heuristic_screen_only": true,
+    "methodology_history_independent": false,
+    "training_authorized": false,
+    "weights_changed": false,
+    "zero_contamination_proof": false
+  },
+  "claim_ceiling": "RETENTION_CANDIDATE_V3_HEURISTIC_SEMANTIC_SCREEN_PASS / ZERO_FAILURES_AT_FROZEN_0.9_THRESHOLD / FRESH_V7_PACKET_SELECTED / NOT_RETENTION_ADMISSION / NO_TRAINING",
+  "date": "2026-10-03",
+  "packet": {
+    "disjoint_from_all_predecessors": true,
+    "excluded_case_count": 520,
+    "family_count": 26,
+    "manifest_path": "successor/evaluation/v10_qwen35/retention_arch_v7.semantic.packet.manifest.json",
+    "manifest_sha256": "1fda23c9781da42526ec47c548e1d01d8f994f0d6e81ef37ad371acf9746a038",
+    "path": "successor/evaluation/v10_qwen35/retention_arch_v7.semantic.packet.jsonl",
+    "per_family": 5,
+    "rows": 130,
+    "sha256": "4de3ae3f5757f76417f8561f4c415b4be1daedf3ca4c42cd202b2cb92e1cd20f"
+  },
+  "result": {
+    "execution_raw_sha256": "4af52b8cf84e3d7662ec5ff5866a25225b0d91c518b245e0fb8c95e3cb9948fd",
+    "failure_count": 0,
+    "max_cosine": 0.6243317723274231,
+    "mean_max_cosine": 0.4481128454208374,
+    "p95_max_cosine": 0.5403647422790527,
+    "path": "successor/evaluation/v10_qwen35/retention_candidate_v3.semantic_screen.json",
+    "persisted_normalization": "JSON semantics unchanged; CRLF execution output normalized to LF before repository persistence.",
+    "sha256": "77ee6108abc61a0cc3ac1a66b324695f2afc1fad0cc4eccecc6b3754199067d1",
+    "target_prompt_count": 1500,
+    "target_sha256": "6f47fe7da958abaf02311ae8a740b71d1bc0e9adbac88ce5c2da14139c3792f6",
+    "threshold": 0.9
+  },
+  "schema": "V10_QWEN35_RETENTION_V7_SEMANTIC_SCREEN_RESULT_V1",
+  "status": "PASS",
+  "verification": {
+    "all_bound_source_hashes_match": true,
+    "embedding_dimension_matches": true,
+    "model_archive_hash_matches": true,
+    "registry_hash_matches": true,
+    "runtime_versions_match": true,
+    "sampled_rows_mechanically_valid": 130,
+    "target_hash_matches": true,
+    "threshold_matches": true
+  }
+}

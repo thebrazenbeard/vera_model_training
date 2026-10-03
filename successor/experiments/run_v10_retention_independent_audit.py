@@ -130,7 +130,7 @@ def ollama_version() -> str:
     return result.stdout.strip()
 
 
-def call_reviewer(prompt: str) -> tuple[dict, dict]:
+def _ollama_request(prompt: str) -> dict:
     request_body = {
         "model": MODEL,
         "prompt": prompt,
@@ -147,22 +147,45 @@ def call_reviewer(prompt: str) -> tuple[dict, dict]:
         headers={"Content-Type": "application/json"},
     )
     with urlopen(request, timeout=900) as response:
-        outer = json.loads(response.read().decode("utf-8"))
-    review = parse_review(outer["response"])
-    runtime = {
-        key: outer.get(key)
-        for key in (
-            "created_at",
-            "done_reason",
-            "total_duration",
-            "load_duration",
-            "prompt_eval_count",
-            "prompt_eval_duration",
-            "eval_count",
-            "eval_duration",
-        )
-    }
-    return review, runtime
+        return json.loads(response.read().decode("utf-8"))
+
+
+def call_reviewer(prompt: str, *, max_attempts: int = 3) -> tuple[dict, dict]:
+    if max_attempts < 1:
+        raise ValueError("max_attempts must be positive")
+    failures: list[str] = []
+    for attempt in range(1, max_attempts + 1):
+        try:
+            outer = _ollama_request(prompt)
+            response_text = outer.get("response")
+            if not isinstance(response_text, str) or not response_text.strip():
+                raise ValueError("empty reviewer response")
+            review = parse_review(response_text)
+            runtime = {
+                key: outer.get(key)
+                for key in (
+                    "created_at",
+                    "done_reason",
+                    "total_duration",
+                    "load_duration",
+                    "prompt_eval_count",
+                    "prompt_eval_duration",
+                    "eval_count",
+                    "eval_duration",
+                )
+            }
+            runtime["attempts"] = attempt
+            if failures:
+                runtime["prior_attempt_failures"] = failures
+            return review, runtime
+        except (ValueError, json.JSONDecodeError) as exc:
+            failures.append(f"attempt_{attempt}:{type(exc).__name__}:{exc}")
+            if attempt == max_attempts:
+                raise RuntimeError(
+                    "reviewer response invalid after "
+                    f"{max_attempts} attempts: {' | '.join(failures)}"
+                ) from exc
+    raise AssertionError("unreachable")
 def summarize_reviews(reviews: list[dict]) -> dict:
     verdicts = Counter(row["verdict"] for row in reviews)
     categories = {}
