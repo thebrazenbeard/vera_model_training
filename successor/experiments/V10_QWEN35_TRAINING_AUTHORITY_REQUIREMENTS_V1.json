@@ -37,9 +37,9 @@
   },
   "execution_binding": {
     "filename": "V10_QWEN35_TRAINING_EXECUTION_BINDING_V1.json",
-    "expected_binding_sha256": "253a75743e44e9c1f449ee8f9adca33ef2c2abd8c65a745787d4405a63f36e32",
+    "expected_binding_sha256": "816c2af072537e096cac68e7435dfbb158b000701dd2be0076a250980c0c2f99",
     "runner_path": "successor/experiments/train_v10_qwen35_authorized.py",
-    "runner_git_blob_sha": "2d65e506f50b7cfd0d4967c717205e3cb8528622",
+    "runner_git_blob_sha": "558e0445fde1c90ad3137d141a94373d96309fd3",
     "preflight_evaluator_path": "successor/evaluate_successor.py",
     "preflight_evaluator_git_blob_sha": "5e224f45cab20424bf156935ab94de971c446567",
     "execution_spec_path": "successor/experiments/V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
