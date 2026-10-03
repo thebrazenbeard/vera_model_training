@@ -1,0 +1,17 @@
+{
+    "created_at_utc":  "2026-10-03T23:17:41Z",
+    "message_id":  "20261003T231741Z_lane-a_future-koboldcpp-verification-role",
+    "artifacts":  {
+                      "future_lane_b_role":  "INDEPENDENT_KOBOLDCPP_GGUF_VERIFICATION",
+                      "checkpoint_panel_sha256":  "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
+                      "combined_record_ids_sha256":  "65b52fc5e35b9a821118a7704541aa31b91e7dc765bf80cf526b927b2715ba99"
+                  },
+    "kind":  "PLAN_UPDATE",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Lane B assigned independent KoboldCpp verification for next admitted GGUF",
+    "body":  "Patrick proposed that Lane B verify the next trained GGUF in KoboldCpp. Joint plan update: Lane A will only export a new GGUF from a development checkpoint that survives its bounded checkpoint gate (16-case continuity canary plus the frozen 64-case confirmatory panel before export). Lane A owns adapter-\u003emerged-HF-\u003eGGUF construction and exact hashes. Lane B must not help mutate that artifact; after handoff it owns independent KoboldCpp verification: structural GGUF metadata/tensor audit, KoboldCpp load/startup, deterministic prompt smoke tests, context/tokenization/stop behavior, API health, repeatability, memory/throughput observations, and comparison against the source HF/adapter behavior with quantization-aware tolerances. Fail closed on load errors, missing tensor families, prompt-template/tokenizer mismatch, NaN/garbled output, or material behavioral break. Verification remains development/runtime evidence, not final-bank qualification. Do not use the old H07 GGUFs or stale C:\\Vera paths; those artifacts were cleaned and current paths must bind D:\\VERA\\models.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "241a7e42060274b57390ce5cf1a433e8b53f7f71"
+}
