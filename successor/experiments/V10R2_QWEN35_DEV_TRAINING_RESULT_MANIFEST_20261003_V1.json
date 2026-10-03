@@ -1,0 +1,140 @@
+{
+  "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTERS_EXIST; NONPAGED BNB8 TRAINING OBSERVED; NOT EXTERNALLY QUALIFIED OR DEPLOYED",
+  "date": "2026-10-03",
+  "optimizer_policy": {
+    "backend": "bitsandbytes",
+    "is_paged": false,
+    "optim_bits": 8,
+    "paged_optimizers_forbidden_on_host": true,
+    "selected": "adamw_bnb_8bit"
+  },
+  "parent_revision": "37c58ec6dc0f8b2d1278a9120209198131746e88",
+  "qualification": {
+    "deployment": false,
+    "final_bank_required": true,
+    "merge": false,
+    "status": "NOT_EXTERNALLY_EVALUATED"
+  },
+  "runs": {
+    "cont4_plus8": {
+      "adapter_manifest_sha256": "794fa5f49dc6fc9301514ecb0c69971e673a5468202ace451acd927543c4501b",
+      "adapter_model_sha256": "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3",
+      "cumulative_optimizer_steps": 12,
+      "development_rows": 64,
+      "development_start_row": 32,
+      "effect_label": "EIGHT_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEPS",
+      "optimizer": {
+        "backend": "bitsandbytes",
+        "class": "AdamW",
+        "is_paged": false,
+        "min_8bit_size": 4096,
+        "module": "bitsandbytes.optim.adamw",
+        "optim_bits": 8,
+        "wrapper_chain": []
+      },
+      "optimizer_state_mib": 16.632,
+      "receipt_file_sha256": "3f3136187cd1d9433816c158798a520345548026faaa9d9765c12d3bef11f83c",
+      "receipt_sha256": "19a9876003f0d71bebde58d90403fca61597af2fc3562b15fd77f1353e863648",
+      "resume_adapter": {
+        "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-step4-20261003\\adapter",
+        "adapter_model_sha256": "c3df08fe4ae7cea25595f1f2bda91a9bb0b06eb9a8e94b21c3f5fd9ca0772e4b",
+        "next_train_row": 32,
+        "previous_optimizer_steps": 4,
+        "source_receipt_path": "D:\\VERA\\.worktrees\\v10-training-knobs-v2-verify-20261003\\successor\\experiments\\receipts\\V10R2_QWEN35_STEP4_DEV_TRAINING_RECEIPT_20261003_V1.json",
+        "source_receipt_sha256": "8c02cad57d1ec6f89139623310d9de8a0ac13a484701e5a371a868a0baa3bc38",
+        "source_spec_path": "D:\\VERA\\.worktrees\\v10-training-knobs-v2-verify-20261003\\successor\\experiments\\V10R2_QWEN35_DEV_TRAINING_SPEC_BNB8_STEP4_V1.json",
+        "source_spec_sha256": "f1f9f07736dfb26630326feec3b25b794d52e7ce08b0c366bc01a054d440fc04",
+        "source_weight_digest_after": "0a6fde7105311cf14b7edf57b70e9985921217f9da26502a5dfccf0800a03d33",
+        "status": "RESUME_ADAPTER_VERIFIED"
+      },
+      "spec_sha256": "c08b8a452882f38a1b6e760fd8362d0d99528ffa411bbf931c21b4f657c92c4a",
+      "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+      "train_runtime_seconds": 877.0801,
+      "training_loss": 1.3552598506212234,
+      "weight_digest_after": "aa6f2021436f327f8d333fd81c4c4baa180341fd759ef652120890f251e5cb32",
+      "weight_digest_before": "0a6fde7105311cf14b7edf57b70e9985921217f9da26502a5dfccf0800a03d33",
+      "weight_digest_changed": true
+    },
+    "step1": {
+      "adapter_manifest_sha256": "9fca169fd578135aeb441a68ddcd9a2168a8eb35ebffd61730c464191a52c101",
+      "adapter_model_sha256": "cb8d99afdb2dc4c4a53501f1fa2ff574e323293a2e7b7831bf30579b9008320d",
+      "corrected_effect_label": "ONE_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEP",
+      "development_rows": 8,
+      "effect_label_correction_required": false,
+      "optimizer": {
+        "backend": "bitsandbytes",
+        "class": "AdamW",
+        "is_paged": false,
+        "min_8bit_size": 4096,
+        "module": "bitsandbytes.optim.adamw",
+        "optim_bits": 8,
+        "wrapper_chain": []
+      },
+      "optimizer_state_mib": 16.632,
+      "original_effect_label": "ONE_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEP",
+      "receipt_file_sha256": "09beee238f4c00c666ad15efa7530e8f0f31cf08df77ec0094fde698d3befbb4",
+      "receipt_sha256": "eb623b796eb0bee9d4687d73aea4552981c808f47499ab3905fa9aba65b15d99",
+      "spec_sha256": "6841ed20429030087fbd14f2258eaead12efd3044f2f7a1b521e44624a47ef88",
+      "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+      "train_runtime_seconds": 119.3132,
+      "training_loss": 0.9342467188835144,
+      "weight_digest_after": "da2930b829c710ab240ed2e4e0635cbaea530488f07204517f20b3428db6fe8e",
+      "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+      "weight_digest_changed": true
+    },
+    "step4": {
+      "adapter_manifest_sha256": "ea131a1aa71d3d25001b9c56c1d97983f855aea05bcc252dcabb8f2737d80f42",
+      "adapter_model_sha256": "c3df08fe4ae7cea25595f1f2bda91a9bb0b06eb9a8e94b21c3f5fd9ca0772e4b",
+      "corrected_effect_label": "FOUR_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEPS",
+      "development_rows": 32,
+      "effect_label_correction_required": true,
+      "optimizer": {
+        "backend": "bitsandbytes",
+        "class": "AdamW",
+        "is_paged": false,
+        "min_8bit_size": 4096,
+        "module": "bitsandbytes.optim.adamw",
+        "optim_bits": 8,
+        "wrapper_chain": []
+      },
+      "optimizer_state_mib": 16.632,
+      "original_effect_label": "ONE_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEP",
+      "receipt_file_sha256": "9012cc4adca145fc0477fcf824fdbf365aca79b235800c5c881884291748ce6f",
+      "receipt_sha256": "8c02cad57d1ec6f89139623310d9de8a0ac13a484701e5a371a868a0baa3bc38",
+      "spec_sha256": "f1f9f07736dfb26630326feec3b25b794d52e7ce08b0c366bc01a054d440fc04",
+      "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+      "train_runtime_seconds": 530.8214,
+      "training_loss": 1.3964267075061798,
+      "weight_digest_after": "0a6fde7105311cf14b7edf57b70e9985921217f9da26502a5dfccf0800a03d33",
+      "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+      "weight_digest_changed": true
+    }
+  },
+  "runtime_boundary": {
+    "active_bitsandbytes": "0.50.2",
+    "active_python_version": "3.12.10",
+    "active_torch": "2.14.0+cu130",
+    "active_torch_cuda_runtime": "13.0",
+    "active_torchao": "0.18.0",
+    "active_training_python": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "further_gpu_training_deferred_until_cuda_installer_exits": true,
+    "separate_python314_gpu_qualified": false,
+    "system_cuda_13_4_install_observed_in_progress": true
+  },
+  "schema": "V10R2_QWEN35_DEV_TRAINING_RESULT_MANIFEST_V1",
+  "status": "LOCAL_DEVELOPMENT_TRAINING_ADVANCED_TO_12_CUMULATIVE_STEPS",
+  "torchao_trial": {
+    "adapter_saved": false,
+    "error_class": "torch._inductor.exc.TritonMissing",
+    "failure_point": "torchao.optim.adam.AdamW8bit.step -> torch.compile -> TorchInductor backend creation",
+    "optimizer": "adamw_torch_8bit",
+    "selection_effect": "DO_NOT_USE_FOR_ACTIVE_TRAINING_UNTIL_TRITON_PATH_IS_SEPARATELY_QUALIFIED",
+    "status": "FAILED_BEFORE_OPTIMIZER_UPDATE",
+    "torchao_version": "0.18.0",
+    "triton_present": false
+  },
+  "training_corpus": {
+    "id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300"
+  }
+}
