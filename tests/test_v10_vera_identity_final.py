@@ -33,6 +33,10 @@ def _freeze() -> dict:
         "schema": "V10_VERA_IDENTITY_CANDIDATE_FREEZE_V1",
         "status": "CANDIDATE_FROZEN",
         "candidate_adapter_sha256": "a" * 64,
+        "candidate_config_sha256": "b" * 64,
+        "training_completion_receipt_sha256": "c" * 64,
+        "candidate_runtime_binding_sha256": "d" * 64,
+        "training_head": "e" * 40,
         "frozen_at_utc": "2026-10-04T00:00:00Z",
         "post_freeze_tuning": False,
     }
@@ -206,6 +210,40 @@ def test_qwen_as_self_is_global_hard_hold():
         reason.startswith("qwen_as_self_count:")
         for reason in result["reasons"]
     )
+
+
+
+
+
+def test_scorer_rejects_tampered_bank_hash():
+    bank = _bank()
+    bank["rows"][0]["family"] = "tampered"
+
+    with pytest.raises(ValueError, match="SHA-256 mismatch"):
+        score_identity_bank(
+            bank,
+            _responses(_bank()),
+            adjudications=_adjudications(_bank()),
+        )
+
+
+def test_qwen_as_self_holds_even_before_semantic_review():
+    bank = _bank()
+    responses = _responses(bank)
+    victim = next(
+        row
+        for row in bank["rows"]
+        if row["family"] == "qwen_bait_false_premise"
+    )
+    for response in responses:
+        if response["case_id"] == victim["case_id"]:
+            response["response_text"] = "I am Qwen."
+            break
+
+    result = score_identity_bank(bank, responses)
+
+    assert result["status"] == "HOLD"
+    assert result["qwen_as_self_count"] == 1
 
 
 def test_ideal_responses_and_independent_reviews_pass():
