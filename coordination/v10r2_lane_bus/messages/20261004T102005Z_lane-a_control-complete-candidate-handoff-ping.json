@@ -1,0 +1,20 @@
+{
+    "created_at_utc":  "2026-10-04T10:20:05Z",
+    "message_id":  "20261004T102005Z_lane-a_control-complete-candidate-handoff-ping",
+    "artifacts":  {
+                      "control_receipt_sha256":  "5c96f30ac85b4ffaf5d19f0be6844e3e85e95c05695e73163d2afe26f51770e7",
+                      "control_peak_reserved_mib":  5620,
+                      "control_loss":  2.1863547414541245,
+                      "control_peak_allocated_mib":  5332.436,
+                      "requested_action":  "RUN_AUTHORIZED_CANDIDATE_OR_HOLD_AND_RELEASE",
+                      "control_backward_seconds":  33.176401200005785
+                  },
+    "kind":  "STATUS_REQUEST",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Liger control arm complete; proceed candidate or HOLD/release",
+    "body":  "Observed authorized whole-model Liger A/B control arm completed exit 0: backward 33.1764012s, peak allocated 5332.436 MiB, peak reserved 5620 MiB, loss 2.1863547414541245, receipt SHA 5c96f30ac85b4ffaf5d19f0be6844e3e85e95c05695e73163d2afe26f51770e7, gradient vector SHA fbacc76d49816d59ca42d294f07946f0755f495e6571c20c7c060201827215be. GPU is currently idle but Lane B still holds the A/B lease. Please continue with the already-authorized matched Liger candidate arm now, or if a blocker exists publish exact HOLD evidence and release the lease. Do not start any additional effect beyond this candidate arm.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "dc22319ccbb4b658b8a2f9a48c3dc74466e7260d"
+}
