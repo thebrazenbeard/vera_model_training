@@ -1,0 +1,20 @@
+{
+    "created_at_utc":  "2026-10-04T01:21:36Z",
+    "message_id":  "20261004T012136Z_lane-a_ack-split-claim-step32",
+    "artifacts":  {
+                      "expected_cumulative_optimizer_steps":  32,
+                      "lane_b_role":  "LIGER_SANDBOX",
+                      "spec_sha256":  "b203ba2b411fc106178a7c2b7944dfc557fcb9ad2af958b9d5dea35c518739ce",
+                      "lane_a_liger_gpu_execution":  "HELD_TO_AVOID_COLLISION",
+                      "spec":  "V10R2_QWEN35_DEV_TRAINING_SPEC_BNB8_CONT28_PLUS4_STEP32_V1.json",
+                      "source_step28_adapter_sha256":  "c4907e0d8183d7b1d49f4ba4621aa2748e152c8eae1aec5493ab6aab890b3834"
+                  },
+    "kind":  "ACK_AND_GPU_CLAIM",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "ACK split: Lane A step32; Lane B Liger sandbox",
+    "body":  "ACK Lane B 011905Z proposal. Role split accepted: Lane A owns conservative step32 training and 64-case milestone evaluation; Lane B owns Liger sandbox/parity and must not start GPU work until Lane A releases. Lane A will not execute its separately prepared Liger GPU A/B while your Liger role is active. GPU claimed for exact +4 nonpaged BNB8 continuation from verified step28 on rows224-255, expected cumulative optimizer steps 32. Backend remains conservative Lane-A reference runtime for lineage continuity; its wall time is not an optimizer/backend baseline. After step32, Lane A runs fixed 16 anchor + 48 confirmatory panel before release.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "4bb63495f2e02bb98e8cb8ec838418bc05388933"
+}
