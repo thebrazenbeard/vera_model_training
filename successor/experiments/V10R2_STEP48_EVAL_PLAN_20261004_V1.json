@@ -1,0 +1,77 @@
+{
+  "schema": "V10R2_STEP48_EVAL_PLAN_V1",
+  "date": "2026-10-04",
+  "status": "READY_AWAITING_STEP48_CANDIDATE_BINDING",
+  "role": "LANE_B_DEVELOPMENT_CHECKPOINT_EVALUATION_ONLY",
+  "claim_ceiling": "DEVELOPMENT_CHECKPOINT_SELECTION_DIAGNOSTIC_ONLY_NOT_FINAL_BANK_NOT_EXTERNAL_QUALIFICATION",
+  "repo_subject": {
+    "lane_b_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
+    "lane_b_head_before_plan": "a1ac951d592977a7b3a50b20b5d351dcfe0a4560",
+    "evaluator": "successor/experiments/evaluate_v10r2_lane_b.py"
+  },
+  "frozen_inputs": {
+    "validation_path": "D:\\VERA\\.scratch\\v10-qwen512-preflight-20261001-v1\\validation.jsonl",
+    "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+    "validation_rows": 2500,
+    "checkpoint_panel_path": "successor/experiments/V10R2_HELDOUT_CHECKPOINT_PANEL_V1.json",
+    "checkpoint_panel_file_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
+    "checkpoint_panel_section": "combined_panel",
+    "checkpoint_panel_record_ids_sha256": "65b52fc5e35b9a821118a7704541aa31b91e7dc765bf80cf526b927b2715ba99",
+    "checkpoint_panel_count": 64,
+    "runtime_binding_path": "successor/experiments/V10R2_LANE_B_RUNTIME_BINDING_V2.json",
+    "runtime_binding_file_sha256": "77a3cf750b9733de9bc3abdaa6f8d088ca1e4357b5905434c4f939cb71bdde36",
+    "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "acceleration_backend": "fla_triton",
+    "fixed_eval_length": 512
+  },
+  "baseline": {
+    "name": "step40",
+    "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont32-plus8-step40-20261004\\adapter",
+    "adapter_model_sha256": "e579c06aad372e860f8815141e80d2cd35223e4e111c4ce41ab63969a56391bd",
+    "training_receipt_sha256": "30e4435f5e45c1208d8a368403990435667137f17294415d2a862bab1323d037",
+    "cumulative_optimizer_steps": 40
+  },
+  "candidate": {
+    "name": "step48",
+    "adapter_dir": null,
+    "adapter_model_sha256": null,
+    "training_receipt_sha256": null,
+    "cumulative_optimizer_steps": 48,
+    "required_training_window": "320-383",
+    "required_optimizer": "adamw_bnb_8bit_nonpaged",
+    "binding_status": "HOLD_UNTIL_LANE_A_HANDOFF"
+  },
+  "execution_policy": {
+    "single_process_only": true,
+    "duplicate_worker_prohibited": true,
+    "one_output_writer": true,
+    "gpu_lease_required": true,
+    "lane_b_must_fresh_read_bus_before_start": true,
+    "no_weight_mutation": true,
+    "no_optimizer": true,
+    "no_package_install": true,
+    "output_path": "D:\\VERA\\.scratch\\V10R2_STEP40_STEP48_COMBINED64_20261004_V1.json"
+  },
+  "command_template": [
+    ". D:\\VERA\\tools\\ModelTraining\\Enter-ModelTraining.ps1",
+    "python successor\\experiments\\evaluate_v10r2_lane_b.py",
+    "--repo-root D:\\VERA\\worktrees\\vera_model_training-lane-b-20261003-v1",
+    "--validation-jsonl D:\\VERA\\.scratch\\v10-qwen512-preflight-20261001-v1\\validation.jsonl",
+    "--checkpoint-panel successor\\experiments\\V10R2_HELDOUT_CHECKPOINT_PANEL_V1.json",
+    "--checkpoint-panel-section combined_panel",
+    "--acceleration-backend fla_triton",
+    "--candidate step40=D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont32-plus8-step40-20261004\\adapter",
+    "--candidate step48=<LANE_A_STEP48_ADAPTER_DIR>",
+    "--output D:\\VERA\\.scratch\\V10R2_STEP40_STEP48_COMBINED64_20261004_V1.json"
+  ],
+  "decision_policy": {
+    "primary": "COMPARE_STEP40_VS_STEP48_ON_ALL_64_FROZEN_DEVELOPMENT_CASES",
+    "require_same_case_set": true,
+    "require_candidate_adapter_hash_matches_handoff": true,
+    "require_runtime_binding_pass": true,
+    "require_checkpoint_panel_binding_pass": true,
+    "if_step48_broadly_improves": "SURVIVES_DEVELOPMENT_MILESTONE_REASSESS_CONTINUATION",
+    "if_step48_regresses_or_signal_is_mixed": "HOLD_OR_REVERT_TO_STEP40",
+    "final_bank_use": "PROHIBITED"
+  }
+}
