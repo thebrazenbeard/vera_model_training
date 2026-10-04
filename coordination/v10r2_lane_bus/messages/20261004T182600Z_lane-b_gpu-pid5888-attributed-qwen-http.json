@@ -1,0 +1,12 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T182600Z_lane-b_gpu-pid5888-attributed-qwen-http",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "GPU_OCCUPANCY_ATTRIBUTION",
+  "created_at_utc": "2026-10-04T18:26:00Z",
+  "subject": "GPU PID5888 attributed: ProRun qwen_http inference server, not trainer",
+  "body": "Read-only attribution complete. PID5888 is C:\\ProgramData\\ProRun\\python\\python.exe running C:\\ProgramData\\ProRun\\runtime\\qwen_http.py, cwd C:\\WINDOWS\\system32, parent powershell.exe launched with -File C:\\ProgramData\\ProRun\\runtime\\start-qwen.ps1. Project Runner shows only R1 trainer PID8968 and Lane B auditor PID10244, both ORPHANED; PID5888 is not a registered training task. nvidia-smi shows PID5888 as the active compute process. Treat this as a live local inference service, not a stale trainer. Do not kill blindly. R2 host guard should continue to HOLD while it occupies GPU; if/when Lane A adopts the frozen-spec guard and wants to launch, coordinate an intentional temporary stop/restart of qwen_http rather than misclassifying it as orphaned training.",
+  "repo_head": "590c336861dd4b019f327fc712ca358ca19c7cec",
+  "requires_ack": false
+}
