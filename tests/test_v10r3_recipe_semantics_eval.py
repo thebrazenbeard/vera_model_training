@@ -237,3 +237,133 @@ def test_apply_prospective_gates_rejects_wrong_evaluation_binding() -> None:
             staged_name="staged",
             continuous_name="continuous",
         )
+
+
+
+def test_bind_evaluated_candidate_to_training_receipt(tmp_path: Path) -> None:
+    from successor.experiments import evaluate_v10r3_recipe_semantics as module
+    from successor.experiments.train_v10_qwen35_authorized import canonical_bytes
+
+    bind_candidate = getattr(module, "bind_evaluated_candidate_to_training_receipt", None)
+    assert callable(bind_candidate)
+
+    output_root = tmp_path / "staged-output"
+    adapter_dir = output_root / "adapter"
+    adapter_dir.mkdir(parents=True)
+    adapter_bytes = b"lane-b-receipt-binding-adapter"
+    adapter_path = adapter_dir / "adapter_model.safetensors"
+    adapter_path.write_bytes(adapter_bytes)
+    adapter_sha = hashlib.sha256(adapter_bytes).hexdigest()
+    receipt_path = output_root / "DEV_TRAINING_COMPLETE.json"
+    receipt = {
+        "schema": "V10R2_QWEN35_DEV_TRAINING_RECEIPT_V1",
+        "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+        "train_sha256": "train-a",
+        "runtime_binding_sha256": "runtime-a",
+        "cumulative_optimizer_steps": 20,
+        "weight_digest_changed": True,
+        "weight_digest_after": "weight-after",
+        "adapter_artifacts": {
+            "files": {
+                "adapter_model.safetensors": adapter_sha,
+            }
+        },
+        "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED",
+    }
+    receipt["receipt_sha256"] = hashlib.sha256(canonical_bytes(receipt)).hexdigest()
+    receipt_path.write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    result = {
+        "train_sha256": "train-a",
+        "runtime_binding_sha256": "runtime-a",
+        "candidates": [
+            {
+                "name": "staged",
+                "adapter_dir": str(adapter_dir),
+                "adapter_model_sha256": adapter_sha,
+                "token_weighted_completion_nll": 1.0,
+                "cases": [
+                    {"record_id": "v4.1-identity_stability-0001", "loss": 1.0},
+                ],
+            }
+        ],
+    }
+
+    binding = bind_candidate(
+        result,
+        candidate_name="staged",
+        receipt_path=receipt_path,
+        expected_cumulative_optimizer_steps=20,
+    )
+
+    assert binding["status"] == "PASS"
+    assert binding["candidate_name"] == "staged"
+    assert binding["adapter_model_sha256"] == adapter_sha
+    assert binding["receipt_sha256"] == receipt["receipt_sha256"]
+    assert binding["weight_digest_after"] == "weight-after"
+
+
+
+def test_bind_evaluated_candidate_rejects_adapter_mutation(tmp_path: Path) -> None:
+    from successor.experiments.evaluate_v10r3_recipe_semantics import (
+        bind_evaluated_candidate_to_training_receipt,
+    )
+    from successor.experiments.train_v10_qwen35_authorized import canonical_bytes
+
+    output_root = tmp_path / "continuous-output"
+    adapter_dir = output_root / "adapter"
+    adapter_dir.mkdir(parents=True)
+    adapter_path = adapter_dir / "adapter_model.safetensors"
+    original_bytes = b"original-adapter"
+    adapter_path.write_bytes(original_bytes)
+    adapter_sha = hashlib.sha256(original_bytes).hexdigest()
+
+    receipt_path = output_root / "DEV_TRAINING_COMPLETE.json"
+    receipt = {
+        "schema": "V10R2_QWEN35_DEV_TRAINING_RECEIPT_V1",
+        "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+        "train_sha256": "train-a",
+        "runtime_binding_sha256": "runtime-a",
+        "cumulative_optimizer_steps": 20,
+        "weight_digest_changed": True,
+        "weight_digest_after": "weight-after",
+        "adapter_artifacts": {
+            "files": {
+                "adapter_model.safetensors": adapter_sha,
+            }
+        },
+        "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED",
+    }
+    receipt["receipt_sha256"] = hashlib.sha256(canonical_bytes(receipt)).hexdigest()
+    receipt_path.write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    result = {
+        "train_sha256": "train-a",
+        "runtime_binding_sha256": "runtime-a",
+        "candidates": [
+            {
+                "name": "continuous",
+                "adapter_dir": str(adapter_dir),
+                "adapter_model_sha256": adapter_sha,
+                "token_weighted_completion_nll": 1.0,
+                "cases": [
+                    {"record_id": "v4.1-identity_stability-0001", "loss": 1.0},
+                ],
+            }
+        ],
+    }
+
+    adapter_path.write_bytes(b"mutated-after-evaluation")
+
+    with pytest.raises(RecipeEvalHold, match="changed after evaluation"):
+        bind_evaluated_candidate_to_training_receipt(
+            result,
+            candidate_name="continuous",
+            receipt_path=receipt_path,
+            expected_cumulative_optimizer_steps=20,
+        )
