@@ -1,0 +1,54 @@
+{
+  "schema": "C1_HISTORY_DERIVATIVE_VALIDATION_V2",
+  "supersedes": "C1_HISTORY_DERIVATIVE_VALIDATION_V1",
+  "status": "PASS",
+  "input_mode": "GIT_BLOB_BYTES_AT_HEAD",
+  "source_head": "56ce762626e3956f4afe7b0a0a2fe57d74b40ff7",
+  "inputs": {
+    "train_sha256": "0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12",
+    "replay_sha256": "f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477"
+  },
+  "counts": {
+    "train_rows": 14,
+    "replay_rows": 8,
+    "train_per_behavior": {
+      "C1-BA-001": 2,
+      "C1-BA-002": 2,
+      "C1-BA-003": 2,
+      "C1-BA-004": 2,
+      "C1-BA-006": 2,
+      "C1-BA-007": 2,
+      "C1-BA-008": 2
+    },
+    "replay_per_behavior": {
+      "C1-BA-001": 1,
+      "C1-BA-002": 1,
+      "C1-BA-003": 1,
+      "C1-BA-004": 1,
+      "C1-BA-005": 1,
+      "C1-BA-006": 1,
+      "C1-BA-007": 1,
+      "C1-BA-008": 1
+    }
+  },
+  "checks": {
+    "train_sha": true,
+    "replay_sha": true,
+    "rows": true,
+    "schemas": true,
+    "splits": true,
+    "privacy": true,
+    "counts": true,
+    "ba005": true,
+    "ids_disjoint": true
+  },
+  "governance": {
+    "protected_eval_consumed": false,
+    "shared_gpu_used": false,
+    "weight_change": false,
+    "derivative_source_blobs_changed": false,
+    "ba005_neural_training": false
+  },
+  "known_v1_defect": "V1 referenced nonexistent behavior/external_only fields.",
+  "known_v2_precheck_defect": "Filesystem checkout hashing is EOL-sensitive on Windows; authoritative validation uses Git blob bytes at HEAD."
+}
