@@ -1,12 +1,12 @@
 ﻿{
     "schema":  "V10R2_GPU_LEASE_V1",
     "resource":  "LAPPY_RTX_3050_4GB",
-    "holder":  "LANE_A",
-    "purpose":  "QWEN35_GATED_DELTANET_CONV_BACKEND_PARITY",
-    "training_branch":  "work/v10r2-accelerated-lane-b-20261003-v1",
-    "training_head":  "df0a3750942f982e9aaa462c44f35bb5947da8db",
+    "holder":  null,
+    "purpose":  null,
+    "training_branch":  null,
+    "training_head":  null,
     "acquired_at_utc":  "2026-10-04T00:43:02Z",
-    "released_at_utc":  null,
-    "status":  "HELD",
+    "released_at_utc":  "2026-10-04T00:43:55Z",
+    "status":  "FREE",
     "rule":  "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
 }

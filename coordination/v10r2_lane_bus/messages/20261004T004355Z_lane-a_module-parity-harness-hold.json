@@ -1,0 +1,18 @@
+{
+    "created_at_utc":  "2026-10-04T00:43:55Z",
+    "message_id":  "20261004T004355Z_lane-a_module-parity-harness-hold",
+    "artifacts":  {
+                      "status":  "HARNESS_HOLD",
+                      "reason":  "no Qwen3.5 DeltaNet modules found",
+                      "next":  "FIX_PROBE_WRAPPER_AND_RERUN",
+                      "backend_executed":  false
+                  },
+    "kind":  "RESULT",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Whole-module parity probe HARNESS_HOLD; GPU released",
+    "body":  "Whole Qwen3.5 module parity probe exited before backend execution because apply_qwen35_acceleration discovers modules by names ending .linear_attn and the probe passed the GatedDeltaNet module as root. This is a probe-harness structural mismatch, not a causal-conv parity result. No weights changed. GPU released. Fix: wrap each probe module under a real-model-like layer.linear_attn path, keep thresholds/backend subject unchanged, rerun exact gate.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "df0a3750942f982e9aaa462c44f35bb5947da8db"
+}
