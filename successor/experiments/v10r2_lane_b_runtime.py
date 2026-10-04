@@ -9,7 +9,7 @@ class AccelerationHold(RuntimeError):
 
 
 ALLOWED_OPTIMIZERS = {'adamw_bnb_8bit', 'adamw_torch_8bit'}
-ALLOWED_BACKENDS = {'torch_reference', 'torch_compile_reference', 'fla_triton'}
+ALLOWED_BACKENDS = {'torch_reference', 'torch_compile_reference', 'fla_triton', 'fla_triton_full'}
 
 
 def validate_lane_b_optimizer(name: str) -> str:
@@ -37,6 +37,40 @@ def _delta_modules(model) -> list[tuple[str, Any]]:
     return modules
 
 
+
+def _qwen_fla_causal_conv_wrapper(fla_conv):
+    def wrapped(*, x, weight, bias=None, activation=None, seq_idx=None, **kwargs):
+        if seq_idx is not None:
+            raise AccelerationHold(
+                'fla_triton_full seq_idx is not admitted until equivalence is proved'
+            )
+        x_btd = x.transpose(1, 2).contiguous()
+        y_btd, _ = fla_conv(
+            x=x_btd,
+            weight=weight,
+            bias=bias,
+            activation=activation,
+            backend='triton',
+        )
+        return y_btd.transpose(1, 2).contiguous()
+
+    return wrapped
+
+
+def _qwen_fla_causal_conv_update_wrapper(fla_conv_update):
+    def wrapped(hidden_states, conv_state, weight, bias=None, activation=None):
+        x_btd = hidden_states.transpose(1, 2).contiguous()
+        y_btd, _ = fla_conv_update(
+            x_btd,
+            conv_state,
+            weight=weight,
+            bias=bias,
+            activation=activation,
+        )
+        return y_btd.transpose(1, 2).contiguous()
+
+    return wrapped
+
 def apply_qwen35_acceleration(
     model,
     *,
@@ -63,7 +97,7 @@ def apply_qwen35_acceleration(
         recurrent = torch_recurrent
         conv = None
         conv_update = torch_conv_update
-    elif backend == 'fla_triton':
+    elif backend in {'fla_triton', 'fla_triton_full'}:
         if fla_chunk is None or fla_recurrent is None:
             try:
                 from fla.ops.gated_delta_rule import (
@@ -74,13 +108,29 @@ def apply_qwen35_acceleration(
                 raise AccelerationHold(f'FLA backend unavailable:{exc}') from exc
             fla_chunk = fla_chunk or chunk_gated_delta_rule
             fla_recurrent = fla_recurrent or fused_recurrent_gated_delta_rule
-        if torch_conv_update is None:
-            from transformers.models.qwen3_5 import modeling_qwen3_5 as qwen35
-            torch_conv_update = qwen35.torch_causal_conv1d_update
         chunk = fla_chunk
         recurrent = fla_recurrent
-        conv = None
-        conv_update = torch_conv_update
+        if backend == 'fla_triton_full':
+            if fla_conv is None or fla_conv_update is None:
+                try:
+                    from fla.modules.convolution import (
+                        causal_conv1d as fla_causal_conv1d,
+                        causal_conv1d_update as fla_causal_conv1d_update,
+                    )
+                except Exception as exc:
+                    raise AccelerationHold(
+                        f'FLA causal-conv backend unavailable:{exc}'
+                    ) from exc
+                fla_conv = fla_conv or fla_causal_conv1d
+                fla_conv_update = fla_conv_update or fla_causal_conv1d_update
+            conv = _qwen_fla_causal_conv_wrapper(fla_conv)
+            conv_update = _qwen_fla_causal_conv_update_wrapper(fla_conv_update)
+        else:
+            if torch_conv_update is None:
+                from transformers.models.qwen3_5 import modeling_qwen3_5 as qwen35
+                torch_conv_update = qwen35.torch_causal_conv1d_update
+            conv = None
+            conv_update = torch_conv_update
     else:
         if any(x is None for x in (torch_chunk, torch_recurrent, torch_conv_update)):
             from transformers.models.qwen3_5 import modeling_qwen3_5 as qwen35
