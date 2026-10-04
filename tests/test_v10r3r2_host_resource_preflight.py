@@ -88,3 +88,46 @@ def test_host_resource_gate_holds_unsafe_launch(metrics: dict, reason: str) -> N
             min_available_physical_gib=8.0,
             min_commit_headroom_gib=8.0,
         )
+
+
+
+class _RunResult:
+    def __init__(self, stdout: str, returncode: int = 0, stderr: str = "") -> None:
+        self.stdout = stdout
+        self.returncode = returncode
+        self.stderr = stderr
+
+
+def test_gpu_compute_process_scan_parses_rows(monkeypatch) -> None:
+    import successor.experiments.preflight_v10r3r2_host_resources as host
+
+    captured = {}
+
+    def fake_run(args, **kwargs):
+        captured["args"] = args
+        captured["kwargs"] = kwargs
+        return _RunResult("5888, python.exe, 3915\n1234, train.exe, 128\n")
+
+    monkeypatch.setattr(host.subprocess, "run", fake_run)
+
+    assert host.read_competing_trainers() == [
+        {"pid": 5888, "process_name": "python.exe", "used_memory_mib": 3915},
+        {"pid": 1234, "process_name": "train.exe", "used_memory_mib": 128},
+    ]
+    assert captured["args"] == [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader,nounits",
+    ]
+    assert captured["kwargs"]["timeout"] == 10
+
+
+def test_gpu_compute_process_scan_empty_is_empty(monkeypatch) -> None:
+    import successor.experiments.preflight_v10r3r2_host_resources as host
+
+    monkeypatch.setattr(
+        host.subprocess,
+        "run",
+        lambda *args, **kwargs: _RunResult(""),
+    )
+    assert host.read_competing_trainers() == []
