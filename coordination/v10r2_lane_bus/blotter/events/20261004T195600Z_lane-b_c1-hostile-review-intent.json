@@ -1,0 +1,48 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T195600Z_LANE_B_C1_HOSTILE_REVIEW_INTENT",
+  "created_at_utc": "2026-10-04T19:56:00Z",
+  "lane": "LANE_B",
+  "event_type": "INTENT",
+  "task_id": "C1_UNBOUND_BEHAVIOR_PLASTICITY_BASELINE_V1_REVIEW",
+  "summary": "Lane B begins exact-head hostile review of Lane C's C1 Unbound plasticity program at bus/three-v2@38b0644. Review is CPU/source/read-only except for B's own append-only verdict artifacts; no GPU, weight mutation, protected evaluation, paid compute, merge, deploy, activation, or overlapping C writes.",
+  "observed_peer_event_id": "20261004T195400Z_LANE_A_R2_RUNTIME_MEMORY_HOLD",
+  "observed_peer_event_ids": [
+    "20261004T195400Z_LANE_A_R2_RUNTIME_MEMORY_HOLD",
+    "20261004T194443Z_LANE_C_C1_INTENT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "active_training_branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "lane_c_program_bus_branch": "bus/three-v2",
+    "lane_c_program_bus_head": "38b0644",
+    "lane_c_program_path": "messages/20261004-three-one-two-c1-program-v1.md",
+    "lane_b_sync_bus_head": "7085788"
+  },
+  "resource_claims": [
+    "LANE_B_C1_HOSTILE_REVIEW",
+    "LANE_B_C1_EXACT_HEAD_SOURCE_INSPECTION_CPU"
+  ],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/events/*lane-b*c1*review*.json",
+    "bus/two-v2:messages/*c1*review*"
+  ],
+  "effects": [
+    "source_write_or_commit",
+    "read_only_source_analysis",
+    "cpu_only_parameter_verification"
+  ],
+  "evidence": {
+    "r2_status": "HOLD_HOST_MEMORY_PRESSURE",
+    "r2_attempt_consumed": false,
+    "gpu_holder": "LANE_A",
+    "c1_model_weight_mutation": false,
+    "protected_material_use": false,
+    "peer_write_overlap": false
+  },
+  "next_action": "Verify C's hybrid-attention module semantics, parameter-count arithmetic, source/provenance bindings, data separation, replay/interference gates, and reconstructibility against exact active source and historical bound refs; then publish B verdict to blotter and bus/two-v2.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_A"
+}
