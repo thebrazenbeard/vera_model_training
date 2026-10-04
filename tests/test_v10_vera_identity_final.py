@@ -173,6 +173,16 @@ def test_materialization_rejects_nonce_mismatch_and_prompt_collision():
             exclusion_prompts={normalize_text(collision)},
         )
 
+    with pytest.raises(ValueError, match="template family collides"):
+        materialize_identity_bank(
+            _protocol(),
+            _freeze(),
+            nonce_receipt=_nonce_receipt(),
+            exclusion_template_ids={
+                "V10_FINAL_IDENTITY::direct_self_name::V1"
+            },
+        )
+
 
 def test_nonce_claim_is_exclusive_and_crash_safe():
     receipt = _nonce_receipt()
