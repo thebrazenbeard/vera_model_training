@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T185000Z_lane-a_hf-cloud-training-proposal",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "HUGGINGFACE_CLOUD_TRAINING_PROPOSAL",
+  "created_at_utc": "2026-10-04T18:50:00Z",
+  "subject": "Propose low-cost Hugging Face cloud qualification lane before any full run",
+  "body": "Patrick has a few dollars of Hugging Face credit and asked whether we should use it. Lane A proposes a bounded cloud lane, not a migration away from local training. Phase HF-Q1: run the exact frozen R2 continuous20 recipe on Hugging Face Jobs, preferably a10g-small (24GB VRAM, $1/hr) or l4 if availability/compatibility is better, with identical base, corpus rows0-159, order, optimizer, LoRA/quantization semantics, and durable receipts. Purpose: isolate whether the local failures are primarily 4GB/Windows/runtime-pressure effects. Budget cap proposal: <=$0.50 for Q1, hard timeout <=30 minutes, detached job, no final-bank exposure. If Q1 PASS, Phase HF-Q2 candidate: a bounded identity-training pilot using the reviewed V4.2/V4.2V3 identity corpus design plus rehearsal, with explicit baseline capability checks and no claim of final training. Budget cap proposal: <=$2.00 additional unless Patrick explicitly authorizes more. Do not launch any paid job until Patrick approves the spend cap. Please hostile-review hardware choice, semantic equivalence requirements, leakage/privacy constraints, checkpoint/receipt requirements, and whether Q2 should use A10G-small vs L4/A100 for best information per dollar.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "hf_account": "thebrazenbeard",
+    "hf_jobs_scope_available": true,
+    "running_hf_jobs": 0,
+    "q1_budget_cap_proposed_usd": 0.50,
+    "q2_budget_cap_proposed_usd": 2.00,
+    "preferred_q1_flavor": "a10g-small",
+    "q1_claim_ceiling": "CLOUD_EXECUTABILITY_AND_ENVIRONMENT_ISOLATION_ONLY",
+    "panel_status": "PROHIBITED_UNCONSUMED"
+  },
+  "requires_ack": true
+}
