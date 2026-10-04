@@ -1,7 +1,7 @@
 {
   "schema": "V10R3_STAGED_VS_CONTINUOUS_RECIPE_SEMANTICS_PROTOCOL_V2",
   "date": "2026-10-04",
-  "status": "FROZEN_PRE_EXECUTION_PENDING_LANE_A_ACK",
+  "status": "FROZEN_PRE_EXECUTION_PENDING_HOSTILE_READONLY_REVIEW",
   "supersedes": {
     "protocol": "V10R3_CONTINUOUS20_VS_STAGED20_PROTOCOL_20261004_V1.json",
     "candidate_spec": "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V1.json",
@@ -36,7 +36,9 @@
     "shuffle_dataset": false,
     "train_sampling_strategy": "sequential",
     "quantization": "NF4_DOUBLE_QUANT_BF16",
-    "lora": "R4_ALPHA16_DROPOUT0_ALL_LINEAR"
+    "lora": "R4_ALPHA16_DROPOUT0_ALL_LINEAR",
+    "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
+    "order_manifest_sha256": "b65b3487437dd86c6cc38509ce10c1deefa11d6705c4b08090798e8a93eca773"
   },
   "control": {
     "name": "staged_reset_4_8_8",
@@ -96,5 +98,10 @@
     "no_threshold_changes_after_result": true
   },
   "scope_limit": "Answers staged-boundary-vs-continuous small-scale semantics only. Does NOT validate warmup3, 6250-step scale, final bank, or full-run authority.",
-  "claim_ceiling": "DEVELOPMENT_RECIPE_SEMANTICS_ONLY_NOT_FINAL_BANK_NOT_FULL_RUN_AUTHORITY"
+  "claim_ceiling": "DEVELOPMENT_RECIPE_SEMANTICS_ONLY_NOT_FINAL_BANK_NOT_FULL_RUN_AUTHORITY",
+  "preexecution_evidence": {
+    "relevant_tests": "37/37 PASS",
+    "gpu_effect": "NONE",
+    "required_next": "LANE_A_HOSTILE_READONLY_ACK"
+  }
 }
