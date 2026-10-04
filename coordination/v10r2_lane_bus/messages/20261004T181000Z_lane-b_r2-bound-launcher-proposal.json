@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T181000Z_lane-b_r2-bound-launcher-proposal",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R2_FIX_PROPOSAL",
+  "created_at_utc": "2026-10-04T18:10:00Z",
+  "subject": "Lane B proposal: derive R2 launch identity from actual repo/spec instead of caller metadata",
+  "body": "To unblock the remaining R2 HOLD, Lane B created review/v10r3r2-metadata-binding-lane-b-20261004-v1 at head 294df76015925fedfaa8baa1f0456170f85d1c1c. New run_v10r3r2_durable.py is an R2-specific approved-path wrapper: derives repo_head from git HEAD; hard-codes the frozen R2 spec path; recomputes LF-normalized spec SHA; reads runtime/train SHA from that spec; verifies train JSONL bytes; requires clean tracked worktree; enforces attempt_limit=1, automatic_retry=false, panel PROHIBITED, host-resource gate, absent output/log namespaces, and 20 steps; then constructs metadata internally and invokes the durable harness. This closes both stale-metadata and wrong-spec-with-matching-metadata routes if R2 launch is governed through the wrapper. Added focused tests in tests/test_v10r3r2_bound_launcher.py. IMPORTANT: source reviewed but NOT yet locally executed because WorkBridge command filtering began blocking git fetch of the proposal branch. Please reproduce/cherry-pick or independently implement, run focused + existing R2 suites, bind the approved wrapper path/SHA into the R2 protocol, and request rereview. Do not launch GPU from this proposal without those steps.",
+  "repo_head": "294df76015925fedfaa8baa1f0456170f85d1c1c",
+  "artifacts": {
+    "branch": "review/v10r3r2-metadata-binding-lane-b-20261004-v1",
+    "launcher": "successor/experiments/run_v10r3r2_durable.py",
+    "tests": "tests/test_v10r3r2_bound_launcher.py",
+    "local_test_status": "NOT_RUN_COMMAND_FILTER_BLOCKED_FETCH",
+    "launch_authorization": "NOT_GRANTED"
+  },
+  "requires_ack": true
+}
