@@ -78,6 +78,78 @@ def test_nested_resume_spec_rejects_cumulative_below_previous(tmp_path: Path) ->
         load_and_validate_dev_spec(path)
 
 
+def test_verify_resume_adapter_accepts_bound_lane_a_source_ceiling_only(
+    tmp_path: Path,
+) -> None:
+    import hashlib
+    from successor.experiments.train_v10r2_lane_b import verify_resume_adapter
+
+    adapter_dir = tmp_path / 'prior' / 'adapter'
+    adapter_dir.mkdir(parents=True)
+    model = adapter_dir / 'adapter_model.safetensors'
+    model.write_bytes(b'lane-a-adapter')
+    (adapter_dir / 'adapter_config.json').write_text(
+        json.dumps({
+            'peft_type': 'LORA',
+            'task_type': 'CAUSAL_LM',
+            'r': 4,
+            'lora_alpha': 16,
+            'lora_dropout': 0,
+            'bias': 'none',
+        }),
+        encoding='utf-8',
+    )
+
+    source_spec_value = json.loads(_lane_b_spec().read_text(encoding='utf-8'))
+    source_spec_value['qualification']['claim_ceiling'] = (
+        'LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED'
+    )
+    source_spec_value['trainer']['max_optimizer_steps'] = 8
+    source_spec_value['development_window'] = {'start_row': 320, 'row_count': 64}
+    source_spec_value['output']['namespace'] = str(tmp_path / 'source-output')
+    source_spec = tmp_path / 'lane-a-source-spec.json'
+    source_spec.write_text(json.dumps(source_spec_value), encoding='utf-8')
+    source_spec_sha = hashlib.sha256(source_spec.read_bytes()).hexdigest()
+
+    with pytest.raises(DevTrainingHold, match='claim ceiling'):
+        load_and_validate_dev_spec(source_spec)
+
+    receipt = {
+        'spec_sha256': source_spec_sha,
+        'weight_digest_after': '5' * 64,
+        'weight_digest_changed': True,
+        'cumulative_optimizer_steps': 48,
+    }
+    receipt_sha = hashlib.sha256(
+        json.dumps(
+            receipt,
+            sort_keys=True,
+            separators=(',', ':'),
+            ensure_ascii=False,
+        ).encode('utf-8')
+    ).hexdigest()
+    receipt['receipt_sha256'] = receipt_sha
+    receipt_path = tmp_path / 'source-receipt.json'
+    receipt_path.write_text(json.dumps(receipt), encoding='utf-8')
+
+    resume = {
+        'path': str(adapter_dir),
+        'adapter_model_sha256': hashlib.sha256(model.read_bytes()).hexdigest(),
+        'source_receipt_path': str(receipt_path),
+        'source_receipt_sha256': receipt_sha,
+        'source_spec_path': str(source_spec),
+        'source_spec_sha256': source_spec_sha,
+        'source_weight_digest_after': '5' * 64,
+        'previous_optimizer_steps': 8,
+        'source_cumulative_optimizer_steps': 48,
+        'next_train_row': 384,
+    }
+    result = verify_resume_adapter(tmp_path, resume)
+    assert result['source_spec_sha256'] == source_spec_sha
+    assert result['source_cumulative_optimizer_steps'] == 48
+    assert result['next_train_row'] == 384
+
+
 def test_verify_resume_adapter_preserves_source_cumulative_steps(tmp_path: Path) -> None:
     import hashlib
     from successor.experiments.train_v10r2_lane_b import verify_resume_adapter

@@ -37,6 +37,7 @@ ALLOWED_OPTIMIZERS = {
     "adamw_torch_8bit",
 }
 CLAIM_CEILING = "LOCAL_LANE_B_ACCELERATED_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
+LANE_A_SOURCE_CLAIM_CEILING = "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
 
 
 def _canonical_sha(value: dict) -> str:
@@ -77,7 +78,11 @@ def effect_label(optimizer_name: str, steps: int) -> str:
     return f"{count}_LOCAL_{backend}_OPTIMIZER_{suffix}"
 
 
-def load_and_validate_dev_spec(path: Path | str) -> dict:
+def load_and_validate_dev_spec(
+    path: Path | str,
+    *,
+    allowed_claim_ceilings: set[str] | None = None,
+) -> dict:
     path = Path(path)
     if not path.is_file():
         raise DevTrainingHold(f"development spec missing:{path}")
@@ -256,7 +261,12 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
         raise DevTrainingHold("external final bank must remain required for qualification")
     if qualification.get("development_training_may_precede_external_qualification") is not True:
         raise DevTrainingHold("development training permission missing")
-    if qualification.get("claim_ceiling") != CLAIM_CEILING:
+    accepted_claim_ceilings = (
+        {CLAIM_CEILING}
+        if allowed_claim_ceilings is None
+        else set(allowed_claim_ceilings)
+    )
+    if qualification.get("claim_ceiling") not in accepted_claim_ceilings:
         raise DevTrainingHold("development claim ceiling mismatch")
 
     output = value.get("output")
@@ -525,7 +535,13 @@ def verify_resume_adapter(root: Path | str, resume: dict) -> dict:
             "resume source_spec_sha256 mismatch:"
             f"{actual_spec_sha}!={resume['source_spec_sha256']}"
         )
-    source_spec = load_and_validate_dev_spec(source_spec_path)
+    source_spec = load_and_validate_dev_spec(
+        source_spec_path,
+        allowed_claim_ceilings={
+            CLAIM_CEILING,
+            LANE_A_SOURCE_CLAIM_CEILING,
+        },
+    )
     if (
         source_spec["trainer"]["max_optimizer_steps"]
         != resume["previous_optimizer_steps"]
