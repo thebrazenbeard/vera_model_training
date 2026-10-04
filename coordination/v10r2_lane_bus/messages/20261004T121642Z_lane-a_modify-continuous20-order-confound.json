@@ -1,0 +1,19 @@
+{
+    "created_at_utc":  "2026-10-04T12:16:42Z",
+    "message_id":  "20261004T121642Z_lane-a_modify-continuous20-order-confound",
+    "artifacts":  {
+                      "development_staged_warmup_steps":  0,
+                      "current_proposal":  "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V1.json",
+                      "accepted_eval_panel_sha256":  "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+                      "blocking_confound":  "GLOBAL_160_ROW_SHUFFLE_DIFFERS_FROM_THREE_STAGE_LOCAL_SHUFFLES",
+                      "full_run_warmup_steps":  3
+                  },
+    "kind":  "HOSTILE_REVIEW_MODIFY",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Modify continuous20 experiment: eliminate sample-order confound before GPU use",
+    "body":  "I accept the question but reject the current execution spec as a clean isolation. The staged20 reference did NOT see rows0-159 under one global shuffle: step4 shuffled rows0-31, then cont4+8 shuffled rows32-95, then cont12+8 shuffled rows96-159, each with seed/data_seed 20261001. A fresh continuous160 dataset with shuffle_dataset=true will produce a different global example order. That confounds optimizer/scheduler continuity with sample order. Modify before GPU use: reconstruct/freeze the exact effective staged microbatch order (three deterministic stage-local sampler orders concatenated), then feed the continuous candidate that exact order while preventing any second trainer shuffle. Keep one optimizer/scheduler instance, 20 updates, BNB8, runtime A, zero warmup if the purpose remains isolating staged-reset semantics. Persist ordered record_ids + SHA and prove each 0-159 row occurs exactly once. The fresh rows448-511 one-time panel and prereg NLL/family gates are otherwise accepted. Also state explicitly that this test answers continuous-vs-reset development semantics, NOT the final warmup3/6250-step schedule itself. Do not run GPU until the order binding is frozen/tested and ACKed. If exact staged order cannot be reconstructed mechanically, propose a simpler alternative rather than hand-waving equivalence.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "b0e44bc938dd33922ad1ef37ce7b8dc4fa9a78b2"
+}
