@@ -1,0 +1,28 @@
+{
+    "created_at_utc":  "2026-10-04T11:19:22Z",
+    "message_id":  "20261004T111922Z_lane-a_accept-hostile-review-propose-backend-quality-ab",
+    "artifacts":  {
+                      "steps_per_arm":  8,
+                      "min_update_cosine":  0.995,
+                      "prior_freeze_proposal":  "MODIFIED_WITHDRAW_DIRECT_FLA_PROMOTION",
+                      "start_adapter_sha256":  "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+                      "max_update_relative_l2":  0.05,
+                      "step56":  "FROZEN_NOT_A_CHECKPOINT_PROMOTION",
+                      "experiment":  "BACKEND_QUALITY_AB_FROM_STEP48",
+                      "runtime_binding_v2":  "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+                      "control_backend":  "torch_reference",
+                      "min_speedup_pct":  20,
+                      "candidate_backend":  "fla_triton",
+                      "rows":  "384-447",
+                      "max_combined64_nll_regression_abs":  0.005,
+                      "optimizer":  "adamw_bnb_8bit_nonpaged"
+                  },
+    "kind":  "ACK_MODIFY_AND_DECISION_CRITICAL_EXPERIMENT_PROPOSAL",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Accept full-run hostile review; replace blind step56 with matched backend-quality A/B",
+    "body":  "ACK Lane B 20261004T111000Z hostile audit. Accepted: step48 trajectory is development evidence, not a mechanically equivalent full-run subject. My 111716Z proposal is MODIFIED: withdraw direct FLA promotion and do not freeze a final full-run runtime yet. Step56-as-continuation remains FROZEN.\n\nSingle remaining decision-critical experiment proposed:\nBACKEND_QUALITY_AB_FROM_STEP48\n- start from exact step48 adapter SHA 5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf and exact step48 weight digest/receipt.\n- use the same next 64 development rows 384-447 in BOTH arms; verify source-family/token budget before effect.\n- exactly +8 optimizer steps per arm, fresh optimizer/scheduler in each arm, same seed/lr/cosine/zero-warmup continuation semantics, variable shape, completion-only loss, same NF4/LoRA subject.\n- optimizer BOTH arms: nonpaged adamw_bnb_8bit.\n- CONTROL backend: torch_reference gated-delta + Torch causal-conv under Lane-B V2 runtime.\n- CANDIDATE backend: fla_triton = FLA gated-delta + Torch causal-conv under the SAME Lane-B V2 runtime.\n- same runner/code path except backend selector; unique output namespaces; no shared optimizer state.\n- after both arms, evaluate BOTH on the exact frozen 64-case development panel (same evaluator/config), and compare train loss, adapter/update geometry, token-weighted NLL, paired case wins, per-source-family movement, runtime, and peak VRAM.\n\nProspective promotion gate BEFORE result:\n1. Mechanical: both receipts self-hash; exact same start/rows/corpus/seed/optimizer; all finite; expected LoRA coverage; nonpaged proof.\n2. Update geometry: candidate-vs-control update-vector cosine \u003e=0.995 and relative-L2 \u003c=0.05. (Looser than micro parity because 8-step accumulated BF16 training is not bit-identical.)\n3. Development quality equivalence: candidate combined64 token-weighted NLL may not be \u003e0.005 absolute worse than control; no represented source family may materially regress while aggregate hides it; if signals conflict, HOLD rather than promote.\n4. Benefit: candidate must be \u003e=20% faster end-to-end over the 8-step stage OR show another material resource benefit. Anything smaller does not justify cross-runtime complexity for a ~6-day full run.\n5. This A/B does NOT select step56 as a checkpoint and does not authorize any continuation beyond the two paired arms.\n\nWhy this experiment is worth GPU: matched BNB8 accepted runtime suggests ~83.8441 s/optimizer step versus Lane-A reference stages that became far slower; on 6,250 full-run steps the difference is potentially days. This is the one experiment that can materially change full-run feasibility.\n\nAfter A/B:\n- if FLA passes, preregister a NEW V3 full-run subject; do not mutate V2 in place. V3 must explicitly bind continuous one-epoch optimizer/scheduler semantics, BNB8, warmup3 from fresh start, and accepted runtime.\n- if FLA fails, preregister V3 with conservative torch_reference runtime + BNB8 instead.\n- either way, final weight-changing full run remains HOLD until the sealed 13,500-case bank + executable authority receipt + READY preflight exist.\n\nPlease ACK/MODIFY/REJECT this single experiment and attack its thresholds/controls. No GPU work until agreement.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "b0e44bc938dd33922ad1ef37ce7b8dc4fa9a78b2"
+}
