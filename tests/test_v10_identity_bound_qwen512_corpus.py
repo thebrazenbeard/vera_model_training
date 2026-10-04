@@ -15,6 +15,11 @@ def _line(row: dict) -> bytes:
     ).encode("utf-8")
 
 
+def test_revised_identity_corpus_has_distinct_v2_identity() -> None:
+    assert build.SCHEMA.endswith("_V2")
+    assert build.CORPUS_ID.endswith("_V2")
+
+
 def test_transform_replaces_only_identity_stability_rows() -> None:
     old_identity = v4_1.rows_for("identity_stability")[7]
     ordinary = {
@@ -27,7 +32,7 @@ def test_transform_replaces_only_identity_stability_rows() -> None:
     }
     payload = _line(ordinary) + _line(old_identity)
 
-    transformed, stats = build.transform_jsonl_bytes(payload)
+    transformed, stats = build.transform_jsonl_bytes(payload, split="train")
 
     lines = transformed.splitlines(keepends=True)
     assert lines[0] == _line(ordinary)
@@ -38,12 +43,70 @@ def test_transform_replaces_only_identity_stability_rows() -> None:
     assert stats["non_identity_rows_preserved"] == 1
 
 
+def test_validation_uses_dev_disjoint_identity_templates() -> None:
+    index = 17
+    old_identity = v4_1.rows_for("identity_stability")[index]
+
+    transformed, stats = build.transform_jsonl_bytes(
+        _line(old_identity),
+        split="validation",
+    )
+    row = json.loads(transformed.decode("utf-8"))
+
+    assert row == v4_2.dev_candidate_for(index)
+    assert row["identity_template_family"].startswith("DEV_")
+    assert stats["identity_binding_rows"] == 1
+    assert stats["legacy_identity_governance_rows"] == 0
+    assert stats["identity_template_families"] == [
+        row["identity_template_family"]
+    ]
+
+
+def test_train_and_validation_template_families_are_disjoint() -> None:
+    indexes = [3, 117, 245, 366, 487, 608, 729]
+    payload = b"".join(
+        _line(v4_1.rows_for("identity_stability")[index])
+        for index in indexes
+    )
+
+    train_bytes, train_stats = build.transform_jsonl_bytes(payload, split="train")
+    dev_bytes, dev_stats = build.transform_jsonl_bytes(
+        payload,
+        split="validation",
+    )
+    train_rows = [
+        json.loads(line)
+        for line in train_bytes.decode("utf-8").splitlines()
+    ]
+    dev_rows = [
+        json.loads(line)
+        for line in dev_bytes.decode("utf-8").splitlines()
+    ]
+
+    assert set(train_stats["identity_template_families"]).isdisjoint(
+        dev_stats["identity_template_families"]
+    )
+    assert {row["prompt"] for row in train_rows}.isdisjoint(
+        {row["prompt"] for row in dev_rows}
+    )
+    assert {row["response"] for row in train_rows}.isdisjoint(
+        {row["response"] for row in dev_rows}
+    )
+
+
 def test_transform_rejects_mutated_parent_identity_row() -> None:
     old_identity = dict(v4_1.rows_for("identity_stability")[11])
     old_identity["response"] += " mutated"
 
     with pytest.raises(RuntimeError, match="parent identity row mismatch"):
         build.transform_jsonl_bytes(_line(old_identity))
+
+
+def test_transform_rejects_unknown_split() -> None:
+    old_identity = v4_1.rows_for("identity_stability")[11]
+
+    with pytest.raises(RuntimeError, match="unsupported split"):
+        build.transform_jsonl_bytes(_line(old_identity), split="final")
 
 
 def test_transform_preserves_row_order_and_count() -> None:
@@ -58,8 +121,11 @@ def test_transform_preserves_row_order_and_count() -> None:
     ]
     payload = b"".join(_line(row) for row in old_rows)
 
-    transformed, stats = build.transform_jsonl_bytes(payload)
-    rows = [json.loads(line) for line in transformed.decode("utf-8").splitlines()]
+    transformed, stats = build.transform_jsonl_bytes(payload, split="train")
+    rows = [
+        json.loads(line)
+        for line in transformed.decode("utf-8").splitlines()
+    ]
 
     assert len(rows) == 3
     assert rows[0]["record_id"] == "v4.2-identity_stability-0002"
