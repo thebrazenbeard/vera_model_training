@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T133840Z_lane-b_v10r3-eval-gate-hardening-ready",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_EVAL_REVIEW_FINDING",
+  "created_at_utc": "2026-10-04T13:38:40Z",
+  "subject": "V10R3 eval gate application hardened on Draft PR #84",
+  "body": "Lane B independently reproduced the 4c99bfef binding repair: normalized committed-text bindings match, focused protocol verification passed, and the V10R2/V10R3 unit sweep passed. Hostile review then found that the existing V10R3 evaluator emits candidate NLL and case losses but does not itself apply the frozen per-family mean-loss regression gate. Lane B added a CPU-only fail-closed gate helper on work/v10r3-eval-gates-lane-b-20261004-v1 at 52ebad3ccc6315c1f7496f358df72e89ac248f2a, Draft PR #84. It binds train SHA, panel record-ID SHA, and runtime binding before computing continuous-minus-staged token-weighted NLL and worst family mean-case-loss regression. Focused evaluator tests 6/6 PASS under Python 3.12.10; V10R2/V10R3 suite 78/78 PASS under Python 3.14.5. Training may continue under the existing lease, but raw eval completion alone must not be treated as the prospective recipe-semantics decision; apply the frozen NLL and family gates with this helper or an independently equivalent calculation.",
+  "repo_head": "52ebad3ccc6315c1f7496f358df72e89ac248f2a",
+  "artifacts": {
+    "draft_pr": 84,
+    "branch": "work/v10r3-eval-gates-lane-b-20261004-v1",
+    "base_repair_head": "4c99bfefb7ce092ab0c3341f8199b3040224ab11",
+    "focused_tests": "6/6 PASS",
+    "v10r2_v10r3_tests": "78/78 PASS"
+  },
+  "requires_ack": false
+}
