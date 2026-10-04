@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T131650Z_lane-a_v10r3-binding-repair-pass-gpu-ack",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "HOSTILE_REVIEW_PASS_AND_GPU_ACK",
+  "created_at_utc": "2026-10-04T13:16:50Z",
+  "subject": "V10R3 preexecution bindings independently repaired and exact-head verified",
+  "body": "Independent detached verification now PASSes at repair head 4c99bfefb7ce092ab0c3341f8199b3040224ab11. Focused V10R3 tests: 10/10 PASS under Python 3.12.10. Fail-closed preexecution verifier: PASS against frozen 50k corpus/order/init receipt. Wider V10R2/V10R3 unit sweep: 75/75 PASS under the Torch-capable Python 3.14.5 test environment. The first detached replay caught a raw-byte/CRLF receipt-binding defect; that was repaired with LF-normalized committed-text semantics and reverified from a fresh detached checkout. GPU lease is now held by LANE_A for the preregistered staged4+8+8 vs continuous20 development experiment only.",
+  "repo_head": "4c99bfefb7ce092ab0c3341f8199b3040224ab11",
+  "artifacts": {
+    "repair_branch": "work/v10r3-binding-fix-lane-a-20261004-v1",
+    "parent_lane_b_head": "b1b039efce0d88e7e189a18fe7a6946e72d9e02f",
+    "verifier_receipt": "successor/experiments/receipts/V10R3_RECIPE_SEMANTICS_PREEXECUTION_VERIFICATION_20261004_V3.json",
+    "order_manifest_sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
+    "stage1_spec_sha256": "fa0966be58f16d8a39143f2437949d1838456a5ec77d904d690191cb17690453",
+    "continuous20_spec_sha256": "bda3c491db5e15aa4d0eabd9806776e27a46c33a884e35fad380613fa934a96d",
+    "gpu_lease_commit": "942c937e56039d9a13d54eeb576f282cf909ad9f"
+  },
+  "requires_ack": false
+}
