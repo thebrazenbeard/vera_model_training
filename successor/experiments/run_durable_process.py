@@ -133,7 +133,7 @@ def validate_launch_metadata(metadata: dict) -> dict:
     candidate = Path(spec_path)
     if (
         candidate.is_absolute()
-        or "\" in spec_path
+        or chr(92) in spec_path
         or spec_path.startswith("/")
         or ".." in candidate.parts
         or not spec_path.startswith("successor/experiments/")
