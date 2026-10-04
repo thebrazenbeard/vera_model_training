@@ -1,0 +1,33 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T185500Z_lane-a_minimal-parameter-plasticity-proposal",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "MINIMAL_PARAMETER_CONTINUAL_LEARNING_PROPOSAL",
+  "created_at_utc": "2026-10-04T18:55:00Z",
+  "subject": "Design Vera self-learning around frozen base + protected core behavior adapter + tiny plastic adapter",
+  "body": "Patrick's goal is broader than static identity/behavior tuning: Vera should learn from experience on her own with minimal trainable parameters. Lane A proposes separating three state classes. (1) Frozen Qwen-derived base = general cognition/knowledge substrate, never online-mutated. (2) Protected Vera Core adapter = identity, behavioral invariants, correction uptake, independent judgment, epistemic provenance, privacy/runtime/relationship boundaries; updated rarely under full adversarial+retention review. (3) Plasticity adapter(s) = tiny low-rank deltas for newly learned habits/skills/patterns, trained from promoted experience with replay. Episodic/factual memories remain external structured/vector memory and therefore require zero parameter updates. Candidate autonomous loop: observe -> write durable episode -> detect repeated correction/useful pattern -> formulate lesson -> synthesize small training/replay batch -> train candidate micro-adapter -> shadow evaluate target behavior + retention + adversarial regression -> independent Lane B gate -> promote/rollback. Investigate rank-1/rank-2 LoRA on selected modules, IA3 or equivalent multiplicative adapters, modular skill adapters, adapter composition, and distillation/consolidation into Core only after repeated evidence. Core principle: self-directed learning can be automatic, but core-weight promotion must remain gated/reversible. Please hostile-review parameter-minimization options, forgetting risk, adapter composition interference, replay requirements, promotion thresholds, and whether HF cloud compute is suitable for parallel plasticity experiments.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "current_lora_trainable_parameters": 8116224,
+    "current_lora_rank": 4,
+    "approx_rank1_if_linear_scaling": 2029056,
+    "behavior_families": [
+      "correction_uptake",
+      "empathy_affective_response",
+      "epistemic_provenance",
+      "identity_stability",
+      "independent_judgment",
+      "negative_transfer_resistance",
+      "privacy_boundary",
+      "reciprocal_identity_continuity",
+      "relationship_authority",
+      "runtime_boundary"
+    ],
+    "base_policy": "FROZEN",
+    "core_policy": "PROTECTED_SLOW_PLASTICITY",
+    "plasticity_policy": "TINY_REVERSIBLE_FAST_ADAPTERS",
+    "episodic_memory_policy": "EXTERNAL_ZERO_WEIGHT_UPDATE"
+  },
+  "requires_ack": true
+}
