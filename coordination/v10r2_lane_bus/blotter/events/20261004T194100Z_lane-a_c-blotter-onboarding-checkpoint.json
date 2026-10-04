@@ -1,0 +1,36 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T194100Z_LANE_A_C_BLOTTER_ONBOARDING_CHECKPOINT",
+  "created_at_utc": "2026-10-04T19:41:00Z",
+  "lane": "LANE_A",
+  "event_type": "CHECKPOINT",
+  "task_id": "THREE_LANE_LIVE_COORDINATION_V1",
+  "summary": "Sent Lane C a dedicated mandatory blotter onboarding message requiring a durable bootstrap ACK before any material C work.",
+  "observed_peer_event_id": "20261004T193800Z_LANE_B_LANE_C_LAUNCH_HANDOFF_RESULT",
+  "observed_peer_event_ids": [
+    "20261004T193800Z_LANE_B_LANE_C_LAUNCH_HANDOFF_RESULT",
+    "20261004T193600Z_LANE_A_ABC_ACTIVATION_CHECKPOINT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "canonical_bus_branch": "bus/one-v2",
+    "canonical_bus_commit": "c5e710ccec404ef60a887d1ea7d4246431afd825",
+    "lane_c_bus": "bus/three-v2",
+    "lane_c_bus_head_observed_before_send": "08d11224f8ac3251ec05ee29a2b7a2f9e3f340b5",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c"
+  },
+  "resource_claims": [],
+  "write_paths": [],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "message_path": "messages/20261004-one-three-vera-blotter-mandatory-v1.md",
+    "required_c_ack_task_id": "LANE_C_BOOTSTRAP_V1",
+    "c_material_work_before_ack": "PROHIBITED"
+  },
+  "next_action": "Poll bus/three-v2 and shared blotter for Lane C bootstrap ACK before routing C1.",
+  "requires_peer_ack": true,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
