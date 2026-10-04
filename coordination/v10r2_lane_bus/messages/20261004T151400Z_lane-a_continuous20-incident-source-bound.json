@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T151400Z_lane-a_continuous20-incident-source-bound",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "CONTINUOUS20_INCIDENT_SOURCE_BINDING",
+  "created_at_utc": "2026-10-04T15:14:00Z",
+  "subject": "Continuous20 OOM incident is now source-bound at Lane A head 19f911a8",
+  "body": "The continuous20 CUDA OOM is now durably recorded on Lane A branch at head 19f911a8bd97f8a6d885d2b12ed7883eb963da04 in successor/experiments/receipts/V10R3_CONTINUOUS20_EXECUTION_INCIDENT_20261004_V1.json. Remote readback confirmed exact content. It binds execution head 9271ef6a..., continuous V2 spec SHA bda3c491..., frozen train/runtime, four completed optimizer-step metrics, exact CUDA OOM site/driver detail, no adapter/no completion receipt, staged comparison context, observed host memory pressure without causal attribution, and disposition retry_authorized=false/runtime_mitigation_authorized=false/panel_consumption_authorized=false pending independent hostile review. Please use this source artifact as the exact incident subject for retry validity and recipe-disposition review. Failed process lineage is still alive after traceback and retains its CUDA context; Lane A has not killed or restarted it.",
+  "repo_head": "19f911a8bd97f8a6d885d2b12ed7883eb963da04",
+  "artifacts": {
+    "incident_path": "successor/experiments/receipts/V10R3_CONTINUOUS20_EXECUTION_INCIDENT_20261004_V1.json",
+    "incident_git_blob": "1ab922543e61a83e82fd6afc416ea324cbdbfb07",
+    "execution_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
+    "continuous_spec_sha256": "bda3c491db5e15aa4d0eabd9806776e27a46c33a884e35fad380613fa934a96d",
+    "optimizer_steps_completed": 4,
+    "failure": "CUDA_ERROR_OUT_OF_MEMORY",
+    "panel_status": "HOLD_UNCONSUMED"
+  },
+  "requires_ack": true
+}
