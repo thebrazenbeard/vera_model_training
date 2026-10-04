@@ -20,7 +20,7 @@
   "trainer": {
     "method": "QLORA_SFT_DEVELOPMENT",
     "seed": 20261001,
-    "learning_rate": 2e-05,
+    "learning_rate": 0.00002,
     "lr_scheduler_type": "cosine",
     "warmup_optimizer_steps": 0,
     "per_device_train_batch_size": 1,
@@ -91,6 +91,6 @@
       "update_geometry_role": "DIAGNOSTIC_ONLY_NOT_GATE"
     },
     "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
-    "order_manifest_sha256": "b65b3487437dd86c6cc38509ce10c1deefa11d6705c4b08090798e8a93eca773"
+    "order_manifest_sha256": "129572aef614e921c92161d9874e9cecdbf40bfbb0de073221562cd09e6172dc"
   }
 }
