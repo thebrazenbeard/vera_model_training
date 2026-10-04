@@ -1,0 +1,163 @@
+{
+  "cases": [
+    {
+      "candidate_backend": {
+        "backend": "fla_triton_full",
+        "causal_conv_backend": "fla_triton",
+        "module_names": [
+          "layer.linear_attn"
+        ],
+        "patched_delta_modules": 1
+      },
+      "grad_input": {
+        "all_finite": true,
+        "cosine": 0.9999635815620422,
+        "diff_l2": 0.318779319524765,
+        "max_abs": 0.0078125,
+        "mean_abs": 0.0011494150385260582,
+        "ref_l2": 37.35751724243164,
+        "relative_l2": 0.008533204106045012
+      },
+      "output": {
+        "all_finite": true,
+        "cosine": 0.9999759197235107,
+        "diff_l2": 0.126093789935112,
+        "max_abs": 0.0029296875,
+        "mean_abs": 0.00044569821329787374,
+        "ref_l2": 18.15926742553711,
+        "relative_l2": 0.00694377074692937
+      },
+      "parameter_gradients": {
+        "conv1d.weight": {
+          "all_finite": true,
+          "cosine": 0.9999676942825317,
+          "diff_l2": 0.9012873768806458,
+          "max_abs": 0.078125,
+          "mean_abs": 0.0029278951697051525,
+          "ref_l2": 112.03844451904297,
+          "relative_l2": 0.008044447428288382
+        },
+        "in_proj_qkv.weight": {
+          "all_finite": true,
+          "cosine": 0.999965250492096,
+          "diff_l2": 23.552215576171875,
+          "max_abs": 0.1875,
+          "mean_abs": 0.0029981990810483694,
+          "ref_l2": 2819.38818359375,
+          "relative_l2": 0.008353661873602272
+        },
+        "out_proj.weight": {
+          "all_finite": true,
+          "cosine": 0.9999764561653137,
+          "diff_l2": 13.813796997070312,
+          "max_abs": 0.125,
+          "mean_abs": 0.0024906620383262634,
+          "ref_l2": 2009.932861328125,
+          "relative_l2": 0.00687276538577633
+        }
+      },
+      "reference_backend": {
+        "backend": "fla_triton",
+        "causal_conv_backend": "torch_reference",
+        "module_names": [
+          "layer.linear_attn"
+        ],
+        "patched_delta_modules": 1
+      },
+      "seq_len": 17
+    },
+    {
+      "candidate_backend": {
+        "backend": "fla_triton_full",
+        "causal_conv_backend": "fla_triton",
+        "module_names": [
+          "layer.linear_attn"
+        ],
+        "patched_delta_modules": 1
+      },
+      "grad_input": {
+        "all_finite": true,
+        "cosine": 0.9999679923057556,
+        "diff_l2": 0.608452320098877,
+        "max_abs": 0.00830078125,
+        "mean_abs": 0.0011218778090551496,
+        "ref_l2": 75.99141693115234,
+        "relative_l2": 0.008006855835444287
+      },
+      "output": {
+        "all_finite": true,
+        "cosine": 0.9999779462814331,
+        "diff_l2": 0.24600408971309662,
+        "max_abs": 0.0029296875,
+        "mean_abs": 0.00045076021342538297,
+        "ref_l2": 36.94454574584961,
+        "relative_l2": 0.006658739057327102
+      },
+      "parameter_gradients": {
+        "conv1d.weight": {
+          "all_finite": true,
+          "cosine": 0.9999725818634033,
+          "diff_l2": 1.698952317237854,
+          "max_abs": 0.109375,
+          "mean_abs": 0.0062386589124798775,
+          "ref_l2": 229.3720245361328,
+          "relative_l2": 0.007406972671029545
+        },
+        "in_proj_qkv.weight": {
+          "all_finite": true,
+          "cosine": 0.9999694228172302,
+          "diff_l2": 44.96039581298828,
+          "max_abs": 0.25,
+          "mean_abs": 0.006390509195625782,
+          "ref_l2": 5737.255859375,
+          "relative_l2": 0.007836568023983182
+        },
+        "out_proj.weight": {
+          "all_finite": true,
+          "cosine": 0.9999778270721436,
+          "diff_l2": 27.346887588500977,
+          "max_abs": 0.1875,
+          "mean_abs": 0.005516668315976858,
+          "ref_l2": 4104.49267578125,
+          "relative_l2": 0.00666267179616681
+        }
+      },
+      "reference_backend": {
+        "backend": "fla_triton",
+        "causal_conv_backend": "torch_reference",
+        "module_names": [
+          "layer.linear_attn"
+        ],
+        "patched_delta_modules": 1
+      },
+      "seq_len": 64
+    }
+  ],
+  "claim_ceiling": "SINGLE_MODULE_PARITY_ONLY_NOT_FULL_MODEL_OR_TRAINING_QUALIFICATION",
+  "cuda_runtime": "13.2",
+  "device": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "dtype": "torch.bfloat16",
+  "failures": [],
+  "schema": "V10R2_QWEN35_MODULE_CONV_BACKEND_PARITY_V1",
+  "seed": 20261004,
+  "status": "PASS",
+  "subject": {
+    "candidate_backend": "fla_triton_full",
+    "hidden_size": 2560,
+    "linear_conv_kernel_dim": 4,
+    "linear_key_head_dim": 128,
+    "linear_num_key_heads": 16,
+    "linear_num_value_heads": 32,
+    "linear_value_head_dim": 128,
+    "module": "Qwen3_5GatedDeltaNet",
+    "only_intended_difference": "causal_conv_backend",
+    "reference_backend": "fla_triton"
+  },
+  "thresholds": {
+    "gradient_cosine_min": 0.995,
+    "gradient_relative_l2_max": 0.03,
+    "output_cosine_min": 0.995,
+    "output_relative_l2_max": 0.02
+  },
+  "torch_version": "2.14.1+cu132"
+}

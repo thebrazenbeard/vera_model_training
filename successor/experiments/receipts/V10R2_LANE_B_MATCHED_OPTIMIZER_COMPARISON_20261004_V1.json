@@ -1,0 +1,148 @@
+{
+  "bnb8": {
+    "adapter_sha256": "3fee509b081617f30fa9ab59993f11431f304d12ecf5dfcf6bb13c69879b2a52",
+    "elapsed_seconds_observed": 84.199,
+    "optimizer": {
+      "backend": "bitsandbytes",
+      "class": "AdamW",
+      "is_paged": false,
+      "min_8bit_size": 4096,
+      "module": "bitsandbytes.optim.adamw",
+      "optim_bits": 8,
+      "wrapper_chain": []
+    },
+    "optimizer_state_all_finite": true,
+    "optimizer_state_mib": 16.632,
+    "peak_allocated_mib": 6416.383,
+    "peak_reserved_mib": 6798.0,
+    "receipt_sha256": "79f9668487f779b4893109cacd2f9da3a7626856919a7b726256738d720b05ab",
+    "train_runtime_seconds": 83.8441,
+    "training_loss": 1.9151004552841187,
+    "weight_delta": {
+      "all_finite": true,
+      "before_l2": 18.18631366441957,
+      "changed_elements": 4525581,
+      "delta_l2": 0.04258056115479975,
+      "delta_max_abs": 2.002716064453125e-05,
+      "delta_mean_abs": 1.1160575354523151e-05,
+      "relative_l2_to_before": 0.0023413519606288362,
+      "total_elements": 8116224
+    },
+    "weight_digest_after": "89ed362a8c0dd176f5050860c88f9b55dfd6ab945d58992401292a360d074ee6"
+  },
+  "comparison": {
+    "adapter_final_diff_l2": 0.003589996992453624,
+    "adapter_final_diff_max_abs": 4.00543212890625e-05,
+    "adapter_final_diff_mean_abs": 4.716075237355365e-08,
+    "bnb8_elapsed_speedup_vs_torchao": 1.6377391655482842,
+    "bnb8_runtime_speedup_vs_torchao": 1.6399054912629512,
+    "different_tensor_count": 236,
+    "element_count": 8116224,
+    "exact_tensor_count": 260,
+    "tensor_count": 496,
+    "torchao_minus_bnb8_optimizer_state_mib": -0.021000000000000796,
+    "torchao_minus_bnb8_peak_allocated_mib": 0.0039999999999054126,
+    "update_vector_cosine_from_norms": 0.9964459032472697,
+    "update_vector_difference_fraction_of_bnb8_l2": 0.08431070176370735
+  },
+  "date": "2026-10-04",
+  "disposition": {
+    "claim_ceiling": "DEVELOPMENT_RECIPE_SELECTION_ONLY / NOT FINAL BANK / NOT FULL_TRAINING_AUTHORITY",
+    "preferred_optimizer": "adamw_bnb_8bit",
+    "reason": "Matched BNB8 is ~1.64x faster with materially identical peak memory, nearly identical optimizer-state size, identical loss, and highly aligned update direction.",
+    "torchao_promotion": "REJECTED_FOR_CURRENT_DEVELOPMENT_RECIPE"
+  },
+  "matched_checks": {
+    "same_acceleration": true,
+    "same_development_window": true,
+    "same_runtime_binding": true,
+    "same_train_sha256": true,
+    "same_training_loss": true,
+    "same_weight_digest_before": true
+  },
+  "receipt_sha256": "d5f0bfd2574377f371986368483502caad373af468ba424306ee600d38fcdea4",
+  "role": "DEVELOPMENT_RECIPE_EVIDENCE_ONLY_NOT_FINAL_BANK",
+  "schema": "V10R2_LANE_B_MATCHED_OPTIMIZER_COMPARISON_V1",
+  "status": "MATCHED_ONE_STEP_COMPARISON_COMPLETE",
+  "subject": {
+    "acceleration": {
+      "backend": "fla_triton",
+      "causal_conv_backend": "torch_reference",
+      "module_names": [
+        "model.layers.0.linear_attn",
+        "model.layers.1.linear_attn",
+        "model.layers.2.linear_attn",
+        "model.layers.4.linear_attn",
+        "model.layers.5.linear_attn",
+        "model.layers.6.linear_attn",
+        "model.layers.8.linear_attn",
+        "model.layers.9.linear_attn",
+        "model.layers.10.linear_attn",
+        "model.layers.12.linear_attn",
+        "model.layers.13.linear_attn",
+        "model.layers.14.linear_attn",
+        "model.layers.16.linear_attn",
+        "model.layers.17.linear_attn",
+        "model.layers.18.linear_attn",
+        "model.layers.20.linear_attn",
+        "model.layers.21.linear_attn",
+        "model.layers.22.linear_attn",
+        "model.layers.24.linear_attn",
+        "model.layers.25.linear_attn",
+        "model.layers.26.linear_attn",
+        "model.layers.28.linear_attn",
+        "model.layers.29.linear_attn",
+        "model.layers.30.linear_attn"
+      ],
+      "patched_delta_modules": 24
+    },
+    "development_window": {
+      "row_count": 8,
+      "row_ids": [
+        "bound-train-row-4096",
+        "bound-train-row-4097",
+        "bound-train-row-4098",
+        "bound-train-row-4099",
+        "bound-train-row-4100",
+        "bound-train-row-4101",
+        "bound-train-row-4102",
+        "bound-train-row-4103"
+      ],
+      "start_row": 4096
+    },
+    "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd"
+  },
+  "torchao": {
+    "adapter_sha256": "21545a6a8f9c1b5284d8c0880a8815ff1d41877e9356c21977da38f35c9c2b58",
+    "elapsed_seconds_observed": 137.896,
+    "optimizer": {
+      "backend": "torchao",
+      "class": "AdamW8bit",
+      "is_paged": false,
+      "min_8bit_size": null,
+      "module": "torchao.optim.adam",
+      "optim_bits": 8,
+      "wrapper_chain": []
+    },
+    "optimizer_state_all_finite": true,
+    "optimizer_state_mib": 16.611,
+    "peak_allocated_mib": 6416.387,
+    "peak_reserved_mib": 6798.0,
+    "receipt_sha256": "10492a03404736354821720e3f06de4f2a6dde9eff914e93fb9505cac300d2e2",
+    "train_runtime_seconds": 137.4964,
+    "training_loss": 1.9151004552841187,
+    "weight_delta": {
+      "all_finite": true,
+      "before_l2": 18.18631366441957,
+      "changed_elements": 4525572,
+      "delta_l2": 0.04258116453649023,
+      "delta_max_abs": 2.002716064453125e-05,
+      "delta_mean_abs": 1.1160725155162478e-05,
+      "relative_l2_to_before": 0.0023413851384185527,
+      "total_elements": 8116224
+    },
+    "weight_digest_after": "ac1a28ed382dd593ea5d7951702e0666119e29ea2f749e31461a4554783641f9"
+  }
+}

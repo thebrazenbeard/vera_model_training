@@ -1,0 +1,17 @@
+{
+  "backend_attempt": "FLA_GATED_DELTA_PLUS_FLA_CAUSAL_CONV",
+  "date": "2026-10-03",
+  "effect": "NONMUTATING_WHOLE_MODEL_PROBE",
+  "error": "'tuple' object has no attribute 'transpose'",
+  "error_type": "AttributeError",
+  "failure_site": "Qwen3_5GatedDeltaNet.forward after causal_conv1d_fn return",
+  "optimizer_created": false,
+  "output_artifacts_written": false,
+  "receipt_sha256": "4aedcfb4c1bfa30f4638748f460141f1c20ef1ccbffff87b55fc226ef084f578",
+  "resolution": "Use FLA gated-delta kernels only; retain Qwen/Torch causal convolution.",
+  "root_cause": "fla.modules.convolution.causal_conv1d return contract does not match Transformers Qwen3.5 causal_conv1d_fn expectation",
+  "rows": "4096-4103",
+  "schema": "V10R2_LANE_B_RUNTIME_FAILURE_RECEIPT_V1",
+  "status": "FAILED_BEFORE_BACKWARD_NO_WEIGHT_CHANGE",
+  "weight_change": false
+}

@@ -1,0 +1,201 @@
+{
+  "acceleration": {
+    "backend": "fla_triton",
+    "causal_conv_backend": "torch_reference",
+    "module_names": [
+      "model.layers.0.linear_attn",
+      "model.layers.1.linear_attn",
+      "model.layers.2.linear_attn",
+      "model.layers.4.linear_attn",
+      "model.layers.5.linear_attn",
+      "model.layers.6.linear_attn",
+      "model.layers.8.linear_attn",
+      "model.layers.9.linear_attn",
+      "model.layers.10.linear_attn",
+      "model.layers.12.linear_attn",
+      "model.layers.13.linear_attn",
+      "model.layers.14.linear_attn",
+      "model.layers.16.linear_attn",
+      "model.layers.17.linear_attn",
+      "model.layers.18.linear_attn",
+      "model.layers.20.linear_attn",
+      "model.layers.21.linear_attn",
+      "model.layers.22.linear_attn",
+      "model.layers.24.linear_attn",
+      "model.layers.25.linear_attn",
+      "model.layers.26.linear_attn",
+      "model.layers.28.linear_attn",
+      "model.layers.29.linear_attn",
+      "model.layers.30.linear_attn"
+    ],
+    "patched_delta_modules": 24
+  },
+  "adapter_artifacts": {
+    "files": {
+      "README.md": "d0c0f06a7f972eb59202aab1aa88b73ecc62e1d95175f083a2980b2536da05d6",
+      "adapter_config.json": "452e1b3def022709251b5df4b2878e3119ae74e55bf37b322130ddbd771dc570",
+      "adapter_model.safetensors": "21545a6a8f9c1b5284d8c0880a8815ff1d41877e9356c21977da38f35c9c2b58"
+    },
+    "manifest_sha256": "797502be7a3f533f0add5468023defef512573f7a14557209d40259cae27c08f"
+  },
+  "base_topology": {
+    "full_attention": 8,
+    "layers": 32,
+    "linear_attention": 24,
+    "module_counts": {
+      "in_proj_a": 24,
+      "in_proj_b": 24,
+      "in_proj_qkv": 24,
+      "in_proj_z": 24,
+      "k_proj": 8,
+      "o_proj": 8,
+      "q_proj": 8,
+      "v_proj": 8
+    }
+  },
+  "claim_ceiling": "LOCAL_LANE_B_ACCELERATED_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED",
+  "cumulative_optimizer_steps": 1,
+  "deployment_status": "NOT_DEPLOYED",
+  "development_window": {
+    "row_count": 8,
+    "row_ids": [
+      "bound-train-row-4096",
+      "bound-train-row-4097",
+      "bound-train-row-4098",
+      "bound-train-row-4099",
+      "bound-train-row-4100",
+      "bound-train-row-4101",
+      "bound-train-row-4102",
+      "bound-train-row-4103"
+    ],
+    "start_row": 4096
+  },
+  "effect": "ONE_LOCAL_TORCHAO_ADAMW_8BIT_OPTIMIZER_STEP",
+  "elapsed_seconds_observed": 137.896,
+  "gpu_memory_after": {
+    "allocated_mib": 4241.305,
+    "peak_allocated_mib": 6416.387,
+    "peak_reserved_mib": 6798.0,
+    "reserved_mib": 6798.0
+  },
+  "gpu_memory_before": {
+    "allocated_mib": 4208.129,
+    "reserved_mib": 5578.0
+  },
+  "live_runtime": {
+    "base_artifacts": {
+      "model.safetensors-00001-of-00002.safetensors": "36dd0f7de62c546e7d163c2a4461208d731fad91ebea9bc31226b54c1c86511f",
+      "model.safetensors-00002-of-00002.safetensors": "e2fb50b735a8e10210eece763097f906955ca9db6ba557215f549a46b622157f",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+    },
+    "cuda_runtime": "13.2",
+    "driver": "616.92",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "packages": {
+      "accelerate": "1.14.0",
+      "bitsandbytes": "0.50.2",
+      "chardet": "5.2.0",
+      "datasets": "5.0.0",
+      "fla-core": "0.5.2",
+      "flash-linear-attention": "0.5.2",
+      "huggingface_hub": "1.33.0",
+      "jinja2": "3.1.6",
+      "numpy": "2.5.2",
+      "peft": "0.19.1",
+      "requests": "2.34.2",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.22.2",
+      "torch": "2.14.1+cu132",
+      "torchao": "0.18.0",
+      "transformers": "5.14.1",
+      "triton-windows": "3.8.0.post29",
+      "trl": "1.9.0"
+    },
+    "python_version": "3.13.5",
+    "vram_mib": 4095
+  },
+  "live_runtime_check": {
+    "binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "schema": "V10_QWEN35_LIVE_RUNTIME_CHECK_V1",
+    "status": "PASS",
+    "vram_delta_mib": 1
+  },
+  "lora_coverage": {
+    "families": {
+      "linear_attn": 120,
+      "mlp": 96,
+      "self_attn": 32
+    },
+    "status": "PASS",
+    "targeted_module_count": 248
+  },
+  "merge_status": "NOT_MERGED",
+  "optimizer": {
+    "backend": "torchao",
+    "class": "AdamW8bit",
+    "is_paged": false,
+    "min_8bit_size": null,
+    "module": "torchao.optim.adam",
+    "optim_bits": 8,
+    "wrapper_chain": []
+  },
+  "optimizer_state": {
+    "all_floating_state_finite": true,
+    "floating_state_tensor_count": 2384,
+    "nonfinite_state_tensor_count": 0,
+    "state_object_count": 1488,
+    "state_tensor_bytes": 17417664,
+    "state_tensor_count": 3280,
+    "state_tensor_devices": {
+      "cpu": 496,
+      "cuda:0": 2784
+    },
+    "state_tensor_dtypes": {
+      "torch.bfloat16": 96,
+      "torch.float32": 2288,
+      "torch.uint8": 896
+    },
+    "state_tensor_mib": 16.611
+  },
+  "paid_compute": false,
+  "qualification_status": "NOT_EXTERNALLY_EVALUATED",
+  "receipt_sha256": "10492a03404736354821720e3f06de4f2a6dde9eff914e93fb9505cac300d2e2",
+  "resume_adapter": null,
+  "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+  "schema": "V10R2_QWEN35_DEV_TRAINING_RECEIPT_V1",
+  "source_parent_revision": "004a0a04ce841c54238c5fc7adc6180fb683ed02",
+  "spec_sha256": "8701e6e39c694a56e46719a0858ef62c33244389a85e1e5f9b696e0acbc36441",
+  "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+  "token_budget": {
+    "max_length": 512,
+    "max_tokens": 302,
+    "min_tokens": 82,
+    "over_budget": 0,
+    "rows": 8
+  },
+  "train_metrics": {
+    "epoch": 1.0,
+    "total_flos": 38365120727040.0,
+    "train_loss": 1.9151004552841187,
+    "train_runtime": 137.4964,
+    "train_samples_per_second": 0.058,
+    "train_steps_per_second": 0.007
+  },
+  "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+  "trainable_parameter_count": 8116224,
+  "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+  "training_loss": 1.9151004552841187,
+  "weight_delta": {
+    "all_finite": true,
+    "before_l2": 18.18631366441957,
+    "changed_elements": 4525572,
+    "delta_l2": 0.04258116453649023,
+    "delta_max_abs": 2.002716064453125e-05,
+    "delta_mean_abs": 1.1160725155162478e-05,
+    "relative_l2_to_before": 0.0023413851384185527,
+    "total_elements": 8116224
+  },
+  "weight_digest_after": "ac1a28ed382dd593ea5d7951702e0666119e29ea2f749e31461a4554783641f9",
+  "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+  "weight_digest_changed": true
+}
