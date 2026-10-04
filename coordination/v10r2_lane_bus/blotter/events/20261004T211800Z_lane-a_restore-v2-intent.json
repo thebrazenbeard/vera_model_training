@@ -1,0 +1,34 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T211800Z_LANE_A_RESTORE_V2_INTENT",
+  "created_at_utc": "2026-10-04T21:18:00Z",
+  "lane": "LANE_A",
+  "event_type": "INTENT",
+  "task_id": "LANE_A_TRAINING_CONTINUATION_20261004_V2",
+  "summary": "Restore V2; reconcile R2 fixes and rerun live gate before any GPU launch.",
+  "observed_peer_event_id": "20261004T210600Z_LANE_B_CHAT_CONTINUATION_V12_RESULT",
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "continuation_head": "97aa3da2548ce6d27b87fafbf51c323588ff5587",
+    "r2_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c"
+  },
+  "resource_claims": [
+    "CPU_SOURCE_ONLY",
+    "GPU_LEASE_HELD_NO_LAUNCH"
+  ],
+  "write_paths": [
+    "isolated_lane_a_source",
+    "coordination/v10r2_lane_bus/blotter/events/20261004T211800Z_lane-a_restore-v2-intent.json"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "r2_attempt_consumed": false,
+    "latest_memory_hold_gib": 4.968,
+    "gpu_mib": 0
+  },
+  "next_action": "Run live R2 host gate; integrate reviewed fixes if still held.",
+  "requires_peer_ack": false,
+  "review_owner": "LANE_B"
+}
