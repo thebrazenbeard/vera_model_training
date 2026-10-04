@@ -109,3 +109,61 @@ def test_durable_process_rejects_invalid_metadata_json(tmp_path: Path) -> None:
                 "print('x')",
             ]
         )
+
+
+def test_durable_process_reads_optimizer_progress_from_stderr(tmp_path: Path) -> None:
+    log_dir = tmp_path / "logs"
+    metadata = {
+        "repo_head": "a" * 40,
+        "spec_path": "successor/experiments/example.json",
+        "spec_sha256": "b" * 64,
+        "runtime_binding_sha256": "c" * 64,
+    }
+    code = (
+        "import sys,time;"
+        "print(' 15%|x| 3/20', file=sys.stderr, flush=True);"
+        "time.sleep(0.08);"
+        "print(' 20%|x| 4/20', file=sys.stderr, flush=True);"
+    )
+
+    rc = run_durable_process(
+        [
+            "--log-dir",
+            str(log_dir),
+            "--watch-seconds",
+            "0.04",
+            "--expected-optimizer-steps",
+            "20",
+            "--metadata-json",
+            json.dumps(metadata),
+            "--",
+            sys.executable,
+            "-c",
+            code,
+        ]
+    )
+
+    assert rc == 0
+    final = json.loads((log_dir / "final.json").read_text(encoding="utf-8"))
+    assert final["latest_optimizer_step"] == 4
+
+
+def test_durable_process_requires_bound_launch_metadata(tmp_path: Path) -> None:
+    incomplete = {
+        "repo_head": "a" * 40,
+        "spec_path": "successor/experiments/example.json",
+    }
+
+    with pytest.raises(DurableProcessHold, match="required metadata"):
+        run_durable_process(
+            [
+                "--log-dir",
+                str(tmp_path / "logs"),
+                "--metadata-json",
+                json.dumps(incomplete),
+                "--",
+                sys.executable,
+                "-c",
+                "print('x')",
+            ]
+        )

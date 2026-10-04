@@ -71,21 +71,25 @@ def _gpu_probe() -> dict:
 
 
 def _latest_optimizer_step(
-    stdout_path: Path,
+    paths: Sequence[Path],
     expected_optimizer_steps: int | None,
 ) -> int | None:
-    if expected_optimizer_steps is None or not stdout_path.exists():
+    if expected_optimizer_steps is None:
         return None
-    try:
-        text = stdout_path.read_bytes().decode("utf-8", errors="replace")
-    except OSError:
-        return None
-    observed = [
-        int(step)
-        for step, total in _PROGRESS.findall(text)
-        if int(total) == expected_optimizer_steps
-        and 0 <= int(step) <= expected_optimizer_steps
-    ]
+    observed: list[int] = []
+    for path in paths:
+        if not path.exists():
+            continue
+        try:
+            text = path.read_bytes().decode("utf-8", errors="replace")
+        except OSError:
+            continue
+        observed.extend(
+            int(step)
+            for step, total in _PROGRESS.findall(text)
+            if int(total) == expected_optimizer_steps
+            and 0 <= int(step) <= expected_optimizer_steps
+        )
     return max(observed) if observed else None
 
 
@@ -124,6 +128,22 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
     log_dir = args.log_dir
     if log_dir.exists():
         raise DurableProcessHold(f"log namespace already exists:{log_dir}")
+    required_metadata = (
+        "repo_head",
+        "spec_path",
+        "spec_sha256",
+        "runtime_binding_sha256",
+    )
+    missing = [
+        key
+        for key in required_metadata
+        if not isinstance(args.metadata.get(key), str)
+        or not args.metadata[key].strip()
+    ]
+    if missing:
+        raise DurableProcessHold(
+            "required metadata missing or invalid:" + ",".join(missing)
+        )
     log_dir.mkdir(parents=True, exist_ok=False)
 
     cwd = args.cwd.resolve() if args.cwd is not None else Path.cwd().resolve()
@@ -170,7 +190,7 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
                     "pid": child.pid,
                     "returncode": returncode,
                     "latest_optimizer_step": _latest_optimizer_step(
-                        stdout_path,
+                        (stdout_path, stderr_path),
                         args.expected_optimizer_steps,
                     ),
                     "stdout_bytes": stdout_path.stat().st_size,
@@ -196,7 +216,7 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
         "exit_code": returncode,
         "signal": -returncode if returncode < 0 else None,
         "latest_optimizer_step": _latest_optimizer_step(
-            stdout_path,
+            (stdout_path, stderr_path),
             args.expected_optimizer_steps,
         ),
         "metadata": args.metadata,
