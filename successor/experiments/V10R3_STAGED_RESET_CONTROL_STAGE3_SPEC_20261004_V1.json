@@ -1,0 +1,106 @@
+{
+  "schema": "V10R2_QWEN35_DEV_TRAINING_SPEC_V1",
+  "date": "2026-10-04",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false
+  },
+  "source_subject": {
+    "parent_revision": "37c58ec6dc0f8b2d1278a9120209198131746e88",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_rows": 50000,
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224"
+  },
+  "trainer": {
+    "method": "QLORA_SFT_DEVELOPMENT",
+    "seed": 20261001,
+    "learning_rate": 2e-05,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 0,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "optimizer": "adamw_bnb_8bit",
+    "completion_only_loss": true,
+    "packing": false,
+    "shuffle_dataset": false,
+    "train_sampling_strategy": "sequential",
+    "gradient_checkpointing": true,
+    "bf16": true,
+    "tf32": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "logging_steps": 1,
+    "save_strategy": "no",
+    "eval_strategy": "no",
+    "report_to": "none",
+    "max_optimizer_steps": 8
+  },
+  "quantization": {
+    "load_in_4bit": true,
+    "type": "nf4",
+    "double_quant": true,
+    "compute_dtype": "bfloat16"
+  },
+  "lora": {
+    "r": 4,
+    "alpha": 16,
+    "dropout": 0,
+    "target_modules": "all-linear",
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "model_load": {
+    "device_map": {
+      "": 0
+    },
+    "dtype": "bfloat16",
+    "use_cache": false,
+    "prepare_model_for_kbit_training_use_gradient_checkpointing": true
+  },
+  "qualification": {
+    "external_final_bank_required_for_qualification": true,
+    "development_training_may_precede_external_qualification": true,
+    "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
+  },
+  "experiment_class": "STAGED_RESET_RECIPE_SEMANTICS_CONTROL",
+  "development_window": {
+    "start_row": 96,
+    "row_count": 64
+  },
+  "output": {
+    "namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step20-20261004",
+    "save_final_adapter": true,
+    "overwrite_forbidden": true
+  },
+  "comparison": {
+    "role": "STAGED_RESET_RECIPE_SEMANTICS_CONTROL_STAGE3",
+    "exact_order": "NATURAL_SEQUENTIAL",
+    "stage_rows": "96-159",
+    "full_matched_order_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
+    "order_manifest_sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
+    "source_receipt_sha256": "f6087b6c8d1a9b596c69c402fe2078e03529e9607ec103b7751c2b565083f74b",
+    "source_adapter_sha256": "5dfba71ed8ff7820a58c4894c4e2640497cec99092b921536f9d8d6117c921b3",
+    "source_spec_sha256": "cafcfd98e2b584d72d8165b217ddc368bb7ae686b0132190793a298b2c240b5e",
+    "source_git_head": "2b886e4c94482171d5e882797301ea2d32e044e4",
+    "terminal_stage": true
+  },
+  "resume_adapter": {
+    "path": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step12-20261004\\adapter",
+    "adapter_model_sha256": "5dfba71ed8ff7820a58c4894c4e2640497cec99092b921536f9d8d6117c921b3",
+    "source_receipt_path": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step12-20261004\\DEV_TRAINING_COMPLETE.json",
+    "source_receipt_sha256": "f6087b6c8d1a9b596c69c402fe2078e03529e9607ec103b7751c2b565083f74b",
+    "source_spec_path": "successor/experiments/V10R3_STAGED_RESET_CONTROL_STAGE2_SPEC_20261004_V1.json",
+    "source_spec_sha256": "cafcfd98e2b584d72d8165b217ddc368bb7ae686b0132190793a298b2c240b5e",
+    "source_weight_digest_after": "150550ffd336c7e7907a46110ce037d7c5dc43d14ac20c026db76d578a2283c5",
+    "previous_optimizer_steps": 8,
+    "source_cumulative_optimizer_steps": 12,
+    "next_train_row": 96
+  }
+}
