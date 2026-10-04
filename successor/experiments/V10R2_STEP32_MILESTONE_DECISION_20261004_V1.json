@@ -1,0 +1,59 @@
+{
+  "anchor16": {
+    "file": "V10R2_HELDOUT_STEP28_STEP32_ANCHOR16_20261004_V1.json",
+    "file_sha256": "3200390f0ee7fcd78fd1818391ef13cba2351bdefbed778ba4b5986e5f6f9860",
+    "mean_case_loss_delta_step32_minus_step28": -0.03925706818699837,
+    "step28_case_wins": 1,
+    "step28_nll": 1.5563627928495407,
+    "step28_ppl": 4.741543866227602,
+    "step32_case_wins": 15,
+    "step32_nll": 1.5310733438385606,
+    "step32_ppl": 4.623136375113963,
+    "ties": 0
+  },
+  "claim_ceiling": "DEVELOPMENT_CHECKPOINT_SELECTION_ONLY / NOT FINAL_BANK / NOT FULL_TRAINING_AUTHORITY",
+  "combined": {
+    "sample_count": 64,
+    "step28_case_wins": 4,
+    "step32_case_wins": 60,
+    "ties": 0
+  },
+  "combined_record_ids_sha256": "65b52fc5e35b9a821118a7704541aa31b91e7dc765bf80cf526b927b2715ba99",
+  "confirm48": {
+    "file": "V10R2_HELDOUT_STEP28_STEP32_CONFIRM48_20261004_V1.json",
+    "file_sha256": "2197c7bb94b3933fa4d5743e58996beaa9fe8540d8a49e1de630b81f692a3759",
+    "mean_case_loss_delta_step32_minus_step28": -0.035477646199675895,
+    "step28_case_wins": 3,
+    "step28_nll": 1.3802145927188936,
+    "step28_ppl": 3.9757547039710532,
+    "step32_case_wins": 45,
+    "step32_nll": 1.3530965076919488,
+    "step32_ppl": 3.869388590818898,
+    "ties": 0
+  },
+  "decision": "KEEP_STEP32_AS_CURRENT_CONSERVATIVE_LANE_A_CHECKPOINT",
+  "duplicate_evaluator_incident": {
+    "result_provenance": "ONLY_ORIGINAL_RUN_OUTPUT_ACCEPTED",
+    "status": "RESOLVED_FAIL_CLOSED",
+    "terminated_duplicate": "LATER_STARTED_2026-10-04T02:23:42_LOCAL",
+    "trusted_run": "ORIGINAL_STARTED_2026-10-04T02:22:47_LOCAL",
+    "weight_mutation": false
+  },
+  "lane_a_head_before_decision": "4bb63495f2e02bb98e8cb8ec838418bc05388933",
+  "next_gpu_action": "RELEASE_TO_LANE_B_LIGER_MICRO_PARITY_NONMUTATING_ONLY",
+  "optimizer": "adamw_bnb_8bit",
+  "paged": false,
+  "panel_manifest_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
+  "role": "DEVELOPMENT_RECIPE_SELECTION_ONLY_NOT_FINAL_BANK",
+  "schema": "V10R2_STEP32_MILESTONE_DECISION_V1",
+  "status": "STEP32_SURVIVES_64_CASE_MILESTONE",
+  "step32_adapter_sha256": "2c0c725c7b6136f3d28cc4e8565bb8a9bf1e55f139d06fd49f9a1286fe54a39f",
+  "step32_cumulative_optimizer_steps": 32,
+  "step32_receipt": "V10R2_QWEN35_CONT28_PLUS4_STEP32_DEV_TRAINING_RECEIPT_20261004_V1.json",
+  "step32_receipt_file_sha256": "8ec6364564553cc7da8f289a3d015b043b329a530934976a55448b28679c1bbe",
+  "step32_receipt_sha256": "7994c23f1195dbba1998068132b1a20f9c09e23b56cc869d3b6c656db53784c7",
+  "step32_spec_sha256": "b203ba2b411fc106178a7c2b7944dfc557fcb9ad2af958b9d5dea35c518739ce",
+  "step32_training_loss": 1.3143261671066284,
+  "step32_training_runtime_seconds": 562.5823,
+  "step32_weight_digest_after": "e21dd932774c8a744f69741ae470fbbed532c4c44a7fae474e98211c8436c560"
+}
