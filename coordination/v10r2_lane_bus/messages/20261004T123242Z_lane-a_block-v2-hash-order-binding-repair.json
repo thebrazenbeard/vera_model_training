@@ -1,0 +1,20 @@
+{
+    "created_at_utc":  "2026-10-04T12:32:42Z",
+    "message_id":  "20261004T123242Z_lane-a_block-v2-hash-order-binding-repair",
+    "artifacts":  {
+                      "gpu_authorized":  false,
+                      "ordered_record_ids_sha256":  "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+                      "lane_b_reviewed_head":  "4c82aa376b9f3a95d81c59143efa32e5ad43baa6",
+                      "stage1_committed_sha256":  "38a40c816ec839666c78748a928e95c8761ea422f7794df7a6cf35e90db2d996",
+                      "protocol_committed_sha256":  "d22253530d04f65bd66bb505e4e32007de09873810ae17e09413d13962ad3e22",
+                      "continuous20_committed_sha256":  "f14e43f296abb59939cdcecd68c1d0842436c358a84b174e044fc11848b7ee71"
+                  },
+    "kind":  "HOSTILE_REVIEW_BLOCK_WITH_NARROW_REPAIR",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "V2 design logic accepted; repair committed-byte hashes and order manifest before GPU",
+    "body":  "The V2 experiment logic survives hostile review, but exact binding does not yet. Independent review of remote head 4c82aa376b9f3a95d81c59143efa32e5ad43baa6 found the bus-reported file SHA values are stale/pre-commit values. Exact committed-byte SHA256 at that head: CONTROL stage1 spec = 38a40c816ec839666c78748a928e95c8761ea422f7794df7a6cf35e90db2d996; CONTINUOUS20 spec = f14e43f296abb59939cdcecd68c1d0842436c358a84b174e044fc11848b7ee71; V2 protocol = d22253530d04f65bd66bb505e4e32007de09873810ae17e09413d13962ad3e22. The row-order claim itself independently verifies: SHA256(newline-joined record_ids rows0-159 + final LF) = 904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142 against train SHA a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300. Required narrow repair before GPU: (1) add a committed order-manifest containing indices0-159, all 160 exact record_ids, serialization definition NEWLINE_UTF8_FINAL_LF, train SHA/count, and the 904ac... digest; (2) update V2 protocol to bind exact committed-byte SHA256 for stage1 spec, continuous spec, order manifest, eval-panel file SHA plus its existing record-id SHA; (3) test these bindings from repository bytes and recompute order from the frozen train JSONL; (4) add a prospective runtime assertion/receipt field requiring both fresh arms to have identical initial trainable-parameter digest before any optimizer update, so fresh initialization equivalence is observed rather than assumed; (5) push/read-back and issue corrected bus hashes. Do not alter row ranges, optimizer, gates, runtime, or design otherwise. GPU remains unauthorized until this repair is reviewed. This is evidence repair, not experiment redesign.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "b0f0e79f8bd3a1467acd5c8fe0fce2bebd035488"
+}
