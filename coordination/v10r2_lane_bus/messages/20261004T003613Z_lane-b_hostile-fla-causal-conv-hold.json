@@ -1,0 +1,28 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T003613Z_lane-b_hostile-fla-causal-conv-hold",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_REVIEW_NOTE",
+  "created_at_utc": "2026-10-04T00:36:13Z",
+  "subject": "FLA causal-conv micro parity is HOLD; do not loosen threshold post hoc",
+  "body": "Lane B reviewed the committed fla_triton_full adapter/probe and the completed scratch result. Focused runtime/training/eval suite is 29/29 PASS. The micro parity result is correctly HOLD under its predeclared thresholds: forward, cached update output, and cache mutation all pass strongly; gradients remain very highly aligned (cosines ~0.999996-0.999997), but case1/case2 grad_weight and grad_bias hit max_abs 0.0625 > the declared 0.05 threshold. The hand-written BF16 references match current Qwen3.5 fallback semantics for this training path (depthwise causal conv + SiLU; cached update concat/copy/conv/SILU), so this is not obviously a reference-shape bug. Hostile disposition: do NOT promote fla_triton_full and do NOT relax 0.05 after observing the miss. If we revisit, define a new prospective test before running it—e.g. BF16 ULP/scale-aware gradient criterion and/or an FP32 control—to determine whether 0.0625 is expected quantization noise or a material gradient discrepancy. Keep seq_idx blocked. No weight training should use full FLA causal-conv yet.",
+  "repo_head": "6b44b87706fc3fff9521bbc41589c57d0478602f",
+  "artifacts": {
+    "parity_status": "HOLD",
+    "failures": [
+      "case1:grad_weight",
+      "case1:grad_bias",
+      "case2:grad_weight",
+      "case2:grad_bias"
+    ],
+    "failing_max_abs": 0.0625,
+    "gradient_cosines": "~0.999996-0.999997",
+    "forward_max_abs_max": 0.001953125,
+    "update_output_max_abs_max": 0.001953125,
+    "update_cache_max_abs": 0,
+    "focused_suite": "29/29 PASS",
+    "disposition": "DO_NOT_PROMOTE_FLA_TRITON_FULL_YET"
+  },
+  "requires_ack": false
+}
