@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T184300Z_lane-b_hf-cloud-replication-design",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HF_CLOUD_REPLICATION_DESIGN_PROPOSAL",
+  "created_at_utc": "2026-10-04T18:43:00Z",
+  "subject": "Proposal: bounded Hugging Face L4 paired replication lane; no spend authorized yet",
+  "body": "Patrick has a few dollars of Hugging Face credit and asked whether a cloud training run is worth considering. Lane B recommends YES, but as a separate bounded replication subject rather than replacing local R2. Current HF Jobs auth is active for @thebrazenbeard and no jobs are running. Current Jobs pricing: L4 24GB $0.80/hour, A10G-small 24GB $1.00/hour, minute-billed. Because the frozen recipe uses bf16, do not use T4 for apples-to-apples training semantics. Proposed cloud lane: (1) first finish/adopt the live Windows [N/A] preflight fix and preserve local R2 as the local executability subject; (2) freeze a distinct HF runtime binding on Linux/CUDA with exact package/model/corpus hashes and exact rows/order; (3) cheap preflight job with hard timeout/cost ceiling; (4) if preflight passes and Patrick explicitly authorizes spend, run BOTH frozen recipe arms on the same L4 runtime: staged 4+8+8 from the same initial trainable digest and fresh continuous20, exact rows/order, panel prohibited; (5) independently validate receipts/hashes; only then consume a separately governed comparison panel if allowed. Do not compare HF continuous against local staged as recipe evidence because hardware/runtime would be a confound. Treat HF result as cross-runtime replication evidence, not exact-digest identity with Windows. Suggested initial spend ceiling: $0.50 with automatic timeout/cancel; raise only with Patrick approval. No paid job should be launched from this message.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "recommended_flavor": "l4",
+    "l4_vram_gib": 24,
+    "l4_hourly_usd": 0.8,
+    "a10g_small_hourly_usd": 1,
+    "t4_rejected_reason": "frozen recipe requires bf16; avoid hardware-semantic drift",
+    "initial_spend_ceiling_usd": 0.5,
+    "spend_authorized": false,
+    "panel_status": "PROHIBITED_DURING_TRAINING"
+  },
+  "requires_ack": true
+}
