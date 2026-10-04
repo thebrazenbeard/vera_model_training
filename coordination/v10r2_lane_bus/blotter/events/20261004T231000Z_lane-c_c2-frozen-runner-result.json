@@ -1,0 +1,59 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T231000Z_LANE_C_C2_FROZEN_RUNNER_RESULT",
+  "created_at_utc": "2026-10-04T23:10:00Z",
+  "lane": "LANE_C",
+  "event_type": "RESULT",
+  "task_id": "C2_NOVEL_TASK_FROZEN_RUNNER_V1",
+  "summary": "Lane C froze and remote-read a CPU-only C2 prompt-pack/scoring runner. It emits 280 prompts across five conditions, excludes answer/rule fields from the prompt pack, scores externally supplied predictions, and self-tests acquisition/control metric wiring without performing model inference.",
+  "observed_peer_event_ids": [
+    "20261004T230500Z_LANE_B_C1_VALIDATION_FIX_REVIEW_RESULT",
+    "20261004T224111Z_LANE_A_R2_GPU_LEASE_REBIND_CHECKPOINT",
+    "20261004T225500Z_LANE_C_C2_HARNESS_RESULT"
+  ],
+  "observed_gpu_lease_sha": "LEASE_HELD_BY_LANE_A_AT_B5F5EE8",
+  "source_subject": {
+    "repository": "thebrazenbeard/vera_model_training",
+    "branch": "work/lane-c-novel-task-learning-20261004-v1",
+    "head": "6407f7235024eae8a140fb488c5f475383d246fa",
+    "runner_blob": "333d13fb881da8e2f629e4ec9386f0b08fe40c0e",
+    "prompt_pack_blob": "5c43816d930dd5b2d7f720069c97c188aa228f8e",
+    "contract_blob": "86939ef0f9f25de7387f70c45a8e92b1933d1ac4",
+    "selftest_blob": "cd36381fd50cc47f412284834e9eb4456bcd7ea9",
+    "pytest_blob": "6965a48b22e61050d9f396133a6e369daf34a11d",
+    "prompt_pack_sha256": "c68a5bd1e92e493ab04eff79b15fb020958fcef266c4898c5d3bcdedb1cd5260",
+    "scoring_contract_sha256": "ba38ce9b03c285b60c8ee53e27dc0990698db1bb49719e5c17ef0ac90fcea036"
+  },
+  "resource_claims": ["LANE_C_CPU_PROMPT_SCORING_RUNNER","NO_GPU","NO_MODEL_INFERENCE","NO_PROTECTED_EVAL"],
+  "write_paths": [
+    "work/lane-c-novel-task-learning-20261004-v1:artifacts/lane-c/c2_frozen_prompt_runner.py",
+    "work/lane-c-novel-task-learning-20261004-v1:artifacts/lane-c/C2_NOVEL_TASK_PROMPT_PACK_V1.jsonl",
+    "work/lane-c-novel-task-learning-20261004-v1:artifacts/lane-c/C2_NOVEL_TASK_SCORING_CONTRACT_V1.json",
+    "work/lane-c-novel-task-learning-20261004-v1:artifacts/lane-c/C2_NOVEL_TASK_FROZEN_RUNNER_SELFTEST_V1.json",
+    "work/lane-c-novel-task-learning-20261004-v1:tests/test_c2_frozen_prompt_runner.py"
+  ],
+  "effects": ["cpu_only_data_derivation","source_write_or_commit","test_or_eval_completion","task_terminal_state"],
+  "evidence": {
+    "prompts": 280,
+    "conditions": ["zero_shot","support_full","shuffled_labels","irrelevant_memory","familiar_lookalike"],
+    "prompt_pack_answer_leak_absent": true,
+    "selftest_status": "PASS",
+    "postcommit_pytest": "1 passed, 1 warning",
+    "project_runner_build_task_id": "c551329aac344f49971895cab7eb58d3",
+    "project_runner_patch_task_id": "74b83ed120154b2eaea23f63dec339c4",
+    "project_runner_rebuild_task_id": "673784b5c3df4878abf41516565fd3fb",
+    "project_runner_postcommit_test_task_id": "1ed6f646fb7343febad60bb9f0a54eb5",
+    "project_runner_freeze_task_id": "b91d05dd1e2843169f233a3d414fece1",
+    "remote_head_matches": true,
+    "model_inference": false,
+    "shared_gpu_use": false,
+    "weight_change": false,
+    "paid_compute": false,
+    "protected_eval_consumed": false,
+    "interpretation_limit": "Self-test/oracle/blank/synthetic metrics validate scorer wiring only; they are not evidence of model novel-task performance."
+  },
+  "next_action": "Lane B hostile-reviews exact head 6407f7235024eae8a140fb488c5f475383d246fa for prompt leakage, scoring semantics, and false-novelty confounds. Lane A may consume only after review. Lane C immediately repairs the separate C1 validation receipt provenance model per B RESULT 20261004T230500Z.",
+  "requires_peer_ack": true,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
