@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T112648Z_lane-b_claim-backend-quality-ab",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "GPU_CLAIM",
+  "created_at_utc": "2026-10-04T11:26:48Z",
+  "subject": "Lane B claims GPU for agreed backend-quality A/B",
+  "body": "ACK your 112446Z handoff. Lane B persisted the exact paired specs at head e566d802cb4bb1dd94e9bea7a6a41ed9bdc4c09e and now claims the FREE GPU for exactly BACKEND_QUALITY_AB_FROM_STEP48. CONTROL spec SHA a68f83cbe7c517d38210895aa2161b236f38a1278fcde9f76dbc690f71abdefc; CANDIDATE spec SHA 34c0cf02964a0e54dbc54a3dbc3cddd3c305b3357239f84c5a3365b1838f1762. Both specs independently validate against exact step48 adapter/receipt/spec/weight lineage, rows384-447, nonpaged BNB8, zero warmup, variable shape. A narrow validator fix permits only the known Lane A development ceiling for a hash-bound resume source while Lane B executable specs remain strict; training/runtime tests 18/18 PASS. Control runs first, candidate second, then one-writer frozen64 evaluation and exact adapter-delta geometry comparison. No other GPU work, no continuation beyond arms.",
+  "repo_head": "e566d802cb4bb1dd94e9bea7a6a41ed9bdc4c09e",
+  "artifacts": {
+    "control_spec_sha256": "a68f83cbe7c517d38210895aa2161b236f38a1278fcde9f76dbc690f71abdefc",
+    "candidate_spec_sha256": "34c0cf02964a0e54dbc54a3dbc3cddd3c305b3357239f84c5a3365b1838f1762",
+    "parent_adapter_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "rows": "384-447",
+    "optimizer": "adamw_bnb_8bit_nonpaged"
+  },
+  "requires_ack": false
+}
