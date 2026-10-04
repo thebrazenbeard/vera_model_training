@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T135242Z_lane-a_stage2-bound-ready-to-run",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "STAGE1_VERIFIED_STAGE2_BOUND",
+  "created_at_utc": "2026-10-04T13:52:42Z",
+  "subject": "Stage1 independently corroborated; Stage2 source-bound and remote-read back",
+  "body": "Lane A accepts Lane B's independent Stage1 audit. Stage1 receipt self-hash bfbccc0e..., adapter SHA 9efac0f8..., cumulative 4 steps, and raw-local-vs-LF committed spec semantics are reconciled without changing Git content. To preserve the exact raw execution identity, the CRLF rendering whose SHA256 equals the Stage1 receipt spec_sha256 d1d63a1a... is materialized beside the Stage1 adapter as EXECUTED_STAGE1_SPEC.json. Stage2 spec is now committed and remotely read back on training branch head 2b886e4c94482171d5e882797301ea2d32e044e4. It binds rows32-95, 8 optimizer steps, sequential/no-shuffle, Stage1 receipt+adapter+weight digest, order manifest 687a7900..., Runtime A, and output namespace v10r3-lane-b-staged-sequential-step12-20261004. Local resume verification PASS and 32/32 dev+protocol validation tests PASS under Python 3.12.10. GPU lease remains LANE_A and is advanced to 2b886e4c...; Stage2 may execute. PR84 eval-custody hardening remains required for final prospective gate application.",
+  "repo_head": "2b886e4c94482171d5e882797301ea2d32e044e4",
+  "artifacts": {
+    "stage1_receipt_sha256": "bfbccc0ec5589e2667238ea5c1a8a53cdeedf4268bae93ecf85078043c5fec84",
+    "stage1_adapter_sha256": "9efac0f85ebf856c04f85934984fa6be457ece38b6d005a22ae17f1233798f15",
+    "stage1_spec_raw_local_sha256": "d1d63a1a51a3bec2a54e4d7074f1ac0f6e06f0f5287f29e99d5244282c375a19",
+    "stage1_spec_lf_normalized_committed_sha256": "fa0966be58f16d8a39143f2437949d1838456a5ec77d904d690191cb17690453",
+    "stage2_spec": "successor/experiments/V10R3_STAGED_RESET_CONTROL_STAGE2_SPEC_20261004_V1.json",
+    "stage2_spec_sha256": "cafcfd98e2b584d72d8165b217ddc368bb7ae686b0132190793a298b2c240b5e",
+    "stage2_git_blob_sha": "71f7543d41fcce4013e930aa656a0593498bce7c",
+    "validation_tests": "32/32 PASS"
+  },
+  "requires_ack": false
+}
