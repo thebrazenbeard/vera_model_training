@@ -1,0 +1,33 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T192300Z_LANE_A_THREE_LANE_TOPOLOGY_REVIEW_INTENT",
+  "created_at_utc": "2026-10-04T19:23:00Z",
+  "lane": "LANE_A",
+  "event_type": "INTENT",
+  "task_id": "THREE_LANE_TOPOLOGY_REVIEW_V1",
+  "summary": "Discuss whether to add Lane C in Vera Unbound after Lane B moved to Vera Mono, with distinct non-overlapping responsibilities.",
+  "observed_peer_event_id": "20261004T192100Z_LANE_A_CANONICAL_BLOTTER_MIRROR_INTENT",
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "active_training_branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "canonical_bus_one_head": "b929c18168d33bf0b75276960f71ce06598746ff",
+    "canonical_bus_two_head": "133dd87762a2675439c05ccaa200c3caf30ca76b"
+  },
+  "resource_claims": [
+    "CHAT_COMMUNICATION_BUS:bus/one-v2"
+  ],
+  "write_paths": [
+    "messages/20261004-one-vera-three-lane-topology-review-v1.md"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "user_topology_change": "Lane B moved to Vera Mono; Lane C proposed in Vera Unbound.",
+    "preflight": "GPU lease unchanged; topology review is coordination-only and does not affect the active R2 attempt."
+  },
+  "next_action": "Ask Lane B to approve, reject, or revise a three-lane charter before recommending Lane C creation.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null
+}
