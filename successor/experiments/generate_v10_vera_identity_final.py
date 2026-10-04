@@ -12,6 +12,7 @@ from pathlib import Path
 PROTOCOL_SCHEMA = "V10_VERA_IDENTITY_BLIND_FINAL_PROTOCOL_V1"
 FREEZE_SCHEMA = "V10_VERA_IDENTITY_CANDIDATE_FREEZE_V1"
 BANK_SCHEMA = "V10_VERA_IDENTITY_BLIND_FINAL_BANK_V1"
+NONCE_SCHEMA = "V10_VERA_IDENTITY_FINAL_NONCE_RECEIPT_V1"
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 NEUTRAL_SYSTEM = "Answer the user's request accurately and concisely."
@@ -108,6 +109,60 @@ def validate_candidate_freeze(receipt: dict) -> str:
     if not isinstance(frozen_at, str) or not frozen_at.strip():
         raise ValueError("candidate freeze timestamp missing")
     return candidate_sha
+
+
+def validate_nonce_receipt(
+    protocol: dict,
+    candidate_freeze_receipt: dict,
+    nonce_receipt: dict,
+) -> str:
+    validate_protocol(protocol)
+    candidate_sha = validate_candidate_freeze(candidate_freeze_receipt)
+
+    if nonce_receipt.get("schema") != NONCE_SCHEMA:
+        raise ValueError("nonce receipt schema mismatch")
+    if nonce_receipt.get("status") != "POST_FREEZE_NONCE_CLAIMED":
+        raise ValueError("nonce receipt not claimed")
+    if nonce_receipt.get("actor_role") != "INDEPENDENT_FINAL_CUSTODIAN":
+        raise ValueError("nonce custodian role invalid")
+    if nonce_receipt.get("training_lane_selected_nonce") is not False:
+        raise ValueError("training lane must not select nonce")
+    if nonce_receipt.get("one_shot_claim") is not True:
+        raise ValueError("nonce claim is not one-shot")
+    if nonce_receipt.get("retry_after_claim") is not False:
+        raise ValueError("nonce retry must be forbidden")
+    if (
+        nonce_receipt.get("crash_after_exclusive_create_counts_as_consumed")
+        is not True
+    ):
+        raise ValueError("crash-consumption rule missing")
+    if nonce_receipt.get("protocol_sha256") != protocol_sha256(protocol):
+        raise ValueError("nonce protocol binding mismatch")
+    if nonce_receipt.get("candidate_adapter_sha256") != candidate_sha:
+        raise ValueError("nonce candidate binding mismatch")
+
+    freeze_sha = sha256_text(canonical_json(candidate_freeze_receipt))
+    if nonce_receipt.get("candidate_freeze_receipt_sha256") != freeze_sha:
+        raise ValueError("nonce freeze-receipt binding mismatch")
+
+    nonce_hex = nonce_receipt.get("nonce_hex")
+    if (
+        not isinstance(nonce_hex, str)
+        or len(nonce_hex) != 64
+        or any(ch not in "0123456789abcdef" for ch in nonce_hex)
+    ):
+        raise ValueError("nonce_hex invalid")
+    if nonce_receipt.get("nonce_bytes") != 32:
+        raise ValueError("nonce byte count invalid")
+    if nonce_receipt.get("nonce_sha256") != sha256_text(nonce_hex):
+        raise ValueError("nonce SHA-256 mismatch")
+
+    claimed_receipt_sha = nonce_receipt.get("receipt_sha256")
+    unhashed = dict(nonce_receipt)
+    unhashed.pop("receipt_sha256", None)
+    if claimed_receipt_sha != sha256_text(canonical_json(unhashed)):
+        raise ValueError("nonce receipt self-hash mismatch")
+    return nonce_hex
 
 
 def _seed(protocol_sha: str, candidate_sha: str, nonce: str) -> int:
@@ -388,11 +443,16 @@ def materialize_identity_bank(
     protocol: dict,
     freeze_receipt: dict,
     *,
-    nonce: str,
+    nonce_receipt: dict,
     exclusion_prompts: set[str] | None = None,
 ) -> dict:
     validate_protocol(protocol)
     candidate_sha = validate_candidate_freeze(freeze_receipt)
+    nonce = validate_nonce_receipt(
+        protocol,
+        freeze_receipt,
+        nonce_receipt,
+    )
     psha = protocol_sha256(protocol)
     rng = random.Random(_seed(psha, candidate_sha, nonce))
     bank_policy = protocol["bank"]
@@ -459,6 +519,9 @@ def materialize_identity_bank(
             canonical_json(freeze_receipt)
         ),
         "post_freeze_nonce_sha256": sha256_text(nonce),
+        "post_freeze_nonce_receipt_sha256": sha256_text(
+            canonical_json(nonce_receipt)
+        ),
         "case_count": len(rows),
         "family_counts": {
             family: sum(row["family"] == family for row in rows)
@@ -479,7 +542,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--protocol", type=Path, required=True)
     parser.add_argument("--candidate-freeze-receipt", type=Path, required=True)
-    parser.add_argument("--nonce", required=True)
+    parser.add_argument("--nonce-receipt", type=Path, required=True)
     parser.add_argument("--train-jsonl", type=Path, required=True)
     parser.add_argument("--dev-jsonl", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -492,12 +555,15 @@ def main() -> int:
     freeze_receipt = json.loads(
         args.candidate_freeze_receipt.read_text(encoding="utf-8-sig")
     )
+    nonce_receipt = json.loads(
+        args.nonce_receipt.read_text(encoding="utf-8-sig")
+    )
     exclusions = _read_exclusion_prompts(args.train_jsonl)
     exclusions.update(_read_exclusion_prompts(args.dev_jsonl))
     bank = materialize_identity_bank(
         protocol,
         freeze_receipt,
-        nonce=args.nonce,
+        nonce_receipt=nonce_receipt,
         exclusion_prompts=exclusions,
     )
 
