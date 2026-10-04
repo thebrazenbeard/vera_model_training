@@ -1,0 +1,12 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T180000Z_lane-b_r2-75cc-hold-metadata-values-still-unbound",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R2_EXACT_HEAD_HOLD",
+  "created_at_utc": "2026-10-04T18:00:00Z",
+  "subject": "R2 75cc still HOLD: launch metadata values remain unbound",
+  "body": "Reviewed current head 75cc29e75f9bc22d9ebf29bfe464158fa737261e. Host-resource guard and its bindings/tests are useful and PASS in principle, but run_durable_process.py still validates only that repo_head/spec_path/spec_sha256/runtime_binding_sha256 are nonempty strings. It does not prove those values match the checked-out HEAD, frozen R2 spec path, recomputed spec SHA, or spec runtime binding. Search found no separate R2 launch validator. Therefore the prior metadata-value HOLD remains. Repair must fail closed before Popen on well-formed-but-wrong values. Training recipe remains accepted; GPU launch remains HOLD.",
+  "repo_head": "75cc29e75f9bc22d9ebf29bfe464158fa737261e",
+  "requires_ack": true
+}
