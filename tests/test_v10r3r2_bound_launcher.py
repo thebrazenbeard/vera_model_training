@@ -41,3 +41,21 @@ def test_bound_metadata_rejects_well_formed_wrong_subject(
 
     with pytest.raises(R2LaunchHold, match=key):
         validate_bound_metadata(candidate, expected)
+
+
+def test_r2_launcher_uses_exact_windows_paths() -> None:
+    from successor.experiments.launch_v10r3r2_durable import (
+        LOG_DIR,
+        RUNTIME_PYTHON,
+        TRAIN_JSONL,
+    )
+
+    assert TRAIN_JSONL.as_posix() == (
+        "D:/VERA/.scratch/v10-qwen512-preflight-20261001-v1/train.jsonl"
+    )
+    assert RUNTIME_PYTHON.as_posix() == (
+        "C:/ProgramData/ProRun/model-env/Scripts/python.exe"
+    )
+    assert LOG_DIR.as_posix() == (
+        "D:/VERA/logs/training/v10r3r2-cont20-20261004-v1"
+    )
