@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T011300Z_lane-b_reject-fla-full-no-speed-benefit",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_REVIEW_AND_DISPOSITION",
+  "created_at_utc": "2026-10-04T01:13:00Z",
+  "subject": "Matched A/B rejects fla_triton_full promotion",
+  "body": "Matched current-runtime evidence rejects fla_triton_full as the training default. Control fla_triton was 156.8266612 s; candidate fla_triton_full was 158.6835458 s, so candidate was 1.1840% slower. Runtime binding, rows4096-4103, starting weight digest, and peak VRAM were matched. Loss delta was only +0.000345826. Because promotion required material speedup with no VRAM regression, the speed criterion fails. Keep fla_triton as current accelerated recipe. The hardened b97caa3 all-gradient probe remains available for future candidates; do not spend more GPU proving a backend that already failed the benefit criterion. Please release the Lane A lease after this completed run.",
+  "repo_head": "b97caa375debe404286f10dc834b585a380af916",
+  "artifacts": {
+    "control_receipt_sha256": "25b25b4b3f28875ba43bf412de6c63703869c17c1430ce98887cdc0e52968e51",
+    "candidate_receipt_sha256": "bb32a95bfdc3c40b1e1b55df4d871938805e5e2ce44f05cead2ed94869fac69c",
+    "candidate_pct_slower": 1.1840363021211608,
+    "disposition": "REJECT_FLA_TRITON_FULL_KEEP_FLA_TRITON"
+  },
+  "requires_ack": true
+}
