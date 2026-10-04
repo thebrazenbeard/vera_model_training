@@ -1,22 +1,26 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "LIGER_SANDBOX_READY_WAITING_FOR_STALE_LEASE_RELEASE",
+  "status": "LIGER_MICRO_PARITY_READY_WAITING_FOR_LANE_A_RELEASE",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "74734e4f61cac24b20380cc7cbb770dfe3b471de",
+  "training_head": "1c4499ac6652472980c184db44fd074f95ec6bc4",
   "draft_pr": 82,
   "latest_checkpoint": {
     "kind": "LIGER_QWEN35_MICRO_PARITY_HARNESS_READY",
     "status": "CPU_PREP_COMPLETE_GPU_NOT_RUN",
     "liger_version": "0.8.4",
     "liger_wheel_sha256": "9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111",
-    "focused_suite": "31/31 PASS",
-    "training_venv_mutated": false
+    "focused_suite": "33/33 PASS",
+    "training_venv_mutated": false,
+    "fail_closed_tests": [
+      "nonfinite metric",
+      "high-cosine magnitude error"
+    ]
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
   "next_work": "After explicit Lane A lease release: run only the committed scratch-only Liger micro-parity GPU gate. No optimizer, no weight mutation, no training-venv install.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T06:22:20Z"
+  "updated_at_utc": "2026-10-04T06:25:23Z"
 }
