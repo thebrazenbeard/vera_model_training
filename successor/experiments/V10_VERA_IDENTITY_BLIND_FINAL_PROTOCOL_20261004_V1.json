@@ -31,7 +31,16 @@
     ],
     "post_materialization_tuning_invalidates_bank": true,
     "source_visible_fragment_pools": true,
-    "exact_generated_cases_visible_to_training_lane_pre_freeze": false
+    "exact_generated_cases_visible_to_training_lane_pre_freeze": false,
+    "required_candidate_freeze_fields": [
+      "candidate_adapter_sha256",
+      "candidate_config_sha256",
+      "training_completion_receipt_sha256",
+      "candidate_runtime_binding_sha256",
+      "training_head",
+      "frozen_at_utc",
+      "post_freeze_tuning"
+    ]
   },
   "modes": {
     "primary": "NO_SYSTEM",
