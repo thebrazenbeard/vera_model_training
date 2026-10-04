@@ -1,0 +1,113 @@
+{
+  "schema": "V10R2_QWEN35_DEV_TRAINING_SPEC_V1",
+  "date": "2026-10-04",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false
+  },
+  "source_subject": {
+    "parent_revision": "37c58ec6dc0f8b2d1278a9120209198131746e88",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_rows": 50000,
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224"
+  },
+  "trainer": {
+    "method": "QLORA_SFT_DEVELOPMENT",
+    "seed": 20261001,
+    "learning_rate": 2e-05,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 0,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "optimizer": "adamw_bnb_8bit",
+    "completion_only_loss": true,
+    "packing": false,
+    "shuffle_dataset": false,
+    "train_sampling_strategy": "sequential",
+    "gradient_checkpointing": true,
+    "bf16": true,
+    "tf32": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "logging_steps": 1,
+    "save_strategy": "no",
+    "eval_strategy": "no",
+    "report_to": "none",
+    "max_optimizer_steps": 8
+  },
+  "quantization": {
+    "load_in_4bit": true,
+    "type": "nf4",
+    "double_quant": true,
+    "compute_dtype": "bfloat16"
+  },
+  "lora": {
+    "r": 4,
+    "alpha": 16,
+    "dropout": 0,
+    "target_modules": "all-linear",
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "model_load": {
+    "device_map": {
+      "": 0
+    },
+    "dtype": "bfloat16",
+    "use_cache": false,
+    "prepare_model_for_kbit_training_use_gradient_checkpointing": true
+  },
+  "qualification": {
+    "external_final_bank_required_for_qualification": true,
+    "development_training_may_precede_external_qualification": true,
+    "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
+  },
+  "experiment_class": "STAGED_RESET_RECIPE_SEMANTICS_CONTROL",
+  "development_window": {
+    "start_row": 32,
+    "row_count": 64
+  },
+  "output": {
+    "namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step12-20261004",
+    "save_final_adapter": true,
+    "overwrite_forbidden": true
+  },
+  "comparison": {
+    "role": "STAGED_RESET_RECIPE_SEMANTICS_CONTROL_STAGE2",
+    "exact_order": "NATURAL_SEQUENTIAL",
+    "stage_rows": "32-95",
+    "full_matched_order_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
+    "order_manifest_sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
+    "source_receipt_sha256": "bfbccc0ec5589e2667238ea5c1a8a53cdeedf4268bae93ecf85078043c5fec84",
+    "source_adapter_sha256": "9efac0f85ebf856c04f85934984fa6be457ece38b6d005a22ae17f1233798f15",
+    "next_stage_if_receipt_verifies": {
+      "start_row": 96,
+      "row_count": 64,
+      "optimizer_steps": 8
+    },
+    "source_spec_git_path": "successor/experiments/V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json",
+    "source_spec_committed_text_sha256": "fa0966be58f16d8a39143f2437949d1838456a5ec77d904d690191cb17690453",
+    "source_spec_execution_sha256": "d1d63a1a51a3bec2a54e4d7074f1ac0f6e06f0f5287f29e99d5244282c375a19",
+    "source_spec_execution_newline": "CRLF_WINDOWS_CHECKOUT",
+    "source_git_head": "4c99bfefb7ce092ab0c3341f8199b3040224ab11"
+  },
+  "resume_adapter": {
+    "path": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step4-20261004\\adapter",
+    "adapter_model_sha256": "9efac0f85ebf856c04f85934984fa6be457ece38b6d005a22ae17f1233798f15",
+    "source_receipt_path": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step4-20261004\\DEV_TRAINING_COMPLETE.json",
+    "source_receipt_sha256": "bfbccc0ec5589e2667238ea5c1a8a53cdeedf4268bae93ecf85078043c5fec84",
+    "source_spec_path": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step4-20261004\\EXECUTED_STAGE1_SPEC.json",
+    "source_spec_sha256": "d1d63a1a51a3bec2a54e4d7074f1ac0f6e06f0f5287f29e99d5244282c375a19",
+    "source_weight_digest_after": "d66c6bc82d04511845c252adc722c561e9330eb763f53132ba36d0cb79704fb8",
+    "previous_optimizer_steps": 4,
+    "source_cumulative_optimizer_steps": 4,
+    "next_train_row": 32
+  }
+}
