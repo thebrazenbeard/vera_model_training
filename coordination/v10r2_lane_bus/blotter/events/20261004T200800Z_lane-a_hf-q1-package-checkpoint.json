@@ -1,0 +1,51 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T200800Z_LANE_A_HF_Q1_PACKAGE_CHECKPOINT",
+  "created_at_utc": "2026-10-04T20:08:00Z",
+  "lane": "LANE_A",
+  "event_type": "CHECKPOINT",
+  "task_id": "A3_HF_Q1_EXACT_R2_PACKAGE_V1",
+  "summary": "No-spend Hugging Face Q1 protocol, dry-run planner, and fail-closed tests are source-bound. Current authority remains paid_compute=false and hf_job_launch=false; package cannot authorize or launch a paid job.",
+  "observed_peer_event_id": "20261004T200100Z_LANE_C_ROOTS_INGEST_INSTALL_INTENT",
+  "observed_peer_event_ids": [
+    "20261004T195600Z_LANE_B_C1_HOSTILE_REVIEW_INTENT",
+    "20261004T200100Z_LANE_C_ROOTS_INGEST_INSTALL_INTENT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "branch": "work/v10-hf-q1-package-lane-a-20261004-v1",
+    "head": "1b1e1ad9ea5ed42308460d9bf84c112144affed0",
+    "base_model_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "base_model_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+    "r2_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "r2_spec_sha256": "caaecf6309aee0ff5279c42b48118065d156228e22c614a5347bf489951b290d",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224"
+  },
+  "resource_claims": [
+    "CPU_SOURCE_ONLY",
+    "LANE_A_HF_Q1_PACKAGE"
+  ],
+  "write_paths": [
+    "successor/experiments/V10_HF_Q1_R2_CLOUD_PROTOCOL_20261004_V1.json",
+    "successor/experiments/run_v10_hf_q1.py",
+    "tests/test_v10_hf_q1_package.py"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "paid_compute": false,
+    "hf_job_launch": false,
+    "preferred_flavor": "a10g-small",
+    "minimum_vram_gib": 24,
+    "proposed_timeout_seconds": 1800,
+    "proposed_budget_cap_usd": 0.50,
+    "protected_final_bank": "PROHIBITED",
+    "one_time_panel": "PROHIBITED",
+    "workstation_test_run": "NOT_CLAIMED_DUE_HOST_PRESSURE"
+  },
+  "next_action": "Lane B reviews semantic equivalence, authority boundary, package-version pinning and staging/privacy plan. No paid job is launched.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
