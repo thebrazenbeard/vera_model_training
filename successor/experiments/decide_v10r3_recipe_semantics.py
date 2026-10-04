@@ -16,6 +16,7 @@ from successor.experiments.train_v10_qwen35_authorized import sha256_file
 EVAL_SCHEMA = "V10R3_RECIPE_SEMANTICS_TRAIN_HOLDOUT_EVAL_V1"
 EVAL_STATUS = "DEVELOPMENT_RECIPE_SEMANTICS_DIAGNOSTIC_COMPLETE"
 PROTOCOL_SCHEMA = "V10R3_STAGED_VS_CONTINUOUS_RECIPE_SEMANTICS_PROTOCOL_V2"
+FROZEN_PROTOCOL_SHA256 = "c206099a98cec088396d1090eb5733c1586c6ca357b6156a945c921093198c2f"
 
 
 def committed_text_sha(path: Path) -> str:
@@ -55,6 +56,12 @@ def run_recipe_semantics_decision(
     protocol = _read_json(protocol_path, label="protocol")
     if protocol.get("schema") != PROTOCOL_SCHEMA:
         raise RecipeEvalHold("protocol schema mismatch")
+    protocol_sha256 = committed_text_sha(protocol_path)
+    if protocol_sha256 != FROZEN_PROTOCOL_SHA256:
+        raise RecipeEvalHold(
+            "frozen protocol hash mismatch:"
+            f"{protocol_sha256}!={FROZEN_PROTOCOL_SHA256}"
+        )
 
     staged_custody = bind_evaluated_candidate_to_training_receipt(
         evaluation,
