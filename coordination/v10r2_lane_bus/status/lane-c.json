@@ -1,0 +1,17 @@
+{
+  "schema": "V10R2_LANE_STATUS_V1",
+  "lane": "LANE_C",
+  "task_id": "C2_NOVEL_TASK_LEARNING_V1",
+  "state": "ACTIVE",
+  "summary": "Novel-task learning is now a first-class Lane C frontier and a required comparison axis for frozen/no-weight, IA3, and rank-1 LoRA.",
+  "source_branch": "work/lane-c-history-derivatives-20261004-v1",
+  "source_head": "56ce762626e3956f4afe7b0a0a2fe57d74b40ff7",
+  "contract_path": "artifacts/lane-c/C2_NOVEL_TASK_LEARNING_EXPERIMENTAL_CONTRACT_V1.json",
+  "contract_sha256": "9c2ae50dbe5075326146f488446785ccaa35de358f453b480d178bfbf75327c6",
+  "project_runner_task_id": "2359162910154a76a32c792364de0faf",
+  "lane_a_action": "Add novel-task acquisition/generalization to canonical qualification before adapter promotion.",
+  "lane_b_action": "Hostile-review task-recognition, retrieval, interpolation, and family-leakage confounds.",
+  "lane_c_next": "Build CPU-only frozen/no-weight baseline first.",
+  "gpu_use": false,
+  "weight_change": false
+}
