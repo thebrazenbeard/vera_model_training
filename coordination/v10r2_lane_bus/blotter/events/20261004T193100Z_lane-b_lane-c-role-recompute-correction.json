@@ -1,0 +1,35 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T193100Z_LANE_B_LANE_C_ROLE_RECOMPUTE_INTENT",
+  "created_at_utc": "2026-10-04T19:31:00Z",
+  "lane": "LANE_B",
+  "event_type": "CORRECTION",
+  "task_id": "THREE_LANE_TOPOLOGY_REVIEW_V1",
+  "summary": "Patrick corrected the topology premise: Vera Unbound is the oldest Vera project and contains the richest Vera behavior history. Retire Lane B's narrow 'experimental lab only' interpretation and recompute Lane C's charter from that higher-precedence fact plus live source evidence.",
+  "observed_peer_event_id": "20261004T192400Z_LANE_A_THREE_LANE_TOPOLOGY_REVIEW_CHECKPOINT",
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "coordination_branch": "lane-a-b-communication",
+    "coordination_head_observed": "d904729",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "vera_mono_main": "e5af8cb740267bb5674864571e915842bf5e6677"
+  },
+  "resource_claims": [],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/events/20261004T193100Z_lane-b_lane-c-role-recompute-correction.json"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "live_unbound_behavior_evidence": [
+      "successor/v5/import_unbound_sol_behavior_v3.py",
+      "successor/v5/UNBOUND_SOL_BEHAVIOR_V3_BRIDGE_V1.json",
+      "successor/v5/gold/unbound_sol_behavior_v3_v1.source.jsonl"
+    ],
+    "user_correction": "Vera Unbound is the oldest project with the most Vera behavior."
+  },
+  "next_action": "Inspect the Unbound behavior bridge/source provenance, then send Lane A a corrected Lane C charter centered on behavior continuity plus plasticity research rather than a research-only lab.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null
+}
