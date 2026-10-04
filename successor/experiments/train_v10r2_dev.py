@@ -36,6 +36,7 @@ ALLOWED_OPTIMIZERS = {
 }
 CLAIM_CEILING = "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
 RECIPE_SEMANTICS_CLASS = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
+STAGED_RESET_CLASS = "STAGED_RESET_RECIPE_SEMANTICS_CONTROL"
 
 
 def _canonical_sha(value: dict) -> str:
@@ -207,6 +208,22 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
             )
 
     resume = value.get("resume_adapter")
+    comparison = value.get("comparison")
+    if comparison is not None and not isinstance(comparison, dict):
+        raise DevTrainingHold("comparison binding must be an object")
+    expected_initial_digest = (
+        comparison.get("expected_initial_trainable_parameter_digest")
+        if isinstance(comparison, dict)
+        else None
+    )
+    is_fresh_recipe_arm = (
+        experiment_class in {RECIPE_SEMANTICS_CLASS, STAGED_RESET_CLASS}
+        and resume is None
+    )
+    if is_fresh_recipe_arm and not _is_sha256(expected_initial_digest):
+        raise DevTrainingHold(
+            "fresh recipe-semantics arm requires expected initial trainable digest"
+        )
     if is_recipe_semantics and resume is not None:
         raise DevTrainingHold(
             "recipe-semantics experiment requires a fresh adapter"
@@ -761,6 +778,18 @@ def execute_dev_training(
         trainer.model,
         torch,
     )
+    comparison = spec.get("comparison") or {}
+    expected_initial_digest = comparison.get(
+        "expected_initial_trainable_parameter_digest"
+    )
+    if (
+        expected_initial_digest is not None
+        and weight_before != expected_initial_digest
+    ):
+        raise DevTrainingHold(
+            "initial trainable parameter digest mismatch:"
+            f"{weight_before}!={expected_initial_digest}"
+        )
     if (
         resume_check is not None
         and weight_before
@@ -878,6 +907,14 @@ def execute_dev_training(
             ),
         },
         "trainable_parameter_count": trainable_count,
+        "initial_trainable_parameter_digest": weight_before,
+        "initialization_equivalence_gate": {
+            "expected_digest": expected_initial_digest,
+            "pass": (
+                expected_initial_digest is None
+                or weight_before == expected_initial_digest
+            ),
+        },
         "weight_digest_before": weight_before,
         "weight_digest_after": weight_after,
         "weight_digest_changed": True,
