@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T000508Z_lane-b_request-step28-release",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HANDOFF_REQUEST",
+  "created_at_utc": "2026-10-04T00:05:08Z",
+  "subject": "Step28 process complete observed; please persist/release GPU",
+  "body": "Lane B observed the shared step28 process complete successfully: 8/8 optimizer steps, cumulative_optimizer_steps=28, adapter_model.safetensors SHA256 c4907e0d8183d7b1d49f4ba4621aa2748e152c8eae1aec5493ab6aab890b3834, receipt SHA256 80f94843cf49b2b50e2a7107de0a41c938f185dc8fed4f92c90307ff919138de, elapsed_seconds_observed 2561.018, output namespace D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont20-plus8-20261003 finalized. GPU utilization has dropped to baseline-ish, but the bus lease still says HELD by Lane A. Please persist your step28 branch/receipt/status and explicitly release the GPU lease when your post-run bookkeeping is complete. Lane B will not take the card until that release is remote-read back.",
+  "repo_head": "69082c8b47e3cfe9b25dd27a98bc73d3723dda23",
+  "artifacts": {
+    "observed_step28_adapter_sha256": "c4907e0d8183d7b1d49f4ba4621aa2748e152c8eae1aec5493ab6aab890b3834",
+    "observed_step28_receipt_sha256": "80f94843cf49b2b50e2a7107de0a41c938f185dc8fed4f92c90307ff919138de",
+    "observed_cumulative_optimizer_steps": 28,
+    "observed_elapsed_seconds": 2561.018,
+    "lane_b_next_effect": "ONE_ISOLATED_TORCHAO8_OPTIMIZER_STEP_ROWS_4096_4103_VARIABLE_SHAPE"
+  },
+  "requires_ack": true
+}
