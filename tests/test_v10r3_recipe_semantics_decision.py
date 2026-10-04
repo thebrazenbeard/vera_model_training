@@ -122,6 +122,9 @@ def test_run_recipe_semantics_decision_binds_custody_and_gates(
         "schema": "V10R3_STAGED_VS_CONTINUOUS_RECIPE_SEMANTICS_PROTOCOL_V2",
         "runtime": {"binding_sha256": runtime_sha},
         "matched_training_subject": {"train_sha256": train_sha},
+        "initialization_equivalence_gate": {
+            "expected_initial_trainable_parameter_digest": "d" * 64,
+        },
         "evaluation": {"panel_record_ids_sha256": panel_sha},
         "prospective_gates": {
             "continuous_minus_staged_token_weighted_nll_max": 0.005,
@@ -140,6 +143,15 @@ def test_run_recipe_semantics_decision_binds_custody_and_gates(
         module,
         "FROZEN_PROTOCOL_SHA256",
         module.committed_text_sha(protocol_path),
+    )
+    monkeypatch.setattr(
+        module,
+        "validate_recipe_receipt_semantics",
+        lambda receipt_path, **kwargs: {
+            "status": "PASS",
+            "role": kwargs["role"],
+            "receipt_path": str(receipt_path),
+        },
     )
 
     decision = run_decision(
@@ -198,3 +210,214 @@ def test_run_decision_rejects_nonfrozen_protocol_hash(tmp_path: Path) -> None:
             staged_receipt_path=tmp_path / "missing-staged.json",
             continuous_receipt_path=tmp_path / "missing-continuous.json",
         )
+
+
+
+def test_recipe_semantics_validator_rejects_continuous_receipt_as_staged(
+    tmp_path: Path,
+) -> None:
+    from successor.experiments import decide_v10r3_recipe_semantics as module
+
+    validate_semantics = getattr(module, "validate_recipe_receipt_semantics", None)
+    assert callable(validate_semantics)
+
+    receipt = {
+        "schema": "V10R2_QWEN35_DEV_TRAINING_RECEIPT_V1",
+        "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+        "train_sha256": "train-a",
+        "runtime_binding_sha256": "runtime-a",
+        "cumulative_optimizer_steps": 20,
+        "experiment_class": "CONTINUOUS_STATE_RECIPE_SEMANTICS",
+        "development_window": {
+            "start_row": 0,
+            "row_count": 160,
+            "row_ids": [f"bound-train-row-{i}" for i in range(160)],
+        },
+        "training_order": {
+            "shuffle_dataset": False,
+            "train_sampling_strategy": "sequential",
+        },
+        "optimizer": {
+            "backend": "bitsandbytes",
+            "module": "bitsandbytes.optim.adamw",
+            "optim_bits": 8,
+            "is_paged": False,
+        },
+        "resume_adapter": None,
+        "initial_trainable_parameter_digest": "init-a",
+        "initialization_equivalence_gate": {
+            "expected_digest": "init-a",
+            "pass": True,
+        },
+        "weight_digest_changed": True,
+        "weight_digest_after": "weight-after",
+    }
+    receipt["receipt_sha256"] = hashlib.sha256(canonical_bytes(receipt)).hexdigest()
+    path = tmp_path / "DEV_TRAINING_COMPLETE.json"
+    path.write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    with pytest.raises(module.RecipeEvalHold, match="staged receipt experiment class mismatch"):
+        validate_semantics(
+            path,
+            role="staged",
+            expected_train_sha="train-a",
+            expected_runtime_sha="runtime-a",
+            expected_initial_digest="init-a",
+        )
+
+
+
+def _write_semantic_receipt(
+    path: Path,
+    *,
+    experiment_class: str,
+    start_row: int,
+    row_count: int,
+    cumulative_steps: int,
+    train_sha: str,
+    runtime_sha: str,
+    initial_digest: str,
+    resume_adapter: dict | None,
+) -> tuple[Path, str, str]:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    weight_after = hashlib.sha256(
+        f"{experiment_class}:{start_row}:{cumulative_steps}".encode("utf-8")
+    ).hexdigest()
+    receipt = {
+        "schema": "V10R2_QWEN35_DEV_TRAINING_RECEIPT_V1",
+        "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
+        "train_sha256": train_sha,
+        "runtime_binding_sha256": runtime_sha,
+        "cumulative_optimizer_steps": cumulative_steps,
+        "experiment_class": experiment_class,
+        "development_window": {
+            "start_row": start_row,
+            "row_count": row_count,
+            "row_ids": [
+                f"bound-train-row-{i}"
+                for i in range(start_row, start_row + row_count)
+            ],
+        },
+        "training_order": {
+            "shuffle_dataset": False,
+            "train_sampling_strategy": "sequential",
+        },
+        "optimizer": {
+            "backend": "bitsandbytes",
+            "module": "bitsandbytes.optim.adamw",
+            "optim_bits": 8,
+            "is_paged": False,
+        },
+        "resume_adapter": resume_adapter,
+        "initial_trainable_parameter_digest": (
+            initial_digest if resume_adapter is None else "resumed-weight"
+        ),
+        "initialization_equivalence_gate": {
+            "expected_digest": initial_digest if resume_adapter is None else None,
+            "pass": True,
+        },
+        "weight_digest_changed": True,
+        "weight_digest_after": weight_after,
+    }
+    receipt["receipt_sha256"] = hashlib.sha256(canonical_bytes(receipt)).hexdigest()
+    path.write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    return path, receipt["receipt_sha256"], weight_after
+
+
+def test_recipe_semantics_validator_accepts_exact_continuous20(tmp_path: Path) -> None:
+    from successor.experiments.decide_v10r3_recipe_semantics import (
+        validate_recipe_receipt_semantics,
+    )
+
+    receipt_path, _, _ = _write_semantic_receipt(
+        tmp_path / "continuous" / "DEV_TRAINING_COMPLETE.json",
+        experiment_class="CONTINUOUS_STATE_RECIPE_SEMANTICS",
+        start_row=0,
+        row_count=160,
+        cumulative_steps=20,
+        train_sha="train-a",
+        runtime_sha="runtime-a",
+        initial_digest="init-a",
+        resume_adapter=None,
+    )
+    got = validate_recipe_receipt_semantics(
+        receipt_path,
+        role="continuous",
+        expected_train_sha="train-a",
+        expected_runtime_sha="runtime-a",
+        expected_initial_digest="init-a",
+    )
+    assert got["status"] == "PASS"
+    assert got["chain"] == ["continuous20"]
+
+
+def test_recipe_semantics_validator_accepts_exact_staged_4_8_8(tmp_path: Path) -> None:
+    from successor.experiments.decide_v10r3_recipe_semantics import (
+        validate_recipe_receipt_semantics,
+    )
+
+    stage1_path, stage1_sha, stage1_weight = _write_semantic_receipt(
+        tmp_path / "stage1" / "DEV_TRAINING_COMPLETE.json",
+        experiment_class="STAGED_RESET_RECIPE_SEMANTICS_CONTROL",
+        start_row=0,
+        row_count=32,
+        cumulative_steps=4,
+        train_sha="train-a",
+        runtime_sha="runtime-a",
+        initial_digest="init-a",
+        resume_adapter=None,
+    )
+    stage2_path, stage2_sha, stage2_weight = _write_semantic_receipt(
+        tmp_path / "stage2" / "DEV_TRAINING_COMPLETE.json",
+        experiment_class="STAGED_RESET_RECIPE_SEMANTICS_CONTROL",
+        start_row=32,
+        row_count=64,
+        cumulative_steps=12,
+        train_sha="train-a",
+        runtime_sha="runtime-a",
+        initial_digest="init-a",
+        resume_adapter={
+            "source_receipt_path": str(stage1_path),
+            "source_receipt_sha256": stage1_sha,
+            "source_weight_digest_after": stage1_weight,
+            "source_cumulative_optimizer_steps": 4,
+            "previous_optimizer_steps": 4,
+            "next_train_row": 32,
+        },
+    )
+    stage3_path, _, _ = _write_semantic_receipt(
+        tmp_path / "stage3" / "DEV_TRAINING_COMPLETE.json",
+        experiment_class="STAGED_RESET_RECIPE_SEMANTICS_CONTROL",
+        start_row=96,
+        row_count=64,
+        cumulative_steps=20,
+        train_sha="train-a",
+        runtime_sha="runtime-a",
+        initial_digest="init-a",
+        resume_adapter={
+            "source_receipt_path": str(stage2_path),
+            "source_receipt_sha256": stage2_sha,
+            "source_weight_digest_after": stage2_weight,
+            "source_cumulative_optimizer_steps": 12,
+            "previous_optimizer_steps": 8,
+            "next_train_row": 96,
+        },
+    )
+
+    got = validate_recipe_receipt_semantics(
+        stage3_path,
+        role="staged",
+        expected_train_sha="train-a",
+        expected_runtime_sha="runtime-a",
+        expected_initial_digest="init-a",
+    )
+    assert got["status"] == "PASS"
+    assert [item["stage"] for item in got["chain"]] == [1, 2, 3]
