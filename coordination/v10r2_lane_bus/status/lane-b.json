@@ -1,26 +1,36 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "CHAT_CONTINUATION_FROZEN_EXACT_HEAD_BINDING_CONFLICT",
+  "status": "ACTIVE_V10R3_STAGED_CONTROL_STAGE3_AND_EVAL_CUSTODY",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
-  "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "a324e0dc2a4f97a679232de08c3352202b3d6781",
-  "draft_pr": 82,
+  "training_branch": "work/v10r3-eval-gates-lane-b-20261004-v1",
+  "training_head": "0edbe8e885c65c724a9fb04cb54b1946958bdd14",
+  "draft_pr": 84,
   "latest_checkpoint": {
-    "kind": "V10R3_STAGED_VS_CONTINUOUS_RECIPE_SEMANTICS_PREEXECUTION",
-    "status": "HOLD_EXACT_HEAD_VERIFICATION_CONFLICT",
-    "lane_b_self_report_head": "b1b039efce0d88e7e189a18fe7a6946e72d9e02f",
-    "lane_b_self_report": "40/40 PASS + local verifier PASS",
-    "lane_a_independent_exact_head": "2 FAILED / 32 PASSED",
-    "gpu_authorized": false,
-    "ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142"
+    "kind": "V10R3_STAGE2_AUDIT_STAGE3_PREFLIGHT_AND_DECISION_CUSTODY",
+    "status": "PASS_STAGE3_EXECUTION_ACTIVE_UNDER_LANE_A",
+    "frozen_protocol_sha256": "c206099a98cec088396d1090eb5733c1586c6ca357b6156a945c921093198c2f",
+    "stage2_receipt_sha256": "f6087b6c8d1a9b596c69c402fe2078e03529e9607ec103b7751c2b565083f74b",
+    "stage2_adapter_sha256": "5dfba71ed8ff7820a58c4894c4e2640497cec99092b921536f9d8d6117c921b3",
+    "stage2_weight_digest_after": "150550ffd336c7e7907a46110ce037d7c5dc43d14ac20c026db76d578a2283c5",
+    "stage3_training_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
+    "stage3_preflight": "PASS",
+    "continuous20_preflight": "PASS_OUTPUT_ABSENT",
+    "focused_tests": "16/16 PASS",
+    "v10r2_v10r3_tests": "88/88 PASS"
+  },
+  "coordination": {
+    "gpu_lease_holder": "LANE_A",
+    "lane_b_gpu_authorized": false,
+    "lane_b_heavy_gpu_work_running": false,
+    "rule": "Do not claim GPU while Lane A lease is held. CPU-audit Stage3, then preflight both final candidate receipts before consuming the one-time 64-case panel."
   },
   "continuation": {
     "current": "state/continuation/V10_MODEL_TRAINING_LANE_B_CURRENT.md",
     "versioned": "state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V1.md",
-    "resume_command": "VERA_MODEL_TRAINING::LANE_B::RESUME_FROM_REPO::thebrazenbeard/vera_model_training::work/v10r2-accelerated-lane-b-20261003-v1::state/continuation/V10_MODEL_TRAINING_LANE_B_CURRENT.md"
+    "status": "STALE_PREVIOUS_FREEZE_PENDING_REFRESH_ON_CURRENT_LANE_B_BRANCH"
   },
-  "next_work": "Fresh-fetch remote and reproduce exact-head normalized committed-text hashes/tests from a clean detached checkout/worktree. Resolve Lane B PASS vs Lane A HOLD discrepancy. If Lane A failure reproduces, repair only protocol committed_file_bindings + matched_training_subject order_manifest_sha256, regenerate preexecution receipt, rerun exact-head tests, push/readback, and obtain Lane A independent GPU ACK before any optimizer step.",
+  "next_work": "Wait for Stage3 completion receipt; independently audit exact 4+8+8 terminal chain. Then verify continuous20 remains fresh/no-resume and audit its completion. Before one-time panel use, CPU-verify both final receipt semantics and live adapter hashes. Only after Lane A releases the GPU may Lane B execute or independently audit the frozen 64-case evaluation and apply PR84 fail-closed decision tooling.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T13:00:55Z"
+  "updated_at_utc": "2026-10-04T14:24:52Z"
 }
