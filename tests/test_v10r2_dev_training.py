@@ -144,12 +144,30 @@ def test_recipe_semantics_spec_accepts_fresh_continuous_twenty_steps(
     value["trainer"]["shuffle_dataset"] = False
     value["trainer"]["train_sampling_strategy"] = "sequential"
     value["development_window"] = {"start_row": 0, "row_count": 160}
+    value["comparison"] = {
+        "expected_initial_trainable_parameter_digest": "1" * 64,
+    }
     path.write_text(json.dumps(value), encoding="utf-8")
 
     spec = load_and_validate_dev_spec(path)
     assert spec["experiment_class"] == "CONTINUOUS_STATE_RECIPE_SEMANTICS"
     assert spec["trainer"]["max_optimizer_steps"] == 20
     assert spec["development_window"] == {"start_row": 0, "row_count": 160}
+
+
+def test_recipe_semantics_spec_rejects_missing_initial_digest(
+    tmp_path: Path,
+) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["experiment_class"] = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
+    value["trainer"]["max_optimizer_steps"] = 20
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "sequential"
+    value["development_window"] = {"start_row": 0, "row_count": 160}
+    path.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(DevTrainingHold, match="expected initial trainable digest"):
+        load_and_validate_dev_spec(path)
 
 
 def test_recipe_semantics_spec_rejects_random_sampling(tmp_path: Path) -> None:
