@@ -1,12 +1,12 @@
 {
   "schema": "V10R2_GPU_LEASE_V1",
   "resource": "LAPPY_RTX_3050_4GB",
-  "holder": "LANE_B",
-  "purpose": "WHOLE_MODEL_NONMUTATING_LIGER_AB_ROWS_4096_4103",
-  "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "4a2f70d1bb3ade6f9ce0ab285075ee223b5194f5",
+  "holder": null,
+  "purpose": null,
+  "training_branch": null,
+  "training_head": null,
   "acquired_at_utc": "2026-10-04T10:16:48Z",
-  "released_at_utc": null,
-  "status": "HELD",
+  "released_at_utc": "2026-10-04T10:22:50Z",
+  "status": "FREE",
   "rule": "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
 }
