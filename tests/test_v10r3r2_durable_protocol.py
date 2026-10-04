@@ -10,6 +10,7 @@ EXP = ROOT / "successor" / "experiments"
 PROTOCOL = EXP / "V10R3R2_DURABLE_CONTINUOUS20_PROTOCOL_20261004_V1.json"
 SPEC_REL = "successor/experiments/V10R3R2_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261004_V1.json"
 HARNESS_REL = "successor/experiments/run_durable_process.py"
+HOST_GUARD_REL = "successor/experiments/preflight_v10r3r2_host_resources.py"
 INCIDENT = EXP / "receipts" / "V10R3R1_EXECUTION_INCIDENT_20261004_V1.json"
 
 
@@ -29,6 +30,16 @@ def test_r2_protocol_binds_exact_recipe_subject_and_harness() -> None:
     )
     assert protocol["source_subject"]["durable_harness_committed_sha256"] == _committed_sha(
         HARNESS_REL
+    )
+    assert protocol["source_subject"]["host_resource_guard_path"] == HOST_GUARD_REL
+    assert protocol["source_subject"]["host_resource_guard_committed_sha256"] == _committed_sha(
+        HOST_GUARD_REL
+    )
+    assert protocol["source_subject"]["launch_guard_source_head"] == (
+        "316b9f8029f3e39520256af25acae533acfecf8d"
+    )
+    assert protocol["source_subject"]["observability_source_head"] == (
+        "a503ddea19d6ae13f35592587c37c6b31ca88a91"
     )
     assert protocol["source_subject"]["hash_semantics"] == (
         "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
@@ -54,3 +65,10 @@ def test_r2_protocol_binds_r1_incident_and_forbids_retry() -> None:
         "spec_sha256",
         "runtime_binding_sha256",
     ]
+    assert protocol["execution"]["host_resource_gate"] == {
+        "required": True,
+        "min_available_physical_gib": 8.0,
+        "min_commit_headroom_gib": 8.0,
+        "gpu_memory_used_mib_required": 0,
+        "competing_trainer_count_required": 0,
+    }
