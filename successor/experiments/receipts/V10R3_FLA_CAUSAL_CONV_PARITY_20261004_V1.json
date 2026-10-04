@@ -1,0 +1,89 @@
+{
+  "base_path": "D:\\VERA\\models\\latest-trained\\base",
+  "cases": [
+    {
+      "channels": 8192,
+      "forward": {
+        "cosine": 1.0000744077796144,
+        "max_abs": 0.00390625,
+        "mean_abs": 1.3592791219707578e-05,
+        "relative_l2": 0.0028683847188709613
+      },
+      "input_grad": {
+        "cosine": 1.000027186913529,
+        "max_abs": 0.001953125,
+        "mean_abs": 7.936422662169207e-06,
+        "relative_l2": 0.00273931193724164
+      },
+      "kernel_width": 4,
+      "seq_len": 128,
+      "timing_seconds": {
+        "fla_first_compile_inclusive": 0.552344300027471,
+        "fla_warm": [
+          0.0016450000111944973,
+          0.001548200030811131,
+          0.0015240000211633742
+        ],
+        "fla_warm_mean": 0.0015724000210563342,
+        "reference_first": 0.07292549998965114,
+        "reference_warm": [
+          0.001247100008185953,
+          0.0012361000408418477,
+          0.0012482000165618956
+        ],
+        "reference_warm_mean": 0.0012438000218632321,
+        "speedup_ref_over_fla": 0.791020099979171
+      }
+    },
+    {
+      "channels": 8192,
+      "forward": {
+        "cosine": 1.000805503462422,
+        "max_abs": 0.00390625,
+        "mean_abs": 1.3701856914849486e-05,
+        "relative_l2": 0.002871360457623135
+      },
+      "input_grad": {
+        "cosine": 1.0004622430297585,
+        "max_abs": 0.001953125,
+        "mean_abs": 7.920708412711974e-06,
+        "relative_l2": 0.0027377044190905436
+      },
+      "kernel_width": 4,
+      "seq_len": 512,
+      "timing_seconds": {
+        "fla_first_compile_inclusive": 0.002973900001961738,
+        "fla_warm": [
+          0.0034948000102303922,
+          0.0031233999761752784,
+          0.0033428999595344067
+        ],
+        "fla_warm_mean": 0.0033203666486466923,
+        "reference_first": 0.004657900019083172,
+        "reference_warm": [
+          0.004534800013061613,
+          0.004566699964925647,
+          0.004649899958167225
+        ],
+        "reference_warm_mean": 0.004583799978718162,
+        "speedup_ref_over_fla": 1.3805101857008522
+      }
+    }
+  ],
+  "claim_ceiling": "MICROKERNEL_PARITY_AND_TIMING_ONLY_NOT_WHOLE_MODEL_PROMOTION_EVIDENCE",
+  "compute_capability": [
+    8,
+    6
+  ],
+  "cuda_runtime": "13.2",
+  "disposition": "NOT_PRIMARY_FULL_RUN_BOTTLENECK",
+  "effect": "NONMUTATING_KERNEL_PARITY_BENCH",
+  "fla_version": "0.5.2",
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "interpretation": "FLA_TRITON_CAUSAL_CONV_IS_MODESTLY_FASTER_AT_512_BUT_NOT_WORTH_A_SEPARATE_INSTALL_BUILD_PATH; DELTANET_CORE_REMAINS_DOMINANT_ACCELERATION_TARGET",
+  "schema": "V10R3_QWEN35_FLA_CAUSAL_CONV_PARITY_V1",
+  "torch": "2.14.1+cu132",
+  "weight_key": "model.language_model.layers.0.linear_attn.conv1d.weight",
+  "weight_shard": "model.safetensors-00002-of-00002.safetensors",
+  "weight_tensor_sha256": "f8e622f2787b8bb6fabf020039d14608cef3b98eb7aa7ceec782ccaac71f4242"
+}
