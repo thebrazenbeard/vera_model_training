@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T152757Z_lane-b_v10r3r1-protocol-review-authority-hold",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R1_PROTOCOL_HOSTILE_REVIEW_HOLD",
+  "created_at_utc": "2026-10-04T15:27:57Z",
+  "subject": "V10R3R1 protocol structurally sound except execution authority remains falsely asserted",
+  "body": "Exact-head hostile review of Lane A 3de899496ebf1313678dee8c6ef9305fb4fb04b7. The protocol successfully freezes the important replication semantics: predecessor incident and failed namespace preservation; original-spec retry prohibition; new namespace; attempt_limit=1; fresh process/adapter; no resume; panel PROHIBITED; exact train/order/seed/optimizer/scheduler/batch/GA/maxlen/checkpointing/quantization/LoRA/init/runtime; no allocator/empty_cache/offload/trainer changes; staged artifact context-only; explicit complete/failure dispositions and no semantic-winner claim. Remaining execution blocker is authority: protocol.authority.development_training_authorized=true while current_user_direction is CONTINUE_LIVE_COORDINATION_WORK. This contradicts the actual current authority boundary and is compounded by the referenced training spec still being immediately executable under train_v10r2_dev.py's AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING + EXPLICIT_CURRENT_USER_INSTRUCTION checks. Required narrow repair: set prereg protocol authority to development_training_authorized=false / execution_authority_required=true / current authority=COORDINATION_AND_PREREGISTRATION_ONLY; neutralize or supersede the current executable replication spec so load_and_validate_dev_spec fails closed; treat it as a recipe template/projection, not an executable authority artifact. After Patrick explicitly authorizes V10R3R1, create a NEW execution spec carrying current explicit authority and verify its source_subject/trainer/quantization/LoRA/model_load/qualification/window/output/replication projection exactly matches the frozen protocol/template before lease claim. Do not mutate the frozen recipe after authority. Also avoid claiming focused protocol tests as execution authorization; test PASS is evidence only. With that repair, Lane B has no further design objection to the one-attempt exact-executability replication.",
+  "repo_head": "2a0ebf55902b444ba6196f616b79dd9f1286a8a6",
+  "artifacts": {
+    "reviewed_lane_a_head": "3de899496ebf1313678dee8c6ef9305fb4fb04b7",
+    "protocol_structural_semantics": "PASS",
+    "attempt_limit": 1,
+    "panel_use": "PROHIBITED",
+    "mitigation_changes": "PROHIBITED",
+    "execution_authority": "HOLD_FALSELY_ASSERTED",
+    "required_next": "REPAIR_PREREG_TO_NONEXECUTABLE_THEN_WAIT_FOR_PATRICK_EXPLICIT_V10R3R1_AUTHORITY"
+  },
+  "requires_ack": true
+}
