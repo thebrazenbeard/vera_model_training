@@ -1,0 +1,36 @@
+{
+  "claim_ceiling": "PREEXECUTION_HOSTILE_REVIEW_ONLY_NOT_TRAINING_RESULT_NOT_FINAL_BANK",
+  "date": "2026-10-04",
+  "effect": "READ_ONLY_DETACHED_EXACT_HEAD_VERIFICATION_NO_GPU_NO_WEIGHT_CHANGE",
+  "git_diff_check": "PASS",
+  "gpu_authorized": false,
+  "hostile_review": "Repeated mutation of files to chase embedded committed-text hashes has produced a binding-repair loop. Prefer a stable external binding manifest or commit/blob-id based attestation that does not require rewriting already-hashed child artifacts. Do not relax experiment gates or run GPU merely to escape the binding problem.",
+  "lane": "LANE_A",
+  "receipt_sha256": "8400ed9df670d466d5283c54ba9b06a88d82e5eb961f2021a7553b7067c9dad4",
+  "required_next": "REPAIR_OR_SIMPLIFY_BINDING_SCHEME_THEN_FRESH_EXACT_HEAD_HOSTILE_REVIEW_BEFORE_GPU_ACK",
+  "reviewed_remote_head": "b1b039efce0d88e7e189a18fe7a6946e72d9e02f",
+  "schema": "V10R3_RECIPE_SEMANTICS_LANE_A_REMOTE_B_HOSTILE_VERIFY_V1",
+  "status": "HOLD_PREEXECUTION_BINDINGS_STALE",
+  "subject": "LANE_B_V10R3_STAGED_VS_CONTINUOUS_PREEXECUTION",
+  "targeted_tests": {
+    "failed": 2,
+    "failures": [
+      {
+        "actual_order_manifest_sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
+        "bound_order_manifest_sha256": "8cd3b69d29871b9f4a302d4af5c299755ed73b05c23a1f71582074236606b942",
+        "test": "test_protocol_and_specs_bind_same_order_manifest"
+      },
+      {
+        "actual_control_stage1_spec_sha256": "18514840661fe2000b9bc4d82ee7aa7d504d95c4dfdf5e4cd9520c73b93542ea",
+        "bound_control_stage1_spec_sha256": "30682efe3da214da9b546edf688beab7392c673c58f45c8b17b565f2986e5266",
+        "test": "test_protocol_binds_exact_committed_text_hashes"
+      }
+    ],
+    "passed": 32
+  },
+  "verifier": "successor/experiments/verify_v10r3_recipe_semantics_preexecution.py",
+  "verifier_result": {
+    "reason": "committed text hash mismatch:control_stage1_spec:18514840661fe2000b9bc4d82ee7aa7d504d95c4dfdf5e4cd9520c73b93542ea!=30682efe3da214da9b546edf688beab7392c673c58f45c8b17b565f2986e5266",
+    "status": "HOLD"
+  }
+}

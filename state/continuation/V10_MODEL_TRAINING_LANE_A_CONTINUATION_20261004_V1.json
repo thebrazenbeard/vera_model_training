@@ -1,0 +1,103 @@
+{
+  "bus_branch": "lane-a-b-communication",
+  "bus_head_at_snapshot": "7594c789e0ae847fcde6df491ed5ed68a8754cf7",
+  "coordination": {
+    "bus": "lane-a-b-communication",
+    "gpu_lease": "coordination/v10r2_lane_bus/gpu/lease.json",
+    "hostile_review": "Lane A and Lane B challenge load-bearing assumptions before recipe/backend promotion. Avoid over-engineering.",
+    "rule": "One heavy GPU lane at a time; commit/push/remote-readback lease before use. CPU/read-only work can use WorkBridge execution lanes in parallel."
+  },
+  "current_best_development_checkpoint": {
+    "adapter_path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont40-plus8-step48-20261004\\adapter",
+    "adapter_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "anchor16_step48_nll": 1.4624121151334866,
+    "confirm48_step48_nll": 1.285991465412004,
+    "cumulative_optimizer_steps": 48,
+    "decision": "KEEP_AND_FREEZE_BLIND_CONTINUATIONS",
+    "milestone_combined_wins": "62/64_vs_step40",
+    "name": "STEP48",
+    "optimizer": "adamw_bnb_8bit",
+    "paged": false,
+    "receipt_sha256": "15dee7c2ca2b94c6c2c2f780ced3dfc03d9a6afd5adfb594b1035bfa44853481",
+    "weight_digest_after": "6cbac5df94bc33cea342cb62eefe70aa8c992ce5a1d1e797debc233e8df6ffe4"
+  },
+  "date": "2026-10-04",
+  "final_bank": {
+    "behavioral_adversarial": "12000-case lane not sealed",
+    "full_bank_target": 13500,
+    "full_training_authority": "NOT_MATERIALIZED_BECAUSE_FINAL_BANK_NOT_SEALED",
+    "human_author_seed_slots": 280,
+    "mandatory_human_semantic_review_slots": 5400,
+    "mixed_dimension_slots_pending_classification": 6600,
+    "retention": "V7 RETENTION_ADMITTED_ARCH_V7; 1500 cases",
+    "rule": "Development training may continue under Patrick current authority. Do not call any development adapter final-qualified. Full/final run remains gated by the frozen bank/authority contract unless Patrick explicitly versions/redesigns that contract.",
+    "sealed": false
+  },
+  "frozen_training_subject": {
+    "base_path": "D:\\VERA\\models\\latest-trained\\base",
+    "corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "full_recipe_original": "1 epoch; lr2e-5 cosine; warmup3 optimizer steps; batch1; grad_accum8; completion-only; packing false; shuffle true; gradient checkpointing true; adamw_torch originally frozen, but development evidence currently favors nonpaged BNB8 on conservative runtime A pending recipe semantics test",
+    "max_length": 512,
+    "qlora": "NF4 double-quant bf16 compute; LoRA r4 alpha16 dropout0 all-linear; fresh adapter",
+    "train_rows": 50000,
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "validation_rows": 2500,
+    "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7"
+  },
+  "gguf_boundary": "Patrick explicitly said NO GGUF until after the selected recipe completes the full training run. After full-run GGUF handoff, Lane B independently performs KoboldCpp verification.",
+  "gpu_state": "FREE_NO_ACTIVE_TRAINING_PROCESS_OBSERVED",
+  "lane_a_branch": "work/v10r2-bnb8-cont20-20261003",
+  "lane_a_snapshot_head_before_continuation_commit": "2dba99a48b846386a19acdeeb7fcd0e0f58c2668",
+  "lane_b_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
+  "lane_b_remote_head_reviewed": "b1b039efce0d88e7e189a18fe7a6946e72d9e02f",
+  "models_store": {
+    "bytes_at_snapshot": 18873620693,
+    "cleanup": "~33.16 GB stale/duplicate material removed and verified; current artifacts preserved. Do not repeat cleanup without a fresh reference audit.",
+    "files_at_snapshot": 127,
+    "gib_at_snapshot": 17.577,
+    "root": "D:\\VERA\\models"
+  },
+  "next_actions_ordered": [
+    "Fresh-read Lane A, Lane B, bus, GPU lease, PR82, PR66/78 or their merged descendants.",
+    "Do NOT start step56. Step48 is the frozen conservative development checkpoint.",
+    "Repair/simplify V10R3 recipe-semantics preexecution binding scheme on Lane B branch; latest exact-head verifier is HOLD. Prefer a stable external binding manifest or Git-blob/commit attestation to end hash-chasing.",
+    "Run detached exact-head verifier + relevant tests after repair. Only if PASS should Lane A issue hostile GPU ACK.",
+    "Then serially execute fresh staged4+8+8 control and fresh continuous20 candidate under runtime A, exact matched sequential rows0-159, with initialization digest gate.",
+    "Evaluate once on frozen rows448-511 panel and apply preregistered gates without threshold changes.",
+    "Use result to freeze V10R3 full-run optimizer/scheduler semantics. Reassess final-bank blocker before any full run.",
+    "Do not export GGUF until after the full selected-recipe training run; then hand immutable GGUF to Lane B for independent KoboldCpp verification."
+  ],
+  "next_recipe_experiment": {
+    "candidate": "fresh continuous 20 updates",
+    "control": "fresh staged 4 + 8 + 8 updates with optimizer/scheduler reset at stage boundaries",
+    "current_status": "HOLD_PREEXECUTION_BINDINGS_STALE_ON_LATEST_REMOTE_HEAD",
+    "gates": "continuous-minus-staged token-weighted NLL <= +0.005 AND no represented-family mean case-loss regression > +0.01",
+    "gpu_authorized": false,
+    "independent_review_receipt": "successor/experiments/receipts/V10R3_RECIPE_SEMANTICS_LANE_A_REMOTE_B_HOSTILE_VERIFY_20261004_V1.json",
+    "name": "V10R3_STAGED_RESET_4_8_8_VS_CONTINUOUS20_SEQUENTIAL",
+    "one_time_eval": "rows448-511; record_ids_sha256 6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+    "purpose": "Test whether staged optimizer/scheduler/save-reload boundaries materially differ from one continuous optimizer/scheduler trajectory before freezing the full-run recipe.",
+    "rows": "0-159 natural sequential exactly once",
+    "shared": "runtime A; torch_reference; nonpaged BNB8; zero warmup; cosine; shuffle false; sequential; same fresh initialization digest"
+  },
+  "protected_boundaries": "No merge/direct-main/deploy/install/activation/credential/provider/paid-compute effect without Patrick exact authority. Do not mutate Lane B local dirty worktree; review remote exact heads in detached worktrees.",
+  "repository": "thebrazenbeard/vera_model_training",
+  "resume_command": "VERA_MODEL_TRAINING::LANE_A::RESUME_FROM_REPO::thebrazenbeard/vera_model_training::work/v10r2-bnb8-cont20-20261003::state/continuation/V10_MODEL_TRAINING_LANE_A_CURRENT.md",
+  "runtime_recommendation": {
+    "binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "bitsandbytes": "0.50.2",
+    "causal_conv": "FLA 0.5.2 Triton causal-conv parity good; ~1.38x at T512 but slower at T128; classified NOT_PRIMARY_FULL_RUN_BOTTLENECK.",
+    "cross_runtime": "Runtime B failed frozen parity. Do not promote as-is.",
+    "current": "A_CONSERVATIVE",
+    "driver": "616.92",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU 4096 MiB",
+    "lane_b_backend_ab": "FLA candidate ~48.08% faster but HOLD due update geometry cosine 0.989877 and relative-L2 0.142377; tiny NLL delta +0.0000169; 33 vs 31 case wins. Do not promote FLA full backend.",
+    "optimizer": "adamw_bnb_8bit_nonpaged",
+    "python": "3.12.10",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.17.0",
+    "user_prohibition": "DO_NOT_USE_PAGED_OPTIMIZERS"
+  },
+  "schema": "V10_MODEL_TRAINING_LANE_A_CONTINUATION_V1",
+  "training_main_head": "0e1546bd8a5e0f2fbf46ca3e901e0d2cf0de11c9"
+}
