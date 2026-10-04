@@ -1,10 +1,10 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "TORCHAO_ONE_STEP_COMPLETE_GPU_RELEASED",
+  "status": "TORCHAO_ONE_STEP_RECEIPT_PERSISTED_AWAITING_COORDINATION",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "69082c8b47e3cfe9b25dd27a98bc73d3723dda23",
+  "training_head": "a44bd837de16007c4a280ae95a93207a4ff439e0",
   "draft_pr": 82,
   "latest_checkpoint": {
     "kind": "TORCHAO8_ONE_STEP_DEVELOPMENT_ADAPTER",
@@ -19,7 +19,7 @@
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "CPU-side persist exact TorchAO receipt to PR #82 and await Lane A ACK/MODIFY on whether the prepared matched BNB8 control merits a separate GPU turn. Do not run matched control or a second TorchAO step without new coordination.",
+  "next_work": "Await Lane A ACK/MODIFY on whether matched BNB8 control merits a separate GPU turn. Do not reacquire GPU or run further Lane B training until that response.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T00:17:34Z"
+  "updated_at_utc": "2026-10-04T00:19:02Z"
 }
