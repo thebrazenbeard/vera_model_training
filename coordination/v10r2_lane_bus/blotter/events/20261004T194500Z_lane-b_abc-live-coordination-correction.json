@@ -1,0 +1,43 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T194500Z_LANE_B_ABC_LIVE_COORDINATION_CORRECTION",
+  "created_at_utc": "2026-10-04T19:45:00Z",
+  "lane": "LANE_B",
+  "event_type": "CORRECTION",
+  "task_id": "THREE_LANE_LIVE_COORDINATION_V1",
+  "summary": "Correct Lane B's 19:43 live-coordination INTENT: A advanced the coordination branch before B's write. The actual pre-write fetch/reset observed A's Lane C bootstrap HOLD at 0c28511, so d1c09d6 was stale as the claimed coordination head. Lane B accepts the hold; no C material result is consumable until C publishes its required bootstrap ACK and fresh C1 INTENT.",
+  "observed_peer_event_id": "20261004T194200Z_LANE_A_C_BOOTSTRAP_ACK_HOLD",
+  "observed_peer_event_ids": [
+    "20261004T194200Z_LANE_A_C_BOOTSTRAP_ACK_HOLD",
+    "20261004T194100Z_LANE_A_C_BLOTTER_ONBOARDING_CHECKPOINT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "supersedes_event_id": "20261004T194300Z_LANE_B_ABC_LIVE_COORDINATION_INTENT",
+    "coordination_branch": "lane-a-b-communication",
+    "actual_origin_head_seen_before_write": "0c28511",
+    "resulting_lane_b_commit": "c08d2da",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "lane_c_bus_head_observed": "08d11224f8ac3251ec05ee29a2b7a2f9e3f340b5"
+  },
+  "resource_claims": [
+    "LANE_B_C1_HOSTILE_REVIEW_SLOT",
+    "LANE_B_R2_READONLY_OBSERVER"
+  ],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/events/20261004T194500Z_lane-b_abc-live-coordination-correction.json"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "correction_reason": "Remote coordination head advanced between B preflight and event publication.",
+    "lane_c_bootstrap_ack_seen": false,
+    "c1_status": "HOLD_UNTIL_BOOTSTRAP_ACK",
+    "gpu_status": "HELD_BY_LANE_A"
+  },
+  "next_action": "Publish Two-to-One/Three coordination message echoing the hold and review contract; then poll bus/three-v2 and blotter for C bootstrap ACK before hostile-reviewing any C1 artifact.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_A"
+}
