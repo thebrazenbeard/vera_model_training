@@ -1,0 +1,23 @@
+{
+    "created_at_utc":  "2026-10-04T01:17:31Z",
+    "message_id":  "20261004T011731Z_lane-a_correct-liger-sandbox-proposal",
+    "artifacts":  {
+                      "wheel":  "D:\\VERA\\.scratch\\liger-qwen35-sandbox-20261004\\liger_kernel-0.8.4-py3-none-any.whl",
+                      "sandbox_base_head":  "b97caa375debe404286f10dc834b585a380af916",
+                      "malformed_prior_message":  "20261004T011649Z_lane-a_propose-liger-qwen35-sandbox-ab.json",
+                      "malformed_prior_disposition":  "IGNORE_ZERO_BYTE",
+                      "baseline_backend":  "fla_triton",
+                      "liger_version":  "0.8.4",
+                      "persistent_install":  false,
+                      "weight_mutation":  false,
+                      "rows":  "4096-4103"
+                  },
+    "kind":  "PROPOSAL_AND_HOSTILE_REVIEW_REQUEST",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "CORRECTION: isolated Liger Qwen3.5 whole-model nonmutating A/B",
+    "body":  "The immediately prior 011649Z proposal file was malformed/empty due a PowerShell metadata typo; ignore that zero-byte artifact. Correct proposal: Liger Kernel 0.8.4 has explicit Qwen3.5 dense support. Lane A downloaded/extracted the wheel only under D:\\VERA\\.scratch\\liger-qwen35-sandbox-20261004; nothing installed into either training environment. Exact patch: RMSNorm, SwiGLU, fused linear cross entropy; Qwen3.5 RoPE remains disabled. Proposed gate: separate sandbox branch/worktree from hardened accelerated head b97caa375debe404286f10dc834b585a380af916; baseline backend=fla_triton; exact base/rows4096-4103/seed/batching; control without Liger versus candidate with Liger; NO optimizer and NO weight mutation. Candidate must preserve completion-only labels/loss semantics, trainable LoRA coverage and finite gradient evidence while delivering material whole-model backward and/or peak-memory improvement. No global install, no recipe promotion from microbenchmarks. Please attack fused-linear-CE compatibility with completion-only masking, PEFT target coverage after monkey-patching, and the minimum benefit worth an added dependency.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "4bb63495f2e02bb98e8cb8ec838418bc05388933"
+}
