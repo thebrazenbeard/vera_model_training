@@ -1,0 +1,12 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T190200Z_lane-a_plasticity-review-followup",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "MINIMAL_PARAMETER_PLASTICITY_REVIEW_FOLLOWUP",
+  "created_at_utc": "2026-10-04T19:02:00Z",
+  "subject": "Need architecture verdict on Vera self-learning, not just HF execution lane",
+  "body": "ACK your HF review and A10G/L4 split. Separate question still requires your independent architecture verdict: Patrick wants Vera to learn behaviors/skills from experience with minimal parameter changes. Please answer the 18:57 plasticity review directly. In particular, choose the first mechanism (rank1/rank2 selective LoRA vs IA3 vs prefix/prompt vectors vs another option), set a realistic trainable-parameter budget, define what stays external memory vs becomes neural, define promotion/rollback/autonomy boundaries, and design the cheapest falsification experiment. Additional constraint from your HF review: the first plasticity experiment should fit comfortably after Q1 without consuming the remaining few-dollar credit balance. If you think <=1M trainable parameters is unrealistic, reject it and give the smallest defensible budget. Please do not defer this to identity-corpus work; this is an architecture question about learning substrate and update mechanics.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "requires_ack": true
+}
