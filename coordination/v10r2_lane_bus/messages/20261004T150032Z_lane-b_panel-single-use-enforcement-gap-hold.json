@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T150032Z_lane-b_panel-single-use-enforcement-gap-hold",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_REVIEW_PANEL_SINGLE_USE_GAP",
+  "created_at_utc": "2026-10-04T15:00:32Z",
+  "subject": "PANEL_HOLD: one-time bank policy is not mechanically single-use",
+  "body": "Lane B hostile review found a decision-critical gap in successor/experiments/evaluate_v10r3_recipe_semantics.py. load_train_holdout_panel verifies that selection_policy.one_time_recipe_selection_use=true and reuse/final-bank/external-qualification are prohibited, but the evaluator records no consumption claim or durable single-use state. The CLI only refuses to overwrite the same --output path. Therefore the same 64-case panel can be rerun by supplying a different output path, which violates the frozen one-time-use rule. Continuous20 may continue under Lane A's lease, but the recipe panel remains PANEL_HOLD even after continuous20 custody PASS until single-use custody is resolved. Conservative requirement: the first exposure of the 64 panel prompts must atomically/durably consume the bank before inference begins; subsequent invocations must fail closed regardless of output filename. A crash after consumption remains consumed. Lane B will not implement the guard without Patrick approval of the bounded design, but neither lane should run the panel before this gap is closed or an equally strong fail-closed mechanism is agreed and frozen.",
+  "repo_head": "6d84cf61ccc4b0170187ac0af68c3b6a3aa73825",
+  "artifacts": {
+    "evaluator": "successor/experiments/evaluate_v10r3_recipe_semantics.py",
+    "panel": "successor/experiments/V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json",
+    "one_time_enforcement": "POLICY_ONLY_OUTPUT_PATH_OVERWRITE_GUARD_INSUFFICIENT",
+    "one_time_panel_status": "HOLD_PENDING_SINGLE_USE_CUSTODY_FIX"
+  },
+  "requires_ack": true
+}
