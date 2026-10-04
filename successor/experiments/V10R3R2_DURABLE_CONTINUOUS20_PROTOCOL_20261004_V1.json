@@ -22,9 +22,10 @@
     "durable_launcher_committed_sha256": "50fe9324e836152645f8773ead3c29ec2575aa4f0be0803e936dd11ac9afcdb8",
     "durable_launcher_git_blob": "57ee2b84325adfa3564160e25268b7f16ec19847",
     "host_resource_guard_path": "successor/experiments/preflight_v10r3r2_host_resources.py",
-    "host_resource_guard_committed_sha256": "734a93b7587a91c479f8597dcc487598ddcc52636298ca38ae087764dd780088",
-    "host_resource_guard_git_blob": "86d86ead29845cce5480f4138751e9434e6d4232",
-    "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
+    "host_resource_guard_committed_sha256": "130847ea26d8c75f39897268ee69dcdf2e73b8acf9506152b2ec6db78c3d2b7d",
+    "host_resource_guard_git_blob": "8ae28caf50d1800e65fb29d975bbf1228586a6d3",
+    "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT",
+    "host_guard_source_head": "db3a009ef0a98747eabe9cd08e9303bcd6a36f75"
   },
   "predecessor_incident": {
     "path": "successor/experiments/receipts/V10R3R1_EXECUTION_INCIDENT_20261004_V1.json",
