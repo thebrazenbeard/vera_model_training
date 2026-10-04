@@ -1,0 +1,45 @@
+{
+  "schema": "C2_NOVEL_TASK_HARNESS_MANIFEST_V1",
+  "generator": "artifacts/lane-c/c2_novel_task_harness.py",
+  "rows": 56,
+  "bank_sha256": "37a5b719a6b099e656030a238c18d85ecdbf89cdc67a9346d5d2f271c165dee4",
+  "family_splits": {
+    "meta_train": [
+      "nonce_permute",
+      "mini_grammar",
+      "string_pipeline"
+    ],
+    "meta_dev": [
+      "tool_contract"
+    ],
+    "meta_test_open": [
+      "state_machine",
+      "contradictory_prior",
+      "goal_inference"
+    ]
+  },
+  "episodes_per_family": 8,
+  "metrics": [
+    "zero_shot_competence",
+    "examples_to_success",
+    "improvement_per_example_or_failure",
+    "unseen_instance_generalization",
+    "structural_transfer",
+    "retention_after_context_removal",
+    "prior_capability_regression",
+    "false_task_recognition_rate",
+    "retrieval_dependence"
+  ],
+  "negative_controls": [
+    "shuffled_labels",
+    "irrelevant_memory",
+    "support_omitted",
+    "familiar_lookalike",
+    "adapter_disabled",
+    "contradictory_prior"
+  ],
+  "scoring": "normalized exact match for open V1; family-level aggregate required",
+  "protected_eval": false,
+  "gpu": false,
+  "weights_changed": false
+}

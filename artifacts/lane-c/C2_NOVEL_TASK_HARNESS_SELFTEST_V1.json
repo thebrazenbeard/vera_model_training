@@ -1,0 +1,24 @@
+{
+  "schema": "C2_NOVEL_TASK_HARNESS_SELFTEST_V1",
+  "status": "PASS",
+  "checks": {
+    "rows_56": true,
+    "ids_unique": true,
+    "rule_reuse_family_bounded": true,
+    "family_splits_disjoint": true,
+    "query_not_support": true,
+    "oracle_score": true,
+    "blank_score": true
+  },
+  "bank_sha256": "37a5b719a6b099e656030a238c18d85ecdbf89cdc67a9346d5d2f271c165dee4",
+  "oracle": {
+    "correct": 56,
+    "total": 56,
+    "accuracy": 1.0
+  },
+  "blank": {
+    "correct": 0,
+    "total": 56,
+    "accuracy": 0.0
+  }
+}
