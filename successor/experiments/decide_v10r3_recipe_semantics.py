@@ -158,6 +158,8 @@ def validate_recipe_receipt_semantics(
             raise RecipeEvalHold("continuous receipt must not resume an adapter")
         if receipt.get("initial_trainable_parameter_digest") != expected_initial_digest:
             raise RecipeEvalHold("continuous initialization digest mismatch")
+        if receipt.get("weight_digest_before") != expected_initial_digest:
+            raise RecipeEvalHold("continuous weight-before digest mismatch")
         gate = receipt.get("initialization_equivalence_gate")
         if (
             not isinstance(gate, dict)
@@ -189,6 +191,12 @@ def validate_recipe_receipt_semantics(
         expected_next_row=96,
         label="staged stage3",
     )
+    stage2_source_weight = stage2.get("weight_digest_after")
+    if (
+        receipt.get("initial_trainable_parameter_digest") != stage2_source_weight
+        or receipt.get("weight_digest_before") != stage2_source_weight
+    ):
+        raise RecipeEvalHold("staged stage3 initial digest/source mismatch")
     _validate_common_recipe_receipt(
         stage2,
         expected_train_sha=expected_train_sha,
@@ -208,6 +216,12 @@ def validate_recipe_receipt_semantics(
         expected_next_row=32,
         label="staged stage2",
     )
+    stage1_source_weight = stage1.get("weight_digest_after")
+    if (
+        stage2.get("initial_trainable_parameter_digest") != stage1_source_weight
+        or stage2.get("weight_digest_before") != stage1_source_weight
+    ):
+        raise RecipeEvalHold("staged stage2 initial digest/source mismatch")
     _validate_common_recipe_receipt(
         stage1,
         expected_train_sha=expected_train_sha,
@@ -223,6 +237,8 @@ def validate_recipe_receipt_semantics(
         raise RecipeEvalHold("staged stage1 must be fresh")
     if stage1.get("initial_trainable_parameter_digest") != expected_initial_digest:
         raise RecipeEvalHold("staged stage1 initialization digest mismatch")
+    if stage1.get("weight_digest_before") != expected_initial_digest:
+        raise RecipeEvalHold("staged stage1 weight-before digest mismatch")
     gate = stage1.get("initialization_equivalence_gate")
     if (
         not isinstance(gate, dict)

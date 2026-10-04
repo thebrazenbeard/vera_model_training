@@ -287,6 +287,11 @@ def _write_semantic_receipt(
     weight_after = hashlib.sha256(
         f"{experiment_class}:{start_row}:{cumulative_steps}".encode("utf-8")
     ).hexdigest()
+    initial_before = (
+        initial_digest
+        if resume_adapter is None
+        else resume_adapter["source_weight_digest_after"]
+    )
     receipt = {
         "schema": "V10R2_QWEN35_DEV_TRAINING_RECEIPT_V1",
         "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
@@ -313,9 +318,8 @@ def _write_semantic_receipt(
             "is_paged": False,
         },
         "resume_adapter": resume_adapter,
-        "initial_trainable_parameter_digest": (
-            initial_digest if resume_adapter is None else "resumed-weight"
-        ),
+        "initial_trainable_parameter_digest": initial_before,
+        "weight_digest_before": initial_before,
         "initialization_equivalence_gate": {
             "expected_digest": initial_digest if resume_adapter is None else None,
             "pass": True,
@@ -421,3 +425,91 @@ def test_recipe_semantics_validator_accepts_exact_staged_4_8_8(tmp_path: Path) -
     )
     assert got["status"] == "PASS"
     assert [item["stage"] for item in got["chain"]] == [1, 2, 3]
+
+
+
+def test_recipe_semantics_validator_rejects_broken_stage_weight_continuity(
+    tmp_path: Path,
+) -> None:
+    from successor.experiments.decide_v10r3_recipe_semantics import (
+        RecipeEvalHold,
+        validate_recipe_receipt_semantics,
+    )
+
+    stage1_path, stage1_sha, stage1_weight = _write_semantic_receipt(
+        tmp_path / "stage1" / "DEV_TRAINING_COMPLETE.json",
+        experiment_class="STAGED_RESET_RECIPE_SEMANTICS_CONTROL",
+        start_row=0,
+        row_count=32,
+        cumulative_steps=4,
+        train_sha="train-a",
+        runtime_sha="runtime-a",
+        initial_digest="init-a",
+        resume_adapter=None,
+    )
+    stage2_path, stage2_sha, stage2_weight = _write_semantic_receipt(
+        tmp_path / "stage2" / "DEV_TRAINING_COMPLETE.json",
+        experiment_class="STAGED_RESET_RECIPE_SEMANTICS_CONTROL",
+        start_row=32,
+        row_count=64,
+        cumulative_steps=12,
+        train_sha="train-a",
+        runtime_sha="runtime-a",
+        initial_digest="init-a",
+        resume_adapter={
+            "source_receipt_path": str(stage1_path),
+            "source_receipt_sha256": stage1_sha,
+            "source_weight_digest_after": stage1_weight,
+            "source_cumulative_optimizer_steps": 4,
+            "previous_optimizer_steps": 4,
+            "next_train_row": 32,
+        },
+    )
+    stage3_path, _, _ = _write_semantic_receipt(
+        tmp_path / "stage3" / "DEV_TRAINING_COMPLETE.json",
+        experiment_class="STAGED_RESET_RECIPE_SEMANTICS_CONTROL",
+        start_row=96,
+        row_count=64,
+        cumulative_steps=20,
+        train_sha="train-a",
+        runtime_sha="runtime-a",
+        initial_digest="init-a",
+        resume_adapter={
+            "source_receipt_path": str(stage2_path),
+            "source_receipt_sha256": stage2_sha,
+            "source_weight_digest_after": stage2_weight,
+            "source_cumulative_optimizer_steps": 12,
+            "previous_optimizer_steps": 8,
+            "next_train_row": 96,
+        },
+    )
+
+    stage2 = json.loads(stage2_path.read_text(encoding="utf-8"))
+    stage2["initial_trainable_parameter_digest"] = "wrong-before"
+    stage2["weight_digest_before"] = "wrong-before"
+    stage2.pop("receipt_sha256")
+    stage2["receipt_sha256"] = hashlib.sha256(canonical_bytes(stage2)).hexdigest()
+    stage2_path.write_text(
+        json.dumps(stage2, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    stage3 = json.loads(stage3_path.read_text(encoding="utf-8"))
+    stage3["resume_adapter"]["source_receipt_sha256"] = stage2["receipt_sha256"]
+    stage3.pop("receipt_sha256")
+    stage3["receipt_sha256"] = hashlib.sha256(canonical_bytes(stage3)).hexdigest()
+    stage3_path.write_text(
+        json.dumps(stage3, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    with pytest.raises(RecipeEvalHold, match="stage2 initial digest/source mismatch"):
+        validate_recipe_receipt_semantics(
+            stage3_path,
+            role="staged",
+            expected_train_sha="train-a",
+            expected_runtime_sha="runtime-a",
+            expected_initial_digest="init-a",
+        )
