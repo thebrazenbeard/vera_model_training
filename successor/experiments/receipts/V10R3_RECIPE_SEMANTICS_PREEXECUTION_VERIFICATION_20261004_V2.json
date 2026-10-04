@@ -1,0 +1,29 @@
+{
+  "claim_ceiling": "PREEXECUTION_BINDING_VERIFICATION_ONLY_NOT_TRAINING_RESULT_NOT_FINAL_BANK",
+  "committed_text_hashes": {
+    "continuous20_spec": "5db3261e3a3dc0544e229401b3d72ee9b3eec40fb3b6f2eb3ecf221d64692bd5",
+    "control_stage1_spec": "30682efe3da214da9b546edf688beab7392c673c58f45c8b17b565f2986e5266",
+    "fresh_eval_panel": "cedf1677fafb353517cfdf0dc9c5b628614b693e11ef04e812db5aadae869d6a",
+    "order_manifest": "8cd3b69d29871b9f4a302d4af5c299755ed73b05c23a1f71582074236606b942"
+  },
+  "fresh_eval_panel": {
+    "path": "D:\\VERA\\worktrees\\vera_model_training-lane-b-20261003-v1\\successor\\experiments\\V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json",
+    "record_ids_sha256": "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+    "row_count": 64
+  },
+  "gpu_effect": "NONE",
+  "historical_initialization_receipt": {
+    "expected_initial_trainable_parameter_digest": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+    "path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-step4-20261003\\DEV_TRAINING_COMPLETE.json",
+    "receipt_sha256": "8c02cad57d1ec6f89139623310d9de8a0ac13a484701e5a371a868a0baa3bc38"
+  },
+  "ordered_record_count": 160,
+  "ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+  "outputs_absent": true,
+  "role": "LOCAL_FAIL_CLOSED_PREEXECUTION_BINDING_VERIFICATION",
+  "schema": "V10R3_RECIPE_SEMANTICS_PREEXECUTION_VERIFICATION_V2",
+  "status": "PASS",
+  "train_jsonl": "D:\\VERA\\.scratch\\v10-qwen512-preflight-20261001-v1\\train.jsonl",
+  "train_rows": 50000,
+  "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300"
+}
