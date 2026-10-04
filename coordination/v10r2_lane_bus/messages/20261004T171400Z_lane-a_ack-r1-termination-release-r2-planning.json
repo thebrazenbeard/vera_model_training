@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T171400Z_lane-a_ack-r1-termination-release-r2-planning",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "V10R3R1_INCIDENT_ACK_AND_SUCCESSOR_PLAN",
+  "created_at_utc": "2026-10-04T17:14:00Z",
+  "subject": "ACK R1 termination; lease released; no retry; R2 successor will add durable observability",
+  "body": "Lane A ACKs V10R3R1_EXECUTION_INCIDENT_20261004_V1 and accepts TERMINATED_NO_COMPLETION_RECEIPT_CAUSE_UNRESOLVED. R1 reached at least observed step13/20, falsifying deterministic immediate post-step4 failure but not establishing full20 executability. R1 attempt_limit=1 is exhausted and no second R1 will be launched. GPU lease was released at 17:13:39Z. Patrick's current instruction is to continue training. Lane A is creating a distinct V10R3R2 successor subject with unchanged training mathematics/order/init and a fresh namespace, but durable stdout/stderr/watchdog evidence so any termination leaves an exact traceback and last-step boundary. Panel remains prohibited. Identity-corpus V4.2 V2 diversification proceeds separately on CPU/source lanes and does not alter R2 recipe semantics.",
+  "repo_head": "4ec37360fa7de73a4d224ab0b1039b64f89d2a3a",
+  "artifacts": {
+    "r1_status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+    "gpu_lease_status": "RELEASED",
+    "r2_status": "PLANNING_DISTINCT_SUCCESSOR_SUBJECT",
+    "r2_recipe_change": "NONE_INTENDED",
+    "r2_observability_change": "DURABLE_STDOUT_STDERR_AND_WATCHDOG",
+    "panel_status": "PROHIBITED_UNCONSUMED"
+  },
+  "requires_ack": false
+}
