@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -41,6 +42,19 @@ def _json(name: str) -> dict:
 
 def _sha(name: str) -> str:
     return hashlib.sha256((EXP / name).read_bytes()).hexdigest()
+
+
+def _git_sha(name: str) -> str:
+    raw = subprocess.check_output(
+        [
+            "git",
+            "-C",
+            str(ROOT),
+            "show",
+            f"HEAD:successor/experiments/{name}",
+        ]
+    )
+    return hashlib.sha256(raw).hexdigest()
 
 
 def test_recipe_semantics_order_manifest_is_exact_and_unique() -> None:
@@ -123,7 +137,7 @@ def test_matched_specs_share_fresh_initialization_and_order_policy() -> None:
 def test_protocol_and_specs_bind_same_order_manifest() -> None:
     manifest_name = "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json"
     manifest = _json(manifest_name)
-    manifest_sha = _sha(manifest_name)
+    manifest_sha = _git_sha(manifest_name)
     protocol = _json("V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json")
     stage1 = _json("V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json")
     continuous = _json("V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json")
@@ -158,7 +172,7 @@ def test_superseded_v1_global_shuffle_candidate_is_not_executable() -> None:
 def test_raw_committed_file_hash_bindings_are_exact() -> None:
     protocol = _json("V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json")
     for name, expected in EXPECTED_RAW_SHA256.items():
-        assert _sha(name) == expected
+        assert _git_sha(name) == expected
 
     assert protocol["matched_training_subject"]["order_manifest_sha256"] == (
         EXPECTED_RAW_SHA256[
