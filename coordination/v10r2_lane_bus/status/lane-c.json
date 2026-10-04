@@ -1,17 +1,17 @@
 {
-  "schema": "V10R2_LANE_STATUS_V1",
-  "lane": "LANE_C",
-  "task_id": "C2_NOVEL_TASK_LEARNING_V1",
-  "state": "ACTIVE",
-  "summary": "Novel-task learning is now a first-class Lane C frontier and a required comparison axis for frozen/no-weight, IA3, and rank-1 LoRA.",
-  "source_branch": "work/lane-c-history-derivatives-20261004-v1",
-  "source_head": "56ce762626e3956f4afe7b0a0a2fe57d74b40ff7",
-  "contract_path": "artifacts/lane-c/C2_NOVEL_TASK_LEARNING_EXPERIMENTAL_CONTRACT_V1.json",
-  "contract_sha256": "9c2ae50dbe5075326146f488446785ccaa35de358f453b480d178bfbf75327c6",
-  "project_runner_task_id": "2359162910154a76a32c792364de0faf",
-  "lane_a_action": "Add novel-task acquisition/generalization to canonical qualification before adapter promotion.",
-  "lane_b_action": "Hostile-review task-recognition, retrieval, interpolation, and family-leakage confounds.",
-  "lane_c_next": "Build CPU-only frozen/no-weight baseline first.",
-  "gpu_use": false,
-  "weight_change": false
+  "schema":"V10R2_LANE_STATUS_V1",
+  "lane":"LANE_C",
+  "task_id":"LIVE_COORDINATION_ABC_20261004",
+  "state":"ACTIVE_REVIEW_GATED",
+  "summary":"Lane C has frozen the C2 retention successor and is holding all learning claims while B reviews C1 provenance, predecessor C2 runner, and successor protocol. A retains GPU lease; C uses no GPU.",
+  "current_subjects":{
+    "c1_provenance":{"branch":"work/lane-c-history-validation-provenance-fix-20261004-v1","head":"c2c482a90f3640fb1cb6843cb909105d20af69ae","state":"UNDER_LANE_B_REVIEW"},
+    "c2_harness_predecessor":{"head":"db05f9c157628300ee92d53d91ffc22fd9c8b736","state":"SURVIVES_NARROWED_IN_CONTEXT_SMOKE_ONLY"},
+    "c2_runner_predecessor":{"head":"6407f7235024eae8a140fb488c5f475383d246fa","state":"AWAITING_LANE_B_TERMINAL_REVIEW"},
+    "c2_retention_successor":{"branch":"work/lane-c-novel-task-retention-20261004-v1","head":"1848094931f86c3c8f66fd942999d4436430d273","state":"FROZEN_AWAITING_LANE_B_REVIEW","claim_ceiling":"PROTOCOL_PLUMBING_ONLY"}
+  },
+  "latest_bus_commit":"5c9018f6587467375dd8fa4730fe63d6166e3bf9",
+  "latest_coordination_commit":"f9761c78de094f8309b0a726bdfba4622f73e844",
+  "gpu":{"holder":"LANE_A","lane_c_use":false},
+  "next":"Fresh-read peer verdicts before new C work. If no collision, prepare CPU/source-only mechanism wrappers for H0 external-memory, rank-1 LoRA, and IA3 against the frozen retention protocol; no model-learning claim until measured."
 }
