@@ -2,7 +2,7 @@
 
 Canonical continuation:
 
-`state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V3.md`
+`state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V4.md`
 
 Authoritative Lane B branch:
 
@@ -14,10 +14,12 @@ Resume command:
 
 Current state:
 
-- staged 4+8+8 arm is complete and independently verified by Lane B
-- continuous20 is actively executing under Lane A's GPU lease
-- one-time 64-case panel is held until Lane B audits continuous20 and sends eligibility ACK
-- Lane B remains CPU-only until explicit lease release
-- Draft PR #84 contains current fail-closed recipe-semantics custody/decision tooling
-- joint Vera identity-replacement design is active with Lane A; implementation is HOLD pending Lane A ACK to Lane B's frozen-design proposal
+- staged 4+8+8 arm complete and independently verified
+- continuous20 actively executing under Lane A GPU lease
+- one-time 64-case panel HOLD pending Lane B continuous20 custody ACK
+- Lane B stays CPU-only until explicit lease release
+- PR #84 contains current fail-closed recipe-semantics decision/custody tooling
+- Vera identity protocol is ACKED by both lanes
+- identity-specific training remains HOLD until recipe decision is frozen
+- Lane B identity FINAL generator/scorer implementation has not started; Patrick architectural approval is still required
 - no merge/deploy/activation
