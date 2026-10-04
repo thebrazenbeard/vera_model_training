@@ -193,14 +193,17 @@ def bind_evaluated_candidate_to_training_receipt(
     if receipt.get("weight_digest_changed") is not True:
         raise RecipeEvalHold("candidate receipt does not prove weight change")
 
-    receipt_adapter_sha = (
-        receipt.get("adapter_artifacts", {})
-        .get("files", {})
-        .get("adapter_model.safetensors")
-    )
+    receipt_files = receipt.get("adapter_artifacts", {}).get("files", {})
+    receipt_adapter_sha = receipt_files.get("adapter_model.safetensors")
+    receipt_config_sha = receipt_files.get("adapter_config.json")
     candidate_adapter_sha = candidate.get("adapter_model_sha256")
+    candidate_config_sha = candidate.get("adapter_config_sha256")
     if candidate_adapter_sha != receipt_adapter_sha:
         raise RecipeEvalHold("candidate adapter hash/receipt mismatch")
+    if not isinstance(candidate_config_sha, str) or not candidate_config_sha:
+        raise RecipeEvalHold("candidate adapter config hash missing")
+    if candidate_config_sha != receipt_config_sha:
+        raise RecipeEvalHold("candidate adapter config hash/receipt mismatch")
 
     expected_adapter_dir = receipt_path.parent / "adapter"
     candidate_adapter_dir = candidate.get("adapter_dir")
@@ -214,6 +217,12 @@ def bind_evaluated_candidate_to_training_receipt(
     current_adapter_sha = sha256_file(adapter_model)
     if current_adapter_sha != candidate_adapter_sha:
         raise RecipeEvalHold("candidate adapter changed after evaluation")
+    adapter_config = expected_adapter_dir / "adapter_config.json"
+    if not adapter_config.is_file():
+        raise RecipeEvalHold(f"candidate adapter config missing:{adapter_config}")
+    current_config_sha = sha256_file(adapter_config)
+    if current_config_sha != candidate_config_sha:
+        raise RecipeEvalHold("candidate adapter config changed after evaluation")
 
     weight_digest_after = receipt.get("weight_digest_after")
     if not isinstance(weight_digest_after, str) or not weight_digest_after:
@@ -225,6 +234,7 @@ def bind_evaluated_candidate_to_training_receipt(
         "candidate_name": candidate_name,
         "adapter_dir": str(expected_adapter_dir),
         "adapter_model_sha256": candidate_adapter_sha,
+        "adapter_config_sha256": candidate_config_sha,
         "receipt_path": str(receipt_path),
         "receipt_sha256": actual_receipt_sha,
         "train_sha256": receipt["train_sha256"],
@@ -245,6 +255,9 @@ def apply_prospective_gates(
     staged_name: str,
     continuous_name: str,
 ) -> dict:
+    if staged_name == continuous_name:
+        raise RecipeEvalHold("staged and continuous candidate names must differ")
+
     runtime = protocol.get("runtime")
     matched_subject = protocol.get("matched_training_subject")
     evaluation = protocol.get("evaluation")
@@ -275,6 +288,12 @@ def apply_prospective_gates(
         raise RecipeEvalHold("token-weighted NLL gate missing")
     if not isinstance(family_limit, (int, float)):
         raise RecipeEvalHold("family mean case-loss gate missing")
+    pass_decision = gates.get("if_both_pass")
+    hold_decision = gates.get("if_either_fails")
+    if not isinstance(pass_decision, str) or not pass_decision:
+        raise RecipeEvalHold("protocol pass decision disposition missing")
+    if not isinstance(hold_decision, str) or not hold_decision:
+        raise RecipeEvalHold("protocol hold decision disposition missing")
 
     summary = summarize_checkpoint_comparison(
         result,
@@ -298,9 +317,7 @@ def apply_prospective_gates(
     return {
         "schema": "V10R3_RECIPE_SEMANTICS_PROSPECTIVE_GATE_DECISION_V1",
         "status": "PASS" if passed else "HOLD",
-        "decision": (
-            gates["if_both_pass"] if passed else gates["if_either_fails"]
-        ),
+        "decision": pass_decision if passed else hold_decision,
         "staged_name": staged_name,
         "continuous_name": continuous_name,
         "gates": {

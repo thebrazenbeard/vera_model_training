@@ -15,12 +15,16 @@ def _write_candidate_receipt(
     adapter_bytes: bytes,
     train_sha: str,
     runtime_sha: str,
-) -> tuple[Path, Path, str]:
+) -> tuple[Path, Path, str, str]:
     adapter_dir = root / "adapter"
     adapter_dir.mkdir(parents=True)
     adapter_path = adapter_dir / "adapter_model.safetensors"
+    config_path = adapter_dir / "adapter_config.json"
+    config_bytes = b'{"r":4,"lora_alpha":16}'
     adapter_path.write_bytes(adapter_bytes)
+    config_path.write_bytes(config_bytes)
     adapter_sha = hashlib.sha256(adapter_bytes).hexdigest()
+    config_sha = hashlib.sha256(config_bytes).hexdigest()
     receipt = {
         "schema": "V10R2_QWEN35_DEV_TRAINING_RECEIPT_V1",
         "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
@@ -32,6 +36,7 @@ def _write_candidate_receipt(
         "adapter_artifacts": {
             "files": {
                 "adapter_model.safetensors": adapter_sha,
+                "adapter_config.json": config_sha,
             }
         },
         "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED",
@@ -43,7 +48,7 @@ def _write_candidate_receipt(
         encoding="utf-8",
         newline="\n",
     )
-    return adapter_dir, receipt_path, adapter_sha
+    return adapter_dir, receipt_path, adapter_sha, config_sha
 
 
 def test_run_recipe_semantics_decision_binds_custody_and_gates(tmp_path: Path) -> None:
@@ -57,13 +62,13 @@ def test_run_recipe_semantics_decision_binds_custody_and_gates(tmp_path: Path) -
     runtime_sha = "b" * 64
     panel_sha = "c" * 64
 
-    staged_dir, staged_receipt, staged_sha = _write_candidate_receipt(
+    staged_dir, staged_receipt, staged_sha, staged_config_sha = _write_candidate_receipt(
         tmp_path / "staged",
         adapter_bytes=b"staged-adapter",
         train_sha=train_sha,
         runtime_sha=runtime_sha,
     )
-    continuous_dir, continuous_receipt, continuous_sha = _write_candidate_receipt(
+    continuous_dir, continuous_receipt, continuous_sha, continuous_config_sha = _write_candidate_receipt(
         tmp_path / "continuous",
         adapter_bytes=b"continuous-adapter",
         train_sha=train_sha,
@@ -81,6 +86,7 @@ def test_run_recipe_semantics_decision_binds_custody_and_gates(tmp_path: Path) -
                 "name": "staged",
                 "adapter_dir": str(staged_dir),
                 "adapter_model_sha256": staged_sha,
+                "adapter_config_sha256": staged_config_sha,
                 "token_weighted_completion_nll": 1.0,
                 "cases": [
                     {"record_id": "v4.1-identity_stability-0001", "loss": 1.0},
@@ -91,6 +97,7 @@ def test_run_recipe_semantics_decision_binds_custody_and_gates(tmp_path: Path) -
                 "name": "continuous",
                 "adapter_dir": str(continuous_dir),
                 "adapter_model_sha256": continuous_sha,
+                "adapter_config_sha256": continuous_config_sha,
                 "token_weighted_completion_nll": 1.004,
                 "cases": [
                     {"record_id": "v4.1-identity_stability-0001", "loss": 1.009},

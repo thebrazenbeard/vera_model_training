@@ -161,6 +161,11 @@ def evaluate_candidate(
             if adapter_dir is None
             else sha256_file(adapter_dir / "adapter_model.safetensors")
         ),
+        "adapter_config_sha256": (
+            None
+            if adapter_dir is None
+            else sha256_file(adapter_dir / "adapter_config.json")
+        ),
         "sample_count": len(rows),
         "completion_token_count": total_tokens,
         "token_weighted_completion_nll": mean_nll,
