@@ -417,13 +417,26 @@ def _unique_prompts(
     raise RuntimeError(f"unable to produce unique prompts for {family}")
 
 
-def _read_exclusion_prompts(path: Path) -> set[str]:
+def _template_family_id(family: str) -> str:
+    return f"V10_FINAL_IDENTITY::{family}::V1"
+
+
+def _read_exclusion_surface(path: Path) -> tuple[set[str], set[str]]:
     prompts: set[str] = set()
+    template_ids: set[str] = set()
     with Path(path).open("r", encoding="utf-8-sig") as handle:
         for line_number, line in enumerate(handle, start=1):
             if not line.strip():
                 continue
             value = json.loads(line)
+            for field in (
+                "template_id",
+                "template_family_id",
+                "source_template_id",
+            ):
+                template_id = value.get(field)
+                if isinstance(template_id, str) and template_id.strip():
+                    template_ids.add(template_id.strip())
             prompt = value.get("prompt")
             if isinstance(prompt, str) and prompt.strip():
                 prompts.add(normalize_text(prompt))
@@ -436,7 +449,7 @@ def _read_exclusion_prompts(path: Path) -> set[str]:
                         and isinstance(message.get("content"), str)
                     ):
                         prompts.add(normalize_text(message["content"]))
-    return prompts
+    return prompts, template_ids
 
 
 def materialize_identity_bank(
@@ -445,6 +458,7 @@ def materialize_identity_bank(
     *,
     nonce_receipt: dict,
     exclusion_prompts: set[str] | None = None,
+    exclusion_template_ids: set[str] | None = None,
 ) -> dict:
     validate_protocol(protocol)
     candidate_sha = validate_candidate_freeze(freeze_receipt)
@@ -457,10 +471,16 @@ def materialize_identity_bank(
     rng = random.Random(_seed(psha, candidate_sha, nonce))
     bank_policy = protocol["bank"]
     exclusion_prompts = set(exclusion_prompts or set())
+    exclusion_template_ids = set(exclusion_template_ids or set())
 
     rows: list[dict] = []
     generated_normalized: set[str] = set()
     for family in bank_policy["families"]:
+        template_family_id = _template_family_id(family)
+        if template_family_id in exclusion_template_ids:
+            raise ValueError(
+                f"generated template family collides with exclusion set:{family}"
+            )
         prompts = _unique_prompts(
             family,
             count=bank_policy["cases_per_family"],
@@ -491,6 +511,7 @@ def materialize_identity_bank(
             rows.append({
                 "case_id": case_id,
                 "family": family,
+                "template_family_id": template_family_id,
                 "mode": mode,
                 "messages": messages,
                 "prompt_sha256": prompt_sha,
@@ -558,13 +579,18 @@ def main() -> int:
     nonce_receipt = json.loads(
         args.nonce_receipt.read_text(encoding="utf-8-sig")
     )
-    exclusions = _read_exclusion_prompts(args.train_jsonl)
-    exclusions.update(_read_exclusion_prompts(args.dev_jsonl))
+    train_prompts, train_templates = _read_exclusion_surface(
+        args.train_jsonl
+    )
+    dev_prompts, dev_templates = _read_exclusion_surface(args.dev_jsonl)
+    exclusions = train_prompts | dev_prompts
+    template_exclusions = train_templates | dev_templates
     bank = materialize_identity_bank(
         protocol,
         freeze_receipt,
         nonce_receipt=nonce_receipt,
         exclusion_prompts=exclusions,
+        exclusion_template_ids=template_exclusions,
     )
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
