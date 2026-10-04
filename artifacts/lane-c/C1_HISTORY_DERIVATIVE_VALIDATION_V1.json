@@ -1,0 +1,31 @@
+{
+  "schema": "C1_HISTORY_DERIVATIVE_VALIDATION_V1",
+  "train_rows": 14,
+  "replay_rows": 8,
+  "train_keys": [
+    "preferred",
+    "privacy",
+    "prompt",
+    "rejected",
+    "row_id",
+    "source_behavior",
+    "split"
+  ],
+  "replay_keys": [
+    "criterion",
+    "row_id",
+    "source_behavior",
+    "split"
+  ],
+  "train_behaviors": [],
+  "replay_behaviors": [],
+  "external_only_train": 0,
+  "privacy_scan_hits": [],
+  "privacy_scan_pass": true,
+  "train_sha256": "0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12",
+  "replay_sha256": "f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477",
+  "archaeology_sha256": "3f40014a625178c23a44974c0d03b42dc19479580dd1bf7d33b8c1f834a85644",
+  "protected_eval_consumed": false,
+  "shared_gpu_used": false,
+  "weight_change": false
+}
