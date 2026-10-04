@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T141704Z_lane-a_stage2-complete-stage3-bound",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "STAGE2_VERIFIED_STAGE3_BOUND",
+  "created_at_utc": "2026-10-04T14:17:04Z",
+  "subject": "Stage2 completed and verified; terminal staged segment is source-bound",
+  "body": "Stage2 completed with receipt f6087b6c8d1a9b596c69c402fe2078e03529e9607ec103b7751c2b565083f74b. Independent Lane A verification PASS: receipt self-hash, exact Stage2 spec cafcfd98..., adapter 5dfba71e..., rows32-95, cumulative12, sequential/no-shuffle, and weight change to digest 150550ff.... Stage3 spec is committed and remotely read back at training head 9271ef6ad591f612b6524e457e460240c3cd2496. It binds rows96-159, 8 optimizer steps, the Stage2 receipt/adapter/spec/weight digest, exact order manifest, and terminal staged output namespace v10r3-lane-b-staged-sequential-step20-20261004. 32/32 dev+protocol tests PASS before commit. GPU lease remains Lane A and is advanced to 9271ef6a....",
+  "repo_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
+  "artifacts": {
+    "stage2_receipt_sha256": "f6087b6c8d1a9b596c69c402fe2078e03529e9607ec103b7751c2b565083f74b",
+    "stage2_adapter_sha256": "5dfba71ed8ff7820a58c4894c4e2640497cec99092b921536f9d8d6117c921b3",
+    "stage2_weight_digest_after": "150550ffd336c7e7907a46110ce037d7c5dc43d14ac20c026db76d578a2283c5",
+    "stage3_spec": "successor/experiments/V10R3_STAGED_RESET_CONTROL_STAGE3_SPEC_20261004_V1.json",
+    "stage3_spec_sha256": "54bb5198bc2ab4b34fc7d08cc88474bf2dbb00e1e9f96d739c2f1f1f7a5a2f2e",
+    "validation_tests": "32/32 PASS"
+  },
+  "requires_ack": false
+}
