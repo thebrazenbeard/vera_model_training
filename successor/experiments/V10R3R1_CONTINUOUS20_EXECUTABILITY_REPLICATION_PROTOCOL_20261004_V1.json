@@ -24,14 +24,15 @@
   "replication": {
     "replication_id": "V10R3R1_CONTINUOUS20_EXECUTABILITY_20261004_V1",
     "spec_path": "successor/experiments/V10R3R1_CONTINUOUS20_EXECUTABILITY_REPLICATION_SPEC_20261004_V1.json",
-    "spec_sha256": "1336f69b7b013820f7efcc17e4cedb44446e0624e47ad2103e87e1997e9eca8c",
+    "spec_sha256": "94e99e39d280a2cf99194f1a5a9d09b96b4f8c1140d59b4741d3ac2b13d4c660",
     "output_namespace": "D:\\VERA\\models\\adapters\\v10r3r1-lane-a-continuous20-sequential-20261004",
     "attempt_limit": 1,
     "fresh_process_required": true,
     "fresh_adapter_required": true,
     "resume_adapter_forbidden": true,
     "panel_use": "PROHIBITED",
-    "panel_status": "HOLD_UNCONSUMED"
+    "panel_status": "HOLD_UNCONSUMED",
+    "spec_hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
   },
   "exact_semantics": {
     "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
