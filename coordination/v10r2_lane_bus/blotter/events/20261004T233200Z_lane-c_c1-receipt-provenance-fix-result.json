@@ -1,0 +1,51 @@
+{
+  "schema":"VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id":"20261004T233200Z_LANE_C_C1_RECEIPT_PROVENANCE_FIX_RESULT",
+  "created_at_utc":"2026-10-04T23:32:00Z",
+  "lane":"LANE_C",
+  "event_type":"RESULT",
+  "task_id":"C1_RECEIPT_PROVENANCE_FIX_V1",
+  "summary":"Lane C repaired the C1 V2 self-referential receipt provenance defect. V3 binds immutable validated_data_head separately from immutable validator commit/blob and reruns byte-identically after the later receipt commit.",
+  "observed_peer_event_ids":[
+    "20261004T231127Z_LANE_A_LIVE_COORDINATION_CHECKPOINT",
+    "20261004T230500Z_LANE_B_C1_VALIDATION_FIX_REVIEW_RESULT",
+    "20261004T231000Z_LANE_B_C2_HARNESS_REVIEW_INTENT"
+  ],
+  "source_subject":{
+    "repository":"thebrazenbeard/vera_model_training",
+    "branch":"work/lane-c-history-validation-provenance-fix-20261004-v1",
+    "receipt_head":"c2c482a90f3640fb1cb6843cb909105d20af69ae",
+    "validated_data_head":"56ce762626e3956f4afe7b0a0a2fe57d74b40ff7",
+    "validator_commit":"97a1fb470f419c8e5d1bbc5b4a1213843611dab0",
+    "validator_blob":"6113d21f7455d4183cde74870233ccdca26167c0",
+    "receipt_blob":"c6998692bc806ff3f2560106b339f0912013f7a6",
+    "receipt_sha256":"2702b5221de28c6f2284f2b19df71797c8f6c2b10b2168dd0e934fb63d5753b1",
+    "train_sha256":"0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12",
+    "replay_sha256":"f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477"
+  },
+  "resource_claims":["LANE_C_CPU_PROVENANCE_REPAIR","NO_GPU","C2_HEAD_IMMUTABLE"],
+  "write_paths":[
+    "work/lane-c-history-validation-provenance-fix-20261004-v1:artifacts/lane-c/validate_c1_history_derivatives_v3.py",
+    "work/lane-c-history-validation-provenance-fix-20261004-v1:artifacts/lane-c/C1_HISTORY_DERIVATIVE_VALIDATION_V3.json"
+  ],
+  "effects":["cpu_only_validation","source_write_or_commit","task_terminal_state"],
+  "evidence":{
+    "validator_compile":"PASS",
+    "v3_validation_status":"PASS",
+    "project_runner_validator_freeze_task_id":"910cfbedd7a24c9c96e4d8ad5a4b78f9",
+    "project_runner_receipt_generate_task_id":"ee050470a66f49398dd5b46528eb093f",
+    "project_runner_receipt_freeze_task_id":"b55b98f3b9f84f6e9f95bf026c2ce252",
+    "project_runner_byte_repro_task_id":"b590bf0551c8487991feb7605bb866a3",
+    "post_receipt_rerun_sha256":"2702b5221de28c6f2284f2b19df71797c8f6c2b10b2168dd0e934fb63d5753b1",
+    "committed_receipt_sha256":"2702b5221de28c6f2284f2b19df71797c8f6c2b10b2168dd0e934fb63d5753b1",
+    "byte_compare":"IDENTICAL",
+    "candidate_derivative_bytes_changed":false,
+    "shared_gpu_use":false,
+    "weight_change":false,
+    "protected_eval_consumed":false
+  },
+  "next_action":"Lane B exact-head review of c2c482a90f3640fb1cb6843cb909105d20af69ae for automation-authoritative provenance release. Lane C keeps C2 6407f72 immutable while B reviews predecessor C2 and then prepares the separately requested C2 successor repairs.",
+  "requires_peer_ack":true,
+  "peer_ack_for_event_id":"20261004T230500Z_LANE_B_C1_VALIDATION_FIX_REVIEW_RESULT",
+  "review_owner":"LANE_B"
+}
