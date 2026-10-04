@@ -131,3 +131,53 @@ def test_gpu_compute_process_scan_empty_is_empty(monkeypatch) -> None:
         lambda *args, **kwargs: _RunResult(""),
     )
     assert host.read_competing_trainers() == []
+
+
+def test_gpu_compute_process_scan_accepts_windows_na_memory(monkeypatch) -> None:
+    import successor.experiments.preflight_v10r3r2_host_resources as host
+
+    monkeypatch.setattr(
+        host.subprocess,
+        "run",
+        lambda *args, **kwargs: _RunResult(
+            "5888, C:\\ProgramData\\ProRun\\python\\python.exe, [N/A]\n"
+        ),
+    )
+
+    assert host.read_competing_trainers() == [
+        {
+            "pid": 5888,
+            "process_name": "C:\\ProgramData\\ProRun\\python\\python.exe",
+            "used_memory_mib": None,
+        }
+    ]
+
+
+def test_preflight_main_returns_structured_hold_on_probe_failure(
+    monkeypatch,
+    capsys,
+) -> None:
+    import successor.experiments.preflight_v10r3r2_host_resources as host
+
+    monkeypatch.setattr(
+        host,
+        "read_live_metrics",
+        lambda: (_ for _ in ()).throw(
+            host.HostResourceHold("probe failed cleanly")
+        ),
+    )
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "preflight_v10r3r2_host_resources.py",
+            "--min-available-physical-gib",
+            "8",
+            "--min-commit-headroom-gib",
+            "8",
+        ],
+    )
+
+    assert host.main() == 2
+    output = capsys.readouterr().out
+    assert '"status": "HOLD"' in output
+    assert "probe failed cleanly" in output

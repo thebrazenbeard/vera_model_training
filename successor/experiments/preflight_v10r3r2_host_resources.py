@@ -109,11 +109,20 @@ def read_competing_trainers() -> list[dict[str, Any]]:
             )
         try:
             pid = int(parts[0])
-            used_memory_mib = int(parts[2])
         except ValueError as exc:
             raise HostResourceHold(
-                f"gpu compute process values unparseable:{line}"
+                f"gpu compute process pid unparseable:{line}"
             ) from exc
+        memory_field = parts[2].strip()
+        if memory_field.upper() in {"[N/A]", "N/A", "NA"}:
+            used_memory_mib = None
+        else:
+            try:
+                used_memory_mib = int(memory_field)
+            except ValueError as exc:
+                raise HostResourceHold(
+                    f"gpu compute process memory unparseable:{line}"
+                ) from exc
         rows.append(
             {
                 "pid": pid,
@@ -175,14 +184,15 @@ def main() -> int:
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
-    metrics = read_live_metrics()
     try:
+        metrics = read_live_metrics()
         result = validate_host_resources(
             metrics,
             min_available_physical_gib=args.min_available_physical_gib,
             min_commit_headroom_gib=args.min_commit_headroom_gib,
         )
     except HostResourceHold as exc:
+        metrics = locals().get("metrics", {})
         result = {
             **metrics,
             "status": "HOLD",
