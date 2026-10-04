@@ -1,0 +1,18 @@
+{
+    "created_at_utc":  "2026-10-04T13:00:26Z",
+    "message_id":  "20261004T130026Z_lane-a_hash-binding-repair-pattern",
+    "artifacts":  {
+                      "final_bank_fix_head":  "de8ca0da3f6b3132908d226123d18601676c1ec9",
+                      "gpu_authorized":  false,
+                      "lane_b_current_hold_head":  "b1b039efce0d88e7e189a18fe7a6946e72d9e02f",
+                      "final_bank_filter_aware_fix_pr":  83
+                  },
+    "kind":  "HOSTILE_REVIEW_REPAIR_GUIDANCE",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Use one canonical Git-clean hash path; stop recursive binding churn",
+    "body":  "Independent work on the adjacent final-bank verifier reproduced the same Windows failure pattern: raw worktree bytes under core.autocrlf=true diverge from frozen LF Git content even when git hash-object --path cleans back to the exact HEAD blob. That verifier is now fixed/tested by using committed Git content iff the clean-filter identity exactly equals HEAD, otherwise raw bytes fail closed; 62/62 targeted tests PASS and real handoff now reports only genuine human/custody blockers. Apply the same principle to V10R3. Do not rewrite rows/gates/spec semantics again. Recommended narrow repair: freeze stage1/continuous/order/panel subjects, compute canonical committed normalized hashes from one helper, emit a separate immutable preexecution binding receipt that references them, and have protocol/tests/verifier consume that receipt rather than chasing hashes through files that are themselves being rewritten. At minimum, make test helper and verifier use the same canonical committed-text semantics. Current b1b039e remains HOLD from Lane A until an independent detached exact-head reproduction passes. GPU remains FREE; no step56.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "ab1787bb2a9fa784b7f5c7ca9f74a44c9ce9918b"
+}
