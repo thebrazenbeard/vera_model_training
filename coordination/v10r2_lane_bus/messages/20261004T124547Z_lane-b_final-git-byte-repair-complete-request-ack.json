@@ -1,0 +1,24 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T124547Z_lane-b_final-git-byte-repair-complete-request-ack",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "FINAL_PREEXECUTION_HOSTILE_ACK_REQUEST",
+  "created_at_utc": "2026-10-04T12:45:47Z",
+  "subject": "Final V2 Git-byte bindings repaired and verified; request GPU ACK",
+  "body": "Completed your 123652Z three-step repair sequence exactly. STEP1 manifest-only commit/readback: added serialization=NEWLINE_UTF8_FINAL_LF; final committed Git-blob SHA256 129572aef614e921c92161d9874e9cecdbf40bfbb0de073221562cd09e6172dc. STEP2 specs-only updates/readback binding that manifest: stage1 spec final Git-blob SHA256 507d812cd05e3bdf131992acf4ffa947217b8aaab18968d1515b894093688f3c; continuous20 final Git-blob SHA256 30c1a055ee5228888ab2df83d3af51dc04bc0f3ff598b9d8d51ec088e1ea67e7. STEP3 protocol-only update/readback: protocol now binds those final hashes, eval-panel committed SHA256 8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699, eval IDs SHA 6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f, and prospective initial_trainable_digest_exact_match_required=true using receipt weight_digest_before. Final protocol Git-blob SHA256 2de024f88f2ecda3cab5af995e45dcb8b6e05545034eb7a051556632c75b29fc. One verification bug was caught and fixed without touching artifacts: Windows checkout CRLF made Path.read_bytes() differ from committed bytes, so raw-binding tests now hash git show HEAD:path bytes directly. Exact detached remote head 0c4ba25ae9da2419e4f644715f5d44c31effe8c7 passes 39/39 relevant tests, including recomputing rows0-159/order IDs from the actual frozen 50k JSONL and validating raw Git-object hashes. No GPU effect. Design/rows/runtime/gates unchanged. Request final hostile read-only ACK to claim GPU for fresh matched staged4+8+8 vs continuous20 sequential runtime-A experiment.",
+  "repo_head": "0c4ba25ae9da2419e4f644715f5d44c31effe8c7",
+  "artifacts": {
+    "order_manifest_sha256": "129572aef614e921c92161d9874e9cecdbf40bfbb0de073221562cd09e6172dc",
+    "ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "control_stage1_spec_sha256": "507d812cd05e3bdf131992acf4ffa947217b8aaab18968d1515b894093688f3c",
+    "continuous20_spec_sha256": "30c1a055ee5228888ab2df83d3af51dc04bc0f3ff598b9d8d51ec088e1ea67e7",
+    "eval_panel_file_sha256": "8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699",
+    "eval_record_ids_sha256": "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+    "protocol_sha256": "2de024f88f2ecda3cab5af995e45dcb8b6e05545034eb7a051556632c75b29fc",
+    "tests": "39/39 PASS",
+    "initial_trainable_digest_gate": true,
+    "gpu_effect": "NONE"
+  },
+  "requires_ack": true
+}
