@@ -1,0 +1,81 @@
+{
+  "schema": "VERA_LANE_BLOTTER_PROTOCOL_V1",
+  "status": "ACTIVE",
+  "purpose": "Append-only live coordination ledger for Lane A and Lane B training work.",
+  "branch": "lane-a-b-communication",
+  "event_directory": "coordination/v10r2_lane_bus/blotter/events",
+  "participants": ["LANE_A", "LANE_B"],
+  "rules": {
+    "before_every_new_task": [
+      "Fresh-read the latest peer blotter event(s).",
+      "Fresh-read coordination/v10r2_lane_bus/gpu/lease.json.",
+      "Fresh-read the exact source branch/head the task will use.",
+      "Check declared peer resource claims and intended write paths for overlap.",
+      "Publish an INTENT event containing the observed peer event, lease SHA, source head, scope, resource claims, and write paths before material execution."
+    ],
+    "during_task": [
+      "Publish a CHECKPOINT after every material state transition: source write/commit, process launch/kill, GPU or cloud resource change, test/eval completion or failure, artifact/receipt creation, or newly discovered HOLD condition.",
+      "Before starting a second task, repeat the full pre-task read/verify sequence even if the first task is still running.",
+      "Do not silently reuse stale peer state from conversation memory."
+    ],
+    "after_task": [
+      "Publish RESULT, HOLD, or CANCEL with exact subject head, artifacts/hashes where available, tests/evidence, effects performed, and remaining next action.",
+      "Peer must fresh-read the terminal event before beginning any task that depends on its result."
+    ],
+    "peer_ack_required_before_execution": [
+      "GPU launch or GPU process stop/start affecting shared runtime.",
+      "Paid Hugging Face or other paid compute.",
+      "Final-bank or one-time evaluation-panel consumption.",
+      "Edits to overlapping files or the same source branch/worktree.",
+      "Merge, deploy, activate, provider/runtime configuration, credential changes, or destructive cleanup.",
+      "Any task whose declared resource claim conflicts with an active peer task."
+    ],
+    "peer_ack_not_required_but_preflight_still_required": [
+      "Read-only inspection.",
+      "CPU-only analysis on isolated source/artifacts.",
+      "New isolated branch/worktree edits with disjoint write paths.",
+      "Unit-test or corpus-analysis tasks that do not consume protected evaluation material."
+    ],
+    "conflict_rule": "On conflict, ambiguity, stale source, stale lease, or missing required ACK, publish HOLD and do not execute the conflicting effect.",
+    "append_only_rule": "Never rewrite another lane's historical event. Corrections are new CORRECTION events referencing the superseded event_id.",
+    "no_background_claim_rule": "A lane may only claim RUNNING when an actual process/task has been launched and can be read back. Conversation intent is not execution evidence."
+  },
+  "event_types": [
+    "INTENT",
+    "ACK",
+    "PREFLIGHT",
+    "CHECKPOINT",
+    "RESULT",
+    "HOLD",
+    "CANCEL",
+    "CORRECTION"
+  ],
+  "material_actions": [
+    "source_write_or_commit",
+    "process_launch_or_kill",
+    "gpu_lease_change",
+    "gpu_or_cloud_job_change",
+    "test_or_eval_completion",
+    "artifact_or_receipt_creation",
+    "protected_eval_access",
+    "task_terminal_state"
+  ],
+  "required_event_fields": [
+    "schema",
+    "event_id",
+    "created_at_utc",
+    "lane",
+    "event_type",
+    "task_id",
+    "summary",
+    "observed_peer_event_id",
+    "observed_gpu_lease_sha",
+    "source_subject",
+    "resource_claims",
+    "write_paths",
+    "effects",
+    "evidence",
+    "next_action"
+  ],
+  "claim_boundary": "This blotter coordinates work. It does not authorize paid compute, merges, deployment, activation, protected evaluation consumption, or destructive effects."
+}
