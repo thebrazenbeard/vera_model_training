@@ -1,12 +1,12 @@
-{
-  "schema": "V10R2_GPU_LEASE_V1",
-  "resource": "LAPPY_RTX_3050_4GB",
-  "holder": "LANE_B",
-  "purpose": "WHOLE_MODEL_NONMUTATING_BACKWARD_AB_CURRENT_RUNTIME_ROWS_4096_4103",
-  "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "dd342312cf8d05a890b52a4b7e5105cfef56b767",
-  "acquired_at_utc": "2026-10-04T00:56:22Z",
-  "released_at_utc": null,
-  "status": "HELD",
-  "rule": "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
+﻿{
+    "schema":  "V10R2_GPU_LEASE_V1",
+    "resource":  "LAPPY_RTX_3050_4GB",
+    "holder":  "LANE_A",
+    "purpose":  "REASSIGNED_WHOLE_MODEL_NONMUTATING_FLA_TRITON_FULL_ROWS_4096_4103",
+    "training_branch":  "work/v10r2-accelerated-lane-b-20261003-v1",
+    "training_head":  "dd342312cf8d05a890b52a4b7e5105cfef56b767",
+    "acquired_at_utc":  "2026-10-04T01:06:28Z",
+    "released_at_utc":  null,
+    "status":  "HELD",
+    "rule":  "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
 }
