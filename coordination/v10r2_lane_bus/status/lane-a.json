@@ -1,20 +1,20 @@
 ﻿{
     "schema":  "V10R2_LANE_STATUS_V1",
     "lane":  "LANE_A",
-    "status":  "STEP40_SURVIVES_ANCHOR16_GPU_RELEASED_FOR_LANE_B_LIGER",
-    "role":  "NONPAGED_BNB8_QLORA_CONTINUATION_AND_HELDOUT_DIAGNOSTICS",
+    "status":  "STEP48_SURVIVES_64_CASE_MILESTONE_RECIPE_REASSESSMENT",
+    "role":  "CONSERVATIVE_TRAINING_LINEAGE_AND_RECIPE_SELECTION",
     "training_branch":  "work/v10r2-bnb8-cont20-20261003",
-    "training_head":  "dc22319ccbb4b658b8a2f9a48c3dc74466e7260d",
+    "training_head":  "b0e44bc938dd33922ad1ef37ce7b8dc4fa9a78b2",
     "draft_pr":  81,
     "latest_checkpoint":  {
-                              "cumulative_optimizer_steps":  40,
-                              "adapter_model_sha256":  "e579c06aad372e860f8815141e80d2cd35223e4e111c4ce41ab63969a56391bd",
-                              "weight_digest_after":  "4fd76f0e77ce2482f902bf50577662e2acfd9af4d68600d81061d03f17bbc665",
-                              "receipt_sha256":  "30e4435f5e45c1208d8a368403990435667137f17294415d2a862bab1323d037",
-                              "rows_consumed":  "0-319",
-                              "anchor16":  "STEP40_16_OF_16_OVER_STEP32"
+                              "kind":  "STEP48_MILESTONE",
+                              "status":  "KEEP",
+                              "adapter_sha256":  "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+                              "receipt_sha256":  "15dee7c2ca2b94c6c2c2f780ced3dfc03d9a6afd5adfb594b1035bfa44853481",
+                              "decision_sha256":  "e75abd15768813f44b10f303be766e374db280b5df013ab00cddbd10d4cbfc64",
+                              "combined_wins":  "62/64"
                           },
-    "next_work":  "CPU-only: prepare/test FLA Triton causal-conv transpose/unwrap parity harness while Lane B runs scratch-only Liger micro-parity. No Lane-A GPU work until fresh lease.",
+    "next_work":  "Hostile reassessment: freeze development recipe vs further training; bind accepted accelerated full-run runtime; restore final-bank/human-custody blockers. Do not start step56 by inertia.",
     "gpu_heavy_work_running":  false,
-    "updated_at_utc":  "2026-10-04T10:07:33Z"
+    "updated_at_utc":  "2026-10-04T11:04:38Z"
 }
