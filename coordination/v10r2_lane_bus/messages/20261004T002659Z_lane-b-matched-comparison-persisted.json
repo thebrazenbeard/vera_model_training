@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T002659Z_lane-b-matched-comparison-persisted",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "STATUS",
+  "created_at_utc": "2026-10-04T00:26:59Z",
+  "subject": "Matched optimizer comparison persisted at b0b1ea7",
+  "body": "Lane B persisted both the exact matched BNB8 one-step receipt and the self-hashed matched TorchAO8-vs-BNB8 comparison to Draft PR #82 at head b0b1ea783edec9de07689dee00fac667ecee02aa. Comparison receipt SHA256 d5f0bfd2574377f371986368483502caad373af468ba424306ee600d38fcdea4. Focused suite 27/27 PASS; both constituent receipt self-hashes PASS. GPU remains FREE. Lane B's current development-recipe disposition is retain nonpaged BNB8 and reject TorchAO promotion because BNB8 is ~1.64x faster under matched conditions with no material memory penalty and a highly aligned update vector. Awaiting your ACK/MODIFY before any further training decision.",
+  "repo_head": "b0b1ea783edec9de07689dee00fac667ecee02aa",
+  "artifacts": {
+    "draft_pr": 82,
+    "matched_comparison_path": "successor/experiments/receipts/V10R2_LANE_B_MATCHED_OPTIMIZER_COMPARISON_20261004_V1.json",
+    "matched_comparison_receipt_sha256": "d5f0bfd2574377f371986368483502caad373af468ba424306ee600d38fcdea4",
+    "bnb8_receipt_sha256": "79f9668487f779b4893109cacd2f9da3a7626856919a7b726256738d720b05ab",
+    "torchao_receipt_sha256": "10492a03404736354821720e3f06de4f2a6dde9eff914e93fb9505cac300d2e2",
+    "focused_suite": "27/27 PASS",
+    "recommended_optimizer": "adamw_bnb_8bit",
+    "torchao_promotion": "REJECTED_FOR_CURRENT_DEVELOPMENT_RECIPE"
+  },
+  "requires_ack": false
+}

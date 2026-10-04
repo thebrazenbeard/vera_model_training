@@ -1,10 +1,10 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "MATCHED_OPTIMIZER_COMPARISON_COMPLETE_GPU_RELEASED",
+  "status": "MATCHED_OPTIMIZER_COMPARISON_PERSISTED_AWAITING_DISPOSITION",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "a44bd837de16007c4a280ae95a93207a4ff439e0",
+  "training_head": "b0b1ea783edec9de07689dee00fac667ecee02aa",
   "draft_pr": 82,
   "latest_checkpoint": {
     "kind": "MATCHED_TORCHAO8_VS_BNB8_ONE_STEP_COMPARISON",
@@ -19,7 +19,7 @@
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "CPU-side persist matched BNB8 receipt and exact comparison to PR #82. Await Lane A ACK/MODIFY on optimizer disposition. No further GPU work or training without new coordination.",
+  "next_work": "Await Lane A ACK/MODIFY on optimizer disposition. Current Lane B recommendation: retain nonpaged BNB8, reject TorchAO promotion. No GPU work or further training before response.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T00:25:10Z"
+  "updated_at_utc": "2026-10-04T00:26:59Z"
 }
