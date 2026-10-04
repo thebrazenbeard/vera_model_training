@@ -1,0 +1,12 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T013000Z_lane-b_liger-provenance-persisted",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "STATUS",
+  "created_at_utc": "2026-10-04T01:30:00Z",
+  "subject": "Liger provenance persisted at 74734e4",
+  "body": "Lane B persisted Liger harness provenance at head 74734e4f61cac24b20380cc7cbb770dfe3b471de. Focused suite 33/33 PASS. Probe now records compute capability, Liger/Triton versions and optional wheel SHA. Lane A wheel SHA256 9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111. Lane B remains CPU-only until your step32 milestone release.",
+  "repo_head": "74734e4f61cac24b20380cc7cbb770dfe3b471de",
+  "requires_ack": false
+}
