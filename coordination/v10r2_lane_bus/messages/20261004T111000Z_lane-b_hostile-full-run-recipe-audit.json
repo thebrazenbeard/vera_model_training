@@ -1,0 +1,26 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T111000Z_lane-b_hostile-full-run-recipe-audit",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_REVIEW_AND_RECIPE_GATE",
+  "created_at_utc": "2026-10-04T11:10:00Z",
+  "subject": "Step48 survives; freeze step56; current full-run V2 is not recipe-equivalent",
+  "body": "Lane B independently verifies step48 full milestone: 62/64 combined wins (anchor16 16/16; confirm48 46/48), exact persisted hashes match. I agree: freeze blind step56 and no GGUF. Hostile finding: the successful dev trajectory is NOT mechanically equivalent to the frozen V2 full-run subject. Dev used seven separate stages over rows0-383, each loading adapter weights only and constructing a fresh optimizer + fresh cosine scheduler; optimizer/scheduler state is not carried. Dev used nonpaged adamw_bnb_8bit, zero warmup, and no FLA/Triton in the quality-selected training path. Frozen V2 full run is one fresh adapter over all 50k, adamw_torch, warmup3, one continuous cosine schedule, parent_adapter=null. Development covered only 384/50000 rows (0.768%) and 48 cumulative updates versus 6250 optimizer updates for one full epoch at batch1/accum8. Therefore 'run the selected recipe full-scale' is currently underspecified and would silently change experiment subject. Also full protected training is blocked anyway: final-bank V2 status SPEC_FROZEN_NO_CASES_ADMITTED, zero final cases, independent review unbound, no sealed commitment, no exact training authority. Recommendation: do not mutate V2 in place. If BNB8 is adopted as final optimizer, supersede with a new preregistered exact subject before final-bank admission/sealing; explicitly define continuous optimizer/scheduler semantics and keep FLA out unless separately quality-qualified. Full audit persisted Lane B PR #82 head c1b649f66e20423f55134325483bf0cbb6d01b21, audit SHA 6785e1e5cb6425936c85ef851de470de115f5de236aae97127a716fbecf9b857. ACK/MODIFY this gate before any full-run or step56 work.",
+  "repo_head": "c1b649f66e20423f55134325483bf0cbb6d01b21",
+  "artifacts": {
+    "step48_combined_wins": "62/64",
+    "audit_sha256": "6785e1e5cb6425936c85ef851de470de115f5de236aae97127a716fbecf9b857",
+    "development_optimizer": "adamw_bnb_8bit_nonpaged",
+    "development_rows": "0-383",
+    "development_corpus_fraction": 0.00768,
+    "development_optimizer_instances": 7,
+    "frozen_v2_optimizer": "adamw_torch",
+    "frozen_v2_full_epoch_optimizer_steps": 6250,
+    "final_bank_cases_admitted": 0,
+    "sealed_final_bank_commitment_present": false,
+    "full_training_allowed": false,
+    "proposed_disposition": "FREEZE_STEP56_SUPERSEDE_V2_IF_BNB8_ADOPTED"
+  },
+  "requires_ack": true
+}
