@@ -1,7 +1,7 @@
 {
   "schema": "V10R3_STAGED_VS_CONTINUOUS_RECIPE_SEMANTICS_PROTOCOL_V2",
   "date": "2026-10-04",
-  "status": "FROZEN_PRE_EXECUTION_PENDING_FINAL_HOSTILE_READONLY_REVIEW",
+  "status": "FROZEN_PRE_EXECUTION_PENDING_HOSTILE_READONLY_REVIEW",
   "supersedes": {
     "protocol": "V10R3_CONTINUOUS20_VS_STAGED20_PROTOCOL_20261004_V1.json",
     "candidate_spec": "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V1.json",
@@ -38,7 +38,8 @@
     "quantization": "NF4_DOUBLE_QUANT_BF16",
     "lora": "R4_ALPHA16_DROPOUT0_ALL_LINEAR",
     "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
-    "order_manifest_sha256": "129572aef614e921c92161d9874e9cecdbf40bfbb0de073221562cd09e6172dc"
+    "order_manifest_sha256": "8cd3b69d29871b9f4a302d4af5c299755ed73b05c23a1f71582074236606b942",
+    "record_ids_serialization": "NEWLINE_UTF8_FINAL_LF"
   },
   "control": {
     "name": "staged_reset_4_8_8",
@@ -67,8 +68,7 @@
     ],
     "optimizer_scheduler_instances": 3,
     "save_reload_boundaries": 2,
-    "final_namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step20-20261004",
-    "stage1_spec_sha256": "507d812cd05e3bdf131992acf4ffa947217b8aaab18968d1515b894093688f3c"
+    "final_namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step20-20261004"
   },
   "candidate": {
     "name": "continuous20",
@@ -78,8 +78,7 @@
     "optimizer_scheduler_instances": 1,
     "save_reload_boundaries": 0,
     "fresh_adapter": true,
-    "namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-continuous20-sequential-20261004",
-    "spec_sha256": "30c1a055ee5228888ab2df83d3af51dc04bc0f3ff598b9d8d51ec088e1ea67e7"
+    "namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-continuous20-sequential-20261004"
   },
   "evaluation": {
     "evaluator": "successor/experiments/evaluate_v10r3_recipe_semantics.py",
@@ -89,8 +88,7 @@
     "row_count": 64,
     "one_time_use": true,
     "same_runtime_A_for_both": true,
-    "backend": "torch_reference",
-    "panel_file_sha256": "8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699"
+    "backend": "torch_reference"
   },
   "prospective_gates": {
     "continuous_minus_staged_token_weighted_nll_max": 0.005,
@@ -98,16 +96,61 @@
     "if_both_pass": "CONTINUOUS_STATE_SEMANTICS_SURVIVE_SMALL_SCALE_TRANSFER",
     "if_either_fails": "HOLD_V10R3_CONTINUOUS_RECIPE_AND_REASSESS",
     "update_geometry": "DIAGNOSTIC_ONLY",
-    "no_threshold_changes_after_result": true,
-    "initial_trainable_digest_exact_match_required": true
+    "no_threshold_changes_after_result": true
   },
   "scope_limit": "Answers staged-boundary-vs-continuous small-scale semantics only. Does NOT validate warmup3, 6250-step scale, final bank, or full-run authority.",
   "claim_ceiling": "DEVELOPMENT_RECIPE_SEMANTICS_ONLY_NOT_FINAL_BANK_NOT_FULL_RUN_AUTHORITY",
   "preexecution_evidence": {
-    "relevant_tests": "PENDING_FINAL_RAW_HASH_BINDING_TEST_REFRESH",
+    "relevant_tests": "40/40 PASS",
+    "local_verifier": {
+      "path": "successor/experiments/receipts/V10R3_RECIPE_SEMANTICS_PREEXECUTION_VERIFICATION_20261004_V2.json",
+      "sha256": "51d6607e8dbdebf00a8fcf53d358182001b366749745565a10a9316ed58da143",
+      "status": "PASS",
+      "verified_train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+      "verified_ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+      "gpu_effect": "NONE"
+    },
     "gpu_effect": "NONE",
-    "required_next": "LANE_A_FINAL_HOSTILE_READONLY_ACK",
-    "raw_committed_file_hashes_bound": true,
-    "initial_trainable_digest_requirement": "BOTH_FRESH_ARM_RECEIPTS_WEIGHT_DIGEST_BEFORE_MUST_MATCH_EXACTLY"
+    "required_next": "LANE_A_HOSTILE_READONLY_ACK"
+  },
+  "initialization_equivalence_gate": {
+    "required": true,
+    "expected_initial_trainable_parameter_digest": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+    "source_receipt": {
+      "path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-step4-20261003\\DEV_TRAINING_COMPLETE.json",
+      "receipt_sha256": "8c02cad57d1ec6f89139623310d9de8a0ac13a484701e5a371a868a0baa3bc38",
+      "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+      "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+      "reason": "Observed prior fresh LoRA initialization under same base/runtime/seed/QLoRA topology; train ordering occurs after initialization."
+    },
+    "runner_receipt_field": "initial_trainable_parameter_digest",
+    "runner_gate_field": "initialization_equivalence_gate",
+    "control_stage1_must_match_before_first_optimizer_update": true,
+    "continuous20_must_match_before_first_optimizer_update": true,
+    "comparison": "EXACT_MATCH",
+    "failure_disposition": "HOLD_BEFORE_TRAINER_TRAIN"
+  },
+  "committed_file_bindings": {
+    "control_stage1_spec": {
+      "path": "successor/experiments/V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json",
+      "sha256": "30682efe3da214da9b546edf688beab7392c673c58f45c8b17b565f2986e5266",
+      "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
+    },
+    "continuous20_spec": {
+      "path": "successor/experiments/V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json",
+      "sha256": "5db3261e3a3dc0544e229401b3d72ee9b3eec40fb3b6f2eb3ecf221d64692bd5",
+      "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
+    },
+    "order_manifest": {
+      "path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
+      "sha256": "8cd3b69d29871b9f4a302d4af5c299755ed73b05c23a1f71582074236606b942",
+      "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
+    },
+    "fresh_eval_panel": {
+      "path": "successor/experiments/V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json",
+      "sha256": "cedf1677fafb353517cfdf0dc9c5b628614b693e11ef04e812db5aadae869d6a",
+      "record_ids_sha256": "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+      "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
+    }
   }
 }
