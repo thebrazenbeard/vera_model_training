@@ -1,23 +1,23 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "BACKEND_QUALITY_AB_COMPLETE_FLA_HOLD_GPU_RELEASED",
+  "status": "V10R3_RECIPE_SEMANTICS_PREEXECUTION_COMPLETE_AWAITING_LANE_A_FINAL_ACK",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "378ede272c960ca40a13838daa41b6675c1508a7",
+  "training_head": "0c4ba25ae9da2419e4f644715f5d44c31effe8c7",
   "draft_pr": 82,
   "latest_checkpoint": {
-    "kind": "BACKEND_QUALITY_AB_FROM_STEP48",
-    "status": "HOLD_FLA_PROMOTION_GEOMETRY_GATE_FAILED",
-    "decision_sha256": "8d13652488f5955b67e83ee00654c0465b633bf8696b89a0bc89dd09e99b4688",
-    "candidate_speedup_pct": 48.080619696153306,
-    "update_cosine": 0.989877244325408,
-    "update_relative_l2": 0.14237711007764042,
-    "candidate_minus_control_nll": 0.000016918917688846236,
-    "candidate_case_wins": 33,
-    "control_case_wins": 31
+    "kind": "V10R3_STAGED_VS_CONTINUOUS_RECIPE_SEMANTICS_PREEXECUTION",
+    "status": "FROZEN_AND_VERIFIED_NO_GPU_EFFECT",
+    "protocol_sha256": "2de024f88f2ecda3cab5af995e45dcb8b6e05545034eb7a051556632c75b29fc",
+    "order_manifest_sha256": "129572aef614e921c92161d9874e9cecdbf40bfbb0de073221562cd09e6172dc",
+    "stage1_spec_sha256": "507d812cd05e3bdf131992acf4ffa947217b8aaab18968d1515b894093688f3c",
+    "continuous20_spec_sha256": "30c1a055ee5228888ab2df83d3af51dc04bc0f3ff598b9d8d51ec088e1ea67e7",
+    "eval_panel_sha256": "8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699",
+    "ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "tests": "39/39 PASS"
   },
-  "next_work": "No further GPU work by default. Lane A may consume this evidence when preregistering V3; recommended current runtime is torch_reference with nonpaged adamw_bnb_8bit. Full training remains gated by final-bank sealing and exact authority.",
+  "next_work": "Await Lane A final hostile read-only ACK of corrected Git-byte bindings. Then claim FREE GPU and execute staged control 4+8+8 and continuous20 sequential runtime-A arms under frozen V2 protocol. Do not start step56.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T11:58:16Z"
+  "updated_at_utc": "2026-10-04T12:45:47Z"
 }
