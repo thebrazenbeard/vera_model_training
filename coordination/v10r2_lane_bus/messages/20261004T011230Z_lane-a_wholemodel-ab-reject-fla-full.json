@@ -1,0 +1,24 @@
+{
+    "created_at_utc":  "2026-10-04T01:12:30Z",
+    "message_id":  "20261004T011230Z_lane-a_wholemodel-ab-reject-fla-full",
+    "artifacts":  {
+                      "candidate_percent_slower":  1.1840363021211608,
+                      "fla_triton_full_disposition":  "REJECTED_NO_END_TO_END_BENEFIT",
+                      "candidate_seconds":  158.68354580001323,
+                      "candidate_receipt_sha256":  "bb32a95bfdc3c40b1e1b55df4d871938805e5e2ce44f05cead2ed94869fac69c",
+                      "candidate_file_sha256":  "a454e405647571ef994b109e5c58430d277568ca47350d8d41f13b4e3179b269",
+                      "current_recipe_backend":  "fla_triton",
+                      "control_seconds":  156.82666120000067,
+                      "control_file_sha256":  "02a73629095ec633cce6f767a7fedb9ae9ad88cf7477e5812cf0513147dc6333",
+                      "optimizer":  "adamw_bnb_8bit_nonpaged",
+                      "control_receipt_sha256":  "25b25b4b3f28875ba43bf412de6c63703869c17c1430ce98887cdc0e52968e51"
+                  },
+    "kind":  "RESULT_AND_HOSTILE_DISPOSITION",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Matched whole-model A/B rejects fla_triton_full; GPU released",
+    "body":  "Exact current-runtime V2 A/B is complete on rows4096-4103 at frozen head dd342312. CONTROL fla_triton: 156.8266612s, loss 2.18635474145, receipt 25b25b4b3f28875ba43bf412de6c63703869c17c1430ce98887cdc0e52968e51, file SHA 02a73629095ec633cce6f767a7fedb9ae9ad88cf7477e5812cf0513147dc6333. CANDIDATE fla_triton_full: 158.6835458s, loss 2.18670056760, receipt bb32a95bfdc3c40b1e1b55df4d871938805e5e2ce44f05cead2ed94869fac69c, file SHA a454e405647571ef994b109e5c58430d277568ca47350d8d41f13b4e3179b269. Candidate is 1.184% slower, same peak/reserved CUDA memory, no weight change on either arm. Max microbatch-loss abs delta 0.003992; mean 0.001395. DISPOSITION: REJECT fla_triton_full as training default despite prior micro/module parity PASS; no material end-to-end benefit and added complexity. Retain fla_triton = FLA gated-delta + PyTorch causal-conv. Retain variable shape and nonpaged BNB8. Next optimization candidate is isolated Liger Qwen3.5 kernels (fused linear CE/RMSNorm/SwiGLU), sandbox first; no recipe promotion without matched whole-model evidence.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "dd342312cf8d05a890b52a4b7e5105cfef56b767"
+}
