@@ -39,7 +39,7 @@ def test_r2_protocol_binds_exact_recipe_subject_and_harness() -> None:
         "316b9f8029f3e39520256af25acae533acfecf8d"
     )
     assert protocol["source_subject"]["observability_source_head"] == (
-        "a503ddea19d6ae13f35592587c37c6b31ca88a91"
+        "9da3298e24f301f4e1fe0b007ff037a0ea4a8636"
     )
     assert protocol["source_subject"]["hash_semantics"] == (
         "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
