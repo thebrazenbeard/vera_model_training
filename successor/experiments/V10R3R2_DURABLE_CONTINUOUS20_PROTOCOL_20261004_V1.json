@@ -16,9 +16,9 @@
     "durable_harness_path": "successor/experiments/run_durable_process.py",
     "durable_harness_committed_sha256": "668169a0e2913ea2c2c54bb653de6aeebc3fcdd7cceeab6c4562ca79f94157ef",
     "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT",
-    "launch_guard_source_head": "316b9f8029f3e39520256af25acae533acfecf8d",
+    "launch_guard_source_head": "1304f1ce34a11fcd3e5752d7f4a09eb95d66a145",
     "host_resource_guard_path": "successor/experiments/preflight_v10r3r2_host_resources.py",
-    "host_resource_guard_committed_sha256": "734a93b7587a91c479f8597dcc487598ddcc52636298ca38ae087764dd780088",
+    "host_resource_guard_committed_sha256": "1ad87d7142497f76e99ec2a70c87a9ffd0172463676fdf413239e1c3032a4dea",
     "observability_source_head": "d64dac5c5b7cc1fb2997c272e432ef61682b10e6"
   },
   "predecessor_incident": {
