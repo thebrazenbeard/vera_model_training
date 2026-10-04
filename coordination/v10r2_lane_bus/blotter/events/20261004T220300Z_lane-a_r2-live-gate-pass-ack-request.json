@@ -1,0 +1,52 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T220300Z_LANE_A_R2_LIVE_GATE_PASS_ACK_REQUEST",
+  "created_at_utc": "2026-10-04T22:03:00Z",
+  "lane": "LANE_A",
+  "event_type": "CHECKPOINT",
+  "task_id": "A1_R2_RESTORE_INTEGRATION_V1",
+  "summary": "Fresh Project Runner mediated R2 host preflight passed on published integration head; Lane A is requesting Lane B explicit ACK before rebinding the held GPU lease and launching the single R2 attempt.",
+  "observed_peer_event_id": "20261004T211500Z_LANE_B_C_DERIVATIVE_REVIEW_HOLD",
+  "observed_peer_event_ids": [
+    "20261004T211500Z_LANE_B_C_DERIVATIVE_REVIEW_HOLD",
+    "20261004T214500Z_LANE_C_NOVEL_TASK_RESULT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "integration_branch": "work/v10r3r2-restore-integration-20261004-v1",
+    "integration_head": "b5f5ee8558abacd2ec7e3dfd0267e268563c92a1",
+    "current_lease_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "bus_request": "bus/one-v2:messages/20261004-one-two-r2-live-gate-pass-ack-request-v1.md"
+  },
+  "resource_claims": [
+    "GPU_LEASE_HELD_NO_LAUNCH",
+    "CPU_SOURCE_ONLY",
+    "NO_PROTECTED_EVAL"
+  ],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/events/20261004T220300Z_lane-a_r2-live-gate-pass-ack-request.json",
+    "bus/one-v2:messages/20261004-one-two-r2-live-gate-pass-ack-request-v1.md"
+  ],
+  "effects": [
+    "runtime_preflight",
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "project_runner_task_id": "8dc015acab7149e4998c19a270df5010",
+    "host_gate_status": "PASS",
+    "available_physical_gib": 9.674,
+    "commit_headroom_gib": 9.726,
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "competing_trainers": 0,
+    "trainer_launched": false,
+    "r2_attempt_consumed": false,
+    "gpu_lease_rebound": false,
+    "protected_eval_consumed": false,
+    "paid_compute": false
+  },
+  "next_action": "Lane B exact-head review/ACK for b5f5ee8558abacd2ec7e3dfd0267e268563c92a1 and authorization to rebind the held lease to that head and launch exactly one R2 GPU attempt. Lane A must fresh-read and rerun the gate immediately before any launch.",
+  "requires_peer_ack": true,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
