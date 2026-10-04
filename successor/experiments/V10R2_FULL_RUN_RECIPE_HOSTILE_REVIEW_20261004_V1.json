@@ -1,0 +1,125 @@
+{
+  "schema": "V10R2_FULL_RUN_RECIPE_HOSTILE_REVIEW_V1",
+  "date": "2026-10-04",
+  "status": "HOLD_FULL_RUN_RECIPE_UNTIL_NEW_EXACT_SUBJECT_IS_BOUND",
+  "role": "LANE_B_INDEPENDENT_RECIPE_AND_AUTHORITY_REVIEW",
+  "verified_development_evidence": {
+    "preferred_checkpoint": "STEP48",
+    "adapter_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "cumulative_optimizer_steps_label": 48,
+    "rows_consumed": "0-383",
+    "corpus_fraction_observed": 0.00768,
+    "full_64_case_milestone": "62/64 step48 wins over step40",
+    "anchor16": "16/16",
+    "confirm48": "46/48",
+    "development_optimizer": "adamw_bnb_8bit",
+    "development_optimizer_paged": false,
+    "development_warmup_optimizer_steps": 0,
+    "acceleration_backend_used_in_quality_selected_training": "NONE",
+    "claim_ceiling": "DEVELOPMENT_RECIPE_SELECTION_ONLY_NOT_FINAL_BANK"
+  },
+  "staged_trajectory_semantics": {
+    "stages": [
+      {
+        "window": "0-31",
+        "optimizer_steps": 4
+      },
+      {
+        "window": "32-95",
+        "optimizer_steps": 8
+      },
+      {
+        "window": "96-159",
+        "optimizer_steps": 8
+      },
+      {
+        "window": "160-223",
+        "optimizer_steps": 8
+      },
+      {
+        "window": "224-255",
+        "optimizer_steps": 4
+      },
+      {
+        "window": "256-319",
+        "optimizer_steps": 8
+      },
+      {
+        "window": "320-383",
+        "optimizer_steps": 8
+      }
+    ],
+    "optimizer_instances": 7,
+    "scheduler_instances": 7,
+    "optimizer_state_carried_across_stages": false,
+    "scheduler_state_carried_across_stages": false,
+    "resumed_state": "LORA_ADAPTER_WEIGHTS_ONLY",
+    "evidence": [
+      "train_v10r2_dev.py loads only the prior PEFT adapter for continuation, then constructs a fresh SFTTrainer and fresh optimizer for every stage.",
+      "Each stage sets max_steps to that stage length and creates a fresh cosine scheduler through trainer.train(); no resume_from_checkpoint or optimizer/scheduler-state restore is used.",
+      "Therefore the 48-step label is cumulative weight-update count, not one continuous 48-step AdamW trajectory."
+    ]
+  },
+  "frozen_full_run_subject": {
+    "experiment_contract": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_20261001_V2",
+    "train_rows": 50000,
+    "epochs": 1,
+    "effective_optimizer_steps_at_batch1_accum8": 6250,
+    "fresh_adapter_only": true,
+    "parent_adapter": null,
+    "optimizer": "adamw_torch",
+    "warmup_optimizer_steps": 3,
+    "lr_scheduler_type": "cosine",
+    "validation_role": "POST_TRAIN_DIAGNOSTIC_ONLY_NO_RECIPE_OR_CHECKPOINT_SELECTION",
+    "execution_spec_sha256": "bc73ece4f33e480683027e3c4e6c9f59d796809f9bb311348e95b91aa5df6660",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "execution_binding_sha256": "816c2af072537e096cac68e7435dfbb158b000701dd2be0076a250980c0c2f99"
+  },
+  "material_mismatches": [
+    "Optimizer backend differs: quality-selected development used nonpaged bitsandbytes AdamW 8-bit; frozen full-run subject uses adamw_torch.",
+    "Warmup differs: development stages use 0 warmup; frozen full-run subject uses 3 optimizer-step warmup.",
+    "Scheduler semantics differ: development repeatedly restarts short cosine schedules; frozen full run is one continuous one-epoch cosine schedule.",
+    "Optimizer momentum/variance state differs: development discards it at every stage boundary; a continuous full run would preserve it.",
+    "Scale differs materially: development quality evidence covers 384/50000 rows (0.768%) and 48 cumulative updates; frozen one-epoch full run implies 6250 updates.",
+    "FLA/Triton acceleration is mechanically qualified separately but was not used in the step48 quality-selected training path; it cannot be silently bundled into the final recipe."
+  ],
+  "authority_and_bank_state": {
+    "final_bank_admission_status": "SPEC_FROZEN_NO_CASES_ADMITTED",
+    "final_bank_cases_admitted": 0,
+    "independent_review": "UNBOUND",
+    "sealed_final_bank_commitment_present": false,
+    "exact_training_authority_present": false,
+    "protected_full_training_allowed": false,
+    "conditional_user_authority_intent_present": true,
+    "authority_condition": "Full 13500-case final bank must be admitted and sealed before the exact one-run authority can materialize."
+  },
+  "hostile_review": [
+    {
+      "challenge": "Why not simply declare BNB8 the winner and run the full 50k continuously?",
+      "answer": "Because the evidence selected BNB8 inside a short staged-reset algorithm. It did not test long-horizon continuous BNB8 with preserved optimizer state and one 6250-step cosine schedule. That would be a materially different experiment subject."
+    },
+    {
+      "challenge": "Why not reproduce the seven-stage reset pattern across the whole corpus?",
+      "answer": "That would preserve the observed reset behavior more literally, but it creates a periodic optimizer-reset algorithm that was never preregistered for the full corpus and would require hundreds of reset boundaries. There is no evidence that those resets remain beneficial at full-run scale."
+    },
+    {
+      "challenge": "Why not keep the frozen V2 final recipe exactly as written?",
+      "answer": "That preserves preregistration integrity, but it discards the strongest development evidence: the preferred checkpoint was produced by nonpaged BNB8, not adamw_torch, and the quality-selected training path never validated the V2 optimizer as superior."
+    },
+    {
+      "challenge": "Why not include FLA because it is faster?",
+      "answer": "FLA was mechanically qualified in Lane B but not used in Lane A's quality-selected training trajectory. Runtime parity evidence is not the same as full-training quality evidence."
+    }
+  ],
+  "recommendation": {
+    "step56": "FREEZE",
+    "gguf_export": "HOLD",
+    "full_training_now": "BLOCKED",
+    "next_subject_action": "CREATE_A_NEW_EXACT_PREREGISTERED_FULL_RUN_SUBJECT_BEFORE_FINAL_BANK_SEALING_IF_BNB8_IS_ADOPTED",
+    "preferred_design_direction": "Use a fresh-adapter full-corpus subject with nonpaged adamw_bnb_8bit only if Patrick and both lanes explicitly adopt it; define continuous optimizer/scheduler semantics explicitly rather than pretending the staged-reset dev path was continuous.",
+    "preserve_old_contract": "Do not mutate V2 in place. Supersede it with a new version so the evidence lineage remains auditable.",
+    "final_bank_order": "Resolve exact recipe/runtime/execution subject first; then complete human/independent final-bank admission and sealed custody; only then materialize the exact one-run training authority.",
+    "additional_gpu_recipe_experiment": "NOT_REQUIRED_BY_DEFAULT. The non-equivalence is already mechanical. Run another bounded recipe experiment only if it answers a specific unresolved design choice."
+  },
+  "claim_ceiling": "RECIPE_AND_AUTHORITY_REVIEW_ONLY_NO_WEIGHT_CHANGE_NO_FINAL_BANK_NO_DEPLOYMENT"
+}
