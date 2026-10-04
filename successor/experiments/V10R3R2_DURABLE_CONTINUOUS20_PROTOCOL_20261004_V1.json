@@ -1,5 +1,5 @@
 {
-  "schema": "V10R3R2_DURABLE_CONTINUOUS20_PROTOCOL_V1",
+  "schema": "V10R3R2_DURABLE_CONTINUOUS20_PROTOCOL_V2",
   "date": "2026-10-04",
   "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
   "authority": {
@@ -11,10 +11,19 @@
   },
   "source_subject": {
     "recipe_source_head": "4197205466f3213c4d3e3c0e3e7557e4569bc276",
+    "metadata_binding_source_head": "b3031d1cc4d295f89598b262d085b6a07dd6a026",
     "execution_spec_path": "successor/experiments/V10R3R2_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261004_V1.json",
     "execution_spec_committed_sha256": "caaecf6309aee0ff5279c42b48118065d156228e22c614a5347bf489951b290d",
+    "execution_spec_git_blob": "9cb9f5255551b92ae8edf9334a1018c2674713ea",
     "durable_harness_path": "successor/experiments/run_durable_process.py",
-    "durable_harness_committed_sha256": "3a6698d2fa0e48065dffa9ee0af34ea9b24079042312b439699eb68d5fbcf8f9",
+    "durable_harness_committed_sha256": "ef5f2c049f98447b8ab944effa9350bbce5e94e504ea4c2beedeb0e6e5c352c7",
+    "durable_harness_git_blob": "7061a95961d238bb6da20c84c39e02007d34d87c",
+    "durable_launcher_path": "successor/experiments/launch_v10r3r2_durable.py",
+    "durable_launcher_committed_sha256": "ece65968687ac15745bc0f16cdcfd2057d5021d7fb98823014e60de90c9e24cb",
+    "durable_launcher_git_blob": "9172000dbf8e0434314e8cf559f827bd04b16b15",
+    "host_resource_guard_path": "successor/experiments/preflight_v10r3r2_host_resources.py",
+    "host_resource_guard_committed_sha256": "734a93b7587a91c479f8597dcc487598ddcc52636298ca38ae087764dd780088",
+    "host_resource_guard_git_blob": "86d86ead29845cce5480f4138751e9434e6d4232",
     "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
   },
   "predecessor_incident": {
@@ -40,7 +49,9 @@
     "only_intended_execution_deltas": [
       "fresh_output_namespace",
       "distinct_successor_experiment_identity",
-      "durable_external_observability"
+      "durable_external_observability",
+      "fail_closed_host_resource_launch_guard",
+      "fail_closed_exact_subject_metadata_binding"
     ]
   },
   "observability": {
@@ -57,12 +68,18 @@
     "wrapper_exit_code_must_equal_child_exit_code": true,
     "watchdog_must_flush_and_fsync_each_record": true,
     "watchdog_latest_optimizer_step_required": true,
+    "watchdog_progress_sources": [
+      "stdout.log",
+      "stderr.log"
+    ],
     "launch_metadata_required_fields": [
       "repo_head",
       "spec_path",
       "spec_sha256",
       "runtime_binding_sha256"
-    ]
+    ],
+    "launch_metadata_format_validation_required": true,
+    "launch_metadata_exact_subject_binding_required": true
   },
   "execution": {
     "attempt_limit": 1,
@@ -75,7 +92,14 @@
     "output_namespace_must_be_absent": true,
     "log_namespace_must_be_absent": true,
     "competing_trainer_forbidden": true,
-    "panel_use": "PROHIBITED"
+    "panel_use": "PROHIBITED",
+    "host_resource_gate": {
+      "required": true,
+      "min_available_physical_gib": 8.0,
+      "min_commit_headroom_gib": 8.0,
+      "gpu_memory_used_mib_required": 0,
+      "competing_trainer_count_required": 0
+    }
   },
   "postconditions": {
     "nonzero_exit": "PRESERVE_LOGS_AND_HOLD",
