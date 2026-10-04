@@ -36,7 +36,7 @@ def test_r2_protocol_binds_exact_recipe_subject_and_harness() -> None:
         HOST_GUARD_REL
     )
     assert protocol["source_subject"]["launch_guard_source_head"] == (
-        "316b9f8029f3e39520256af25acae533acfecf8d"
+        "1304f1ce34a11fcd3e5752d7f4a09eb95d66a145"
     )
     assert protocol["source_subject"]["observability_source_head"] == (
         "d64dac5c5b7cc1fb2997c272e432ef61682b10e6"
