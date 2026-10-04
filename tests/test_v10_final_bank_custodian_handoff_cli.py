@@ -225,3 +225,68 @@ def test_verify_handoff_files_detects_diversity_spec_substitution(
     )
     assert result["status"] == "HOLD"
     assert "diversity_diagnostic_spec_file_sha256_mismatch" in result["reasons"]
+
+
+def test_tracked_crlf_checkout_uses_git_clean_content(tmp_path: Path, monkeypatch) -> None:
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    import subprocess
+
+    subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.name", "Test"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "core.autocrlf", "true"], cwd=repo, check=True)
+
+    proposal = repo / "proposal.md"
+    generation = repo / "generation.json"
+    grader = repo / "grader.json"
+    family = repo / "family.json"
+    diversity = repo / "diversity.json"
+    contract_path = repo / "contract.json"
+    binding_path = repo / "binding.json"
+
+    proposal_lf = b"# proposal\n"
+    payloads = {
+        generation: b'{"schema":"generation"}\n',
+        grader: b'{"schema":"grader"}\n',
+        family: b'{"schema":"family"}\n',
+        diversity: b'{"schema":"diversity"}\n',
+    }
+    proposal.write_bytes(proposal_lf)
+    for path, raw in payloads.items():
+        path.write_bytes(raw)
+
+    subject = {
+        "proposal_blob_sha": git_blob_sha(proposal_lf),
+        "generation_spec_sha256": hashlib.sha256(payloads[generation]).hexdigest(),
+        "grader_spec_sha256": hashlib.sha256(payloads[grader]).hexdigest(),
+        "family_manifest_spec_sha256": hashlib.sha256(payloads[family]).hexdigest(),
+        "diversity_diagnostic_spec_sha256": hashlib.sha256(payloads[diversity]).hexdigest(),
+    }
+    _write(contract_path, {
+        "schema": "V10_FINAL_BANK_CUSTODIAN_CONTRACT_V1",
+        "status": "FROZEN_REQUIREMENTS_NO_CUSTODIANS_BOUND",
+        "composition_subject": dict(subject),
+    })
+    _write(binding_path, _binding(subject))
+
+    subprocess.run(["git", "add", "."], cwd=repo, check=True)
+    subprocess.run(["git", "commit", "-m", "fixture"], cwd=repo, check=True, capture_output=True)
+
+    # Simulate a Windows checkout while preserving the same Git-clean content.
+    proposal.write_bytes(proposal_lf.replace(b"\n", b"\r\n"))
+    for path, raw in payloads.items():
+        path.write_bytes(raw.replace(b"\n", b"\r\n"))
+
+    monkeypatch.chdir(repo)
+    result = verify_handoff_files(
+        binding_path=binding_path,
+        contract_path=contract_path,
+        proposal_path=proposal,
+        generation_spec_path=generation,
+        grader_spec_path=grader,
+        family_manifest_spec_path=family,
+        diversity_spec_path=diversity,
+    )
+    assert result["status"] == "HANDOFF_READY_FOR_INDEPENDENT_CUSTODY"
+    assert result["reasons"] == []

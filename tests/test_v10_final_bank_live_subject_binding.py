@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from successor.experiments.verify_v10_final_bank_custodian_handoff import (
+    sha256_file,
     verify_handoff_files,
 )
 
@@ -14,7 +15,7 @@ EXP = ROOT / "successor" / "experiments"
 
 
 def _sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return sha256_file(path)
 
 
 def _valid_live_binding() -> dict:

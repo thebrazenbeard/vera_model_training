@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 from successor.experiments.final_bank_custodian_binding import (
@@ -15,12 +16,43 @@ def git_blob_sha(raw: bytes) -> str:
     return hashlib.sha1(header + raw).hexdigest()
 
 
+def _verified_subject_bytes(path: Path) -> bytes:
+    raw = path.read_bytes()
+    try:
+        root = Path(
+            subprocess.check_output(
+                ["git", "-C", str(path.parent), "rev-parse", "--show-toplevel"],
+                text=True,
+                stderr=subprocess.DEVNULL,
+            ).strip()
+        )
+        rel = path.resolve().relative_to(root.resolve()).as_posix()
+        head_blob = subprocess.check_output(
+            ["git", "-C", str(root), "rev-parse", f"HEAD:{rel}"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+        clean_blob = subprocess.check_output(
+            ["git", "-C", str(root), "hash-object", "--path", rel, "--stdin"],
+            input=raw,
+            stderr=subprocess.DEVNULL,
+        ).decode("ascii").strip()
+        if clean_blob == head_blob:
+            return subprocess.check_output(
+                ["git", "-C", str(root), "show", f"HEAD:{rel}"],
+                stderr=subprocess.DEVNULL,
+            )
+    except (
+        OSError,
+        ValueError,
+        subprocess.CalledProcessError,
+    ):
+        pass
+    return raw
+
+
 def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(8 * 1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return hashlib.sha256(_verified_subject_bytes(path)).hexdigest()
 
 
 def _read_json(path: Path) -> dict:
@@ -43,7 +75,7 @@ def verify_handoff_files(
     binding = _read_json(binding_path)
     contract = _read_json(contract_path)
 
-    proposal_raw = proposal_path.read_bytes()
+    proposal_raw = _verified_subject_bytes(proposal_path)
     proposal_blob_sha = git_blob_sha(proposal_raw)
     generation_spec_sha256 = sha256_file(generation_spec_path)
     grader_spec_sha256 = sha256_file(grader_spec_path)
