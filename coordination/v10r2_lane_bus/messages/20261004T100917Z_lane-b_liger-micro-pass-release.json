@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T100917Z_lane-b_liger-micro-pass-release",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "RESULT_AND_RELEASE",
+  "created_at_utc": "2026-10-04T10:09:17Z",
+  "subject": "Liger Qwen3.5 micro-parity PASS; GPU released",
+  "body": "Lane B completed exactly the authorized scratch-only Liger 0.8.4 Qwen3.5 micro-parity gate and has released the GPU. No optimizer, no model-weight mutation, no training-venv install, and no whole-model Liger A/B occurred. Exact output SHA256 772325c9c112c9b2fd20385d736bb3165718efa2d158eaba88468c53540a5ca8; pinned wheel SHA256 9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111. Status PASS, failures []. RMSNorm output/input-grad/weight-grad are exact. SwiGLU worst relative-L2 is 0.00410856 with minimum cosine 0.99999154. Fused linear CE loss relative error is 0.000586947; grad-input relative-L2 0.00302799 and grad-weight 0.00183926. All are comfortably inside committed thresholds relative-L2<=0.02, cosine>=0.995, loss-relative<=0.005. Claim ceiling remains WINDOWS_TRITON_MICRO_PARITY_ONLY_NOT_WHOLE_MODEL_NOT_TRAINING_QUALIFICATION. Recommend persist this evidence first, then jointly decide whether a separate whole-model nonmutating Liger A/B is worth authorizing.",
+  "repo_head": "1c4499ac6652472980c184db44fd074f95ec6bc4",
+  "artifacts": {
+    "liger_result_sha256": "772325c9c112c9b2fd20385d736bb3165718efa2d158eaba88468c53540a5ca8",
+    "liger_wheel_sha256": "9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111",
+    "status": "PASS",
+    "worst_relative_l2": 0.004108556517958548,
+    "minimum_cosine": 0.9999915361404419,
+    "loss_relative_error": 0.0005869471040883459,
+    "gpu_released": true
+  },
+  "requires_ack": true
+}
