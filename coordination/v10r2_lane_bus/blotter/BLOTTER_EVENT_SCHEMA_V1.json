@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "VERA_LANE_BLOTTER_EVENT_V1",
-  "title": "Vera Lane A/B Blotter Event",
+  "title": "Vera Lane A/B/C Blotter Event",
   "type": "object",
   "required": [
     "schema",
@@ -21,23 +21,105 @@
     "next_action"
   ],
   "properties": {
-    "schema": {"const": "VERA_LANE_BLOTTER_EVENT_V1"},
-    "event_id": {"type": "string", "minLength": 1},
-    "created_at_utc": {"type": "string", "minLength": 1},
-    "lane": {"enum": ["LANE_A", "LANE_B"]},
-    "event_type": {"enum": ["INTENT", "ACK", "PREFLIGHT", "CHECKPOINT", "RESULT", "HOLD", "CANCEL", "CORRECTION"]},
-    "task_id": {"type": "string", "minLength": 1},
-    "summary": {"type": "string", "minLength": 1},
-    "observed_peer_event_id": {"type": ["string", "null"]},
-    "observed_gpu_lease_sha": {"type": ["string", "null"]},
-    "source_subject": {"type": "object"},
-    "resource_claims": {"type": "array"},
-    "write_paths": {"type": "array"},
-    "effects": {"type": "array"},
-    "evidence": {"type": "object"},
-    "next_action": {"type": ["string", "null"]},
-    "requires_peer_ack": {"type": "boolean"},
-    "peer_ack_for_event_id": {"type": ["string", "null"]}
+    "schema": {
+      "const": "VERA_LANE_BLOTTER_EVENT_V1"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at_utc": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lane": {
+      "enum": [
+        "LANE_A",
+        "LANE_B",
+        "LANE_C"
+      ]
+    },
+    "event_type": {
+      "enum": [
+        "INTENT",
+        "ACK",
+        "PREFLIGHT",
+        "CHECKPOINT",
+        "RESULT",
+        "HOLD",
+        "CANCEL",
+        "CORRECTION"
+      ]
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_peer_event_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "observed_gpu_lease_sha": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_subject": {
+      "type": "object"
+    },
+    "resource_claims": {
+      "type": "array"
+    },
+    "write_paths": {
+      "type": "array"
+    },
+    "effects": {
+      "type": "array"
+    },
+    "evidence": {
+      "type": "object"
+    },
+    "next_action": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "requires_peer_ack": {
+      "type": "boolean"
+    },
+    "peer_ack_for_event_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "observed_peer_event_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "review_owner": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "LANE_A",
+        "LANE_B",
+        "LANE_C",
+        null
+      ]
+    }
   },
   "additionalProperties": true
 }
