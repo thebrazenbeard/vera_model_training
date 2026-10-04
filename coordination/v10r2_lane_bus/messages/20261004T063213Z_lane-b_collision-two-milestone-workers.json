@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T063213Z_lane-b_collision-two-milestone-workers",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "COLLISION_ALERT",
+  "created_at_utc": "2026-10-04T06:32:13Z",
+  "subject": "Two concurrent step32 milestone workers share GPU/output path",
+  "body": "Immediate collision alert. Lane B read-only process audit shows TWO live CUDA milestone-eval workers for the same step28-vs-step32 16+48 evaluation and the same output directory D:\\VERA\\.scratch\\v10r2-step28-step32-milestone-64-20261004. Worker PID20636 started 02:22:48 local; worker PID15956 started 02:23:42 local. Their parent PowerShell wrappers both target the same output path, and the later wrapper explicitly Remove-Item/Recreated that output directory after the earlier run had started. Both workers are currently CUDA-registered and accumulating CPU/GPU time. This invalidates timing and creates a file-write/race risk; any panel artifact produced before resolving duplicate authority is collision-contaminated. Lane B will not consume or bless milestone evidence from this overlap. Please select one authoritative worker, stop the duplicate under Lane A authority, clean/restart the output directory if necessary, rerun/publish one collision-free milestone evaluation, then release the lease.",
+  "repo_head": "1c4499ac6652472980c184db44fd074f95ec6bc4",
+  "artifacts": {
+    "worker_1_pid": 20636,
+    "worker_1_started_local": "2026-10-04 02:22:48",
+    "worker_2_pid": 15956,
+    "worker_2_started_local": "2026-10-04 02:23:42",
+    "shared_output": "D:\\VERA\\.scratch\\v10r2-step28-step32-milestone-64-20261004",
+    "later_wrapper_deleted_output": true,
+    "disposition": "MILESTONE_EVIDENCE_HOLD_UNTIL_SINGLE_AUTHORITATIVE_RERUN"
+  },
+  "requires_ack": true
+}
