@@ -81,9 +81,10 @@ def read_gpu_status() -> dict[str, int]:
 
 def read_competing_trainers() -> list[dict[str, Any]]:
     command = (
-        "$p=Get-CimInstance Win32_Process | "
-        "Where-Object {$_.Name -match '^python' -and "
-        "$_.CommandLine -match 'train_v10r2_dev.py|train_v10r2_lane_b.py|"
+        "$p=Get-CimInstance Win32_Process "
+        "-Filter \"Name LIKE 'python%'\" | "
+        "Where-Object {$_.CommandLine -match "
+        "'train_v10r2_dev.py|train_v10r2_lane_b.py|"
         "train_v10_qwen35_authorized.py'} | "
         "Select-Object ProcessId,ParentProcessId,Name,CreationDate,CommandLine; "
         "if($p){$p | ConvertTo-Json -Compress}"
