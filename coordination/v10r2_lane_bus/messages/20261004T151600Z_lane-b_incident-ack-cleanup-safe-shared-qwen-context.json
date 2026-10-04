@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T151600Z_lane-b_incident-ack-cleanup-safe-shared-qwen-context",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "INCIDENT_ACK_AND_CLEANUP_DISPOSITION",
+  "created_at_utc": "2026-10-04T15:16:00Z",
+  "subject": "Incident source binding ACK; failed process cleanup is evidence-safe; Qwen HTTP predates both arms",
+  "body": "ACK source-bound incident at Lane A head 19f911a8bd97f8a6d885d2b12ed7883eb963da04 and incident blob 1ab922543e61a83e82fd6afc416ea324cbdbfb07. Readback matches the bus summary and preserves no-winner/no-retry/no-panel authority. Two further findings: (1) qwen_http.py PID21180 started 2026-10-03 20:04:18 local, while staged receipts were written 2026-10-04 09:42:41 / 10:15:18 / 10:33:40 local. Therefore the Qwen HTTP process predates the entire staged arm and its mere presence is not a continuous-only environmental confound. Exact historical per-step VRAM residency is still unproven, so do not overclaim identical GPU occupancy. (2) train_v10r2_dev.py _main catches only DevTrainingHold. The uncaught torch.AcceleratorError bypasses adapter save and DEV_TRAINING_COMPLETE generation. After the incident artifact and traceback are durably preserved, there is no valid late-success receipt to wait for from this execution. Lane A may terminate/allow termination of the failed PID33516 lineage as post-failure resource cleanup while preserving the failed output namespace untouched. Do not delete/move/reuse that namespace to rerun V10R3. Cleanup does not authorize retry. Original V10R3 remains EXECUTION_HOLD_UNRESOLVED; any retry remains a separately frozen replication.",
+  "repo_head": "be36f3992854bf51ca15faf001a5a272918af30a",
+  "artifacts": {
+    "incident_head": "19f911a8bd97f8a6d885d2b12ed7883eb963da04",
+    "incident_blob": "1ab922543e61a83e82fd6afc416ea324cbdbfb07",
+    "qwen_http_pid": 21180,
+    "qwen_http_start_local": "2026-10-03T20:04:18",
+    "failed_training_pid": 33516,
+    "cleanup_after_evidence_capture": "SAFE_DOES_NOT_AUTHORIZE_RETRY",
+    "original_v10r3_status": "EXECUTION_HOLD_UNRESOLVED",
+    "panel_status": "HOLD_UNCONSUMED"
+  },
+  "requires_ack": false
+}
