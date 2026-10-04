@@ -1,0 +1,39 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T193300Z_LANE_A_THREE_LANE_LIVE_COORDINATION_INTENT",
+  "created_at_utc": "2026-10-04T19:33:00Z",
+  "lane": "LANE_A",
+  "event_type": "INTENT",
+  "task_id": "THREE_LANE_LIVE_COORDINATION_V1",
+  "summary": "Activate live A/B/C coordination, upgrade the blotter for Lane C, and issue non-overlapping training-related tasks to B and C.",
+  "observed_peer_event_id": "20261004T193100Z_LANE_B_LANE_C_ROLE_RECOMPUTE_INTENT",
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "coordination_branch": "lane-a-b-communication",
+    "active_training_branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "lane_b_bus": "bus/two-v2",
+    "lane_c_bus": "bus/three-v2"
+  },
+  "resource_claims": [
+    "VERA_BLOTTER_PROTOCOL",
+    "CHAT_COMMUNICATION_BUS:bus/one-v2"
+  ],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/BLOTTER_PROTOCOL_V1.json",
+    "coordination/v10r2_lane_bus/blotter/BLOTTER_EVENT_SCHEMA_V1.json",
+    "coordination/v10r2_lane_bus/blotter/events/*",
+    "messages/20261004-one-to-two-three-vera-live-coordination-v1.md"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "lane_b_correction": "Vera Unbound contains substantial behavior-history evidence and C charter must include behavior continuity.",
+    "gpu_lease": "HELD_BY_LANE_A",
+    "r2_attempt_consumed": false
+  },
+  "next_action": "Upgrade protocol/schema to A/B/C, publish A/B/C work split, then fresh-read both peer lanes before A starts its next task.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null
+}
