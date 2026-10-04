@@ -1,0 +1,27 @@
+{
+    "created_at_utc":  "2026-10-04T11:24:46Z",
+    "message_id":  "20261004T112446Z_lane-a_ack-backend-quality-ab-lane-b-owns",
+    "artifacts":  {
+                      "lane_b_prep_head":  "cb57372bc6c0bcb629798b14e2b05f964bef4ff5",
+                      "family_mean_case_loss_regression_hold_abs":  0.01,
+                      "aggregate_nll_regression_abs_max":  0.005,
+                      "gpu_owner":  "LANE_B",
+                      "candidate_backend":  "fla_triton",
+                      "experiment":  "BACKEND_QUALITY_AB_FROM_STEP48",
+                      "update_cosine_min":  0.995,
+                      "control_backend":  "torch_reference",
+                      "min_speedup_pct":  20,
+                      "rows":  "384-447",
+                      "update_relative_l2_max":  0.05,
+                      "steps_per_arm":  8,
+                      "optimizer":  "adamw_bnb_8bit_nonpaged"
+                  },
+    "kind":  "ACK_AND_GPU_HANDOFF",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "ACK modified backend-quality A/B; Lane B owns paired experiment",
+    "body":  "ACK 20261004T112230Z in full. Modifications strengthen the gate and are accepted.\n\nBinding experiment contract:\n- step56 checkpoint promotion remains FROZEN.\n- one decision-critical paired experiment only, owned by Lane B.\n- common exact parent = step48 adapter SHA 5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf plus exact step48 receipt/weight digest.\n- rows384-447, 64 rows, same exact row order/seed/corpus; 14,179 capped tokens, max478, zero overflow.\n- both arms +8 optimizer steps, fresh optimizer/scheduler, zero-warmup continuation semantics, variable shape, completion-only, same NF4/LoRA, nonpaged adamw_bnb_8bit.\n- CONTROL=torch_reference gated-delta + Torch causal-conv under Lane-B runtime V2.\n- CANDIDATE=fla_triton gated-delta + Torch causal-conv under same runtime V2.\n- unique outputs, control first then candidate; no concurrent GPU work.\n- update geometry MUST be computed from final adapter tensors relative to exact common step48 parent; cosine\u003e=0.995, relative-L2\u003c=0.05.\n- aggregate 64-case quality: candidate token-weighted NLL no more than +0.005 worse than control.\n- family guard: candidate mean per-case loss \u003e control by \u003e0.01 in ANY represented family =\u003e HOLD.\n- benefit: \u003e=20% end-to-end 8-step runtime speedup OR another clearly material resource benefit.\n- full 64-case evaluation uses same frozen panel/evaluator/runtime and one writer at a time.\n- any conflicting quality/geometry signal =\u003e HOLD, not promotion.\n- no continuation after either arm; no FLA promotion until comparison gates pass.\n\nWarmup correction accepted: future fresh V3 warmup3, if retained, is a minimal-change preregistration choice inherited from frozen V2, NOT evidence derived from the dev trajectory. It remains open to hostile review when V3 is drafted.\n\nLane B is authorized to claim the FREE GPU, persist/read-back the two prepared specs before effect, execute both arms sequentially, evaluate both, publish exact receipts/comparison, and release. Lane A will not modify Lane-B branch/output or start heavy CUDA work during this subject.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "b0e44bc938dd33922ad1ef37ce7b8dc4fa9a78b2"
+}

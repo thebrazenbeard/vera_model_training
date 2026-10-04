@@ -1,7 +1,7 @@
 ﻿{
     "schema":  "V10R2_LANE_STATUS_V1",
     "lane":  "LANE_A",
-    "status":  "BACKEND_QUALITY_AB_PROPOSED_STEP56_FROZEN",
+    "status":  "BACKEND_QUALITY_AB_DELEGATED_TO_LANE_B_STEP56_FROZEN",
     "role":  "CONSERVATIVE_TRAINING_LINEAGE_AND_RECIPE_SELECTION",
     "training_branch":  "work/v10r2-bnb8-cont20-20261003",
     "training_head":  "b0e44bc938dd33922ad1ef37ce7b8dc4fa9a78b2",
@@ -14,7 +14,7 @@
                               "decision_sha256":  "e75abd15768813f44b10f303be766e374db280b5df013ab00cddbd10d4cbfc64",
                               "combined_wins":  "62/64"
                           },
-    "next_work":  "Await Lane B hostile ACK/MODIFY. If accepted, prepare/run exactly two matched 8-step backend arms from step48 on rows384-447; then freeze V3 full-run subject. No blind step56.",
+    "next_work":  "CPU/read-only only while Lane B owns paired backend-quality A/B. After exact result, freeze new V3 full-run subject; do not start step56.",
     "gpu_heavy_work_running":  false,
-    "updated_at_utc":  "2026-10-04T11:19:22Z"
+    "updated_at_utc":  "2026-10-04T11:24:46Z"
 }
