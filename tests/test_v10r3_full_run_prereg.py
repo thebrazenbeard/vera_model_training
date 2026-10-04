@@ -136,6 +136,14 @@ def test_v3_draft_is_fail_closed_and_binds_decided_full_run_invariants() -> None
     assert gates["cross_runtime_parity_verified"] is True
     assert gates["candidate_runtime_b_promoted"] is False
     assert gates["recipe_semantics_verified"] is False
+    assert gates["v3_execution_runner_bound"] is False
+
+    execution = value["execution_readiness"]
+    assert execution["status"] == "HOLD_V2_RUNNER_NOT_BOUND_TO_V3"
+    assert execution["current_runner_contract"] == "V10_QWEN35_EXPERIMENT_CONTRACT_V2.json"
+    assert execution["current_default_optimizer"] == "adamw_torch"
+    assert execution["required_v3_optimizer"] == "adamw_bnb_8bit"
+    assert execution["paged_optimizer_allowed"] is False
     assert gates["fresh_evaluation_bank_frozen"] is False
     assert gates["independent_bank_admission_verified"] is False
     assert gates["semantic_contamination_screen_verified"] is False

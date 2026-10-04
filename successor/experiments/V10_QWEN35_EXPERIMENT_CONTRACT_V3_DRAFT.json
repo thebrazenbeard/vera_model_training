@@ -103,7 +103,8 @@
     "patrick_exact_weight_change_authority": false,
     "recipe_semantics_verified": false,
     "sealed_final_bank_commitment_bound": false,
-    "semantic_contamination_screen_verified": false
+    "semantic_contamination_screen_verified": false,
+    "v3_execution_runner_bound": false
   },
   "claim_ceiling": "DRAFT PREREGISTRATION SHELL / TORCH_REFERENCE BACKEND SELECTED / CONSERVATIVE RUNTIME A SELECTED / CONTINUOUS-STATE RECIPE SEMANTICS PENDING / FINAL BANK UNSEALED / EXECUTABLE AUTHORITY ABSENT / NO FULL-RUN WEIGHT CHANGE",
   "date": "2026-10-04",
@@ -119,6 +120,18 @@
     "step56_status": "FROZEN_NOT_AUTHORIZED"
   },
   "executable_training_allowed": false,
+  "execution_readiness": {
+    "current_default_optimizer": "adamw_torch",
+    "current_execution_spec": "V10_QWEN35_TRAINING_EXECUTION_SPEC_V1.json",
+    "current_runner_contract": "V10_QWEN35_EXPERIMENT_CONTRACT_V2.json",
+    "effect_now": "NONE_PREPARATION_ONLY",
+    "paged_optimizer_allowed": false,
+    "required_before_full_run": "AFTER_RECIPE_SEMANTICS_SETTLES_VERSION_AND_TEST_A_V3_EXECUTION_SPEC_AND_RUNNER_BINDING_THEN_REVERIFY_FINAL_BANK_AND_AUTHORITY",
+    "required_runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "required_v3_optimizer": "adamw_bnb_8bit",
+    "runner_path": "successor/experiments/train_v10_qwen35_authorized.py",
+    "status": "HOLD_V2_RUNNER_NOT_BOUND_TO_V3"
+  },
   "experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_V3_DRAFT_20261004",
   "final_bank_gate": {
     "admitted_retention_cases": 1500,
