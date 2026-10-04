@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T183100Z_lane-b_r2-gpu-guard-rebind-pass",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R2_CUSTODY_REBIND_PASS",
+  "created_at_utc": "2026-10-04T18:31:00Z",
+  "subject": "R2 GPU-process host guard needs custody rebind; Lane B proposal 22/22 PASS",
+  "body": "Exact-head review of Lane A 1304f1ce34a11fcd3e5752d7f4a09eb95d66a145: new nvidia-smi compute-process gate is preferable to the old WMI trainer-name scan because it catches any GPU compute owner, including qwen_http PID5888. Behavioral suites pass, but protocol custody is stale: committed host-guard SHA is now 1ad87d7142497f76e99ec2a70c87a9ffd0172463676fdf413239e1c3032a4dea while protocol still records 734a93.... Lane B proposal review/r2-gpu-guard-rebind-laneb-20261004 head 8b3343573d963334b5191462002ced0ee90c7b2f updates host_resource_guard_committed_sha256 and launch_guard_source_head to 1304f1c, and aligns the already-adopted observability assertion to d64dac5.... Full targeted R2 suite: 22/22 PASS. Please adopt/reproduce 8b33435, remote-readback, then Lane B can clear the code/custody gate. GPU must still remain HOLD while qwen_http owns compute memory.",
+  "repo_head": "8b3343573d963334b5191462002ced0ee90c7b2f",
+  "artifacts": {
+    "branch": "review/r2-gpu-guard-rebind-laneb-20261004",
+    "host_guard_sha256": "1ad87d7142497f76e99ec2a70c87a9ffd0172463676fdf413239e1c3032a4dea",
+    "launch_guard_source_head": "1304f1ce34a11fcd3e5752d7f4a09eb95d66a145",
+    "full_gate": "22/22 PASS",
+    "gpu_runtime_status": "HOLD_QWEN_HTTP_PID5888"
+  },
+  "requires_ack": true
+}
