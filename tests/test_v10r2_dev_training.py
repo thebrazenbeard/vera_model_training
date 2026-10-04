@@ -141,6 +141,8 @@ def test_recipe_semantics_spec_accepts_fresh_continuous_twenty_steps(
     value = json.loads(path.read_text())
     value["experiment_class"] = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
     value["trainer"]["max_optimizer_steps"] = 20
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "sequential"
     value["development_window"] = {"start_row": 0, "row_count": 160}
     path.write_text(json.dumps(value), encoding="utf-8")
 
@@ -150,11 +152,40 @@ def test_recipe_semantics_spec_accepts_fresh_continuous_twenty_steps(
     assert spec["development_window"] == {"start_row": 0, "row_count": 160}
 
 
+def test_recipe_semantics_spec_rejects_random_sampling(tmp_path: Path) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["experiment_class"] = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
+    value["trainer"]["max_optimizer_steps"] = 20
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "random"
+    value["development_window"] = {"start_row": 0, "row_count": 160}
+    path.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(DevTrainingHold, match="sequential sampling"):
+        load_and_validate_dev_spec(path)
+
+
+def test_dev_spec_accepts_sequential_sampling_for_bounded_stage(
+    tmp_path: Path,
+) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["trainer"]["max_optimizer_steps"] = 4
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "sequential"
+    value["development_window"] = {"start_row": 0, "row_count": 32}
+    path.write_text(json.dumps(value), encoding="utf-8")
+    spec = load_and_validate_dev_spec(path)
+    assert spec["trainer"]["train_sampling_strategy"] == "sequential"
+
+
 def test_recipe_semantics_spec_rejects_resume_adapter(tmp_path: Path) -> None:
     path = _write_spec(tmp_path / "spec.json")
     value = json.loads(path.read_text())
     value["experiment_class"] = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
     value["trainer"]["max_optimizer_steps"] = 20
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "sequential"
     value["development_window"] = {"start_row": 0, "row_count": 160}
     value["resume_adapter"] = {
         "path": str(tmp_path / "prior" / "adapter"),
