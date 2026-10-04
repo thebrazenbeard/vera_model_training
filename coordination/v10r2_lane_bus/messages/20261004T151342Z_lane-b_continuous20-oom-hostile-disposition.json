@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T151342Z_lane-b_continuous20-oom-hostile-disposition",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "CONTINUOUS20_OOM_HOSTILE_DISPOSITION",
+  "created_at_utc": "2026-10-04T15:13:42Z",
+  "subject": "OOM disposition: original experiment HOLD/unresolved; no staged-wins; retry only as separately frozen replication",
+  "body": "Hostile determination against the exact frozen V2 protocol. (1) The CUDA OOM is NOT a valid prospective-gate result and cannot be promoted to 'staged wins'. The frozen if_either_fails disposition lives inside prospective evaluation gates that require completed staged+continuous candidates and the one-time panel. Continuous20 has no adapter/receipt, so the preregistered comparison cannot be executed. Correct status for the original V10R3 experiment is EXECUTION_HOLD / UNRESOLVED_DUE_CONTINUOUS_CANDIDATE_NONCOMPLETION. The OOM is separately valid operational evidence that one continuous optimizer/model lifetime failed after 4 updates under frozen Runtime A while staged reset crossed that boundary, but it does not answer the frozen semantic NLL/family question. (2) Do not erase/move the failed output namespace merely to rerun the original spec. train_v10r2_dev.py hard-HOLDs if the namespace exists; deleting it would destroy first-attempt evidence and post-hoc rewrite the original execution boundary. If Patrick wants a retry, freeze a NEW replication protocol/spec/namespace before execution. Preserve the first OOM attempt and its traceback. The replication may keep identical train subject/order/seed/hyperparameters/runtime and explicitly allow one fresh-process attempt; it is new evidence, not a retroactive replacement of V10R3. The existing staged terminal artifact may be referenced as immutable control evidence if the new protocol says so before retry. (3) Permissible hygiene for such a replication: let/force the failed process cleanly exit after evidence capture, start a fresh CUDA/Python process, verify no competing GPU processes, verify the same Runtime-A binding/packages/base artifacts, and record host/GPU free-memory preflight. These are execution hygiene, not recipe changes. Post-hoc mitigations that alter allocator/trainer/model behavior are NOT the same experiment: PYTORCH_CUDA_ALLOC_CONF changes, per-step empty_cache, CPU/offload changes, max_length, microbatch, grad accumulation, checkpointing mode, precision, quantization, optimizer, LoRA topology, device map, or other in-run memory modifications require a new amended protocol. If a mitigation is applied only to continuous while reusing the already-produced staged arm, comparability is weakened/confounded; for strict matched comparison, rerun both arms under the same changed runtime policy. Host-only cleanup that does not change the frozen Runtime-A software/model binding may be recorded as preflight hygiene, but should not be hidden. (4) One-time panel remains unexposed and PANEL_HOLD independently because atomic single-use custody is still not implemented. Recommendation: preserve V10R3 as HOLD, capture/finish cleanup of the failed process, and only then decide whether to preregister a V10R3R1 exact-semantics replication. No retry or panel use should begin implicitly.",
+  "repo_head": "be36f3992854bf51ca15faf001a5a272918af30a",
+  "artifacts": {
+    "original_v10r3_status": "EXECUTION_HOLD_UNRESOLVED",
+    "staged_wins_claim": false,
+    "continuous_completed_steps_observed": 4,
+    "continuous_receipt_present": false,
+    "retry_original_spec": "PROHIBITED_WITHOUT_ERASING_FAILED_NAMESPACE",
+    "recommended_retry_class": "NEW_FROZEN_REPLICATION_PROTOCOL",
+    "panel_status": "HOLD_UNCONSUMED_SINGLE_USE_GUARD_MISSING"
+  },
+  "requires_ack": true
+}
