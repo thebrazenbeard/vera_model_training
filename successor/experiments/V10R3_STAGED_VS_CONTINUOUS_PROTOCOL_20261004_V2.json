@@ -1,0 +1,100 @@
+{
+  "schema": "V10R3_STAGED_VS_CONTINUOUS_RECIPE_SEMANTICS_PROTOCOL_V2",
+  "date": "2026-10-04",
+  "status": "FROZEN_PRE_EXECUTION_PENDING_LANE_A_ACK",
+  "supersedes": {
+    "protocol": "V10R3_CONTINUOUS20_VS_STAGED20_PROTOCOL_20261004_V1.json",
+    "candidate_spec": "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V1.json",
+    "reason": "V1 confounded optimizer/scheduler continuity with different staged-vs-global sample order and was never executed."
+  },
+  "purpose": "TEST_STAGED_BOUNDARY_SEMANTICS_VS_ONE_CONTINUOUS_OPTIMIZER_SCHEDULER_WITH_EXACT_MATCHED_ROW_ORDER",
+  "authority": {
+    "development_training_authorized": true,
+    "source": "PATRICK_CURRENT_CONTINUE_WITH_TRAINING_INSTRUCTION",
+    "paid_compute_authorized": false,
+    "merge_deploy_activate_authorized": false
+  },
+  "runtime": {
+    "required": "A_CONSERVATIVE",
+    "binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "reason": "Runtime B failed frozen cross-runtime parity; staged-vs-continuous experiment must avoid host/runtime confound."
+  },
+  "matched_training_subject": {
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "rows": "0-159",
+    "row_count": 160,
+    "ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "order": "NATURAL_SEQUENTIAL",
+    "each_row_exactly_once": true,
+    "microbatch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "optimizer_updates": 20,
+    "optimizer": "adamw_bnb_8bit_nonpaged",
+    "warmup_optimizer_steps": 0,
+    "lr_scheduler_type": "cosine",
+    "seed": 20261001,
+    "shuffle_dataset": false,
+    "train_sampling_strategy": "sequential",
+    "quantization": "NF4_DOUBLE_QUANT_BF16",
+    "lora": "R4_ALPHA16_DROPOUT0_ALL_LINEAR"
+  },
+  "control": {
+    "name": "staged_reset_4_8_8",
+    "stage1_spec": "successor/experiments/V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json",
+    "stage_plan": [
+      {
+        "stage": 1,
+        "rows": "0-31",
+        "steps": 4,
+        "fresh_adapter": true
+      },
+      {
+        "stage": 2,
+        "rows": "32-95",
+        "steps": 8,
+        "resume_previous_adapter": true,
+        "spec_binding": "CREATE_ONLY_AFTER_STAGE1_RECEIPT_VERIFIES"
+      },
+      {
+        "stage": 3,
+        "rows": "96-159",
+        "steps": 8,
+        "resume_previous_adapter": true,
+        "spec_binding": "CREATE_ONLY_AFTER_STAGE2_RECEIPT_VERIFIES"
+      }
+    ],
+    "optimizer_scheduler_instances": 3,
+    "save_reload_boundaries": 2,
+    "final_namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step20-20261004"
+  },
+  "candidate": {
+    "name": "continuous20",
+    "spec": "successor/experiments/V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json",
+    "rows": "0-159",
+    "steps": 20,
+    "optimizer_scheduler_instances": 1,
+    "save_reload_boundaries": 0,
+    "fresh_adapter": true,
+    "namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-continuous20-sequential-20261004"
+  },
+  "evaluation": {
+    "evaluator": "successor/experiments/evaluate_v10r3_recipe_semantics.py",
+    "panel": "successor/experiments/V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json",
+    "panel_record_ids_sha256": "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+    "rows": "448-511",
+    "row_count": 64,
+    "one_time_use": true,
+    "same_runtime_A_for_both": true,
+    "backend": "torch_reference"
+  },
+  "prospective_gates": {
+    "continuous_minus_staged_token_weighted_nll_max": 0.005,
+    "family_mean_case_loss_regression_hold_abs": 0.01,
+    "if_both_pass": "CONTINUOUS_STATE_SEMANTICS_SURVIVE_SMALL_SCALE_TRANSFER",
+    "if_either_fails": "HOLD_V10R3_CONTINUOUS_RECIPE_AND_REASSESS",
+    "update_geometry": "DIAGNOSTIC_ONLY",
+    "no_threshold_changes_after_result": true
+  },
+  "scope_limit": "Answers staged-boundary-vs-continuous small-scale semantics only. Does NOT validate warmup3, 6250-step scale, final bank, or full-run authority.",
+  "claim_ceiling": "DEVELOPMENT_RECIPE_SEMANTICS_ONLY_NOT_FINAL_BANK_NOT_FULL_RUN_AUTHORITY"
+}
