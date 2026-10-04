@@ -1,0 +1,163 @@
+{
+  "schema": "V10_HF_Q1_R2_CLOUD_PROTOCOL_V1",
+  "date": "2026-10-04",
+  "status": "DRY_RUN_ONLY_NO_PAID_EXECUTION",
+  "authority": {
+    "source": "CURRENT_USER_DISCUSSION_OF_POSSIBLE_HF_USE",
+    "paid_compute_authorized": false,
+    "hf_job_launch_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false,
+    "proposed_budget_cap_usd": 0.5,
+    "rule": "A separate current authority artifact binding the exact job subject and spend cap is required before any paid job launch."
+  },
+  "source_subject": {
+    "repository": "thebrazenbeard/vera_model_training",
+    "r2_training_branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "r2_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "r2_execution_spec_path": "successor/experiments/V10R3R2_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261004_V1.json",
+    "r2_execution_spec_sha256": "caaecf6309aee0ff5279c42b48118065d156228e22c614a5347bf489951b290d",
+    "runtime_binding_path": "successor/experiments/V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "experiment_contract_path": "successor/experiments/V10_QWEN35_EXPERIMENT_CONTRACT_V2.json",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_rows": 50000,
+    "development_window_start_row": 0,
+    "development_window_row_count": 160,
+    "order_manifest_sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
+    "ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "expected_initial_trainable_parameter_digest": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd"
+  },
+  "base_model": {
+    "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+    "mutable_revision_allowed": false
+  },
+  "base_artifact_hashes": {
+    "model.safetensors-00001-of-00002.safetensors": "36dd0f7de62c546e7d163c2a4461208d731fad91ebea9bc31226b54c1c86511f",
+    "model.safetensors-00002-of-00002.safetensors": "e2fb50b735a8e10210eece763097f906955ca9db6ba557215f549a46b622157f",
+    "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+  },
+  "runtime_packages": {
+    "python": "3.12.10",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.17.0",
+    "trl": "1.13.0",
+    "peft": "0.21.0",
+    "bitsandbytes": "0.50.2",
+    "datasets": "5.0.1",
+    "accelerate": "1.15.0",
+    "safetensors": "0.8.0",
+    "huggingface_hub": "1.33.0",
+    "tokenizers": "0.23.2",
+    "jinja2": "3.1.6",
+    "numpy": "2.5.3"
+  },
+  "recipe_equivalence": {
+    "train_rows": [
+      0,
+      159
+    ],
+    "max_optimizer_steps": 20,
+    "seed": 20261001,
+    "learning_rate": 0.00002,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 0,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "optimizer": "adamw_bnb_8bit",
+    "completion_only_loss": true,
+    "packing": false,
+    "shuffle_dataset": false,
+    "train_sampling_strategy": "sequential",
+    "gradient_checkpointing": true,
+    "bf16": true,
+    "tf32": true,
+    "quantization": {
+      "load_in_4bit": true,
+      "type": "nf4",
+      "double_quant": true,
+      "compute_dtype": "bfloat16"
+    },
+    "lora": {
+      "r": 4,
+      "alpha": 16,
+      "dropout": 0,
+      "target_modules": "all-linear"
+    }
+  },
+  "environment_equivalence": {
+    "allowed_variance": [
+      "gpu_model",
+      "gpu_vram",
+      "driver_version",
+      "cuda_driver_runtime",
+      "host_os"
+    ],
+    "forbidden_variance": [
+      "base_model_bytes",
+      "training_data_bytes",
+      "row_order",
+      "seed",
+      "optimizer",
+      "scheduler",
+      "learning_rate",
+      "batching",
+      "max_length",
+      "quantization",
+      "lora_geometry",
+      "python_version",
+      "python_package_versions"
+    ],
+    "numerical_output_equivalence": "FINAL_ADAPTER_HASH_EQUALITY_NOT_REQUIRED_ACROSS_DIFFERENT_GPU_HARDWARE",
+    "required_semantic_equivalence": [
+      "initial_trainable_parameter_digest_exact_match",
+      "exact_rows_0_159",
+      "exact_record_order_digest",
+      "weight_digest_changed_true",
+      "20_optimizer_steps_completed",
+      "training_receipt_self_hash_valid"
+    ]
+  },
+  "hardware": {
+    "preferred_flavor": "a10g-small",
+    "minimum_vram_gib": 24,
+    "fallback_flavor": "l4",
+    "rationale": "Use a 24GB GPU to isolate recipe executability from the local 4GB Windows memory constraint."
+  },
+  "limits": {
+    "timeout_seconds": 1800,
+    "proposed_budget_cap_usd": 0.5,
+    "automatic_retry": false,
+    "max_paid_attempts_if_later_authorized": 1
+  },
+  "input_staging": {
+    "status": "NOT_PERFORMED",
+    "private_training_data_upload_authorized": false,
+    "required_before_launch": [
+      "stage exact train artifact privately",
+      "verify train_sha256 after staging",
+      "verify base model revision and artifact hashes",
+      "verify exact source checkout",
+      "verify pinned package versions"
+    ]
+  },
+  "evaluation": {
+    "final_bank": "PROHIBITED",
+    "one_time_panel": "PROHIBITED",
+    "validation_set": "NOT_REQUIRED_FOR_Q1_EXECUTABILITY",
+    "behavior_quality_claim": "PROHIBITED",
+    "recipe_winner_claim": "PROHIBITED"
+  },
+  "required_receipts": [
+    "environment_receipt",
+    "input_hash_receipt",
+    "initial_trainable_digest_receipt",
+    "training_receipt",
+    "artifact_hash_manifest",
+    "job_cost_duration_receipt"
+  ],
+  "claim_ceiling": "CLOUD_EXECUTABILITY_AND_ENVIRONMENT_ISOLATION_ONLY_NOT_RECIPE_WINNER_NOT_BEHAVIOR_QUALIFICATION_NOT_FINAL_TRAINING"
+}
