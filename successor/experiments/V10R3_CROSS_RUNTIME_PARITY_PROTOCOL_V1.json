@@ -1,0 +1,101 @@
+{
+  "authority": {
+    "full_training_authorized": false,
+    "optimizer_step_authorized": false,
+    "weight_change_authorized": false
+  },
+  "claim_ceiling": "DEVELOPMENT_RUNTIME_PARITY_ONLY / NOT FINAL_BANK / NOT FULL_RUN_AUTHORITY",
+  "common_subject": {
+    "adapter_model_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "adapter_path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont40-plus8-step48-20261004\\adapter",
+    "adapter_receipt_file_sha256": "11e5bc030d988b09715d21eda7211902a363b641dbbad888fb07d9b4bd207332",
+    "adapter_receipt_path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont40-plus8-step48-20261004\\DEV_TRAINING_COMPLETE.json",
+    "adapter_receipt_sha256": "15dee7c2ca2b94c6c2c2f780ced3dfc03d9a6afd5adfb594b1035bfa44853481",
+    "backend": "torch_reference",
+    "base_artifacts": {
+      "model.safetensors-00001-of-00002.safetensors": "36dd0f7de62c546e7d163c2a4461208d731fad91ebea9bc31226b54c1c86511f",
+      "model.safetensors-00002-of-00002.safetensors": "e2fb50b735a8e10210eece763097f906955ca9db6ba557215f549a46b622157f",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+    },
+    "base_path": "D:\\VERA\\models\\latest-trained\\base",
+    "completion_only_loss": true,
+    "gradient_accumulation_microbatches": 4,
+    "gradient_checkpointing": true,
+    "max_length": 512,
+    "optimizer_created": false,
+    "quantization": {
+      "compute_dtype": "bfloat16",
+      "double_quant": true,
+      "load_in_4bit": true,
+      "type": "nf4"
+    },
+    "row_indices": [
+      384,
+      400,
+      416,
+      432
+    ],
+    "rows": [
+      {
+        "index": 384,
+        "record_id": "hf-smoltalk2-table_gpt_no_think-d3e82f2d3e62608332de2313",
+        "tokens": 324
+      },
+      {
+        "index": 400,
+        "record_id": "v4.1-privacy_boundary-0991",
+        "tokens": 214
+      },
+      {
+        "index": 416,
+        "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-b1d2501aea855a94bf5a30f3",
+        "tokens": 84
+      },
+      {
+        "index": 432,
+        "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c1218b9f94d43ef87dcd3484",
+        "tokens": 149
+      }
+    ],
+    "train_jsonl": "D:\\VERA\\.scratch\\v10-qwen512-preflight-20261001-v1\\train.jsonl",
+    "train_rows": 50000,
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300"
+  },
+  "date": "2026-10-04",
+  "decision": {
+    "fail": "KEEP_OR_VERSION_ALIGN_CONSERVATIVE_RUNTIME",
+    "no_threshold_changes_after_execution": true,
+    "pass": "LANE_B_V2_RUNTIME_ELIGIBLE_FOR_V3_TORCH_REFERENCE_RECIPE"
+  },
+  "effect": "NON_MUTATING_FORWARD_BACKWARD_ONLY_NO_OPTIMIZER_NO_WEIGHT_CHANGE",
+  "prospective_gate": {
+    "all_gradients_finite_required": true,
+    "conflicting_signal_disposition": "HOLD_RUNTIME_PROMOTION",
+    "gradient_cosine_min": 0.999,
+    "gradient_l2_relative_difference_max": 0.02,
+    "gradient_relative_l2_max": 0.02,
+    "input_ids_sha256_exact_match": true,
+    "labels_sha256_exact_match": true,
+    "max_microbatch_loss_abs_delta": 0.002,
+    "mean_loss_abs_delta_max": 0.001,
+    "optimizer_must_not_exist": true,
+    "trainable_element_count_exact_match": true,
+    "trainable_layout_sha256_exact_match": true,
+    "weight_digest_unchanged_within_each_runtime": true
+  },
+  "purpose": "DECIDE_RUNTIME_HOST_ONLY_WITH_TORCH_REFERENCE_MATH_BEFORE_V3_FREEZE",
+  "runtimes": {
+    "A": {
+      "binding_path": "successor/experiments/V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json",
+      "binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+      "launcher": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe"
+    },
+    "B": {
+      "binding_path": "successor/experiments/V10R3_CANDIDATE_RUNTIME_BINDING_LANE_B_V2.json",
+      "binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+      "launcher": "D:\\VERA\\tools\\ModelTraining\\.venv\\Scripts\\python.exe"
+    }
+  },
+  "schema": "V10R3_CROSS_RUNTIME_PARITY_PROTOCOL_V1",
+  "status": "FROZEN_NOT_EXECUTED"
+}
