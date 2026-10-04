@@ -3,6 +3,11 @@ from __future__ import annotations
 import argparse
 import json
 import re
+
+from successor.experiments.generate_v10_vera_identity_final import (
+    canonical_json,
+    sha256_text,
+)
 from pathlib import Path
 
 
@@ -187,6 +192,12 @@ def score_identity_bank(
 ) -> dict:
     if bank.get("schema") != BANK_SCHEMA:
         raise ValueError("unexpected identity bank schema")
+    claimed_bank_sha = bank.get("bank_sha256")
+    unhashed_bank = dict(bank)
+    unhashed_bank.pop("bank_sha256", None)
+    actual_bank_sha = sha256_text(canonical_json(unhashed_bank))
+    if claimed_bank_sha != actual_bank_sha:
+        raise ValueError("identity bank SHA-256 mismatch")
     rows = bank.get("rows")
     if not isinstance(rows, list) or len(rows) != 120:
         raise ValueError("identity bank row count invalid")
@@ -280,7 +291,13 @@ def score_identity_bank(
                 f"{summary['pass_rate'] if summary else 'missing'}"
             )
 
-    if review_missing:
+    exact_mechanical_failure = any(
+        row["family"] in EXACT_FAMILIES and not row["mechanical_pass"]
+        for row in scored
+    )
+    if qwen_as_self_count or exact_mechanical_failure:
+        status = "HOLD"
+    elif review_missing:
         status = "REVIEW_REQUIRED"
     elif reasons:
         status = "HOLD"
