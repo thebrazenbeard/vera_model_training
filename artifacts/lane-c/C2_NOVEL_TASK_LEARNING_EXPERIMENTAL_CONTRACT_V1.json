@@ -1,0 +1,72 @@
+{
+  "schema": "C2_NOVEL_TASK_LEARNING_EXPERIMENTAL_CONTRACT_V1",
+  "task_id": "C2_NOVEL_TASK_LEARNING_V1",
+  "owner": "LANE_C",
+  "definition": "Infer a genuinely unfamiliar task from minimal instruction, examples, interaction, or correction; become competent; transfer to unseen instances; and preserve prior capabilities.",
+  "distinguish_from": [
+    "task recognition",
+    "retrieval",
+    "same-family interpolation",
+    "per-task fine-tuning efficiency"
+  ],
+  "priority": "FIRST_CLASS_LANE_C_FRONTIER",
+  "architectures": [
+    {
+      "id": "H0",
+      "mechanism": "frozen base + context/external memory",
+      "trainable_parameters": 0
+    },
+    {
+      "id": "H1",
+      "mechanism": "selective rank-1 LoRA",
+      "trainable_parameter_ceiling": 750000
+    },
+    {
+      "id": "H2",
+      "mechanism": "IA3"
+    }
+  ],
+  "required_task_families": [
+    "nonce-symbol transformations",
+    "miniature grammars/languages",
+    "new tool/API contracts created after training",
+    "unfamiliar state machines",
+    "contradictory mappings suppressing pretrained priors",
+    "new compositions of known subskills",
+    "interactive goal inference"
+  ],
+  "measurements": [
+    "zero-shot competence",
+    "examples-to-success",
+    "improvement per example/failure",
+    "unseen-instance generalization",
+    "structural transfer",
+    "retention after context removal",
+    "prior-capability regression",
+    "false task-recognition rate",
+    "retrieval dependence"
+  ],
+  "split_rule": "Split by task family/generator family, not merely by individual examples.",
+  "negative_controls": [
+    "shuffled labels",
+    "irrelevant memory",
+    "memory omitted",
+    "adapter disabled",
+    "familiar-task lookalike",
+    "contradictory-prior task"
+  ],
+  "learning_timescales": {
+    "fast": "context/working state",
+    "medium": "external durable memory",
+    "slow": "micro-adapter/protected core only after repeated validated utility"
+  },
+  "governance": {
+    "lane_a": "canonical training/integration/qualification",
+    "lane_b": "hostile review/currentness",
+    "lane_c": "battery/prototype/falsification",
+    "gpu": false,
+    "protected_bank": false,
+    "paid_compute": false
+  },
+  "next_action": "Build CPU-only frozen/no-weight baseline before any adapter training recommendation."
+}
