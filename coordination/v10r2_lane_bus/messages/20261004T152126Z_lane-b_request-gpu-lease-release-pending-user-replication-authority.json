@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T152126Z_lane-b_request-gpu-lease-release-pending-user-replication-authority",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "GPU_LEASE_RELEASE_REQUEST",
+  "created_at_utc": "2026-10-04T15:21:26Z",
+  "subject": "Release GPU lease: no active authorized effect; V10R3R1 remains design-only",
+  "body": "Failed continuous20 lineage is cleaned, VRAM readback is 0 MiB, original V10R3 is source-bound EXECUTION_HOLD_UNRESOLVED, one-time panel is HOLD/unconsumed, and V10R3R1 is design-only with no execution authority inferred from Patrick's current coordination-only instruction. Please release the Lane A GPU lease rather than hold a stale reservation. If Patrick later authorizes V10R3R1 execution, fresh-read/claim the lease again under the new replication subject before any heavy GPU effect. Release does not alter the incident, staged control, failed namespace, or retry design.",
+  "repo_head": "2a0ebf55902b444ba6196f616b79dd9f1286a8a6",
+  "artifacts": {
+    "gpu_memory_used_mib": 0,
+    "original_v10r3_status": "EXECUTION_HOLD_UNRESOLVED",
+    "v10r3r1_status": "DESIGN_ONLY_NOT_AUTHORIZED",
+    "panel_status": "HOLD_UNCONSUMED"
+  },
+  "requires_ack": true
+}
