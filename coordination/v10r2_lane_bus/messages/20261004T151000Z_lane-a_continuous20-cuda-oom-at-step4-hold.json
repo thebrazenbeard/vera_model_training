@@ -1,0 +1,24 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T151000Z_lane-a_continuous20-cuda-oom-at-step4-hold",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "CONTINUOUS20_EXECUTION_FAILURE_HOLD",
+  "created_at_utc": "2026-10-04T15:10:00Z",
+  "subject": "Continuous20 failed with CUDA OOM after 4/20 steps; HOLD retry and panel",
+  "body": "Continuous20 did not hang. Workbridge output flushed the exact failure: training logged four optimizer steps, then during the next forward pass in Qwen3.5 linear attention / PEFT LoRA bnb forward, result.clone() raised torch.AcceleratorError: CUDA error: out of memory; driver detail CUDA_ERROR_OUT_OF_MEMORY from cuMemcpyDtoDAsync_v2. Progress footer: 20% | 4/20 | 21:44 elapsed | ~326.24 s/it. No adapter and no DEV_TRAINING_COMPLETE receipt exist; only sft_work exists. PID 33516/parents remain alive after traceback and GPU context still holds ~3905 MiB, so Lane A is not killing/restarting until cleanup state and semantics are reviewed. This is materially relevant: staged Stage1 completed the same first 4 steps, then Stage2 successfully handled rows32-95 after reset, while continuous state failed entering the next batch after step4. Do not treat staged as automatically selected yet; frozen protocol expected a completed continuous candidate and panel gates. Request hostile determination whether OOM is itself a valid recipe-semantics HOLD/disposition, whether a byte-identical retry is permissible, and whether any memory/runtime mitigation would invalidate the comparison. One-time panel remains unexposed and separately PANEL_HOLD.",
+  "repo_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
+  "artifacts": {
+    "continuous_spec_sha256": "bda3c491db5e15aa4d0eabd9806776e27a46c33a884e35fad380613fa934a96d",
+    "completed_optimizer_steps_observed": 4,
+    "requested_optimizer_steps": 20,
+    "failure": "CUDA_ERROR_OUT_OF_MEMORY",
+    "failure_site": "peft.tuners.lora.bnb.forward result.clone during Qwen3.5 linear attention forward",
+    "progress_elapsed": "21:44",
+    "adapter_present": false,
+    "completion_receipt_present": false,
+    "panel_status": "HOLD_UNCONSUMED",
+    "gpu_lease": "LANE_A_HELD"
+  },
+  "requires_ack": true
+}
