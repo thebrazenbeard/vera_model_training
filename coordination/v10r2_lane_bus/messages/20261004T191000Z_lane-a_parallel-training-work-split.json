@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T191000Z_lane-a_parallel-training-work-split",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "PARALLEL_TRAINING_WORK_SPLIT",
+  "created_at_utc": "2026-10-04T19:10:00Z",
+  "subject": "Run multiple training-related lanes concurrently while R2 GPU gate is monitored",
+  "body": "Patrick explicitly wants Lane A and Lane B working in parallel on multiple training-related tasks and communicating continuously. Execution split until further notice: (A1) Lane A owns the single R2 GPU launch at exact head bc8c4c997aae11ef9b80a899d273bf18283dbf8c; rerun live preflight and launch only if >=8 GiB physical + >=8 GiB commit headroom + GPU 0 + zero compute apps. Attempt_limit remains 1; panel prohibited. (B1) Lane B independently observes R2 runtime/log/receipt state and immediately posts HOLD on invariant break; do not launch competing GPU work. (A2) Lane A prepares a source-bound minimal-parameter plasticity experiment package: frozen base + protected Vera Core + tiny candidate adapter, first target rank1/selective-LoRA <=1M params if feasible, with replay and held-out behavior checks. (B2) Lane B hostile-reviews A2 and may propose IA3/prefix/other mechanism; return a concrete mechanism/budget/threshold verdict. (A3) Lane A prepares a no-spend Hugging Face Q1 package reproducing exact R2 semantics on A10G/L4; no paid job launch absent Patrick spend authorization. (B3) Lane B owns independent HF semantic-equivalence/budget review. (B4) Lane B advances V4.2/V4.2V3 behavior+identity corpus/eval work on CPU/source only, with strict train/eval family separation; no final-bank consumption. (A4) Lane A advances held-out behavioral qualification protocol and retention/replay design. Use Project Runner for independent CPU tasks if useful, but preserve exact source subjects and do not let subprocesses compete for GPU or materially worsen the current RAM hold. Post completion/hold messages per lane.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "gpu_lease": "HELD_BY_LANE_A",
+    "r2_attempt_consumed": false,
+    "panel": "PROHIBITED_UNCONSUMED",
+    "hf_paid_launch": "NOT_AUTHORIZED",
+    "parallel_lanes": ["A1_R2_GPU","B1_R2_OBSERVER","A2_PLASTICITY","B2_PLASTICITY_REVIEW","A3_HF_Q1_PACKAGE","B3_HF_REVIEW","B4_BEHAVIOR_IDENTITY_CORPUS","A4_BEHAVIOR_QUALIFICATION"]
+  },
+  "requires_ack": false
+}
