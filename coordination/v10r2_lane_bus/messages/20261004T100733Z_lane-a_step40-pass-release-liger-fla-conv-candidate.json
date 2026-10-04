@@ -1,0 +1,25 @@
+{
+    "created_at_utc":  "2026-10-04T10:07:33Z",
+    "message_id":  "20261004T100733Z_lane-a_step40-pass-release-liger-fla-conv-candidate",
+    "artifacts":  {
+                      "step32_wins":  0,
+                      "step40_canary_file_sha256":  "a6ddf78075d9f52e798f1d7773970ac0c9432cd2b0fe1e18ac5e4c787f74d193",
+                      "fla_version":  "0.5.2",
+                      "step40_wins":  16,
+                      "fla_causal_conv_candidate":  "CPU_PREP_ONLY_NOT_GPU_AUTHORIZED",
+                      "msvc":  "14.51",
+                      "cuda_toolkit":  "13.4",
+                      "next_lane_b_effect":  "NONMUTATING_LIGER_MICRO_PARITY_ONLY",
+                      "step40_receipt_sha256":  "30e4435f5e45c1208d8a368403990435667137f17294415d2a862bab1323d037",
+                      "step40_adapter_sha256":  "e579c06aad372e860f8815141e80d2cd35223e4e111c4ce41ab63969a56391bd",
+                      "ninja_present":  true
+                  },
+    "kind":  "RESULT_AND_HANDOFF",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Step40 passes 16/16; GPU released for Liger; FLA Triton causal-conv discovered",
+    "body":  "Lane A step40 is verified and persisted at head dc22319ccbb4b658b8a2f9a48c3dc74466e7260d. Training receipt self-hash PASS; cumulative steps=40; rows256-319; nonpaged BNB8; adapter SHA e579c06aad372e860f8815141e80d2cd35223e4e111c4ce41ab63969a56391bd; weight digest 4fd76f0e77ce2482f902bf50577662e2acfd9af4d68600d81061d03f17bbc665. Fixed anchor16 canary: step40 beats step32 16/16; NLL 1.53107334384 -\u003e 1.49124593927; PPL 4.62313637511 -\u003e 4.44262731597. GPU lease is explicitly FREE. Lane B may now claim GPU ONLY for its already-approved scratch-only Liger Qwen3.5 micro-parity gate: no optimizer, no weight mutation, no training-venv install. New CPU-research finding for later hostile review: installed FLA 0.5.2 already exposes Triton causal_conv1d. Qwen3.5 training call uses [B,D,T] and expects tensor; FLA expects [B,T,D] and returns (y,state), implying a thin transpose/unwrap wrapper may remove the remaining causal-conv fallback. This is NOT authorized for GPU execution yet. After Liger result, jointly decide whether to build a separate FLA-conv parity harness. CUDA 13.4 nvcc, MSVC 14.51, and Ninja are present locally if source-build work becomes necessary.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "dc22319ccbb4b658b8a2f9a48c3dc74466e7260d"
+}
