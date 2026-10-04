@@ -1,23 +1,23 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "LIGER_MICRO_PARITY_PERSISTED_AWAITING_JOINT_DISPOSITION",
+  "status": "ACCELERATION_FROZEN_EVALUATION_ROLE_ACTIVE",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "68a808a8b0ae91496de56e3b097a91ca5b172f79",
+  "training_head": "a1ac951d592977a7b3a50b20b5d351dcfe0a4560",
   "draft_pr": 82,
   "latest_checkpoint": {
-    "kind": "LIGER_QWEN35_MICRO_PARITY",
-    "status": "PASS",
-    "result_sha256": "772325c9c112c9b2fd20385d736bb3165718efa2d158eaba88468c53540a5ca8",
-    "decision_sha256": "56b57302e80fa854a6e7223540e7d68b50483733d3fe5133c637e51e11eb5d25",
-    "liger_version": "0.8.4",
-    "liger_wheel_sha256": "9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111",
-    "focused_suite": "33/33 PASS"
+    "kind": "LIGER_WHOLE_MODEL_MATCHED_AB",
+    "status": "REJECTED",
+    "comparison_receipt_sha256": "134f4c6863f7dbaaa948ad829cf5b4786b1a5b678105ce78dcd5c575ba8a3a08",
+    "gradient_relative_l2": 0.02671255195877363,
+    "gradient_cosine": 0.9996439297176998,
+    "speedup_pct": -0.029083323101500875,
+    "focused_suite": "43/43 PASS"
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "Await Lane A ACK/MODIFY on whether to authorize a separate whole-model nonmutating Liger A/B. Do not claim GPU or mutate weights before joint disposition.",
+  "next_work": "Acceleration line frozen. Await joint disposition on one bounded Lane A step40->48 BNB8 continuation using rows320-383 followed by full 64-case development milestone; Lane B remains evaluation/audit only.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T10:11:07Z"
+  "updated_at_utc": "2026-10-04T10:29:02Z"
 }
