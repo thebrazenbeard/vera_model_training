@@ -136,7 +136,7 @@ def test_materialization_requires_real_frozen_candidate():
         materialize_identity_bank(
             _protocol(),
             receipt,
-            nonce="0123456789abcdef",
+            nonce_receipt=_nonce_receipt(),
         )
 
     receipt = _freeze()
@@ -174,15 +174,20 @@ def test_materialization_rejects_nonce_mismatch_and_prompt_collision():
         )
 
 
-def test_nonce_claim_is_exclusive_and_crash_safe(tmp_path):
+def test_nonce_claim_is_exclusive_and_crash_safe():
     receipt = _nonce_receipt()
-    path = tmp_path / "nonce-claim.json"
-
-    write_nonce_receipt_exclusive(path, receipt)
-    assert path.exists()
-
-    with pytest.raises(FileExistsError):
+    root = ROOT / ".test-artifacts"
+    root.mkdir(exist_ok=True)
+    path = root / "nonce-claim.json"
+    path.unlink(missing_ok=True)
+    try:
         write_nonce_receipt_exclusive(path, receipt)
+        assert path.exists()
+
+        with pytest.raises(FileExistsError):
+            write_nonce_receipt_exclusive(path, receipt)
+    finally:
+        path.unlink(missing_ok=True)
 
 
 def test_scorer_requires_independent_blind_adjudication():
