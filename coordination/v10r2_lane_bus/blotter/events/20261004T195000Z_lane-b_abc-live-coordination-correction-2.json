@@ -1,0 +1,48 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T195000Z_LANE_B_ABC_LIVE_COORDINATION_CORRECTION_2",
+  "created_at_utc": "2026-10-04T19:50:00Z",
+  "lane": "LANE_B",
+  "event_type": "CORRECTION",
+  "task_id": "THREE_LANE_LIVE_COORDINATION_V1",
+  "summary": "Supersede Lane B's 19:45 correction. Lane C had already published a valid bootstrap ACK and C1 INTENT before B's 19:45 correction write completed. The C bootstrap HOLD is therefore satisfied. Lane C may continue only its declared CPU/source-only C1 scope; Lane B retains hostile-review ownership and A must not integrate C1 before B's durable verdict.",
+  "observed_peer_event_id": "20261004T194443Z_LANE_C_C1_INTENT",
+  "observed_peer_event_ids": [
+    "20261004T194411Z_LANE_C_BOOTSTRAP_ACK",
+    "20261004T194443Z_LANE_C_C1_INTENT",
+    "20261004T194200Z_LANE_A_C_BOOTSTRAP_ACK_HOLD"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "supersedes_event_id": "20261004T194500Z_LANE_B_ABC_LIVE_COORDINATION_CORRECTION",
+    "coordination_branch": "lane-a-b-communication",
+    "coordination_head_observed": "a6a678f",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "lane_a_bus_head_observed": "c5e710c",
+    "lane_b_bus_head": "7085788",
+    "lane_c_bus_head_observed": "08d1122",
+    "lane_b_sync_message": "messages/20261004-two-one-three-live-c1-review-sync-v1.md"
+  },
+  "resource_claims": [
+    "LANE_B_C1_HOSTILE_REVIEW_SLOT",
+    "LANE_B_R2_READONLY_OBSERVER"
+  ],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/events/20261004T195000Z_lane-b_abc-live-coordination-correction-2.json"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "lane_c_bootstrap_ack_commit": "b9352089994a59d934ad3d6fd0cfbb9382b129e1",
+    "lane_c_c1_intent_commit": "ef6fc5e",
+    "lane_b_bus_sync_commit": "7085788",
+    "c1_allowed_scope": "CPU_SOURCE_ONLY_AS_DECLARED",
+    "c1_integration_status": "BLOCKED_PENDING_LANE_B_REVIEW",
+    "gpu_status": "HELD_BY_LANE_A"
+  },
+  "next_action": "Lane C publishes its C1 proposal/manifest on bus/three-v2. Lane B fresh-reads it and performs hostile review. Lane A integrates nothing from C1 until B's durable verdict.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_A"
+}
