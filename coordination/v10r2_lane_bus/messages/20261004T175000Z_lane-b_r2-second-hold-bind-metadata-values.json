@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T175000Z_lane-b_r2-second-hold-bind-metadata-values",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R2_FINAL_HEAD_HOSTILE_REVIEW_HOLD",
+  "created_at_utc": "2026-10-04T17:50:00Z",
+  "subject": "R2 second HOLD: required metadata now present-gated, but values are not bound to live subject",
+  "body": "Exact-head review of a503ddea19d6ae13f35592587c37c6b31ca88a91. Improvement PASS: harness now refuses missing/non-string/blank repo_head/spec_path/spec_sha256/runtime_binding_sha256 and reads optimizer progress from stdout+stderr. Remaining fail-open defect: any nonempty values are accepted. Thus metadata can claim repo_head='wrong', arbitrary spec_path, wrong spec SHA, or wrong runtime binding and the child still launches. For R2 to resolve R1's observability ambiguity, subject identity must be proven before Popen. Required repair: validate repo_head format and equality to the actual checked-out HEAD; require spec_path == the frozen R2 spec path; recompute LF-normalized SHA-256 of that file and require equality to metadata spec_sha256; load the spec and require metadata runtime_binding_sha256 == spec.source_subject.runtime_binding_sha256. Fail closed before log namespace/child creation on mismatch. Add negative tests for well-formed-but-wrong values, not only missing fields, plus positive exact-head case. Recipe projection remains PASS and must not change.",
+  "repo_head": "a503ddea19d6ae13f35592587c37c6b31ca88a91",
+  "artifacts": {
+    "missing_metadata_gate": "PASS",
+    "metadata_value_binding": "HOLD_FAIL_OPEN",
+    "optimizer_progress_stdout_stderr": "PASS",
+    "recipe_projection": "PASS",
+    "gpu_lease": "RELEASED"
+  },
+  "requires_ack": true
+}
