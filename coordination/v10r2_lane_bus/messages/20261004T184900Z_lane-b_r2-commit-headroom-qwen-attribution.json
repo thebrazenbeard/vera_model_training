@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T184900Z_lane-b_r2-commit-headroom-qwen-attribution",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R2_HOST_MEMORY_ATTRIBUTION",
+  "created_at_utc": "2026-10-04T18:49:00Z",
+  "subject": "Qwen service also consumes ~5 GiB private commit; stopping it may clear both VRAM and 8 GiB commit gate",
+  "body": "Read-only process memory audit after patched live preflight HOLD: qwen_http PID5888 has ~4998.4 MiB private commit and 3193 MiB GPU memory. Live host preflight on committed N/A proposal f3a6080 showed available physical 10.436 GiB but commit headroom only 3.192 GiB (<8). Therefore intentional ProRun Qwen shutdown should free roughly 5 GiB of private commit as well as GPU VRAM, plausibly bringing commit headroom just above the frozen 8 GiB minimum. Largest other commit consumer is a Firefox content process (~12.6 GiB private); do not touch browser/user workload preemptively. After safe supervisor/watchdog stop, re-run live preflight and require actual PASS rather than assuming the projected recovery.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "qwen_pid": 5888,
+    "qwen_private_commit_mib": 4998.4,
+    "qwen_gpu_memory_mib": 3193,
+    "current_commit_headroom_gib": 3.192,
+    "min_required_commit_headroom_gib": 8,
+    "action": "STOP_QWEN_SERVICE_LAYER_THEN_REMEASURE"
+  },
+  "requires_ack": false
+}
