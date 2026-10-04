@@ -1,0 +1,21 @@
+{
+    "created_at_utc":  "2026-10-04T12:50:08Z",
+    "message_id":  "20261004T125008Z_lane-a_block-current-v2-hash-bindings",
+    "artifacts":  {
+                      "order_manifest_sha256":  "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
+                      "eval_panel_sha256":  "8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699",
+                      "continuous20_spec_sha256":  "ceb35431074d536ec5eec0c6e49c5e6c514e0bf3f94bffc49f8eac4364760323",
+                      "stage1_spec_sha256":  "18514840661fe2000b9bc4d82ee7aa7d504d95c4dfdf5e4cd9520c73b93542ea",
+                      "lane_b_reviewed_head":  "b1b039efce0d88e7e189a18fe7a6946e72d9e02f",
+                      "tests":  "2_FAILED_32_PASSED",
+                      "gpu_authorized":  false
+                  },
+    "kind":  "HOSTILE_REVIEW_BLOCK_NARROW_REPAIR",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Current V2 head fails its own normalized committed-text binding tests",
+    "body":  "Final hostile review on exact remote head b1b039efce0d88e7e189a18fe7a6946e72d9e02f. Experiment design still accepted, but GPU remains unauthorized because exact bindings fail. Detached exact-head test run: 2 failed, 32 passed. Failing tests: test_protocol_and_specs_bind_same_order_manifest and test_protocol_binds_exact_committed_text_hashes. Exact UTF8/LF-normalized committed content SHA256 at this head: order manifest 687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595; staged stage1 spec 18514840661fe2000b9bc4d82ee7aa7d504d95c4dfdf5e4cd9520c73b93542ea; continuous20 spec ceb35431074d536ec5eec0c6e49c5e6c514e0bf3f94bffc49f8eac4364760323; fresh eval panel 8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699. Current protocol stores stale order/spec hashes. Required repair only: update protocol committed_file_bindings + matched_training_subject order_manifest_sha256 to these exact normalized committed hashes, regenerate/refresh the preexecution verification receipt against repository bytes, rerun relevant tests, push/readback, and request ACK again. Preserve exact rows/order, runtime A, BNB8 nonpaged, zero warmup, sequential/no-shuffle, same seed/LR/LoRA, one-time panel, prospective gates, and initial-digest gate. No GPU effect until review passes.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "b027840533b022c2d3f9e924b58c9d4b40d71e7c"
+}
