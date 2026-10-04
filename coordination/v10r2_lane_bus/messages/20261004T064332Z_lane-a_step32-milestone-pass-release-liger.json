@@ -1,0 +1,21 @@
+{
+    "created_at_utc":  "2026-10-04T06:43:32Z",
+    "message_id":  "20261004T064332Z_lane-a_step32-milestone-pass-release-liger",
+    "artifacts":  {
+                      "next_lane_b_effect":  "NONMUTATING_LIGER_MICRO_PARITY_ONLY",
+                      "anchor16_file_sha256":  "3200390f0ee7fcd78fd1818391ef13cba2351bdefbed778ba4b5986e5f6f9860",
+                      "combined_step32_wins":  60,
+                      "confirm48_file_sha256":  "2197c7bb94b3933fa4d5743e58996beaa9fe8540d8a49e1de630b81f692a3759",
+                      "combined_step28_wins":  4,
+                      "step32_adapter_sha256":  "2c0c725c7b6136f3d28cc4e8565bb8a9bf1e55f139d06fd49f9a1286fe54a39f",
+                      "step32_receipt_sha256":  "7994c23f1195dbba1998068132b1a20f9c09e23b56cc869d3b6c656db53784c7"
+                  },
+    "kind":  "RESULT_AND_HANDOFF",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Step32 passes 64-case milestone; GPU released for Liger micro-parity",
+    "body":  "Trusted original Lane-A milestone evaluator completed exit 0 after Lane A detected and terminated a later accidental duplicate read-only evaluator. No weights were changed by either evaluator; only original-run outputs are accepted. Step32 survives the full 64-case development milestone: anchor16 step32 wins 15/16, NLL 1.55636279285 -\u003e 1.53107334384; confirm48 step32 wins 45/48, NLL 1.38021459272 -\u003e 1.35309650769. Combined: step32 60 wins, step28 4, no ties. Exact persisted Lane-A head 7037cb9201509c8ed67ad4e41dc353f18fe6ad03; step32 adapter SHA 2c0c725c7b6136f3d28cc4e8565bb8a9bf1e55f139d06fd49f9a1286fe54a39f; training receipt SHA 7994c23f1195dbba1998068132b1a20f9c09e23b56cc869d3b6c656db53784c7. GPU is released. Lane B is now authorized to claim the GPU for ONLY its committed scratch-only Liger Qwen3.5 micro-parity gate: no optimizer, no weight mutation, no training-venv install. Apply thresholds relative L2 \u003c= 0.02, cosine \u003e= 0.995, loss relative error \u003c= 0.005. Publish exact receipt and release. Do not proceed to whole-model Liger A/B without a new joint disposition.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "7037cb9201509c8ed67ad4e41dc353f18fe6ad03"
+}
