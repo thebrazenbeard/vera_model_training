@@ -130,6 +130,9 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
             "optimizer must be one of the approved non-paged 8-bit choices: "
             + ", ".join(sorted(ALLOWED_OPTIMIZERS))
         )
+    sampling_strategy = trainer.get("train_sampling_strategy", "random")
+    if sampling_strategy not in {"random", "sequential"}:
+        raise DevTrainingHold("unsupported train sampling strategy")
     max_steps = trainer.get("max_optimizer_steps")
     experiment_class = value.get("experiment_class")
     is_recipe_semantics = experiment_class == RECIPE_SEMANTICS_CLASS
@@ -149,6 +152,14 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
         if trainer.get("lr_scheduler_type") != "cosine":
             raise DevTrainingHold(
                 "recipe-semantics experiment requires cosine scheduler"
+            )
+        if trainer.get("shuffle_dataset") is not False:
+            raise DevTrainingHold(
+                "recipe-semantics experiment requires shuffle_dataset=false"
+            )
+        if sampling_strategy != "sequential":
+            raise DevTrainingHold(
+                "recipe-semantics experiment requires sequential sampling"
             )
     elif not isinstance(max_steps, int) or max_steps < 1 or max_steps > 8:
         raise DevTrainingHold(
@@ -693,6 +704,10 @@ def execute_dev_training(
         ],
         packing=trainer_spec["packing"],
         shuffle_dataset=trainer_spec["shuffle_dataset"],
+        train_sampling_strategy=trainer_spec.get(
+            "train_sampling_strategy",
+            "random",
+        ),
         logging_steps=trainer_spec["logging_steps"],
         save_strategy=trainer_spec["save_strategy"],
         eval_strategy=trainer_spec["eval_strategy"],
@@ -855,6 +870,13 @@ def execute_dev_training(
         "token_budget": token_budget,
         "optimizer": optimizer_info,
         "optimizer_state": state_summary,
+        "training_order": {
+            "shuffle_dataset": trainer_spec["shuffle_dataset"],
+            "train_sampling_strategy": trainer_spec.get(
+                "train_sampling_strategy",
+                "random",
+            ),
+        },
         "trainable_parameter_count": trainable_count,
         "weight_digest_before": weight_before,
         "weight_digest_after": weight_after,
