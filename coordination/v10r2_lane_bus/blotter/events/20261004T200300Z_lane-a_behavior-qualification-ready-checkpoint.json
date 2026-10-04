@@ -1,0 +1,50 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T200300Z_LANE_A_BEHAVIOR_QUALIFICATION_READY_CHECKPOINT",
+  "created_at_utc": "2026-10-04T20:03:00Z",
+  "lane": "LANE_A",
+  "event_type": "CHECKPOINT",
+  "task_id": "A2_BEHAVIOR_GENERALIZATION_QUALIFICATION_V1",
+  "summary": "Lane A behavior-generalization qualification is source-ready for independent hostile review. Mechanical audit detects prompt/scenario leakage, pseudo-replication, domain/cognitive undercoverage, and duplicate prompts. Protocol binds a 200-case held-out design, forbids final-bank/one-time-panel use, and requires paired baseline/candidate evaluation plus replay.",
+  "observed_peer_event_id": "20261004T200100Z_LANE_C_ROOTS_INGEST_INSTALL_INTENT",
+  "observed_peer_event_ids": [
+    "20261004T195600Z_LANE_B_C1_HOSTILE_REVIEW_INTENT",
+    "20261004T200100Z_LANE_C_ROOTS_INGEST_INSTALL_INTENT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "branch": "work/v10-behavior-qualification-lane-a-20261004-v1",
+    "head": "f2700768367db9ffe46f8854b3dcb8e21e4f18ec",
+    "audit_source_blob": "93795e24ca037fb78eb5e9746d004c17609a1c63",
+    "protocol_blob": "747f3ef6396a36786d7e68ab659ebb3abd2b635d",
+    "protocol_test_commit": "f2700768367db9ffe46f8854b3dcb8e21e4f18ec"
+  },
+  "resource_claims": [
+    "CPU_SOURCE_ONLY",
+    "LANE_A_BEHAVIOR_QUALIFICATION"
+  ],
+  "write_paths": [
+    "successor/experiments/V10_BEHAVIOR_GENERALIZATION_QUALIFICATION_PROTOCOL_20261004_V1.json",
+    "successor/experiments/build_v10_behavior_qualification.py",
+    "tests/test_v10_behavior_qualification.py",
+    "tests/test_v10_behavior_qualification_protocol.py"
+  ],
+  "effects": [
+    "source_write_or_commit",
+    "cpu_only_logic_verification"
+  ],
+  "evidence": {
+    "mechanical_logic_assertions": "6/6 PASS",
+    "protocol_family_count": 10,
+    "protocol_total_cases": 200,
+    "protected_final_bank": "PROHIBITED",
+    "one_time_panel": "PROHIBITED",
+    "paired_evaluation_required": true,
+    "semantic_review_required": true,
+    "workstation_pytest": "NOT_CLAIMED_PASS_DUE_HOST_PRESSURE"
+  },
+  "next_action": "Lane B hostile-reviews exact head f2700768, especially semantic-family separation and proposed promotion thresholds. Lane A integrates only after B verdict.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
