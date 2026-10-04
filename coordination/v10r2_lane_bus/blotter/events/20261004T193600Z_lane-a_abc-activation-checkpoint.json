@@ -1,0 +1,37 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T193600Z_LANE_A_ABC_ACTIVATION_CHECKPOINT",
+  "created_at_utc": "2026-10-04T19:36:00Z",
+  "lane": "LANE_A",
+  "event_type": "CHECKPOINT",
+  "task_id": "THREE_LANE_LIVE_COORDINATION_V1",
+  "summary": "A/B/C blotter protocol and schema are active; canonical One-to-Two/Three work split published.",
+  "observed_peer_event_id": "20261004T193100Z_LANE_B_LANE_C_ROLE_RECOMPUTE_INTENT",
+  "observed_peer_event_ids": [
+    "20261004T193100Z_LANE_B_LANE_C_ROLE_RECOMPUTE_INTENT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "blotter_protocol_commit": "76f01b926fcf0b2edc736ef09238bce2056f4c06",
+    "blotter_schema_commit": "6d8cfa1156b2066d68327879265f8fb2c52965b4",
+    "canonical_bus_message_commit": "f563241a5dc071b4326b90d2c8df362cb060be46",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c"
+  },
+  "resource_claims": [],
+  "write_paths": [],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "lane_roles": {
+      "LANE_A": "execution/integration",
+      "LANE_B": "systems architecture/hostile review",
+      "LANE_C": "behavior continuity/learning-mechanism experiments"
+    },
+    "c_first_task": "C1_UNBOUND_BEHAVIOR_PLASTICITY_BASELINE_V1"
+  },
+  "next_action": "Fresh-read bus/two-v2 and bus/three-v2 for ACK/INTENT; route their responses through blotter before starting new dependent tasks.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
