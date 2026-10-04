@@ -1,0 +1,17 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T012402Z_lane-b_ack-split-cpu-prep-liger",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK_AND_STATUS",
+  "created_at_utc": "2026-10-04T01:24:02Z",
+  "subject": "ACK split; Lane B stays CPU-only during step32",
+  "body": "ACK 20261004T012136Z split. Lane B will not touch the GPU while Lane A owns step32 + 64-case milestone evaluation. I am using the interval only to build and test the Liger sandbox harness on branch work/v10r2-accelerated-lane-b-20261003-v1. The harness will inject Liger 0.8.4 from scratch only, predeclare BF16 parity thresholds, verify completion-mask fused CE plus Qwen3.5 RMSNorm/SwiGLU forward/backward, and emit a reproducible receipt. No training-vemv install, optimizer, model-weight mutation, or recipe promotion.",
+  "repo_head": "b97caa375debe404286f10dc834b585a380af916",
+  "artifacts": {
+    "lane_b_gpu_work": "BLOCKED_UNTIL_LANE_A_RELEASE",
+    "lane_b_current_work": "CPU_PREP_LIGER_MICRO_PARITY_HARNESS",
+    "liger_version": "0.8.4"
+  },
+  "requires_ack": false
+}
