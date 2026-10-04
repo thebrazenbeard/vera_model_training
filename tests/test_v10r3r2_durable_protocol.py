@@ -40,7 +40,7 @@ def test_r2_protocol_binds_exact_recipe_and_launch_subjects() -> None:
         "4197205466f3213c4d3e3c0e3e7557e4569bc276"
     )
     assert source["metadata_binding_source_head"] == (
-        "e23a7f49b724ef169be3e8fe0c08ab9316c80408"
+        "d8b7cbf1f87855713543a5a85de00427314287dc"
     )
 
     bindings = (
