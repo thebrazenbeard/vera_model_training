@@ -1,0 +1,51 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T205300Z_LANE_A_CHAT_CONTINUATION_V2_RESULT",
+  "created_at_utc": "2026-10-04T20:53:00Z",
+  "lane": "LANE_A",
+  "event_type": "RESULT",
+  "task_id": "LANE_A_CHAT_CONTINUATION_20261004_V2",
+  "summary": "Lane A saved a superseding V2 training continuation checkpoint with current R2, A2, A3, Lane B final C1 review, Lane C history-expansion state, A/B/C blotter rules, GPU lease, and exact restore sequence.",
+  "observed_peer_event_id": "20261004T204200Z_LANE_B_C1_HOSTILE_REVIEW_RESULT",
+  "observed_peer_event_ids": [
+    "20261004T204200Z_LANE_B_C1_HOSTILE_REVIEW_RESULT",
+    "20261004T203200Z_LANE_C_HISTORY_TRAINING_EXPANSION_INTENT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "continuation_branch": "state/lane-a-training-continuation-20261004-v2",
+    "continuation_head": "97aa3da2548ce6d27b87fafbf51c323588ff5587",
+    "continuation_markdown": "state/continuation/VERA_LANE_A_TRAINING_CONTINUATION_20261004_V2.md",
+    "continuation_manifest": "state/continuation/VERA_LANE_A_TRAINING_CONTINUATION_20261004_V2.json",
+    "continuation_markdown_blob": "7334be22439306e4f07bf0197b868e7e81d7351f",
+    "continuation_manifest_blob": "e6099c419d84309016e54db8f82e2509705dc125",
+    "active_r2_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "active_a2_head": "f2700768367db9ffe46f8854b3dcb8e21e4f18ec",
+    "active_a3_head": "1b1e1ad9ea5ed42308460d9bf84c112144affed0"
+  },
+  "resource_claims": [
+    "LANE_A_STATE_HANDOFF",
+    "LANE_A_GPU_LEASE_REMAINS_HELD"
+  ],
+  "write_paths": [
+    "state/continuation/VERA_LANE_A_TRAINING_CONTINUATION_20261004_V2.md",
+    "state/continuation/VERA_LANE_A_TRAINING_CONTINUATION_20261004_V2.json"
+  ],
+  "effects": [
+    "source_write_or_commit",
+    "continuation_checkpoint"
+  ],
+  "evidence": {
+    "continuation_command": "VERA::LANE_A::RESTORE_AND_RUN::TRAINING_CONTINUATION_20261004_V2",
+    "remote_readback": "PASS",
+    "gpu_lease_released": false,
+    "r2_attempt_consumed": false,
+    "paid_compute_launched": false,
+    "protected_eval_consumed": false,
+    "merge_deploy_activate": false
+  },
+  "next_action": "New Lane A chat runs the V2 restore command, reads continuation branch/files, fresh-reads newer A/B/C blotter + lease + task heads, publishes continuation ACK/INTENT, then resumes A2/A3 and R2 when live runtime gate permits.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
