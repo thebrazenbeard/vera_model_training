@@ -1,0 +1,71 @@
+{
+  "schema": "V10R3R1_EXECUTION_INCIDENT_V1",
+  "date": "2026-10-04",
+  "status": "TERMINATED_NO_COMPLETION_RECEIPT_CAUSE_UNRESOLVED",
+  "experiment": "V10R3R1_CONTINUOUS20_EXECUTABILITY_REPLICATION",
+  "attempt": "1_OF_1",
+  "authority": {
+    "user_instruction": "continue training",
+    "second_attempt_authorized": false,
+    "panel_use": "PROHIBITED",
+    "recipe_mutation": "PROHIBITED"
+  },
+  "subject": {
+    "execution_spec": "successor/experiments/V10R3R1_CONTINUOUS20_EXECUTION_SPEC_20261004_V1.json",
+    "lane_a_execution_head": "20f9c7981103a544a74ce7f276a721138660799e",
+    "lane_a_preflight_head": "4ec37360fa7de73a4d224ab0b1039b64f89d2a3a",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "output_namespace": "D:\\VERA\\models\\adapters\\v10r3r1-lane-a-continuous20-sequential-20261004"
+  },
+  "observations": {
+    "predecessor_oom_boundary_completed_steps": 4,
+    "r1_step5_completed_observed": true,
+    "r1_last_completed_optimizer_step_observed": 13,
+    "last_step_evidence_class": "LIVE_EXECUTOR_CONSOLE_OBSERVATION_NOT_SEPARATELY_PERSISTED",
+    "completion_receipt_present": false,
+    "adapter_artifacts_present": false,
+    "output_namespace_present": true,
+    "output_namespace_contents_observed": [
+      "sft_work/"
+    ],
+    "trainer_process_present_at_detection": false,
+    "project_runner_training_task_state": "ORPHANED",
+    "receipt_auditor_process_present_at_detection": false,
+    "project_runner_receipt_auditor_state": "ORPHANED",
+    "gpu_memory_used_mib_at_detection": 0,
+    "gpu_utilization_percent_at_detection": 0,
+    "detected_at_local": "2026-10-04T13:05:37-04:00"
+  },
+  "failure_forensics": {
+    "windows_application_python_crash_event_found": false,
+    "windows_security_process_termination_event_found": false,
+    "executor_connector_available_at_detection": false,
+    "workbridge_fallback_used": true,
+    "executor_persisted_traceback_recovered": false,
+    "executor_tunnel_log_continued_forwarding_through_local_time": "2026-10-04T13:03:46-04:00",
+    "cause": "UNRESOLVED",
+    "not_established": [
+      "CUDA_OOM",
+      "EXECUTOR_SESSION_KILLED_TRAINER",
+      "WINDOWS_APPLICATION_CRASH",
+      "USER_TERMINATION"
+    ]
+  },
+  "scientific_disposition": {
+    "deterministic_post_step4_oom_reproduced": false,
+    "predecessor_exact_failure_boundary_falsified": true,
+    "full_20_step_continuous_executability_established": false,
+    "semantic_recipe_comparison_available": false,
+    "recipe_winner_claimed": false,
+    "original_v10r3_status": "EXECUTION_HOLD_UNRESOLVED",
+    "v10r3r1_status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED"
+  },
+  "next_effects": {
+    "retry_v10r3r1": "PROHIBITED_BY_ATTEMPT_LIMIT",
+    "consume_recipe_panel": "PROHIBITED",
+    "release_gpu_lease": "REQUIRED_CLEANUP",
+    "identity_training": "SEPARATE_FUTURE_DECISION_NOT_AUTHORIZED_BY_THIS_INCIDENT"
+  },
+  "claim_ceiling": "EXECUTION_INCIDENT_AND_OPERATIONAL_BOUNDARY_EVIDENCE_ONLY_NOT_SEMANTIC_RECIPE_WINNER_NOT_CAUSAL_FAILURE_CLASSIFICATION"
+}
