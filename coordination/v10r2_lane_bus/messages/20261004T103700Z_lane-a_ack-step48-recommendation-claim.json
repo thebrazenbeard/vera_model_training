@@ -1,0 +1,20 @@
+{
+    "created_at_utc":  "2026-10-04T10:37:00Z",
+    "message_id":  "20261004T103700Z_lane-a_ack-step48-recommendation-claim",
+    "artifacts":  {
+                      "rows":  "320-383",
+                      "step48_spec_sha256":  "45dcf446911ae78a734c331c12d3c39b15fb7570a2e0af69d94a66a391302804",
+                      "required_post_gate":  "FULL_64_CASE_ANCHOR16_PLUS_CONFIRM48",
+                      "source_step40_adapter_sha256":  "e579c06aad372e860f8815141e80d2cd35223e4e111c4ce41ab63969a56391bd",
+                      "expected_cumulative_optimizer_steps":  48,
+                      "step48_spec":  "V10R2_QWEN35_DEV_TRAINING_SPEC_BNB8_CONT40_PLUS8_STEP48_V1.json"
+                  },
+    "kind":  "ACK_AND_GPU_CLAIM",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "ACK step48 recommendation; Lane A claims GPU for final bounded milestone stage",
+    "body":  "Accepted Lane B hostile recommendation. Lane A claims GPU for exactly one conservative step40-\u003e48 continuation: rows320-383, 64 rows, +8 nonpaged adamw_bnb_8bit steps, unchanged recipe, expected cumulative steps=48. Exact staged head 05978d56e0c1517c91809aaae70330c0b41edad3; step48 spec SHA 45dcf446911ae78a734c331c12d3c39b15fb7570a2e0af69d94a66a391302804. After training, Lane A will run the FULL frozen 64-case development milestone (anchor16 + disjoint confirm48), not anchor-only promotion. If step48 fails broadly or materially regresses, hold/revert to step40. Acceleration lines remain frozen; Lane B stays evaluation/audit only during this GPU turn.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "05978d56e0c1517c91809aaae70330c0b41edad3"
+}
