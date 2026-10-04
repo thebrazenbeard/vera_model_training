@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -14,6 +15,24 @@ from successor.experiments.train_v10r2_dev import (
 
 ROOT = Path(__file__).resolve().parents[1]
 EXP = ROOT / "successor" / "experiments"
+TRAIN_JSONL = Path(
+    os.environ.get(
+        "VERA_V10_TRAIN_JSONL",
+        r"D:\VERA\.scratch\v10-qwen512-preflight-20261001-v1\train.jsonl",
+    )
+)
+EXPECTED_RAW_SHA256 = {
+    "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json":
+        "129572aef614e921c92161d9874e9cecdbf40bfbb0de073221562cd09e6172dc",
+    "V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json":
+        "507d812cd05e3bdf131992acf4ffa947217b8aaab18968d1515b894093688f3c",
+    "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json":
+        "30c1a055ee5228888ab2df83d3af51dc04bc0f3ff598b9d8d51ec088e1ea67e7",
+    "V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json":
+        "8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699",
+    "V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json":
+        "2de024f88f2ecda3cab5af995e45dcb8b6e05545034eb7a051556632c75b29fc",
+}
 
 
 def _json(name: str) -> dict:
@@ -135,3 +154,65 @@ def test_superseded_v1_global_shuffle_candidate_is_not_executable() -> None:
         load_and_validate_dev_spec(
             EXP / "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V1.json"
         )
+
+def test_raw_committed_file_hash_bindings_are_exact() -> None:
+    protocol = _json("V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json")
+    for name, expected in EXPECTED_RAW_SHA256.items():
+        assert _sha(name) == expected
+
+    assert protocol["matched_training_subject"]["order_manifest_sha256"] == (
+        EXPECTED_RAW_SHA256[
+            "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json"
+        ]
+    )
+    assert protocol["control"]["stage1_spec_sha256"] == (
+        EXPECTED_RAW_SHA256[
+            "V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json"
+        ]
+    )
+    assert protocol["candidate"]["spec_sha256"] == (
+        EXPECTED_RAW_SHA256[
+            "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json"
+        ]
+    )
+    assert protocol["evaluation"]["panel_file_sha256"] == (
+        EXPECTED_RAW_SHA256[
+            "V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json"
+        ]
+    )
+    assert protocol["prospective_gates"][
+        "initial_trainable_digest_exact_match_required"
+    ] is True
+
+
+def test_order_manifest_recomputes_from_frozen_train_jsonl() -> None:
+    if not TRAIN_JSONL.is_file():
+        pytest.skip(f"frozen train JSONL unavailable:{TRAIN_JSONL}")
+    raw = TRAIN_JSONL.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == (
+        "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300"
+    )
+    rows = [
+        json.loads(line)
+        for line in raw.decode("utf-8").splitlines()
+        if line.strip()
+    ]
+    assert len(rows) == 50000
+    manifest = _json(
+        "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json"
+    )
+    assert manifest["serialization"] == "NEWLINE_UTF8_FINAL_LF"
+
+    def record_id(row: dict, index: int) -> str:
+        return (
+            row.get("record_id")
+            or row.get("case_id")
+            or row.get("id")
+            or f"bound-train-row-{index}"
+        )
+
+    actual_ids = [record_id(rows[i], i) for i in range(160)]
+    assert actual_ids == manifest["record_ids"]
+    assert hashlib.sha256(
+        ("\n".join(actual_ids) + "\n").encode("utf-8")
+    ).hexdigest() == manifest["record_ids_sha256"]
