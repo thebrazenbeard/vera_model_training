@@ -87,6 +87,64 @@ def _valid_sha256(value: object) -> bool:
     )
 
 
+def _gradient_summary(model, torch, *, vector_out: Path | None = None) -> dict:
+    digest = hashlib.sha256()
+    layout_digest = hashlib.sha256()
+    vectors = []
+    tensor_count = 0
+    nonfinite_tensor_count = 0
+    zero_tensor_count = 0
+    element_count = 0
+    l2_sq = 0.0
+
+    for name, parameter in model.named_parameters():
+        if not parameter.requires_grad:
+            continue
+        if parameter.grad is None:
+            raise ProbeHold(f"missing trainable gradient:{name}")
+        grad = parameter.grad.detach().float().cpu().contiguous()
+        raw = grad.numpy().tobytes(order="C")
+        shape = list(grad.shape)
+        header = canonical_bytes({"name": name, "shape": shape, "dtype": "float32"})
+        digest.update(header)
+        digest.update(raw)
+        layout_digest.update(header)
+        tensor_count += 1
+        element_count += grad.numel()
+        finite = bool(torch.isfinite(grad).all().item())
+        if not finite:
+            nonfinite_tensor_count += 1
+        if not bool(torch.count_nonzero(grad).item()):
+            zero_tensor_count += 1
+        l2_sq += float(grad.double().square().sum().item())
+        vectors.append(grad.reshape(-1))
+
+    if not vectors:
+        raise ProbeHold("no trainable gradient vectors")
+    if nonfinite_tensor_count:
+        raise ProbeHold(f"nonfinite trainable gradients:{nonfinite_tensor_count}")
+
+    vector = torch.cat(vectors)
+    vector_file_sha256 = None
+    if vector_out is not None:
+        vector_out.parent.mkdir(parents=True, exist_ok=True)
+        torch.save(vector, vector_out)
+        vector_file_sha256 = sha256_file(vector_out)
+
+    return {
+        "schema": "V10R2_TRAINABLE_GRADIENT_SUMMARY_V1",
+        "tensor_count": tensor_count,
+        "zero_tensor_count": zero_tensor_count,
+        "nonfinite_tensor_count": nonfinite_tensor_count,
+        "all_finite": nonfinite_tensor_count == 0,
+        "element_count": element_count,
+        "l2": math.sqrt(l2_sq),
+        "gradient_sha256": digest.hexdigest(),
+        "layout_sha256": layout_digest.hexdigest(),
+        "vector_file_sha256": vector_file_sha256,
+    }
+
+
 def finalize_probe_receipt(
     *,
     precondition_check: dict,
@@ -242,6 +300,7 @@ def execute_backward_probe(
     training_stack_loader: Callable[[], object] = load_training_stack,
     pad_to_multiple_of: int | None = None,
     acceleration_backend: str = "fla_triton",
+    gradient_vector_out: Path | None = None,
 ) -> dict:
     if acceleration_backend not in {"fla_triton", "fla_triton_full"}:
         raise ProbeHold(
@@ -465,6 +524,12 @@ def execute_backward_probe(
             if bool(torch.count_nonzero(parameter.grad.detach()).item()):
                 nonzero_gradient_parameter_count += 1
 
+        gradient_summary = _gradient_summary(
+            trainer.model,
+            torch,
+            vector_out=gradient_vector_out,
+        )
+
         weight_after, post_trainable_count = _trainable_parameter_digest(
             trainer.model,
             torch,
@@ -522,6 +587,7 @@ def execute_backward_probe(
             output_artifacts_written=False,
         )
         receipt["gradient_parameter_count"] = gradient_parameter_count
+        receipt["gradient_summary"] = gradient_summary
         receipt["token_budget"] = token_budget
         receipt["microbatch_row_indices"] = list(
             range(row_index, row_index + accumulation_steps)
@@ -566,6 +632,7 @@ def _main(argv=None) -> int:
         choices=("fla_triton", "fla_triton_full"),
         default="fla_triton",
     )
+    parser.add_argument("--gradient-vector-out", type=Path)
     args = parser.parse_args(argv)
 
     result = execute_backward_probe(
@@ -574,6 +641,7 @@ def _main(argv=None) -> int:
         row_index=args.row_index,
         pad_to_multiple_of=args.pad_to_multiple_of,
         acceleration_backend=args.acceleration_backend,
+        gradient_vector_out=args.gradient_vector_out,
     )
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
