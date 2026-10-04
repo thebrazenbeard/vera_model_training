@@ -1,0 +1,117 @@
+{
+  "schema": "V10R3_CONTINUOUS20_EXECUTION_INCIDENT_V1",
+  "date": "2026-10-04",
+  "status": "CONTINUOUS20_EXECUTION_FAILED_HOLD",
+  "experiment_class": "CONTINUOUS_STATE_RECIPE_SEMANTICS",
+  "training_branch": "work/v10r3-binding-fix-lane-a-20261004-v1",
+  "training_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
+  "spec": {
+    "path": "successor/experiments/V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json",
+    "sha256": "bda3c491db5e15aa4d0eabd9806776e27a46c33a884e35fad380613fa934a96d"
+  },
+  "source_subject": {
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "rows": "0-159",
+    "row_count": 160,
+    "training_order": "NATURAL_SEQUENTIAL",
+    "shuffle_dataset": false,
+    "gradient_accumulation_steps": 8,
+    "requested_optimizer_steps": 20
+  },
+  "execution": {
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "python": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "vram_mib": 4095,
+    "output_namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-continuous20-sequential-20261004",
+    "worker_pid_observed": 33516
+  },
+  "partial_progress": {
+    "optimizer_steps_completed": 4,
+    "progress_fraction": "4/20",
+    "progress_percent": 20,
+    "elapsed_at_last_completed_step": "18:07",
+    "elapsed_at_failure_footer": "21:44",
+    "footer_seconds_per_iteration": 326.24,
+    "step_metrics": [
+      {
+        "step": 1,
+        "loss": 0.9342,
+        "grad_norm": 1.844,
+        "learning_rate": 0.00002,
+        "entropy": 0.5673,
+        "num_tokens": 2742,
+        "mean_token_accuracy": 0.7188,
+        "epoch": 0.05
+      },
+      {
+        "step": 2,
+        "loss": 1.578,
+        "grad_norm": 2.344,
+        "learning_rate": 0.00001988,
+        "entropy": 1.144,
+        "num_tokens": 4714,
+        "mean_token_accuracy": 0.622,
+        "epoch": 0.1
+      },
+      {
+        "step": 3,
+        "loss": 2.051,
+        "grad_norm": 2.281,
+        "learning_rate": 0.00001951,
+        "entropy": 1.12,
+        "num_tokens": 6224,
+        "mean_token_accuracy": 0.6144,
+        "epoch": 0.15
+      },
+      {
+        "step": 4,
+        "loss": 1.167,
+        "grad_norm": 1.875,
+        "learning_rate": 0.00001891,
+        "entropy": 0.7635,
+        "num_tokens": 8109,
+        "mean_token_accuracy": 0.7305,
+        "epoch": 0.2
+      }
+    ]
+  },
+  "failure": {
+    "exception": "torch.AcceleratorError",
+    "message": "CUDA error: out of memory",
+    "cuda_driver_detail": "CUDA_ERROR_OUT_OF_MEMORY from cuMemcpyDtoDAsync_v2",
+    "site": "peft.tuners.lora.bnb.forward result.clone during Qwen3.5 linear-attention forward",
+    "trainer_site": "successor/experiments/train_v10r2_dev.py:815 trainer.train()",
+    "sticky_cuda_error_reported": true
+  },
+  "artifacts": {
+    "adapter_present": false,
+    "completion_receipt_present": false,
+    "sft_work_directory_present": true
+  },
+  "comparison_context": {
+    "staged_arm_completed": true,
+    "staged_terminal_receipt_sha256": "288cb8bd19b7dcbeb90a8cc77fc96408194f9642b6bca66af7ab984414c237fb",
+    "staged_terminal_adapter_sha256": "b2d6eec7befca3e18cf1fa793a7830197e27bab33bea8e4f42b5a318ee91d116",
+    "staged_plan": "4+8+8 optimizer steps with reset/save-reload boundaries",
+    "important_observation": "The staged arm completed the first four steps and later rows under reset boundaries, while the continuous arm failed after four completed steps before producing a valid candidate.",
+    "recipe_winner_claimed": false
+  },
+  "runtime_context": {
+    "host_memory_pressure_observed": true,
+    "host_total_physical_gib_observed": 31.73,
+    "host_free_physical_gib_observed": 3.12,
+    "host_committed_bytes_observed": 68207788032,
+    "host_commit_limit_bytes_observed": 74329022464,
+    "long_running_qwen_http_gpu_process_present": true,
+    "causal_attribution": "NOT_ESTABLISHED"
+  },
+  "disposition": {
+    "retry_authorized": false,
+    "runtime_mitigation_authorized": false,
+    "panel_consumption_authorized": false,
+    "panel_status": "HOLD_UNCONSUMED",
+    "required_next": "INDEPENDENT_HOSTILE_REVIEW_OF_FAILURE_SEMANTICS_AND_RETRY_VALIDITY"
+  },
+  "claim_ceiling": "DEVELOPMENT_EXECUTION_INCIDENT_EVIDENCE_ONLY_NOT_RECIPE_WINNER_NOT_FINAL_BANK_NOT_FULL_RUN_AUTHORITY"
+}
