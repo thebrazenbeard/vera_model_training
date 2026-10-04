@@ -1,0 +1,58 @@
+{
+  "schema": "C1_HISTORY_DERIVATIVE_PACKAGE_V1",
+  "repository": "thebrazenbeard/vera_model_training",
+  "branch": "work/lane-c-history-derivatives-20261004-v1",
+  "base_head": "879966d3003b22dafb022f595c6f59c4110511e3",
+  "active_training_subject": {
+    "branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c"
+  },
+  "roots": {
+    "head": "1bc3af6aec0bebe383f60f56ad3070e83f0f40b5",
+    "version": "roots-provenance==0.1.0"
+  },
+  "ingest": {
+    "head": "27764c9fb97c84d178a3f66e0da2d669df645ed6",
+    "version": "vera-ingest==0.1.0"
+  },
+  "archaeology": {
+    "sha256": "3f40014a625178c23a44974c0d03b42dc19479580dd1bf7d33b8c1f834a85644",
+    "rows": 8,
+    "neural_candidates": 7,
+    "external_runtime_candidates": 1
+  },
+  "train": {
+    "sha256": "0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12",
+    "rows": 14,
+    "split": "train",
+    "privacy": "SYNTHETIC_PUBLIC_SAFE"
+  },
+  "replay": {
+    "sha256": "f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477",
+    "rows": 8,
+    "split": "replay",
+    "historical_public_source": {
+      "repository": "thebrazenbeard/unbound-sol",
+      "head": "142086f5a041b6c2e944217e60a45d5db592d496",
+      "path": "behavior/training/PREFERENCE_PAIRS_V1.jsonl",
+      "blob": "146ec709bea3f2737b77da8375e915a243d50a26",
+      "rows": 24,
+      "holdout_eligible": false
+    }
+  },
+  "exclusions": [
+    "private autobiographical facts",
+    "relational/private raw history",
+    "medical/sexual personal facts",
+    "Brigit identity transfer",
+    "protected/final-bank evaluation",
+    "recovery interrupt from neural rows"
+  ],
+  "effects": {
+    "gpu_used": false,
+    "weights_changed": false,
+    "paid_compute": false,
+    "merge_deploy_activate": false
+  },
+  "review_state": "CANDIDATE_PENDING_DERIVATIVE_REVIEW_BY_LANE_B"
+}
