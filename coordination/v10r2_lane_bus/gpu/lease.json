@@ -1,12 +1,12 @@
 ﻿{
     "schema":  "V10R2_GPU_LEASE_V1",
     "resource":  "LAPPY_RTX_3050_4GB",
-    "holder":  null,
-    "purpose":  null,
-    "training_branch":  null,
-    "training_head":  null,
-    "acquired_at_utc":  "2026-10-04T12:03:17Z",
-    "released_at_utc":  "2026-10-04T12:09:54Z",
-    "status":  "FREE",
+    "holder":  "LANE_A",
+    "purpose":  "NONMUTATING_QWEN35_CAUSAL_CONV_FLA_TRITON_PARITY",
+    "training_branch":  "work/v10r2-bnb8-cont20-20261003",
+    "training_head":  "b0e44bc938dd33922ad1ef37ce7b8dc4fa9a78b2",
+    "acquired_at_utc":  "2026-10-04T12:20:08Z",
+    "released_at_utc":  null,
+    "status":  "HELD",
     "rule":  "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
 }
