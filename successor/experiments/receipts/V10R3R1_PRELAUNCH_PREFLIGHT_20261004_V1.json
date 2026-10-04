@@ -1,0 +1,62 @@
+{
+  "schema": "V10R3R1_PRELAUNCH_PREFLIGHT_V1",
+  "created_at_utc": "2026-10-04T16:01:40Z",
+  "status": "PASS",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "current_instruction": "continue training",
+    "authorized_effect": "V10R3R1_CONTINUOUS20_EXECUTABILITY_REPLICATION_ONE_ATTEMPT_ONLY",
+    "panel_use": "PROHIBITED",
+    "recipe_mutation": "PROHIBITED",
+    "merge_deploy_activate": "NOT_AUTHORIZED"
+  },
+  "source": {
+    "lane_a_execution_head": "20f9c7981103a544a74ce7f276a721138660799e",
+    "execution_spec_path": "successor/experiments/V10R3R1_CONTINUOUS20_EXECUTION_SPEC_20261004_V1.json",
+    "execution_spec_git_blob": "39112a4b44eff4dd5dcf4c7e19d0fc6bb74a44bb",
+    "protocol_path": "successor/experiments/V10R3R1_CONTINUOUS20_EXECUTABILITY_REPLICATION_PROTOCOL_20261004_V1.json",
+    "protocol_git_blob": "0c21a7a7307830145103c0ad4927ab7adabb3791",
+    "prereg_template_sha256": "94e99e39d280a2cf99194f1a5a9d09b96b4f8c1140d59b4741d3ac2b13d4c660",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300"
+  },
+  "projection_verification": {
+    "status": "PASS",
+    "recipe_projection_match": true,
+    "output_namespace_match": true,
+    "template_committed_sha256": "94e99e39d280a2cf99194f1a5a9d09b96b4f8c1140d59b4741d3ac2b13d4c660",
+    "independent_lane": "LANE_B"
+  },
+  "runtime_a_live": {
+    "python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "python_version": "3.12.10",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "driver": "616.92",
+    "cuda_runtime": "13.0",
+    "packages_match_frozen_binding": true,
+    "base_artifact_hashes_match_frozen_binding": true,
+    "gpu_free_bytes_observed": 3466277684,
+    "gpu_total_bytes_observed": 4294443008,
+    "host_commit_bytes_observed": 47825948672,
+    "host_commit_limit_bytes_observed": 53075132416,
+    "physical_available_bytes_observed": 9452797952,
+    "physical_total_bytes_observed": 34069069824
+  },
+  "process_and_namespace_preflight": {
+    "competing_train_v10r2_dev_process_present": false,
+    "qwen_http_process_present": false,
+    "qwen_http_policy": "OBSERVE_ONLY_DO_NOT_STOP_FOR_REPLICATION",
+    "replication_output_namespace": "D:\\VERA\\models\\adapters\\v10r3r1-lane-a-continuous20-sequential-20261004",
+    "replication_output_namespace_absent": true,
+    "predecessor_failed_namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-continuous20-sequential-20261004",
+    "predecessor_failed_namespace_preserved": true,
+    "predecessor_completion_receipt_present": false
+  },
+  "thresholds": {
+    "host_memory_threshold": null,
+    "gpu_memory_threshold": null,
+    "note": "Protocol preregistered observations only; no post-hoc numeric launch threshold."
+  },
+  "disposition": "AUTHORIZED_TO_LAUNCH_EXACTLY_ONE_FROZEN_V10R3R1_ATTEMPT",
+  "claim_ceiling": "PRELAUNCH_EVIDENCE_ONLY_NOT_TRAINING_RESULT_NOT_SEMANTIC_RECIPE_WINNER"
+}
