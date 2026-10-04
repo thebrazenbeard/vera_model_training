@@ -83,6 +83,10 @@ Observed current-head failures:
 
 Status: **accepted**. New chat should repair or simplify the binding mechanism first, then re-run detached exact-head verification. No GPU ACK until PASS.
 
+### Lane B self-report conflict
+
+Lane B subsequently published `20261004T124959Z_lane-b_v2-binding-repair-complete-request-final-ack.json` claiming **40/40 PASS + local verifier PASS at the same exact head `b1b039ef...`**. That self-report conflicts with Lane A's independent detached reproduction on the same remote head, which produced verifier HOLD and 32 pass / 2 fail. Treat this as a live evidence conflict, not a reason to choose the more convenient result. **The HOLD stands until the discrepancy is explained and an independent exact-head PASS is reproduced.**
+
 ## V7 / final-bank spine
 
 V7 is finished: `RETENTION_ADMITTED_ARCH_V7`, 1,500 retention cases. That work is not lost.

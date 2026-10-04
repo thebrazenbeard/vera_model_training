@@ -74,6 +74,12 @@
     "gates": "continuous-minus-staged token-weighted NLL <= +0.005 AND no represented-family mean case-loss regression > +0.01",
     "gpu_authorized": false,
     "independent_review_receipt": "successor/experiments/receipts/V10R3_RECIPE_SEMANTICS_LANE_A_REMOTE_B_HOSTILE_VERIFY_20261004_V1.json",
+    "lane_b_self_report_conflict": {
+      "disposition": "HOLD_STANDS_UNTIL_REPRODUCTION_DISCREPANCY_IS_EXPLAINED_AND_AN_INDEPENDENT_EXACT_HEAD_PASS_IS_OBSERVED",
+      "independent_lane_a_reproduction": "HOLD_VERIFIER_EXIT_2_AND_32_PASS_2_FAIL_AT_EXACT_HEAD_b1b039efce0d88e7e189a18fe7a6946e72d9e02f",
+      "message": "coordination/v10r2_lane_bus/messages/20261004T124959Z_lane-b_v2-binding-repair-complete-request-final-ack.json",
+      "self_report": "PASS_40_OF_40_AND_LOCAL_VERIFIER_PASS_AT_SAME_HEAD"
+    },
     "name": "V10R3_STAGED_RESET_4_8_8_VS_CONTINUOUS20_SEQUENTIAL",
     "one_time_eval": "rows448-511; record_ids_sha256 6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
     "purpose": "Test whether staged optimizer/scheduler/save-reload boundaries materially differ from one continuous optimizer/scheduler trajectory before freezing the full-run recipe.",
