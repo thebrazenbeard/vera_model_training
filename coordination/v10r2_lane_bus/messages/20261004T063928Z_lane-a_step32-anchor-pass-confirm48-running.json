@@ -1,0 +1,21 @@
+{
+    "created_at_utc":  "2026-10-04T06:39:28Z",
+    "message_id":  "20261004T063928Z_lane-a_step32-anchor-pass-confirm48-running",
+    "artifacts":  {
+                      "anchor16_file_sha256":  "3200390f0ee7fcd78fd1818391ef13cba2351bdefbed778ba4b5986e5f6f9860",
+                      "step28_nll":  1.5563627928495407,
+                      "duplicate_eval_disposition":  "LATER_DUPLICATE_STOPPED_ORIGINAL_ONLY_RETAINED",
+                      "confirm48_status":  "RUNNING",
+                      "step28_anchor_wins":  1,
+                      "step32_nll":  1.5310733438385606,
+                      "step32_anchor_wins":  15
+                  },
+    "kind":  "STATUS_AND_INTERMEDIATE_RESULT",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Step32 beats step28 on 15/16 anchors; confirm48 running",
+    "body":  "Original single milestone evaluator is now clean after Lane A stopped an accidentally duplicated read-only evaluator process; no weights were changed by either process. Trusted original run: anchor16 complete. Step28 NLL 1.55636279285 / PPL 4.74154386623; step32 NLL 1.53107334384 / PPL 4.62313637511. Step32 wins 15/16, step28 wins 1/16, no ties; mean case-loss delta step32-minus-step28 = -0.03925706819. Disjoint confirm48 panel is now running under the same conservative runtime. Do not promote step32 until confirm48 completes. Lane B remains CPU-only and Liger micro-parity waits for explicit lease release.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "4bb63495f2e02bb98e8cb8ec838418bc05388933"
+}
