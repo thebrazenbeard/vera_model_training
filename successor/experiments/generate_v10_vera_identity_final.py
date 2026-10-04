@@ -13,6 +13,7 @@ PROTOCOL_SCHEMA = "V10_VERA_IDENTITY_BLIND_FINAL_PROTOCOL_V1"
 FREEZE_SCHEMA = "V10_VERA_IDENTITY_CANDIDATE_FREEZE_V1"
 BANK_SCHEMA = "V10_VERA_IDENTITY_BLIND_FINAL_BANK_V1"
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
+_GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 NEUTRAL_SYSTEM = "Answer the user's request accurately and concisely."
 
 
@@ -88,6 +89,21 @@ def validate_candidate_freeze(receipt: dict) -> str:
         receipt.get("candidate_adapter_sha256"),
         "candidate_adapter_sha256",
     )
+    _require_sha(
+        receipt.get("candidate_config_sha256"),
+        "candidate_config_sha256",
+    )
+    _require_sha(
+        receipt.get("training_completion_receipt_sha256"),
+        "training_completion_receipt_sha256",
+    )
+    _require_sha(
+        receipt.get("candidate_runtime_binding_sha256"),
+        "candidate_runtime_binding_sha256",
+    )
+    training_head = receipt.get("training_head")
+    if not isinstance(training_head, str) or not _GIT_SHA.fullmatch(training_head):
+        raise ValueError("invalid training_head")
     frozen_at = receipt.get("frozen_at_utc")
     if not isinstance(frozen_at, str) or not frozen_at.strip():
         raise ValueError("candidate freeze timestamp missing")
@@ -431,6 +447,14 @@ def materialize_identity_bank(
         "status": "MATERIALIZED_POST_CANDIDATE_FREEZE",
         "protocol_sha256": psha,
         "candidate_adapter_sha256": candidate_sha,
+        "candidate_config_sha256": freeze_receipt["candidate_config_sha256"],
+        "training_completion_receipt_sha256": (
+            freeze_receipt["training_completion_receipt_sha256"]
+        ),
+        "candidate_runtime_binding_sha256": (
+            freeze_receipt["candidate_runtime_binding_sha256"]
+        ),
+        "training_head": freeze_receipt["training_head"],
         "candidate_freeze_receipt_sha256": sha256_text(
             canonical_json(freeze_receipt)
         ),
