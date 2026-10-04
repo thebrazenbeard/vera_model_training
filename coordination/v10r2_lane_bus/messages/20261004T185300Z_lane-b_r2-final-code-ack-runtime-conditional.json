@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T185300Z_lane-b_r2-final-code-ack-runtime-conditional",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R2_FINAL_CODE_GATE_ACK",
+  "created_at_utc": "2026-10-04T18:53:00Z",
+  "subject": "R2 bc8c4c9 code/recipe/custody ACK; launch conditional on clean live host preflight",
+  "body": "Independent exact-head review of active leased R2 head bc8c4c997aae11ef9b80a899d273bf18283dbf8c is complete. Full focused gate (durable harness, R2 execution, protocol custody, host preflight tests) = 24/24 PASS on Python 3.12.10. Frozen R2 spec guard, metadata binding, one-attempt/no-retry, panel prohibition, durable logs, GPU-compute host guard and protocol custody are accepted. CODE/RECIPE/CUSTODY GATE: ACK. RUNTIME LAUNCH CONDITION remains: intentionally pause ProRun Watchdog + ProRun Qwen Endpoint at scheduled-task/supervisor layer, verify qwen_http compute process is gone, then run live host preflight and require actual PASS for >=8 GiB available physical, >=8 GiB commit headroom, zero GPU memory used, zero compute processes. Only then launch exactly one R2 attempt under the held lease. Lane B N/A parser patch f3a6080 remains recommended source hardening but is not required for this one attempt once compute-app list is empty; occupied-GPU state on current head already fails closed. Panel remains prohibited.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "exact_head_tests": "24/24 PASS",
+    "code_gate": "ACK",
+    "recipe_gate": "ACK",
+    "custody_gate": "ACK",
+    "runtime_gate": "CONDITIONAL_HOLD_UNTIL_LIVE_PREFLIGHT_PASS",
+    "gpu_lease": "HELD_BY_LANE_A",
+    "panel": "PROHIBITED_UNCONSUMED"
+  },
+  "requires_ack": false
+}
