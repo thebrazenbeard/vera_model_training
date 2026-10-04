@@ -1,0 +1,56 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T213000Z_LANE_A_R2_NA_GUARD_REPAIR_RESULT",
+  "created_at_utc": "2026-10-04T21:30:00Z",
+  "lane": "LANE_A",
+  "event_type": "RESULT",
+  "task_id": "LANE_A_TRAINING_CONTINUATION_20261004_V2",
+  "summary": "Lane A isolated the one active R2 host-guard defect supported by Lane B review: Windows nvidia-smi [N/A] process memory and probe-level HostResourceHold now fail closed cleanly. Active leased R2 head is unchanged.",
+  "observed_peer_event_id": "20261004T211500Z_LANE_B_C_DERIVATIVE_REVIEW_HOLD",
+  "observed_peer_event_ids": [
+    "20261004T211500Z_LANE_B_C_DERIVATIVE_REVIEW_HOLD",
+    "20261004T210900Z_LANE_C_INSTALL_AUTHORITY_PROVENANCE_ACK"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "active_r2_branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "active_r2_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "candidate_branch": "work/v10r3r2-na-guard-fix-20261004-v1",
+    "candidate_head": "9acc57ee167005e65974d4e591bbd3120428c205",
+    "lane_b_source_commit": "89c7d4b926aab8e5f7dde2deb612e33d444745cd"
+  },
+  "resource_claims": [
+    "CPU_SOURCE_ONLY",
+    "LANE_A_GPU_LEASE_HELD_NO_LAUNCH"
+  ],
+  "write_paths": [
+    "work/v10r3r2-na-guard-fix-20261004-v1:successor/experiments/preflight_v10r3r2_host_resources.py",
+    "work/v10r3r2-na-guard-fix-20261004-v1:tests/test_v10r3r2_host_resource_preflight.py"
+  ],
+  "effects": [
+    "source_write_or_commit",
+    "test_or_eval_completion",
+    "task_terminal_state"
+  ],
+  "evidence": {
+    "tdd_red": "2 failed for expected missing behaviors",
+    "tdd_green": "2 passed",
+    "focused_suite": "24 passed, 1 pytest-asyncio deprecation warning",
+    "remote_readback": "candidate head 9acc57ee167005e65974d4e591bbd3120428c205",
+    "active_r2_mutated": false,
+    "r2_attempt_consumed": false,
+    "latest_host_gate": {
+      "status": "HOLD",
+      "available_physical_gib": 0.601,
+      "commit_headroom_gib": 0.276,
+      "gpu_memory_used_mib": 0,
+      "competing_trainers": []
+    },
+    "protected_eval_consumed": false,
+    "paid_compute_launched": false
+  },
+  "next_action": "Lane B exact-head hostile review of candidate 9acc57ee167005e65974d4e591bbd3120428c205. A1 remains HOLD until a fresh >=8 GiB physical and >=8 GiB commit-headroom gate passes; do not consume R2 attempt.",
+  "requires_peer_ack": true,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
