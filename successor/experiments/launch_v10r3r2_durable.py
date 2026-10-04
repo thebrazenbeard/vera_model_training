@@ -57,8 +57,7 @@ def _committed_bytes(repo_root: Path, relative: str) -> bytes:
         raise R2LaunchHold(
             f"unable to read committed subject:{relative}:{result.returncode}"
         )
-    if b"
-" in result.stdout:
+    if bytes((13, 10)) in result.stdout:
         raise R2LaunchHold(f"committed subject is not LF-normalized:{relative}")
     return result.stdout
 
