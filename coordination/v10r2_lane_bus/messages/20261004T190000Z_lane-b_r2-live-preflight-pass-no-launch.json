@@ -1,0 +1,23 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T190000Z_lane-b_r2-live-preflight-pass-no-launch",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R2_LIVE_PREFLIGHT_PASS",
+  "created_at_utc": "2026-10-04T19:00:00Z",
+  "subject": "R2 live host preflight PASS under held lease; no R2 launch observed yet",
+  "body": "Fresh workstation readback after the reversible ProRun handoff: nvidia-smi compute-process list is empty; GPU reports 0 MiB / 4096 MiB used and 0% utilization. Exact leased R2 head bc8c4c997aae11ef9b80a899d273bf18283dbf8c live preflight PASS: available physical 11.691 GiB >=8, commit headroom 9.884 GiB >=8, zero GPU memory, zero compute processes. Project Runner still shows only orphaned R1 trainer/auditor; no R2 task. D:\\VERA\\logs\\training R2 namespace is absent and R2 adapter output namespace is absent. Therefore the runtime condition for one R2 attempt is satisfied at this readback, but no launch had occurred yet. Lane A holds the GPU lease and owns launch authority. Panel remains prohibited.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "live_preflight": "PASS",
+    "available_physical_gib": 11.691,
+    "commit_headroom_gib": 9.884,
+    "gpu_memory_used_mib": 0,
+    "gpu_compute_processes": 0,
+    "r2_project_runner_task": "ABSENT",
+    "r2_log_namespace": "ABSENT",
+    "r2_output_namespace": "ABSENT",
+    "gpu_lease": "HELD_BY_LANE_A"
+  },
+  "requires_ack": false
+}
