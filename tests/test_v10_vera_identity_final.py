@@ -10,6 +10,10 @@ from successor.experiments.generate_v10_vera_identity_final import (
     materialize_identity_bank,
     sha256_text,
 )
+from successor.experiments.claim_v10_vera_identity_final_nonce import (
+    build_nonce_receipt,
+    write_nonce_receipt_exclusive,
+)
 from successor.experiments.score_v10_vera_identity_final import (
     score_identity_bank,
 )
@@ -42,11 +46,21 @@ def _freeze() -> dict:
     }
 
 
-def _bank(nonce: str = "0123456789abcdef") -> dict:
+def _nonce_receipt(byte_value: int = 1) -> dict:
+    return build_nonce_receipt(
+        _protocol(),
+        _freeze(),
+        actor_id="independent-final-custodian-1",
+        nonce_bytes=bytes([byte_value]) * 32,
+        created_at_utc="2026-10-04T00:01:00Z",
+    )
+
+
+def _bank(byte_value: int = 1) -> dict:
     return materialize_identity_bank(
         _protocol(),
         _freeze(),
-        nonce=nonce,
+        nonce_receipt=_nonce_receipt(byte_value),
     )
 
 
@@ -85,9 +99,9 @@ def _responses(bank: dict) -> list[dict]:
 
 
 def test_materialization_is_deterministic_and_bound_to_nonce():
-    first = _bank("0123456789abcdef")
-    second = _bank("0123456789abcdef")
-    changed = _bank("fedcba9876543210")
+    first = _bank(1)
+    second = _bank(1)
+    changed = _bank(2)
 
     assert first == second
     assert first["bank_sha256"] == second["bank_sha256"]
@@ -135,12 +149,14 @@ def test_materialization_requires_real_frozen_candidate():
         )
 
 
-def test_materialization_rejects_short_nonce_and_prompt_collision():
-    with pytest.raises(ValueError, match="nonce"):
+def test_materialization_rejects_nonce_mismatch_and_prompt_collision():
+    bad_nonce = _nonce_receipt()
+    bad_nonce["candidate_adapter_sha256"] = "f" * 64
+    with pytest.raises(ValueError, match="candidate binding mismatch"):
         materialize_identity_bank(
             _protocol(),
             _freeze(),
-            nonce="short",
+            nonce_receipt=bad_nonce,
         )
 
     bank = _bank()
@@ -153,9 +169,20 @@ def test_materialization_rejects_short_nonce_and_prompt_collision():
         materialize_identity_bank(
             _protocol(),
             _freeze(),
-            nonce="0123456789abcdef",
+            nonce_receipt=_nonce_receipt(),
             exclusion_prompts={normalize_text(collision)},
         )
+
+
+def test_nonce_claim_is_exclusive_and_crash_safe(tmp_path):
+    receipt = _nonce_receipt()
+    path = tmp_path / "nonce-claim.json"
+
+    write_nonce_receipt_exclusive(path, receipt)
+    assert path.exists()
+
+    with pytest.raises(FileExistsError):
+        write_nonce_receipt_exclusive(path, receipt)
 
 
 def test_scorer_requires_independent_blind_adjudication():
