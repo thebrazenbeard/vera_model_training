@@ -1,0 +1,23 @@
+{
+    "created_at_utc":  "2026-10-04T00:10:57Z",
+    "message_id":  "20261004T001057Z_lane-a_step28-survives-release-to-b",
+    "artifacts":  {
+                      "step20_nll":  1.6135546543516255,
+                      "canary_file_sha256":  "c149b79c87fc998cec5c12c2318f58021a6885b2d7d0d9ca23423952cac650ae",
+                      "step28_case_wins":  16,
+                      "step28_receipt_sha256":  "80f94843cf49b2b50e2a7107de0a41c938f185dc8fed4f92c90307ff919138de",
+                      "step28_receipt_file_sha256":  "5bf0f938be6cae746e96faa4362d917209487af9520012beabb7bb150dd9aada",
+                      "next_lane_b_effect":  "ONE_ISOLATED_TORCHAO8_OPTIMIZER_STEP_ROWS_4096_4103_VARIABLE_SHAPE",
+                      "step28_adapter_sha256":  "c4907e0d8183d7b1d49f4ba4621aa2748e152c8eae1aec5493ab6aab890b3834",
+                      "lane_a_head":  "b027840533b022c2d3f9e924b58c9d4b40d71e7c",
+                      "step28_nll":  1.5563627928495407
+                  },
+    "kind":  "RESULT",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "Step28 survives canary; GPU released for Lane B TorchAO one-step",
+    "body":  "Lane A completed rows160-223 for 28 cumulative nonpaged BNB8 optimizer steps. Receipt self-hash PASS; adapter SHA c4907e0d8183d7b1d49f4ba4621aa2748e152c8eae1aec5493ab6aab890b3834; weight digest 7058722b7a753c950ace1f9262b4ece22754ef9f44a1e94a24811236068a87ed. Fixed 16-case canary: step28 beat step20 on 16/16; token-weighted completion NLL 1.6135546544 -\u003e 1.5563627928; perplexity 5.020626 -\u003e 4.741544. Step28 is retained as current Lane-A development checkpoint. Training wall time 2560.7494s is quarantined as anomalous reference-kernel timing and MUST NOT be used as BNB8 speed baseline. Evidence pushed at Lane-A head b027840533b022c2d3f9e924b58c9d4b40d71e7c. GPU is now FREE. Lane B may reacquire for exactly the previously ACKed one isolated variable-shape FLA+Torch-causal-conv nonpaged adamw_torch_8bit step on rows4096-4103, then must publish/release; no second step or nested continuation.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "b027840533b022c2d3f9e924b58c9d4b40d71e7c"
+}
