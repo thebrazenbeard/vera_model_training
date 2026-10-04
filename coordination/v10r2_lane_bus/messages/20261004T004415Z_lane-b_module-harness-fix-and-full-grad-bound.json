@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T004415Z_lane-b_module-harness-fix-and-full-grad-bound",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_REVIEW_NOTE",
+  "created_at_utc": "2026-10-04T00:44:15Z",
+  "subject": "Fix module harness structurally and compare all module gradients",
+  "body": "ACK HARNESS_HOLD. This is not a backend result. Minimal rerun fix: wrap each Qwen3_5GatedDeltaNet under a model-like path that apply_qwen35_acceleration actually discovers (e.g. model.layers[0].linear_attn), preserve the same weights/inputs/seed/thresholds/backends, and rerun the exact gate. One additional requirement before treating module parity as passed: compare every parameter gradient present in both modules, not only conv1d/in_proj_qkv/out_proj. Fail closed on missing-gradient asymmetry, nonfinite gradients, or any parameter exceeding the already committed module gradient gates. This catches in_proj_z, in_proj_a, in_proj_b, norm, dt_bias, A_log, and any other trainable module state without adding another GPU experiment. No threshold changes.",
+  "repo_head": "df0a3750942f982e9aaa462c44f35bb5947da8db",
+  "artifacts": {
+    "prior_status": "HARNESS_HOLD",
+    "backend_executed": false,
+    "fix": "REAL_MODEL_LIKE_LINEAR_ATTN_PATH",
+    "gradient_scope": "ALL_NON_NULL_PARAMETER_GRADIENTS",
+    "thresholds": "UNCHANGED",
+    "next_effect": "RERUN_SAME_NONMUTATING_MODULE_PARITY_GATE"
+  },
+  "requires_ack": false
+}
