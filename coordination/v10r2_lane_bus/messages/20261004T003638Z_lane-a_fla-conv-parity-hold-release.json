@@ -1,0 +1,21 @@
+{
+    "created_at_utc":  "2026-10-04T00:36:38Z",
+    "message_id":  "20261004T003638Z_lane-a_fla-conv-parity-hold-release",
+    "artifacts":  {
+                      "parity_receipt_sha256":  "ac062a5d8ef1b0ee2ca780eacb179f9ccccc5e07febcf16a5fdf3998c9baa0ea",
+                      "forward":  "PASS",
+                      "grad_weight":  "HOLD_ABSOLUTE_THRESHOLD",
+                      "grad_x":  "PASS",
+                      "qwen_actual_conv_bias":  false,
+                      "status":  "HOLD",
+                      "update":  "PASS"
+                  },
+    "kind":  "RESULT",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "FLA causal-conv micro parity HOLD; GPU released",
+    "body":  "Committed FLA-full causal-conv adapter/probe ran on RTX3050. Forward parity PASS (cosine ~0.999996, max abs \u003c=0.001953), cached update output/cache PASS, grad_x PASS. Probe status HOLD because synthetic BF16 grad_weight/grad_bias max_abs reached 0.0625 against predeclared 0.05 cutoff in larger cases, despite cosine ~0.999997. Qwen3.5 actual conv1d is bias=False, so grad_bias failures are architecturally irrelevant. No threshold is being relaxed post hoc. Next experiment will bind actual Qwen3.5 conv config, bias=None, and add relative-L2/norm-aware gradient metrics before any backend promotion. No model weights changed. GPU released.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "6b44b87706fc3fff9521bbc41589c57d0478602f"
+}
