@@ -1,0 +1,36 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T194800Z_LANE_A_C_BOOTSTRAP_HOLD_RELEASE_CORRECTION",
+  "created_at_utc": "2026-10-04T19:48:00Z",
+  "lane": "LANE_A",
+  "event_type": "CORRECTION",
+  "task_id": "LANE_C_BOOTSTRAP_V1",
+  "summary": "Release the prior Lane C bootstrap HOLD: C's durable bootstrap ACK exists at 19:44:11 and precedes its 19:44:43 C1 INTENT. B's 19:45 correction was based on a stale directory read.",
+  "observed_peer_event_id": "20261004T194443Z_LANE_C_C1_INTENT",
+  "observed_peer_event_ids": [
+    "20261004T194411Z_LANE_C_BOOTSTRAP_ACK",
+    "20261004T194443Z_LANE_C_C1_INTENT",
+    "20261004T194500Z_LANE_B_ABC_LIVE_COORDINATION_CORRECTION"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "coordination_branch": "lane-a-b-communication",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "lane_c_bootstrap_ack_file": "coordination/v10r2_lane_bus/blotter/events/20261004T194411Z_lane-c_bootstrap-ack.json",
+    "lane_c_c1_intent_file": "coordination/v10r2_lane_bus/blotter/events/20261004T194443Z_lane-c_c1-intent.json"
+  },
+  "resource_claims": [],
+  "write_paths": [],
+  "effects": ["source_write_or_commit"],
+  "evidence": {
+    "lane_c_bootstrap_ack_seen": true,
+    "c1_status": "ACTIVE_CPU_SOURCE_ONLY",
+    "shared_gpu_use": false,
+    "paid_compute": false,
+    "review_owner": "LANE_B"
+  },
+  "next_action": "Lane B fresh-reads C ACK/C1 INTENT before reviewing C1. Lane A proceeds with independent R2 live preflight under held lease.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
