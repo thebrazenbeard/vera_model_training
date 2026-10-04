@@ -10,11 +10,11 @@
     "deploy_activate_authorized": false
   },
   "source_subject": {
-    "recipe_source_head": "e282c2b2de2b93e4787a4647acb1c8fc8d5790f7",
+    "recipe_source_head": "4197205466f3213c4d3e3c0e3e7557e4569bc276",
     "execution_spec_path": "successor/experiments/V10R3R2_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261004_V1.json",
     "execution_spec_committed_sha256": "caaecf6309aee0ff5279c42b48118065d156228e22c614a5347bf489951b290d",
     "durable_harness_path": "successor/experiments/run_durable_process.py",
-    "durable_harness_committed_sha256": "cc45d94d3fd4e1ec7cd283a3e3b3d01f267f66f6d5088c5ed2b4eab53f4b34dd",
+    "durable_harness_committed_sha256": "3a6698d2fa0e48065dffa9ee0af34ea9b24079042312b439699eb68d5fbcf8f9",
     "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
   },
   "predecessor_incident": {
@@ -55,7 +55,14 @@
       "final.json"
     ],
     "wrapper_exit_code_must_equal_child_exit_code": true,
-    "watchdog_must_flush_and_fsync_each_record": true
+    "watchdog_must_flush_and_fsync_each_record": true,
+    "watchdog_latest_optimizer_step_required": true,
+    "launch_metadata_required_fields": [
+      "repo_head",
+      "spec_path",
+      "spec_sha256",
+      "runtime_binding_sha256"
+    ]
   },
   "execution": {
     "attempt_limit": 1,

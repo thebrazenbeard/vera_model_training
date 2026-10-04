@@ -22,7 +22,7 @@ def test_r2_protocol_binds_exact_recipe_subject_and_harness() -> None:
     protocol = json.loads(PROTOCOL.read_text(encoding="utf-8"))
 
     assert protocol["source_subject"]["recipe_source_head"] == (
-        "e282c2b2de2b93e4787a4647acb1c8fc8d5790f7"
+        "4197205466f3213c4d3e3c0e3e7557e4569bc276"
     )
     assert protocol["source_subject"]["execution_spec_committed_sha256"] == _committed_sha(
         SPEC_REL
@@ -47,3 +47,10 @@ def test_r2_protocol_binds_r1_incident_and_forbids_retry() -> None:
     assert protocol["execution"]["attempt_limit"] == 1
     assert protocol["execution"]["automatic_retry"] is False
     assert protocol["execution"]["panel_use"] == "PROHIBITED"
+    assert protocol["observability"]["watchdog_latest_optimizer_step_required"] is True
+    assert protocol["observability"]["launch_metadata_required_fields"] == [
+        "repo_head",
+        "spec_path",
+        "spec_sha256",
+        "runtime_binding_sha256",
+    ]
