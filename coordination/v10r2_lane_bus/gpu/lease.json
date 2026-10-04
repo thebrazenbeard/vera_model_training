@@ -6,7 +6,7 @@
   "training_branch": "work/v10r3-binding-fix-lane-a-20261004-v1",
   "training_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
   "acquired_at_utc": "2026-10-04T13:16:50Z",
-  "released_at_utc": null,
-  "status": "HELD",
+  "released_at_utc": "2026-10-04T15:32:18Z",
+  "status": "RELEASED",
   "rule": "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
 }
