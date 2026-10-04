@@ -4,7 +4,7 @@
   "holder": "LANE_A",
   "purpose": "V10R3_STAGED_VS_CONTINUOUS_RECIPE_SEMANTICS",
   "training_branch": "work/v10r3-binding-fix-lane-a-20261004-v1",
-  "training_head": "2b886e4c94482171d5e882797301ea2d32e044e4",
+  "training_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
   "acquired_at_utc": "2026-10-04T13:16:50Z",
   "released_at_utc": null,
   "status": "HELD",
