@@ -80,39 +80,48 @@ def read_gpu_status() -> dict[str, int]:
 
 
 def read_competing_trainers() -> list[dict[str, Any]]:
-    command = (
-        "$p=Get-CimInstance Win32_Process | "
-        "Where-Object {$_.Name -match '^python' -and "
-        "$_.CommandLine -match 'train_v10r2_dev.py|train_v10r2_lane_b.py|"
-        "train_v10_qwen35_authorized.py'} | "
-        "Select-Object ProcessId,ParentProcessId,Name,CreationDate,CommandLine; "
-        "if($p){$p | ConvertTo-Json -Compress}"
-    )
     result = subprocess.run(
-        ["powershell.exe", "-NoProfile", "-Command", command],
+        [
+            "nvidia-smi",
+            "--query-compute-apps=pid,process_name,used_memory",
+            "--format=csv,noheader,nounits",
+        ],
         capture_output=True,
         text=True,
         check=False,
-        timeout=15,
+        timeout=10,
     )
     if result.returncode != 0:
         raise HostResourceHold(
-            f"trainer process scan failed:{result.returncode}:{result.stderr[-300:]}"
+            f"gpu compute process scan failed:{result.returncode}:"
+            f"{result.stderr[-300:]}"
         )
     payload = result.stdout.strip()
     if not payload:
         return []
-    parsed = json.loads(payload)
-    rows = parsed if isinstance(parsed, list) else [parsed]
-    return [
-        {
-            "pid": row.get("ProcessId"),
-            "parent_pid": row.get("ParentProcessId"),
-            "created_at": row.get("CreationDate"),
-            "command": row.get("CommandLine"),
-        }
-        for row in rows
-    ]
+
+    rows: list[dict[str, Any]] = []
+    for line in payload.splitlines():
+        parts = [part.strip() for part in line.split(",", 2)]
+        if len(parts) != 3:
+            raise HostResourceHold(
+                f"gpu compute process output unparseable:{line}"
+            )
+        try:
+            pid = int(parts[0])
+            used_memory_mib = int(parts[2])
+        except ValueError as exc:
+            raise HostResourceHold(
+                f"gpu compute process values unparseable:{line}"
+            ) from exc
+        rows.append(
+            {
+                "pid": pid,
+                "process_name": parts[1],
+                "used_memory_mib": used_memory_mib,
+            }
+        )
+    return rows
 
 
 def read_live_metrics() -> dict[str, Any]:
