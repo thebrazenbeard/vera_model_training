@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -16,6 +17,8 @@ class DurableProcessHold(RuntimeError):
 
 
 _PROGRESS = re.compile(r"(?<!\d)(\d+)\s*/\s*(\d+)(?!\d)")
+_HEX40 = re.compile(r"^[0-9a-f]{40}$")
+_HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def _utc_now() -> str:
@@ -28,6 +31,125 @@ def _write_json(path: Path, value: dict) -> None:
         encoding="utf-8",
         newline="\n",
     )
+
+
+def _lf_normalized_sha256(path: Path) -> str:
+    try:
+        text = path.read_text(encoding="utf-8-sig")
+    except OSError as exc:
+        raise DurableProcessHold(f"spec_path unreadable:{path}") from exc
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
+
+def _git_head(cwd: Path) -> str:
+    result = subprocess.run(
+        ["git", "-C", str(cwd), "rev-parse", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=10,
+    )
+    if result.returncode != 0:
+        raise DurableProcessHold(
+            f"repo_head unavailable:{result.returncode}:{result.stderr[-300:]}"
+        )
+    head = result.stdout.strip().lower()
+    if _HEX40.fullmatch(head) is None:
+        raise DurableProcessHold(f"repo_head invalid:{head}")
+    return head
+
+
+def _child_spec(cwd: Path, command: Sequence[str]) -> tuple[Path, str]:
+    positions = [index for index, value in enumerate(command) if value == "--spec"]
+    if len(positions) != 1:
+        raise DurableProcessHold(
+            f"spec_path child argv requires exactly one --spec:{len(positions)}"
+        )
+    index = positions[0]
+    if index + 1 >= len(command):
+        raise DurableProcessHold("spec_path child argv missing --spec value")
+
+    raw = Path(command[index + 1])
+    resolved = raw.resolve() if raw.is_absolute() else (cwd / raw).resolve()
+    try:
+        relative = resolved.relative_to(cwd.resolve()).as_posix()
+    except ValueError as exc:
+        raise DurableProcessHold(
+            f"spec_path escapes cwd:{resolved}"
+        ) from exc
+    if not resolved.is_file():
+        raise DurableProcessHold(f"spec_path does not exist:{relative}")
+    return resolved, relative
+
+
+def _validate_subject_binding(
+    cwd: Path,
+    command: Sequence[str],
+    metadata: dict,
+) -> dict[str, str]:
+    repo_head = metadata["repo_head"].lower()
+    spec_sha = metadata["spec_sha256"].lower()
+    runtime_sha = metadata["runtime_binding_sha256"].lower()
+
+    if _HEX40.fullmatch(repo_head) is None:
+        raise DurableProcessHold(f"repo_head malformed:{repo_head}")
+    if _HEX64.fullmatch(spec_sha) is None:
+        raise DurableProcessHold(f"spec_sha256 malformed:{spec_sha}")
+    if _HEX64.fullmatch(runtime_sha) is None:
+        raise DurableProcessHold(
+            f"runtime_binding_sha256 malformed:{runtime_sha}"
+        )
+
+    actual_head = _git_head(cwd)
+    if repo_head != actual_head:
+        raise DurableProcessHold(
+            f"repo_head mismatch:{repo_head}!={actual_head}"
+        )
+
+    spec_path, spec_relative = _child_spec(cwd, command)
+    if metadata["spec_path"] != spec_relative:
+        raise DurableProcessHold(
+            "spec_path mismatch:"
+            f"{metadata['spec_path']}!={spec_relative}"
+        )
+
+    actual_spec_sha = _lf_normalized_sha256(spec_path)
+    if spec_sha != actual_spec_sha:
+        raise DurableProcessHold(
+            f"spec_sha256 mismatch:{spec_sha}!={actual_spec_sha}"
+        )
+
+    try:
+        spec = json.loads(spec_path.read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise DurableProcessHold(f"spec_path json invalid:{spec_relative}") from exc
+    runtime_binding = (
+        spec.get("source_subject", {}).get("runtime_binding_sha256")
+        if isinstance(spec, dict)
+        else None
+    )
+    if not isinstance(runtime_binding, str):
+        raise DurableProcessHold(
+            f"runtime_binding_sha256 missing from spec:{spec_relative}"
+        )
+    actual_runtime_sha = runtime_binding.lower()
+    if _HEX64.fullmatch(actual_runtime_sha) is None:
+        raise DurableProcessHold(
+            f"runtime_binding_sha256 invalid in spec:{actual_runtime_sha}"
+        )
+    if runtime_sha != actual_runtime_sha:
+        raise DurableProcessHold(
+            "runtime_binding_sha256 mismatch:"
+            f"{runtime_sha}!={actual_runtime_sha}"
+        )
+
+    return {
+        "repo_head": actual_head,
+        "spec_path": spec_relative,
+        "spec_sha256": actual_spec_sha,
+        "runtime_binding_sha256": actual_runtime_sha,
+    }
 
 
 def _gpu_probe() -> dict:
@@ -144,9 +266,11 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
         raise DurableProcessHold(
             "required metadata missing or invalid:" + ",".join(missing)
         )
-    log_dir.mkdir(parents=True, exist_ok=False)
 
     cwd = args.cwd.resolve() if args.cwd is not None else Path.cwd().resolve()
+    _validate_subject_binding(cwd, args.command, args.metadata)
+    log_dir.mkdir(parents=True, exist_ok=False)
+
     stdout_path = log_dir / "stdout.log"
     stderr_path = log_dir / "stderr.log"
     watchdog_path = log_dir / "watchdog.jsonl"
