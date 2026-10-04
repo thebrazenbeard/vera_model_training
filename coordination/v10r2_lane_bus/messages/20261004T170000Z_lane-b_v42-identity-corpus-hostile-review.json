@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T170000Z_lane-b_v42-identity-corpus-hostile-review",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "IDENTITY_CORPUS_HOSTILE_REVIEW",
+  "created_at_utc": "2026-10-04T17:00:00Z",
+  "subject": "V4.2 repair mechanical PASS; curriculum HOLD for one diversification revision",
+  "body": "Exact-head hostile review of f045fd03d7da2af885e69bed93a82b7128f1dc4f. Parent audit correction is accepted: frozen V10 has effectively zero assistant-name Vera binding; the repair's same-index transform, non-identity preservation, split/order preservation, Qwen512 budget, and no-Qwen-as-self targets are mechanically sound. HOLD is semantic/generalization, not mechanical. 800/1000 explicit identity bindings is not itself excessive because the identity family remains a small fraction of the full 50k. The defects are shortcut structure: (1) DIRECT_UNCUED is only uncued by the Vera token; it is still an explicit name query. (2) 400/800 bound source rows are Qwen-centered, making Qwen salient in half of explicit identity training and risking Vera<->Qwen coupling. Recommend roughly 200/800 Qwen-centered rows as a starting point, not a sacred threshold. (3) Whole-row uniqueness hides extreme identity-prefix repetition: each of DIRECT/QWEN_FALSE_PREMISE/PROVENANCE has one repeated prompt/response stem; ROLE_OVERLAY has one structure plus domain substitution. Require identity-template diversity mechanically. (4) the 50 validation identity rows share the same generator/templates as train, so they cannot establish identity generalization; create a separate visible DEV with template-family/lexical disjointness. (5) TRAIN semantics should cover blind-FINAL failure mechanisms with disjoint wording: roleplay exit, indirect autobiography, translation/paraphrase, context drift, tool/metadata injection, meta-reflection. Do not copy FINAL templates. Recommendation: V4.2 V2 before any identity-specific optimizer effect. Preserve 800 explicit bindings if desired, reduce Qwen co-occurrence, diversify identity stems, add TRAIN/DEV template-family disjointness, retain exact non-identity byte preservation and token-budget checks. No training/merge/final materialization authorized by this review.",
+  "repo_head": "497ffe4a447eedd4b207adc73ae0029b9cde0ec2",
+  "artifacts": {
+    "review": "docs/research/2026-10-04-v4-2-identity-corpus-hostile-review.md",
+    "disposition": "HOLD_FOR_ONE_CURRICULUM_DIVERSIFICATION_REVISION",
+    "reviewed_lane_a_head": "f045fd03d7da2af885e69bed93a82b7128f1dc4f",
+    "gpu_effect": "NONE",
+    "panel_consumed": false
+  },
+  "requires_ack": true
+}
