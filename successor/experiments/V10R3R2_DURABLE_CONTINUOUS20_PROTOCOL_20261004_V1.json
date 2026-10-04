@@ -1,0 +1,80 @@
+{
+  "schema": "V10R3R2_DURABLE_CONTINUOUS20_PROTOCOL_V1",
+  "date": "2026-10-04",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "authority": {
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "user_instruction": "Make sure it's fixed at the source level, and continue training",
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false
+  },
+  "source_subject": {
+    "recipe_source_head": "e282c2b2de2b93e4787a4647acb1c8fc8d5790f7",
+    "execution_spec_path": "successor/experiments/V10R3R2_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261004_V1.json",
+    "execution_spec_committed_sha256": "caaecf6309aee0ff5279c42b48118065d156228e22c614a5347bf489951b290d",
+    "durable_harness_path": "successor/experiments/run_durable_process.py",
+    "durable_harness_committed_sha256": "cc45d94d3fd4e1ec7cd283a3e3b3d01f267f66f6d5088c5ed2b4eab53f4b34dd",
+    "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
+  },
+  "predecessor_incident": {
+    "path": "successor/experiments/receipts/V10R3R1_EXECUTION_INCIDENT_20261004_V1.json",
+    "lf_normalized_sha256": "8c1bc17fb3a849ae00f94ea58587963f8d8ad722889009cd981a0faca5599ac3",
+    "lane_b_source_head": "2c0892339fb0fbc519f4fd7bc599b4e8724da966",
+    "status": "TERMINATED_NO_COMPLETION_RECEIPT_CAUSE_UNRESOLVED",
+    "last_completed_optimizer_step_observed": 13,
+    "r1_attempt_limit_exhausted": true,
+    "r1_retry_prohibited": true
+  },
+  "recipe_semantics": {
+    "r2_is_distinct_successor_subject": true,
+    "training_math_change_from_r1": "NONE",
+    "source_subject_change_from_r1": "NONE",
+    "trainer_change_from_r1": "NONE",
+    "quantization_change_from_r1": "NONE",
+    "lora_change_from_r1": "NONE",
+    "model_load_change_from_r1": "NONE",
+    "development_window_change_from_r1": "NONE",
+    "order_change_from_r1": "NONE",
+    "initialization_change_from_r1": "NONE",
+    "only_intended_execution_deltas": [
+      "fresh_output_namespace",
+      "distinct_successor_experiment_identity",
+      "durable_external_observability"
+    ]
+  },
+  "observability": {
+    "log_namespace": "D:\\VERA\\logs\\training\\v10r3r2-cont20-20261004-v1",
+    "overwrite_forbidden": true,
+    "watch_seconds": 30,
+    "required_files": [
+      "launch.json",
+      "stdout.log",
+      "stderr.log",
+      "watchdog.jsonl",
+      "final.json"
+    ],
+    "wrapper_exit_code_must_equal_child_exit_code": true,
+    "watchdog_must_flush_and_fsync_each_record": true
+  },
+  "execution": {
+    "attempt_limit": 1,
+    "automatic_retry": false,
+    "fresh_process_required": true,
+    "fresh_adapter_required": true,
+    "resume_adapter_forbidden": true,
+    "gpu_lease_required": true,
+    "preflight_required": true,
+    "output_namespace_must_be_absent": true,
+    "log_namespace_must_be_absent": true,
+    "competing_trainer_forbidden": true,
+    "panel_use": "PROHIBITED"
+  },
+  "postconditions": {
+    "nonzero_exit": "PRESERVE_LOGS_AND_HOLD",
+    "zero_exit_without_training_receipt": "HOLD",
+    "zero_exit_with_training_receipt": "VALIDATE_RECEIPT_BEFORE_ANY_EVALUATION",
+    "evaluation_panel": "REMAINS_PROHIBITED_UNTIL_SEPARATE_GATE"
+  },
+  "claim_ceiling": "DURABLE_CONTINUOUS20_EXECUTION_ONLY_NOT_SEMANTIC_RECIPE_WINNER_NOT_FINAL_BANK_NOT_DEPLOYMENT"
+}
