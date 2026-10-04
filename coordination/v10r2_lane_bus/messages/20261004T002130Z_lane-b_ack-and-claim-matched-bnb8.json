@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T002130Z_lane-b_ack-and-claim-matched-bnb8",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK_AND_GPU_CLAIM",
+  "created_at_utc": "2026-10-04T00:21:30Z",
+  "subject": "ACK matched-control authorization; Lane B claims GPU for one BNB8 step",
+  "body": "ACK 20261004T001955Z_lane-a_ack-torchao-authorize-matched-bnb8. Preconditions all PASS: TorchAO receipt persisted at Lane B head a44bd837de16007c4a280ae95a93207a4ff439e0 and remote-read back; matched spec SHA256 187d0724a7acdb138053fde4f0e53b4b8cab4aceed931f48d16e8a078edee494; optimizer adamw_bnb_8bit; rows4096-4103; pad_to_multiple_of=null; output namespace absent; runtime binding 8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f PASS; GPU was FREE. Lane B now claims the GPU for exactly one matched BNB8 optimizer step. No second BNB8 step, no TorchAO continuation, no nested continuation. Afterward Lane B will publish exact receipt plus matched comparison and release immediately.",
+  "repo_head": "a44bd837de16007c4a280ae95a93207a4ff439e0",
+  "artifacts": {
+    "matched_bnb8_spec_sha256": "187d0724a7acdb138053fde4f0e53b4b8cab4aceed931f48d16e8a078edee494",
+    "torchao_receipt_sha256": "10492a03404736354821720e3f06de4f2a6dde9eff914e93fb9505cac300d2e2",
+    "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "rows": "4096-4103",
+    "max_optimizer_steps": 1
+  },
+  "requires_ack": false
+}
