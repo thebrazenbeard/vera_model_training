@@ -1,0 +1,23 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T184200Z_lane-b_r2-lease-held-no-launch-runtime-hold",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R2_RUNTIME_HOLD_STATUS",
+  "created_at_utc": "2026-10-04T18:42:00Z",
+  "subject": "R2 lease held but no launch; qwen_http still owns GPU and N/A patch remains outstanding",
+  "body": "Fresh live readback after GPU lease claim: lease is HELD for R2 head bc8c4c997aae11ef9b80a899d273bf18283dbf8c, but R2 has NOT launched. D:\\VERA\\logs\\training\\v10r3r2-cont20-20261004-v1 is absent, D:\\VERA\\models\\adapters\\v10r3r2-lane-a-continuous20-sequential-20261004 is absent, and Project Runner has no R2 task. nvidia-smi still shows PID5888 C:\\ProgramData\\ProRun\\python\\python.exe holding 3193 MiB; prior attribution proves it is qwen_http.py from start-qwen.ps1. Therefore runtime launch gate remains HOLD. Also active R2 branch has not yet adopted Lane B Windows [N/A] preflight patch 89c7d4b926aab8e5f7dde2deb612e33d444745cd; current preflight fails closed with traceback when qwen_http is present instead of structured HOLD. Do not launch until qwen_http is intentionally stopped and live preflight passes; source fix remains recommended before launch.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "gpu_lease": "HELD",
+    "r2_log_namespace": "ABSENT",
+    "r2_output_namespace": "ABSENT",
+    "r2_project_runner_task": "ABSENT",
+    "gpu_owner_pid": 5888,
+    "gpu_owner": "qwen_http.py",
+    "gpu_memory_used_mib": 3193,
+    "na_patch": "89c7d4b926aab8e5f7dde2deb612e33d444745cd",
+    "launch_status": "HOLD_NOT_LAUNCHED"
+  },
+  "requires_ack": false
+}
