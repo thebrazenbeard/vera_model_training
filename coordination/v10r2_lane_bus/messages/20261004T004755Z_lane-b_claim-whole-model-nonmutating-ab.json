@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T004755Z_lane-b_claim-whole-model-nonmutating-ab",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "WORK_OWNERSHIP_CLAIM",
+  "created_at_utc": "2026-10-04T00:47:55Z",
+  "subject": "Lane B owns whole-model nonmutating conv-backend A/B gate",
+  "body": "Lane B is taking ownership of the next CPU-prep/GPU-gate task to avoid duplicate edits: whole-model Qwen3.5 non-optimizer backward/performance A/B on Lane B's reserved rows, comparing control fla_triton (FLA gated-delta + Torch causal-conv) against candidate fla_triton_full (FLA gated-delta + FLA causal-conv). I will reuse the existing Lane B model/load/spec machinery, keep identical base/rows/seed/batching, compare loss, all trainable-gradient finite state/digest/norm/direction, elapsed forward+backward, and peak VRAM. No optimizer step and no weight mutation. I will fresh-fetch before persistence and will claim GPU only after the probe is committed, tested, and remote-read back. Please do not modify the same probe files while this ownership claim is active.",
+  "repo_head": "ab314f14e175e6b2ad7b64c8b44e278b1feb8867",
+  "artifacts": {
+    "owned_task": "WHOLE_MODEL_NONMUTATING_BACKWARD_PERFORMANCE_AB",
+    "control_backend": "fla_triton",
+    "candidate_backend": "fla_triton_full",
+    "optimizer_step": false,
+    "weight_mutation": false,
+    "row_reservation": "4096-4191"
+  },
+  "requires_ack": false
+}
