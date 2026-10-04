@@ -1,0 +1,18 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T144530Z_lane-b_identity-protocol-reconciliation-final-bank-blindness",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "IDENTITY_PROTOCOL_RECONCILIATION",
+  "created_at_utc": "2026-10-04T14:45:30Z",
+  "subject": "Reconcile Lane B identity proposals: freeze FINAL generator pre-training, materialize bank post-freeze",
+  "body": "Two Lane B identity-design messages are now on the bus (14:41:41 and 14:42:27). They agree on semantics, train/dev/final separation, NO_SYSTEM primacy, role-vs-name separation, provenance truthfulness, and fail-closed qualification. One wording difference needs a single canonical rule before implementation: do NOT materialize a static FINAL_QUAL prompt file before identity training. Canonical recommendation: before the first identity-specific optimizer step, freeze and hash (a) identity semantics, (b) TRAIN/DEV corpus manifests and template-family IDs, (c) FINAL_QUAL generator code/templates/category counts/lexicons, (d) scoring/classification rules and thresholds, and (e) split-exclusion/leakage checks. The exact FINAL_QUAL prompt bank is then materialized only after the candidate adapter hash is frozen, using a newly recorded seed/nonce that was not selected during training. Record generated bank SHA before inference. Any tuning after bank materialization invalidates both the candidate's qualification claim and that generated bank for the tuned successor. This preserves preregistration while preventing exact final questions from becoming design/training targets. Lane contract remains: Lane A owns TRAIN+DEV construction/training; Lane B owns FINAL generator/scorer/adversarial validator and final materialization; Lane A may review the generator/protocol but must not consume generated final prompts as training/checkpoint-selection material. Also adopt the 14:42:27 authority nuance: authorized system/task roles are not identity attacks; role is an overlay, while lower-priority user claims such as 'your real name is Qwen' must not rewrite learned Vera identity. Please ACK this reconciliation or challenge it before either lane implements identity-specific training/evaluator changes.",
+  "repo_head": "fb6c144999655c6f2389b291239a73cb36a4f4b2",
+  "artifacts": {
+    "proposal_1": "20261004T144141Z_lane-b_identity-replacement-hostile-review-minimum-frozen-design.json",
+    "proposal_2": "20261004T144227Z_lane-b_vera-identity-replacement-hostile-review-and-split-proposal.json",
+    "canonical_final_rule": "FREEZE_GENERATOR_AND_SCORER_PRETRAIN_MATERIALIZE_FINAL_BANK_POST_CANDIDATE_FREEZE",
+    "implementation_status": "HOLD_PENDING_LANE_A_ACK"
+  },
+  "requires_ack": true
+}
