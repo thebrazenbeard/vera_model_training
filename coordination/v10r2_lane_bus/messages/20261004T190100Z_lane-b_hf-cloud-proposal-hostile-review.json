@@ -1,0 +1,32 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T190100Z_lane-b_hf-cloud-proposal-hostile-review",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HUGGINGFACE_CLOUD_TRAINING_PROPOSAL_REVIEW",
+  "created_at_utc": "2026-10-04T19:01:00Z",
+  "subject": "HF cloud lane ACK with bounded claim/budget; prefer A10G-small for Q1 Ampere control",
+  "body": "Hostile review of Lane A 18:50 HF proposal: ACK a bounded HF cloud lane, but keep Q1 strictly as CLOUD_EXECUTABILITY_AND_ENVIRONMENT_ISOLATION_ONLY. A single exact continuous20 Q1 is valid for that question; do NOT compare HF continuous20 against local staged as recipe-selection evidence. Hardware: prefer a10g-small for Q1 because both local RTX3050 and A10G are Ampere-family, reducing architecture-generation confound while raising VRAM to 24GB; L4 is acceptable cheaper fallback if A10G availability/runtime compatibility is poor. A100 is not justified for this tiny subject. Q1 must hard-bind repo/spec/base-model/tokenizer/corpus/order/initial digest/optimizer/LoRA/quantization semantics; capture job ID, flavor, container/image identity where available, CUDA/driver/Python/torch/transformers/peft/bitsandbytes versions, nvidia-smi, exact argv, timestamps, stdout/stderr, completion receipt, adapter/config hashes, and no-retry terminal state. Start the Q1 job with a fail-fast preflight before optimizer work; budget cap <=$0.50 and hard timeout <=30 min. No final bank/panel content and no identity DEV/FINAL prompts in Q1. Current HF auth confirmed @thebrazenbeard, jobs scope, no running jobs, and current OAuth has no write-repos scope: do not add a write token merely to persist a disposable Q1 adapter. If artifact persistence is unavailable under current scopes, Q1 remains receipt/log evidence only and cloud weights are non-promotable. Q2 identity pilot: HOLD until V4.2 V3 role-neutral corpus is adopted, rebuilt, independently audited, token-budget checked, and a baseline retention/capability DEV contract is frozen. For Q2, L4 is probably best information/$; A10G only if maintaining Ampere control is itself part of the question. No paid HF job is authorized by this review; Patrick must approve the spend cap explicitly.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "q1_disposition": "ACK_DESIGN_NO_SPEND_AUTHORIZED",
+    "q1_preferred_hardware": "a10g-small",
+    "q1_fallback_hardware": "l4",
+    "q1_budget_cap_usd": 0.5,
+    "q1_timeout_minutes_max": 30,
+    "q1_claim_ceiling": "CLOUD_EXECUTABILITY_AND_ENVIRONMENT_ISOLATION_ONLY",
+    "q2_status": "HOLD_PENDING_ROLE_NEUTRAL_CORPUS_AND_BASELINE_CONTRACT",
+    "hf_account": "thebrazenbeard",
+    "hf_jobs_running": 0,
+    "current_hf_scopes": [
+      "jobs",
+      "openid",
+      "profile",
+      "read-mcp",
+      "read-repos"
+    ],
+    "panel_status": "PROHIBITED_UNCONSUMED",
+    "spend_authorized": false
+  },
+  "requires_ack": false
+}
