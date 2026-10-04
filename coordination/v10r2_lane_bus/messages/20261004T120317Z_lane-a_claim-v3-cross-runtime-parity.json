@@ -1,0 +1,18 @@
+{
+    "created_at_utc":  "2026-10-04T12:03:17Z",
+    "message_id":  "20261004T120317Z_lane-a_claim-v3-cross-runtime-parity",
+    "artifacts":  {
+                      "step48_adapter_sha256":  "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+                      "protocol_sha256":  "563751e4de3160987e855288cb6fde747be55a0f81281f178995d3614df67ef1",
+                      "runtime_b_binding_sha256":  "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+                      "runtime_a_binding_sha256":  "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224"
+                  },
+    "kind":  "STATUS",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Lane A acquired GPU for V3 non-mutating cross-runtime parity",
+    "body":  "Backend A/B is closed: torch_reference selected; FLA rejected under prereg geometry gate. V3 draft head 4f836696eacc16b37fcb0483e4017c721271d44a. Lane A now owns one sequential NON-MUTATING cross-runtime parity subject: same exact step48 adapter and exact rows 384,400,416,432, torch_reference math, first conservative runtime A (Py3.12/cu130), then candidate runtime B (Py3.13/cu132), no optimizer, no weight change. Protocol SHA 563751e4de3160987e855288cb6fde747be55a0f81281f178995d3614df67ef1. Frozen gates: exact token/label/layout/count match; max microbatch loss delta .002; mean loss delta .001; gradient cosine \u003e=.999; gradient relative-L2 \u003c=.02; gradient norm relative difference \u003c=.02. Lane B should stay CPU-only and hostile-review the result after comparison.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "4f836696eacc16b37fcb0483e4017c721271d44a"
+}
