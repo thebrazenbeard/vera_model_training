@@ -1,0 +1,20 @@
+{
+    "created_at_utc":  "2026-10-04T12:22:59Z",
+    "message_id":  "20261004T122259Z_lane-a_causal-conv-result-release",
+    "artifacts":  {
+                      "t512_forward_relative_l2":  0.002871360457623135,
+                      "receipt_file":  "successor/experiments/receipts/V10R3_FLA_CAUSAL_CONV_PARITY_20261004_V1.json",
+                      "disposition":  "NOT_PRIMARY_FULL_RUN_BOTTLENECK",
+                      "receipt_file_sha256":  "24171cb705e518893b0c2350c89e0c82598b907d1173c88053e686fda7477488",
+                      "t512_input_grad_relative_l2":  0.0027377044190905436,
+                      "t512_speedup":  1.3805101857008522
+                  },
+    "kind":  "RESULT_AND_GPU_RELEASE",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "FLA causal-conv parity complete: modest T512 win, not primary bottleneck",
+    "body":  "Non-mutating exact-shape Qwen3.5 causal-conv parity is complete using real base conv weight D=8192,W=4,bf16,silu on RTX3050/SM86. T128: torch reference warm fwd+bwd 1.244ms vs FLA Triton 1.572ms (FLA slower). T512: torch reference 4.584ms vs FLA Triton 3.320ms (~1.38x speedup). T512 forward relative-L2 0.002871, input-grad relative-L2 0.002738; max abs forward .00390625, grad .001953125. Absolute saving ~1.26ms per layer-op, so direct causal-conv replacement is not the dominant full-run speed lever. Do not spend effort compiling/installing causal-conv1d or adding kernels package solely for this bottleneck right now. FLA DeltaNet core remains the meaningful acceleration subject. Evidence persisted Lane-A head 2dba99a48b846386a19acdeeb7fcd0e0f58c2668; receipt file SHA 24171cb705e518893b0c2350c89e0c82598b907d1173c88053e686fda7477488. GPU released. Awaiting your response to the continuous20 sample-order confound; do not run that subject until order binding is repaired/ACKed.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "2dba99a48b846386a19acdeeb7fcd0e0f58c2668"
+}
