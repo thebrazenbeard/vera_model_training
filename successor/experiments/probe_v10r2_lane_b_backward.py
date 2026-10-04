@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.metadata as metadata
 import json
 import math
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -85,6 +87,60 @@ def _valid_sha256(value: object) -> bool:
         and len(value) == 64
         and all(ch in "0123456789abcdef" for ch in value)
     )
+
+
+def apply_liger_qwen35_candidate(
+    model,
+    *,
+    liger_path: Path | None = None,
+    liger_wheel: Path | None = None,
+    patch_function: Callable | None = None,
+    version: str | None = None,
+) -> dict:
+    if liger_path is None:
+        if any(value is not None for value in (liger_wheel, patch_function, version)):
+            raise ProbeHold("liger candidate arguments require liger_path")
+        return {"enabled": False}
+    if not liger_path.is_dir():
+        raise ProbeHold(f"liger source path missing:{liger_path}")
+    if liger_wheel is None or not liger_wheel.is_file():
+        raise ProbeHold("liger wheel missing")
+
+    wheel_sha256 = sha256_file(liger_wheel)
+    if patch_function is None:
+        source = str(liger_path)
+        if source not in sys.path:
+            sys.path.insert(0, source)
+        try:
+            from liger_kernel.transformers.monkey_patch import (
+                apply_liger_kernel_to_qwen3_5,
+            )
+        except Exception as exc:
+            raise ProbeHold(f"liger import failed:{exc}") from exc
+        patch_function = apply_liger_kernel_to_qwen3_5
+    if version is None:
+        try:
+            version = metadata.version("liger-kernel")
+        except metadata.PackageNotFoundError as exc:
+            raise ProbeHold("liger version metadata missing") from exc
+
+    patch_kwargs = {
+        "rope": False,
+        "cross_entropy": False,
+        "fused_linear_cross_entropy": True,
+        "rms_norm": True,
+        "swiglu": True,
+        "model": model,
+    }
+    patch_function(**patch_kwargs)
+    return {
+        "enabled": True,
+        "version": version,
+        "source_path": str(liger_path),
+        "wheel_path": str(liger_wheel),
+        "wheel_sha256": wheel_sha256,
+        **{key: value for key, value in patch_kwargs.items() if key != "model"},
+    }
 
 
 def _gradient_summary(model, torch, *, vector_out: Path | None = None) -> dict:
@@ -301,6 +357,8 @@ def execute_backward_probe(
     pad_to_multiple_of: int | None = None,
     acceleration_backend: str = "fla_triton",
     gradient_vector_out: Path | None = None,
+    liger_path: Path | None = None,
+    liger_wheel: Path | None = None,
 ) -> dict:
     if acceleration_backend not in {"fla_triton", "fla_triton_full"}:
         raise ProbeHold(
@@ -402,6 +460,11 @@ def execute_backward_probe(
     acceleration = apply_qwen35_acceleration(
         model,
         backend=acceleration_backend,
+    )
+    liger = apply_liger_qwen35_candidate(
+        model,
+        liger_path=liger_path,
+        liger_wheel=liger_wheel,
     )
     model = stack["prepare_model_for_kbit_training"](
         model,
@@ -599,6 +662,7 @@ def execute_backward_probe(
         receipt["base_topology"] = topology
         receipt["acceleration"] = acceleration
         receipt["acceleration_backend_requested"] = acceleration_backend
+        receipt["liger"] = liger
         receipt["backward_elapsed_seconds"] = backward_elapsed_seconds
         receipt["pad_to_multiple_of"] = pad_to_multiple_of
         receipt["lora_coverage"] = coverage
@@ -633,6 +697,8 @@ def _main(argv=None) -> int:
         default="fla_triton",
     )
     parser.add_argument("--gradient-vector-out", type=Path)
+    parser.add_argument("--liger-path", type=Path)
+    parser.add_argument("--liger-wheel", type=Path)
     args = parser.parse_args(argv)
 
     result = execute_backward_probe(
@@ -642,6 +708,8 @@ def _main(argv=None) -> int:
         pad_to_multiple_of=args.pad_to_multiple_of,
         acceleration_backend=args.acceleration_backend,
         gradient_vector_out=args.gradient_vector_out,
+        liger_path=args.liger_path,
+        liger_wheel=args.liger_wheel,
     )
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
