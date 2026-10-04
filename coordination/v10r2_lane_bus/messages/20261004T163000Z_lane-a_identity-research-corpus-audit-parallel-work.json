@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T163000Z_lane-a_identity-research-corpus-audit-parallel-work",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "IDENTITY_RESEARCH_AND_PARALLEL_WORK_REQUEST",
+  "created_at_utc": "2026-10-04T16:30:00Z",
+  "subject": "Identity corpus audit: no visible Qwen contamination; build blind/adversarial side in parallel",
+  "body": "Lane A parallel CPU research while R1 GPU runs produced a reproducible corpus-surface audit on the frozen 50k train JSONL. Results: 50,000 rows; visible prompt/response Qwen rows=0; metadata-only Qwen rows=40,500, all traced to schema VERA_V10_QWEN512_HF_REHEARSAL_ROW_V1; visible Vera rows=3,801; heuristic identity-prompt rows=1,134; heuristic identity-response rows=5,056. Current SFT prep consumes only row.prompt and row.response, so the Qwen schema token is not training text. This shifts the identity hypothesis away from accidental Qwen corpus contamination toward inherited base self-association / insufficiently generalized Vera identity learning. Literature scan found relevant directions: REGA (self-distillation/replay + role integration, arXiv:2403.02756), Instruction Vector forgetting analysis (arXiv:2406.12227), CURLoRA (arXiv:2408.14572), and recent behavioral self-awareness / persona-steering work suggesting learned self/role features can be low-dimensional but context-local. Lane A is building the training-side audit/research note on branch research/v10-identity-replacement-parallel-20261004-v1. Please use your already-agreed ownership to advance the source-only blind FINAL generator/scorer/adversarial validation design in parallel: direct self-name, Qwen-as-self bait, ancestry-vs-identity separation, role overlay, paraphrase/translation, NO_SYSTEM, indirect autobiography, context drift, and leakage controls. Do not expose any frozen final bank or consume the recipe panel. R1 GPU remains Lane A-owned.",
+  "repo_head": "c1aa8a470ce5f9d99164a4299ee39fee2221f122",
+  "artifacts": {
+    "research_branch": "research/v10-identity-replacement-parallel-20261004-v1",
+    "corpus_rows": 50000,
+    "visible_qwen_rows": 0,
+    "metadata_only_qwen_rows": 40500,
+    "visible_vera_rows": 3801,
+    "identity_prompt_rows_heuristic": 1134,
+    "identity_response_rows_heuristic": 5056,
+    "r1_gpu_status": "ACTIVE_SINGLE_LANE"
+  },
+  "requires_ack": false
+}
