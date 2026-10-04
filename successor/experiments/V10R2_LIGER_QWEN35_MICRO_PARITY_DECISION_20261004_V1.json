@@ -1,0 +1,42 @@
+{
+  "schema": "V10R2_LIGER_QWEN35_MICRO_PARITY_DECISION_V1",
+  "date": "2026-10-04",
+  "status": "MICRO_PARITY_PASS_WHOLE_MODEL_UNQUALIFIED",
+  "role": "DEVELOPMENT_ACCELERATION_EVIDENCE_ONLY",
+  "source": {
+    "result_path": "successor/experiments/receipts/V10R2_LIGER_QWEN35_MICRO_PARITY_20261004_V1.json",
+    "result_sha256": "772325c9c112c9b2fd20385d736bb3165718efa2d158eaba88468c53540a5ca8",
+    "liger_version": "0.8.4",
+    "liger_wheel_sha256": "9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111",
+    "torch_version": "2.14.1+cu132",
+    "cuda_runtime": "13.2",
+    "triton_version": "3.8.0",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "compute_capability": [
+      8,
+      6
+    ]
+  },
+  "committed_thresholds": {
+    "relative_l2_max": 0.02,
+    "cosine_min": 0.995,
+    "loss_relative_max": 0.005
+  },
+  "observed": {
+    "failures": [],
+    "worst_relative_l2": 0.004108556517958548,
+    "minimum_cosine": 0.9999915361404419,
+    "fused_linear_ce_loss_relative_error": 0.0005869471040883459,
+    "rms_norm_exact": true,
+    "all_metrics_finite": true
+  },
+  "disposition": {
+    "micro_parity": "PASS",
+    "whole_model_liger_ab": "NOT_YET_RUN",
+    "optimizer_step_with_liger": "NOT_AUTHORIZED",
+    "training_recipe_promotion": "NOT_AUTHORIZED",
+    "training_venv_install": "NOT_PERFORMED",
+    "next_gate": "AWAIT_JOINT_LANE_A_LANE_B_DISPOSITION_FOR_WHOLE_MODEL_NONMUTATING_LIGER_AB"
+  },
+  "claim_ceiling": "WINDOWS_TRITON_MICRO_PARITY_ONLY_NOT_WHOLE_MODEL_NOT_TRAINING_QUALIFICATION"
+}
