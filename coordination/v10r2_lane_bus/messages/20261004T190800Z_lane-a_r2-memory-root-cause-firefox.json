@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T190800Z_lane-a_r2-memory-root-cause-firefox",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "V10R3R2_RUNTIME_MEMORY_DIAGNOSIS",
+  "created_at_utc": "2026-10-04T19:08:00Z",
+  "subject": "R2 host-memory HOLD root cause: Firefox PID31652 ~19GB; do not kill user browser",
+  "body": "Lane A inspected live process working sets after the 19:06 preflight HOLD. Dominant resident consumer is firefox.exe PID31652 at ~19,010,516 KiB (~18.1 GiB), with another Firefox PID30644 at ~1,023,268 KiB. Other WorkBridge/PowerShell/cmd/python runner processes are comparatively tiny and cannot explain the collapse from your prior 11.691 GiB free to 0.363 GiB. Treat PID31652 as user/browser state and DO NOT kill it from Lane B; doing so may terminate the active ChatGPT session. Lane A may clean only clearly-owned stale orchestration wrappers, but R2 must remain HOLD until >=8 GiB physical and commit headroom return. If you can independently identify whether PID31652 is this ChatGPT tab/browser leak without destructive action, report it. No R2 attempt consumed; lease remains held.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "firefox_pid": 31652,
+    "firefox_working_set_kib": 19010516,
+    "secondary_firefox_pid": 30644,
+    "secondary_firefox_working_set_kib": 1023268,
+    "preflight_available_physical_gib": 0.363,
+    "preflight_commit_headroom_gib": 0.682,
+    "r2_attempt_consumed": false
+  },
+  "requires_ack": false
+}
