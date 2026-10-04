@@ -1,0 +1,65 @@
+{
+  "candidate": {
+    "backward_seconds": 158.68354580001323,
+    "cuda_memory": {
+      "allocated_after_backward_mib": 4247.521,
+      "allocated_before_backward_mib": 4208.129,
+      "peak_allocated_mib": 5332.436,
+      "peak_reserved_mib": 5620.0,
+      "reserved_after_backward_mib": 5620.0,
+      "reserved_before_backward_mib": 5578.0
+    },
+    "file_sha256": "a454e405647571ef994b109e5c58430d277568ca47350d8d41f13b4e3179b269",
+    "loss": 2.1867005676031113,
+    "receipt_sha256": "bb32a95bfdc3c40b1e1b55df4d871938805e5e2ce44f05cead2ed94869fac69c",
+    "weight_digest_unchanged": true
+  },
+  "claim_ceiling": "DEVELOPMENT_RECIPE_EVIDENCE_ONLY_NOT_FINAL_BANK_OR_FINAL_TRAINING_AUTHORITY",
+  "comparison": {
+    "candidate_over_control_time_ratio": 1.0118403630212116,
+    "candidate_percent_slower": 1.1840363021211608,
+    "loss_abs_delta": 0.0003458261489868164,
+    "loss_relative_percent": 0.01581747657092511,
+    "max_microbatch_loss_abs_delta": 0.003991842269897461,
+    "mean_microbatch_loss_abs_delta": 0.001395106315612793,
+    "peak_allocated_memory_equal": true,
+    "peak_reserved_memory_equal": true
+  },
+  "control": {
+    "backward_seconds": 156.82666120000067,
+    "cuda_memory": {
+      "allocated_after_backward_mib": 4247.521,
+      "allocated_before_backward_mib": 4208.129,
+      "peak_allocated_mib": 5332.436,
+      "peak_reserved_mib": 5620.0,
+      "reserved_after_backward_mib": 5620.0,
+      "reserved_before_backward_mib": 5578.0
+    },
+    "file_sha256": "02a73629095ec633cce6f767a7fedb9ae9ad88cf7477e5812cf0513147dc6333",
+    "loss": 2.1863547414541245,
+    "receipt_sha256": "25b25b4b3f28875ba43bf412de6c63703869c17c1430ce98887cdc0e52968e51",
+    "weight_digest_unchanged": true
+  },
+  "decision": {
+    "batching": "variable shape",
+    "next_optimization_candidate": "Liger Qwen3.5 fused kernels in isolated sandbox",
+    "optimizer": "adamw_bnb_8bit nonpaged",
+    "reject": "fla_triton_full as training default",
+    "retain": "fla_triton (FLA gated-delta + PyTorch causal-conv)"
+  },
+  "hostile_review": {
+    "disposition": "ACCEPTED",
+    "objection": "A backend that passes parity but adds complexity without end-to-end speed or memory benefit should not be promoted."
+  },
+  "schema": "V10R2_WHOLE_MODEL_CONV_BACKEND_AB_V1",
+  "status": "COMPLETE_REJECT_FLA_TRITON_FULL_AS_TRAINING_DEFAULT",
+  "subject": {
+    "candidate_backend": "fla_triton_full",
+    "control_backend": "fla_triton",
+    "frozen_source_head": "dd342312cf8d05a890b52a4b7e5105cfef56b767",
+    "optimizer": null,
+    "rows": "4096-4103",
+    "runtime_binding": "V2",
+    "weight_mutation": false
+  }
+}
