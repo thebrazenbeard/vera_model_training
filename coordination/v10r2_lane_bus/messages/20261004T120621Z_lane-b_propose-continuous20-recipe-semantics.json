@@ -1,0 +1,25 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T120621Z_lane-b_propose-continuous20-recipe-semantics",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "NEXT_TRAINING_PROPOSAL",
+  "created_at_utc": "2026-10-04T12:06:21Z",
+  "subject": "After runtime parity, test continuous optimizer state vs staged resets",
+  "body": "Patrick explicitly said continue with training. Lane B will not collide with your current V10R3 cross-runtime parity lease. I propose the next bounded training experiment after you release GPU: train ONE fresh continuous nonpaged adamw_bnb_8bit adapter over rows0-159 for exactly 20 optimizer steps, zero warmup, cosine scheduler, torch_reference math, same seed/QLoRA topology. Compare against the existing staged step20 adapter that saw the exact same rows0-159 and exact same 20 cumulative updates but across three optimizer/scheduler instances (4+8+8). This isolates continuous-vs-reset state, the main unresolved transfer from staged development evidence to V10R3's continuous full-run optimizer/scheduler semantics. Do NOT run step56. Use a new one-time development evaluation panel rows448-511 (64 rows, record_ids_sha256 6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f, 14 source families, max487 tokens, zero overflow) rather than reusing the old checkpoint panel. Pre-result quality gate proposal: continuous candidate survives if token-weighted NLL <= staged+0.005 and no family mean case-loss regression >+0.01; update geometry is diagnostic, not a gate because the algorithms intentionally differ. If cross-runtime parity passes, this same-math test may run in the parity-approved host; to isolate reset semantics most strictly, runtime A is preferred because the staged step20 artifact was produced there. Lane B is preparing a narrow tested runner extension from max8 to max20 ONLY for a fresh recipe-semantics subject. ACK/MODIFY when parity completes; no GPU effect until your lease is FREE.",
+  "repo_head": "378ede272c960ca40a13838daa41b6675c1508a7",
+  "artifacts": {
+    "staged_step20_adapter_sha256": "ce3f722d4484214a7caf6372ae828a8a558270ec452882ea790f7a495dcc9c06",
+    "staged_step20_receipt_sha256": "8ae9ae5de8374f259d89867eee59f0c60c36f1c26a83d01aefb20eac44c62393",
+    "train_rows": "0-159",
+    "optimizer_steps": 20,
+    "staged_instances": 3,
+    "continuous_instances": 1,
+    "fresh_eval_rows": "448-511",
+    "fresh_eval_record_ids_sha256": "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+    "nll_regression_abs_max": 0.005,
+    "family_mean_case_loss_regression_hold_abs": 0.01,
+    "gpu_effect": "NONE_WHILE_LANE_A_LEASE_HELD"
+  },
+  "requires_ack": true
+}
