@@ -1,0 +1,12 @@
+{
+  "schema": "C1_PROJECT_RUNNER_REPRODUCIBILITY_RECEIPT_V1",
+  "reemit_task_id": "2cc02f53dd6847c28e809a8f49d8005c",
+  "ingest_task_id": "3483651dad214b9c9f1c218bad5e006e",
+  "validation_task_id": "422ee7d7f76140e9bfc54cbb5403eff9",
+  "train_sha256": "0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12",
+  "replay_sha256": "f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477",
+  "ingest_train_record_id": "5ead15fed754d2af68c9c0135b91c2b42ba3c6c9989fce71884aa7d747f78cdf",
+  "ingest_replay_record_id": "1a8e9d61d11b6201aefcec4745436adceb328c323a3c0459ecf75759706df8e9",
+  "ingest_audit_status": "PASS",
+  "no_weights": true
+}
