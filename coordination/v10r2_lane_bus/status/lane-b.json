@@ -1,39 +1,39 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "R2_LIVE_PREFLIGHT_PASS_UNLAUNCHED_HF_Q1_REVIEWED",
+  "status": "CONTINUATION_V12_FROZEN_R2_MEMORY_HOLD_A2_A3_REVIEWED",
   "role": "INDEPENDENT_CUSTODY_REVIEW_RESEARCH",
   "training_branch": "work/v10r3-eval-gates-lane-b-20261004-v1",
-  "training_head": "4a77a17119f890001c4c9f2ebb7ed100c57bd7a3",
+  "training_head": "adcfde606bfe806e6c7dd6170be6e22bdd4643db",
   "draft_pr": 84,
   "latest_checkpoint": {
     "r1_status": "CLOSED_INCOMPLETE_ONE_SHOT_NO_RETRY",
     "r2_branch": "work/v10r3r2-durable-cont20-20261004-v1",
     "r2_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
-    "r2_code_recipe_custody_gate": "ACK_24_OF_24_PASS",
-    "r2_live_preflight": "PASS",
-    "r2_live_available_physical_gib": 11.691,
-    "r2_live_commit_headroom_gib": 9.884,
-    "r2_live_gpu_memory_used_mib": 0,
-    "r2_live_gpu_compute_processes": 0,
-    "r2_launch_observed_at_snapshot": false,
+    "r2_code_gate": "ACK",
+    "r2_launch_status": "NOT_LAUNCHED_ATTEMPT_UNUSED",
+    "r2_runtime_status": "HOLD_HOST_MEMORY_BELOW_8_GIB",
+    "live_gpu_memory_used_mib": 0,
+    "live_gpu_utilization_percent": 0,
+    "live_physical_available_gib": 4.968,
     "gpu_lease_holder": "LANE_A",
     "gpu_lease_status": "HELD",
     "one_time_panel_status": "PROHIBITED_UNCONSUMED",
     "identity_semantics": "VERA_PERSISTENT_IDENTITY_QWEN_PROVENANCE_ROLES_OVERLAYS_ONTOLOGY_UNRESOLVED",
     "v42v3_role_neutral_proposal": "e7d1d03ff54fd2cdf9a0b68d8751c3afbc489f77",
     "blind_identity_final_head": "dc7137fc0b9c9faf0da642a99476d42aa24d8b71",
-    "hf_q1_design_review": "ACK_NO_SPEND_AUTHORIZED",
-    "hf_q1_preferred_hardware": "a10g-small",
-    "hf_q1_budget_cap_proposed_usd": 0.5
+    "a2_behavior_qualification": "HOLD_AWAITING_LANE_A_REVISION",
+    "a3_hf_q1_package": "HOLD_FOR_REPAIR_NO_PAID_COMPUTE_AUTHORIZED",
+    "c1_plasticity_archaeology": "SURVIVES_NARROWED"
   },
   "continuation": {
     "current": "state/continuation/V10_MODEL_TRAINING_LANE_B_CURRENT.md",
-    "versioned": "state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V11.md",
+    "versioned": "state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V12.md",
     "resume_command": "VERA_MODEL_TRAINING::LANE_B::RESUME_FROM_REPO::thebrazenbeard/vera_model_training::work/v10r3-eval-gates-lane-b-20261004-v1::state/continuation/V10_MODEL_TRAINING_LANE_B_CURRENT.md",
-    "status": "CURRENT"
+    "status": "CURRENT",
+    "head": "adcfde606bfe806e6c7dd6170be6e22bdd4643db"
   },
-  "next_work": "Fresh-read R2/bus/lease/process/log/output state first. If Lane A launched R2, independently monitor/audit only. If not, coordinate with Lane A; do not duplicate GPU launch. Keep panel sealed. Follow V4.2 V3 adoption. Do not launch paid HF Q1 until Patrick explicitly approves spend cap.",
+  "next_work": "Fresh-read blotter/heads/lease/processes first. Review any newer Lane A exact heads. Keep R2 unlaunched while host physical memory <8 GiB. Keep panel sealed. No paid HF launch without Patrick explicit spend cap.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T19:05:00Z"
+  "updated_at_utc": "2026-10-04T21:05:00Z"
 }
