@@ -1,0 +1,94 @@
+{
+  "schema": "V10R2_QWEN35_DEV_TRAINING_SPEC_V1",
+  "date": "2026-10-04",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false
+  },
+  "source_subject": {
+    "parent_revision": "37c58ec6dc0f8b2d1278a9120209198131746e88",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_rows": 50000,
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224"
+  },
+  "trainer": {
+    "method": "QLORA_SFT_DEVELOPMENT",
+    "seed": 20261001,
+    "learning_rate": 2e-05,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 0,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "optimizer": "adamw_bnb_8bit",
+    "completion_only_loss": true,
+    "packing": false,
+    "shuffle_dataset": false,
+    "train_sampling_strategy": "sequential",
+    "gradient_checkpointing": true,
+    "bf16": true,
+    "tf32": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "logging_steps": 1,
+    "save_strategy": "no",
+    "eval_strategy": "no",
+    "report_to": "none",
+    "max_optimizer_steps": 20
+  },
+  "quantization": {
+    "load_in_4bit": true,
+    "type": "nf4",
+    "double_quant": true,
+    "compute_dtype": "bfloat16"
+  },
+  "lora": {
+    "r": 4,
+    "alpha": 16,
+    "dropout": 0,
+    "target_modules": "all-linear",
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "model_load": {
+    "device_map": {
+      "": 0
+    },
+    "dtype": "bfloat16",
+    "use_cache": false,
+    "prepare_model_for_kbit_training_use_gradient_checkpointing": true
+  },
+  "qualification": {
+    "external_final_bank_required_for_qualification": true,
+    "development_training_may_precede_external_qualification": true,
+    "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
+  },
+  "experiment_class": "CONTINUOUS_STATE_RECIPE_SEMANTICS",
+  "development_window": {
+    "start_row": 0,
+    "row_count": 160
+  },
+  "output": {
+    "namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-continuous20-sequential-20261004",
+    "save_final_adapter": true,
+    "overwrite_forbidden": true
+  },
+  "comparison": {
+    "role": "CONTINUOUS_RECIPE_SEMANTICS_CANDIDATE",
+    "exact_order": "NATURAL_SEQUENTIAL",
+    "full_matched_order_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "control_final_namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step20-20261004",
+    "fresh_eval_panel_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json",
+    "fresh_eval_record_ids_sha256": "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+    "prospective_gates": {
+      "continuous_minus_staged_token_weighted_nll_max": 0.005,
+      "family_mean_case_loss_regression_hold_abs": 0.01,
+      "update_geometry_role": "DIAGNOSTIC_ONLY_NOT_GATE"
+    }
+  }
+}
