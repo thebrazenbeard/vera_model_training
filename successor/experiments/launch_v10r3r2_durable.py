@@ -21,9 +21,9 @@ PROTOCOL_REL = "successor/experiments/V10R3R2_DURABLE_CONTINUOUS20_PROTOCOL_2026
 HARNESS_REL = "successor/experiments/run_durable_process.py"
 LAUNCHER_REL = "successor/experiments/launch_v10r3r2_durable.py"
 HOST_GUARD_REL = "successor/experiments/preflight_v10r3r2_host_resources.py"
-TRAIN_JSONL = Path(r"D:VERA.scratch10-qwen512-preflight-20261001-v1	rain.jsonl")
-RUNTIME_PYTHON = Path(r"C:ProgramDataProRunmodel-envScriptspython.exe")
-LOG_DIR = Path(r"D:VERAlogs	raining10r3r2-cont20-20261004-v1")
+TRAIN_JSONL = Path("D:/VERA/.scratch/v10-qwen512-preflight-20261001-v1/train.jsonl")
+RUNTIME_PYTHON = Path("C:/ProgramData/ProRun/model-env/Scripts/python.exe")
+LOG_DIR = Path("D:/VERA/logs/training/v10r3r2-cont20-20261004-v1")
 EXPECTED_OPTIMIZER_STEPS = 20
 
 
