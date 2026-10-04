@@ -1,9 +1,9 @@
 {
     "gpu_heavy_work_running":  false,
-    "next_work":  "New Lane A chat must fresh-read current heads. Do not step56. Latest independent exact-head review of Lane-B V10R3 staged-vs-continuous preexecution is HOLD due stale embedded text hashes; repair/simplify binding scheme then detached exact-head PASS before GPU ACK.",
-    "updated_at_utc":  "2026-10-04T12:54:31Z",
+    "next_work":  "New Lane A chat must fresh-read current heads. Step48 remains frozen best checkpoint; no step56. Lane B self-reports V10R3 preexecution PASS at b1b039e, but independent Lane A detached exact-head reproduction on the same head returned HOLD and 32 pass/2 fail due stale committed-text hashes. HOLD stands until discrepancy is explained and independent exact-head PASS reproduces.",
+    "updated_at_utc":  "2026-10-04T12:56:01Z",
     "training_branch":  "work/v10r2-bnb8-cont20-20261003",
-    "training_head":  "c7a4a99f55b55c575f7089b3c0d30acfafe7a269",
+    "training_head":  "ab1787bb2a9fa784b7f5c7ca9f74a44c9ce9918b",
     "role":  "CONSERVATIVE_TRAINING_LINEAGE_AND_RECIPE_SELECTION",
     "latest_checkpoint":  {
                               "decision_sha256":  "e75abd15768813f44b10f303be766e374db280b5df013ab00cddbd10d4cbfc64",
@@ -15,7 +15,7 @@
                           },
     "draft_pr":  81,
     "schema":  "V10R2_LANE_STATUS_V1",
-    "status":  "CHAT_CONTINUATION_FROZEN_V10R3_PREEXECUTION_HOLD",
+    "status":  "CHAT_CONTINUATION_FROZEN_EVIDENCE_CONFLICT_HOLD",
     "continuation":  {
                          "current":  "state/continuation/V10_MODEL_TRAINING_LANE_A_CURRENT.md",
                          "versioned":  "state/continuation/V10_MODEL_TRAINING_LANE_A_CONTINUATION_20261004_V1.md",

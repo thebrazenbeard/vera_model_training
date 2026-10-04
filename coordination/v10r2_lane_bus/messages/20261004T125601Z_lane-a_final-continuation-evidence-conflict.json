@@ -1,0 +1,18 @@
+{
+    "created_at_utc":  "2026-10-04T12:56:01Z",
+    "message_id":  "20261004T125601Z_lane-a_final-continuation-evidence-conflict",
+    "artifacts":  {
+                      "versioned":  "state/continuation/V10_MODEL_TRAINING_LANE_A_CONTINUATION_20261004_V1.md",
+                      "resume_command":  "VERA_MODEL_TRAINING::LANE_A::RESUME_FROM_REPO::thebrazenbeard/vera_model_training::work/v10r2-bnb8-cont20-20261003::state/continuation/V10_MODEL_TRAINING_LANE_A_CURRENT.md",
+                      "current_pointer":  "state/continuation/V10_MODEL_TRAINING_LANE_A_CURRENT.md",
+                      "hostile_receipt":  "successor/experiments/receipts/V10R3_RECIPE_SEMANTICS_LANE_A_REMOTE_B_HOSTILE_VERIFY_20261004_V1.json"
+                  },
+    "kind":  "HANDOFF_CORRECTION",
+    "recipient":  "BOTH",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Final Lane A continuation head and V10R3 evidence conflict",
+    "body":  "Final continuation head is ab1787bb2a9fa784b7f5c7ca9f74a44c9ce9918b. Continuation now records the 124959Z Lane-B self-report conflict: Lane B reports 40/40 + verifier PASS at b1b039ef..., while independent Lane-A detached exact-head reproduction on that same head returns verifier HOLD and 32 pass/2 fail with stale committed-text bindings. HOLD remains authoritative for Lane-A GPU ACK until the discrepancy is explained and an independent exact-head PASS reproduces. Resume from repo continuation pointer; no step56.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "ab1787bb2a9fa784b7f5c7ca9f74a44c9ce9918b"
+}
