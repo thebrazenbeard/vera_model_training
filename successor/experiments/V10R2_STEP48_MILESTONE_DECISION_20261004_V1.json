@@ -1,0 +1,50 @@
+{
+  "anchor16": {
+    "file": "V10R2_HELDOUT_STEP40_STEP48_ANCHOR16_20261004_V1.json",
+    "file_sha256": "8676c6cf5b7bc4f18f9d746e5f22d91af7f9949b540790f646c89e470c7e0593",
+    "mean_case_loss_delta_step48_minus_step40": -0.044440895318984985,
+    "step40_case_wins": 0,
+    "step40_nll": 1.4912459392683202,
+    "step40_ppl": 4.442627315974,
+    "step48_case_wins": 16,
+    "step48_nll": 1.4624121151334866,
+    "step48_ppl": 4.316358535246624,
+    "ties": 0
+  },
+  "claim_ceiling": "DEVELOPMENT_CHECKPOINT_SELECTION_ONLY / NOT FINAL_BANK / NOT FULL_TRAINING_AUTHORITY",
+  "combined": {
+    "sample_count": 64,
+    "step40_case_wins": 2,
+    "step48_case_wins": 62,
+    "ties": 0
+  },
+  "combined_record_ids_sha256": "65b52fc5e35b9a821118a7704541aa31b91e7dc765bf80cf526b927b2715ba99",
+  "confirm48": {
+    "file": "V10R2_HELDOUT_STEP40_STEP48_CONFIRM48_20261004_V1.json",
+    "file_sha256": "e72b0e88143f6bf638b2c3c0a115e5171be4f6064502cd0e7b0b62591e2b8c4b",
+    "mean_case_loss_delta_step48_minus_step40": -0.03793309497026106,
+    "step40_case_wins": 2,
+    "step40_nll": 1.3151292744567644,
+    "step40_ppl": 3.7252325315365638,
+    "step48_case_wins": 46,
+    "step48_nll": 1.285991465412004,
+    "step48_ppl": 3.6182535526761264,
+    "ties": 0
+  },
+  "decision": "KEEP_STEP48_AS_CURRENT_CONSERVATIVE_LANE_A_CHECKPOINT_AND_FREEZE_FURTHER_BLIND_CONTINUATIONS_PENDING_RECIPE_GATE_REASSESSMENT",
+  "next_work": "REASSESS_FULL_RUN_RECIPE_AND_FINAL_BANK_GATES; DO_NOT EXPORT_GGUF; DO_NOT START STEP56 BY INERTIA",
+  "optimizer": "adamw_bnb_8bit",
+  "paged": false,
+  "panel_manifest_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
+  "role": "DEVELOPMENT_RECIPE_SELECTION_ONLY_NOT_FINAL_BANK",
+  "schema": "V10R2_STEP48_MILESTONE_DECISION_V1",
+  "status": "STEP48_SURVIVES_64_CASE_MILESTONE",
+  "step48_adapter_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+  "step48_cumulative_optimizer_steps": 48,
+  "step48_receipt_file_sha256": "11e5bc030d988b09715d21eda7211902a363b641dbbad888fb07d9b4bd207332",
+  "step48_receipt_sha256": "15dee7c2ca2b94c6c2c2f780ced3dfc03d9a6afd5adfb594b1035bfa44853481",
+  "step48_spec_sha256": "45dcf446911ae78a734c331c12d3c39b15fb7570a2e0af69d94a66a391302804",
+  "step48_training_loss": 1.40095953643322,
+  "step48_training_runtime_seconds": 1213.4045,
+  "step48_weight_digest_after": "6cbac5df94bc33cea342cb62eefe70aa8c992ce5a1d1e797debc233e8df6ffe4"
+}
