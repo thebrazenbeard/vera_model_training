@@ -1,19 +1,23 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "STEP48_TRAINING_UNDER_LANE_A_EVAL_PLAN_READY",
+  "status": "BACKEND_QUALITY_AB_COMPLETE_FLA_HOLD_GPU_RELEASED",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "076cbe06d6aa2c67d7c05701c003f2f55eabea69",
+  "training_head": "378ede272c960ca40a13838daa41b6675c1508a7",
   "draft_pr": 82,
   "latest_checkpoint": {
-    "kind": "STEP48_COMBINED64_EVAL_PLAN",
-    "status": "READY_AWAITING_STEP48_CANDIDATE_BINDING",
-    "plan_sha256": "9d55a3944e4100740c12cf80f1cb0f3a9bf2ee03a5b36add86a6d892dbfaab5f",
-    "panel_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
-    "baseline_step40_adapter_sha256": "e579c06aad372e860f8815141e80d2cd35223e4e111c4ce41ab63969a56391bd"
+    "kind": "BACKEND_QUALITY_AB_FROM_STEP48",
+    "status": "HOLD_FLA_PROMOTION_GEOMETRY_GATE_FAILED",
+    "decision_sha256": "8d13652488f5955b67e83ee00654c0465b633bf8696b89a0bc89dd09e99b4688",
+    "candidate_speedup_pct": 48.080619696153306,
+    "update_cosine": 0.989877244325408,
+    "update_relative_l2": 0.14237711007764042,
+    "candidate_minus_control_nll": 0.000016918917688846236,
+    "candidate_case_wins": 33,
+    "control_case_wins": 31
   },
-  "next_work": "Read-only audit Lane A step48 training receipt/hashes, bind actual step48 adapter into existing combined64 plan, then evaluate only after Lane A handoff/release.",
+  "next_work": "No further GPU work by default. Lane A may consume this evidence when preregistering V3; recommended current runtime is torch_reference with nonpaged adamw_bnb_8bit. Full training remains gated by final-bank sealing and exact authority.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T10:38:18Z"
+  "updated_at_utc": "2026-10-04T11:58:16Z"
 }
