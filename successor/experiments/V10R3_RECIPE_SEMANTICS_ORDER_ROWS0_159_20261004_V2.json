@@ -622,5 +622,5 @@
     "no_sampler_shuffle_both_arms": true
   },
   "claim_ceiling": "DEVELOPMENT_RECIPE_SEMANTICS_ORDER_BINDING_ONLY",
-  "serialization": "NEWLINE_UTF8_FINAL_LF"
+  "record_ids_serialization": "NEWLINE_UTF8_FINAL_LF"
 }
