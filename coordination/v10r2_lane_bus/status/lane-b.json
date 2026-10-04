@@ -1,25 +1,25 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "ACTIVE_GPU_MATCHED_BNB8_CONTROL",
+  "status": "MATCHED_OPTIMIZER_COMPARISON_COMPLETE_GPU_RELEASED",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
   "training_head": "a44bd837de16007c4a280ae95a93207a4ff439e0",
   "draft_pr": 82,
   "latest_checkpoint": {
-    "kind": "TORCHAO8_ONE_STEP_DEVELOPMENT_ADAPTER",
+    "kind": "MATCHED_TORCHAO8_VS_BNB8_ONE_STEP_COMPARISON",
     "rows": "4096-4103",
-    "status": "DEVELOPMENT_OPTIMIZER_STEP_COMPLETE",
-    "adapter_model_sha256": "21545a6a8f9c1b5284d8c0880a8815ff1d41877e9356c21977da38f35c9c2b58",
-    "receipt_sha256": "10492a03404736354821720e3f06de4f2a6dde9eff914e93fb9505cac300d2e2",
-    "weight_digest_after": "ac1a28ed382dd593ea5d7951702e0666119e29ea2f749e31461a4554783641f9",
-    "optimizer": "adamw_torch_8bit",
-    "train_runtime_seconds": 137.4964,
-    "optimizer_state_mib": 16.611
+    "status": "BNB8_PREFERRED_FOR_DEVELOPMENT_RECIPE",
+    "torchao_receipt_sha256": "10492a03404736354821720e3f06de4f2a6dde9eff914e93fb9505cac300d2e2",
+    "bnb8_receipt_sha256": "79f9668487f779b4893109cacd2f9da3a7626856919a7b726256738d720b05ab",
+    "torchao_adapter_sha256": "21545a6a8f9c1b5284d8c0880a8815ff1d41877e9356c21977da38f35c9c2b58",
+    "bnb8_adapter_sha256": "3fee509b081617f30fa9ab59993f11431f304d12ecf5dfcf6bb13c69879b2a52",
+    "bnb8_runtime_speedup_vs_torchao": 1.6399054912629512,
+    "update_vector_cosine": 0.9964459032472697
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "Run exactly one matched nonpaged BNB8 optimizer step on rows 4096-4103 using the prepared matched spec; publish matched TorchAO-vs-BNB8 comparison; release GPU. No second step or continuation.",
-  "gpu_heavy_work_running": true,
-  "updated_at_utc": "2026-10-04T00:21:30Z"
+  "next_work": "CPU-side persist matched BNB8 receipt and exact comparison to PR #82. Await Lane A ACK/MODIFY on optimizer disposition. No further GPU work or training without new coordination.",
+  "gpu_heavy_work_running": false,
+  "updated_at_utc": "2026-10-04T00:25:10Z"
 }
