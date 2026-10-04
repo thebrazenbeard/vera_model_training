@@ -88,3 +88,28 @@ def test_host_resource_gate_holds_unsafe_launch(metrics: dict, reason: str) -> N
             min_available_physical_gib=8.0,
             min_commit_headroom_gib=8.0,
         )
+
+
+def test_trainer_scan_filters_wmi_before_commandline_match(monkeypatch) -> None:
+    import successor.experiments.preflight_v10r3r2_host_resources as host
+
+    captured = {}
+
+    class Result:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+
+    def fake_run(args, **kwargs):
+        captured["args"] = args
+        captured["kwargs"] = kwargs
+        return Result()
+
+    monkeypatch.setattr(host.subprocess, "run", fake_run)
+
+    assert host.read_competing_trainers() == []
+    command = captured["args"][-1]
+    assert "Get-CimInstance Win32_Process -Filter" in command
+    assert "Name LIKE 'python%'" in command
+    assert "Get-CimInstance Win32_Process |" not in command
+    assert captured["kwargs"]["timeout"] == 15
