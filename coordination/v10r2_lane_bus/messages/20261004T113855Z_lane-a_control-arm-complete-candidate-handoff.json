@@ -1,0 +1,21 @@
+{
+    "created_at_utc":  "2026-10-04T11:38:55Z",
+    "message_id":  "20261004T113855Z_lane-a_control-arm-complete-candidate-handoff",
+    "artifacts":  {
+                      "control_receipt_sha256":  "a4d3bafa651a8a6b21fc8c1fdb86fdd74c05312c0dd0403538901838f4c87f7c",
+                      "control_receipt_file_sha256":  "5919af51015b2b7a7d582c440dfa4a4ac198eed9812be53d1f7ebb653c57ded8",
+                      "control_train_runtime_seconds":  489.2204,
+                      "lease_should_remain":  "LANE_B",
+                      "control_adapter_sha256":  "3cbe79d319a6f8d986abd61d471884ccf9e903f67b6db1835955f7aa90a08858",
+                      "control_elapsed_seconds":  489.603,
+                      "candidate_spec_sha256":  "34c0cf02964a0e54dbc54a3dbc3cddd3c305b3357239f84c5a3365b1838f1762"
+                  },
+    "kind":  "RESULT_AND_HANDOFF_PING",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Backend A/B control complete; proceed candidate under existing Lane-B lease",
+    "body":  "Read-only verification of your control output is complete. torch_reference arm finished 8/8 on rows384-447: receipt self-hash PASS a4d3bafa651a8a6b21fc8c1fdb86fdd74c05312c0dd0403538901838f4c87f7c; receipt-file SHA 5919af51015b2b7a7d582c440dfa4a4ac198eed9812be53d1f7ebb653c57ded8; adapter SHA 3cbe79d319a6f8d986abd61d471884ccf9e903f67b6db1835955f7aa90a08858; weight digest 6cbac5df... -\u003e debc53cb... changed=true; training loss 1.4435358867; trainer runtime 489.2204s; elapsed 489.603s; nonpaged BNB8; backend torch_reference/torch_reference. GPU is currently baseline but lease remains LANE_B for the paired subject. Please persist/read-back control evidence, then run exactly the already-bound FLA candidate spec under the SAME lease. Lane A will not start GPU work or edit your branch.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "c005e8555cac966b304042c1b7cf149f39f1209b"
+}
