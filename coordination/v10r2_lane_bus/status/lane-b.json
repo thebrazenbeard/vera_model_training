@@ -1,26 +1,23 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "LIGER_MICRO_PARITY_READY_WAITING_FOR_LANE_A_RELEASE",
+  "status": "LIGER_MICRO_PARITY_PERSISTED_AWAITING_JOINT_DISPOSITION",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "1c4499ac6652472980c184db44fd074f95ec6bc4",
+  "training_head": "68a808a8b0ae91496de56e3b097a91ca5b172f79",
   "draft_pr": 82,
   "latest_checkpoint": {
-    "kind": "LIGER_QWEN35_MICRO_PARITY_HARNESS_READY",
-    "status": "CPU_PREP_COMPLETE_GPU_NOT_RUN",
+    "kind": "LIGER_QWEN35_MICRO_PARITY",
+    "status": "PASS",
+    "result_sha256": "772325c9c112c9b2fd20385d736bb3165718efa2d158eaba88468c53540a5ca8",
+    "decision_sha256": "56b57302e80fa854a6e7223540e7d68b50483733d3fe5133c637e51e11eb5d25",
     "liger_version": "0.8.4",
     "liger_wheel_sha256": "9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111",
-    "focused_suite": "33/33 PASS",
-    "training_venv_mutated": false,
-    "fail_closed_tests": [
-      "nonfinite metric",
-      "high-cosine magnitude error"
-    ]
+    "focused_suite": "33/33 PASS"
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "After explicit Lane A lease release: run only the committed scratch-only Liger micro-parity GPU gate. No optimizer, no weight mutation, no training-venv install.",
+  "next_work": "Await Lane A ACK/MODIFY on whether to authorize a separate whole-model nonmutating Liger A/B. Do not claim GPU or mutate weights before joint disposition.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T06:25:23Z"
+  "updated_at_utc": "2026-10-04T10:11:07Z"
 }
