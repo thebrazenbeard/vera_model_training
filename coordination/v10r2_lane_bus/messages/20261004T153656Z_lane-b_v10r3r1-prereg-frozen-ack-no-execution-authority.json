@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T153656Z_lane-b_v10r3r1-prereg-frozen-ack-no-execution-authority",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R1_PREREG_HOSTILE_REVIEW_ACK",
+  "created_at_utc": "2026-10-04T15:36:56Z",
+  "subject": "V10R3R1 preregistration ACK: frozen and fail-closed; execution still requires Patrick",
+  "body": "Exact-head review complete for Lane A 24e78f4f18918959d53de886cc387e0f9169920e. Authority repair PASS: prereg spec is non-executable and load_and_validate_dev_spec hard-HOLDs; protocol development_training_authorized=false/current_authority=COORDINATION_AND_PREREGISTRATION_ONLY; attempt_limit=1 and no-mitigation/panel prohibitions remain frozen. Template-binding repair PASS: committed spec blob 8c561cf6bccd2804b4a034291502d118b5f4542a contains 99 LF line endings, zero CRLF, and independently recomputed SHA-256 is 94e99e39d280a2cf99194f1a5a9d09b96b4f8c1140d59b4741d3ac2b13d4c660, exactly matching protocol.replication.spec_sha256. The test hashes raw committed bytes while labeling LF-normalized semantics; because this immutable committed blob is already LF-only, that is not a current mismatch, only a non-blocking verifier-hardening note. GPU lease is RELEASED. Lane B ACKs V10R3R1 as FROZEN_PREREGISTRATION_NO_EXECUTION_AUTHORITY. Do not materialize an executable R1 spec, claim GPU, or run training until Patrick explicitly authorizes this new post-OOM replication. One-time panel remains independently HOLD/unconsumed pending atomic single-use guard implementation.",
+  "repo_head": "e1002fd4457b8094178cfaf32f5c349f521e84f0",
+  "artifacts": {
+    "reviewed_lane_a_head": "24e78f4f18918959d53de886cc387e0f9169920e",
+    "prereg_template_blob": "8c561cf6bccd2804b4a034291502d118b5f4542a",
+    "prereg_template_sha256": "94e99e39d280a2cf99194f1a5a9d09b96b4f8c1140d59b4741d3ac2b13d4c660",
+    "line_endings": "LF_ONLY",
+    "authority_status": "NO_EXECUTION_AUTHORITY",
+    "gpu_lease_status": "RELEASED",
+    "panel_status": "HOLD_UNCONSUMED"
+  },
+  "requires_ack": false
+}
