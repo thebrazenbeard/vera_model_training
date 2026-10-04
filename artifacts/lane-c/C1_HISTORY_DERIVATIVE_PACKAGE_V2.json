@@ -1,0 +1,116 @@
+{
+  "schema": "C1_HISTORY_DERIVATIVE_PACKAGE_V2",
+  "repository": "thebrazenbeard/vera_model_training",
+  "branch": "work/lane-c-history-derivatives-20261004-v1",
+  "frozen_subject_before_v2": "a9c87f9f4c33fdc9144e44217c9350bd008304bd",
+  "active_training_subject": {
+    "branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c"
+  },
+  "generator": {
+    "lane": "LANE_C",
+    "work_unit": "C1_HISTORY_DERIVATIVE_REVIEW_V1",
+    "runner_mode": "PROJECT_RUNNER_TASK_SUPERVISOR_V2",
+    "reemit_task": {
+      "name": "C1_reemit_exact_derivatives",
+      "task_id": "2cc02f53dd6847c28e809a8f49d8005c",
+      "state": "COMPLETED",
+      "exit_code": 0
+    },
+    "validation_task": {
+      "name": "C1_validate_derivatives_v4",
+      "task_id": "422ee7d7f76140e9bfc54cbb5403eff9"
+    },
+    "ingest_task": {
+      "name": "C1_ingest_exact_derivatives",
+      "task_id": "3483651dad214b9c9f1c218bad5e006e",
+      "state": "COMPLETED",
+      "exit_code": 0
+    },
+    "package_publish_task": {
+      "name": "C1_publish_derivative_package",
+      "task_id": "193833d1eaa943a08259be8dc86d60ee"
+    }
+  },
+  "tools": {
+    "roots": {
+      "head": "1bc3af6aec0bebe383f60f56ad3070e83f0f40b5",
+      "version": "0.1.0"
+    },
+    "ingest": {
+      "head": "27764c9fb97c84d178a3f66e0da2d669df645ed6",
+      "version": "0.1.0"
+    }
+  },
+  "archaeology": {
+    "sha256": "3f40014a625178c23a44974c0d03b42dc19479580dd1bf7d33b8c1f834a85644",
+    "rows": 8,
+    "neural_candidates": 7,
+    "external_runtime_candidates": 1
+  },
+  "train": {
+    "sha256": "0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12",
+    "rows": 14,
+    "per_behavior_counts": {
+      "C1-BA-001": 2,
+      "C1-BA-002": 2,
+      "C1-BA-003": 2,
+      "C1-BA-004": 2,
+      "C1-BA-006": 2,
+      "C1-BA-007": 2,
+      "C1-BA-008": 2
+    },
+    "privacy": "SYNTHETIC_PUBLIC_SAFE",
+    "ingest_record_id": "5ead15fed754d2af68c9c0135b91c2b42ba3c6c9989fce71884aa7d747f78cdf"
+  },
+  "replay": {
+    "sha256": "f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477",
+    "rows": 8,
+    "per_behavior_counts": {
+      "C1-BA-001": 1,
+      "C1-BA-002": 1,
+      "C1-BA-003": 1,
+      "C1-BA-004": 1,
+      "C1-BA-005": 1,
+      "C1-BA-006": 1,
+      "C1-BA-007": 1,
+      "C1-BA-008": 1
+    },
+    "ingest_record_id": "1a8e9d61d11b6201aefcec4745436adceb328c323a3c0459ecf75759706df8e9",
+    "historical_public_source": {
+      "repository": "thebrazenbeard/unbound-sol",
+      "head": "142086f5a041b6c2e944217e60a45d5db592d496",
+      "path": "behavior/training/PREFERENCE_PAIRS_V1.jsonl",
+      "blob": "146ec709bea3f2737b77da8375e915a243d50a26",
+      "rows": 24,
+      "holdout_eligible": false
+    }
+  },
+  "split_leakage_checks": {
+    "train_split": "train",
+    "replay_split": "replay_or_external_only",
+    "row_id_overlap": [],
+    "exact_record_overlap_count": 0,
+    "recovery_BA005_present_in_train": false,
+    "recovery_BA005_external_only_replay": true,
+    "protected_or_final_bank_consumed": false,
+    "a2_custodied_hidden_eval_visible_to_c": false,
+    "historical_public_source_used_as_holdout": false,
+    "private_raw_history_copied_to_derivatives": false
+  },
+  "ingest_audit": {
+    "schema": "INGEST_STORE_AUDIT_V1",
+    "records_checked": 11,
+    "records_ok": 11,
+    "records_corrupt": 0,
+    "issues": [],
+    "status": "PASS"
+  },
+  "effects": {
+    "gpu_used": false,
+    "weights_changed": false,
+    "paid_compute": false,
+    "merge_deploy_activate": false
+  },
+  "review_state": "READY_FOR_LANE_B_DERIVATIVE_REREVIEW"
+}
