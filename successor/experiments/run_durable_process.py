@@ -16,6 +16,14 @@ class DurableProcessHold(RuntimeError):
 
 
 _PROGRESS = re.compile(r"(?<!\d)(\d+)\s*/\s*(\d+)(?!\d)")
+_HEX40 = re.compile(r"^[0-9a-f]{40}$")
+_HEX64 = re.compile(r"^[0-9a-f]{64}$")
+_REQUIRED_METADATA = (
+    "repo_head",
+    "spec_path",
+    "spec_sha256",
+    "runtime_binding_sha256",
+)
 
 
 def _utc_now() -> str:
@@ -93,6 +101,48 @@ def _latest_optimizer_step(
     return max(observed) if observed else None
 
 
+def validate_launch_metadata(metadata: dict) -> dict:
+    if not isinstance(metadata, dict):
+        raise DurableProcessHold("metadata json must be an object")
+
+    missing = [
+        key
+        for key in _REQUIRED_METADATA
+        if not isinstance(metadata.get(key), str)
+        or not metadata[key].strip()
+    ]
+    if missing:
+        raise DurableProcessHold(
+            "required metadata missing or invalid:" + ",".join(missing)
+        )
+
+    repo_head = metadata["repo_head"]
+    spec_path = metadata["spec_path"]
+    spec_sha256 = metadata["spec_sha256"]
+    runtime_sha256 = metadata["runtime_binding_sha256"]
+
+    if _HEX40.fullmatch(repo_head) is None:
+        raise DurableProcessHold("repo_head must be 40 lowercase hex")
+    if _HEX64.fullmatch(spec_sha256) is None:
+        raise DurableProcessHold("spec_sha256 must be 64 lowercase hex")
+    if _HEX64.fullmatch(runtime_sha256) is None:
+        raise DurableProcessHold(
+            "runtime_binding_sha256 must be 64 lowercase hex"
+        )
+
+    candidate = Path(spec_path)
+    if (
+        candidate.is_absolute()
+        or "\" in spec_path
+        or spec_path.startswith("/")
+        or ".." in candidate.parts
+        or not spec_path.startswith("successor/experiments/")
+    ):
+        raise DurableProcessHold("spec_path must be a canonical repo-relative path")
+
+    return dict(metadata)
+
+
 def _parse(argv: Sequence[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--log-dir", required=True, type=Path)
@@ -117,9 +167,7 @@ def _parse(argv: Sequence[str] | None) -> argparse.Namespace:
         metadata = json.loads(args.metadata_json)
     except json.JSONDecodeError as exc:
         raise DurableProcessHold("metadata json is invalid") from exc
-    if not isinstance(metadata, dict):
-        raise DurableProcessHold("metadata json must be an object")
-    args.metadata = metadata
+    args.metadata = validate_launch_metadata(metadata)
     return args
 
 
@@ -128,22 +176,6 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
     log_dir = args.log_dir
     if log_dir.exists():
         raise DurableProcessHold(f"log namespace already exists:{log_dir}")
-    required_metadata = (
-        "repo_head",
-        "spec_path",
-        "spec_sha256",
-        "runtime_binding_sha256",
-    )
-    missing = [
-        key
-        for key in required_metadata
-        if not isinstance(args.metadata.get(key), str)
-        or not args.metadata[key].strip()
-    ]
-    if missing:
-        raise DurableProcessHold(
-            "required metadata missing or invalid:" + ",".join(missing)
-        )
     log_dir.mkdir(parents=True, exist_ok=False)
 
     cwd = args.cwd.resolve() if args.cwd is not None else Path.cwd().resolve()
@@ -167,7 +199,7 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
         _write_json(
             launch_path,
             {
-                "schema": "DURABLE_PROCESS_LAUNCH_V2",
+                "schema": "DURABLE_PROCESS_LAUNCH_V3",
                 "status": "STARTED",
                 "started_at_utc": started_wall,
                 "pid": child.pid,
@@ -185,7 +217,7 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
             while True:
                 returncode = child.poll()
                 row = {
-                    "schema": "DURABLE_PROCESS_WATCHDOG_V2",
+                    "schema": "DURABLE_PROCESS_WATCHDOG_V3",
                     "observed_at_utc": _utc_now(),
                     "pid": child.pid,
                     "returncode": returncode,
@@ -207,7 +239,7 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
     elapsed = time.perf_counter() - started_perf
     returncode = int(child.returncode)
     final = {
-        "schema": "DURABLE_PROCESS_FINAL_V2",
+        "schema": "DURABLE_PROCESS_FINAL_V3",
         "status": "EXITED",
         "started_at_utc": started_wall,
         "ended_at_utc": _utc_now(),
