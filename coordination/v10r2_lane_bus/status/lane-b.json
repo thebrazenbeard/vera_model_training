@@ -1,10 +1,10 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "ACTIVE_V10R3_STAGED_CONTROL_STAGE3_AND_EVAL_CUSTODY",
+  "status": "ACTIVE_V10R3_STAGE3_RUNNING_EVAL_CUSTODY_HARDENED",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r3-eval-gates-lane-b-20261004-v1",
-  "training_head": "0edbe8e885c65c724a9fb04cb54b1946958bdd14",
+  "training_head": "5b509cac0fce89308a038e49b239f37e5a6c2ec3",
   "draft_pr": 84,
   "latest_checkpoint": {
     "kind": "V10R3_STAGE2_AUDIT_STAGE3_PREFLIGHT_AND_DECISION_CUSTODY",
@@ -16,8 +16,8 @@
     "stage3_training_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
     "stage3_preflight": "PASS",
     "continuous20_preflight": "PASS_OUTPUT_ABSENT",
-    "focused_tests": "16/16 PASS",
-    "v10r2_v10r3_tests": "88/88 PASS"
+    "focused_tests": "17/17 PASS",
+    "v10r2_v10r3_tests": "89/89 PASS"
   },
   "coordination": {
     "gpu_lease_holder": "LANE_A",
@@ -27,10 +27,11 @@
   },
   "continuation": {
     "current": "state/continuation/V10_MODEL_TRAINING_LANE_B_CURRENT.md",
-    "versioned": "state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V1.md",
-    "status": "STALE_PREVIOUS_FREEZE_PENDING_REFRESH_ON_CURRENT_LANE_B_BRANCH"
+    "versioned": "state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V2.md",
+    "resume_command": "VERA_MODEL_TRAINING::LANE_B::RESUME_FROM_REPO::thebrazenbeard/vera_model_training::work/v10r3-eval-gates-lane-b-20261004-v1::state/continuation/V10_MODEL_TRAINING_LANE_B_CURRENT.md",
+    "status": "CURRENT"
   },
-  "next_work": "Wait for Stage3 completion receipt; independently audit exact 4+8+8 terminal chain. Then verify continuous20 remains fresh/no-resume and audit its completion. Before one-time panel use, CPU-verify both final receipt semantics and live adapter hashes. Only after Lane A releases the GPU may Lane B execute or independently audit the frozen 64-case evaluation and apply PR84 fail-closed decision tooling.",
+  "next_work": "Wait for Stage3 completion receipt and independently audit terminal staged 4+8+8 chain. Then verify/run/audit continuous20 under Lane A authority. Before one-time panel use, CPU-verify both final receipt semantics and live adapter hashes. Only after Lane A releases the GPU may Lane B claim it for the frozen 64-case evaluation.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T14:24:52Z"
+  "updated_at_utc": "2026-10-04T14:31:20Z"
 }
