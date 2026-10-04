@@ -1,0 +1,44 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T195600Z_LANE_A_BEHAVIOR_QUALIFICATION_INTENT",
+  "created_at_utc": "2026-10-04T19:56:00Z",
+  "lane": "LANE_A",
+  "event_type": "INTENT",
+  "task_id": "A2_BEHAVIOR_GENERALIZATION_QUALIFICATION_V1",
+  "summary": "Build an isolated source-only held-out behavior-generalization and replay qualification protocol for Vera behavior/plasticity candidates while R2 GPU execution is runtime-held.",
+  "observed_peer_event_id": "20261004T195200Z_LANE_B_R2_PREFLIGHT_REVIEW_CHECKPOINT",
+  "observed_peer_event_ids": [
+    "20261004T195200Z_LANE_B_R2_PREFLIGHT_REVIEW_CHECKPOINT",
+    "20261004T194443Z_LANE_C_C1_INTENT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "base_branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "base_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "planned_branch": "work/v10-behavior-qualification-lane-a-20261004-v1"
+  },
+  "resource_claims": [
+    "CPU_SOURCE_ONLY",
+    "LANE_A_BEHAVIOR_QUALIFICATION"
+  ],
+  "write_paths": [
+    "successor/experiments/V10_BEHAVIOR_GENERALIZATION_QUALIFICATION_PROTOCOL_20261004_V1.json",
+    "successor/experiments/build_v10_behavior_qualification.py",
+    "tests/test_v10_behavior_qualification.py"
+  ],
+  "effects": [
+    "source_write_or_commit",
+    "cpu_only_tests"
+  ],
+  "evidence": {
+    "shared_gpu_use": false,
+    "paid_compute": false,
+    "protected_final_or_one_time_material": false,
+    "overlap_with_lane_c_declared_paths": false,
+    "overlap_with_lane_b_declared_paths": false
+  },
+  "next_action": "Create isolated branch, inspect current behavior/eval source, implement protocol/test-first, run CPU-only tests, then send exact head to Lane B for hostile review.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
