@@ -1,14 +1,15 @@
 {
   "schema": "V10R2_QWEN35_DEV_TRAINING_SPEC_V1",
   "date": "2026-10-04",
-  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "status": "PREREGISTERED_NO_EXECUTION_AUTHORITY",
   "authority": {
     "actor_id": "PATRICK_USER_AUTHORITY",
-    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
-    "scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "source": "COORDINATION_AND_PREREGISTRATION_ONLY",
+    "scope": "V10R3R1_PREREGISTRATION_ONLY",
     "paid_compute_authorized": false,
     "merge_authorized": false,
-    "deploy_activate_authorized": false
+    "deploy_activate_authorized": false,
+    "execution_authority_required": true
   },
   "source_subject": {
     "parent_revision": "37c58ec6dc0f8b2d1278a9120209198131746e88",
@@ -20,7 +21,7 @@
   "trainer": {
     "method": "QLORA_SFT_DEVELOPMENT",
     "seed": 20261001,
-    "learning_rate": 0.00002,
+    "learning_rate": 2e-05,
     "lr_scheduler_type": "cosine",
     "warmup_optimizer_steps": 0,
     "per_device_train_batch_size": 1,
@@ -56,7 +57,9 @@
     "task_type": "CAUSAL_LM"
   },
   "model_load": {
-    "device_map": {"": 0},
+    "device_map": {
+      "": 0
+    },
     "dtype": "bfloat16",
     "use_cache": false,
     "prepare_model_for_kbit_training_use_gradient_checkpointing": true

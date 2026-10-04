@@ -1,14 +1,16 @@
 {
   "schema": "V10R3R1_CONTINUOUS20_EXECUTABILITY_REPLICATION_PROTOCOL_V1",
   "date": "2026-10-04",
-  "status": "FROZEN_PRE_EXECUTION_PENDING_INDEPENDENT_HOSTILE_REVIEW",
+  "status": "PREREGISTERED_NO_EXECUTION_AUTHORITY",
   "purpose": "REPLICATE_EXACT_CONTINUOUS20_EXECUTABILITY_AFTER_SOURCE_BOUND_CUDA_OOM_WITHOUT_RETROACTIVELY_REPLACING_V10R3",
   "authority": {
-    "development_training_authorized": true,
+    "development_training_authorized": false,
     "authority_scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
-    "current_user_direction": "CONTINUE_LIVE_COORDINATION_WORK",
+    "current_user_direction": "RESUME_COORDINATION",
     "paid_compute_authorized": false,
-    "merge_deploy_activate_authorized": false
+    "merge_deploy_activate_authorized": false,
+    "execution_authority_required": true,
+    "current_authority": "COORDINATION_AND_PREREGISTRATION_ONLY"
   },
   "predecessor": {
     "original_experiment_status": "EXECUTION_HOLD_UNRESOLVED",
@@ -42,7 +44,7 @@
     "optimizer_steps": 20,
     "warmup_optimizer_steps": 0,
     "lr_scheduler_type": "cosine",
-    "learning_rate": 0.00002,
+    "learning_rate": 2e-05,
     "microbatch_size": 1,
     "gradient_accumulation_steps": 8,
     "max_length": 512,
