@@ -29,20 +29,12 @@ def test_durable_process_persists_subject_step_logs_and_exit(tmp_path: Path) -> 
 
     rc = run_durable_process(
         [
-            "--log-dir",
-            str(log_dir),
-            "--watch-seconds",
-            "0.04",
-            "--expected-optimizer-steps",
-            "20",
-            "--metadata-json",
-            json.dumps(metadata),
-            "--cwd",
-            str(tmp_path),
-            "--",
-            sys.executable,
-            "-c",
-            code,
+            "--log-dir", str(log_dir),
+            "--watch-seconds", "0.04",
+            "--expected-optimizer-steps", "20",
+            "--metadata-json", json.dumps(metadata),
+            "--cwd", str(tmp_path),
+            "--", sys.executable, "-c", code,
         ]
     )
 
@@ -72,10 +64,7 @@ def test_durable_process_persists_subject_step_logs_and_exit(tmp_path: Path) -> 
     assert final["stderr_bytes"] > 0
     assert watchdog
     assert all(row["pid"] == launch["pid"] for row in watchdog)
-    assert max(
-        row["latest_optimizer_step"] or 0
-        for row in watchdog
-    ) == 2
+    assert max(row["latest_optimizer_step"] or 0 for row in watchdog) == 2
 
 
 def test_durable_process_refuses_existing_log_namespace(tmp_path: Path) -> None:
@@ -85,12 +74,14 @@ def test_durable_process_refuses_existing_log_namespace(tmp_path: Path) -> None:
     with pytest.raises(DurableProcessHold, match="log namespace already exists"):
         run_durable_process(
             [
-                "--log-dir",
-                str(log_dir),
-                "--",
-                sys.executable,
-                "-c",
-                "print('x')",
+                "--log-dir", str(log_dir),
+                "--metadata-json", json.dumps({
+                    "repo_head": "a" * 40,
+                    "spec_path": "successor/experiments/example.json",
+                    "spec_sha256": "b" * 64,
+                    "runtime_binding_sha256": "c" * 64,
+                }),
+                "--", sys.executable, "-c", "print('x')",
             ]
         )
 
@@ -99,14 +90,9 @@ def test_durable_process_rejects_invalid_metadata_json(tmp_path: Path) -> None:
     with pytest.raises(DurableProcessHold, match="metadata json"):
         run_durable_process(
             [
-                "--log-dir",
-                str(tmp_path / "logs"),
-                "--metadata-json",
-                "[]",
-                "--",
-                sys.executable,
-                "-c",
-                "print('x')",
+                "--log-dir", str(tmp_path / "logs"),
+                "--metadata-json", "[]",
+                "--", sys.executable, "-c", "print('x')",
             ]
         )
 
@@ -128,18 +114,11 @@ def test_durable_process_reads_optimizer_progress_from_stderr(tmp_path: Path) ->
 
     rc = run_durable_process(
         [
-            "--log-dir",
-            str(log_dir),
-            "--watch-seconds",
-            "0.04",
-            "--expected-optimizer-steps",
-            "20",
-            "--metadata-json",
-            json.dumps(metadata),
-            "--",
-            sys.executable,
-            "-c",
-            code,
+            "--log-dir", str(log_dir),
+            "--watch-seconds", "0.04",
+            "--expected-optimizer-steps", "20",
+            "--metadata-json", json.dumps(metadata),
+            "--", sys.executable, "-c", code,
         ]
     )
 
@@ -157,13 +136,71 @@ def test_durable_process_requires_bound_launch_metadata(tmp_path: Path) -> None:
     with pytest.raises(DurableProcessHold, match="required metadata"):
         run_durable_process(
             [
-                "--log-dir",
-                str(tmp_path / "logs"),
-                "--metadata-json",
-                json.dumps(incomplete),
-                "--",
-                sys.executable,
-                "-c",
-                "print('x')",
+                "--log-dir", str(tmp_path / "logs"),
+                "--metadata-json", json.dumps(incomplete),
+                "--", sys.executable, "-c", "print('x')",
+            ]
+        )
+
+
+@pytest.mark.parametrize(
+    "missing_key",
+    ["repo_head", "spec_path", "spec_sha256", "runtime_binding_sha256"],
+)
+def test_durable_process_rejects_each_missing_metadata_key(
+    tmp_path: Path,
+    missing_key: str,
+) -> None:
+    metadata = {
+        "repo_head": "a" * 40,
+        "spec_path": "successor/experiments/example.json",
+        "spec_sha256": "b" * 64,
+        "runtime_binding_sha256": "c" * 64,
+    }
+    metadata.pop(missing_key)
+
+    with pytest.raises(DurableProcessHold, match="required metadata"):
+        run_durable_process(
+            [
+                "--log-dir", str(tmp_path / f"logs-{missing_key}"),
+                "--metadata-json", json.dumps(metadata),
+                "--", sys.executable, "-c", "print('x')",
+            ]
+        )
+
+
+@pytest.mark.parametrize(
+    ("key", "value", "message"),
+    [
+        ("repo_head", "f" * 39, "repo_head"),
+        ("repo_head", "g" * 40, "repo_head"),
+        ("spec_sha256", "a" * 63, "spec_sha256"),
+        ("spec_sha256", "g" * 64, "spec_sha256"),
+        ("runtime_binding_sha256", "a" * 63, "runtime_binding_sha256"),
+        ("runtime_binding_sha256", "g" * 64, "runtime_binding_sha256"),
+        ("spec_path", "../outside.json", "spec_path"),
+        ("spec_path", r"successor\experiments\example.json", "spec_path"),
+    ],
+)
+def test_durable_process_rejects_malformed_metadata(
+    tmp_path: Path,
+    key: str,
+    value: str,
+    message: str,
+) -> None:
+    metadata = {
+        "repo_head": "a" * 40,
+        "spec_path": "successor/experiments/example.json",
+        "spec_sha256": "b" * 64,
+        "runtime_binding_sha256": "c" * 64,
+    }
+    metadata[key] = value
+
+    with pytest.raises(DurableProcessHold, match=message):
+        run_durable_process(
+            [
+                "--log-dir", str(tmp_path / f"logs-{key}"),
+                "--metadata-json", json.dumps(metadata),
+                "--", sys.executable, "-c", "print('x')",
             ]
         )
