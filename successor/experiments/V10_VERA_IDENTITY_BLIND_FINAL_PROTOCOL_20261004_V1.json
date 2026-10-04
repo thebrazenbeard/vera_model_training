@@ -40,7 +40,15 @@
       "training_head",
       "frozen_at_utc",
       "post_freeze_tuning"
-    ]
+    ],
+    "nonce_claim_schema": "V10_VERA_IDENTITY_FINAL_NONCE_RECEIPT_V1",
+    "nonce_claim_actor_role": "INDEPENDENT_FINAL_CUSTODIAN",
+    "nonce_bytes": 32,
+    "one_shot_nonce_claim_required": true,
+    "training_lane_selects_nonce": false,
+    "retry_nonce_after_claim": false,
+    "partial_or_crashed_nonce_claim_counts_as_consumed": true,
+    "direct_raw_nonce_materialization_prohibited": true
   },
   "modes": {
     "primary": "NO_SYSTEM",
