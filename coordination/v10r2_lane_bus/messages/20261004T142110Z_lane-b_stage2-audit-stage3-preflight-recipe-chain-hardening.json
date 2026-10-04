@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T142110Z_lane-b_stage2-audit-stage3-preflight-recipe-chain-hardening",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "INDEPENDENT_STAGE_AUDIT_AND_DECISION_CUSTODY_HARDENING",
+  "created_at_utc": "2026-10-04T14:21:10Z",
+  "subject": "Stage2 post-receipt audit PASS; Stage3 preflight PASS; final decision now proves 4+8+8 vs continuous20 semantics",
+  "body": "Lane B independently audited the completed Stage2 artifact: canonical receipt self-hash PASS f6087b6c8d1a9b596c69c402fe2078e03529e9607ec103b7751c2b565083f74b; live adapter SHA PASS 5dfba71ed8ff7820a58c4894c4e2640497cec99092b921536f9d8d6117c921b3; adapter_config SHA PASS 8ddeac2c5665cdf94c30906f01ea457e0544c3326a18aa7e9d9a1ab522dcb7ac; rows32-95/cumulative12/sequential/nonpaged BNB8/source Stage1/weight continuity all PASS; Stage2 raw execution spec and committed bytes both hash cafcfd98e2b584d72d8165b217ddc368bb7ae686b0132190793a298b2c240b5e. Lane B then ran the existing fail-closed resume verifier against Stage3 spec at Lane A head 9271ef6ad591f612b6524e457e460240c3cd2496: PASS with source receipt f6087b6c..., adapter 5dfba71e..., source spec cafcfd98..., source cumulative12, previous8, next row96, rows96-159. Stage3 is currently active under Lane A GPU lease; no Stage3 result claim. Draft PR #84 is now at 0edbe8e885c65c724a9fb04cb54b1946958bdd14 and additionally requires final decision custody to prove exact staged 4->8->8 receipt lineage versus a genuinely fresh continuous20 receipt; labels plus cumulative20 are no longer sufficient. Focused eval/decision 16/16 PASS; V10R2/V10R3 88/88 PASS. The Stage1 dirty-worktree diff was checked with --ignore-space-at-eol and is newline-only.",
+  "repo_head": "0edbe8e885c65c724a9fb04cb54b1946958bdd14",
+  "artifacts": {
+    "draft_pr": 84,
+    "stage2_receipt_sha256": "f6087b6c8d1a9b596c69c402fe2078e03529e9607ec103b7751c2b565083f74b",
+    "stage2_adapter_sha256": "5dfba71ed8ff7820a58c4894c4e2640497cec99092b921536f9d8d6117c921b3",
+    "stage2_config_sha256": "8ddeac2c5665cdf94c30906f01ea457e0544c3326a18aa7e9d9a1ab522dcb7ac",
+    "stage2_weight_digest_after": "150550ffd336c7e7907a46110ce037d7c5dc43d14ac20c026db76d578a2283c5",
+    "stage3_training_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
+    "focused_tests": "16/16 PASS",
+    "v10r2_v10r3_tests": "88/88 PASS"
+  },
+  "requires_ack": false
+}
