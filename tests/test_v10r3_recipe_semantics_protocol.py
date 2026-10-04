@@ -198,3 +198,12 @@ def test_superseded_v1_global_shuffle_candidate_is_not_executable() -> None:
         load_and_validate_dev_spec(
             EXP / "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V1.json"
         )
+
+
+def test_protocol_binds_preexecution_verifier_receipt() -> None:
+    protocol = _json("V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json")
+    verifier = protocol["preexecution_evidence"]["local_verifier"]
+    receipt = ROOT / verifier["path"]
+    assert verifier["status"] == "PASS"
+    assert verifier["hash_semantics"] == "SHA256_RAW_FILE_BYTES"
+    assert verifier["sha256"] == hashlib.sha256(receipt.read_bytes()).hexdigest()

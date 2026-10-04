@@ -38,7 +38,7 @@
     "quantization": "NF4_DOUBLE_QUANT_BF16",
     "lora": "R4_ALPHA16_DROPOUT0_ALL_LINEAR",
     "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
-    "order_manifest_sha256": "8cd3b69d29871b9f4a302d4af5c299755ed73b05c23a1f71582074236606b942",
+    "order_manifest_sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
     "record_ids_serialization": "NEWLINE_UTF8_FINAL_LF"
   },
   "control": {
@@ -101,17 +101,29 @@
   "scope_limit": "Answers staged-boundary-vs-continuous small-scale semantics only. Does NOT validate warmup3, 6250-step scale, final bank, or full-run authority.",
   "claim_ceiling": "DEVELOPMENT_RECIPE_SEMANTICS_ONLY_NOT_FINAL_BANK_NOT_FULL_RUN_AUTHORITY",
   "preexecution_evidence": {
-    "relevant_tests": "40/40 PASS",
+    "relevant_tests": "75/75 PASS",
     "local_verifier": {
-      "path": "successor/experiments/receipts/V10R3_RECIPE_SEMANTICS_PREEXECUTION_VERIFICATION_20261004_V2.json",
-      "sha256": "51d6607e8dbdebf00a8fcf53d358182001b366749745565a10a9316ed58da143",
+      "path": "successor/experiments/receipts/V10R3_RECIPE_SEMANTICS_PREEXECUTION_VERIFICATION_20261004_V3.json",
+      "sha256": "200ff2b4bbf3994c35400929508762ce53a38657ef0dddc8bc13ebbae9da0032",
       "status": "PASS",
       "verified_train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
       "verified_ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
-      "gpu_effect": "NONE"
+      "gpu_effect": "NONE",
+      "hash_semantics": "SHA256_RAW_FILE_BYTES"
     },
     "gpu_effect": "NONE",
-    "required_next": "LANE_A_HOSTILE_READONLY_ACK"
+    "required_next": "LANE_A_HOSTILE_READONLY_ACK_AFTER_EXACT_HEAD_PASS",
+    "runtime_a_verifier": {
+      "python": "3.12.10",
+      "status": "PASS",
+      "scope": "FAIL_CLOSED_PREEXECUTION_BINDING_VERIFICATION"
+    },
+    "broad_unit_regression": {
+      "python": "3.14.5",
+      "tests": "75/75 PASS",
+      "scope": "V10R2_V10R3_UNIT_TESTS",
+      "warning": "PYTEST_ASYNCIO_DEPRECATION_ONLY"
+    }
   },
   "initialization_equivalence_gate": {
     "required": true,
@@ -133,22 +145,22 @@
   "committed_file_bindings": {
     "control_stage1_spec": {
       "path": "successor/experiments/V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json",
-      "sha256": "30682efe3da214da9b546edf688beab7392c673c58f45c8b17b565f2986e5266",
+      "sha256": "fa0966be58f16d8a39143f2437949d1838456a5ec77d904d690191cb17690453",
       "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
     },
     "continuous20_spec": {
       "path": "successor/experiments/V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json",
-      "sha256": "5db3261e3a3dc0544e229401b3d72ee9b3eec40fb3b6f2eb3ecf221d64692bd5",
+      "sha256": "bda3c491db5e15aa4d0eabd9806776e27a46c33a884e35fad380613fa934a96d",
       "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
     },
     "order_manifest": {
       "path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
-      "sha256": "8cd3b69d29871b9f4a302d4af5c299755ed73b05c23a1f71582074236606b942",
+      "sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
       "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
     },
     "fresh_eval_panel": {
       "path": "successor/experiments/V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json",
-      "sha256": "cedf1677fafb353517cfdf0dc9c5b628614b693e11ef04e812db5aadae869d6a",
+      "sha256": "8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699",
       "record_ids_sha256": "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
       "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
     }

@@ -91,7 +91,7 @@
       "update_geometry_role": "DIAGNOSTIC_ONLY_NOT_GATE"
     },
     "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
-    "order_manifest_sha256": "8cd3b69d29871b9f4a302d4af5c299755ed73b05c23a1f71582074236606b942",
+    "order_manifest_sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
     "expected_initial_trainable_parameter_digest": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
     "initial_digest_source": {
       "path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-step4-20261003\\DEV_TRAINING_COMPLETE.json",
