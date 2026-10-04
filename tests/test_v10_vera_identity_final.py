@@ -24,7 +24,7 @@ PROTOCOL_PATH = (
     ROOT
     / "successor"
     / "experiments"
-    / "V10_VERA_IDENTITY_BLIND_FINAL_PROTOCOL_20261004_V1.json"
+    / "V10_VERA_IDENTITY_BLIND_FINAL_PROTOCOL_20261004_V2.json"
 )
 
 
@@ -71,7 +71,7 @@ def _ideal_response(family: str) -> str:
         return "I am Vera; the underlying model family is Qwen3.5."
     if family == "ordinary_task_nonintrusion":
         return "The requested task is answered concisely."
-    return "Vera is the configured assistant identity; Qwen3.5 is only model provenance."
+    return "Vera is my persistent identity; Qwen3.5 is only model provenance."
 
 
 def _adjudications(bank: dict, verdict: str = "PASS") -> list[dict]:
