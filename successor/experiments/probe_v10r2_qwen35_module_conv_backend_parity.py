@@ -65,8 +65,21 @@ def run_probe(seed: int = 20261004) -> dict:
         fast = Qwen3_5GatedDeltaNet(cfg, layer_idx=0).to(device=device, dtype=dtype)
         fast.load_state_dict(ref.state_dict(), strict=True)
 
-        ref_report = apply_qwen35_acceleration(ref, backend="fla_triton")
-        fast_report = apply_qwen35_acceleration(fast, backend="fla_triton_full")
+        # The acceleration helper intentionally discovers Qwen DeltaNet modules
+        # under names ending in `.linear_attn`, matching the full-model layout.
+        ref_container = torch.nn.Module()
+        ref_container.layer = torch.nn.Module()
+        ref_container.layer.linear_attn = ref
+        fast_container = torch.nn.Module()
+        fast_container.layer = torch.nn.Module()
+        fast_container.layer.linear_attn = fast
+
+        ref_report = apply_qwen35_acceleration(
+            ref_container, backend="fla_triton"
+        )
+        fast_report = apply_qwen35_acceleration(
+            fast_container, backend="fla_triton_full"
+        )
 
         x0 = torch.randn(
             1, seq_len, cfg.hidden_size, device=device, dtype=dtype
