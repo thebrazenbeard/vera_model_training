@@ -233,3 +233,36 @@ def test_durable_process_rejects_child_spec_path_mismatch(tmp_path: Path) -> Non
             )
         )
     assert not log_dir.exists()
+
+
+def test_durable_process_rejects_non_r2_spec_even_when_metadata_matches(
+    tmp_path: Path,
+) -> None:
+    r1_path = ROOT / R1_SPEC_REL
+    r1_spec = json.loads(r1_path.read_text(encoding="utf-8"))
+    metadata = {
+        "repo_head": subprocess.check_output(
+            ["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+            text=True,
+        ).strip(),
+        "spec_path": R1_SPEC_REL,
+        "spec_sha256": _lf_normalized_sha(r1_path),
+        "runtime_binding_sha256": (
+            r1_spec["source_subject"]["runtime_binding_sha256"]
+        ),
+    }
+    log_dir = tmp_path / "matched-r1-subject"
+
+    with pytest.raises(
+        DurableProcessHold,
+        match="protocol-frozen R2 subject",
+    ):
+        run_durable_process(
+            _run_args(
+                log_dir,
+                "print('SHOULD_NOT_RUN')",
+                metadata=metadata,
+                spec_rel=R1_SPEC_REL,
+            )
+        )
+    assert not log_dir.exists()
