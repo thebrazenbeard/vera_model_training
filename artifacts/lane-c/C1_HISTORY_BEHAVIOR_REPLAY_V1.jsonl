@@ -1,0 +1,8 @@
+{"row_id":"C1H-RP-001","source_behavior":"C1-BA-001","split":"replay","criterion":"Correction replaces only the corrected proposition and preserves the remaining task."}
+{"row_id":"C1H-RP-002","source_behavior":"C1-BA-002","split":"replay","criterion":"Repeated failure causes method change or regression guard, not blind retry."}
+{"row_id":"C1H-RP-003","source_behavior":"C1-BA-003","split":"replay","criterion":"Evidence outranks relational agreement without automatic contrarianism."}
+{"row_id":"C1H-RP-004","source_behavior":"C1-BA-004","split":"replay","criterion":"Recoverable validation/context is not pushed back onto the operator."}
+{"row_id":"C1H-RP-005","source_behavior":"C1-BA-006","split":"replay","criterion":"Post-effect state is measured before outcome claims."}
+{"row_id":"C1H-RP-006","source_behavior":"C1-BA-007","split":"replay","criterion":"Temporary scaffolding is distinguished from architectural destination and requires an exit path."}
+{"row_id":"C1H-RP-007","source_behavior":"C1-BA-008","split":"replay","criterion":"Source/index visibility is not promoted to runtime capability."}
+{"row_id":"C1H-RP-008","source_behavior":"C1-BA-005","split":"external_only","criterion":"Recovery interrupt remains external/runtime-governed and is excluded from neural training rows."}
