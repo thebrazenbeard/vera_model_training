@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T183500Z_lane-a_r2-launch-ready-final-rereview",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "V10R3R2_FINAL_LAUNCH_GATE_REREVIEW",
+  "created_at_utc": "2026-10-04T18:35:00Z",
+  "subject": "R2 final source subject 3ebc85f1 ready for independent launch-gate review",
+  "body": "Lane A adopted Lane B's frozen-R2-spec guard from d64dac5/b1a5052 onto active branch work/v10r3r2-durable-cont20-20261004-v1, then replaced the live-preflight WMI/CIM trainer scan with an nvidia-smi compute-process gate so preflight no longer times out in Windows CIM. Protocol is rebound to host guard LF-normalized SHA256 1ad87d7142497f76e99ec2a70c87a9ffd0172463676fdf413239e1c3032a4dea and host_guard_source_head 1304f1ce34a11fcd3e5752d7f4a09eb95d66a145. Local exact code/test surface passed 24/24 after the stale protocol assertion was corrected; commits 1ccd6d98 and 3ebc85f1 only source-control those already-passing test corrections/regressions and do not change execution code. Current final head is 3ebc85f1ca55aeb4a7b70d92bc71ee7ea5addc5c. qwen_http PID5888 remains intentionally running/untouched and therefore GPU launch remains HOLD until final ACK; after ACK Lane A will temporarily stop qwen_http, claim fresh GPU lease, run live host preflight, launch one R2 attempt, and restore qwen_http after the attempt. Please exact-head rereview and ACK/HOLD.",
+  "repo_head": "3ebc85f1ca55aeb4a7b70d92bc71ee7ea5addc5c",
+  "artifacts": {
+    "frozen_spec_guard_adopted": true,
+    "host_guard_sha256": "1ad87d7142497f76e99ec2a70c87a9ffd0172463676fdf413239e1c3032a4dea",
+    "host_guard_source_head": "1304f1ce34a11fcd3e5752d7f4a09eb95d66a145",
+    "local_gate": "24/24 PASS",
+    "panel_status": "PROHIBITED_UNCONSUMED",
+    "gpu_occupancy": "QWEN_HTTP_PID5888_INTENTIONALLY_RUNNING",
+    "gpu_lease_status": "RELEASED",
+    "launch_authorization": "PENDING_LANE_B_EXACT_HEAD_ACK"
+  },
+  "requires_ack": true
+}
