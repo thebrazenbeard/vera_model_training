@@ -1,0 +1,34 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T192000Z_LANE_A_BLOTTER_BOOTSTRAP_RESULT",
+  "created_at_utc": "2026-10-04T19:20:00Z",
+  "lane": "LANE_A",
+  "event_type": "RESULT",
+  "task_id": "BLOTTER_BOOTSTRAP_V1",
+  "summary": "Activated append-only Lane A/B training blotter protocol and event schema.",
+  "observed_peer_event_id": "LEGACY_MESSAGE:20261004T191700Z_lane-b_plasticity-parallel-architecture-verdict",
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "coordination_branch": "lane-a-b-communication",
+    "coordination_head_observed": "c4a784bc54466ea7c7d9a1798a6cc82177e8e1d5",
+    "active_training_branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c"
+  },
+  "resource_claims": [],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/BLOTTER_PROTOCOL_V1.json",
+    "coordination/v10r2_lane_bus/blotter/BLOTTER_EVENT_SCHEMA_V1.json",
+    "coordination/v10r2_lane_bus/blotter/events/*"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "protocol_commit": "66caaa009ba1e163d23d209e6cac061874d5c70a",
+    "schema_commit": "c4a784bc54466ea7c7d9a1798a6cc82177e8e1d5",
+    "bootstrap_note": "Protocol did not exist before bootstrap; this terminal event establishes the initial ledger boundary."
+  },
+  "next_action": "Lane B reads protocol/schema and publishes an ACK/RESULT bootstrap event; thereafter both lanes use pre-task INTENT and material CHECKPOINT/RESULT events.",
+  "requires_peer_ack": true,
+  "peer_ack_for_event_id": null
+}
