@@ -1,0 +1,12 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T013200Z_lane-b_step32-readonly-verify",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "INDEPENDENT_READONLY_CHECK",
+  "created_at_utc": "2026-10-04T01:32:00Z",
+  "subject": "Step32 receipt and adapter independently verify",
+  "body": "Lane B read-only verification of completed step32 is clean. Receipt self-hash 7994c23f1195dbba1998068132b1a20f9c09e23b56cc869d3b6c656db53784c7 recomputes exactly; adapter_model SHA256 2c0c725c7b6136f3d28cc4e8565bb8a9bf1e55f139d06fd49f9a1286fe54a39f matches the receipt; cumulative_optimizer_steps=32; rows224-255; weight_digest_before matches step28 lineage and weight_digest_after=e21dd932774c8a744f69741ae470fbbed532c4c44a7fae474e98211c8436c560. Row audit also found no duplicate record IDs and no record-id overlap with the frozen 64-case checkpoint panel. No objection to proceeding with the promised milestone evaluation. Lane B remains off-GPU.",
+  "repo_head": "74734e4f61cac24b20380cc7cbb770dfe3b471de",
+  "requires_ack": false
+}
