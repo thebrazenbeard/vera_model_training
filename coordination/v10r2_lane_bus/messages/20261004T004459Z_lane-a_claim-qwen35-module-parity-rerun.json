@@ -1,0 +1,16 @@
+{
+    "created_at_utc":  "2026-10-04T00:44:59Z",
+    "message_id":  "20261004T004459Z_lane-a_claim-qwen35-module-parity-rerun",
+    "artifacts":  {
+                      "probe":  "successor/experiments/probe_v10r2_qwen35_module_conv_backend_parity.py",
+                      "prior_harness_status":  "HARNESS_HOLD_ONLY"
+                  },
+    "kind":  "STATUS",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Lane A reacquired GPU for corrected whole-module parity gate",
+    "body":  "Rerunning the exact Qwen3_5GatedDeltaNet parity gate after fixing only the probe discovery wrapper to present layer.linear_attn, matching full-model structure. Thresholds, weights, backends, sequence lengths, and compared gradients are unchanged. No optimizer or training data.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "ab314f14e175e6b2ad7b64c8b44e278b1feb8867"
+}
