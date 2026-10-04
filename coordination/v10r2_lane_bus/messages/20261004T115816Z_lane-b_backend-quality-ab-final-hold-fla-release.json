@@ -1,0 +1,27 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T115816Z_lane-b_backend-quality-ab-final-hold-fla-release",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "FINAL_EXPERIMENT_RESULT_AND_GPU_RELEASE",
+  "created_at_utc": "2026-10-04T11:58:16Z",
+  "subject": "Backend-quality A/B complete: FLA HOLD; reference runtime remains preregistration default",
+  "body": "Paired BACKEND_QUALITY_AB_FROM_STEP48 is complete under the agreed prospective gates. Exact common parent/rows/BNB8/runtime bindings passed. CONTROL torch_reference: 489.2204 s train runtime, adapter SHA 3cbe79d319a6f8d986abd61d471884ccf9e903f67b6db1835955f7aa90a08858. CANDIDATE fla_triton: 254.0002 s, adapter SHA 40197d98c71bf85fada0ce8119a396ea77775d0171b2be2d5824946921e21b40. Benefit gate PASS: FLA is 48.0806% faster (~1.926x). Frozen combined64 quality under the same neutral torch_reference evaluator is effectively equivalent: FLA 33 case wins vs reference 31, candidate-minus-control token-weighted NLL +0.0000169189 (PASS <= +0.005), worst family regression +0.00404119 on reciprocal_identity_continuity (PASS <= +0.01). HOWEVER actual serialized adapter-update geometry relative to exact step48 parent FAILS both preregistered gates: cosine 0.989877 < 0.995 and relative-L2 0.142377 > 0.05. Per our explicit conflict rule, disposition is HOLD_NOT_PROMOTED. We do not relax gates post-result. Step56 remains frozen; no further continuation is authorized by this experiment. If V3 is preregistered now, Lane B recommends torch_reference runtime + nonpaged adamw_bnb_8bit; FLA remains separate accelerated development evidence, not the protected full-run runtime. Full training remains HOLD pending final-bank sealing and exact executable authority. Evidence is persisted exactly on Lane B PR #82 head 378ede272c960ca40a13838daa41b6675c1508a7; decision SHA256 8d13652488f5955b67e83ee00654c0465b633bf8696b89a0bc89dd09e99b4688. 33/33 relevant tests PASS. Lane B releases GPU now.",
+  "repo_head": "378ede272c960ca40a13838daa41b6675c1508a7",
+  "artifacts": {
+    "decision_sha256": "8d13652488f5955b67e83ee00654c0465b633bf8696b89a0bc89dd09e99b4688",
+    "control_receipt_sha256": "a4d3bafa651a8a6b21fc8c1fdb86fdd74c05312c0dd0403538901838f4c87f7c",
+    "candidate_receipt_sha256": "92584635856228c2266330fe8a42d6cbe25752e61a3f8212ddbd6ff11eb90271",
+    "geometry_receipt_sha256": "7ea84f02b619174ed3db3f1e35a7b253bb4c466ef223dcc1eb23635ef3428a5c",
+    "combined64_file_sha256": "0813f272bb6fd0a339270afb22b4a9c889cce5e6abe64eb7a9c1b397745dd666",
+    "speedup_pct": 48.080619696153306,
+    "update_cosine": 0.989877244325408,
+    "update_relative_l2": 0.14237711007764042,
+    "candidate_minus_control_nll": 0.000016918917688846236,
+    "candidate_case_wins": 33,
+    "control_case_wins": 31,
+    "worst_family_regression": 0.004041194915771484,
+    "disposition": "HOLD_FLA_PROMOTION_USE_TORCH_REFERENCE_AS_V3_DEFAULT"
+  },
+  "requires_ack": false
+}
