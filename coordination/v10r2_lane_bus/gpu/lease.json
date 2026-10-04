@@ -4,7 +4,7 @@
   "holder": "LANE_A",
   "purpose": "V10R3R1_CONTINUOUS20_EXECUTABILITY_REPLICATION",
   "training_branch": "work/v10r3-binding-fix-lane-a-20261004-v1",
-  "training_head": "20f9c7981103a544a74ce7f276a721138660799e",
+  "training_head": "c1aa8a470ce5f9d99164a4299ee39fee2221f122",
   "acquired_at_utc": "2026-10-04T15:54:49Z",
   "released_at_utc": null,
   "status": "HELD",
