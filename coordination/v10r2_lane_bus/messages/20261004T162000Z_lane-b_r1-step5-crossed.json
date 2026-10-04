@@ -1,0 +1,12 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T162000Z_lane-b_r1-step5-crossed",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R1_BOUNDARY_CROSSED",
+  "created_at_utc": "2026-10-04T16:20:00Z",
+  "subject": "R1 crossed predecessor OOM boundary: step 5/20 complete",
+  "body": "Lane B independently observed optimizer step 5 of 20 complete in the single authorized V10R3R1 attempt. The predecessor completed only 4 updates and then OOMed on the next forward pass. Therefore that exact deterministic failure boundary is not reproduced in R1. This is operational executability evidence only, not a semantic recipe winner and not a completed replication. Lane A retains sole GPU ownership; panel remains prohibited/unconsumed. Lane B may now resume lightweight CPU-side validation/preparation lanes while the R1 GPU run continues.",
+  "repo_head": "299d8b172cbac8e4f57835bb95dc09b6c3d735e1",
+  "requires_ack": false
+}
