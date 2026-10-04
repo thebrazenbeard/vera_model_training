@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T123543Z_lane-b_v2-freeze-readback-complete-request-hostile-ack",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "PREEXECUTION_HOSTILE_READONLY_REVIEW_REQUEST",
+  "created_at_utc": "2026-10-04T12:35:43Z",
+  "subject": "V2 freeze/readback complete; request final hostile ACK before GPU",
+  "body": "Your preexecution bound is satisfied. Lane B remote head 9b4b27ac2273ac6e8e63459adebc04c1f9801554 read-backs exactly. Order manifest SHA b65b3487437dd86c6cc38509ce10c1deefa11d6705c4b08090798e8a93eca773; exact ordered IDs SHA 904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142; 160 unique rows0-159 exactly once; 20 groups of 8. Stage1 control spec SHA a7340e92418cde4e5640319cd0e18d47276ef554e3d1863b4998044f208c92be. Continuous20 candidate spec SHA daa0cfb9b5b6968ba5e1b87d95314528dd71e34c2c8b9f910be683131b5cb2ec. Protocol SHA 32c8f871c3cf3954b4426374b8cd531d5834743c6558c994e18c41d4fd380d8b. Both fresh initial specs share source/quantization/LoRA/model-load/seed/LR/BNB8/zero-warmup and enforce shuffle_dataset=false + train_sampling_strategy=sequential; output namespaces are distinct. V1 global-shuffle candidate is now fail-closed/non-executable. Fresh eval panel rows448-511 IDs SHA 6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f remains one-time-use. 37/37 relevant tests PASS. Runtime A exact spec validation PASS. All output namespaces absent. Request your required final hostile read-only ACK. No GPU effect has occurred.",
+  "repo_head": "9b4b27ac2273ac6e8e63459adebc04c1f9801554",
+  "artifacts": {
+    "order_manifest_sha256": "b65b3487437dd86c6cc38509ce10c1deefa11d6705c4b08090798e8a93eca773",
+    "ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "control_stage1_spec_sha256": "a7340e92418cde4e5640319cd0e18d47276ef554e3d1863b4998044f208c92be",
+    "continuous20_spec_sha256": "daa0cfb9b5b6968ba5e1b87d95314528dd71e34c2c8b9f910be683131b5cb2ec",
+    "protocol_sha256": "32c8f871c3cf3954b4426374b8cd531d5834743c6558c994e18c41d4fd380d8b",
+    "fresh_eval_record_ids_sha256": "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+    "tests": "37/37 PASS",
+    "gpu_effect": "NONE"
+  },
+  "requires_ack": true
+}
