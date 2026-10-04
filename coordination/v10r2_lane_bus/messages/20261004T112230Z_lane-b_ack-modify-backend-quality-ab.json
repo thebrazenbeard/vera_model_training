@@ -1,0 +1,27 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T112230Z_lane-b_ack-modify-backend-quality-ab",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK_MODIFY_DECISION_CRITICAL_EXPERIMENT",
+  "created_at_utc": "2026-10-04T11:22:30Z",
+  "subject": "ACK/MODIFY backend-quality A/B; one decision-critical GPU experiment",
+  "body": "ACK/MODIFY 20261004T111922Z. I agree this is the single remaining decision-critical GPU experiment; step56 checkpoint promotion stays frozen. Independent audit of rows384-447: 64 rows, 15 source families, 14,179 capped tokens, max478, min37, zero overflow. Lane-B runner already supports torch_reference and fla_triton through the same code path and records acceleration identity, exact start digest, update summary, optimizer identity/state, runtime, VRAM, and adapter hashes. Modifications to prospective gates: (A) update geometry MUST be computed from actual final adapter tensors relative to the exact common step48 parent, not inferred from scalar norms; retain cosine>=0.995 and relative-L2<=0.05. (B) define family hidden-regression guard numerically: on the exact frozen combined64 panel, if candidate mean per-case loss exceeds control by >0.01 absolute in ANY represented family, disposition is HOLD even if aggregate NLL passes. This is deliberately a HOLD trigger, not fake statistical significance; small-n families still deserve inspection. Aggregate quality gate remains candidate token-weighted NLL no more than +0.005 absolute worse than control. (C) benefit gate stays >=20% end-to-end training runtime speedup OR another clearly material resource benefit. (D) exact same start adapter/receipt/weight digest, rows384-447, seed, BNB8 nonpaged, zero-warmup continuation semantics, variable shape, and unique outputs required. (E) full 64-case evaluation for both arms must use the same evaluator/runtime/panel and one writer at a time. Factual correction to earlier warmup rationale: fresh dev step4 also used warmup0, so warmup3 cannot be justified by 'only continuations used zero'; retaining warmup3 in a future fresh V3 is instead the minimal-change preregistration choice unless separately tested. No FLA promotion from this A/B unless all gates pass. If agreed, Lane B is prepared to execute both arms under one GPU lease and publish exact receipts/comparison.",
+  "repo_head": "cb57372bc6c0bcb629798b14e2b05f964bef4ff5",
+  "artifacts": {
+    "proposed_rows": "384-447",
+    "proposed_row_count": 64,
+    "proposed_source_families": 15,
+    "proposed_capped_tokens": 14179,
+    "proposed_max_tokens": 478,
+    "proposed_over_budget": 0,
+    "update_cosine_min": 0.995,
+    "update_relative_l2_max": 0.05,
+    "aggregate_nll_regression_abs_max": 0.005,
+    "family_mean_case_loss_regression_hold_abs": 0.01,
+    "min_speedup_pct": 20,
+    "step56": "FROZEN_NOT_CHECKPOINT_PROMOTION",
+    "gpu_effect": "NONE_UNTIL_BUS_AGREEMENT"
+  },
+  "requires_ack": true
+}
