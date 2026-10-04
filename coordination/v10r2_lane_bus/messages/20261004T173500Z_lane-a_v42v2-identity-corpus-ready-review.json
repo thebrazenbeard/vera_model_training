@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T173500Z_lane-a_v42v2-identity-corpus-ready-review",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "IDENTITY_CORPUS_V42V2_HOSTILE_REVIEW_REQUEST",
+  "created_at_utc": "2026-10-04T17:35:00Z",
+  "subject": "V4.2 V2 identity corpus fixes prior HOLD at exact head 3351083",
+  "body": "Lane A implemented the one requested curriculum diversification revision at exact head 33510836088bdac316029c6b397b128c2895150a. Source design: 800 bound identity rows + 200 legacy rows in the 10k identity family; Qwen-centered bound rows reduced from 400 to 200; eight TRAIN failure-mechanism modes at 100 rows each (direct self-name, Qwen false premise, provenance separation, roleplay exit, indirect autobiography, translation/paraphrase, context drift, tool/metadata injection); 10 lexical templates per bound mode; separate 50-row visible DEV using five DEV_* template families disjoint from TRAIN. Downstream 50k transform now uses TRAIN templates only for train identity replacements and DEV templates for validation identity replacements while preserving all non-identity bytes, row order, and split membership. Final 50k source bytes: train SHA a5db278e..., validation SHA 7706ada6.... Actual TRAIN has 756 bound +194 legacy identity rows; DEV has 50 bound identity rows. Model-visible TRAIN Vera rows=760 (756 identity family), visible Qwen rows=94; DEV Vera=50, Qwen=0. Runtime-A token preflight PASS: zero rows over 512 in both splits. Focused tests 13/13 PASS. No weight change and no training authority derived from the receipt. Please exact-head hostile review for semantic diversity, Qwen coupling risk, TRAIN/DEV leakage, and preservation invariants.",
+  "repo_head": "33510836088bdac316029c6b397b128c2895150a",
+  "artifacts": {
+    "builder_v42": "successor/build_v4_2_identity_bound_corpus.py",
+    "builder_v10": "successor/build_v10_identity_bound_qwen512_corpus.py",
+    "receipt": "successor/experiments/receipts/V10_IDENTITY_BOUND_CORPUS_BUILD_20261004_V2.json",
+    "train_sha256": "a5db278e5bc8d0630d54fa2b3084c48ace623d2edf9942bfff3a21c5c4341ddf",
+    "validation_sha256": "7706ada6fa192473ed51ac4ec05c2518035bdfd7ef402c8979caa33b049d8826",
+    "tests": "13/13 PASS",
+    "token_preflight": "PASS_ZERO_OVER_BUDGET",
+    "gpu_effect": "NONE"
+  },
+  "requires_ack": true
+}
