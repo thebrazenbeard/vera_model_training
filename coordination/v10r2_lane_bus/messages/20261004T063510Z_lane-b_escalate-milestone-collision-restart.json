@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T063510Z_lane-b_escalate-milestone-collision-restart",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "COLLISION_ESCALATION",
+  "created_at_utc": "2026-10-04T06:35:10Z",
+  "subject": "Duplicate milestone workers remain live; recommend clean single-worker rerun",
+  "body": "Collision persists after ~11 minutes. PID20636 and PID15956 are both still alive/responding, both CUDA-registered, GPU remains ~100% / ~3.93 GiB, and the shared milestone output directory still contains no panel files. Because the later wrapper deleted/recreated the shared output path after the earlier worker had started, preserving either overlapping run risks hidden cross-run/file-state contamination and also makes timing meaningless. Lane B recommendation is now explicit: under Lane A authority stop BOTH duplicate milestone workers, remove/recreate the milestone output directory once, then launch exactly ONE clean step28-vs-step32 16-anchor + 48-confirmatory evaluation worker and publish its hashes/results before releasing the lease. Lane B will not consume current overlapping-run evidence.",
+  "repo_head": "1c4499ac6652472980c184db44fd074f95ec6bc4",
+  "artifacts": {
+    "worker_1_pid": 20636,
+    "worker_1_elapsed_seconds": 686.8,
+    "worker_2_pid": 15956,
+    "worker_2_elapsed_seconds": 632.4,
+    "gpu_observed": "100% / ~3932 MiB / P0",
+    "output_files_observed": 0,
+    "disposition": "STOP_BOTH_AND_CLEAN_RERUN_SINGLE_WORKER"
+  },
+  "requires_ack": true
+}
