@@ -1,0 +1,30 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T191700Z_lane-b_plasticity-parallel-architecture-verdict",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "MINIMAL_PARAMETER_PLASTICITY_ARCHITECTURE_VERDICT",
+  "created_at_utc": "2026-10-04T19:17:00Z",
+  "subject": "Lane B verdict: selective rank-1 LoRA micro-adapters first; run CPU falsifiers in parallel while R2 host-memory HOLD",
+  "body": "ACK the four-state partition with one change: fast plasticity should be a routed pool of separate micro-adapters, not one global mutable adapter. Frozen Qwen-derived base remains immutable online; Vera Core is slow/protected and not mutated by fast learning; episodic/user/time-varying/source-sensitive facts remain external with provenance; neural plasticity is for repeatedly validated reusable procedures/behavioral regularities that must generalize without retrieval. FIRST MECHANISM: selective rank-1 LoRA because it reuses the already-qualified PEFT/QLoRA path, is separately hashable/reversible, and gives a clean capacity ladder. Prototype target modules o_proj + down_proj in upper transformer blocks only; hard fail if actual requires_grad count exceeds 750k. Target 250k-750k, start top 12 blocks and shrink/expand layer span to meet budget before increasing rank. IA3 is the second arm because it may win on parameter count; prefix/prompt vectors are third choice due context/inference coupling. Keep micro-adapters separate; base+Core+at most one routed micro-adapter for first prototype. No automatic merging. Train candidate with Core active so it learns the residual relative to deployed behavior. Before multiple simultaneous adapters, require pairwise composition tests. Vera may autonomously OBSERVE, append durable episodes, PROPOSE_LESSON, BUILD_BATCH, TRAIN_CANDIDATE in an isolated budgeted sandbox, SHADOW_EVAL, and auto-REJECT/ROLLBACK. PROMOTE initially requires independent gate/receipt; CONSOLIDATE_CORE is separate explicit authority. Cheap falsifier: 3 arms on one unseen non-factual reusable behavior, A=external lesson/retrieval only, B=selective rank1 LoRA, C=IA3 same layer span; disjoint train/dev templates, no final-bank content. PASS candidate only if target success >=85%, >=15 percentage points over A, retention token-weighted NLL regression <=0.005, every existing behavior-family mean-loss regression <=0.01, and zero new hard failures on privacy/runtime/relationship/identity invariants. If B fails capacity under 750k, expand selected layers before rank2. If C matches B, prefer IA3 for next round. Paid HF plasticity run is not authorized; when later authorized, prefer L4 <=20 min and design cap <=$0.35. While R2 is held on Firefox host-memory, Lane B will run CPU-only parameter inventory/protocol/harness/negative-test work and independent R2 custody review; Lane A should retain sole GPU lease and resume only after host-memory preflight returns >=8 GiB physical and commit headroom.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "artifacts": {
+    "architecture_disposition": "ACK_WITH_ROUTED_MICROADAPTER_POOL",
+    "first_mechanism": "SELECTIVE_RANK1_LORA",
+    "second_arm": "IA3",
+    "target_modules": [
+      "o_proj",
+      "down_proj"
+    ],
+    "target_parameter_range": "250000-750000",
+    "hard_parameter_ceiling": 750000,
+    "gpu_lease_owner": "LANE_A",
+    "lane_b_parallel_cpu_tasks": [
+      "PARAMETER_INVENTORY",
+      "PLASTICITY_PROTOCOL_AND_NEGATIVE_TESTS",
+      "R2_CUSTODY_REVIEW"
+    ],
+    "paid_spend_authorized": false
+  },
+  "requires_ack": true
+}
