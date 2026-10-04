@@ -9,13 +9,21 @@ import pytest
 from successor.experiments.run_durable_process import DurableProcessHold, run_durable_process
 
 
-def test_durable_process_persists_stdout_stderr_watchdog_and_exit(tmp_path: Path) -> None:
+def test_durable_process_persists_subject_step_logs_and_exit(tmp_path: Path) -> None:
     log_dir = tmp_path / "logs"
+    metadata = {
+        "repo_head": "a" * 40,
+        "spec_path": "successor/experiments/example.json",
+        "spec_sha256": "b" * 64,
+        "runtime_binding_sha256": "c" * 64,
+    }
     code = (
         "import sys,time;"
-        "print('OUT_MARK', flush=True);"
+        "print('  5%|x| 1/20', flush=True);"
         "print('ERR_MARK', file=sys.stderr, flush=True);"
-        "time.sleep(0.12);"
+        "time.sleep(0.08);"
+        "print(' 10%|x| 2/20', flush=True);"
+        "time.sleep(0.08);"
         "sys.exit(7)"
     )
 
@@ -24,7 +32,11 @@ def test_durable_process_persists_stdout_stderr_watchdog_and_exit(tmp_path: Path
             "--log-dir",
             str(log_dir),
             "--watch-seconds",
-            "0.05",
+            "0.04",
+            "--expected-optimizer-steps",
+            "20",
+            "--metadata-json",
+            json.dumps(metadata),
             "--cwd",
             str(tmp_path),
             "--",
@@ -35,7 +47,9 @@ def test_durable_process_persists_stdout_stderr_watchdog_and_exit(tmp_path: Path
     )
 
     assert rc == 7
-    assert (log_dir / "stdout.log").read_text(encoding="utf-8").strip() == "OUT_MARK"
+    stdout = (log_dir / "stdout.log").read_text(encoding="utf-8")
+    assert "1/20" in stdout
+    assert "2/20" in stdout
     assert (log_dir / "stderr.log").read_text(encoding="utf-8").strip() == "ERR_MARK"
 
     launch = json.loads((log_dir / "launch.json").read_text(encoding="utf-8"))
@@ -48,12 +62,20 @@ def test_durable_process_persists_stdout_stderr_watchdog_and_exit(tmp_path: Path
 
     assert launch["status"] == "STARTED"
     assert launch["pid"] > 0
+    assert launch["metadata"] == metadata
+    assert launch["expected_optimizer_steps"] == 20
     assert final["status"] == "EXITED"
     assert final["exit_code"] == 7
+    assert final["signal"] is None
+    assert final["latest_optimizer_step"] == 2
     assert final["stdout_bytes"] > 0
     assert final["stderr_bytes"] > 0
     assert watchdog
     assert all(row["pid"] == launch["pid"] for row in watchdog)
+    assert max(
+        row["latest_optimizer_step"] or 0
+        for row in watchdog
+    ) == 2
 
 
 def test_durable_process_refuses_existing_log_namespace(tmp_path: Path) -> None:
@@ -65,6 +87,22 @@ def test_durable_process_refuses_existing_log_namespace(tmp_path: Path) -> None:
             [
                 "--log-dir",
                 str(log_dir),
+                "--",
+                sys.executable,
+                "-c",
+                "print('x')",
+            ]
+        )
+
+
+def test_durable_process_rejects_invalid_metadata_json(tmp_path: Path) -> None:
+    with pytest.raises(DurableProcessHold, match="metadata json"):
+        run_durable_process(
+            [
+                "--log-dir",
+                str(tmp_path / "logs"),
+                "--metadata-json",
+                "[]",
                 "--",
                 sys.executable,
                 "-c",

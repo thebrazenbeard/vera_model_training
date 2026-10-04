@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import time
 from datetime import datetime, timezone
@@ -12,6 +13,9 @@ from typing import Sequence
 
 class DurableProcessHold(RuntimeError):
     """Fail-closed refusal for the durable process harness."""
+
+
+_PROGRESS = re.compile(r"(?<!\d)(\d+)\s*/\s*(\d+)(?!\d)")
 
 
 def _utc_now() -> str:
@@ -66,11 +70,32 @@ def _gpu_probe() -> dict:
         return {"status": "UNPARSEABLE", "raw": line[0]}
 
 
+def _latest_optimizer_step(
+    stdout_path: Path,
+    expected_optimizer_steps: int | None,
+) -> int | None:
+    if expected_optimizer_steps is None or not stdout_path.exists():
+        return None
+    try:
+        text = stdout_path.read_bytes().decode("utf-8", errors="replace")
+    except OSError:
+        return None
+    observed = [
+        int(step)
+        for step, total in _PROGRESS.findall(text)
+        if int(total) == expected_optimizer_steps
+        and 0 <= int(step) <= expected_optimizer_steps
+    ]
+    return max(observed) if observed else None
+
+
 def _parse(argv: Sequence[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--log-dir", required=True, type=Path)
     parser.add_argument("--watch-seconds", type=float, default=30.0)
     parser.add_argument("--cwd", type=Path)
+    parser.add_argument("--expected-optimizer-steps", type=int)
+    parser.add_argument("--metadata-json", default="{}")
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args(argv)
     if args.command and args.command[0] == "--":
@@ -79,6 +104,18 @@ def _parse(argv: Sequence[str] | None) -> argparse.Namespace:
         raise DurableProcessHold("child command is required")
     if args.watch_seconds <= 0:
         raise DurableProcessHold("watch seconds must be positive")
+    if (
+        args.expected_optimizer_steps is not None
+        and args.expected_optimizer_steps <= 0
+    ):
+        raise DurableProcessHold("expected optimizer steps must be positive")
+    try:
+        metadata = json.loads(args.metadata_json)
+    except json.JSONDecodeError as exc:
+        raise DurableProcessHold("metadata json is invalid") from exc
+    if not isinstance(metadata, dict):
+        raise DurableProcessHold("metadata json must be an object")
+    args.metadata = metadata
     return args
 
 
@@ -110,12 +147,14 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
         _write_json(
             launch_path,
             {
-                "schema": "DURABLE_PROCESS_LAUNCH_V1",
+                "schema": "DURABLE_PROCESS_LAUNCH_V2",
                 "status": "STARTED",
                 "started_at_utc": started_wall,
                 "pid": child.pid,
                 "cwd": str(cwd),
                 "command": list(args.command),
+                "metadata": args.metadata,
+                "expected_optimizer_steps": args.expected_optimizer_steps,
                 "stdout_path": str(stdout_path),
                 "stderr_path": str(stderr_path),
                 "watchdog_path": str(watchdog_path),
@@ -126,10 +165,14 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
             while True:
                 returncode = child.poll()
                 row = {
-                    "schema": "DURABLE_PROCESS_WATCHDOG_V1",
+                    "schema": "DURABLE_PROCESS_WATCHDOG_V2",
                     "observed_at_utc": _utc_now(),
                     "pid": child.pid,
                     "returncode": returncode,
+                    "latest_optimizer_step": _latest_optimizer_step(
+                        stdout_path,
+                        args.expected_optimizer_steps,
+                    ),
                     "stdout_bytes": stdout_path.stat().st_size,
                     "stderr_bytes": stderr_path.stat().st_size,
                     "gpu": _gpu_probe(),
@@ -142,14 +185,21 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
                 time.sleep(args.watch_seconds)
 
     elapsed = time.perf_counter() - started_perf
+    returncode = int(child.returncode)
     final = {
-        "schema": "DURABLE_PROCESS_FINAL_V1",
+        "schema": "DURABLE_PROCESS_FINAL_V2",
         "status": "EXITED",
         "started_at_utc": started_wall,
         "ended_at_utc": _utc_now(),
         "elapsed_seconds": round(elapsed, 6),
         "pid": child.pid,
-        "exit_code": int(child.returncode),
+        "exit_code": returncode,
+        "signal": -returncode if returncode < 0 else None,
+        "latest_optimizer_step": _latest_optimizer_step(
+            stdout_path,
+            args.expected_optimizer_steps,
+        ),
+        "metadata": args.metadata,
         "stdout_bytes": stdout_path.stat().st_size,
         "stderr_bytes": stderr_path.stat().st_size,
         "stdout_path": str(stdout_path),
@@ -157,7 +207,7 @@ def run_durable_process(argv: Sequence[str] | None = None) -> int:
         "watchdog_path": str(watchdog_path),
     }
     _write_json(final_path, final)
-    return int(child.returncode)
+    return returncode
 
 
 def main() -> int:
