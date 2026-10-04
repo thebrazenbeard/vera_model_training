@@ -20,7 +20,7 @@
   "trainer": {
     "method": "QLORA_SFT_DEVELOPMENT",
     "seed": 20261001,
-    "learning_rate": 0.00002,
+    "learning_rate": 2e-05,
     "lr_scheduler_type": "cosine",
     "warmup_optimizer_steps": 0,
     "per_device_train_batch_size": 1,
@@ -89,6 +89,14 @@
       "optimizer_steps": 8
     },
     "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
-    "order_manifest_sha256": "129572aef614e921c92161d9874e9cecdbf40bfbb0de073221562cd09e6172dc"
+    "order_manifest_sha256": "8cd3b69d29871b9f4a302d4af5c299755ed73b05c23a1f71582074236606b942",
+    "expected_initial_trainable_parameter_digest": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+    "initial_digest_source": {
+      "path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-step4-20261003\\DEV_TRAINING_COMPLETE.json",
+      "receipt_sha256": "8c02cad57d1ec6f89139623310d9de8a0ac13a484701e5a371a868a0baa3bc38",
+      "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+      "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+      "reason": "Observed prior fresh LoRA initialization under same base/runtime/seed/QLoRA topology; train ordering occurs after initialization."
+    }
   }
 }
