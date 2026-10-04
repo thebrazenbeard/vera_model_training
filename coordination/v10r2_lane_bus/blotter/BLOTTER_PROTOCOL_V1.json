@@ -1,26 +1,32 @@
 {
   "schema": "VERA_LANE_BLOTTER_PROTOCOL_V1",
   "status": "ACTIVE",
-  "purpose": "Append-only live coordination ledger for Lane A and Lane B training work.",
+  "purpose": "Append-only live coordination ledger for Lane A, Lane B, and Lane C training work.",
   "branch": "lane-a-b-communication",
   "event_directory": "coordination/v10r2_lane_bus/blotter/events",
-  "participants": ["LANE_A", "LANE_B"],
+  "participants": [
+    "LANE_A",
+    "LANE_B",
+    "LANE_C"
+  ],
   "rules": {
     "before_every_new_task": [
-      "Fresh-read the latest peer blotter event(s).",
+      "Fresh-read the latest blotter event from each other active lane.",
       "Fresh-read coordination/v10r2_lane_bus/gpu/lease.json.",
       "Fresh-read the exact source branch/head the task will use.",
+      "Fresh-read the relevant canonical bus head for any peer lane whose work the task depends on.",
       "Check declared peer resource claims and intended write paths for overlap.",
-      "Publish an INTENT event containing the observed peer event, lease SHA, source head, scope, resource claims, and write paths before material execution."
+      "Publish an INTENT event containing the observed peer event IDs, lease SHA, source head, scope, resource claims, write paths, and review owner before material execution."
     ],
     "during_task": [
       "Publish a CHECKPOINT after every material state transition: source write/commit, process launch/kill, GPU or cloud resource change, test/eval completion or failure, artifact/receipt creation, or newly discovered HOLD condition.",
-      "Before starting a second task, repeat the full pre-task read/verify sequence even if the first task is still running.",
+      "Before starting a second task, repeat the full pre-task read/verify sequence even if another task is still running.",
+      "Each lane must re-read both other lanes before beginning a new task; no lane may rely on conversation memory as current coordination state.",
       "Do not silently reuse stale peer state from conversation memory."
     ],
     "after_task": [
       "Publish RESULT, HOLD, or CANCEL with exact subject head, artifacts/hashes where available, tests/evidence, effects performed, and remaining next action.",
-      "Peer must fresh-read the terminal event before beginning any task that depends on its result."
+      "Dependent lanes must fresh-read the terminal event before beginning work that consumes its result."
     ],
     "peer_ack_required_before_execution": [
       "GPU launch or GPU process stop/start affecting shared runtime.",
@@ -38,7 +44,26 @@
     ],
     "conflict_rule": "On conflict, ambiguity, stale source, stale lease, or missing required ACK, publish HOLD and do not execute the conflicting effect.",
     "append_only_rule": "Never rewrite another lane's historical event. Corrections are new CORRECTION events referencing the superseded event_id.",
-    "no_background_claim_rule": "A lane may only claim RUNNING when an actual process/task has been launched and can be read back. Conversation intent is not execution evidence."
+    "no_background_claim_rule": "A lane may only claim RUNNING when an actual process/task has been launched and can be read back. Conversation intent is not execution evidence.",
+    "review_owner_defaults": {
+      "LANE_A": "LANE_B",
+      "LANE_B": "LANE_A",
+      "LANE_C": "LANE_B"
+    },
+    "lane_role_defaults": {
+      "LANE_A": "EXECUTION_INTEGRATION_AND_SHARED_RESOURCE_OWNER",
+      "LANE_B": "INDEPENDENT_SYSTEMS_ARCHITECT_AND_HOSTILE_REVIEWER",
+      "LANE_C": "BEHAVIOR_CONTINUITY_AND_LEARNING_MECHANISMS_EXPERIMENTAL_LANE"
+    },
+    "lane_c_default_prohibitions": [
+      "No shared GPU lease or shared GPU process changes.",
+      "No paid cloud compute.",
+      "No protected/final evaluation banks or one-time panels.",
+      "No merge, deployment, activation, credentials, or provider/runtime configuration.",
+      "No overlapping writes to active Lane A/B branches or worktrees.",
+      "No Vera Core/base consolidation or automatic adapter merge.",
+      "No destructive cleanup or deletion of evidence."
+    ]
   },
   "event_types": [
     "INTENT",
@@ -77,5 +102,5 @@
     "evidence",
     "next_action"
   ],
-  "claim_boundary": "This blotter coordinates work. It does not authorize paid compute, merges, deployment, activation, protected evaluation consumption, or destructive effects."
+  "claim_boundary": "This blotter coordinates A/B/C work. It does not authorize paid compute, merges, deployment, activation, protected evaluation consumption, destructive effects, or shared-resource use beyond current user authority."
 }
