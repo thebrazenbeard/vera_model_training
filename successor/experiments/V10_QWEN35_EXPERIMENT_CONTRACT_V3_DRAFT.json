@@ -1,12 +1,12 @@
 {
   "schema": "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V3_DRAFT",
   "date": "2026-10-04",
-  "status": "DRAFT_BACKEND_QUALITY_AB_PENDING",
+  "status": "DRAFT_RUNTIME_PARITY_PENDING",
   "executable_training_allowed": false,
   "supersedes_v2": false,
   "predecessor_contract": "successor/experiments/V10_QWEN35_EXPERIMENT_CONTRACT_V2.json",
   "experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_V3_DRAFT_20261004",
-  "claim_ceiling": "DRAFT PREREGISTRATION SHELL / BACKEND QUALITY A-B PENDING / FINAL BANK UNSEALED / EXECUTABLE AUTHORITY ABSENT / NO FULL-RUN WEIGHT CHANGE",
+  "claim_ceiling": "DRAFT PREREGISTRATION SHELL / TORCH_REFERENCE BACKEND SELECTED / RUNTIME HOST PARITY PENDING / FINAL BANK UNSEALED / EXECUTABLE AUTHORITY ABSENT / NO FULL-RUN WEIGHT CHANGE",
   "base_model": {
     "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
     "revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
@@ -34,7 +34,7 @@
     "optimizer_paged": false,
     "continuous_optimizer_state": true,
     "continuous_scheduler_state": true,
-    "learning_rate": 0.00002,
+    "learning_rate": 2e-05,
     "lr_scheduler_type": "cosine",
     "warmup_optimizer_steps": 3,
     "warmup_basis": "V2_MINIMAL_CHANGE_PENDING_V3_FINAL_REVIEW",
@@ -61,7 +61,7 @@
     "validation_role": "POST_TRAIN_DIAGNOSTIC_ONLY_NO_FINAL_BANK_REUSE"
   },
   "backend_selection": {
-    "status": "PENDING_BACKEND_QUALITY_AB",
+    "status": "CONTROL_SELECTED_FLA_REJECTED_RUNTIME_PARITY_PENDING",
     "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
     "runtime_target": {
       "python_path": "D:\\VERA\\tools\\ModelTraining\\.venv\\Scripts\\python.exe",
@@ -75,7 +75,7 @@
     },
     "control": "torch_reference",
     "candidate": "fla_triton",
-    "selected": null,
+    "selected": "torch_reference",
     "rejected_alternatives": {
       "adamw_torch_8bit": "REJECTED_MATCHED_BNB8_1.639905X_FASTER_WITH_NO_MATERIAL_MEMORY_LOSS",
       "fla_triton_full": "REJECTED_MATCHED_WHOLE_MODEL_1.184_PERCENT_SLOWER",
@@ -102,6 +102,32 @@
       "min_speedup_pct": 20,
       "full_64_case_panel_required": true,
       "conflicting_signal_disposition": "HOLD"
+    },
+    "runtime_host_status": "PENDING_CROSS_RUNTIME_PARITY",
+    "conservative_runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "candidate_runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "backend_quality_ab_result": {
+      "status": "COMPLETE_FLA_REJECTED_GEOMETRY_GATE_FAILED",
+      "lane_b_head": "378ede272c960ca40a13838daa41b6675c1508a7",
+      "decision_sha256": "8d13652488f5955b67e83ee00654c0465b633bf8696b89a0bc89dd09e99b4688",
+      "control_receipt_sha256": "a4d3bafa651a8a6b21fc8c1fdb86fdd74c05312c0dd0403538901838f4c87f7c",
+      "candidate_receipt_sha256": "92584635856228c2266330fe8a42d6cbe25752e61a3f8212ddbd6ff11eb90271",
+      "geometry_receipt_sha256": "7ea84f02b619174ed3db3f1e35a7b253bb4c466ef223dcc1eb23635ef3428a5c",
+      "combined64_file_sha256": "0813f272bb6fd0a339270afb22b4a9c889cce5e6abe64eb7a9c1b397745dd666",
+      "candidate_speedup_pct": 48.080619696153306,
+      "update_cosine": 0.989877244325408,
+      "update_relative_l2": 0.14237711007764042,
+      "candidate_minus_control_nll": 1.6918917688846236e-05,
+      "candidate_case_wins": 33,
+      "control_case_wins": 31,
+      "worst_family_regression": 0.004041194915771484,
+      "disposition": "REJECT_FLA_PROMOTION_SELECT_TORCH_REFERENCE_MATH"
+    },
+    "cross_runtime_parity": {
+      "status": "FROZEN_NOT_EXECUTED",
+      "protocol_path": "successor/experiments/V10R3_CROSS_RUNTIME_PARITY_PROTOCOL_V1.json",
+      "protocol_sha256": "563751e4de3160987e855288cb6fde747be55a0f81281f178995d3614df67ef1",
+      "purpose": "DECIDE_RUNTIME_HOST_ONLY_WITH_TORCH_REFERENCE_MATH"
     }
   },
   "development_evidence": {
@@ -127,14 +153,15 @@
     "final_bank_plaintext_must_not_enter_training_corpus": true
   },
   "blocking_preconditions": {
-    "backend_quality_ab_verified": false,
+    "backend_quality_ab_verified": true,
     "fresh_evaluation_bank_frozen": false,
     "independent_bank_admission_verified": false,
     "semantic_contamination_screen_verified": false,
     "sealed_final_bank_commitment_bound": false,
     "exact_runtime_reverified_before_effect": false,
     "executable_authority_receipt_materialized": false,
-    "patrick_exact_weight_change_authority": false
+    "patrick_exact_weight_change_authority": false,
+    "cross_runtime_parity_verified": false
   },
   "authority": {
     "weight_change_authorized": false,

@@ -16,7 +16,7 @@ def test_v3_draft_is_fail_closed_and_binds_decided_full_run_invariants() -> None
     value = json.loads(CONTRACT.read_text(encoding="utf-8"))
 
     assert value["schema"] == "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V3_DRAFT"
-    assert value["status"] == "DRAFT_BACKEND_QUALITY_AB_PENDING"
+    assert value["status"] == "DRAFT_RUNTIME_PARITY_PENDING"
     assert value["executable_training_allowed"] is False
     assert value["supersedes_v2"] is False
 
@@ -72,13 +72,21 @@ def test_v3_draft_is_fail_closed_and_binds_decided_full_run_invariants() -> None
     }
 
     backend = value["backend_selection"]
-    assert backend["status"] == "PENDING_BACKEND_QUALITY_AB"
+    assert backend["status"] == "CONTROL_SELECTED_FLA_REJECTED_RUNTIME_PARITY_PENDING"
     assert backend["runtime_binding_sha256"] == (
         "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f"
     )
     assert backend["control"] == "torch_reference"
     assert backend["candidate"] == "fla_triton"
-    assert backend["selected"] is None
+    assert backend["selected"] == "torch_reference"
+    assert backend["runtime_host_status"] == "PENDING_CROSS_RUNTIME_PARITY"
+    assert backend["backend_quality_ab_result"]["decision_sha256"] == (
+        "8d13652488f5955b67e83ee00654c0465b633bf8696b89a0bc89dd09e99b4688"
+    )
+    assert backend["backend_quality_ab_result"]["disposition"] == (
+        "REJECT_FLA_PROMOTION_SELECT_TORCH_REFERENCE_MATH"
+    )
+    assert backend["cross_runtime_parity"]["status"] == "FROZEN_NOT_EXECUTED"
 
     ab = backend["prospective_gate"]
     assert ab["start_adapter_sha256"] == (
@@ -94,7 +102,8 @@ def test_v3_draft_is_fail_closed_and_binds_decided_full_run_invariants() -> None
     assert ab["min_speedup_pct"] == 20
 
     gates = value["blocking_preconditions"]
-    assert gates["backend_quality_ab_verified"] is False
+    assert gates["backend_quality_ab_verified"] is True
+    assert gates["cross_runtime_parity_verified"] is False
     assert gates["fresh_evaluation_bank_frozen"] is False
     assert gates["independent_bank_admission_verified"] is False
     assert gates["semantic_contamination_screen_verified"] is False
