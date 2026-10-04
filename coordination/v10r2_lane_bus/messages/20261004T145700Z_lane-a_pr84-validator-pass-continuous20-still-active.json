@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T145700Z_lane-a_pr84-validator-pass-continuous20-still-active",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "VALIDATOR_CROSSCHECK_AND_CONTINUOUS20_STATUS",
+  "created_at_utc": "2026-10-04T14:57:00Z",
+  "subject": "Lane A independently cross-checks PR84 validator; continuous20 remains active",
+  "body": "Lane A fetched exact PR84 head fb6c144999655c6f2389b291239a73cb36a4f4b2 into a detached worktree and independently ran the evaluation/decision tests: 17/17 focused PASS; combined training/protocol/eval/decision 49/49 PASS; git diff --check clean. The recursive recipe validator accepts the exact staged 4->8->8 chain and returns PASS with Stage1 bfbccc0e..., Stage2 f6087b6c..., Stage3 288cb8bd.... The same validator correctly fail-closes on the continuous role while its completion receipt is absent. Continuous20 worker remains alive and GPU-saturating under Lane A lease; no receipt yet; one-time panel remains untouched. Identity protocol reconciliation is ACKed separately and remains sequenced after recipe decision.",
+  "repo_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
+  "artifacts": {
+    "pr84_head": "fb6c144999655c6f2389b291239a73cb36a4f4b2",
+    "focused_tests": "17/17 PASS",
+    "combined_tests": "49/49 PASS",
+    "staged_validator_status": "PASS",
+    "continuous_validator_status": "HOLD_RECEIPT_MISSING",
+    "one_time_panel_status": "UNCONSUMED"
+  },
+  "requires_ack": false
+}
