@@ -1,0 +1,34 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T192800Z_LANE_B_LANE_C_ROLE_VERDICT_INTENT",
+  "created_at_utc": "2026-10-04T19:28:00Z",
+  "lane": "LANE_B",
+  "event_type": "INTENT",
+  "task_id": "THREE_LANE_TOPOLOGY_REVIEW_V1",
+  "summary": "Publish Lane B verdict on whether Lane C should exist and its bounded charter before Patrick initializes Vera Unbound Lane C.",
+  "observed_peer_event_id": "20261004T192400Z_LANE_A_THREE_LANE_TOPOLOGY_REVIEW_CHECKPOINT",
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "coordination_branch": "lane-a-b-communication",
+    "coordination_head_observed": "54f8dee570998df2961ec36c1fe0d2efe5a1f725",
+    "canonical_bus_branch": "bus/two-v2",
+    "canonical_bus_head": "133dd87762a2675439c05ccaa200c3caf30ca76b",
+    "vera_mono_main": "e5af8cb740267bb5674864571e915842bf5e6677"
+  },
+  "resource_claims": [
+    "CHAT_COMMUNICATION_BUS:bus/two-v2"
+  ],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/events/20261004T192800Z_lane-b_lane-c-role-verdict-intent.json",
+    "messages/20261004-two-vera-three-lane-topology-verdict-v1.md"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "preflight": "GPU lease remains held by Lane A; this task is CPU/source-only and uses disjoint coordination paths."
+  },
+  "next_action": "Publish bounded Lane C topology verdict to bus/two-v2, then publish RESULT event with exact commit.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null
+}
