@@ -1,0 +1,65 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T215353Z_LANE_A_A3_HF_Q1_REPAIR_RESULT",
+  "created_at_utc": "2026-10-04T21:53:53Z",
+  "lane": "LANE_A",
+  "event_type": "RESULT",
+  "task_id": "A3_HF_Q1_PACKAGE_REPAIR_V2",
+  "summary": "Lane A repaired the no-spend HF Q1 dry-run package at exact head 3263ed74137a9b27e28747bc1d170504d8dc8981: omitted frozen R2 semantics are carried, environment/training/cost receipt contracts are explicit and fail-closed, device-map variance requires recording, and live-rate budget validation holds when worst-case timeout cost exceeds cap.",
+  "observed_peer_event_id": "20261004T211500Z_LANE_B_C_DERIVATIVE_REVIEW_HOLD",
+  "observed_peer_event_ids": [
+    "20261004T211500Z_LANE_B_C_DERIVATIVE_REVIEW_HOLD",
+    "20261004T214500Z_LANE_C_NOVEL_TASK_RESULT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "predecessor_branch": "work/v10-hf-q1-package-lane-a-20261004-v1",
+    "predecessor_head": "1b1e1ad9ea5ed42308460d9bf84c112144affed0",
+    "branch": "work/v10-hf-q1-package-lane-a-20261004-v2",
+    "head": "3263ed74137a9b27e28747bc1d170504d8dc8981",
+    "lane_b_review_event": "20261004T205600Z_LANE_B_A3_HF_Q1_REVIEW_RESULT"
+  },
+  "resource_claims": [
+    "CPU_SOURCE_ONLY",
+    "NO_GPU",
+    "NO_NETWORK_LAUNCH",
+    "NO_PAID_COMPUTE",
+    "NO_PROTECTED_EVAL"
+  ],
+  "write_paths": [
+    "work/v10-hf-q1-package-lane-a-20261004-v2:successor/experiments/V10_HF_Q1_R2_CLOUD_PROTOCOL_20261004_V1.json",
+    "work/v10-hf-q1-package-lane-a-20261004-v2:successor/experiments/run_v10_hf_q1.py",
+    "work/v10-hf-q1-package-lane-a-20261004-v2:tests/test_v10_hf_q1_package.py",
+    "coordination/v10r2_lane_bus/blotter/events/20261004T215353Z_lane-a_a3-hf-q1-repair-result.json"
+  ],
+  "effects": [
+    "source_write_or_commit",
+    "test_or_eval_completion",
+    "task_terminal_state"
+  ],
+  "evidence": {
+    "tdd_red_1": "4 failed, 7 passed: omitted R2 semantics, receipt contract, live-rate guard, plan exposure",
+    "tdd_red_2": "3 failed, 11 passed: validator accepted missing/tampered receipt/preflight/device-map policy",
+    "tdd_red_3": "1 failed: device_map absent from allowed_variance",
+    "exact_head_verification": "14 passed, 1 pytest-asyncio deprecation warning; git diff --check PASS; planner CLI emitted DRY_RUN_ONLY plan",
+    "remote_branch_readback": "3263ed74137a9b27e28747bc1d170504d8dc8981",
+    "restored_r2_semantics": [
+      "gradient_checkpointing_use_reentrant=false",
+      "lora.bias=none",
+      "lora.task_type=CAUSAL_LM",
+      "model_load.dtype=bfloat16",
+      "model_load.use_cache=false",
+      "prepare_model_for_kbit_training_use_gradient_checkpointing=true"
+    ],
+    "dry_run_network_launch_present": false,
+    "paid_compute_authorized": false,
+    "hf_job_launch_authorized": false,
+    "private_training_data_staged": false,
+    "protected_eval_consumed": false,
+    "overlap_reconciliation": "Earlier 20261004T214000Z A3 intent produced no distinct remote A3 repair branch and no live A3 runner worker at readback; this result binds only the exact remote V2 head above."
+  },
+  "next_action": "Lane B hostile-reviews exact head 3263ed74137a9b27e28747bc1d170504d8dc8981. No paid HF launch or private staging is authorized. Any future launcher must separately bind live rate, budget cap, exact staged 160-row shard/hash/order, environment receipts, and current explicit spend/job authority.",
+  "requires_peer_ack": true,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
