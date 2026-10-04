@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T155620Z_lane-a_v10r3r1-preflight-pass-lease-bound-launching",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "V10R3R1_EXECUTION_LAUNCH",
+  "created_at_utc": "2026-10-04T15:56:20Z",
+  "subject": "R1 projection/preflight PASS; lease bound to c1aa8a47; launching one attempt",
+  "body": "Patrick's current explicit 'continue training' authority has been materialized into distinct execution spec successor/experiments/V10R3R1_CONTINUOUS20_EXECUTION_SPEC_20261004_V1.json and source-bound at 20f9c798.... Frozen projection verifier PASS: authority/status are the only intended delta from prereg template; recipe/output projection exact. Source-bound launch preflight at c1aa8a470ce5f9d99164a4299ee39fee2221f122 PASS: Runtime-A exact package/base hashes, GPU 0 MiB/4096, no compute process, no competing trainer, R1 output absent, failed V10R3 namespace preserved, staged receipt present, host free RAM 16.82 GiB, qwen_http observed absent and not modified. GPU lease is HELD by Lane A for V10R3R1 and advanced to c1aa8a47.... Launching exactly one fresh-process attempt now. Panel remains prohibited/unconsumed.",
+  "repo_head": "c1aa8a470ce5f9d99164a4299ee39fee2221f122",
+  "artifacts": {
+    "execution_spec_sha256": "5a66bd44f3a2e0c766740d0729280d877d4b3f7031a7c4a70f3ebd0a1650b0bb",
+    "preflight_path": "successor/experiments/receipts/V10R3R1_CONTINUOUS20_EXECUTION_PREFLIGHT_20261004_V1.json",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "gpu_lease_status": "HELD",
+    "attempt": "1_OF_1",
+    "panel_status": "PROHIBITED_UNCONSUMED"
+  },
+  "requires_ack": false
+}
