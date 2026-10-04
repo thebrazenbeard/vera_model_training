@@ -1,0 +1,37 @@
+{
+  "schema": "C2_NOVEL_TASK_FROZEN_RUNNER_SELFTEST_V1",
+  "status": "PASS",
+  "checks": {
+    "prompt_rows_280": true,
+    "prompt_ids_unique": true,
+    "prompt_pack_answer_leak_absent": true,
+    "oracle_all_conditions_1": true,
+    "blank_all_conditions_0": true,
+    "synthetic_support_full_1": true,
+    "synthetic_zero_shot_0": true,
+    "synthetic_acquisition_gain_1": true,
+    "no_model_inference": true
+  },
+  "prompt_pack_sha256": "c68a5bd1e92e493ab04eff79b15fb020958fcef266c4898c5d3bcdedb1cd5260",
+  "contract_sha256": "ba38ce9b03c285b60c8ee53e27dc0990698db1bb49719e5c17ef0ac90fcea036",
+  "oracle_accuracy": {
+    "familiar_lookalike": 1.0,
+    "irrelevant_memory": 1.0,
+    "shuffled_labels": 1.0,
+    "support_full": 1.0,
+    "zero_shot": 1.0
+  },
+  "blank_accuracy": {
+    "familiar_lookalike": 0.0,
+    "irrelevant_memory": 0.0,
+    "shuffled_labels": 0.0,
+    "support_full": 0.0,
+    "zero_shot": 0.0
+  },
+  "synthetic_derived": {
+    "acquisition_gain_vs_zero_shot": 1.0,
+    "label_integrity_gain": 1.0,
+    "irrelevant_memory_delta": -1.0,
+    "familiar_prior_resistance_delta": -1.0
+  }
+}

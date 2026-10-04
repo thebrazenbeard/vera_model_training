@@ -1,0 +1,47 @@
+{
+  "schema": "C2_NOVEL_TASK_SCORING_CONTRACT_V1",
+  "bank_sha256": "37a5b719a6b099e656030a238c18d85ecdbf89cdc67a9346d5d2f271c165dee4",
+  "prompt_pack_sha256": "c68a5bd1e92e493ab04eff79b15fb020958fcef266c4898c5d3bcdedb1cd5260",
+  "episodes": 56,
+  "conditions": [
+    "zero_shot",
+    "support_full",
+    "shuffled_labels",
+    "irrelevant_memory",
+    "familiar_lookalike"
+  ],
+  "prompts": 280,
+  "prediction_schema": {
+    "prompt_id": "string",
+    "prediction": "string"
+  },
+  "answer_key_in_prompt_pack": false,
+  "score_rules": {
+    "answer_match": "whitespace-normalized exact match",
+    "missing_prediction": "incorrect and uncovered",
+    "duplicate_prediction": "reported; last value scored",
+    "unknown_prompt_id": "reported and excluded",
+    "required_reporting": [
+      "accuracy",
+      "coverage",
+      "family",
+      "condition"
+    ]
+  },
+  "derived_metrics": {
+    "acquisition_gain_vs_zero_shot": "support_full - zero_shot",
+    "label_integrity_gain": "support_full - shuffled_labels",
+    "irrelevant_memory_delta": "irrelevant_memory - support_full",
+    "familiar_prior_resistance_delta": "familiar_lookalike - support_full"
+  },
+  "interpretation_guardrails": [
+    "High support_full accuracy alone does not establish novel-task learning.",
+    "A genuine acquisition signal requires gain over zero_shot and sensitivity to corrupted demonstrations.",
+    "A familiar-lookalike cue must not improve performance by replacing demonstration evidence with pretrained priors.",
+    "Open-bank performance is prototype evidence only and is not canonical qualification."
+  ],
+  "model_inference_performed": false,
+  "gpu_used": false,
+  "weights_changed": false,
+  "protected_eval_consumed": false
+}
