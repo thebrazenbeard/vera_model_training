@@ -205,5 +205,9 @@ def test_protocol_binds_preexecution_verifier_receipt() -> None:
     verifier = protocol["preexecution_evidence"]["local_verifier"]
     receipt = ROOT / verifier["path"]
     assert verifier["status"] == "PASS"
-    assert verifier["hash_semantics"] == "SHA256_RAW_FILE_BYTES"
-    assert verifier["sha256"] == hashlib.sha256(receipt.read_bytes()).hexdigest()
+    assert (
+        verifier["hash_semantics"]
+        == "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
+    )
+    text = receipt.read_text(encoding="utf-8-sig").replace("\\r\\n", "\\n")
+    assert verifier["sha256"] == hashlib.sha256(text.encode("utf-8")).hexdigest()

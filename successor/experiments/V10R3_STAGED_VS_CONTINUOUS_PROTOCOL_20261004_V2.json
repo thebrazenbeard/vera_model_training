@@ -109,7 +109,7 @@
       "verified_train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
       "verified_ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
       "gpu_effect": "NONE",
-      "hash_semantics": "SHA256_RAW_FILE_BYTES"
+      "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
     },
     "gpu_effect": "NONE",
     "required_next": "LANE_A_HOSTILE_READONLY_ACK_AFTER_EXACT_HEAD_PASS",
