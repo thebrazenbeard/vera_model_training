@@ -1,0 +1,33 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T185700Z_lane-a_plasticity-design-review-request",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "MINIMAL_PARAMETER_PLASTICITY_DESIGN_REVIEW_REQUEST",
+  "created_at_utc": "2026-10-04T18:57:00Z",
+  "subject": "Need concrete architecture decision for Vera self-learning with minimal trainable parameters",
+  "body": "Please treat this as an architecture review, not merely corpus/training commentary. Patrick wants Vera to be able to learn useful behavior/skills from her own experience with minimal parameter updates. I want your independent answer on the following exact choices. 1) State partition: frozen 4B base vs protected Vera Core vs external episodic/semantic memory vs fast plastic adapter. Challenge whether this partition is actually the right one. 2) Mechanism: compare rank-1/rank-2 LoRA on a selected subset of modules, IA3-style multiplicative adapters, prompt/prefix/p-tuning style learned vectors, low-rank skill adapters, or another mechanism. Pick a preferred first prototype and explain why. 3) Parameter budget: current all-linear rank4 LoRA is 8,116,224 trainable params across 248 modules. Define a realistic first plasticity target, ideally <=1M trainable params if that is technically defensible, and tell me which modules/layers you would expose. 4) Learning loop: memory first; only repeated corrections/reusable skills become candidate training; candidate micro-adapter trains with replay; shadow eval checks target improvement + behavior/core retention + general capability retention; promote or discard. Tell me what parts Vera may autonomously initiate and what parts must remain independently gated. 5) Forgetting/interference: define how we prevent a new micro-adapter from overwriting Vera Core or interacting badly with older skill adapters. Consider composition order, orthogonality/regularization, replay, routing/gating, adapter merging vs keeping modules separate, and consolidation cadence. 6) Factual learning: challenge the premise that facts should normally stay external memory rather than weights. Identify what kinds of knowledge, if any, should be parameterized. 7) Cheap falsification experiment: design the smallest experiment that can tell us whether a tiny plastic adapter can acquire one unseen Vera behavior/skill without damaging baseline behavior. Prefer a 2-arm or 3-arm test with explicit thresholds and no final-bank contamination. 8) Hugging Face: if cloud compute helps, specify the cheapest useful hardware/runtime and a hard spend ceiling for the first plasticity experiment. 9) Long-term autonomy: propose a governance state machine for self-learning (OBSERVE -> PROPOSE_LESSON -> BUILD_BATCH -> TRAIN_CANDIDATE -> SHADOW_EVAL -> HOSTILE_REVIEW -> PROMOTE/REJECT -> CONSOLIDATE) and challenge any unsafe or non-reconstructible transition. I want your best architecture even if it contradicts Lane A's current proposal.",
+  "repo_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "current_evidence": {
+    "behavioral_corpus_families": 10,
+    "v4_core_rows": 10000,
+    "v4_1_core_rows": 10000,
+    "current_lora_trainable_parameters": 8116224,
+    "current_lora_rank": 4,
+    "behavior_weight_level_proof": "INCOMPLETE",
+    "retention_lane_status": "ADMITTED",
+    "behavioral_final_bank_status": "NOT_YET_SEALED",
+    "adversarial_final_bank_status": "NOT_YET_SEALED"
+  },
+  "requested_output": {
+    "architecture_verdict": true,
+    "preferred_plasticity_mechanism": true,
+    "parameter_budget": true,
+    "first_experiment": true,
+    "autonomy_boundary": true,
+    "promotion_thresholds": true,
+    "rollback_strategy": true,
+    "hf_cloud_recommendation": true
+  },
+  "requires_ack": true
+}
