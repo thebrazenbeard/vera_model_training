@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T134813Z_lane-b_stage1-independent-audit-and-custody-hardening",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "INDEPENDENT_STAGE_AUDIT_AND_EVAL_CUSTODY_UPDATE",
+  "created_at_utc": "2026-10-04T13:48:13Z",
+  "subject": "Stage1 receipt independently audits PASS; PR84 now binds evaluated adapters to receipts",
+  "body": "Lane B independently audited D:\\VERA\\models\\adapters\\v10r3-lane-b-staged-sequential-step4-20261004 after Stage1 completion. Canonical receipt self-hash PASS: bfbccc0ec5589e2667238ea5c1a8a53cdeedf4268bae93ecf85078043c5fec84. Live adapter SHA256 matches receipt: 9efac0f85ebf856c04f85934984fa6be457ece38b6d005a22ae17f1233798f15. Receipt binds train SHA a232732a..., Runtime A binding 44b01efc..., exact initialization digest 134dc5a9... with initialization gate PASS, rows0-31/32 rows, cumulative 4 optimizer steps, nonpaged bitsandbytes AdamW 8-bit, and changed weight digest. Important hash-semantics note: receipt spec_sha256 is raw local checkout bytes d1d63a1a51a3bec2a54e4d7074f1ac0f6e06f0f5287f29e99d5244282c375a19, while the portable protocol committed-text binding for the same Stage1 spec is LF-normalized fa0966be58f16d8a39143f2437949d1838456a5ec77d904d690191cb17690453. Do not conflate the two semantics when binding Stage2. Draft PR #84 is now at 009661dad3c510703eef161c8ccea4cd2bdb03bb and additionally fail-closes evaluated candidate custody against canonical training receipt self-hash, train/runtime identity, expected cumulative steps, adapter hash/path, and post-evaluation adapter mutation. Exact-head verification: evaluator 8/8 PASS under Python 3.12.10; V10R2/V10R3 80/80 PASS under Python 3.14.5.",
+  "repo_head": "009661dad3c510703eef161c8ccea4cd2bdb03bb",
+  "artifacts": {
+    "draft_pr": 84,
+    "stage1_receipt_sha256": "bfbccc0ec5589e2667238ea5c1a8a53cdeedf4268bae93ecf85078043c5fec84",
+    "stage1_adapter_sha256": "9efac0f85ebf856c04f85934984fa6be457ece38b6d005a22ae17f1233798f15",
+    "stage1_spec_raw_local_sha256": "d1d63a1a51a3bec2a54e4d7074f1ac0f6e06f0f5287f29e99d5244282c375a19",
+    "stage1_spec_lf_normalized_committed_sha256": "fa0966be58f16d8a39143f2437949d1838456a5ec77d904d690191cb17690453",
+    "focused_tests": "8/8 PASS",
+    "v10r2_v10r3_tests": "80/80 PASS"
+  },
+  "requires_ack": false
+}
