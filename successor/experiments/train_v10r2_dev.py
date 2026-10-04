@@ -35,6 +35,7 @@ ALLOWED_OPTIMIZERS = {
     "adamw_torch_8bit",
 }
 CLAIM_CEILING = "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
+RECIPE_SEMANTICS_CLASS = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
 
 
 def _canonical_sha(value: dict) -> str:
@@ -67,6 +68,7 @@ def effect_label(optimizer_name: str, steps: int) -> str:
         6: "SIX",
         7: "SEVEN",
         8: "EIGHT",
+        20: "TWENTY",
     }
     count = words.get(steps)
     if count is None:
@@ -129,7 +131,26 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
             + ", ".join(sorted(ALLOWED_OPTIMIZERS))
         )
     max_steps = trainer.get("max_optimizer_steps")
-    if not isinstance(max_steps, int) or max_steps < 1 or max_steps > 8:
+    experiment_class = value.get("experiment_class")
+    is_recipe_semantics = experiment_class == RECIPE_SEMANTICS_CLASS
+    if is_recipe_semantics:
+        if max_steps != 20:
+            raise DevTrainingHold(
+                "recipe-semantics experiment requires exactly 20 optimizer steps"
+            )
+        if optimizer_name != "adamw_bnb_8bit":
+            raise DevTrainingHold(
+                "recipe-semantics experiment requires adamw_bnb_8bit"
+            )
+        if trainer.get("warmup_optimizer_steps") != 0:
+            raise DevTrainingHold(
+                "recipe-semantics experiment requires zero warmup"
+            )
+        if trainer.get("lr_scheduler_type") != "cosine":
+            raise DevTrainingHold(
+                "recipe-semantics experiment requires cosine scheduler"
+            )
+    elif not isinstance(max_steps, int) or max_steps < 1 or max_steps > 8:
         raise DevTrainingHold(
             "development optimizer steps must be an integer from 1 through 8"
         )
@@ -169,8 +190,16 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
             )
         if start + count > subject["train_rows"]:
             raise DevTrainingHold("development window escapes train corpus")
+        if is_recipe_semantics and (start != 0 or count != 160):
+            raise DevTrainingHold(
+                "recipe-semantics experiment requires exact rows 0-159"
+            )
 
     resume = value.get("resume_adapter")
+    if is_recipe_semantics and resume is not None:
+        raise DevTrainingHold(
+            "recipe-semantics experiment requires a fresh adapter"
+        )
     if resume is not None:
         if not isinstance(resume, dict):
             raise DevTrainingHold("resume_adapter must be an object")
@@ -801,6 +830,7 @@ def execute_dev_training(
             requested_optimizer,
             trainer_spec["max_optimizer_steps"],
         ),
+        "experiment_class": spec.get("experiment_class"),
         "spec_sha256": sha256_file(spec_path),
         "source_parent_revision": subject["parent_revision"],
         "training_corpus_id": subject["training_corpus_id"],
@@ -891,4 +921,3 @@ def _main(argv=None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(_main())
-
