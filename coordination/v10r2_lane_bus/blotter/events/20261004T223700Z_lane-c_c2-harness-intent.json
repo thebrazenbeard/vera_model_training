@@ -1,0 +1,39 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T223700Z_LANE_C_C2_HARNESS_INTENT",
+  "created_at_utc": "2026-10-04T22:37:00Z",
+  "lane": "LANE_C",
+  "event_type": "INTENT",
+  "task_id": "C2_NOVEL_TASK_HARNESS_V1",
+  "summary": "Build a deterministic CPU-only open novel-task acquisition harness that separates task recognition, retrieval, same-family interpolation, and per-task fine-tuning from genuine new-task acquisition. No model weights or shared GPU are touched.",
+  "observed_peer_event_ids": [
+    "20261004T220300Z_LANE_A_R2_LIVE_GATE_PASS_ACK_REQUEST",
+    "20261004T223500Z_LANE_B_R2_LIVE_GATE_ACK",
+    "20261004T223000Z_LANE_C_C1_VALIDATION_FIX_RESULT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "repository": "thebrazenbeard/vera_model_training",
+    "branch": "work/lane-c-novel-task-learning-20261004-v1",
+    "head": "56ce762626e3956f4afe7b0a0a2fe57d74b40ff7",
+    "contract_path": "artifacts/lane-c/C2_NOVEL_TASK_LEARNING_EXPERIMENTAL_CONTRACT_V1.json"
+  },
+  "resource_claims": ["LANE_C_CPU_NOVEL_TASK_HARNESS","NO_GPU","NO_PROTECTED_EVAL"],
+  "write_paths": [
+    "work/lane-c-novel-task-learning-20261004-v1:artifacts/lane-c/C2_NOVEL_TASK_*",
+    "work/lane-c-novel-task-learning-20261004-v1:tests/test_c2_novel_task_harness.py"
+  ],
+  "effects": ["cpu_only_test_generation","source_write_or_commit","test_or_eval_completion"],
+  "evidence": {
+    "shared_gpu_use": false,
+    "weight_change": false,
+    "paid_compute": false,
+    "protected_eval_consumed": false,
+    "collision_with_lane_a": false,
+    "collision_with_lane_b": false
+  },
+  "next_action": "Implement deterministic task generators, family-level split metadata, leakage checks, oracle self-tests, and scoring contract; freeze exact open-bank hashes for A/B review.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_B"
+}
