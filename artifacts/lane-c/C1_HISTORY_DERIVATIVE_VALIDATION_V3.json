@@ -1,0 +1,62 @@
+{
+  "checks": {
+    "ba005_external_only": true,
+    "counts_exact": true,
+    "privacy_exact": true,
+    "replay_sha_exact": true,
+    "row_ids_disjoint": true,
+    "rows_exact": true,
+    "schemas_exact": true,
+    "splits_exact": true,
+    "train_sha_exact": true,
+    "validator_blob_matches_commit": true
+  },
+  "counts": {
+    "replay_per_behavior": {
+      "C1-BA-001": 1,
+      "C1-BA-002": 1,
+      "C1-BA-003": 1,
+      "C1-BA-004": 1,
+      "C1-BA-005": 1,
+      "C1-BA-006": 1,
+      "C1-BA-007": 1,
+      "C1-BA-008": 1
+    },
+    "replay_rows": 8,
+    "train_per_behavior": {
+      "C1-BA-001": 2,
+      "C1-BA-002": 2,
+      "C1-BA-003": 2,
+      "C1-BA-004": 2,
+      "C1-BA-006": 2,
+      "C1-BA-007": 2,
+      "C1-BA-008": 2
+    },
+    "train_rows": 14
+  },
+  "governance": {
+    "ba005_neural_training": false,
+    "candidate_derivative_bytes_changed": false,
+    "protected_eval_consumed": false,
+    "shared_gpu_used": false,
+    "weight_change": false
+  },
+  "inputs": {
+    "replay_path": "artifacts/lane-c/C1_HISTORY_BEHAVIOR_REPLAY_V1.jsonl",
+    "replay_sha256": "f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477",
+    "train_path": "artifacts/lane-c/C1_HISTORY_BEHAVIOR_TRAIN_V1.jsonl",
+    "train_sha256": "0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12"
+  },
+  "known_v2_defect": "V2 receipt embedded runtime HEAD as source_head, so a rerun at the receipt commit changed receipt bytes.",
+  "provenance": {
+    "receipt_authority_model": "FIXED_DATA_HEAD_PLUS_IMMUTABLE_VALIDATOR_IDENTITY",
+    "validated_data_head": "56ce762626e3956f4afe7b0a0a2fe57d74b40ff7",
+    "validator_blob": "6113d21f7455d4183cde74870233ccdca26167c0",
+    "validator_commit": "97a1fb470f419c8e5d1bbc5b4a1213843611dab0",
+    "validator_path": "artifacts/lane-c/validate_c1_history_derivatives_v3.py"
+  },
+  "repro_rule": "Run this validator with the same validator_commit and validator_blob; output must be byte-identical regardless of current checkout HEAD.",
+  "schema": "C1_HISTORY_DERIVATIVE_VALIDATION_V3",
+  "status": "PASS",
+  "supersedes": "C1_HISTORY_DERIVATIVE_VALIDATION_V2"
+}
