@@ -1,0 +1,59 @@
+{
+  "schema": "V10_IDENTITY_TRAINING_SURFACE_AUDIT_V1",
+  "date": "2026-10-04",
+  "source": "D:\\VERA\\.scratch\\v10-qwen512-preflight-20261001-v1\\train.jsonl",
+  "source_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+  "row_count": 50000,
+  "matching_semantics": "CASE_INSENSITIVE_WHOLE_TERM_BOUNDARIES_FOR_NAMED_TERMS",
+  "interpretation_boundary": "Only prompt and response are model-visible in the current V10 SFT preparation path; schema/provenance metadata are not training text.",
+  "visible_term_rows": {
+    "vera": 4,
+    "qwen": 0,
+    "alibaba": 0,
+    "tongyi": 0,
+    "chatgpt": 0,
+    "openai": 0,
+    "language model": 3,
+    "ai assistant": 1,
+    "artificial intelligence": 88
+  },
+  "metadata_only_term_rows": {
+    "vera": 49996,
+    "qwen": 40500,
+    "alibaba": 0,
+    "tongyi": 0,
+    "chatgpt": 0,
+    "openai": 0,
+    "language model": 0,
+    "ai assistant": 0,
+    "artificial intelligence": 0
+  },
+  "visible_vera_by_family": {
+    "ordinary_general_competence": 4
+  },
+  "visible_vera_rows_manual_classification": [
+    {
+      "row_index_zero_based": 20216,
+      "meaning": "ALOE_VERA_PLANT"
+    },
+    {
+      "row_index_zero_based": 21408,
+      "meaning": "ALOE_VERA_SKINCARE"
+    },
+    {
+      "row_index_zero_based": 29650,
+      "meaning": "ALOE_VERA_JUICE"
+    },
+    {
+      "row_index_zero_based": 37141,
+      "meaning": "VERA_INSTITUTE_FOR_JUSTICE"
+    }
+  ],
+  "assistant_vera_name_binding_rows_confirmed": 0,
+  "assistant_qwen_self_binding_rows_confirmed": 0,
+  "custom_source_whole_word_vera_rows_confirmed": 0,
+  "identity_prompt_rows_heuristic": 1134,
+  "identity_response_rows_heuristic": 2416,
+  "diagnosis": "The parent V10 corpus teaches identity/role governance but does not directly bind the assistant self-name Vera.",
+  "claim_ceiling": "CORPUS_SURFACE_AUDIT_ONLY_NOT_TRAINING_RESULT"
+}

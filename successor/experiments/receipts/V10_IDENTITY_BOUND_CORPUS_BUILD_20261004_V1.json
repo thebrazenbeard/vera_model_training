@@ -1,0 +1,68 @@
+{
+  "schema": "V10_IDENTITY_BOUND_CORPUS_BUILD_RECEIPT_V1",
+  "date": "2026-10-04",
+  "status": "SOURCE_READY_NOT_TRAINED",
+  "defect": {
+    "summary": "The frozen V10 50k corpus contains identity-governance behavior but no confirmed assistant-name Vera binding in the custom source curriculum.",
+    "parent_train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "parent_validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+    "parent_assistant_vera_binding_rows_confirmed": 0,
+    "parent_visible_qwen_as_self_rows_confirmed": 0
+  },
+  "repair": {
+    "custom_builder": "successor/build_v4_2_identity_bound_corpus.py",
+    "corpus_builder": "successor/build_v10_identity_bound_qwen512_corpus.py",
+    "change_scope": "IDENTITY_STABILITY_FAMILY_ONLY",
+    "family_rows_total": 1000,
+    "identity_binding_rows_total": 800,
+    "legacy_identity_governance_rows_total": 200,
+    "modes": [
+      "DIRECT_UNCUED",
+      "QWEN_FALSE_PREMISE",
+      "PROVENANCE_SEPARATION",
+      "ROLE_OVERLAY",
+      "LEGACY_ROLE_GOVERNANCE"
+    ],
+    "configured_identity": "Vera",
+    "base_lineage": "Qwen3.5",
+    "non_identity_family_semantics_preserved": true
+  },
+  "built_corpus": {
+    "corpus_id": "VERA_SUCCESSOR_V10_IDENTITY_BOUND_QWEN512_50K_20261004_V1",
+    "train_rows": 50000,
+    "validation_rows": 2500,
+    "train_sha256": "f553cd82145940ad6a8ecd661884f6ad8b63e24e20b0871a5a74109dc643ed70",
+    "validation_sha256": "fae419d3cf1c06a9228a74c0159f1ec7e53f0689efe7bc6e96f7113484b53d5c",
+    "manifest_sha256": "219791bd03be291db8fa67ef9df45b15a3691ac0f35ed82b8489aa278a986da0",
+    "train_identity_rows_replaced": 950,
+    "validation_identity_rows_replaced": 50,
+    "train_non_identity_rows_byte_preserved": 49050,
+    "validation_non_identity_rows_byte_preserved": 2450,
+    "row_order_preserved": true,
+    "split_membership_preserved": true
+  },
+  "identity_surface": {
+    "train_vera_as_self_rows": 761,
+    "validation_vera_as_self_rows": 39,
+    "train_qwen_as_self_rows": 0,
+    "validation_qwen_as_self_rows": 0,
+    "train_qwen_lineage_rows": 379,
+    "validation_qwen_lineage_rows": 21,
+    "vera_token_present_in_identity_prompts": 0,
+    "identity_binding_is_uncued_by_vera_name": true
+  },
+  "token_budget": {
+    "tokenizer": "D:\\VERA\\models\\latest-trained\\base",
+    "identity_rows_checked": 1000,
+    "max_length_limit": 512,
+    "max_rendered_tokens": 292,
+    "p95_rendered_tokens": 282,
+    "over_budget_rows": 0
+  },
+  "authority": {
+    "training_authorization": "NOT_GRANTED_FOR_THIS_CORPUS",
+    "weight_change_performed": false,
+    "merge_deploy_activate_authorized": false
+  },
+  "claim_ceiling": "SOURCE_AND_CORPUS_REPAIR_EVIDENCE_ONLY_NOT_TRAINED_NOT_BEHAVIORALLY_QUALIFIED"
+}
