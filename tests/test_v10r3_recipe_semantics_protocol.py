@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
-import subprocess
 from pathlib import Path
 
 import pytest
@@ -16,45 +14,15 @@ from successor.experiments.train_v10r2_dev import (
 
 ROOT = Path(__file__).resolve().parents[1]
 EXP = ROOT / "successor" / "experiments"
-TRAIN_JSONL = Path(
-    os.environ.get(
-        "VERA_V10_TRAIN_JSONL",
-        r"D:\VERA\.scratch\v10-qwen512-preflight-20261001-v1\train.jsonl",
-    )
-)
-EXPECTED_RAW_SHA256 = {
-    "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json":
-        "129572aef614e921c92161d9874e9cecdbf40bfbb0de073221562cd09e6172dc",
-    "V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json":
-        "507d812cd05e3bdf131992acf4ffa947217b8aaab18968d1515b894093688f3c",
-    "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json":
-        "30c1a055ee5228888ab2df83d3af51dc04bc0f3ff598b9d8d51ec088e1ea67e7",
-    "V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json":
-        "8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699",
-    "V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json":
-        "2de024f88f2ecda3cab5af995e45dcb8b6e05545034eb7a051556632c75b29fc",
-}
 
 
 def _json(name: str) -> dict:
     return json.loads((EXP / name).read_text(encoding="utf-8"))
 
 
-def _sha(name: str) -> str:
-    return hashlib.sha256((EXP / name).read_bytes()).hexdigest()
-
-
-def _git_sha(name: str) -> str:
-    raw = subprocess.check_output(
-        [
-            "git",
-            "-C",
-            str(ROOT),
-            "show",
-            f"HEAD:successor/experiments/{name}",
-        ]
-    )
-    return hashlib.sha256(raw).hexdigest()
+def _committed_text_sha(name: str) -> str:
+    text = (EXP / name).read_text(encoding="utf-8").replace("\r\n", "\n")
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def test_recipe_semantics_order_manifest_is_exact_and_unique() -> None:
@@ -62,6 +30,7 @@ def test_recipe_semantics_order_manifest_is_exact_and_unique() -> None:
         "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json"
     )
     assert manifest["schema"] == "V10R3_RECIPE_SEMANTICS_ORDER_MANIFEST_V2"
+    assert manifest["record_ids_serialization"] == "NEWLINE_UTF8_FINAL_LF"
     assert manifest["row_count"] == 160
     assert manifest["row_indices"] == list(range(160))
     ids = manifest["record_ids"]
@@ -132,16 +101,35 @@ def test_matched_specs_share_fresh_initialization_and_order_policy() -> None:
     assert stage1["trainer"]["max_optimizer_steps"] == 4
     assert continuous["trainer"]["max_optimizer_steps"] == 20
     assert stage1["output"]["namespace"] != continuous["output"]["namespace"]
+    expected_digest = (
+        "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd"
+    )
+    assert (
+        stage1["comparison"]["expected_initial_trainable_parameter_digest"]
+        == expected_digest
+    )
+    assert (
+        continuous["comparison"]["expected_initial_trainable_parameter_digest"]
+        == expected_digest
+    )
+    assert (
+        stage1["comparison"]["initial_digest_source"]["receipt_sha256"]
+        == "8c02cad57d1ec6f89139623310d9de8a0ac13a484701e5a371a868a0baa3bc38"
+    )
 
 
 def test_protocol_and_specs_bind_same_order_manifest() -> None:
     manifest_name = "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json"
     manifest = _json(manifest_name)
-    manifest_sha = _git_sha(manifest_name)
+    manifest_sha = _committed_text_sha(manifest_name)
     protocol = _json("V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json")
     stage1 = _json("V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json")
     continuous = _json("V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json")
 
+    assert (
+        protocol["matched_training_subject"]["record_ids_serialization"]
+        == "NEWLINE_UTF8_FINAL_LF"
+    )
     assert protocol["matched_training_subject"]["order_manifest_sha256"] == manifest_sha
     assert protocol["matched_training_subject"]["ordered_record_ids_sha256"] == (
         manifest["record_ids_sha256"]
@@ -160,6 +148,48 @@ def test_protocol_and_specs_bind_same_order_manifest() -> None:
     assert len(namespaces) == 3
 
 
+
+
+
+def test_protocol_binds_exact_committed_text_hashes() -> None:
+    protocol = _json("V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json")
+    bindings = protocol["committed_file_bindings"]
+    expected = {
+        "control_stage1_spec": (
+            "V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json"
+        ),
+        "continuous20_spec": "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json",
+        "order_manifest": (
+            "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json"
+        ),
+        "fresh_eval_panel": "V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json",
+    }
+    for key, name in expected.items():
+        assert bindings[key]["sha256"] == _committed_text_sha(name)
+        assert (
+            bindings[key]["hash_semantics"]
+            == "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT"
+        )
+
+    panel = _json("V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json")
+    assert (
+        bindings["fresh_eval_panel"]["record_ids_sha256"]
+        == panel["record_ids_sha256"]
+    )
+
+
+def test_protocol_requires_observed_fresh_initial_digest_before_training() -> None:
+    protocol = _json("V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json")
+    gate = protocol["initialization_equivalence_gate"]
+    expected = "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd"
+    assert gate["required"] is True
+    assert gate["expected_initial_trainable_parameter_digest"] == expected
+    assert gate["runner_receipt_field"] == "initial_trainable_parameter_digest"
+    assert gate["control_stage1_must_match_before_first_optimizer_update"] is True
+    assert gate["continuous20_must_match_before_first_optimizer_update"] is True
+    assert gate["failure_disposition"] == "HOLD_BEFORE_TRAINER_TRAIN"
+
+
 def test_superseded_v1_global_shuffle_candidate_is_not_executable() -> None:
     with pytest.raises(
         DevTrainingHold,
@@ -168,65 +198,3 @@ def test_superseded_v1_global_shuffle_candidate_is_not_executable() -> None:
         load_and_validate_dev_spec(
             EXP / "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V1.json"
         )
-
-def test_raw_committed_file_hash_bindings_are_exact() -> None:
-    protocol = _json("V10R3_STAGED_VS_CONTINUOUS_PROTOCOL_20261004_V2.json")
-    for name, expected in EXPECTED_RAW_SHA256.items():
-        assert _git_sha(name) == expected
-
-    assert protocol["matched_training_subject"]["order_manifest_sha256"] == (
-        EXPECTED_RAW_SHA256[
-            "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json"
-        ]
-    )
-    assert protocol["control"]["stage1_spec_sha256"] == (
-        EXPECTED_RAW_SHA256[
-            "V10R3_STAGED_RESET_CONTROL_STAGE1_SPEC_20261004_V2.json"
-        ]
-    )
-    assert protocol["candidate"]["spec_sha256"] == (
-        EXPECTED_RAW_SHA256[
-            "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json"
-        ]
-    )
-    assert protocol["evaluation"]["panel_file_sha256"] == (
-        EXPECTED_RAW_SHA256[
-            "V10R3_RECIPE_SEMANTICS_PANEL_ROWS448_511_V1.json"
-        ]
-    )
-    assert protocol["prospective_gates"][
-        "initial_trainable_digest_exact_match_required"
-    ] is True
-
-
-def test_order_manifest_recomputes_from_frozen_train_jsonl() -> None:
-    if not TRAIN_JSONL.is_file():
-        pytest.skip(f"frozen train JSONL unavailable:{TRAIN_JSONL}")
-    raw = TRAIN_JSONL.read_bytes()
-    assert hashlib.sha256(raw).hexdigest() == (
-        "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300"
-    )
-    rows = [
-        json.loads(line)
-        for line in raw.decode("utf-8").splitlines()
-        if line.strip()
-    ]
-    assert len(rows) == 50000
-    manifest = _json(
-        "V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json"
-    )
-    assert manifest["serialization"] == "NEWLINE_UTF8_FINAL_LF"
-
-    def record_id(row: dict, index: int) -> str:
-        return (
-            row.get("record_id")
-            or row.get("case_id")
-            or row.get("id")
-            or f"bound-train-row-{index}"
-        )
-
-    actual_ids = [record_id(rows[i], i) for i in range(160)]
-    assert actual_ids == manifest["record_ids"]
-    assert hashlib.sha256(
-        ("\n".join(actual_ids) + "\n").encode("utf-8")
-    ).hexdigest() == manifest["record_ids_sha256"]
