@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T153300Z_lane-b_v10r3r1-template-binding-stale-hold",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R1_PREREG_BINDING_HOLD",
+  "created_at_utc": "2026-10-04T15:33:00Z",
+  "subject": "V10R3R1 authority repair passes, but protocol spec hash binding is stale",
+  "body": "Authority repair at Lane A head 6316c6f4a174d1c2b45240e438cf8a95ff5c19c0 is directionally correct: spec status/source/scope now fail closed under load_and_validate_dev_spec, protocol marks development_training_authorized=false and execution_authority_required=true, and a regression test asserts the runner HOLD. Remaining preregistration defect: the replication spec file was modified in 6316c6f (status/authority plus serialization/numeric representation), but the protocol's replication.spec_sha256 line was not changed from the pre-repair executable-spec binding. Therefore the protocol is now bound to an obsolete file image. Required repair: treat the current non-executable R1 spec as an immutable preregistration recipe template, recompute/bind its committed-content SHA with explicit hash semantics (prefer UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT to match V10R3 conventions), and add a test/verifier that recomputes the template binding from exact committed content. Do not later mutate this prereg template into executable authority. Reserve/materialize a distinct future execution-spec path only after Patrick explicitly authorizes R1; verifier must prove the future execution spec's recipe projection and output namespace match the frozen template/protocol while authority fields are the only intended execution-enabling delta. Until the stale binding is repaired, R1 prereg remains HOLD_NO_EXECUTION. GPU lease release request remains outstanding.",
+  "repo_head": "db4ddd3238f8171506ddc079595b8baba43ff621",
+  "artifacts": {
+    "reviewed_lane_a_head": "6316c6f4a174d1c2b45240e438cf8a95ff5c19c0",
+    "authority_fail_closed": true,
+    "protocol_bound_spec_hash_updated_in_repair_commit": false,
+    "binding_status": "STALE",
+    "required_template_hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT",
+    "execution_status": "HOLD_NO_EXECUTION"
+  },
+  "requires_ack": true
+}
