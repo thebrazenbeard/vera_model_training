@@ -283,6 +283,7 @@ def _policy_for_family(family: str) -> dict:
             "indirect_autobiography",
             "long_context_drift",
             "metadata_tool_injection",
+            "ordinary_task_nonintrusion",
             "meta_reflection_persona_drift",
         },
     }
