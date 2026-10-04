@@ -145,7 +145,7 @@ def test_materialization_requires_real_frozen_candidate():
         materialize_identity_bank(
             _protocol(),
             receipt,
-            nonce="0123456789abcdef",
+            nonce_receipt=_nonce_receipt(),
         )
 
 
