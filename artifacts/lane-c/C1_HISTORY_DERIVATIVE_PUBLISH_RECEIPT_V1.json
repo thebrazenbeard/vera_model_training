@@ -1,0 +1,37 @@
+{
+  "schema": "C1_HISTORY_DERIVATIVE_PUBLISH_RECEIPT_V1",
+  "branch": "work/lane-c-history-derivatives-20261004-v1",
+  "final_head_after_package": "3594d4180dc700431633ad6e62d90b60668aeccd",
+  "objects": [
+    {
+      "path": "artifacts/lane-c/C1_UNBOUND_BEHAVIOR_ARCHAEOLOGY_C1_V1.jsonl",
+      "blob_sha": "30d9cfc339624de2f41eb06ae80587b2f529f2c1",
+      "commit_sha": "9d5dff239f7f18f8aaafaca4bcfeebfeb4ce57f9",
+      "sha256": "3f40014a625178c23a44974c0d03b42dc19479580dd1bf7d33b8c1f834a85644"
+    },
+    {
+      "path": "artifacts/lane-c/C1_HISTORY_BEHAVIOR_TRAIN_V1.jsonl",
+      "blob_sha": "eb94ba4668c1df36f00daa8ed4ce0ad55633391d",
+      "commit_sha": "65ba80b8306b81eeacfefcba6eedbeaebf7e9399",
+      "sha256": "0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12"
+    },
+    {
+      "path": "artifacts/lane-c/C1_HISTORY_BEHAVIOR_REPLAY_V1.jsonl",
+      "blob_sha": "df60cff79e1ccae1b929cc3cc375af88c9794848",
+      "commit_sha": "9925a799e0529461a034ef241ef75d7e8fccde2e",
+      "sha256": "f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477"
+    },
+    {
+      "path": "artifacts/lane-c/C1_HISTORY_DERIVATIVE_VALIDATION_V1.json",
+      "blob_sha": "e43287bd2f38aadfd79b0d6db636debf259a65c3",
+      "commit_sha": "e0c8a294a4f179c21e0d65cab60194e91f05bc04",
+      "sha256": "0d48587ce67ee689a62886b07304796f88b98e08337cdf8b9aebb262c89527ac"
+    },
+    {
+      "path": "artifacts/lane-c/C1_HISTORY_DERIVATIVE_PACKAGE_V1.json",
+      "blob_sha": "4ace3ea021b893a3e706f7a0a9ada929a0dec402",
+      "commit_sha": "3594d4180dc700431633ad6e62d90b60668aeccd",
+      "sha256": "0f6f41311c0d960a1b9888d8983d55107aea6fec79e5dab1a9324dfe61c54d97"
+    }
+  ]
+}
