@@ -2,12 +2,11 @@
   "schema": "V10R2_GPU_LEASE_V1",
   "resource": "LAPPY_RTX_3050_4GB",
   "holder": "LANE_A",
-  "purpose": "V10R3R1_CONTINUOUS20_EXECUTABILITY_REPLICATION",
-  "training_branch": "work/v10r3-binding-fix-lane-a-20261004-v1",
-  "training_head": "c1aa8a470ce5f9d99164a4299ee39fee2221f122",
-  "acquired_at_utc": "2026-10-04T15:54:49Z",
-  "released_at_utc": "2026-10-04T17:13:39Z",
-  "status": "RELEASED",
-  "release_reason": "V10R3R1_TERMINATED_NO_COMPLETION_RECEIPT_CAUSE_UNRESOLVED",
+  "purpose": "V10R3R2_DURABLE_CONTINUOUS20_EXECUTION",
+  "training_branch": "work/v10r3r2-durable-cont20-20261004-v1",
+  "training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+  "acquired_at_utc": "2026-10-04T18:46:00Z",
+  "released_at_utc": null,
+  "status": "HELD",
   "rule": "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
 }
