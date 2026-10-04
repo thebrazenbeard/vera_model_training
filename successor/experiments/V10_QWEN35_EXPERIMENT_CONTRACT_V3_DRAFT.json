@@ -1,0 +1,150 @@
+{
+  "schema": "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V3_DRAFT",
+  "date": "2026-10-04",
+  "status": "DRAFT_BACKEND_QUALITY_AB_PENDING",
+  "executable_training_allowed": false,
+  "supersedes_v2": false,
+  "predecessor_contract": "successor/experiments/V10_QWEN35_EXPERIMENT_CONTRACT_V2.json",
+  "experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_V3_DRAFT_20261004",
+  "claim_ceiling": "DRAFT PREREGISTRATION SHELL / BACKEND QUALITY A-B PENDING / FINAL BANK UNSEALED / EXECUTABLE AUTHORITY ABSENT / NO FULL-RUN WEIGHT CHANGE",
+  "base_model": {
+    "repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+    "mutable_revision_allowed": false
+  },
+  "source_subject": {
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "train_rows": 50000,
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "validation_rows": 2500,
+    "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+    "train_validation_overlap": 0,
+    "token_budget_status": "PASS_MAX_512_NO_TRUNCATION"
+  },
+  "training_recipe": {
+    "method": "QLORA_SFT_ONLY",
+    "fresh_adapter_required": true,
+    "parent_adapter": null,
+    "epochs": 1,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "expected_optimizer_steps": 6250,
+    "optimizer": "adamw_bnb_8bit",
+    "optimizer_backend": "bitsandbytes",
+    "optimizer_paged": false,
+    "continuous_optimizer_state": true,
+    "continuous_scheduler_state": true,
+    "learning_rate": 0.00002,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 3,
+    "warmup_basis": "V2_MINIMAL_CHANGE_PENDING_V3_FINAL_REVIEW",
+    "max_length": 512,
+    "overflow_policy": "ERROR_NO_TRUNCATION",
+    "completion_only_loss": true,
+    "packing": false,
+    "shuffle_dataset": true,
+    "seed": 20261001,
+    "gradient_checkpointing": true,
+    "quantization": {
+      "load_in_4bit": true,
+      "type": "nf4",
+      "double_quant": true,
+      "compute_dtype": "bfloat16"
+    },
+    "lora": {
+      "r": 4,
+      "alpha": 16,
+      "dropout": 0,
+      "target_modules": "all-linear",
+      "bias": "none"
+    },
+    "validation_role": "POST_TRAIN_DIAGNOSTIC_ONLY_NO_FINAL_BANK_REUSE"
+  },
+  "backend_selection": {
+    "status": "PENDING_BACKEND_QUALITY_AB",
+    "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "runtime_target": {
+      "python_path": "D:\\VERA\\tools\\ModelTraining\\.venv\\Scripts\\python.exe",
+      "python_version": "3.13.5",
+      "torch": "2.14.1+cu132",
+      "cuda_runtime": "13.2",
+      "cuda_toolkit_host": "13.4",
+      "driver": "616.92",
+      "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "vram_mib": 4096
+    },
+    "control": "torch_reference",
+    "candidate": "fla_triton",
+    "selected": null,
+    "rejected_alternatives": {
+      "adamw_torch_8bit": "REJECTED_MATCHED_BNB8_1.639905X_FASTER_WITH_NO_MATERIAL_MEMORY_LOSS",
+      "fla_triton_full": "REJECTED_MATCHED_WHOLE_MODEL_1.184_PERCENT_SLOWER",
+      "liger_0_8_4": "REJECTED_NO_SPEED_OR_MEMORY_BENEFIT_AND_GRAD_REL_L2_GATE_FAIL",
+      "fixed_padding_512": "REJECTED_WHOLE_MODEL_APPROX_46_PERCENT_SLOWER",
+      "paged_optimizers": "FORBIDDEN_HOST_STABILITY"
+    },
+    "prospective_gate": {
+      "start_checkpoint": "STEP48_DEVELOPMENT_MILESTONE",
+      "start_adapter_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+      "start_receipt_sha256": "15dee7c2ca2b94c6c2c2f780ced3dfc03d9a6afd5adfb594b1035bfa44853481",
+      "rows": "384-447",
+      "row_count": 64,
+      "row_ids_sha256": "cda3a8383782fdb2f13d309734e840cab3d11ed27a05c7a1d9749a004a63028b",
+      "steps_per_arm": 8,
+      "optimizer": "adamw_bnb_8bit_nonpaged",
+      "zero_warmup_continuation_semantics": true,
+      "same_runtime_binding_required": true,
+      "same_seed_rows_order_quantization_lora_required": true,
+      "update_cosine_min": 0.995,
+      "update_relative_l2_max": 0.05,
+      "aggregate_nll_regression_abs_max": 0.005,
+      "family_mean_case_loss_regression_hold_abs": 0.01,
+      "min_speedup_pct": 20,
+      "full_64_case_panel_required": true,
+      "conflicting_signal_disposition": "HOLD"
+    }
+  },
+  "development_evidence": {
+    "latest_checkpoint": "STEP48",
+    "step48_adapter_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "step48_receipt_sha256": "15dee7c2ca2b94c6c2c2f780ced3dfc03d9a6afd5adfb594b1035bfa44853481",
+    "step48_decision_sha256": "e75abd15768813f44b10f303be766e374db280b5df013ab00cddbd10d4cbfc64",
+    "step48_combined_64_case_wins": "62/64",
+    "development_rows_consumed": 384,
+    "development_optimizer_updates": 48,
+    "selection_overfit_warning": "DEVELOPMENT_PANELS_HAVE_BEEN_REUSED_FOR_CHECKPOINT_SELECTION_DO_NOT_TREAT_AS_FINAL_QUALIFICATION",
+    "step56_status": "FROZEN_NOT_AUTHORIZED"
+  },
+  "final_bank_gate": {
+    "required_case_count": 13500,
+    "admitted_retention_cases": 1500,
+    "behavioral_required": 10000,
+    "adversarial_required": 2000,
+    "status": "HOLD_HUMAN_AND_INDEPENDENT_CUSTODY_UNBOUND",
+    "genuine_human_seed_minimum": 280,
+    "mandatory_human_semantic_reviews_minimum": 5400,
+    "sealed_commitment_required": true,
+    "final_bank_plaintext_must_not_enter_training_corpus": true
+  },
+  "blocking_preconditions": {
+    "backend_quality_ab_verified": false,
+    "fresh_evaluation_bank_frozen": false,
+    "independent_bank_admission_verified": false,
+    "semantic_contamination_screen_verified": false,
+    "sealed_final_bank_commitment_bound": false,
+    "exact_runtime_reverified_before_effect": false,
+    "executable_authority_receipt_materialized": false,
+    "patrick_exact_weight_change_authority": false
+  },
+  "authority": {
+    "weight_change_authorized": false,
+    "merge_authorized": false,
+    "paid_compute_authorized": false,
+    "install_activate_deploy_authorized": false,
+    "note": "Patrick's conditional one-run authority intent remains separate and becomes executable only after all frozen bank/preflight conditions are satisfied."
+  },
+  "gguf_boundary": {
+    "export_before_full_run": false,
+    "koboldcpp_verification_role": "POST_FULL_RUN_INDEPENDENT_LANE_B_ONLY"
+  }
+}
