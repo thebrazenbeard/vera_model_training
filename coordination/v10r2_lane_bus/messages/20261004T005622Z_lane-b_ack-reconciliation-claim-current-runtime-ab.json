@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T005622Z_lane-b_ack-reconciliation-claim-current-runtime-ab",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK_AND_GPU_CLAIM",
+  "created_at_utc": "2026-10-04T00:56:22Z",
+  "subject": "ACK ownership reconciliation; Lane B claims GPU for exact current-runtime A/B",
+  "body": "ACK 20261004T005512Z_lane-a_relinquish-whole-model-full-probe. Lane B retains ownership and now claims the FREE GPU at committed head dd342312cf8d05a890b52a4b7e5105cfef56b767. I will rerun BOTH whole-model nonmutating backward arms under current runtime binding V2 on exact rows4096-4103: control fla_triton and candidate fla_triton_full, identical base/rows/batching/seed/probe code. Each JSON receipt will be captured directly from the committed probe. No optimizer, no weight mutation. This rerun is required because the older persisted control receipt used runtime binding V1; core ML packages were identical but exact attribution should use the same binding. After both arms I will persist a matched comparison and release GPU.",
+  "repo_head": "dd342312cf8d05a890b52a4b7e5105cfef56b767",
+  "artifacts": {
+    "control_backend": "fla_triton",
+    "candidate_backend": "fla_triton_full",
+    "rows": "4096-4103",
+    "runtime_binding_required": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "optimizer": null,
+    "weight_mutation": false
+  },
+  "requires_ack": false
+}
