@@ -1,0 +1,302 @@
+{
+  "candidates": [
+    {
+      "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont12-plus8-20261003\\adapter",
+      "adapter_model_sha256": "ce3f722d4484214a7caf6372ae828a8a558270ec452882ea790f7a495dcc9c06",
+      "cases": [
+        {
+          "loss": 0.8614085912704468,
+          "nll": 322.1668131351471,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+          "valid_completion_tokens": 374
+        },
+        {
+          "loss": 1.7069690227508545,
+          "nll": 64.86482286453247,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.9780893325805664,
+          "nll": 363.3268985748291,
+          "record_id": "v4.1-correction_uptake-0731",
+          "valid_completion_tokens": 122
+        },
+        {
+          "loss": 2.8915510177612305,
+          "nll": 326.74526500701904,
+          "record_id": "v4.1-correction_uptake-0880",
+          "valid_completion_tokens": 113
+        },
+        {
+          "loss": 1.0541212558746338,
+          "nll": 277.2338902950287,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+          "valid_completion_tokens": 263
+        },
+        {
+          "loss": 2.6302759647369385,
+          "nll": 99.95048666000366,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.602353811264038,
+          "nll": 333.1012878417969,
+          "record_id": "v4.1-privacy_boundary-0686",
+          "valid_completion_tokens": 128
+        },
+        {
+          "loss": 2.8987009525299072,
+          "nll": 34.78441143035889,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 1.613073706626892,
+          "nll": 69.36216938495636,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+          "valid_completion_tokens": 43
+        },
+        {
+          "loss": 1.5815844535827637,
+          "nll": 52.1922869682312,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+          "valid_completion_tokens": 33
+        },
+        {
+          "loss": 2.1223411560058594,
+          "nll": 21.223411560058594,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+          "valid_completion_tokens": 10
+        },
+        {
+          "loss": 2.2575206756591797,
+          "nll": 42.892892837524414,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+          "valid_completion_tokens": 19
+        },
+        {
+          "loss": 0.6721222996711731,
+          "nll": 8.73758989572525,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+          "valid_completion_tokens": 13
+        },
+        {
+          "loss": 1.1156446933746338,
+          "nll": 22.312893867492676,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+          "valid_completion_tokens": 20
+        },
+        {
+          "loss": 1.8354109525680542,
+          "nll": 110.12465715408325,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+          "valid_completion_tokens": 60
+        },
+        {
+          "loss": 1.4295036792755127,
+          "nll": 574.6604790687561,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a",
+          "valid_completion_tokens": 402
+        }
+      ],
+      "completion_perplexity": 5.020626136698174,
+      "completion_token_count": 1688,
+      "eval_seconds": 102.335,
+      "mean_case_loss": 1.8906669728457928,
+      "median_case_loss": 1.7711899876594543,
+      "model_load_seconds": 11.567,
+      "name": "step20",
+      "peak_allocated_mib": 4149.5,
+      "peak_reserved_mib": 5250.0,
+      "sample_count": 16,
+      "token_weighted_completion_nll": 1.6135546543516255
+    },
+    {
+      "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont20-plus8-20261003\\adapter",
+      "adapter_model_sha256": "c4907e0d8183d7b1d49f4ba4621aa2748e152c8eae1aec5493ab6aab890b3834",
+      "cases": [
+        {
+          "loss": 0.8200393319129944,
+          "nll": 306.6947101354599,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+          "valid_completion_tokens": 374
+        },
+        {
+          "loss": 1.4867192506790161,
+          "nll": 56.49533152580261,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.94140625,
+          "nll": 358.8515625,
+          "record_id": "v4.1-correction_uptake-0731",
+          "valid_completion_tokens": 122
+        },
+        {
+          "loss": 2.8431241512298584,
+          "nll": 321.273029088974,
+          "record_id": "v4.1-correction_uptake-0880",
+          "valid_completion_tokens": 113
+        },
+        {
+          "loss": 1.04212486743927,
+          "nll": 274.078840136528,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+          "valid_completion_tokens": 263
+        },
+        {
+          "loss": 2.504617929458618,
+          "nll": 95.17548131942749,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.5642430782318115,
+          "nll": 328.2231140136719,
+          "record_id": "v4.1-privacy_boundary-0686",
+          "valid_completion_tokens": 128
+        },
+        {
+          "loss": 2.8685176372528076,
+          "nll": 34.42221164703369,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 1.5367180109024048,
+          "nll": 66.0788744688034,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+          "valid_completion_tokens": 43
+        },
+        {
+          "loss": 1.3846392631530762,
+          "nll": 45.693095684051514,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+          "valid_completion_tokens": 33
+        },
+        {
+          "loss": 1.9881197214126587,
+          "nll": 19.881197214126587,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+          "valid_completion_tokens": 10
+        },
+        {
+          "loss": 1.9858404397964478,
+          "nll": 37.73096835613251,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+          "valid_completion_tokens": 19
+        },
+        {
+          "loss": 0.6649061441421509,
+          "nll": 8.643779873847961,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+          "valid_completion_tokens": 13
+        },
+        {
+          "loss": 1.0478137731552124,
+          "nll": 20.956275463104248,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+          "valid_completion_tokens": 20
+        },
+        {
+          "loss": 1.801033854484558,
+          "nll": 108.06203126907349,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+          "valid_completion_tokens": 60
+        },
+        {
+          "loss": 1.3554226160049438,
+          "nll": 544.8798916339874,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a",
+          "valid_completion_tokens": 402
+        }
+      ],
+      "completion_perplexity": 4.741543866227602,
+      "completion_token_count": 1688,
+      "eval_seconds": 85.512,
+      "mean_case_loss": 1.8022053949534893,
+      "median_case_loss": 1.6688759326934814,
+      "model_load_seconds": 10.879,
+      "name": "step28",
+      "peak_allocated_mib": 4147.875,
+      "peak_reserved_mib": 5196.0,
+      "sample_count": 16,
+      "token_weighted_completion_nll": 1.5563627928495407
+    }
+  ],
+  "claim_ceiling": "DEVELOPMENT HELDOUT LOSS DIAGNOSTIC ONLY / NOT FINAL BANK / NOT EXTERNAL QUALIFICATION / NOT CHECKPOINT-SELECTION AUTHORITY FOR V10 FINAL",
+  "paired_comparisons": [
+    {
+      "left": "step20",
+      "left_case_wins": 0,
+      "right": "step28",
+      "right_case_wins": 16,
+      "right_minus_left_mean_case_loss": -0.08846157789230347,
+      "right_minus_left_median_case_loss": -0.05812889337539673,
+      "ties": 0
+    }
+  ],
+  "role": "POST_TRAIN_DEVELOPMENT_DIAGNOSTIC_NOT_FINAL_BANK",
+  "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+  "runtime_check": {
+    "binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "schema": "V10_QWEN35_LIVE_RUNTIME_CHECK_V1",
+    "status": "PASS",
+    "vram_delta_mib": 1
+  },
+  "runtime_observation": {
+    "base_artifacts": {
+      "model.safetensors-00001-of-00002.safetensors": "36dd0f7de62c546e7d163c2a4461208d731fad91ebea9bc31226b54c1c86511f",
+      "model.safetensors-00002-of-00002.safetensors": "e2fb50b735a8e10210eece763097f906955ca9db6ba557215f549a46b622157f",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+    },
+    "cuda_runtime": "13.0",
+    "driver": "616.92",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "packages": {
+      "accelerate": "1.15.0",
+      "bitsandbytes": "0.50.2",
+      "datasets": "5.0.1",
+      "huggingface_hub": "1.33.0",
+      "jinja2": "3.1.6",
+      "numpy": "2.5.3",
+      "peft": "0.21.0",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.23.2",
+      "torch": "2.14.0+cu130",
+      "transformers": "5.17.0",
+      "trl": "1.13.0"
+    },
+    "python_version": "3.12.10",
+    "vram_mib": 4095
+  },
+  "sample_count": 16,
+  "sample_method": "SHA256_RANK",
+  "sample_record_ids": [
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+    "v4.1-correction_uptake-0731",
+    "v4.1-correction_uptake-0880",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+    "v4.1-privacy_boundary-0686",
+    "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a"
+  ],
+  "sample_record_ids_sha256": "f0e5a827b6398a3a88561873af9a34f61f74c377041f52bdb3b9e814f6e68ef2",
+  "sample_salt": "v10r2-heldout-v1",
+  "schema": "V10R2_HELDOUT_DIAGNOSTIC_V1",
+  "status": "HELDOUT_DIAGNOSTIC_COMPLETE",
+  "validation_rows": 2500,
+  "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7"
+}
