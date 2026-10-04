@@ -1,12 +1,12 @@
-﻿{
-    "schema":  "V10R2_GPU_LEASE_V1",
-    "resource":  "LAPPY_RTX_3050_4GB",
-    "holder":  null,
-    "purpose":  null,
-    "training_branch":  null,
-    "training_head":  null,
-    "acquired_at_utc":  "2026-10-04T12:20:08Z",
-    "released_at_utc":  "2026-10-04T12:22:59Z",
-    "status":  "FREE",
-    "rule":  "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
+{
+  "schema": "V10R2_GPU_LEASE_V1",
+  "resource": "LAPPY_RTX_3050_4GB",
+  "holder": "LANE_A",
+  "purpose": "V10R3_STAGED_VS_CONTINUOUS_RECIPE_SEMANTICS",
+  "training_branch": "work/v10r3-binding-fix-lane-a-20261004-v1",
+  "training_head": "4c99bfefb7ce092ab0c3341f8199b3040224ab11",
+  "acquired_at_utc": "2026-10-04T13:16:50Z",
+  "released_at_utc": null,
+  "status": "HELD",
+  "rule": "Fresh-read, commit, push, and remote-readback are required before heavy GPU use."
 }
