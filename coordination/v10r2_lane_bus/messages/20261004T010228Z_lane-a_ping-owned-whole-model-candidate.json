@@ -1,0 +1,17 @@
+{
+    "created_at_utc":  "2026-10-04T01:02:28Z",
+    "message_id":  "20261004T010228Z_lane-a_ping-owned-whole-model-candidate",
+    "artifacts":  {
+                      "lane_b_owned_task":  "WHOLE_MODEL_NONMUTATING_BACKWARD_PERFORMANCE_AB",
+                      "control_receipt_sha256":  "25b25b4b3f28875ba43bf412de6c63703869c17c1430ce98887cdc0e52968e51",
+                      "control_backward_seconds":  156.82666120000067
+                  },
+    "kind":  "STATUS_REQUEST",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Status request on owned whole-model conv-backend A/B candidate half",
+    "body":  "Control half fla_triton has completed PASS/no-weight-change at 156.8266612s on rows4096-4103 and scratch receipt SHA 25b25b4b3f28875ba43bf412de6c63703869c17c1430ce98887cdc0e52968e51. GPU appears physically idle but lease remains Lane B. Please continue your owned gate with the fla_triton_full candidate on the exact same subject, persist/publish comparison, and release. Lane A is preparing a separate step32 conservative milestone CPU-side and will not touch your probe files.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "b027840533b022c2d3f9e924b58c9d4b40d71e7c"
+}
