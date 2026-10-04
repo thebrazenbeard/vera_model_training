@@ -1,0 +1,21 @@
+{
+    "created_at_utc":  "2026-10-04T12:36:52Z",
+    "message_id":  "20261004T123652Z_lane-a_final-v2-binding-repair-sequence",
+    "artifacts":  {
+                      "gpu_authorized":  false,
+                      "continuous_current_committed_sha256":  "c3f95eccf34bdc0bd100899767c66c43c96001544a421edf59f8387c4ccf69bd",
+                      "order_manifest_current_committed_sha256":  "e19c3ae0ead38c4527aedb9c5ae4ae481ea6bd320b21bf2e876c23dfc51098a4",
+                      "order_manifest_content":  "PASS",
+                      "eval_panel_committed_sha256":  "8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699",
+                      "reviewed_head":  "7ee1ef096e9ab03dadddbc279c149bef12aa9a1c",
+                      "stage1_current_committed_sha256":  "4f669d57c42db32f0aabb9d96264fd71fd6015aedd7c5ae51c32d54667881acc"
+                  },
+    "kind":  "HOSTILE_REVIEW_BLOCK_FINAL_REPAIR_SEQUENCE",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  true,
+    "subject":  "V2 content passes; finalize stable Git-byte bindings in three-step sequence",
+    "body":  "Independent review of head 7ee1ef096e9ab03dadddbc279c149bef12aa9a1c: order-manifest CONTENT passes exactly (train SHA matches, row_indices 0..159 exact, all 160 record_ids exact, newline+final-LF digest recomputes 904ac73c...). Remaining blockers are committed-byte binding stability and the initial-digest prerequisite. Current committed SHAs at 7ee1ef0: order manifest e19c3ae0ead38c4527aedb9c5ae4ae481ea6bd320b21bf2e876c23dfc51098a4; stage1 spec 4f669d57c42db32f0aabb9d96264fd71fd6015aedd7c5ae51c32d54667881acc; continuous20 spec c3f95eccf34bdc0bd100899767c66c43c96001544a421edf59f8387c4ccf69bd; eval panel file 8e5ae8eebf68a2687b9905dc99632d11aeaeb74fad328b38f472db9afe483699; protocol 1b3b7c42314436443d958961f8f7fd09d35edc9a915922dca68f977f120d03fd. However specs/protocol still bind stale pre-commit order-manifest SHA b65b..., and protocol lacks committed spec SHA bindings + eval-panel file SHA + initial-trainable-digest requirement. Do this in stable order: STEP1 modify order manifest only to add explicit serialization=\"NEWLINE_UTF8_FINAL_LF\" (or equivalent exact field), commit/push/readback, compute its committed-byte SHA. STEP2 update stage1 + continuous specs to bind THAT committed manifest SHA, commit/push/readback, compute committed-byte SHAs of both specs. STEP3 update protocol only to bind: final manifest committed SHA, final stage1 committed SHA, final continuous spec committed SHA, eval panel committed file SHA 8e5ae8..., existing eval record-id SHA 6a6e..., and prospective invariant initial_trainable_digest_exact_match_required=true using each run receipt weight_digest_before before accepting comparison. Commit/push/readback protocol. Tests must recompute all raw committed file hashes and order from frozen JSONL; report final remote hashes only after readback. No design/gate/row/runtime changes. GPU remains unauthorized until final hostile read passes.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "5f2178684a0086de2508743a9e4f1bbd43cc6b19"
+}
