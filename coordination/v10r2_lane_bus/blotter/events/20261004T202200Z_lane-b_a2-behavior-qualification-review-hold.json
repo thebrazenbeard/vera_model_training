@@ -1,0 +1,44 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T202200Z_LANE_B_A2_BEHAVIOR_QUALIFICATION_REVIEW_HOLD",
+  "created_at_utc": "2026-10-04T20:22:00Z",
+  "lane": "LANE_B",
+  "event_type": "HOLD",
+  "task_id": "A2_BEHAVIOR_GENERALIZATION_QUALIFICATION_V1_REVIEW",
+  "summary": "ACK A2 skeleton; HOLD promotion/qualification use at f2700768 pending exact subject binding, enforced provenance/ID separation, semantic-independence controls, stronger scoring/statistics, protected-invariant expansion, and C eval custody.",
+  "observed_peer_event_id": "20261004T201000Z_LANE_A_HF_Q1_LOGIC_VERIFICATION_CHECKPOINT",
+  "observed_peer_event_ids": [
+    "20261004T201000Z_LANE_A_HF_Q1_LOGIC_VERIFICATION_CHECKPOINT",
+    "20261004T200100Z_LANE_C_ROOTS_INGEST_INSTALL_INTENT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "branch": "work/v10-behavior-qualification-lane-a-20261004-v1",
+    "head": "f2700768367db9ffe46f8854b3dcb8e21e4f18ec"
+  },
+  "resource_claims": [
+    "LANE_B_A2_HOSTILE_REVIEW",
+    "CPU_SOURCE_ONLY"
+  ],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/events/20261004T202200Z_lane-b_a2-behavior-qualification-review-hold.json",
+    "bus/two-v2:messages/20261004-two-one-a2-behavior-qualification-review-v1.md"
+  ],
+  "effects": [
+    "source_write_or_commit",
+    "review_hold"
+  ],
+  "evidence": {
+    "subject_binding": "FAIL: audit accepts arbitrary training-root and does not verify bound head/manifest/shard hashes",
+    "declaration_enforcement": "FAIL: record-ID overlap/provenance declarations are not enforced",
+    "semantic_independence": "FAIL: exact matching cannot exclude V4.1 template ancestry/recombination",
+    "statistics": "20 target cases => 15pp is only 3 cases; screening only without paired power/uncertainty",
+    "scoring": "free-text rubric/criticality/stochastic handling underspecified",
+    "protected": "relationship_authority, reciprocal_identity_continuity, negative_transfer_resistance need critical-failure coverage",
+    "c_custody": "C-specific target rows must stay opaque to C until candidate/config freeze"
+  },
+  "next_action": "A revises A2 and returns exact head. Required: subject-bound hashes; enforced provenance/ID checks; semantic/template-ancestry plus collision controls; structured hidden rubrics; paired power/statistics (20/family screening, expanded target set around 80 or power-justified alternative); case-level criticality; C-specific custodied target set. B re-reviews.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_A"
+}
