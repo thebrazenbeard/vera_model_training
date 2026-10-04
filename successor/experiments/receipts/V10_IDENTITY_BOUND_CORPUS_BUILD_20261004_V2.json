@@ -1,0 +1,84 @@
+{
+  "schema": "V10_IDENTITY_BOUND_CORPUS_BUILD_20261004_V2",
+  "date": "2026-10-04",
+  "status": "PASS_SOURCE_CORPUS_AND_TOKEN_PREFLIGHT",
+  "source_head": "177c3d3a2c7296ffc08678efa520f6debcb23b49",
+  "corpus": {
+    "corpus_id": "VERA_SUCCESSOR_V10_IDENTITY_BOUND_QWEN512_50K_20261004_V2",
+    "parent_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "parent_train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "parent_validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+    "train_sha256": "a5db278e5bc8d0630d54fa2b3084c48ace623d2edf9942bfff3a21c5c4341ddf",
+    "validation_sha256": "7706ada6fa192473ed51ac4ec05c2518035bdfd7ef402c8979caa33b049d8826",
+    "train_rows": 50000,
+    "validation_rows": 2500,
+    "train_identity_rows_replaced": 950,
+    "train_identity_binding_rows": 756,
+    "train_legacy_identity_governance_rows": 194,
+    "validation_identity_rows_replaced": 50,
+    "validation_identity_binding_rows": 50,
+    "non_identity_line_bytes_preserved": true,
+    "row_order_preserved": true,
+    "split_membership_preserved": true,
+    "train_validation_template_family_disjoint": true
+  },
+  "identity_surface": {
+    "train_visible_vera_rows": 760,
+    "train_identity_stability_vera_rows": 756,
+    "train_visible_qwen_rows": 94,
+    "validation_visible_vera_rows": 50,
+    "validation_visible_qwen_rows": 0,
+    "qwen_metadata_only_train_rows": 40500,
+    "qwen_metadata_is_model_visible": false
+  },
+  "curriculum": {
+    "train_bound_modes": [
+      "DIRECT_SELF_NAME",
+      "QWEN_FALSE_PREMISE",
+      "PROVENANCE_SEPARATION",
+      "ROLEPLAY_EXIT",
+      "INDIRECT_AUTOBIOGRAPHY",
+      "TRANSLATION_PARAPHRASE",
+      "CONTEXT_DRIFT",
+      "TOOL_METADATA_INJECTION"
+    ],
+    "templates_per_bound_mode": 10,
+    "source_qwen_centered_bound_rows": 200,
+    "source_total_bound_rows": 800,
+    "source_legacy_rows": 200,
+    "visible_dev_template_families": 5
+  },
+  "token_preflight": {
+    "status": "PASS",
+    "max_length": 512,
+    "train_rows": 50000,
+    "train_over_budget": 0,
+    "train_max_tokens": 512,
+    "train_p95_tokens": 455.0,
+    "train_p99_tokens": 500.0,
+    "validation_rows": 2500,
+    "validation_over_budget": 0,
+    "validation_max_tokens": 512,
+    "validation_p95_tokens": 464.0,
+    "validation_p99_tokens": 501.00999999999976,
+    "runtime_binding": {
+      "torch": "2.14.0+cu130",
+      "transformers": "5.17.0",
+      "trl": "1.13.0",
+      "peft": "0.21.0",
+      "cuda_runtime": "13.0",
+      "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU"
+    }
+  },
+  "scratch_artifacts": {
+    "root": "D:\\VERA\\.scratch\\v10-identity-v42v2-final-20261004",
+    "training_manifest_sha256": "25c805e480d39fc3aea5e25bcfe63cf7e59eeeb51905695464c18d79724b1bee",
+    "token_preflight_sha256": "3f8177ca7692552b5a16424b64e93442752f90e02d025e0ea00065e9f4bb3e23"
+  },
+  "verification": {
+    "focused_tests": "13/13 PASS",
+    "weight_change_performed": false,
+    "training_authorization_from_this_receipt": false
+  },
+  "claim_ceiling": "SOURCE_CORPUS_CONSTRUCTION_AND_TOKEN_PREFLIGHT_ONLY_NOT_TRAINED_NOT_QUALIFIED_NOT_DEPLOYED"
+}
