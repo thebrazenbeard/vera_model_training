@@ -1,0 +1,61 @@
+{
+  "schema": "C1_HISTORY_DERIVATIVE_RUNNER_RECEIPT_V1",
+  "work_unit": "C1_HISTORY_DERIVATIVE_REVIEW_V1",
+  "lane": "LANE_C",
+  "satisfies_hold": "20261004T211500Z_LANE_B_C_DERIVATIVE_REVIEW_HOLD",
+  "artifacts": {
+    "train": {
+      "sha256": "0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12",
+      "git_blob": "eb94ba4668c1df36f00daa8ed4ce0ad55633391d",
+      "rows": 14,
+      "source_behavior_counts": {
+        "C1-BA-001": 2,
+        "C1-BA-002": 2,
+        "C1-BA-003": 2,
+        "C1-BA-004": 2,
+        "C1-BA-006": 2,
+        "C1-BA-007": 2,
+        "C1-BA-008": 2
+      },
+      "ingest_record": "5ead15fed754d2af68c9c0135b91c2b42ba3c6c9989fce71884aa7d747f78cdf"
+    },
+    "replay": {
+      "sha256": "f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477",
+      "git_blob": "df60cff79e1ccae1b929cc3cc375af88c9794848",
+      "rows": 8,
+      "ingest_record": "1a8e9d61d11b6201aefcec4745436adceb328c323a3c0459ecf75759706df8e9"
+    }
+  },
+  "runner_tasks": {
+    "reemit_exact": {
+      "task_id": "2cc02f53dd6847c28e809a8f49d8005c",
+      "launch_id": "8370afd3dccf40b0ba89353aa0c7dcaf"
+    },
+    "validate": {
+      "task_id": "422ee7d7f76140e9bfc54cbb5403eff9",
+      "launch_id": "5fc4b4889e6e4de88cec0f0a38f27cd3"
+    },
+    "ingest_exact": {
+      "task_id": "3483651dad214b9c9f1c218bad5e006e",
+      "launch_id": "0489aa3f87994402a87e791a22d76017"
+    },
+    "publish_package": {
+      "task_id": "193833d1eaa943a08259be8dc86d60ee",
+      "launch_id": "5109bb87fee348e0a85831f8accb9f87"
+    }
+  },
+  "ingest_audit": {
+    "status": "PASS",
+    "records_ok": 11,
+    "records_checked": 11,
+    "records_corrupt": 0,
+    "issues": []
+  },
+  "validation": {
+    "privacy_scan_pass": true,
+    "protected_eval_consumed": false,
+    "shared_gpu_used": false,
+    "weight_change": false
+  },
+  "review_state": "AWAITING_LANE_B_EXACT_SHA_REVIEW"
+}
