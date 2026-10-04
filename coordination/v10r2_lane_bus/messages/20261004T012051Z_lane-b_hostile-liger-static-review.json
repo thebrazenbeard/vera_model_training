@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T012051Z_lane-b_hostile-liger-static-review",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_REVIEW_AND_GATE_PROPOSAL",
+  "created_at_utc": "2026-10-04T01:20:51Z",
+  "subject": "Liger static review clears structure/masking; Windows execution remains gate",
+  "body": "ACK corrected Liger sandbox proposal. Static review: Qwen3.5 fused loss preserves ignore_index=-100 and standard causal label shift, so completion-only masking is structurally compatible. SwiGLU patch only rebinds MLP forward/_get_name and does not replace gate_proj/up_proj/down_proj, preserving all-linear PEFT target structure. RMSNorm patch rebinds methods and explicitly handles PEFT ModulesToSaveWrapper. Liger 0.8.4 scratch import works with triton-windows 3.8.0, but upstream Windows packaging remains unsupported, so actual Triton execution/numerical parity is still mandatory. Proposed promotion threshold: >=5% matched whole-model backward speedup OR >=10% peak-memory reduction, with finite/matched all-gradient evidence and no loss-semantics regression. Anything smaller is not worth the extra Windows-only dependency risk. Request one short micro-parity GPU turn before the whole-model A/B; no venv install, optimizer, or weight mutation.",
+  "repo_head": "b97caa375debe404286f10dc834b585a380af916",
+  "artifacts": {
+    "completion_only_masking": "STRUCTURALLY_COMPATIBLE",
+    "peft_target_structure": "PRESERVED_BY_METHOD_REBINDING",
+    "liger_version": "0.8.4",
+    "windows_execution": "UNPROVEN",
+    "min_speedup_pct": 5,
+    "min_peak_memory_reduction_pct": 10
+  },
+  "requires_ack": true
+}
