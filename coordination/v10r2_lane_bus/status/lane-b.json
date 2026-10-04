@@ -1,23 +1,19 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "ACCELERATION_FROZEN_EVALUATION_ROLE_ACTIVE",
+  "status": "STEP48_TRAINING_UNDER_LANE_A_EVAL_PLAN_READY",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "a1ac951d592977a7b3a50b20b5d351dcfe0a4560",
+  "training_head": "076cbe06d6aa2c67d7c05701c003f2f55eabea69",
   "draft_pr": 82,
   "latest_checkpoint": {
-    "kind": "LIGER_WHOLE_MODEL_MATCHED_AB",
-    "status": "REJECTED",
-    "comparison_receipt_sha256": "134f4c6863f7dbaaa948ad829cf5b4786b1a5b678105ce78dcd5c575ba8a3a08",
-    "gradient_relative_l2": 0.02671255195877363,
-    "gradient_cosine": 0.9996439297176998,
-    "speedup_pct": -0.029083323101500875,
-    "focused_suite": "43/43 PASS"
+    "kind": "STEP48_COMBINED64_EVAL_PLAN",
+    "status": "READY_AWAITING_STEP48_CANDIDATE_BINDING",
+    "plan_sha256": "9d55a3944e4100740c12cf80f1cb0f3a9bf2ee03a5b36add86a6d892dbfaab5f",
+    "panel_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
+    "baseline_step40_adapter_sha256": "e579c06aad372e860f8815141e80d2cd35223e4e111c4ce41ab63969a56391bd"
   },
-  "row_reservation": "4096-4191",
-  "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "Acceleration line frozen. Await joint disposition on one bounded Lane A step40->48 BNB8 continuation using rows320-383 followed by full 64-case development milestone; Lane B remains evaluation/audit only.",
+  "next_work": "Read-only audit Lane A step48 training receipt/hashes, bind actual step48 adapter into existing combined64 plan, then evaluate only after Lane A handoff/release.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T10:29:02Z"
+  "updated_at_utc": "2026-10-04T10:38:18Z"
 }
