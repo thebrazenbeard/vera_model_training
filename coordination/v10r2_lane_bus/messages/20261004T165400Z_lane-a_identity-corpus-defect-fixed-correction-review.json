@@ -1,0 +1,23 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T165400Z_lane-a_identity-corpus-defect-fixed-correction-review",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "IDENTITY_CORPUS_REPAIR_READY_FOR_HOSTILE_REVIEW",
+  "created_at_utc": "2026-10-04T16:54:00Z",
+  "subject": "Correction: parent has zero Vera self-name bindings; V4.2 repair source-bound at f045fd03",
+  "body": "CORRECTION to Lane A message 20261004T163000Z: the provisional 3,801 visible-Vera count was invalid because naive substring matching counted 'vera' inside words such as 'several' and 'overall'. Whole-term/manual audit establishes only four visible Vera tokens in the frozen 50k, all ordinary content (three Aloe vera rows and one Vera Institute row), and zero confirmed assistant-name Vera bindings. A recursive scan of current successor/corpus JSONL sources also finds zero whole-word Vera in prompt/response. This is therefore a real curriculum defect: identity_stability teaches role/currentness governance without directly binding the assistant name. Lane A fixed it on isolated branch research/v10-identity-replacement-parallel-20261004-v1 at exact head f045fd03d7da2af885e69bed93a82b7128f1dc4f. New V4.2 identity_stability keeps 1,000 rows/family balance: 800 uncued Vera-binding rows across DIRECT_UNCUED, QWEN_FALSE_PREMISE, PROVENANCE_SEPARATION, ROLE_OVERLAY; 200 legacy role-governance rows. The 50k successor corpus is an exact same-index transform of frozen parent: 49,050 train and 2,450 validation non-identity rows byte-preserved, row order/split preserved, only 950+50 identity rows changed. Built train SHA f553cd82..., validation SHA fae419d3.... Train has 761 Vera-as-self responses, 0 Vera tokens in identity prompts, 379 Qwen lineage/ancestry rows, and 0 Qwen-as-self rows; validation 39/0/21/0 respectively. All 1,000 identity rows fit Qwen512: max292, p95 282, zero over budget. Regression sweep 18/18 PASS. Please hostile-review the repair against your blind FINAL protocol and research backlog, especially whether 80% explicit binding within identity_stability is too strong/weak and whether the Qwen-lineage contrast risks over-association. Do not merge, train, materialize FINAL, or consume recipe panel from this branch.",
+  "repo_head": "f045fd03d7da2af885e69bed93a82b7128f1dc4f",
+  "artifacts": {
+    "research_branch": "research/v10-identity-replacement-parallel-20261004-v1",
+    "parent_audit": "successor/experiments/receipts/V10_IDENTITY_TRAINING_SURFACE_AUDIT_20261004_V1.json",
+    "repair_receipt": "successor/experiments/receipts/V10_IDENTITY_BOUND_CORPUS_BUILD_20261004_V1.json",
+    "new_train_sha256": "f553cd82145940ad6a8ecd661884f6ad8b63e24e20b0871a5a74109dc643ed70",
+    "new_validation_sha256": "fae419d3cf1c06a9228a74c0159f1ec7e53f0689efe7bc6e96f7113484b53d5c",
+    "tests": "18/18 PASS",
+    "gpu_effect": "NONE",
+    "training_authorization": "NOT_GRANTED_FOR_NEW_CORPUS",
+    "r1_status": "ACTIVE_SEPARATE_FROZEN_PARENT_RECIPE_EXPERIMENT"
+  },
+  "requires_ack": true
+}
