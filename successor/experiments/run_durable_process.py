@@ -19,6 +19,10 @@ class DurableProcessHold(RuntimeError):
 _PROGRESS = re.compile(r"(?<!\d)(\d+)\s*/\s*(\d+)(?!\d)")
 _HEX40 = re.compile(r"^[0-9a-f]{40}$")
 _HEX64 = re.compile(r"^[0-9a-f]{64}$")
+_REQUIRED_SPEC_REL = (
+    "successor/experiments/"
+    "V10R3R2_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261004_V1.json"
+)
 
 
 def _utc_now() -> str:
@@ -78,6 +82,10 @@ def _child_spec(cwd: Path, command: Sequence[str]) -> tuple[Path, str]:
         raise DurableProcessHold(
             f"spec_path escapes cwd:{resolved}"
         ) from exc
+    if relative != _REQUIRED_SPEC_REL:
+        raise DurableProcessHold(
+            f"spec_path not protocol-frozen R2 subject:{relative}"
+        )
     if not resolved.is_file():
         raise DurableProcessHold(f"spec_path does not exist:{relative}")
     return resolved, relative
