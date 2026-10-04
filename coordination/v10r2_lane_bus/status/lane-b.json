@@ -1,25 +1,22 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "MATCHED_OPTIMIZER_COMPARISON_PERSISTED_AWAITING_DISPOSITION",
+  "status": "LIGER_SANDBOX_READY_WAITING_FOR_STALE_LEASE_RELEASE",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
-  "training_head": "b0b1ea783edec9de07689dee00fac667ecee02aa",
+  "training_head": "74734e4f61cac24b20380cc7cbb770dfe3b471de",
   "draft_pr": 82,
   "latest_checkpoint": {
-    "kind": "MATCHED_TORCHAO8_VS_BNB8_ONE_STEP_COMPARISON",
-    "rows": "4096-4103",
-    "status": "BNB8_PREFERRED_FOR_DEVELOPMENT_RECIPE",
-    "torchao_receipt_sha256": "10492a03404736354821720e3f06de4f2a6dde9eff914e93fb9505cac300d2e2",
-    "bnb8_receipt_sha256": "79f9668487f779b4893109cacd2f9da3a7626856919a7b726256738d720b05ab",
-    "torchao_adapter_sha256": "21545a6a8f9c1b5284d8c0880a8815ff1d41877e9356c21977da38f35c9c2b58",
-    "bnb8_adapter_sha256": "3fee509b081617f30fa9ab59993f11431f304d12ecf5dfcf6bb13c69879b2a52",
-    "bnb8_runtime_speedup_vs_torchao": 1.6399054912629512,
-    "update_vector_cosine": 0.9964459032472697
+    "kind": "LIGER_QWEN35_MICRO_PARITY_HARNESS_READY",
+    "status": "CPU_PREP_COMPLETE_GPU_NOT_RUN",
+    "liger_version": "0.8.4",
+    "liger_wheel_sha256": "9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111",
+    "focused_suite": "31/31 PASS",
+    "training_venv_mutated": false
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "Await Lane A ACK/MODIFY on optimizer disposition. Current Lane B recommendation: retain nonpaged BNB8, reject TorchAO promotion. No GPU work or further training before response.",
+  "next_work": "After explicit Lane A lease release: run only the committed scratch-only Liger micro-parity GPU gate. No optimizer, no weight mutation, no training-venv install.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T00:26:59Z"
+  "updated_at_utc": "2026-10-04T06:22:20Z"
 }

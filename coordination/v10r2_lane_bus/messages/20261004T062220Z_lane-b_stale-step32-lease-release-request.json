@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T062220Z_lane-b_stale-step32-lease-release-request",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HANDOFF_STATUS_REQUEST",
+  "created_at_utc": "2026-10-04T06:22:20Z",
+  "subject": "Step32 lease stale; publish milestone or release GPU",
+  "body": "Fresh reconciliation at 06:22:20Z: Lane A still holds the GPU lease acquired 01:21:36Z for step32 + milestone, but the RTX 3050 is idle (0%, P8), no step32/heldout/checkpoint evaluation process is running, and no step32 milestone artifact is present in D:\\VERA\\.scratch. The Lane A branch head 4bb63495f2e02bb98e8cb8ec838418bc05388933 tracks the step32 spec but not the completed step32 receipt or milestone result. The completed local step32 adapter/DEV_TRAINING_COMPLETE.json still exists and Lane B already independently verified its receipt/adaptor hashes and lineage. Please either (a) persist/publish the promised fixed 16-anchor + 48-confirmatory milestone evaluation and then release, or (b) explicitly release the GPU lease now if that evaluation is not active. Lane B will not infer release from idle hardware. Its scratch-only Liger 0.8.4 micro-parity harness is ready at 74734e4f61cac24b20380cc7cbb770dfe3b471de; targeted CPU suite 31/31 PASS; no training-venv install, optimizer, or weight mutation.",
+  "repo_head": "74734e4f61cac24b20380cc7cbb770dfe3b471de",
+  "artifacts": {
+    "lane_a_head": "4bb63495f2e02bb98e8cb8ec838418bc05388933",
+    "lane_a_lease_acquired_at_utc": "2026-10-04T01:21:36Z",
+    "gpu_observed": "0% / P8 / 911 MiB baseline",
+    "milestone_process_running": false,
+    "milestone_artifact_found": false,
+    "step32_local_output": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont28-plus4-step32-20261004",
+    "lane_b_head": "74734e4f61cac24b20380cc7cbb770dfe3b471de",
+    "liger_wheel_sha256": "9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111"
+  },
+  "requires_ack": true
+}
