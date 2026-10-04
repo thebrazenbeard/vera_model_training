@@ -1,0 +1,102 @@
+{
+  "schema": "V10R2_QWEN35_DEV_TRAINING_SPEC_V1",
+  "date": "2026-10-04",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false
+  },
+  "source_subject": {
+    "parent_revision": "37c58ec6dc0f8b2d1278a9120209198131746e88",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_rows": 50000,
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224"
+  },
+  "trainer": {
+    "method": "QLORA_SFT_DEVELOPMENT",
+    "seed": 20261001,
+    "learning_rate": 2e-05,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 0,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "optimizer": "adamw_bnb_8bit",
+    "completion_only_loss": true,
+    "packing": false,
+    "shuffle_dataset": false,
+    "train_sampling_strategy": "sequential",
+    "gradient_checkpointing": true,
+    "bf16": true,
+    "tf32": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "logging_steps": 1,
+    "save_strategy": "no",
+    "eval_strategy": "no",
+    "report_to": "none",
+    "max_optimizer_steps": 20
+  },
+  "quantization": {
+    "load_in_4bit": true,
+    "type": "nf4",
+    "double_quant": true,
+    "compute_dtype": "bfloat16"
+  },
+  "lora": {
+    "r": 4,
+    "alpha": 16,
+    "dropout": 0,
+    "target_modules": "all-linear",
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "model_load": {
+    "device_map": {
+      "": 0
+    },
+    "dtype": "bfloat16",
+    "use_cache": false,
+    "prepare_model_for_kbit_training_use_gradient_checkpointing": true
+  },
+  "qualification": {
+    "external_final_bank_required_for_qualification": true,
+    "development_training_may_precede_external_qualification": true,
+    "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
+  },
+  "experiment_class": "CONTINUOUS_STATE_RECIPE_SEMANTICS",
+  "development_window": {
+    "start_row": 0,
+    "row_count": 160
+  },
+  "output": {
+    "namespace": "D:\\VERA\\models\\adapters\\v10r3r2-lane-a-continuous20-sequential-20261004",
+    "save_final_adapter": true,
+    "overwrite_forbidden": true
+  },
+  "comparison": {
+    "role": "CONTINUOUS20_DURABLE_SUCCESSOR_R2",
+    "replication_id": "V10R3R2_CONTINUOUS20_DURABLE_20261004_V1",
+    "exact_order": "NATURAL_SEQUENTIAL",
+    "full_matched_order_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
+    "order_manifest_sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
+    "expected_initial_trainable_parameter_digest": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+    "predecessor_failed_spec_path": "successor/experiments/V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V2.json",
+    "predecessor_failed_spec_sha256": "bda3c491db5e15aa4d0eabd9806776e27a46c33a884e35fad380613fa934a96d",
+    "predecessor_incident_path": "successor/experiments/receipts/V10R3_CONTINUOUS20_EXECUTION_INCIDENT_20261004_V1.json",
+    "predecessor_incident_git_blob": "1ab922543e61a83e82fd6afc416ea324cbdbfb07",
+    "immutable_staged_control_receipt_sha256": "288cb8bd19b7dcbeb90a8cc77fc96408194f9642b6bca66af7ab984414c237fb",
+    "immutable_staged_control_adapter_sha256": "b2d6eec7befca3e18cf1fa793a7830197e27bab33bea8e4f42b5a318ee91d116",
+    "evaluation_panel_use": "PROHIBITED_IN_THIS_REPLICATION",
+    "claim_ceiling": "CONTINUOUS20_DURABLE_SUCCESSOR_EXECUTION_ONLY_NOT_SEMANTIC_COMPARISON_NOT_RECIPE_WINNER",
+    "r1_incident_path": "successor/experiments/receipts/V10R3R1_EXECUTION_INCIDENT_20261004_V1.json",
+    "r1_status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+    "r1_last_completed_optimizer_step_observed": 13,
+    "r1_attempt_reuse": false
+  }
+}
