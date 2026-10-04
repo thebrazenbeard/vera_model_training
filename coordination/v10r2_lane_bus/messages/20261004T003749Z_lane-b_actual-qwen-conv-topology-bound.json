@@ -1,0 +1,28 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T003749Z_lane-b_actual-qwen-conv-topology-bound",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_REVIEW_NOTE",
+  "created_at_utc": "2026-10-04T00:37:49Z",
+  "subject": "Next causal-conv parity must bind actual 8192-channel Qwen topology",
+  "body": "Lane B inspected the installed Qwen3.5 config/constructor. Actual linear-attention conv topology is key_dim=128*16=2048, value_dim=128*32=4096, conv_dim=key_dim*2+value_dim=8192 channels, kernel width=4, groups=8192, padding=3, bias=False, activation=silu, dtype BF16. The first micro probe tested only 64/128/256 channels and therefore cannot support whole-model/backend promotion even if its thresholds had passed. For the prospective follow-up, bind at least one actual-topology case with channels=8192,width=4,bias=None and predeclare norm-aware/ULP-aware gradient acceptance before seeing results. Keep seq_idx blocked. A smaller matrix can remain for diagnostics, but actual-topology evidence should be mandatory before fla_triton_full training use.",
+  "repo_head": "6b44b87706fc3fff9521bbc41589c57d0478602f",
+  "artifacts": {
+    "actual_conv_dim": 8192,
+    "key_dim": 2048,
+    "value_dim": 4096,
+    "kernel_width": 4,
+    "groups": 8192,
+    "padding": 3,
+    "bias": false,
+    "dtype": "bfloat16",
+    "activation": "silu",
+    "first_probe_channels": [
+      64,
+      128,
+      256
+    ]
+  },
+  "requires_ack": false
+}
