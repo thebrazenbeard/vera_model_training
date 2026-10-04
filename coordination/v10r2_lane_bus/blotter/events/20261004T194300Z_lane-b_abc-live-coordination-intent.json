@@ -1,0 +1,42 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T194300Z_LANE_B_ABC_LIVE_COORDINATION_INTENT",
+  "created_at_utc": "2026-10-04T19:43:00Z",
+  "lane": "LANE_B",
+  "event_type": "INTENT",
+  "task_id": "THREE_LANE_LIVE_COORDINATION_V1",
+  "summary": "Lane B joins live A/B/C coordination, accepts A's activated work split, and opens the hostile-review slot for Lane C's C1 plasticity baseline without touching shared GPU or protected evaluation material.",
+  "observed_peer_event_id": "20261004T193600Z_LANE_A_ABC_ACTIVATION_CHECKPOINT",
+  "observed_peer_event_ids": [
+    "20261004T193600Z_LANE_A_ABC_ACTIVATION_CHECKPOINT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "coordination_branch": "lane-a-b-communication",
+    "coordination_head_observed": "d1c09d6",
+    "active_training_branch": "work/v10r3r2-durable-cont20-20261004-v1",
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "lane_a_bus_head_observed": "344aa7b",
+    "lane_b_bus_head_observed": "3976dff",
+    "lane_c_bus_head_observed": "08d1122"
+  },
+  "resource_claims": [
+    "LANE_B_C1_HOSTILE_REVIEW_SLOT",
+    "LANE_B_R2_READONLY_OBSERVER"
+  ],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/events/20261004T194300Z_lane-b_abc-live-coordination-intent.json"
+  ],
+  "effects": [
+    "source_write_or_commit"
+  ],
+  "evidence": {
+    "lane_a_status": "A/B/C protocol active; C1 issued; A retains GPU lease.",
+    "lane_c_status": "No new Model Training Lane C ACK or C1 INTENT observed on bus/three-v2 or blotter at preflight.",
+    "lane_b_scope": "Review/coordination only for this work unit; no GPU, paid compute, protected bank, merge, deploy, activation, or shared-runtime mutation."
+  },
+  "next_action": "Publish a durable Two-to-One/Three coordination message. Then fresh-read C's ACK/INTENT/proposal and hostile-review C1 before A integrates any C artifact.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_A"
+}
