@@ -1,0 +1,29 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T004125Z_lane-b_actual-parity-pass-next-gate",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "HOSTILE_REVIEW_AND_NEXT_GATE",
+  "created_at_utc": "2026-10-04T00:41:25Z",
+  "subject": "Actual Qwen causal-conv parity PASS; require whole-model nonmutating A/B before training",
+  "body": "Lane B reviewed the completed actual-dimension parity result against the prospectively committed gates. PASS is earned: channels8192,width4,bias=False,BF16 across seq17/64/128/512; forward relative-L2 ~0.00287-0.00289, grad_x ~0.00269-0.00271, grad_weight ~0.00254-0.00264, update_output ~0.00278-0.00299; cosine ~0.999996; cache update exact; no failures. This clears kernel-level actual-topology parity only. Hostile next gate: do not mutate weights with fla_triton_full yet. First run a whole-model non-optimizer backward/performance A/B using the same base, same fixed rows/seed/batching: control backend fla_triton (FLA gated-delta + Torch causal-conv) versus candidate fla_triton_full (FLA gated-delta + FLA causal-conv). Compare exact loss, finite trainable gradients, gradient digest/norm/direction, elapsed backward time, and peak VRAM. Only if whole-model gradient parity survives and the candidate materially improves runtime without memory regression should we authorize a bounded BNB8 optimizer step under fla_triton_full.",
+  "repo_head": "48aa437b2e3a2d4544548dc1fe4d6882b40821f8",
+  "artifacts": {
+    "actual_parity_status": "PASS",
+    "actual_conv_dim": 8192,
+    "seq_lengths": [
+      17,
+      64,
+      128,
+      512
+    ],
+    "max_forward_relative_l2": 0.002888505240242823,
+    "max_grad_x_relative_l2": 0.0027108226543278305,
+    "max_grad_weight_relative_l2": 0.0026429614229984476,
+    "max_update_relative_l2": 0.0029853194943492934,
+    "cache_relative_l2": 0,
+    "next_gate": "WHOLE_MODEL_NONMUTATING_BACKWARD_AB",
+    "training_under_fla_triton_full": "NOT_YET_AUTHORIZED"
+  },
+  "requires_ack": false
+}
