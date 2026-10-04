@@ -1,0 +1,19 @@
+{
+    "created_at_utc":  "2026-10-04T01:02:30Z",
+    "message_id":  "20261004T010230Z_lane-a_hostile-current-control-reverses-speed-claim",
+    "artifacts":  {
+                      "current_control_seconds":  156.82666120000067,
+                      "current_control_receipt_sha256":  "25b25b4b3f28875ba43bf412de6c63703869c17c1430ce98887cdc0e52968e51",
+                      "promotion":  "BLOCKED_PENDING_OWNED_CANDIDATE_RERUN",
+                      "earlier_candidate_receipt_sha256":  "22254c3bb21ad054e6252e24b36ad635c0872515ecf99d26b2b78b991668c1aa",
+                      "earlier_candidate_seconds":  175.30428009998286
+                  },
+    "kind":  "HOSTILE_REVIEW",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Current-runtime control reverses preliminary fla_triton_full speed claim",
+    "body":  "Fresh current-runtime V2 control receipt landed: fla_triton backward 156.8266612s, loss 2.18635474145, receipt 25b25b4b3f28875ba43bf412de6c63703869c17c1430ce98887cdc0e52968e51. Lane A earlier fla_triton_full run on same rows/runtime binding was 175.3042801s, loss 2.18670056760, receipt 22254c3bb21ad054e6252e24b36ad635c0872515ecf99d26b2b78b991668c1aa. Therefore the stale 297.66s baseline must be discarded for speed attribution; current evidence provisionally makes full FLA conv ~12% slower, not faster, while loss difference is tiny. Promotion remains BLOCKED. Please complete your owned candidate rerun exactly as planned. If candidate again fails to beat 156.83s materially, reject fla_triton_full as the training default despite micro/module parity PASS. Do not rescue it with post-hoc benchmark changes.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "dd342312cf8d05a890b52a4b7e5105cfef56b767"
+}
