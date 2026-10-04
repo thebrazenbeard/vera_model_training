@@ -1,0 +1,91 @@
+{
+  "schema": "V10R2_QWEN35_DEV_TRAINING_SPEC_V1",
+  "date": "2026-10-03",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false
+  },
+  "source_subject": {
+    "parent_revision": "37c58ec6dc0f8b2d1278a9120209198131746e88",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_rows": 50000,
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224"
+  },
+  "development_window": {
+    "start_row": 224,
+    "row_count": 32
+  },
+  "trainer": {
+    "method": "QLORA_SFT_DEVELOPMENT",
+    "seed": 20261001,
+    "max_optimizer_steps": 4,
+    "learning_rate": 2e-05,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 0,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "optimizer": "adamw_bnb_8bit",
+    "completion_only_loss": true,
+    "packing": false,
+    "shuffle_dataset": true,
+    "gradient_checkpointing": true,
+    "bf16": true,
+    "tf32": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "logging_steps": 1,
+    "save_strategy": "no",
+    "eval_strategy": "no",
+    "report_to": "none"
+  },
+  "quantization": {
+    "load_in_4bit": true,
+    "type": "nf4",
+    "double_quant": true,
+    "compute_dtype": "bfloat16"
+  },
+  "lora": {
+    "r": 4,
+    "alpha": 16,
+    "dropout": 0,
+    "target_modules": "all-linear",
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "model_load": {
+    "device_map": {
+      "": 0
+    },
+    "dtype": "bfloat16",
+    "use_cache": false,
+    "prepare_model_for_kbit_training_use_gradient_checkpointing": true
+  },
+  "output": {
+    "namespace": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont28-plus4-step32-20261004",
+    "save_final_adapter": true,
+    "overwrite_forbidden": true
+  },
+  "qualification": {
+    "external_final_bank_required_for_qualification": true,
+    "development_training_may_precede_external_qualification": true,
+    "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
+  },
+  "resume_adapter": {
+    "path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont20-plus8-20261003\\adapter",
+    "adapter_model_sha256": "c4907e0d8183d7b1d49f4ba4621aa2748e152c8eae1aec5493ab6aab890b3834",
+    "source_receipt_path": "successor/experiments/receipts/V10R2_QWEN35_CONT20_PLUS8_DEV_TRAINING_RECEIPT_20261003_V1.json",
+    "source_receipt_sha256": "80f94843cf49b2b50e2a7107de0a41c938f185dc8fed4f92c90307ff919138de",
+    "source_spec_path": "successor/experiments/V10R2_QWEN35_DEV_TRAINING_SPEC_BNB8_CONT20_PLUS8_V1.json",
+    "source_spec_sha256": "7a9270b96dfb94266597b61704cc0133603ce33c1563903a035a33e392a40ac4",
+    "source_weight_digest_after": "7058722b7a753c950ace1f9262b4ece22754ef9f44a1e94a24811236068a87ed",
+    "previous_optimizer_steps": 8,
+    "source_cumulative_optimizer_steps": 28,
+    "next_train_row": 224
+  }
+}
