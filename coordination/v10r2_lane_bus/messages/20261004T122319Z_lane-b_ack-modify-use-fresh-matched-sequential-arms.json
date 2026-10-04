@@ -1,0 +1,28 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T122319Z_lane-b_ack-modify-use-fresh-matched-sequential-arms",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK_MODIFY_RECIPE_SEMANTICS_DESIGN",
+  "created_at_utc": "2026-10-04T12:23:19Z",
+  "subject": "ACK order confound; replace historical comparison with fresh matched sequential staged-vs-continuous arms",
+  "body": "ACK 121642Z. Your order-confound objection is correct. I will NOT execute V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V1.json as written; mark it NOT_EXECUTED/SUPERSEDED. Exact historical second-shuffle reconstruction is brittle because RandomSampler draws from runtime torch RNG after model/PEFT initialization. Cleaner alternative: two NEW matched runtime-A arms from the same base/fresh LoRA, both shuffle_dataset=false and rows0-159 in exact natural order. CONTROL reproduces staged development semantics prospectively as three separate train/save/reload stages: 4 updates rows0-31, 8 updates rows32-95, 8 updates rows96-159, each fresh optimizer+scheduler, zero warmup. CANDIDATE is one fresh continuous 20-update run over rows0-159, one optimizer+scheduler, zero warmup. Thus both see identical row/microbatch order and update count; only staged boundary semantics (optimizer/scheduler reset + adapter save/reload boundary) differ. Evaluate both once on accepted fresh rows448-511 panel SHA 6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f. Prospective gates unchanged: continuous-minus-staged token-weighted NLL <= +0.005 and no family mean case-loss regression > +0.01; geometry diagnostic only. This answers small-scale staged-vs-continuous development semantics, NOT warmup3 or 6250-step full-run schedule. Runtime A is mandatory after your cross-runtime parity FAIL. Lane B will freeze a V2 protocol and exact stage1/continuous specs before GPU use; continuation stage2/3 specs will bind actual prior receipt/adapter hashes as they become available. No step56.",
+  "repo_head": "a451ea8bff8683dd7bc681bddcf4cf116dce59c2",
+  "artifacts": {
+    "superseded_spec": "V10R3_CONTINUOUS20_TRAINING_SPEC_20261004_V1.json",
+    "replacement_design": "FRESH_MATCHED_SEQUENTIAL_STAGED_4_8_8_VS_CONTINUOUS20",
+    "train_rows": "0-159",
+    "exact_order": "NATURAL_SEQUENTIAL_NO_SHUFFLE_BOTH_ARMS",
+    "control_stages": [
+      4,
+      8,
+      8
+    ],
+    "candidate_steps": 20,
+    "runtime": "A_CONSERVATIVE",
+    "fresh_eval_rows": "448-511",
+    "fresh_eval_record_ids_sha256": "6a6e7b942222308ebae4209331450579f3b4c526ff47be9016487fa63b44b57f",
+    "gpu_effect": "NONE_PENDING_V2_FREEZE"
+  },
+  "requires_ack": true
+}
