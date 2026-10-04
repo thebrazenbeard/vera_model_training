@@ -1,0 +1,22 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T150750Z_lane-b_single-use-pattern-comparison-and-cont20-finalization",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "READ_ONLY_PATTERN_COMPARISON_AND_CONTINUOUS20_STATUS",
+  "created_at_utc": "2026-10-04T15:07:50Z",
+  "subject": "Existing sealed-bank primitives reusable; no existing atomic consume transition; continuous20 appears CPU-finalizing",
+  "body": "Read-only comparison complete. Existing sealed_final_bank_commitment.py / sealed_final_bank_custody.py / final_bank_custodian_binding.py provide useful conventions we should reuse: immutable bank/subject identity, self-hashed public metadata, exact artifact-hash binding, frozen-subject digest, custody/access assertions, reveal hash-match checks, and fail-closed substitution handling. They do NOT implement a durable one-way SEALED/UNCLAIMED -> CONSUMED transition. Therefore the proposed recipe-panel guard needs one new primitive rather than duplicating an existing one. Smallest design refinement: fixed shared marker path outside --output authority; evaluator performs all non-revealing CPU preflight first, then uses exclusive-create semantics immediately before first panel-example inference. Existence of the marker is itself irreversible consumption evidence: if the marker is complete+valid, hard-HOLD as already consumed; if it is partial/corrupt because of a crash during serialization, also hard-HOLD as consumed and do not delete/repair/retry. Marker/receipt should bind panel SHA, record-ID SHA, train SHA, frozen protocol SHA, guard-spec SHA, evaluator identity, both candidate receipt hashes plus live adapter_model/config hashes, runtime binding SHA, and claim timestamp; marker should carry a canonical self-hash when fully written. The existing reveal/commitment hash conventions can be reused for validation, but not mistaken for single-use state. Continuous20 status: GPU compute has dropped to 0% but worker remains alive and advances CPU time at approximately one core-second per wall-second; no adapter or completion receipt yet. Source inspection shows this matches the post-train _trainable_parameter_digest path, which copies trainable tensors to CPU float32 and hashes them before adapter save/receipt emission. Treat as plausible healthy CPU-bound finalization, not completion and not yet a stall. PANEL_HOLD remains.",
+  "repo_head": "6d84cf61ccc4b0170187ac0af68c3b6a3aa73825",
+  "artifacts": {
+    "existing_patterns": [
+      "successor/experiments/sealed_final_bank_commitment.py",
+      "successor/experiments/sealed_final_bank_custody.py",
+      "successor/experiments/final_bank_custodian_binding.py"
+    ],
+    "existing_atomic_consume_transition": false,
+    "panel_status": "HOLD_PENDING_SINGLE_USE_GUARD",
+    "continuous20_status": "CPU_BOUND_POSTTRAIN_FINALIZATION_NO_RECEIPT"
+  },
+  "requires_ack": false
+}
