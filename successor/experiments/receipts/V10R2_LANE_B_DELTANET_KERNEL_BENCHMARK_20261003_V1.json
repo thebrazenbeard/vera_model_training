@@ -1,0 +1,87 @@
+{
+  "backward_parity_seq128": {
+    "all_gradients_allclose_rtol_5e2_atol_5e3": true,
+    "first_process_fla_elapsed_ms_including_jit": 74002.62500002282,
+    "fla_loss": 0.00019570221775211394,
+    "gradient_cosines": {
+      "beta": 0.9999904036521912,
+      "g": 0.9999985694885254,
+      "k": 0.999977171421051,
+      "q": 0.9999333024024963,
+      "v": 0.9999827146530151
+    },
+    "loss_abs_diff": 4.5780325308442116e-08,
+    "output_cosine": 0.9999397397041321,
+    "reference_loss": 0.0001956564374268055
+  },
+  "causal_convolution": {
+    "failure": "FLA causal_conv1d returned tuple where Qwen3.5 forward expects Tensor.transpose",
+    "fla_conv_status": "REJECTED_INTERFACE_MISMATCH",
+    "selected_backend": "TORCH_REFERENCE"
+  },
+  "claim_ceiling": "LOCAL_KERNEL_RUNTIME_BENCHMARK_ONLY_NOT_MODEL_QUALIFICATION",
+  "date": "2026-10-03",
+  "forward": [
+    {
+      "allclose_rtol_2e2_atol_2e2": true,
+      "fla_mean_ms": 1.0819400078617036,
+      "fla_peak_allocated_mib": 21.703125,
+      "max_abs_diff": 0.000732421875,
+      "mean_abs_diff": 5.457652878249064e-05,
+      "p99_abs_diff": 0.000244140625,
+      "reference_mean_ms": 17.166266673787806,
+      "reference_peak_allocated_mib": 39.67626953125,
+      "seq": 128,
+      "speedup": 15.866190869227976
+    },
+    {
+      "allclose_rtol_2e2_atol_2e2": true,
+      "fla_mean_ms": 1.3609200075734407,
+      "fla_peak_allocated_mib": 67.4375,
+      "max_abs_diff": 0.0009765625,
+      "mean_abs_diff": 5.7865217968355864e-05,
+      "p99_abs_diff": 0.000244140625,
+      "reference_mean_ms": 18.093433347530663,
+      "reference_peak_allocated_mib": 109.9404296875,
+      "seq": 512,
+      "speedup": 13.295001357053875
+    }
+  ],
+  "receipt_sha256": "1a90d9decda913cdadca403b86ef15e148ba9e045f6298493966c368b2d9594f",
+  "runtime_binding_sha256": "e9861abb9d1c9ec80e02b4cb7c08f9474adb642b6996b139e2d768a12843d8de",
+  "schema": "V10R2_LANE_B_DELTANET_KERNEL_BENCHMARK_V1",
+  "status": "FLA_GATED_DELTA_QUALIFIED_FOR_WHOLE_MODEL_PROBE",
+  "subject": {
+    "compute_capability": "8.6",
+    "cuda_runtime": "13.2",
+    "fla_core": "0.5.2",
+    "flash_linear_attention": "0.5.2",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "torch": "2.14.1+cu132",
+    "triton_windows": "3.8.0.post29"
+  },
+  "torch_compile_reference": {
+    "completed_benchmark": false,
+    "observed_compile_attempt_seconds": 141.41,
+    "reason": "Excessive compile CPU churn on RTX 3050 host; attempt terminated without a completed result.",
+    "status": "REJECTED_FOR_LANE_B_TRAINING"
+  },
+  "warm_backward": [
+    {
+      "fla_mean_ms": 4.409600010452171,
+      "fla_peak_allocated_mib": 39.9072265625,
+      "reference_mean_ms": 72.55989999005881,
+      "reference_peak_allocated_mib": 84.7587890625,
+      "seq": 128,
+      "speedup": 16.454984537842094
+    },
+    {
+      "fla_mean_ms": 4.868266667472199,
+      "fla_peak_allocated_mib": 110.8759765625,
+      "reference_mean_ms": 97.98599999824849,
+      "reference_peak_allocated_mib": 303.75,
+      "seq": 512,
+      "speedup": 20.127492327598148
+    }
+  ]
+}

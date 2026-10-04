@@ -1,0 +1,61 @@
+{
+  "schema": "V10R2_RETENTION_SHADOW_CACHE_READINESS_V1",
+  "date": "2026-10-04",
+  "status": "ALL_PINNED_SOURCES_PRESENT_AND_HASH_VERIFIED",
+  "role": "LOCAL_ZERO_COST_RETENTION_SHADOW_SOURCE_READINESS_ONLY",
+  "manifest": {
+    "path": "research/measurement/V10_RETENTION_SHADOW_BENCHMARKS_V1.json",
+    "claim_ceiling": "PINNED_PUBLIC_SHADOW_DIAGNOSTICS_ONLY / NOT_FRESH_HOLDOUT / NOT_FINAL_QUALIFICATION_EVIDENCE"
+  },
+  "sources": {
+    "knowledge_factuality": {
+      "dataset": "TIGER-Lab/MMLU-Pro",
+      "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+      "file_sha256": "0e24a191921c2f453518a537a8b2117bd137e7714d4ef1565e9ba06c1ecb9ad8",
+      "rows": 12032,
+      "local_status": "PRESENT_HASH_AND_ROW_COUNT_MATCH"
+    },
+    "reasoning_math": {
+      "dataset": "openai/gsm8k",
+      "revision": "740312add88f781978c0658806c59bc2815b9866",
+      "file_sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59",
+      "rows": 1319,
+      "local_status": "PRESENT_HASH_AND_ROW_COUNT_MATCH"
+    },
+    "coding": {
+      "dataset": "google-research-datasets/mbpp",
+      "revision": "4bb6404fdc6cacfda99d4ac4205087b89d32030c",
+      "file_sha256": "e9e9efa2c0d59ef5e55537a9d126b8f875d5ac010a8d75628d76824884e15850",
+      "rows": 257,
+      "local_status": "PRESENT_HASH_AND_ROW_COUNT_MATCH"
+    },
+    "instruction_following": {
+      "dataset": "google/IFEval",
+      "revision": "966cd89545d6b6acfd7638bc708b98261ca58e84",
+      "file_sha256": "6a85310ca8ce15eff755aa08a3a4ff931c7e273e7515ebb3c492ea85fd8288f2",
+      "rows": 541,
+      "local_status": "PRESENT_HASH_AND_ROW_COUNT_MATCH"
+    },
+    "extraction_structured": {
+      "dataset": "rajpurkar/squad_v2",
+      "revision": "3ffb306f725f7d2ce8394bc1873b24868140c412",
+      "file_sha256": "0560174ab095c5ac0a8c8dc8da05f1625453c45a77e4ce9cabc6947ddfdd24cb",
+      "rows": 11873,
+      "local_status": "PRESENT_HASH_AND_ROW_COUNT_MATCH"
+    },
+    "truthfulness_factual_calibration": {
+      "dataset": "truthfulqa/truthful_qa",
+      "revision": "741b8276f2d1982aa3d5b832d3ee81ed3b896490",
+      "file_sha256": "23f08e230ca4ed66babf3a72419af7cbde1f3d734dd396ac4cf6d088bd162afd",
+      "rows": 817,
+      "local_status": "PRESENT_HASH_AND_ROW_COUNT_MATCH"
+    }
+  },
+  "execution": {
+    "benchmark_scores_generated": false,
+    "paired_candidate_diagnostic_executed": false,
+    "reason": "Source readiness was verified while Lane A held the GPU. Benchmark-specific scoring/grader semantics remain unbound and must not be inferred from cache presence.",
+    "paid_compute": false
+  },
+  "claim_ceiling": "SOURCE_CACHE_READINESS_ONLY_NOT_BENCHMARK_PERFORMANCE_NOT_PROMOTION_GATE_NOT_FINAL_BANK"
+}

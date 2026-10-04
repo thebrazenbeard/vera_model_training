@@ -1,0 +1,113 @@
+{
+  "acceleration": {
+    "backend": "torch_reference",
+    "causal_conv_backend": "torch_reference",
+    "fixed_shape_strategy": "VARIABLE_SHAPE"
+  },
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "deploy_activate_authorized": false,
+    "merge_authorized": false,
+    "paid_compute_authorized": false,
+    "scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION"
+  },
+  "comparison": {
+    "role": "MATCHED_BACKEND_QUALITY_AB_FROM_STEP48",
+    "common_start_adapter_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "common_start_receipt_sha256": "15dee7c2ca2b94c6c2c2f780ced3dfc03d9a6afd5adfb594b1035bfa44853481",
+    "common_rows": "384-447",
+    "common_optimizer": "adamw_bnb_8bit_nonpaged",
+    "common_runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "frozen_panel_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
+    "prospective_gates": {
+      "update_cosine_min": 0.995,
+      "update_relative_l2_max": 0.05,
+      "aggregate_nll_regression_abs_max": 0.005,
+      "family_mean_case_loss_regression_hold_abs": 0.01,
+      "min_end_to_end_speedup_pct": 20.0
+    }
+  },
+  "date": "2026-10-04",
+  "development_window": {
+    "start_row": 384,
+    "row_count": 64
+  },
+  "lora": {
+    "alpha": 16,
+    "bias": "none",
+    "dropout": 0,
+    "r": 4,
+    "target_modules": "all-linear",
+    "task_type": "CAUSAL_LM"
+  },
+  "model_load": {
+    "device_map": {
+      "": 0
+    },
+    "dtype": "bfloat16",
+    "prepare_model_for_kbit_training_use_gradient_checkpointing": true,
+    "use_cache": false
+  },
+  "output": {
+    "namespace": "D:\\VERA\\models\\adapters\\v10r2-lane-b-backend-ab-20261004\\torch-ref-rows384-447",
+    "overwrite_forbidden": true,
+    "save_final_adapter": true
+  },
+  "qualification": {
+    "claim_ceiling": "LOCAL_LANE_B_ACCELERATED_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED",
+    "development_training_may_precede_external_qualification": true,
+    "external_final_bank_required_for_qualification": true
+  },
+  "quantization": {
+    "compute_dtype": "bfloat16",
+    "double_quant": true,
+    "load_in_4bit": true,
+    "type": "nf4"
+  },
+  "schema": "V10R2_QWEN35_DEV_TRAINING_SPEC_V1",
+  "source_subject": {
+    "parent_revision": "004a0a04ce841c54238c5fc7adc6180fb683ed02",
+    "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "train_rows": 50000,
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1"
+  },
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "trainer": {
+    "bf16": true,
+    "completion_only_loss": true,
+    "eval_strategy": "no",
+    "gradient_accumulation_steps": 8,
+    "gradient_checkpointing": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "learning_rate": 2e-05,
+    "logging_steps": 1,
+    "lr_scheduler_type": "cosine",
+    "max_length": 512,
+    "max_optimizer_steps": 8,
+    "method": "QLORA_SFT_DEVELOPMENT",
+    "optimizer": "adamw_bnb_8bit",
+    "packing": false,
+    "pad_to_multiple_of": null,
+    "per_device_train_batch_size": 1,
+    "report_to": "none",
+    "save_strategy": "no",
+    "seed": 20261001,
+    "shuffle_dataset": true,
+    "tf32": true,
+    "warmup_optimizer_steps": 0
+  },
+  "resume_adapter": {
+    "previous_optimizer_steps": 8,
+    "source_cumulative_optimizer_steps": 48,
+    "next_train_row": 384,
+    "path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont40-plus8-step48-20261004\\adapter",
+    "adapter_model_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "source_spec_path": "D:\\VERA\\.scratch\\V10R2_STEP48_SOURCE_SPEC_EXACT_20261004.json",
+    "source_spec_sha256": "45dcf446911ae78a734c331c12d3c39b15fb7570a2e0af69d94a66a391302804",
+    "source_receipt_path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont40-plus8-step48-20261004\\DEV_TRAINING_COMPLETE.json",
+    "source_receipt_sha256": "15dee7c2ca2b94c6c2c2f780ced3dfc03d9a6afd5adfb594b1035bfa44853481",
+    "source_weight_digest_after": "6cbac5df94bc33cea342cb62eefe70aa8c992ce5a1d1e797debc233e8df6ffe4"
+  }
+}

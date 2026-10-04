@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import hashlib
@@ -9,6 +9,8 @@ from pathlib import Path
 
 # Import reusable training primitives without depending on the V10
 # final-bank authority gate. This is a development-training lane.
+from successor.experiments.v10r2_lane_b_runtime import apply_qwen35_acceleration
+
 from successor.experiments.train_v10_qwen35_authorized import (
     _artifact_hash_manifest,
     _observe_live_runtime,
@@ -34,9 +36,8 @@ ALLOWED_OPTIMIZERS = {
     "adamw_bnb_8bit",
     "adamw_torch_8bit",
 }
-CLAIM_CEILING = "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
-RECIPE_SEMANTICS_CLASS = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
-STAGED_RESET_CLASS = "STAGED_RESET_RECIPE_SEMANTICS_CONTROL"
+CLAIM_CEILING = "LOCAL_LANE_B_ACCELERATED_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
+LANE_A_SOURCE_CLAIM_CEILING = "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED"
 
 
 def _canonical_sha(value: dict) -> str:
@@ -69,7 +70,6 @@ def effect_label(optimizer_name: str, steps: int) -> str:
         6: "SIX",
         7: "SEVEN",
         8: "EIGHT",
-        20: "TWENTY",
     }
     count = words.get(steps)
     if count is None:
@@ -78,7 +78,11 @@ def effect_label(optimizer_name: str, steps: int) -> str:
     return f"{count}_LOCAL_{backend}_OPTIMIZER_{suffix}"
 
 
-def load_and_validate_dev_spec(path: Path | str) -> dict:
+def load_and_validate_dev_spec(
+    path: Path | str,
+    *,
+    allowed_claim_ceilings: set[str] | None = None,
+) -> dict:
     path = Path(path)
     if not path.is_file():
         raise DevTrainingHold(f"development spec missing:{path}")
@@ -131,38 +135,8 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
             "optimizer must be one of the approved non-paged 8-bit choices: "
             + ", ".join(sorted(ALLOWED_OPTIMIZERS))
         )
-    sampling_strategy = trainer.get("train_sampling_strategy", "random")
-    if sampling_strategy not in {"random", "sequential"}:
-        raise DevTrainingHold("unsupported train sampling strategy")
     max_steps = trainer.get("max_optimizer_steps")
-    experiment_class = value.get("experiment_class")
-    is_recipe_semantics = experiment_class == RECIPE_SEMANTICS_CLASS
-    if is_recipe_semantics:
-        if max_steps != 20:
-            raise DevTrainingHold(
-                "recipe-semantics experiment requires exactly 20 optimizer steps"
-            )
-        if optimizer_name != "adamw_bnb_8bit":
-            raise DevTrainingHold(
-                "recipe-semantics experiment requires adamw_bnb_8bit"
-            )
-        if trainer.get("warmup_optimizer_steps") != 0:
-            raise DevTrainingHold(
-                "recipe-semantics experiment requires zero warmup"
-            )
-        if trainer.get("lr_scheduler_type") != "cosine":
-            raise DevTrainingHold(
-                "recipe-semantics experiment requires cosine scheduler"
-            )
-        if trainer.get("shuffle_dataset") is not False:
-            raise DevTrainingHold(
-                "recipe-semantics experiment requires shuffle_dataset=false"
-            )
-        if sampling_strategy != "sequential":
-            raise DevTrainingHold(
-                "recipe-semantics experiment requires sequential sampling"
-            )
-    elif not isinstance(max_steps, int) or max_steps < 1 or max_steps > 8:
+    if not isinstance(max_steps, int) or max_steps < 1 or max_steps > 8:
         raise DevTrainingHold(
             "development optimizer steps must be an integer from 1 through 8"
         )
@@ -202,32 +176,8 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
             )
         if start + count > subject["train_rows"]:
             raise DevTrainingHold("development window escapes train corpus")
-        if is_recipe_semantics and (start != 0 or count != 160):
-            raise DevTrainingHold(
-                "recipe-semantics experiment requires exact rows 0-159"
-            )
 
     resume = value.get("resume_adapter")
-    comparison = value.get("comparison")
-    if comparison is not None and not isinstance(comparison, dict):
-        raise DevTrainingHold("comparison binding must be an object")
-    expected_initial_digest = (
-        comparison.get("expected_initial_trainable_parameter_digest")
-        if isinstance(comparison, dict)
-        else None
-    )
-    is_fresh_recipe_arm = (
-        experiment_class in {RECIPE_SEMANTICS_CLASS, STAGED_RESET_CLASS}
-        and resume is None
-    )
-    if is_fresh_recipe_arm and not _is_sha256(expected_initial_digest):
-        raise DevTrainingHold(
-            "fresh recipe-semantics arm requires expected initial trainable digest"
-        )
-    if is_recipe_semantics and resume is not None:
-        raise DevTrainingHold(
-            "recipe-semantics experiment requires a fresh adapter"
-        )
     if resume is not None:
         if not isinstance(resume, dict):
             raise DevTrainingHold("resume_adapter must be an object")
@@ -244,6 +194,13 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
         if not isinstance(prior_steps, int) or prior_steps < 1:
             raise DevTrainingHold(
                 "resume_adapter previous_optimizer_steps invalid"
+            )
+        cumulative = resume.get("source_cumulative_optimizer_steps")
+        if cumulative is not None and (
+            not isinstance(cumulative, int) or cumulative < prior_steps
+        ):
+            raise DevTrainingHold(
+                "resume_adapter source_cumulative_optimizer_steps invalid"
             )
         next_train_row = resume.get("next_train_row")
         if not isinstance(next_train_row, int) or next_train_row < 0:
@@ -269,13 +226,6 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
         if not _is_sha256(resume.get("source_spec_sha256")):
             raise DevTrainingHold(
                 "resume_adapter source_spec_sha256 invalid"
-            )
-        cumulative = resume.get("source_cumulative_optimizer_steps")
-        if cumulative is not None and (
-            not isinstance(cumulative, int) or cumulative < prior_steps
-        ):
-            raise DevTrainingHold(
-                "resume_adapter source_cumulative_optimizer_steps invalid"
             )
 
     quant = value.get("quantization")
@@ -311,7 +261,12 @@ def load_and_validate_dev_spec(path: Path | str) -> dict:
         raise DevTrainingHold("external final bank must remain required for qualification")
     if qualification.get("development_training_may_precede_external_qualification") is not True:
         raise DevTrainingHold("development training permission missing")
-    if qualification.get("claim_ceiling") != CLAIM_CEILING:
+    accepted_claim_ceilings = (
+        {CLAIM_CEILING}
+        if allowed_claim_ceilings is None
+        else set(allowed_claim_ceilings)
+    )
+    if qualification.get("claim_ceiling") not in accepted_claim_ceilings:
         raise DevTrainingHold("development claim ceiling mismatch")
 
     output = value.get("output")
@@ -386,28 +341,139 @@ def _trainable_parameter_digest(model, torch) -> tuple[str, int]:
 
 
 def _optimizer_state_summary(optimizer) -> dict:
+    state_object_count = 0
     tensor_bytes = 0
     tensor_count = 0
+    floating_state_tensor_count = 0
+    nonfinite_state_tensor_count = 0
     devices: dict[str, int] = {}
     dtypes: dict[str, int] = {}
+
     for state in optimizer.state.values():
         if not isinstance(state, dict):
             continue
         for item in state.values():
             if not hasattr(item, "numel") or not hasattr(item, "element_size"):
                 continue
-            tensor_count += 1
-            tensor_bytes += int(item.numel()) * int(item.element_size())
-            device = str(item.device)
-            dtype = str(item.dtype)
-            devices[device] = devices.get(device, 0) + 1
-            dtypes[dtype] = dtypes.get(dtype, 0) + 1
+            state_object_count += 1
+
+            if all(hasattr(item, field) for field in ("codes", "scale", "qmap")):
+                physical_tensors = [item.codes, item.scale, item.qmap]
+            else:
+                physical_tensors = [item]
+
+            for tensor in physical_tensors:
+                if not hasattr(tensor, "numel") or not hasattr(
+                    tensor, "element_size"
+                ):
+                    continue
+                tensor_count += 1
+                tensor_bytes += int(tensor.numel()) * int(
+                    tensor.element_size()
+                )
+                device = str(tensor.device)
+                dtype = str(tensor.dtype)
+                devices[device] = devices.get(device, 0) + 1
+                dtypes[dtype] = dtypes.get(dtype, 0) + 1
+                if tensor.is_floating_point():
+                    floating_state_tensor_count += 1
+                    if not bool(tensor.detach().isfinite().all().item()):
+                        nonfinite_state_tensor_count += 1
+
     return {
+        "state_object_count": state_object_count,
         "state_tensor_count": tensor_count,
         "state_tensor_bytes": tensor_bytes,
         "state_tensor_mib": round(tensor_bytes / (1024**2), 3),
         "state_tensor_devices": devices,
         "state_tensor_dtypes": dtypes,
+        "floating_state_tensor_count": floating_state_tensor_count,
+        "nonfinite_state_tensor_count": nonfinite_state_tensor_count,
+        "all_floating_state_finite": nonfinite_state_tensor_count == 0,
+    }
+
+
+def _trainable_parameter_snapshot(model, torch) -> dict:
+    snapshot = {}
+    for name, parameter in sorted(model.named_parameters()):
+        if not parameter.requires_grad:
+            continue
+        snapshot[name] = (
+            parameter.detach()
+            .to(device="cpu", dtype=torch.float32)
+            .contiguous()
+            .clone()
+        )
+    if not snapshot:
+        raise DevTrainingHold("no trainable parameters to snapshot")
+    return snapshot
+
+
+def _weight_delta_summary(before: dict, model, torch) -> dict:
+    total_elements = 0
+    changed_elements = 0
+    absolute_sum = 0.0
+    delta_sq_sum = 0.0
+    before_sq_sum = 0.0
+    delta_max_abs = 0.0
+    all_finite = True
+    seen = set()
+
+    for name, parameter in sorted(model.named_parameters()):
+        if not parameter.requires_grad:
+            continue
+        if name not in before:
+            raise DevTrainingHold(f"trainable parameter missing from snapshot:{name}")
+        after = (
+            parameter.detach()
+            .to(device="cpu", dtype=torch.float32)
+            .contiguous()
+        )
+        prior = before[name]
+        if tuple(after.shape) != tuple(prior.shape):
+            raise DevTrainingHold(f"trainable parameter shape changed:{name}")
+        seen.add(name)
+        delta = after - prior
+        if not bool(torch.isfinite(after).all().item()):
+            all_finite = False
+        if not bool(torch.isfinite(delta).all().item()):
+            all_finite = False
+
+        abs_delta = delta.abs()
+        count = int(delta.numel())
+        total_elements += count
+        changed_elements += int(torch.count_nonzero(delta).item())
+        absolute_sum += float(abs_delta.double().sum().item())
+        delta_sq_sum += float(delta.double().square().sum().item())
+        before_sq_sum += float(prior.double().square().sum().item())
+        if count:
+            delta_max_abs = max(
+                delta_max_abs,
+                float(abs_delta.max().item()),
+            )
+
+    missing = set(before) - seen
+    if missing:
+        raise DevTrainingHold(
+            "trainable parameters disappeared:"
+            + ",".join(sorted(missing)[:5])
+        )
+    if total_elements < 1:
+        raise DevTrainingHold("no trainable parameter elements")
+
+    delta_l2 = math.sqrt(delta_sq_sum)
+    before_l2 = math.sqrt(before_sq_sum)
+    return {
+        "total_elements": total_elements,
+        "changed_elements": changed_elements,
+        "delta_l2": delta_l2,
+        "delta_max_abs": delta_max_abs,
+        "delta_mean_abs": absolute_sum / total_elements,
+        "before_l2": before_l2,
+        "relative_l2_to_before": (
+            delta_l2 / before_l2 if before_l2 > 0 else None
+        ),
+        "all_finite": all_finite,
     }
 
 
@@ -469,7 +535,13 @@ def verify_resume_adapter(root: Path | str, resume: dict) -> dict:
             "resume source_spec_sha256 mismatch:"
             f"{actual_spec_sha}!={resume['source_spec_sha256']}"
         )
-    source_spec = load_and_validate_dev_spec(source_spec_path)
+    source_spec = load_and_validate_dev_spec(
+        source_spec_path,
+        allowed_claim_ceilings={
+            CLAIM_CEILING,
+            LANE_A_SOURCE_CLAIM_CEILING,
+        },
+    )
     if (
         source_spec["trainer"]["max_optimizer_steps"]
         != resume["previous_optimizer_steps"]
@@ -606,7 +678,7 @@ def execute_dev_training(
         root
         / "successor"
         / "experiments"
-        / "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json"
+        / "V10R2_LANE_B_RUNTIME_BINDING_V2.json"
     )
     runtime_binding = _read_json(runtime_path)
     if runtime_binding.get("binding_sha256") != subject["runtime_binding_sha256"]:
@@ -655,6 +727,13 @@ def execute_dev_training(
     )
     model.config.use_cache = model_load["use_cache"]
     topology = _validate_qwen_topology(model)
+    acceleration_backend = spec.get("acceleration", {}).get(
+        "backend", "fla_triton"
+    )
+    acceleration = apply_qwen35_acceleration(
+        model,
+        backend=acceleration_backend,
+    )
     model = stack["prepare_model_for_kbit_training"](
         model,
         use_gradient_checkpointing=model_load[
@@ -716,15 +795,12 @@ def execute_dev_training(
             ]
         },
         max_length=trainer_spec["max_length"],
+        pad_to_multiple_of=trainer_spec.get("pad_to_multiple_of"),
         completion_only_loss=trainer_spec[
             "completion_only_loss"
         ],
         packing=trainer_spec["packing"],
         shuffle_dataset=trainer_spec["shuffle_dataset"],
-        train_sampling_strategy=trainer_spec.get(
-            "train_sampling_strategy",
-            "random",
-        ),
         logging_steps=trainer_spec["logging_steps"],
         save_strategy=trainer_spec["save_strategy"],
         eval_strategy=trainer_spec["eval_strategy"],
@@ -778,18 +854,10 @@ def execute_dev_training(
         trainer.model,
         torch,
     )
-    comparison = spec.get("comparison") or {}
-    expected_initial_digest = comparison.get(
-        "expected_initial_trainable_parameter_digest"
+    parameter_snapshot_before = _trainable_parameter_snapshot(
+        trainer.model,
+        torch,
     )
-    if (
-        expected_initial_digest is not None
-        and weight_before != expected_initial_digest
-    ):
-        raise DevTrainingHold(
-            "initial trainable parameter digest mismatch:"
-            f"{weight_before}!={expected_initial_digest}"
-        )
     if (
         resume_check is not None
         and weight_before
@@ -825,7 +893,19 @@ def execute_dev_training(
     if weight_after == weight_before:
         raise DevTrainingHold("optimizer step did not change trainable weights")
 
+    weight_delta = _weight_delta_summary(
+        parameter_snapshot_before,
+        trainer.model,
+        torch,
+    )
+    if not weight_delta["all_finite"]:
+        raise DevTrainingHold("nonfinite trainable weight/update observed")
+    if not math.isfinite(float(train_result.training_loss)):
+        raise DevTrainingHold("nonfinite training loss observed")
+
     state_summary = _optimizer_state_summary(trainer.optimizer)
+    if not state_summary["all_floating_state_finite"]:
+        raise DevTrainingHold("nonfinite optimizer state observed")
     optimizer_after = summarize_optimizer(trainer.optimizer)
     identity_fields = (
         "class",
@@ -874,7 +954,6 @@ def execute_dev_training(
             requested_optimizer,
             trainer_spec["max_optimizer_steps"],
         ),
-        "experiment_class": spec.get("experiment_class"),
         "spec_sha256": sha256_file(spec_path),
         "source_parent_revision": subject["parent_revision"],
         "training_corpus_id": subject["training_corpus_id"],
@@ -899,25 +978,11 @@ def execute_dev_training(
         "token_budget": token_budget,
         "optimizer": optimizer_info,
         "optimizer_state": state_summary,
-        "training_order": {
-            "shuffle_dataset": trainer_spec["shuffle_dataset"],
-            "train_sampling_strategy": trainer_spec.get(
-                "train_sampling_strategy",
-                "random",
-            ),
-        },
         "trainable_parameter_count": trainable_count,
-        "initial_trainable_parameter_digest": weight_before,
-        "initialization_equivalence_gate": {
-            "expected_digest": expected_initial_digest,
-            "pass": (
-                expected_initial_digest is None
-                or weight_before == expected_initial_digest
-            ),
-        },
         "weight_digest_before": weight_before,
         "weight_digest_after": weight_after,
         "weight_digest_changed": True,
+        "weight_delta": weight_delta,
         "training_loss": float(train_result.training_loss),
         "train_metrics": dict(train_result.metrics),
         "elapsed_seconds_observed": round(elapsed, 3),
@@ -929,6 +994,7 @@ def execute_dev_training(
         "live_runtime": live_runtime,
         "live_runtime_check": runtime_check,
         "base_topology": topology,
+        "acceleration": acceleration,
         "lora_coverage": coverage,
         "adapter_artifacts": artifact_manifest,
         "qualification_status": "NOT_EXTERNALLY_EVALUATED",

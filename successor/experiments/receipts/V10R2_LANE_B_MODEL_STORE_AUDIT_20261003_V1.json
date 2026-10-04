@@ -1,0 +1,47 @@
+{
+  "active_v10r2_adapters": {
+    "step1": {
+      "path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-step1-20261003-v2\\adapter",
+      "sha256": "cb8d99afdb2dc4c4a53501f1fa2ff574e323293a2e7b7831bf30579b9008320d"
+    },
+    "step12": {
+      "path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont4-plus8-20261003\\adapter",
+      "sha256": "15df1dcd9f5b5a4db35a8e2fdde20771c3af305b4269480af67e57c1f42fe2c3"
+    },
+    "step4": {
+      "path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-step4-20261003\\adapter",
+      "sha256": "c3df08fe4ae7cea25595f1f2bda91a9bb0b06eb9a8e94b21c3f5fd9ca0772e4b"
+    }
+  },
+  "authority_boundary": "AUDIT_ONLY_NO_MODEL_STORE_MUTATION_BY_LANE_B",
+  "current_totals": {
+    "bytes": 18726803864,
+    "files": 91,
+    "gib": 17.441
+  },
+  "date": "2026-10-03",
+  "lane_a_in_progress_namespace": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont12-plus8-20261003",
+  "lane_a_in_progress_namespace_state_at_audit": "DIRECTORY_PRESENT_NO_FINAL_ADAPTER_OR_RECEIPT_YET_DO_NOT_TOUCH",
+  "legacy_latest_trained": {
+    "adapter_sha256": "2b628e90c9ceee52bf4ddcba3f7d77187265f6d62813f8cdcd1265792f531d7f",
+    "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+    "status": "PRESERVED_LEGACY_H07_LINEAGE_NOT_V10R2_PARENT"
+  },
+  "observed_cleanup": {
+    "duplicate_smollm_tree_removed": true,
+    "empty_failed_v10r2_namespaces_removed": true,
+    "ollama_blobs_and_manifests_copy_removed": true,
+    "root_full_f16_gguf_removed": true,
+    "root_full_merged_hf_removed": true,
+    "root_full_q5_gguf_removed": true
+  },
+  "receipt_sha256": "a8bdceee9b2aed327052303e122a4c91513fbb530615fb316583e9e1fca61ce1",
+  "root": "D:\\VERA\\models",
+  "schema": "V10R2_LANE_B_MODEL_STORE_AUDIT_V1",
+  "stale_path_references": {
+    "authoritative_root": "D:\\VERA",
+    "matching_text_references_under_models": 15,
+    "obsolete_root": "C:\\Vera"
+  },
+  "status": "POST_LANE_A_CLEANUP_CURRENT_STATE"
+}

@@ -1,0 +1,96 @@
+{
+  "acceleration": {
+    "backend": "fla_triton",
+    "causal_conv_backend": "torch_reference",
+    "fixed_shape_strategy": "REJECTED_FIXED_PADDING_USE_VARIABLE_SHAPE",
+    "fla_core_version": "0.5.2",
+    "flash_linear_attention_version": "0.5.2",
+    "torch_compile_reference_status": "REJECTED_FOR_TRAINING",
+    "triton_windows_version": "3.8.0.post29"
+  },
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "deploy_activate_authorized": false,
+    "merge_authorized": false,
+    "paid_compute_authorized": false,
+    "scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION"
+  },
+  "comparison": {
+    "role": "MATCHED_BNB8_ONE_STEP_CONTROL_FOR_TORCHAO8",
+    "same_row_window_control_optimizer": "adamw_torch_8bit",
+    "same_start_subject_required": true,
+    "shared_checkpoint_panel_manifest_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
+    "shared_checkpoint_panel_record_ids_sha256": "65b52fc5e35b9a821118a7704541aa31b91e7dc765bf80cf526b927b2715ba99"
+  },
+  "date": "2026-10-03",
+  "development_window": {
+    "row_count": 8,
+    "start_row": 4096
+  },
+  "lora": {
+    "alpha": 16,
+    "bias": "none",
+    "dropout": 0,
+    "r": 4,
+    "target_modules": "all-linear",
+    "task_type": "CAUSAL_LM"
+  },
+  "model_load": {
+    "device_map": {
+      "": 0
+    },
+    "dtype": "bfloat16",
+    "prepare_model_for_kbit_training_use_gradient_checkpointing": true,
+    "use_cache": false
+  },
+  "output": {
+    "namespace": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003\\fla-bnb8-step1-matched-v1",
+    "overwrite_forbidden": true,
+    "save_final_adapter": true
+  },
+  "qualification": {
+    "claim_ceiling": "LOCAL_LANE_B_ACCELERATED_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED",
+    "development_training_may_precede_external_qualification": true,
+    "external_final_bank_required_for_qualification": true
+  },
+  "quantization": {
+    "compute_dtype": "bfloat16",
+    "double_quant": true,
+    "load_in_4bit": true,
+    "type": "nf4"
+  },
+  "schema": "V10R2_QWEN35_DEV_TRAINING_SPEC_V1",
+  "source_subject": {
+    "parent_revision": "004a0a04ce841c54238c5fc7adc6180fb683ed02",
+    "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "train_rows": 50000,
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1"
+  },
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "trainer": {
+    "bf16": true,
+    "completion_only_loss": true,
+    "eval_strategy": "no",
+    "gradient_accumulation_steps": 8,
+    "gradient_checkpointing": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "learning_rate": 2e-05,
+    "logging_steps": 1,
+    "lr_scheduler_type": "cosine",
+    "max_length": 512,
+    "max_optimizer_steps": 1,
+    "method": "QLORA_SFT_DEVELOPMENT",
+    "optimizer": "adamw_bnb_8bit",
+    "packing": false,
+    "pad_to_multiple_of": null,
+    "per_device_train_batch_size": 1,
+    "report_to": "none",
+    "save_strategy": "no",
+    "seed": 20261001,
+    "shuffle_dataset": true,
+    "tf32": true,
+    "warmup_optimizer_steps": 0
+  }
+}

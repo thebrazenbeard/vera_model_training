@@ -1,0 +1,1070 @@
+{
+  "acceleration_backend": "torch_reference",
+  "candidates": [
+    {
+      "acceleration": {
+        "backend": "torch_reference",
+        "causal_conv_backend": "torch_reference",
+        "module_names": [
+          "model.layers.0.linear_attn",
+          "model.layers.1.linear_attn",
+          "model.layers.2.linear_attn",
+          "model.layers.4.linear_attn",
+          "model.layers.5.linear_attn",
+          "model.layers.6.linear_attn",
+          "model.layers.8.linear_attn",
+          "model.layers.9.linear_attn",
+          "model.layers.10.linear_attn",
+          "model.layers.12.linear_attn",
+          "model.layers.13.linear_attn",
+          "model.layers.14.linear_attn",
+          "model.layers.16.linear_attn",
+          "model.layers.17.linear_attn",
+          "model.layers.18.linear_attn",
+          "model.layers.20.linear_attn",
+          "model.layers.21.linear_attn",
+          "model.layers.22.linear_attn",
+          "model.layers.24.linear_attn",
+          "model.layers.25.linear_attn",
+          "model.layers.26.linear_attn",
+          "model.layers.28.linear_attn",
+          "model.layers.29.linear_attn",
+          "model.layers.30.linear_attn"
+        ],
+        "patched_delta_modules": 24
+      },
+      "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-lane-b-backend-ab-20261004\\torch-ref-rows384-447\\adapter",
+      "adapter_model_sha256": "3cbe79d319a6f8d986abd61d471884ccf9e903f67b6db1835955f7aa90a08858",
+      "cases": [
+        {
+          "loss": 0.775592029094696,
+          "nll": 290.0714188814163,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+          "valid_completion_tokens": 374
+        },
+        {
+          "loss": 1.1840392351150513,
+          "nll": 44.99349093437195,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.801145076751709,
+          "nll": 341.7396993637085,
+          "record_id": "v4.1-correction_uptake-0731",
+          "valid_completion_tokens": 122
+        },
+        {
+          "loss": 2.6855955123901367,
+          "nll": 303.47229290008545,
+          "record_id": "v4.1-correction_uptake-0880",
+          "valid_completion_tokens": 113
+        },
+        {
+          "loss": 1.017453908920288,
+          "nll": 267.59037804603577,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+          "valid_completion_tokens": 263
+        },
+        {
+          "loss": 2.2600865364074707,
+          "nll": 85.88328838348389,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.4208791255950928,
+          "nll": 309.8725280761719,
+          "record_id": "v4.1-privacy_boundary-0686",
+          "valid_completion_tokens": 128
+        },
+        {
+          "loss": 2.7535555362701416,
+          "nll": 33.0426664352417,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 1.4231407642364502,
+          "nll": 61.19505286216736,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+          "valid_completion_tokens": 43
+        },
+        {
+          "loss": 1.0692569017410278,
+          "nll": 35.28547775745392,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+          "valid_completion_tokens": 33
+        },
+        {
+          "loss": 1.6713495254516602,
+          "nll": 16.7134952545166,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+          "valid_completion_tokens": 10
+        },
+        {
+          "loss": 1.5094008445739746,
+          "nll": 28.678616046905518,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+          "valid_completion_tokens": 19
+        },
+        {
+          "loss": 0.5990594029426575,
+          "nll": 7.787772238254547,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+          "valid_completion_tokens": 13
+        },
+        {
+          "loss": 0.8214412927627563,
+          "nll": 16.428825855255127,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+          "valid_completion_tokens": 20
+        },
+        {
+          "loss": 1.702219843864441,
+          "nll": 102.13319063186646,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+          "valid_completion_tokens": 60
+        },
+        {
+          "loss": 1.213826060295105,
+          "nll": 487.9580762386322,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a",
+          "valid_completion_tokens": 402
+        },
+        {
+          "loss": 0.6227244734764099,
+          "nll": 64.76334524154663,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-ff4dfbed422ac2762a3f467f",
+          "valid_completion_tokens": 104
+        },
+        {
+          "loss": 0.8127569556236267,
+          "nll": 69.08434122800827,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-73cd31c93a94c90faf770f79",
+          "valid_completion_tokens": 85
+        },
+        {
+          "loss": 2.0508925914764404,
+          "nll": 250.20889616012573,
+          "record_id": "v4.1-negative_transfer_resistance-0102",
+          "valid_completion_tokens": 122
+        },
+        {
+          "loss": 0.6459500789642334,
+          "nll": 84.61946034431458,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-e0600404c27c466a7623bb0f",
+          "valid_completion_tokens": 131
+        },
+        {
+          "loss": 0.17819376289844513,
+          "nll": 3.3856814950704575,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-edbd6150972a55cdd564b6eb",
+          "valid_completion_tokens": 19
+        },
+        {
+          "loss": 0.7170026302337646,
+          "nll": 75.28527617454529,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-d37253afdff47da16925cb53",
+          "valid_completion_tokens": 105
+        },
+        {
+          "loss": 0.888170063495636,
+          "nll": 142.9953802227974,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-b9be1c60e0a610590a732671",
+          "valid_completion_tokens": 161
+        },
+        {
+          "loss": 0.7587979435920715,
+          "nll": 122.92526686191559,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-002c999a93e524d0e72b343b",
+          "valid_completion_tokens": 162
+        },
+        {
+          "loss": 0.8578363060951233,
+          "nll": 140.68515419960022,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-733aaf17e0e05027927b9b0a",
+          "valid_completion_tokens": 164
+        },
+        {
+          "loss": 0.36813977360725403,
+          "nll": 112.65077072381973,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-e8888f9656746bc96a710520",
+          "valid_completion_tokens": 306
+        },
+        {
+          "loss": 0.9511974453926086,
+          "nll": 22.828738689422607,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-b94bb1b8b8da911ea24cf7d1",
+          "valid_completion_tokens": 24
+        },
+        {
+          "loss": 0.09217707067728043,
+          "nll": 0.645239494740963,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-a1d503be600fc1ebda573ce2",
+          "valid_completion_tokens": 7
+        },
+        {
+          "loss": 0.47730788588523865,
+          "nll": 1.9092315435409546,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-a71bb8b993ec89a376ba4ce5",
+          "valid_completion_tokens": 4
+        },
+        {
+          "loss": 0.7923263907432556,
+          "nll": 57.83982652425766,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-e19fd7f03ed12e2d01f2baca",
+          "valid_completion_tokens": 73
+        },
+        {
+          "loss": 1.6770650148391724,
+          "nll": 43.60369038581848,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ed412f260b5239172c98c341",
+          "valid_completion_tokens": 26
+        },
+        {
+          "loss": 2.288309335708618,
+          "nll": 38.90125870704651,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-e83fc60182db4c2ffc63f37e",
+          "valid_completion_tokens": 17
+        },
+        {
+          "loss": 1.08505117893219,
+          "nll": 405.80914092063904,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5cb626b3672200842a110483",
+          "valid_completion_tokens": 374
+        },
+        {
+          "loss": 0.014335081912577152,
+          "nll": 1.1611416349187493,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-2617d4d7d0ae414ebe340540",
+          "valid_completion_tokens": 81
+        },
+        {
+          "loss": 1.5179858207702637,
+          "nll": 13.661872386932373,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-10c7c1c0947e6703f8f73de6",
+          "valid_completion_tokens": 9
+        },
+        {
+          "loss": 0.6298930644989014,
+          "nll": 42.20283532142639,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-4483ab1a48e548cc0cc3b611",
+          "valid_completion_tokens": 67
+        },
+        {
+          "loss": 0.42489394545555115,
+          "nll": 16.570863872766495,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-85b30aab24142da80b773139",
+          "valid_completion_tokens": 39
+        },
+        {
+          "loss": 0.6351861357688904,
+          "nll": 99.0890371799469,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-c72f4edd6be0fd134b27f729",
+          "valid_completion_tokens": 156
+        },
+        {
+          "loss": 3.039829730987549,
+          "nll": 364.77956771850586,
+          "record_id": "v4.1-epistemic_provenance-0757",
+          "valid_completion_tokens": 120
+        },
+        {
+          "loss": 0.6192836165428162,
+          "nll": 17.339941263198853,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-1a8c27c5c767431a1738fd73",
+          "valid_completion_tokens": 28
+        },
+        {
+          "loss": 2.361910343170166,
+          "nll": 28.342924118041992,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-a43af415882b3da15338fa38",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 1.277288556098938,
+          "nll": 35.764079570770264,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-4844f70a619527a9a3e453c0",
+          "valid_completion_tokens": 28
+        },
+        {
+          "loss": 0.7744786143302917,
+          "nll": 53.43902438879013,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-df1d152613539c2a1e9a8e88",
+          "valid_completion_tokens": 69
+        },
+        {
+          "loss": 2.7741639614105225,
+          "nll": 36.06413149833679,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-9d2a34e286ec36d73352a19e",
+          "valid_completion_tokens": 13
+        },
+        {
+          "loss": 1.3850594758987427,
+          "nll": 54.017319560050964,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ef565d1e8b5362c0c8493ccf",
+          "valid_completion_tokens": 39
+        },
+        {
+          "loss": 2.2667653560638428,
+          "nll": 235.74359703063965,
+          "record_id": "v4.1-relationship_authority-0477",
+          "valid_completion_tokens": 104
+        },
+        {
+          "loss": 0.944714367389679,
+          "nll": 304.1980262994766,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-23d7116b1018152555c87a90",
+          "valid_completion_tokens": 322
+        },
+        {
+          "loss": 2.618079423904419,
+          "nll": 316.7876102924347,
+          "record_id": "v4.1-correction_uptake-0587",
+          "valid_completion_tokens": 121
+        },
+        {
+          "loss": 2.1333322525024414,
+          "nll": 251.7332057952881,
+          "record_id": "v4.1-independent_judgment-0564",
+          "valid_completion_tokens": 118
+        },
+        {
+          "loss": 0.7804394364356995,
+          "nll": 56.97207885980606,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ef6f20fd1c67ec441ae0c40a",
+          "valid_completion_tokens": 73
+        },
+        {
+          "loss": 3.0315396785736084,
+          "nll": 354.6901423931122,
+          "record_id": "v4.1-epistemic_provenance-0242",
+          "valid_completion_tokens": 117
+        },
+        {
+          "loss": 0.7838319540023804,
+          "nll": 43.11075747013092,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-1c31aebaa707e8824f304404",
+          "valid_completion_tokens": 55
+        },
+        {
+          "loss": 0.5374231338500977,
+          "nll": 4.836808204650879,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-7c2d452d5507ee092394934f",
+          "valid_completion_tokens": 9
+        },
+        {
+          "loss": 2.0148892402648926,
+          "nll": 229.69737339019775,
+          "record_id": "v4.1-privacy_boundary-0483",
+          "valid_completion_tokens": 114
+        },
+        {
+          "loss": 0.8179699182510376,
+          "nll": 8.179699182510376,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-3cbc5b04c1085d0da3b7eabd",
+          "valid_completion_tokens": 10
+        },
+        {
+          "loss": 0.022778773680329323,
+          "nll": 0.36446037888526917,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-18e596d63859dfa288943507",
+          "valid_completion_tokens": 16
+        },
+        {
+          "loss": 2.5782711505889893,
+          "nll": 293.9229111671448,
+          "record_id": "v4.1-reciprocal_identity_continuity-0972",
+          "valid_completion_tokens": 114
+        },
+        {
+          "loss": 2.546260118484497,
+          "nll": 303.00495409965515,
+          "record_id": "v4.1-correction_uptake-0149",
+          "valid_completion_tokens": 119
+        },
+        {
+          "loss": 2.2055506706237793,
+          "nll": 251.43277645111084,
+          "record_id": "v4.1-correction_uptake-0911",
+          "valid_completion_tokens": 114
+        },
+        {
+          "loss": 0.38119712471961975,
+          "nll": 4.574365496635437,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6550f58e55c64afea7d996e3",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 2.5034327507019043,
+          "nll": 290.3981990814209,
+          "record_id": "v4.1-relationship_authority-0605",
+          "valid_completion_tokens": 116
+        },
+        {
+          "loss": 0.595878005027771,
+          "nll": 162.67469537258148,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-557445efaaba01844f516c92",
+          "valid_completion_tokens": 273
+        },
+        {
+          "loss": 1.0830882787704468,
+          "nll": 18.412500739097595,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-eb64fa5b314df40e3f3d0fff",
+          "valid_completion_tokens": 17
+        },
+        {
+          "loss": 0.12146498262882233,
+          "nll": 2.307834669947624,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-345b9d0b681a66d053dc4bc2",
+          "valid_completion_tokens": 19
+        }
+      ],
+      "completion_perplexity": 3.7103859317390993,
+      "completion_token_count": 6076,
+      "eval_seconds": 58.115,
+      "mean_case_loss": 1.3217680540838046,
+      "median_case_loss": 1.043355405330658,
+      "model_load_seconds": 7.443,
+      "name": "torch_ref",
+      "peak_allocated_mib": 4217.946,
+      "peak_reserved_mib": 4472.0,
+      "sample_count": 64,
+      "token_weighted_completion_nll": 1.311135895936667
+    },
+    {
+      "acceleration": {
+        "backend": "torch_reference",
+        "causal_conv_backend": "torch_reference",
+        "module_names": [
+          "model.layers.0.linear_attn",
+          "model.layers.1.linear_attn",
+          "model.layers.2.linear_attn",
+          "model.layers.4.linear_attn",
+          "model.layers.5.linear_attn",
+          "model.layers.6.linear_attn",
+          "model.layers.8.linear_attn",
+          "model.layers.9.linear_attn",
+          "model.layers.10.linear_attn",
+          "model.layers.12.linear_attn",
+          "model.layers.13.linear_attn",
+          "model.layers.14.linear_attn",
+          "model.layers.16.linear_attn",
+          "model.layers.17.linear_attn",
+          "model.layers.18.linear_attn",
+          "model.layers.20.linear_attn",
+          "model.layers.21.linear_attn",
+          "model.layers.22.linear_attn",
+          "model.layers.24.linear_attn",
+          "model.layers.25.linear_attn",
+          "model.layers.26.linear_attn",
+          "model.layers.28.linear_attn",
+          "model.layers.29.linear_attn",
+          "model.layers.30.linear_attn"
+        ],
+        "patched_delta_modules": 24
+      },
+      "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-lane-b-backend-ab-20261004\\fla-triton-rows384-447\\adapter",
+      "adapter_model_sha256": "40197d98c71bf85fada0ce8119a396ea77775d0171b2be2d5824946921e21b40",
+      "cases": [
+        {
+          "loss": 0.7760892510414124,
+          "nll": 290.2573798894882,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+          "valid_completion_tokens": 374
+        },
+        {
+          "loss": 1.1798700094223022,
+          "nll": 44.835060358047485,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.8000094890594482,
+          "nll": 341.6011576652527,
+          "record_id": "v4.1-correction_uptake-0731",
+          "valid_completion_tokens": 122
+        },
+        {
+          "loss": 2.684663772583008,
+          "nll": 303.3670063018799,
+          "record_id": "v4.1-correction_uptake-0880",
+          "valid_completion_tokens": 113
+        },
+        {
+          "loss": 1.01751708984375,
+          "nll": 267.60699462890625,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+          "valid_completion_tokens": 263
+        },
+        {
+          "loss": 2.263232469558716,
+          "nll": 86.0028338432312,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+          "valid_completion_tokens": 38
+        },
+        {
+          "loss": 2.41776704788208,
+          "nll": 309.47418212890625,
+          "record_id": "v4.1-privacy_boundary-0686",
+          "valid_completion_tokens": 128
+        },
+        {
+          "loss": 2.7683446407318115,
+          "nll": 33.22013568878174,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 1.4263300895690918,
+          "nll": 61.33219385147095,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+          "valid_completion_tokens": 43
+        },
+        {
+          "loss": 1.0706671476364136,
+          "nll": 35.33201587200165,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+          "valid_completion_tokens": 33
+        },
+        {
+          "loss": 1.6386439800262451,
+          "nll": 16.38643980026245,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+          "valid_completion_tokens": 10
+        },
+        {
+          "loss": 1.5197272300720215,
+          "nll": 28.874817371368408,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+          "valid_completion_tokens": 19
+        },
+        {
+          "loss": 0.5999306440353394,
+          "nll": 7.799098372459412,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+          "valid_completion_tokens": 13
+        },
+        {
+          "loss": 0.828522801399231,
+          "nll": 16.57045602798462,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+          "valid_completion_tokens": 20
+        },
+        {
+          "loss": 1.6996487379074097,
+          "nll": 101.97892427444458,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+          "valid_completion_tokens": 60
+        },
+        {
+          "loss": 1.2134475708007812,
+          "nll": 487.80592346191406,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a",
+          "valid_completion_tokens": 402
+        },
+        {
+          "loss": 0.6275869607925415,
+          "nll": 65.26904392242432,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-ff4dfbed422ac2762a3f467f",
+          "valid_completion_tokens": 104
+        },
+        {
+          "loss": 0.8113030195236206,
+          "nll": 68.96075665950775,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-73cd31c93a94c90faf770f79",
+          "valid_completion_tokens": 85
+        },
+        {
+          "loss": 2.050103187561035,
+          "nll": 250.1125888824463,
+          "record_id": "v4.1-negative_transfer_resistance-0102",
+          "valid_completion_tokens": 122
+        },
+        {
+          "loss": 0.649689793586731,
+          "nll": 85.10936295986176,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-e0600404c27c466a7623bb0f",
+          "valid_completion_tokens": 131
+        },
+        {
+          "loss": 0.17865128815174103,
+          "nll": 3.3943744748830795,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-edbd6150972a55cdd564b6eb",
+          "valid_completion_tokens": 19
+        },
+        {
+          "loss": 0.7196316719055176,
+          "nll": 75.56132555007935,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-d37253afdff47da16925cb53",
+          "valid_completion_tokens": 105
+        },
+        {
+          "loss": 0.883636474609375,
+          "nll": 142.26547241210938,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-b9be1c60e0a610590a732671",
+          "valid_completion_tokens": 161
+        },
+        {
+          "loss": 0.7596843242645264,
+          "nll": 123.06886053085327,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-002c999a93e524d0e72b343b",
+          "valid_completion_tokens": 162
+        },
+        {
+          "loss": 0.8562543988227844,
+          "nll": 140.42572140693665,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-733aaf17e0e05027927b9b0a",
+          "valid_completion_tokens": 164
+        },
+        {
+          "loss": 0.368764191865921,
+          "nll": 112.84184271097183,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-e8888f9656746bc96a710520",
+          "valid_completion_tokens": 306
+        },
+        {
+          "loss": 0.9500455856323242,
+          "nll": 22.80109405517578,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-b94bb1b8b8da911ea24cf7d1",
+          "valid_completion_tokens": 24
+        },
+        {
+          "loss": 0.08361228555440903,
+          "nll": 0.5852859988808632,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-a1d503be600fc1ebda573ce2",
+          "valid_completion_tokens": 7
+        },
+        {
+          "loss": 0.4741753041744232,
+          "nll": 1.8967012166976929,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-a71bb8b993ec89a376ba4ce5",
+          "valid_completion_tokens": 4
+        },
+        {
+          "loss": 0.7907695174217224,
+          "nll": 57.726174771785736,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-e19fd7f03ed12e2d01f2baca",
+          "valid_completion_tokens": 73
+        },
+        {
+          "loss": 1.6783015727996826,
+          "nll": 43.63584089279175,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ed412f260b5239172c98c341",
+          "valid_completion_tokens": 26
+        },
+        {
+          "loss": 2.2910094261169434,
+          "nll": 38.94716024398804,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-e83fc60182db4c2ffc63f37e",
+          "valid_completion_tokens": 17
+        },
+        {
+          "loss": 1.0879590511322021,
+          "nll": 406.8966851234436,
+          "record_id": "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5cb626b3672200842a110483",
+          "valid_completion_tokens": 374
+        },
+        {
+          "loss": 0.014465030282735825,
+          "nll": 1.1716674529016018,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-2617d4d7d0ae414ebe340540",
+          "valid_completion_tokens": 81
+        },
+        {
+          "loss": 1.4831281900405884,
+          "nll": 13.348153710365295,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-10c7c1c0947e6703f8f73de6",
+          "valid_completion_tokens": 9
+        },
+        {
+          "loss": 0.6275551319122314,
+          "nll": 42.04619383811951,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-4483ab1a48e548cc0cc3b611",
+          "valid_completion_tokens": 67
+        },
+        {
+          "loss": 0.4259713888168335,
+          "nll": 16.612884163856506,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-85b30aab24142da80b773139",
+          "valid_completion_tokens": 39
+        },
+        {
+          "loss": 0.6380273103713989,
+          "nll": 99.53226041793823,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-c72f4edd6be0fd134b27f729",
+          "valid_completion_tokens": 156
+        },
+        {
+          "loss": 3.035820960998535,
+          "nll": 364.2985153198242,
+          "record_id": "v4.1-epistemic_provenance-0757",
+          "valid_completion_tokens": 120
+        },
+        {
+          "loss": 0.6091040372848511,
+          "nll": 17.05491304397583,
+          "record_id": "hf-smoltalk2-OpenHermes_2.5_no_think-1a8c27c5c767431a1738fd73",
+          "valid_completion_tokens": 28
+        },
+        {
+          "loss": 2.3437225818634033,
+          "nll": 28.12467098236084,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-a43af415882b3da15338fa38",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 1.2807027101516724,
+          "nll": 35.859675884246826,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-4844f70a619527a9a3e453c0",
+          "valid_completion_tokens": 28
+        },
+        {
+          "loss": 0.7708286046981812,
+          "nll": 53.1871737241745,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-df1d152613539c2a1e9a8e88",
+          "valid_completion_tokens": 69
+        },
+        {
+          "loss": 2.7626888751983643,
+          "nll": 35.914955377578735,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-9d2a34e286ec36d73352a19e",
+          "valid_completion_tokens": 13
+        },
+        {
+          "loss": 1.3900294303894043,
+          "nll": 54.21114778518677,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ef565d1e8b5362c0c8493ccf",
+          "valid_completion_tokens": 39
+        },
+        {
+          "loss": 2.2629077434539795,
+          "nll": 235.34240531921387,
+          "record_id": "v4.1-relationship_authority-0477",
+          "valid_completion_tokens": 104
+        },
+        {
+          "loss": 0.945979118347168,
+          "nll": 304.6052761077881,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-23d7116b1018152555c87a90",
+          "valid_completion_tokens": 322
+        },
+        {
+          "loss": 2.616382122039795,
+          "nll": 316.5822367668152,
+          "record_id": "v4.1-correction_uptake-0587",
+          "valid_completion_tokens": 121
+        },
+        {
+          "loss": 2.1329896450042725,
+          "nll": 251.69277811050415,
+          "record_id": "v4.1-independent_judgment-0564",
+          "valid_completion_tokens": 118
+        },
+        {
+          "loss": 0.7820231914520264,
+          "nll": 57.087692975997925,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ef6f20fd1c67ec441ae0c40a",
+          "valid_completion_tokens": 73
+        },
+        {
+          "loss": 3.028555154800415,
+          "nll": 354.34095311164856,
+          "record_id": "v4.1-epistemic_provenance-0242",
+          "valid_completion_tokens": 117
+        },
+        {
+          "loss": 0.7804986238479614,
+          "nll": 42.92742431163788,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-1c31aebaa707e8824f304404",
+          "valid_completion_tokens": 55
+        },
+        {
+          "loss": 0.5284886956214905,
+          "nll": 4.756398260593414,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-7c2d452d5507ee092394934f",
+          "valid_completion_tokens": 9
+        },
+        {
+          "loss": 2.0099315643310547,
+          "nll": 229.13219833374023,
+          "record_id": "v4.1-privacy_boundary-0483",
+          "valid_completion_tokens": 114
+        },
+        {
+          "loss": 0.8213963508605957,
+          "nll": 8.213963508605957,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-3cbc5b04c1085d0da3b7eabd",
+          "valid_completion_tokens": 10
+        },
+        {
+          "loss": 0.022879499942064285,
+          "nll": 0.36607199907302856,
+          "record_id": "hf-smoltalk2-table_gpt_no_think-18e596d63859dfa288943507",
+          "valid_completion_tokens": 16
+        },
+        {
+          "loss": 2.5823123455047607,
+          "nll": 294.3836073875427,
+          "record_id": "v4.1-reciprocal_identity_continuity-0972",
+          "valid_completion_tokens": 114
+        },
+        {
+          "loss": 2.5454046726226807,
+          "nll": 302.903156042099,
+          "record_id": "v4.1-correction_uptake-0149",
+          "valid_completion_tokens": 119
+        },
+        {
+          "loss": 2.2060813903808594,
+          "nll": 251.49327850341797,
+          "record_id": "v4.1-correction_uptake-0911",
+          "valid_completion_tokens": 114
+        },
+        {
+          "loss": 0.37811926007270813,
+          "nll": 4.537431120872498,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6550f58e55c64afea7d996e3",
+          "valid_completion_tokens": 12
+        },
+        {
+          "loss": 2.50640869140625,
+          "nll": 290.743408203125,
+          "record_id": "v4.1-relationship_authority-0605",
+          "valid_completion_tokens": 116
+        },
+        {
+          "loss": 0.5987299680709839,
+          "nll": 163.4532812833786,
+          "record_id": "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-557445efaaba01844f516c92",
+          "valid_completion_tokens": 273
+        },
+        {
+          "loss": 1.0820239782333374,
+          "nll": 18.394407629966736,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-eb64fa5b314df40e3f3d0fff",
+          "valid_completion_tokens": 17
+        },
+        {
+          "loss": 0.12123215943574905,
+          "nll": 2.303411029279232,
+          "record_id": "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-345b9d0b681a66d053dc4bc2",
+          "valid_completion_tokens": 19
+        }
+      ],
+      "completion_perplexity": 3.7104487079843236,
+      "completion_token_count": 6076,
+      "eval_seconds": 59.279,
+      "mean_case_loss": 1.3203121633268893,
+      "median_case_loss": 1.0440921187400818,
+      "model_load_seconds": 8.109,
+      "name": "fla_triton",
+      "peak_allocated_mib": 4216.321,
+      "peak_reserved_mib": 4418.0,
+      "sample_count": 64,
+      "token_weighted_completion_nll": 1.3111528148543559
+    }
+  ],
+  "checkpoint_panel_binding": {
+    "claim_ceiling": "DEVELOPMENT_DIAGNOSTIC_ONLY / REPEATED_USE_CAN_INDUCE_SELECTION_OVERFIT / NOT QUALIFICATION EVIDENCE",
+    "path": "D:\\VERA\\worktrees\\vera_model_training-lane-b-20261003-v1\\successor\\experiments\\V10R2_HELDOUT_CHECKPOINT_PANEL_V1.json",
+    "record_ids_sha256": "65b52fc5e35b9a821118a7704541aa31b91e7dc765bf80cf526b927b2715ba99",
+    "section": "combined_panel",
+    "sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d"
+  },
+  "claim_ceiling": "DEVELOPMENT HELDOUT + PINNED PUBLIC RETENTION-SHADOW COMPARABILITY ONLY / NOT FINAL BANK / NOT EXTERNAL QUALIFICATION / NOT PROMOTION OR CHECKPOINT-SELECTION AUTHORITY",
+  "fixed_eval_length": 512,
+  "paired_comparisons": [
+    {
+      "left": "torch_ref",
+      "left_case_wins": 31,
+      "right": "fla_triton",
+      "right_case_wins": 33,
+      "right_minus_left_mean_case_loss": -0.0014558907569153234,
+      "right_minus_left_median_case_loss": -0.000287715345621109,
+      "ties": 0
+    }
+  ],
+  "retention_shadow_binding": {
+    "claim_ceiling": "PINNED_PUBLIC_SHADOW_DIAGNOSTICS_ONLY / NOT_FRESH_HOLDOUT / NOT_FINAL_QUALIFICATION_EVIDENCE",
+    "manifest_path": "research\\measurement\\V10_RETENTION_SHADOW_BENCHMARKS_V1.json",
+    "manifest_sha256": "fb1894bb8f6b5d2e28be311adccfaf946fd2f7a39f1b0398a806f7340dcc5900",
+    "sources": {
+      "coding": {
+        "dataset": "google-research-datasets/mbpp",
+        "file": "sanitized/test-00000-of-00001.parquet",
+        "file_sha256": "e9e9efa2c0d59ef5e55537a9d126b8f875d5ac010a8d75628d76824884e15850",
+        "license": "CC-BY-4.0",
+        "revision": "4bb6404fdc6cacfda99d4ac4205087b89d32030c",
+        "rows": 257
+      },
+      "extraction_structured": {
+        "dataset": "rajpurkar/squad_v2",
+        "file": "squad_v2/validation-00000-of-00001.parquet",
+        "file_sha256": "0560174ab095c5ac0a8c8dc8da05f1625453c45a77e4ce9cabc6947ddfdd24cb",
+        "license": "CC-BY-SA-4.0",
+        "revision": "3ffb306f725f7d2ce8394bc1873b24868140c412",
+        "rows": 11873
+      },
+      "instruction_following": {
+        "dataset": "google/IFEval",
+        "file": "ifeval_input_data.jsonl",
+        "file_sha256": "6a85310ca8ce15eff755aa08a3a4ff931c7e273e7515ebb3c492ea85fd8288f2",
+        "license": "Apache-2.0",
+        "official_grader_repo": "google-research/google-research",
+        "official_grader_revision": "e49bbfe381c9c0e564b937f1c4e163a2273c65cc",
+        "revision": "966cd89545d6b6acfd7638bc708b98261ca58e84",
+        "rows": 541
+      },
+      "knowledge_factuality": {
+        "dataset": "TIGER-Lab/MMLU-Pro",
+        "file": "data/test-00000-of-00001.parquet",
+        "file_sha256": "0e24a191921c2f453518a537a8b2117bd137e7714d4ef1565e9ba06c1ecb9ad8",
+        "license": "MIT",
+        "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+        "rows": 12032
+      },
+      "reasoning_math": {
+        "dataset": "openai/gsm8k",
+        "file": "main/test-00000-of-00001.parquet",
+        "file_sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59",
+        "license": "MIT",
+        "revision": "740312add88f781978c0658806c59bc2815b9866",
+        "rows": 1319
+      },
+      "truthfulness_factual_calibration": {
+        "dataset": "truthfulqa/truthful_qa",
+        "file": "multiple_choice/validation-00000-of-00001.parquet",
+        "file_sha256": "23f08e230ca4ed66babf3a72419af7cbde1f3d734dd396ac4cf6d088bd162afd",
+        "license": "Apache-2.0",
+        "revision": "741b8276f2d1982aa3d5b832d3ee81ed3b896490",
+        "rows": 817
+      }
+    },
+    "status": "PINNED_SHADOW_DIAGNOSTICS_NOT_FINAL_EVIDENCE",
+    "use_policy": {
+      "candidate_selection_use": false,
+      "contamination_screen_recommended": true,
+      "final_bank_use": false,
+      "paired_base_candidate_diagnostic": true,
+      "promotion_gate_use": false,
+      "redistribution": "Do not vendor raw benchmark rows into this repository from this manifest; fetch pinned upstream sources when running diagnostics."
+    }
+  },
+  "role": "PAIRED_DEVELOPMENT_DIAGNOSTIC_NOT_FINAL_BANK",
+  "runtime_binding_path": "D:\\VERA\\worktrees\\vera_model_training-lane-b-20261003-v1\\successor\\experiments\\V10R2_LANE_B_RUNTIME_BINDING_V2.json",
+  "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+  "runtime_check": {
+    "binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "schema": "V10_QWEN35_LIVE_RUNTIME_CHECK_V1",
+    "status": "PASS",
+    "vram_delta_mib": 1
+  },
+  "runtime_observation": {
+    "base_artifacts": {
+      "model.safetensors-00001-of-00002.safetensors": "36dd0f7de62c546e7d163c2a4461208d731fad91ebea9bc31226b54c1c86511f",
+      "model.safetensors-00002-of-00002.safetensors": "e2fb50b735a8e10210eece763097f906955ca9db6ba557215f549a46b622157f",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+    },
+    "cuda_runtime": "13.2",
+    "driver": "616.92",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "packages": {
+      "accelerate": "1.14.0",
+      "bitsandbytes": "0.50.2",
+      "chardet": "5.2.0",
+      "datasets": "5.0.0",
+      "fla-core": "0.5.2",
+      "flash-linear-attention": "0.5.2",
+      "huggingface_hub": "1.33.0",
+      "jinja2": "3.1.6",
+      "numpy": "2.5.2",
+      "peft": "0.19.1",
+      "requests": "2.34.2",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.22.2",
+      "torch": "2.14.1+cu132",
+      "torchao": "0.18.0",
+      "transformers": "5.14.1",
+      "triton-windows": "3.8.0.post29",
+      "trl": "1.9.0"
+    },
+    "python_version": "3.13.5",
+    "vram_mib": 4095
+  },
+  "sample_count": 64,
+  "sample_method": "FROZEN_RECORD_ID_PANEL",
+  "sample_record_ids": [
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-54e8ef1a36cd572f020532c2",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-2ed8ef48f3b8c5dbe1b4bd22",
+    "v4.1-correction_uptake-0731",
+    "v4.1-correction_uptake-0880",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-9885d2e7c31b1a89a5349dae",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6c1bb36af218143e4eb4c504",
+    "v4.1-privacy_boundary-0686",
+    "hf-smoltalk2-table_gpt_no_think-8d4c1a474e395245a213eefb",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ce4ef1a5d65deb9fb906c937",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-2c176a6d5ea059b147aff6a4",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5208ed2ecde10e676a3f25d7",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-5612fb28842f9a63e0282908",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6e4cdc3a743d44133e338c47",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-c28b490dbec22f5608e0ffbd",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-8a58870c3aa5992b662d2274",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-ec6962c3403dba051c768b3a",
+    "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-ff4dfbed422ac2762a3f467f",
+    "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-73cd31c93a94c90faf770f79",
+    "v4.1-negative_transfer_resistance-0102",
+    "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-e0600404c27c466a7623bb0f",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-edbd6150972a55cdd564b6eb",
+    "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-d37253afdff47da16925cb53",
+    "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-b9be1c60e0a610590a732671",
+    "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-002c999a93e524d0e72b343b",
+    "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-733aaf17e0e05027927b9b0a",
+    "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-e8888f9656746bc96a710520",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-b94bb1b8b8da911ea24cf7d1",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-a1d503be600fc1ebda573ce2",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-a71bb8b993ec89a376ba4ce5",
+    "hf-smoltalk2-table_gpt_no_think-e19fd7f03ed12e2d01f2baca",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ed412f260b5239172c98c341",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-e83fc60182db4c2ffc63f37e",
+    "hf-smoltalk2-tulu_3_sft_personas_instruction_following_no_think-5cb626b3672200842a110483",
+    "hf-smoltalk2-table_gpt_no_think-2617d4d7d0ae414ebe340540",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-10c7c1c0947e6703f8f73de6",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-4483ab1a48e548cc0cc3b611",
+    "hf-smoltalk2-table_gpt_no_think-85b30aab24142da80b773139",
+    "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-c72f4edd6be0fd134b27f729",
+    "v4.1-epistemic_provenance-0757",
+    "hf-smoltalk2-OpenHermes_2.5_no_think-1a8c27c5c767431a1738fd73",
+    "hf-smoltalk2-table_gpt_no_think-a43af415882b3da15338fa38",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-4844f70a619527a9a3e453c0",
+    "hf-smoltalk2-smoltalk_smollm3_smol_rewrite_no_think-df1d152613539c2a1e9a8e88",
+    "hf-smoltalk2-table_gpt_no_think-9d2a34e286ec36d73352a19e",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ef565d1e8b5362c0c8493ccf",
+    "v4.1-relationship_authority-0477",
+    "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-23d7116b1018152555c87a90",
+    "v4.1-correction_uptake-0587",
+    "v4.1-independent_judgment-0564",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-ef6f20fd1c67ec441ae0c40a",
+    "v4.1-epistemic_provenance-0242",
+    "hf-smoltalk2-smoltalk_smollm3_smol_summarize_no_think-1c31aebaa707e8824f304404",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-7c2d452d5507ee092394934f",
+    "v4.1-privacy_boundary-0483",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-3cbc5b04c1085d0da3b7eabd",
+    "hf-smoltalk2-table_gpt_no_think-18e596d63859dfa288943507",
+    "v4.1-reciprocal_identity_continuity-0972",
+    "v4.1-correction_uptake-0149",
+    "v4.1-correction_uptake-0911",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-6550f58e55c64afea7d996e3",
+    "v4.1-relationship_authority-0605",
+    "hf-smoltalk2-Mixture_of_Thoughts_science_no_think-557445efaaba01844f516c92",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-eb64fa5b314df40e3f3d0fff",
+    "hf-smoltalk2-smoltalk_smollm3_explore_instruct_rewriting_no_think-345b9d0b681a66d053dc4bc2"
+  ],
+  "sample_record_ids_sha256": "65b52fc5e35b9a821118a7704541aa31b91e7dc765bf80cf526b927b2715ba99",
+  "sample_salt": null,
+  "schema": "V10R2_LANE_B_COMPARABLE_EVAL_V1",
+  "status": "DEVELOPMENT_HELDOUT_DIAGNOSTIC_COMPLETE",
+  "validation_rows": 2500,
+  "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7"
+}

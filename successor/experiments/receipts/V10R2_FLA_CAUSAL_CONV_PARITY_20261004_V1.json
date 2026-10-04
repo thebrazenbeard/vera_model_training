@@ -1,0 +1,176 @@
+{
+  "cases": [
+    {
+      "forward": {
+        "all_finite": true,
+        "cosine": 0.9999957084655762,
+        "max_abs": 0.0009765625,
+        "max_rel": 0.007751937955617905,
+        "mean_abs": 5.41525732842274e-05
+      },
+      "grad_bias": {
+        "all_finite": true,
+        "cosine": 0.9999978542327881,
+        "max_abs": 0.015625,
+        "max_rel": 0.02684563770890236,
+        "mean_abs": 0.00243377685546875
+      },
+      "grad_weight": {
+        "all_finite": true,
+        "cosine": 0.9999966621398926,
+        "max_abs": 0.03125,
+        "max_rel": 0.5135658979415894,
+        "mean_abs": 0.0023279786109924316
+      },
+      "grad_x": {
+        "all_finite": true,
+        "cosine": 0.9999959468841553,
+        "max_abs": 0.0009765625,
+        "max_rel": 1.662162184715271,
+        "mean_abs": 5.535161108127795e-05
+      },
+      "shape": [
+        1,
+        64,
+        17
+      ],
+      "update_cache": {
+        "all_finite": true,
+        "cosine": 1.0,
+        "max_abs": 0.0,
+        "max_rel": 0.0,
+        "mean_abs": 0.0
+      },
+      "update_output": {
+        "all_finite": true,
+        "cosine": 0.9999980330467224,
+        "max_abs": 0.00048828125,
+        "max_rel": 0.006896551698446274,
+        "mean_abs": 3.445148468017578e-05
+      },
+      "width": 4
+    },
+    {
+      "forward": {
+        "all_finite": true,
+        "cosine": 0.9999957084655762,
+        "max_abs": 0.001953125,
+        "max_rel": 0.007751937955617905,
+        "mean_abs": 5.350490391720086e-05
+      },
+      "grad_bias": {
+        "all_finite": true,
+        "cosine": 0.999996542930603,
+        "max_abs": 0.0625,
+        "max_rel": 0.4457547068595886,
+        "mean_abs": 0.007746696472167969
+      },
+      "grad_weight": {
+        "all_finite": true,
+        "cosine": 0.9999967813491821,
+        "max_abs": 0.0625,
+        "max_rel": 1.6666666269302368,
+        "mean_abs": 0.00706818699836731
+      },
+      "grad_x": {
+        "all_finite": true,
+        "cosine": 0.9999963045120239,
+        "max_abs": 0.001953125,
+        "max_rel": 1.603896141052246,
+        "mean_abs": 5.6771903473418206e-05
+      },
+      "shape": [
+        2,
+        128,
+        64
+      ],
+      "update_cache": {
+        "all_finite": true,
+        "cosine": 1.0000001192092896,
+        "max_abs": 0.0,
+        "max_rel": 0.0,
+        "mean_abs": 0.0
+      },
+      "update_output": {
+        "all_finite": true,
+        "cosine": 0.9999954104423523,
+        "max_abs": 0.00048828125,
+        "max_rel": 0.007692307699471712,
+        "mean_abs": 6.392598152160645e-05
+      },
+      "width": 4
+    },
+    {
+      "forward": {
+        "all_finite": true,
+        "cosine": 0.9999958872795105,
+        "max_abs": 0.001953125,
+        "max_rel": 0.007751937955617905,
+        "mean_abs": 5.270373003440909e-05
+      },
+      "grad_bias": {
+        "all_finite": true,
+        "cosine": 0.9999961853027344,
+        "max_abs": 0.0625,
+        "max_rel": 0.630630612373352,
+        "mean_abs": 0.008424341678619385
+      },
+      "grad_weight": {
+        "all_finite": true,
+        "cosine": 0.9999971389770508,
+        "max_abs": 0.0625,
+        "max_rel": 1.894736886024475,
+        "mean_abs": 0.007156580686569214
+      },
+      "grad_x": {
+        "all_finite": true,
+        "cosine": 0.9999962449073792,
+        "max_abs": 0.001953125,
+        "max_rel": 1.8189655542373657,
+        "mean_abs": 5.693136336049065e-05
+      },
+      "shape": [
+        1,
+        256,
+        127
+      ],
+      "update_cache": {
+        "all_finite": true,
+        "cosine": 1.0000001192092896,
+        "max_abs": 0.0,
+        "max_rel": 0.0,
+        "mean_abs": 0.0
+      },
+      "update_output": {
+        "all_finite": true,
+        "cosine": 0.9999950528144836,
+        "max_abs": 0.001953125,
+        "max_rel": 0.007633587811142206,
+        "mean_abs": 5.017220973968506e-05
+      },
+      "width": 4
+    }
+  ],
+  "claim_ceiling": "MICRO_PARITY_ONLY_NOT_WHOLE_MODEL_OR_TRAINING_QUALIFICATION",
+  "cuda_runtime": "13.2",
+  "device": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "dtype": "torch.bfloat16",
+  "failures": [
+    "case1:grad_weight",
+    "case1:grad_bias",
+    "case2:grad_weight",
+    "case2:grad_bias"
+  ],
+  "schema": "V10R2_FLA_CAUSAL_CONV_PARITY_V1",
+  "seed": 20261003,
+  "status": "HOLD",
+  "thresholds": {
+    "forward_cosine_min": 0.999,
+    "forward_max_abs": 0.025,
+    "gradient_cosine_min": 0.995,
+    "gradient_max_abs": 0.05,
+    "update_cosine_min": 0.999,
+    "update_max_abs": 0.025
+  },
+  "torch_version": "2.14.1+cu132"
+}

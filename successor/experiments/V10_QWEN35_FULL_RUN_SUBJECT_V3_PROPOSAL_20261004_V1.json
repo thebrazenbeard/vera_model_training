@@ -1,0 +1,120 @@
+{
+  "schema": "V10_QWEN35_FULL_RUN_SUBJECT_V3_PROPOSAL_V1",
+  "date": "2026-10-04",
+  "status": "PROPOSAL_ONLY_NO_AUTHORITY_NO_WEIGHT_CHANGE",
+  "role": "LANE_B_MINIMAL_DELTA_FULL_RUN_SUBJECT_PROPOSAL",
+  "supersedes_if_adopted": {
+    "contract_schema": "VERA_SUCCESSOR_V10_QWEN35_EXPERIMENT_CONTRACT_V2",
+    "experiment_id": "VERA_SUCCESSOR_V10_QWEN35_FRESH_QLORA_20261001_V2",
+    "reason": "Development selection favored nonpaged bitsandbytes AdamW 8-bit, while frozen V2 specifies adamw_torch."
+  },
+  "proposed_exact_recipe_delta": {
+    "optimizer": {
+      "from": "adamw_torch",
+      "to": "adamw_bnb_8bit",
+      "paged": false,
+      "basis": "Step48 quality-selected development path used nonpaged bitsandbytes AdamW 8-bit and survived the frozen 64-case development milestone 62/64 over step40."
+    }
+  },
+  "preserve_from_v2_without_change": {
+    "effect": "TRAIN_ONE_FRESH_QLORA_ADAPTER",
+    "parent_adapter": null,
+    "epochs": 1,
+    "learning_rate": 0.00002,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 3,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "overflow_policy": "ERROR_NO_TRUNCATION",
+    "completion_only_loss": true,
+    "packing": false,
+    "shuffle_dataset": true,
+    "gradient_checkpointing": true,
+    "bf16": true,
+    "tf32": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "quantization": {
+      "load_in_4bit": true,
+      "type": "nf4",
+      "double_quant": true,
+      "compute_dtype": "bfloat16"
+    },
+    "lora": {
+      "r": 4,
+      "alpha": 16,
+      "dropout": 0,
+      "target_modules": "all-linear",
+      "bias": "none",
+      "task_type": "CAUSAL_LM"
+    },
+    "validation_role": "POST_TRAIN_DIAGNOSTIC_ONLY_NO_RECIPE_OR_CHECKPOINT_SELECTION",
+    "save_policy": "FINAL_ADAPTER_ONLY"
+  },
+  "explicitly_not_carried_from_development": {
+    "step48_adapter_as_parent": false,
+    "staged_4_plus_8_optimizer_reset_schedule": false,
+    "zero_warmup": false,
+    "repeated_short_cosine_scheduler_resets": false,
+    "FLA_or_Triton_training_backend": false,
+    "development_checkpoint_panel_as_final_qualification": false
+  },
+  "rationale": {
+    "minimal_delta_principle": "Change only the optimizer field supported by development evidence; do not silently turn development scaffolding into the final algorithm.",
+    "scheduler_reason": "The staged development path's repeated scheduler resets were never isolated as a beneficial factor and are not equivalent to a full continuous epoch.",
+    "warmup_reason": "Warmup3 was preregistered for the full run and was never directly falsified by the development work; retain it unless a separate experiment explicitly tests it.",
+    "acceleration_reason": "FLA/Triton was mechanically qualified but was not used in the step48 quality-selected training trajectory."
+  },
+  "runner_dry_validation": {
+    "status": "PASS",
+    "method": "CPU-only validate_execution_spec on copies of frozen V2 contract/spec with only optimizer changed to adamw_bnb_8bit",
+    "derived_execution_spec_sha256": "2351e24798c9ab03ce188344017a96abbdaf3274b0348c83ee9c3ee86e080528",
+    "weight_change": false,
+    "note": "This proves the current protected runner's contract/spec validator accepts the minimal optimizer delta. It does not grant authority or prove full-run performance."
+  },
+  "known_evidence_and_limits": {
+    "preferred_development_checkpoint": "STEP48",
+    "step48_adapter_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "step48_full_panel": "62/64 wins over step40",
+    "development_rows_seen": 384,
+    "full_train_rows": 50000,
+    "development_fraction": 0.00768,
+    "development_cumulative_updates": 48,
+    "projected_full_epoch_updates_at_batch1_accum8": 6250,
+    "long_horizon_continuous_BNB8_quality_directly_tested": false
+  },
+  "required_rebinding_if_adopted": [
+    "New experiment contract version/schema identity or new exact experiment_id; do not mutate V2 in place.",
+    "New training_recipe_sha256.",
+    "New execution spec SHA reflecting adamw_bnb_8bit.",
+    "New execution binding SHA because the exact execution spec hash changes.",
+    "Re-run fail-closed training preflight against the new exact subject.",
+    "Final-bank admission/sealed commitment must bind the new exact subject before plaintext exposure or training.",
+    "Materialize a new exact one-run authority receipt only after all bank/custody gates pass and Patrick's current exact authority applies."
+  ],
+  "current_gate_state": {
+    "final_bank_cases_admitted": 0,
+    "final_bank_status": "SPEC_FROZEN_NO_CASES_ADMITTED",
+    "independent_review": "UNBOUND",
+    "sealed_final_bank_commitment_present": false,
+    "exact_training_authority_present": false,
+    "full_training_allowed": false,
+    "timing_note": "Because zero final-bank cases are admitted, this is the lowest-cost point to supersede the subject if the optimizer changes."
+  },
+  "hostile_checks": [
+    {
+      "challenge": "Does step48 prove the proposed V3 full run will outperform V2?",
+      "answer": "No. It supports the optimizer choice only within short development stages. V3 would remain a new exact subject whose final performance is unknown until the single protected full run and sealed final evaluation."
+    },
+    {
+      "challenge": "Why retain warmup3 when dev used zero warmup?",
+      "answer": "Zero warmup was part of bounded development scaffolding, not an isolated winning factor. Preserving the preregistered full-run warmup minimizes untested changes."
+    },
+    {
+      "challenge": "Why not initialize the final run from step48?",
+      "answer": "That would violate the fresh-adapter subject and leak development checkpoint selection into the protected full-run subject. The proposal keeps parent_adapter null."
+    }
+  ],
+  "disposition": "READY_FOR_LANE_A_ACK_MODIFY_AND_PATRICK_EXACT_SUBJECT_DECISION_BEFORE_ANY_FINAL_BANK_ADMISSION_OR_FULL_TRAINING",
+  "claim_ceiling": "PROPOSAL_ONLY_NOT_PREREGISTRATION_NOT_AUTHORITY_NOT_FINAL_BANK_NOT_WEIGHT_CHANGE"
+}

@@ -1,0 +1,109 @@
+{
+  "schema": "V10R2_BACKEND_QUALITY_AB_DECISION_V1",
+  "date": "2026-10-04",
+  "status": "HOLD_FLA_PROMOTION_GEOMETRY_GATE_FAILED",
+  "role": "LANE_B_MATCHED_BACKEND_QUALITY_AB_DECISION",
+  "subject": {
+    "parent_checkpoint": "STEP48",
+    "parent_adapter_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "rows": "384-447",
+    "row_count": 64,
+    "optimizer": "adamw_bnb_8bit",
+    "paged": false,
+    "steps_per_arm": 8,
+    "control_backend": "torch_reference",
+    "candidate_backend": "fla_triton",
+    "causal_conv_backend_both": "torch_reference",
+    "evaluation_backend_both": "torch_reference",
+    "frozen_panel_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d"
+  },
+  "evidence": {
+    "control_training_receipt": {
+      "path": "successor/experiments/receipts/V10R2_BACKEND_QUALITY_AB_TORCH_REFERENCE_TRAINING_20261004_V1.json",
+      "file_sha256": "5919af51015b2b7a7d582c440dfa4a4ac198eed9812be53d1f7ebb653c57ded8",
+      "receipt_sha256": "a4d3bafa651a8a6b21fc8c1fdb86fdd74c05312c0dd0403538901838f4c87f7c",
+      "adapter_sha256": "3cbe79d319a6f8d986abd61d471884ccf9e903f67b6db1835955f7aa90a08858"
+    },
+    "candidate_training_receipt": {
+      "path": "successor/experiments/receipts/V10R2_BACKEND_QUALITY_AB_FLA_TRITON_TRAINING_20261004_V1.json",
+      "file_sha256": "0f944ca78e5014da719405137087b442c8dabcb785c44e31c6ed9084a76ab82b",
+      "receipt_sha256": "92584635856228c2266330fe8a42d6cbe25752e61a3f8212ddbd6ff11eb90271",
+      "adapter_sha256": "40197d98c71bf85fada0ce8119a396ea77775d0171b2be2d5824946921e21b40"
+    },
+    "geometry_receipt": {
+      "path": "successor/experiments/receipts/V10R2_BACKEND_QUALITY_AB_GEOMETRY_20261004_V1.json",
+      "file_sha256": "46d1feb19fb5e7c6e0f4adcaa527d1fdd169c44549b8af5cea8642c696a9dc8d",
+      "receipt_sha256": "7ea84f02b619174ed3db3f1e35a7b253bb4c466ef223dcc1eb23635ef3428a5c"
+    },
+    "combined64_eval": {
+      "path": "successor/experiments/receipts/V10R2_BACKEND_QUALITY_AB_COMBINED64_EVAL_20261004_V1.json",
+      "file_sha256": "0813f272bb6fd0a339270afb22b4a9c889cce5e6abe64eb7a9c1b397745dd666",
+      "record_ids_sha256": "65b52fc5e35b9a821118a7704541aa31b91e7dc765bf80cf526b927b2715ba99"
+    }
+  },
+  "training_results": {
+    "control_train_runtime_seconds": 489.2204,
+    "candidate_train_runtime_seconds": 254.0002,
+    "candidate_speedup_pct": 48.080619696153306,
+    "candidate_speedup_ratio_control_over_candidate": 1.9260630503440548,
+    "control_training_loss": 1.4435358867049217,
+    "candidate_training_loss": 1.4435024932026863,
+    "control_peak_allocated_mib": 6476.197,
+    "candidate_peak_allocated_mib": 6476.197,
+    "control_peak_reserved_mib": 6854,
+    "candidate_peak_reserved_mib": 6820
+  },
+  "update_geometry": {
+    "control_update_l2": 0.14000699667379135,
+    "candidate_update_l2": 0.14017497731769102,
+    "candidate_minus_control_l2": 0.01993381525621919,
+    "relative_l2_vs_control": 0.14237711007764042,
+    "cosine": 0.989877244325408,
+    "max_abs_difference": 0.00473785400390625
+  },
+  "development_quality": {
+    "control_token_weighted_nll": 1.311135895936667,
+    "candidate_token_weighted_nll": 1.3111528148543559,
+    "candidate_minus_control_nll": 0.000016918917688846236,
+    "control_case_wins": 31,
+    "candidate_case_wins": 33,
+    "ties": 0,
+    "worst_family_regression": {
+      "family": "v4.1:reciprocal_identity_continuity",
+      "count": 1,
+      "candidate_minus_control_mean_case_loss": 0.004041194915771484
+    }
+  },
+  "prospective_gates": {
+    "mechanical_pass": true,
+    "speedup_min_pct": 20,
+    "speedup_pass": true,
+    "update_cosine_min": 0.995,
+    "update_cosine_pass": false,
+    "update_relative_l2_max": 0.05,
+    "update_relative_l2_pass": false,
+    "aggregate_nll_regression_abs_max": 0.005,
+    "aggregate_nll_pass": true,
+    "family_mean_case_loss_regression_hold_abs": 0.01,
+    "family_guard_pass": true,
+    "quality_pass": true,
+    "geometry_pass": false,
+    "benefit_pass": true,
+    "all_promotion_gates_pass": false
+  },
+  "hostile_review": {
+    "speed_argument": "FLA is materially faster and quality-equivalent on the repeated-use development panel.",
+    "counterargument": "The actual serialized update trajectory diverged beyond both prospective geometry limits. That is precisely the condition the predeclared gate was designed to catch; accepting FLA anyway would be post-hoc threshold abandonment.",
+    "decision": "HOLD FLA promotion. Do not move or relax the geometry gates after seeing the result."
+  },
+  "disposition": {
+    "fla_triton_promotion": "HOLD_NOT_PROMOTED",
+    "step56_checkpoint_promotion": "FROZEN",
+    "additional_continuation": "NOT_AUTHORIZED_BY_THIS_EXPERIMENT",
+    "recommended_v3_runtime_if_preregistering_now": "torch_reference",
+    "recommended_v3_optimizer": "adamw_bnb_8bit_nonpaged",
+    "full_training": "HOLD_PENDING_FINAL_BANK_SEALING_AND_EXACT_AUTHORITY",
+    "new_gpu_experiment": "NOT_REQUIRED_BY_DEFAULT; only justified by a new explicit hypothesis with new prospective gates"
+  },
+  "claim_ceiling": "DEVELOPMENT_BACKEND_SELECTION_EVIDENCE_ONLY_NOT_FINAL_BANK_NOT_EXTERNAL_QUALIFICATION_NOT_FULL_TRAINING_AUTHORITY"
+}

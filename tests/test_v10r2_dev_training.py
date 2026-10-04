@@ -124,6 +124,104 @@ def test_dev_spec_rejects_misaligned_staged_window(tmp_path: Path) -> None:
         load_and_validate_dev_spec(path)
 
 
+def test_ordinary_dev_spec_rejects_twenty_steps(tmp_path: Path) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["trainer"]["max_optimizer_steps"] = 20
+    value["development_window"] = {"start_row": 0, "row_count": 160}
+    path.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(DevTrainingHold, match="1 through 8"):
+        load_and_validate_dev_spec(path)
+
+
+def test_recipe_semantics_spec_accepts_fresh_continuous_twenty_steps(
+    tmp_path: Path,
+) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["experiment_class"] = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
+    value["trainer"]["max_optimizer_steps"] = 20
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "sequential"
+    value["development_window"] = {"start_row": 0, "row_count": 160}
+    value["comparison"] = {
+        "expected_initial_trainable_parameter_digest": "1" * 64,
+    }
+    path.write_text(json.dumps(value), encoding="utf-8")
+
+    spec = load_and_validate_dev_spec(path)
+    assert spec["experiment_class"] == "CONTINUOUS_STATE_RECIPE_SEMANTICS"
+    assert spec["trainer"]["max_optimizer_steps"] == 20
+    assert spec["development_window"] == {"start_row": 0, "row_count": 160}
+
+
+def test_recipe_semantics_spec_rejects_missing_initial_digest(
+    tmp_path: Path,
+) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["experiment_class"] = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
+    value["trainer"]["max_optimizer_steps"] = 20
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "sequential"
+    value["development_window"] = {"start_row": 0, "row_count": 160}
+    path.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(DevTrainingHold, match="expected initial trainable digest"):
+        load_and_validate_dev_spec(path)
+
+
+def test_recipe_semantics_spec_rejects_random_sampling(tmp_path: Path) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["experiment_class"] = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
+    value["trainer"]["max_optimizer_steps"] = 20
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "random"
+    value["development_window"] = {"start_row": 0, "row_count": 160}
+    path.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(DevTrainingHold, match="sequential sampling"):
+        load_and_validate_dev_spec(path)
+
+
+def test_dev_spec_accepts_sequential_sampling_for_bounded_stage(
+    tmp_path: Path,
+) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["trainer"]["max_optimizer_steps"] = 4
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "sequential"
+    value["development_window"] = {"start_row": 0, "row_count": 32}
+    path.write_text(json.dumps(value), encoding="utf-8")
+    spec = load_and_validate_dev_spec(path)
+    assert spec["trainer"]["train_sampling_strategy"] == "sequential"
+
+
+def test_recipe_semantics_spec_rejects_resume_adapter(tmp_path: Path) -> None:
+    path = _write_spec(tmp_path / "spec.json")
+    value = json.loads(path.read_text())
+    value["experiment_class"] = "CONTINUOUS_STATE_RECIPE_SEMANTICS"
+    value["trainer"]["max_optimizer_steps"] = 20
+    value["trainer"]["shuffle_dataset"] = False
+    value["trainer"]["train_sampling_strategy"] = "sequential"
+    value["development_window"] = {"start_row": 0, "row_count": 160}
+    value["resume_adapter"] = {
+        "path": str(tmp_path / "prior" / "adapter"),
+        "adapter_model_sha256": "1" * 64,
+        "source_receipt_path": "source-receipt.json",
+        "source_receipt_sha256": "2" * 64,
+        "source_spec_path": "source-spec.json",
+        "source_spec_sha256": "4" * 64,
+        "source_weight_digest_after": "3" * 64,
+        "previous_optimizer_steps": 8,
+        "source_cumulative_optimizer_steps": 8,
+        "next_train_row": 0,
+    }
+    path.write_text(json.dumps(value), encoding="utf-8")
+    with pytest.raises(DevTrainingHold, match="fresh adapter"):
+        load_and_validate_dev_spec(path)
+
+
 def test_dev_spec_rejects_paged_optimizer(tmp_path: Path) -> None:
     path = _write_spec(tmp_path / "spec.json", optimizer="paged_adamw_8bit")
     with pytest.raises(DevTrainingHold, match="paged optimizers are forbidden"):
@@ -219,6 +317,7 @@ def test_effect_label_tracks_step_count_and_backend() -> None:
     assert effect_label("adamw_bnb_8bit", 1) == "ONE_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEP"
     assert effect_label("adamw_bnb_8bit", 4) == "FOUR_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEPS"
     assert effect_label("adamw_torch_8bit", 1) == "ONE_LOCAL_TORCHAO_ADAMW_8BIT_OPTIMIZER_STEP"
+    assert effect_label("adamw_bnb_8bit", 20) == "TWENTY_LOCAL_BNB_ADAMW_8BIT_OPTIMIZER_STEPS"
 
 
 def test_effect_label_rejects_unknown_backend_or_count() -> None:

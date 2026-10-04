@@ -1,0 +1,58 @@
+{
+  "backend": {
+    "causal_conv": "torch_reference",
+    "gated_delta": "fla_triton",
+    "pad_to_multiple_of": 512,
+    "patched_delta_modules": 24
+  },
+  "claim_ceiling": "DEVELOPMENT_RUNTIME_EVIDENCE_ONLY / NO OPTIMIZER STEP / NO WEIGHT CHANGE / NOT FINAL BANK",
+  "cuda_memory_mib": {
+    "allocated_after_backward": 4250.387,
+    "allocated_before_backward": 4208.129,
+    "peak_allocated": 5395.919,
+    "peak_reserved": 5828.0,
+    "reserved_after_backward": 5828.0,
+    "reserved_before_backward": 5578.0
+  },
+  "date": "2026-10-03",
+  "lane": "B",
+  "loss": {
+    "mean": 2.1920725107192993,
+    "microbatches": [
+      2.7322254180908203,
+      2.7833316326141357,
+      2.7610225677490234,
+      2.7803549766540527,
+      2.5411972999572754,
+      1.3147625923156738,
+      1.6116173267364502,
+      1.012068271636963
+    ]
+  },
+  "mechanics": {
+    "gradient_parameter_count": 496,
+    "microbatches_completed": 8,
+    "nonzero_gradient_parameter_count": 248,
+    "optimizer_created": false,
+    "output_artifacts_written": false,
+    "targeted_lora_modules": 248,
+    "weight_digest_after": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+    "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+    "weight_digest_unchanged": true
+  },
+  "receipt_sha256": "2c02fac558c7696db9b3b5555b7b2ea189af7621f0d9a127e1e2c73fb5350363",
+  "schema": "V10R2_LANE_B_FIXED512_BACKWARD_PROBE_RESULT_V1",
+  "source_probe_receipt_sha256": "80f92008e2c77ae07b3014d4cb2803fe2a34e497b33d176c3fcf2d2ac5798bcd",
+  "status": "PASS_NO_WEIGHT_CHANGE_BUT_PERFORMANCE_REJECTED",
+  "subject": {
+    "rows": "4096-4103",
+    "runtime_binding_sha256": "8880dc796d4e0646ee0e061c2b83cc743106067b9955410a6ffb41a2d68fc25f",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300"
+  },
+  "timing": {
+    "fixed512_backward_elapsed_seconds": 435.29119429999264,
+    "fixed_padding_disposition": "REJECTED_AS_TRAINING_DEFAULT",
+    "fixed_to_variable_ratio": 1.462384052624776,
+    "variable_shape_backward_elapsed_seconds": 297.6586030999897
+  }
+}

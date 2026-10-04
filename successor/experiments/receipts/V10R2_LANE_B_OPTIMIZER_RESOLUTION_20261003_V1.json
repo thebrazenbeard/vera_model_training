@@ -1,0 +1,41 @@
+{
+  "claim_ceiling": "CLASS_RESOLUTION_ONLY_FOR_TORCHAO8_UNTIL_REAL_GPU_STEP",
+  "date": "2026-10-03",
+  "optimizers": {
+    "adamw_bnb_8bit": {
+      "class": "AdamW",
+      "gpu_optimizer_step_evidence": "EXISTS_IN_LANE_A_DIFFERENT_RUNTIME",
+      "kwargs": {
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "is_paged": false,
+        "lr": 2e-05,
+        "optim_bits": 8
+      },
+      "module": "bitsandbytes.optim.adamw"
+    },
+    "adamw_torch_8bit": {
+      "class": "AdamW8bit",
+      "gpu_optimizer_step_evidence": "PENDING_LANE_B_GPU_LEASE",
+      "kwargs": {
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "bf16_stochastic_round": 0,
+        "block_size": 256,
+        "eps": 1e-08,
+        "lr": 2e-05
+      },
+      "module": "torchao.optim.adam"
+    }
+  },
+  "paged_optimizers": "FORBIDDEN",
+  "receipt_sha256": "000073797ac56db72495d281387dad725e4704bc4968e21e428149c8b7a1b08f",
+  "runtime_binding_sha256": "e9861abb9d1c9ec80e02b4cb7c08f9474adb642b6996b139e2d768a12843d8de",
+  "schema": "V10R2_LANE_B_OPTIMIZER_RESOLUTION_V1",
+  "status": "CPU_SIDE_CLASS_RESOLUTION_PASS_GPU_STEP_PENDING"
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "V10R2_STEP48_CANDIDATE_BINDING_V1",
+  "created_at_utc": "2026-10-04T11:00:14Z",
+  "status": "BOUND_AWAITING_MILESTONE_EVALUATION",
+  "role": "LANE_B_INDEPENDENT_STEP48_HANDOFF_AUDIT",
+  "training_subject": {
+    "lane_a_branch": "work/v10r2-bnb8-cont20-20261003",
+    "staged_head": "05978d56e0c1517c91809aaae70330c0b41edad3",
+    "spec_sha256": "45dcf446911ae78a734c331c12d3c39b15fb7570a2e0af69d94a66a391302804",
+    "rows": "320-383",
+    "cumulative_optimizer_steps": 48,
+    "optimizer": "adamw_bnb_8bit",
+    "paged": false
+  },
+  "source_checkpoint": {
+    "name": "step40",
+    "adapter_model_sha256": "e579c06aad372e860f8815141e80d2cd35223e4e111c4ce41ab63969a56391bd",
+    "receipt_sha256": "30e4435f5e45c1208d8a368403990435667137f17294415d2a862bab1323d037",
+    "weight_digest_after": "4fd76f0e77ce2482f902bf50577662e2acfd9af4d68600d81061d03f17bbc665"
+  },
+  "candidate_checkpoint": {
+    "name": "step48",
+    "adapter_dir": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont40-plus8-step48-20261004\\adapter",
+    "adapter_model_sha256": "5a78d4f94d25a0376862ebcb15e528ed6dab30b5b398da9d6af1783a16937eaf",
+    "receipt_path": "D:\\VERA\\models\\adapters\\v10r2-dev-bnb8-cont40-plus8-step48-20261004\\DEV_TRAINING_COMPLETE.json",
+    "receipt_sha256": "15dee7c2ca2b94c6c2c2f780ced3dfc03d9a6afd5adfb594b1035bfa44853481",
+    "receipt_file_sha256": "11e5bc030d988b09715d21eda7211902a363b641dbbad888fb07d9b4bd207332",
+    "weight_digest_before": "4fd76f0e77ce2482f902bf50577662e2acfd9af4d68600d81061d03f17bbc665",
+    "weight_digest_after": "6cbac5df94bc33cea342cb62eefe70aa8c992ce5a1d1e797debc233e8df6ffe4",
+    "train_loss": 1.40095953643322,
+    "train_runtime_seconds": 1213.4045
+  },
+  "independent_audit": {
+    "receipt_selfhash_pass": true,
+    "adapter_hash_match": true,
+    "spec_hash_match": true,
+    "source_receipt_hash_match": true,
+    "source_weight_lineage_match": true,
+    "runtime_binding_pass": true,
+    "exact_window_pass": true,
+    "cumulative_step_count_pass": true,
+    "nonpaged_optimizer_pass": true
+  },
+  "evaluation_binding": {
+    "plan_path": "successor/experiments/V10R2_STEP48_EVAL_PLAN_20261004_V1.json",
+    "plan_sha256": "9d55a3944e4100740c12cf80f1cb0f3a9bf2ee03a5b36add86a6d892dbfaab5f",
+    "checkpoint_panel_path": "successor/experiments/V10R2_HELDOUT_CHECKPOINT_PANEL_V1.json",
+    "checkpoint_panel_sha256": "450e0b74702b71dcb13ba4adb24851a78440598baebbe72bdfb8e6c36173076d",
+    "checkpoint_panel_section": "combined_panel",
+    "candidate_binding_status": "READY"
+  },
+  "effect": "READ_ONLY_AUDIT_NO_GPU_NO_WEIGHT_CHANGE",
+  "claim_ceiling": "DEVELOPMENT_HANDOFF_INTEGRITY_ONLY_NOT_MILESTONE_PASS_NOT_FINAL_BANK_NOT_EXTERNAL_QUALIFICATION"
+}

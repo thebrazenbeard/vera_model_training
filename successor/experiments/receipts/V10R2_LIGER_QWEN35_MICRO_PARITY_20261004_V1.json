@@ -1,0 +1,127 @@
+{
+  "claim_ceiling": "WINDOWS_TRITON_MICRO_PARITY_ONLY_NOT_WHOLE_MODEL_NOT_TRAINING_QUALIFICATION",
+  "compute_capability": [
+    8,
+    6
+  ],
+  "cuda_runtime": "13.2",
+  "device": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "dtype": "torch.bfloat16",
+  "failures": [],
+  "liger_path": "D:\\VERA\\.scratch\\liger-kernel-0.8.4",
+  "liger_version": "0.8.4",
+  "liger_wheel_path": "D:\\VERA\\.scratch\\liger-qwen35-sandbox-20261004\\liger_kernel-0.8.4-py3-none-any.whl",
+  "liger_wheel_sha256": "9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111",
+  "results": {
+    "fused_linear_cross_entropy": {
+      "grad_input": {
+        "all_finite": true,
+        "cosine": 0.9999954104423523,
+        "diff_l2": 0.00013970187865197659,
+        "max_abs": 7.62939453125e-06,
+        "mean_abs": 3.969208819398773e-07,
+        "ref_l2": 0.0461367703974247,
+        "relative_l2": 0.003027994318817222
+      },
+      "grad_weight": {
+        "all_finite": true,
+        "cosine": 0.9999983906745911,
+        "diff_l2": 8.436849020654336e-05,
+        "max_abs": 7.62939453125e-06,
+        "mean_abs": 9.49426759433436e-09,
+        "ref_l2": 0.04587090387940407,
+        "relative_l2": 0.0018392593795045014
+      },
+      "loss_candidate": 8.317378997802734,
+      "loss_reference": 8.3125,
+      "loss_relative_error": 0.0005869471040883459,
+      "masked_label_count": 16
+    },
+    "rms_norm": {
+      "grad_input": {
+        "all_finite": true,
+        "cosine": 1.0,
+        "diff_l2": 0.0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "ref_l2": 127.61795043945312,
+        "relative_l2": 0.0
+      },
+      "grad_weight": {
+        "all_finite": true,
+        "cosine": 1.0,
+        "diff_l2": 0.0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "ref_l2": 126.16732025146484,
+        "relative_l2": 0.0
+      },
+      "output": {
+        "all_finite": true,
+        "cosine": 1.0000001192092896,
+        "diff_l2": 0.0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "ref_l2": 127.99433898925781,
+        "relative_l2": 0.0
+      }
+    },
+    "swiglu": {
+      "grad_down": {
+        "all_finite": true,
+        "cosine": 0.9999999403953552,
+        "diff_l2": 0.0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "ref_l2": 529.1183471679688,
+        "relative_l2": 0.0
+      },
+      "grad_gate": {
+        "all_finite": true,
+        "cosine": 0.9999938607215881,
+        "diff_l2": 1.3485534191131592,
+        "max_abs": 0.03125,
+        "mean_abs": 0.0021486920304596424,
+        "ref_l2": 384.1069030761719,
+        "relative_l2": 0.003510880456229991
+      },
+      "grad_input": {
+        "all_finite": true,
+        "cosine": 0.9999915361404419,
+        "diff_l2": 0.07943839579820633,
+        "max_abs": 0.00390625,
+        "mean_abs": 0.00038210779894143343,
+        "ref_l2": 19.334867477416992,
+        "relative_l2": 0.004108556517958548
+      },
+      "grad_up": {
+        "all_finite": true,
+        "cosine": 0.9999938011169434,
+        "diff_l2": 1.3196834325790405,
+        "max_abs": 0.03125,
+        "mean_abs": 0.002092367969453335,
+        "ref_l2": 374.78668212890625,
+        "relative_l2": 0.0035211588231546104
+      },
+      "output": {
+        "all_finite": true,
+        "cosine": 1.0,
+        "diff_l2": 0.0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "ref_l2": 13.3572998046875,
+        "relative_l2": 0.0
+      }
+    }
+  },
+  "schema": "V10R2_LIGER_QWEN35_MICRO_PARITY_V1",
+  "seed": 20261004,
+  "status": "PASS",
+  "thresholds": {
+    "cosine_min": 0.995,
+    "loss_relative_max": 0.005,
+    "relative_l2_max": 0.02
+  },
+  "torch_version": "2.14.1+cu132",
+  "triton_version": "3.8.0"
+}
