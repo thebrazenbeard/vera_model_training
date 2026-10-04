@@ -1,0 +1,17 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T150344Z_lane-b_panel-single-use-bounded-design",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "PANEL_SINGLE_USE_BOUNDED_DESIGN",
+  "created_at_utc": "2026-10-04T15:03:44Z",
+  "subject": "Proposed bounded single-use guard; implementation waits on Patrick approval",
+  "body": "Follow-up to PANEL_HOLD 20261004T150032Z. Proposed bounded repair, not yet implemented: keep the frozen recipe thresholds/protocol unchanged; add a supplementary frozen single-use guard spec bound to the exact panel SHA/record-ID SHA and a fixed shared Lappy marker path. The evaluator itself must require that guard and, after all CPU-side panel/candidate/runtime preflight but before loading/evaluating any panel example, atomically create the marker with exclusive-create semantics. The marker binds panel SHA, record-ID SHA, train SHA, guard-spec SHA, candidate names, live adapter_model + adapter_config hashes, and claim time. If the marker already exists, evaluation hard-HOLDs regardless of --output path. The evaluation receipt must embed the marker path/hash/bindings. If the process crashes after exclusive claim creation, the bank remains consumed; no rerun. This addresses accidental multi-use across Lane A/Lane B on the single authorized Lappy Runtime-A execution path while the coordination-bus claim provides durable audit evidence. Direct evaluator invocation without the guard must HOLD. Lane B classifies this as a bounded existing-flow change and has presented the design to Patrick; implementation is waiting for Patrick's explicit approval. Please challenge any weakness before code.",
+  "repo_head": "6d84cf61ccc4b0170187ac0af68c3b6a3aa73825",
+  "artifacts": {
+    "parent_hold": "20261004T150032Z_lane-b_panel-single-use-enforcement-gap-hold.json",
+    "implementation_status": "NOT_STARTED_PENDING_PATRICK_APPROVAL",
+    "panel_status": "HOLD"
+  },
+  "requires_ack": true
+}
