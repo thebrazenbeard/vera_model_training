@@ -1,41 +1,43 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "V10R3R1_PREREG_AUTHORITY_HOLD_NO_EXECUTION",
+  "status": "V10R3R1_PREREG_TEMPLATE_BINDING_HOLD_NO_EXECUTION",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r3-eval-gates-lane-b-20261004-v1",
-  "training_head": "db4ddd3238f8171506ddc079595b8baba43ff621",
+  "training_head": "e1002fd4457b8094178cfaf32f5c349f521e84f0",
   "draft_pr": 84,
   "latest_checkpoint": {
-    "kind": "V10R3R1_PREREG_RECIPE_PASS_AUTHORITY_HOLD",
+    "kind": "V10R3R1_AUTHORITY_REPAIRED_TEMPLATE_BINDING_STALE",
     "staged_status": "PASS_INDEPENDENTLY_VERIFIED",
     "continuous20_status": "FAILED_AFTER_4_OF_20_CUDA_OOM_NO_CANDIDATE",
-    "continuous20_incident_head": "19f911a8bd97f8a6d885d2b12ed7883eb963da04",
     "original_v10r3_status": "EXECUTION_HOLD_UNRESOLVED",
     "recipe_winner_claimed": false,
     "failed_namespace_preserved": true,
     "failed_process_cleanup": "COMPLETE_GPU_0_MIB",
+    "gpu_lease_status": "RELEASED",
     "one_time_panel_status": "HOLD_UNCONSUMED_SINGLE_USE_GUARD_MISSING",
-    "v10r3r1_lane_a_head_reviewed": "3de899496ebf1313678dee8c6ef9305fb4fb04b7",
+    "v10r3r1_lane_a_head_reviewed": "6316c6f4a174d1c2b45240e438cf8a95ff5c19c0",
     "v10r3r1_recipe_projection": "PASS",
-    "v10r3r1_execution_authority": "HOLD_FALSELY_ASSERTED",
+    "v10r3r1_authority_fail_closed": true,
+    "v10r3r1_template_binding": "HOLD_STALE_SPEC_SHA",
     "v10r3r1_execution_status": "NOT_AUTHORIZED_NOT_STARTED",
     "vera_identity_protocol_status": "ACKED_BY_LANE_A_AND_LANE_B",
     "vera_identity_implementation_status": "NOT_STARTED_RECIPE_EXECUTION_DECISION_AND_PATRICK_ARCHITECTURAL_APPROVAL_REQUIRED"
   },
   "coordination": {
-    "gpu_lease_holder": "LANE_A_PENDING_RELEASE",
+    "gpu_lease_holder": null,
     "lane_b_gpu_authorized": false,
     "lane_b_heavy_gpu_work_running": false,
-    "lease_release_request": "20261004T152126Z_lane-b_request-gpu-lease-release-pending-user-replication-authority.json",
-    "r1_authority_hold": "20261004T152757Z_lane-b_v10r3r1-protocol-review-authority-hold.json"
+    "lease_released_at_utc": "2026-10-04T15:32:18Z",
+    "r1_authority_hold": "20261004T152757Z_lane-b_v10r3r1-protocol-review-authority-hold.json",
+    "r1_template_binding_hold": "20261004T153300Z_lane-b_v10r3r1-template-binding-stale-hold.json"
   },
   "continuation": {
     "current": "state/continuation/V10_MODEL_TRAINING_LANE_B_CURRENT.md",
-    "versioned": "state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V7.md",
+    "versioned": "state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V8.md",
     "status": "CURRENT"
   },
-  "next_work": "Verify Lane A neutralizes the executable R1 spec and freezes non-executable preregistration. Verify GPU lease release. Do not execute V10R3R1 without Patrick explicit new authority. Panel remains HOLD until single-use guard implementation is separately approved and verified. Identity-specific training remains HOLD.",
+  "next_work": "Verify Lane A recomputes and freezes the non-executable R1 template binding with explicit hash semantics. Do not execute R1 without Patrick explicit new authority. Panel remains HOLD until single-use guard implementation is separately approved and verified. Identity-specific training remains HOLD.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T15:28:21Z"
+  "updated_at_utc": "2026-10-04T15:33:19Z"
 }
