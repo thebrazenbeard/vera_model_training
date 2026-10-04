@@ -5,6 +5,9 @@ import hashlib
 import json
 from pathlib import Path
 
+from successor.experiments.analyze_v10r2_checkpoint_comparison import (
+    summarize_checkpoint_comparison,
+)
 from successor.experiments.evaluate_v10r2_heldout import (
     _paired_comparison,
     build_completion_example,
@@ -133,6 +136,92 @@ def parse_candidate_specs(values: list[str]) -> list[tuple[str, Path]]:
         names.add(name)
         result.append((name, Path(path_text)))
     return result
+
+
+def apply_prospective_gates(
+    result: dict,
+    protocol: dict,
+    *,
+    staged_name: str,
+    continuous_name: str,
+) -> dict:
+    runtime = protocol.get("runtime")
+    matched_subject = protocol.get("matched_training_subject")
+    evaluation = protocol.get("evaluation")
+    if not isinstance(runtime, dict):
+        raise RecipeEvalHold("protocol runtime binding missing")
+    if not isinstance(matched_subject, dict):
+        raise RecipeEvalHold("protocol matched training subject missing")
+    if not isinstance(evaluation, dict):
+        raise RecipeEvalHold("protocol evaluation binding missing")
+
+    expected_train_sha = matched_subject.get("train_sha256")
+    if result.get("train_sha256") != expected_train_sha:
+        raise RecipeEvalHold("train binding mismatch")
+    expected_panel_ids_sha = evaluation.get("panel_record_ids_sha256")
+    if result.get("panel_record_ids_sha256") != expected_panel_ids_sha:
+        raise RecipeEvalHold("evaluation panel binding mismatch")
+    expected_runtime_sha = runtime.get("binding_sha256")
+    if result.get("runtime_binding_sha256") != expected_runtime_sha:
+        raise RecipeEvalHold("runtime binding mismatch")
+
+    gates = protocol.get("prospective_gates")
+    if not isinstance(gates, dict):
+        raise RecipeEvalHold("protocol prospective gates missing")
+
+    nll_limit = gates.get("continuous_minus_staged_token_weighted_nll_max")
+    family_limit = gates.get("family_mean_case_loss_regression_hold_abs")
+    if not isinstance(nll_limit, (int, float)):
+        raise RecipeEvalHold("token-weighted NLL gate missing")
+    if not isinstance(family_limit, (int, float)):
+        raise RecipeEvalHold("family mean case-loss gate missing")
+
+    summary = summarize_checkpoint_comparison(
+        result,
+        staged_name,
+        continuous_name,
+    )
+    nll_delta = summary["overall"]["right_minus_left_nll"]
+    families = summary["families"]
+    if not families:
+        raise RecipeEvalHold("family comparison missing")
+    worst_family, worst_summary = max(
+        families.items(),
+        key=lambda item: item[1]["right_minus_left_mean_case_loss"],
+    )
+    worst_delta = worst_summary["right_minus_left_mean_case_loss"]
+
+    nll_passed = nll_delta <= float(nll_limit)
+    family_passed = worst_delta <= float(family_limit)
+    passed = nll_passed and family_passed
+
+    return {
+        "schema": "V10R3_RECIPE_SEMANTICS_PROSPECTIVE_GATE_DECISION_V1",
+        "status": "PASS" if passed else "HOLD",
+        "decision": (
+            gates["if_both_pass"] if passed else gates["if_either_fails"]
+        ),
+        "staged_name": staged_name,
+        "continuous_name": continuous_name,
+        "gates": {
+            "token_weighted_nll": {
+                "continuous_minus_staged": nll_delta,
+                "max_allowed": float(nll_limit),
+                "passed": nll_passed,
+            },
+            "family_mean_case_loss": {
+                "worst_family": worst_family,
+                "worst_continuous_minus_staged": worst_delta,
+                "max_allowed": float(family_limit),
+                "passed": family_passed,
+            },
+        },
+        "family_comparison": summary,
+        "claim_ceiling": (
+            "DEVELOPMENT_RECIPE_SEMANTICS_GATE_APPLICATION_ONLY_"
+            "NOT_FINAL_BANK_NOT_FULL_RUN_AUTHORITY"
+        ),
+    }
 
 
 def run_recipe_semantics_eval(
