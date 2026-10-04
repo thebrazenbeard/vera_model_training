@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.metadata as metadata
 import json
 import sys
 from pathlib import Path
@@ -46,6 +47,7 @@ def run_probe(liger_path: Path, seed: int = 20261004) -> dict:
 
     import torch
     import torch.nn.functional as F
+    import triton
     from types import SimpleNamespace
     from transformers.models.qwen3_5.modeling_qwen3_5 import Qwen3_5MLP, Qwen3_5RMSNorm
 
@@ -178,6 +180,9 @@ def run_probe(liger_path: Path, seed: int = 20261004) -> dict:
         "torch_version": torch.__version__,
         "cuda_runtime": torch.version.cuda,
         "device": torch.cuda.get_device_name(0),
+        "compute_capability": list(torch.cuda.get_device_capability(0)),
+        "liger_version": metadata.version("liger-kernel"),
+        "triton_version": triton.__version__,
         "dtype": str(dtype),
         "thresholds": thresholds,
         "results": results,
@@ -193,10 +198,16 @@ def run_probe(liger_path: Path, seed: int = 20261004) -> dict:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--liger-path", type=Path, required=True)
+    parser.add_argument("--liger-wheel", type=Path)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
 
     result = run_probe(args.liger_path)
+    if args.liger_wheel is not None:
+        result["liger_wheel_path"] = str(args.liger_wheel)
+        result["liger_wheel_sha256"] = hashlib.sha256(
+            args.liger_wheel.read_bytes()
+        ).hexdigest()
     payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output is not None:
         args.output.parent.mkdir(parents=True, exist_ok=True)
