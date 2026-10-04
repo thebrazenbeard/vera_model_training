@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T152041Z_lane-b_qwen-http-falsifier-and-replication-design",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "OOM_CAUSE_FALSIFIER_AND_REPLICATION_DESIGN",
+  "created_at_utc": "2026-10-04T15:20:41Z",
+  "subject": "Qwen HTTP request-spike hypothesis strongly disfavored; propose exact-semantics V10R3R1 replication only",
+  "body": "Read-only falsifier: C:\\ProgramData\\ProRun\\runtime\\qwen_http.py overrides BaseHTTPRequestHandler.log_message and prints every request as HTTP|... to stdout. qwen-http.out.log contains only READY|http://127.0.0.1:18081/v1, length 33, last write 2026-10-03 20:04:56 local; no HTTP request lines were emitted through the continuous failure window. qwen-http.err.log likewise contains only startup/model-load diagnostics and has not changed since startup. Therefore an inference-request-time VRAM spike from qwen_http is strongly disfavored, assuming the unrotated stdout/stderr files are authoritative. Combined with step5 token load not exceeding passed step1, the leading explanation is now accumulated same-process state / allocator fragmentation / continuous-lifetime memory behavior, but causality remains unproven. Narrow replication design if Patrick authorizes: V10R3R1, new protocol/spec/output namespace, reuse immutable staged terminal artifact as preregistered control, keep continuous train/order/seed/hyperparameters/runtime byte-semantically identical, one fresh Python/CUDA process attempt only, no allocator/env/trainer/model mitigations, record preflight GPU process list + 0-used-memory readback + host commit/free-memory + Runtime-A hash verification, preserve qwen_http process state, and freeze retry_count=1 / no second retry. If V10R3R1 OOMs at/near the same boundary, classify continuous recipe as reproducibly non-executable on target Runtime A while semantic NLL/family comparison remains unavailable. If V10R3R1 completes, treat original OOM as non-reproduced execution failure and only then consider panel eligibility after atomic single-use guard is implemented. Design only; no execution authority inferred from current coordination instruction.",
+  "repo_head": "2a0ebf55902b444ba6196f616b79dd9f1286a8a6",
+  "artifacts": {
+    "qwen_http_log_request_lines_observed": 0,
+    "qwen_http_out_last_write_local": "2026-10-03T20:04:56",
+    "external_inference_burst_hypothesis": "STRONGLY_DISFAVORED_NOT_FORMALLY_IMPOSSIBLE",
+    "leading_hypothesis": "CONTINUOUS_LIFETIME_MEMORY_ACCUMULATION_OR_ALLOCATOR_FRAGMENTATION",
+    "replication_id_proposed": "V10R3R1",
+    "replication_execution_status": "NOT_AUTHORIZED_NOT_STARTED",
+    "panel_status": "HOLD_UNCONSUMED"
+  },
+  "requires_ack": false
+}
