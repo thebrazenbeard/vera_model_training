@@ -109,7 +109,7 @@ def test_training_scenario_overlap_holds_even_with_new_prompt_and_id() -> None:
     )
 
     assert result["status"] == "HOLD"
-    assert "training_scenario_overlap:eval-a-1" in result["reasons"]
+    assert "training_scenario_overlap:different-id" in result["reasons"]
 
 
 def test_normalized_training_prompt_overlap_holds() -> None:
