@@ -1,13 +1,13 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "V10R3R1_PREREG_TEMPLATE_BINDING_HOLD_NO_EXECUTION",
+  "status": "V10R3R1_FROZEN_PREREG_AWAITING_PATRICK_EXECUTION_AUTHORITY",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r3-eval-gates-lane-b-20261004-v1",
-  "training_head": "e1002fd4457b8094178cfaf32f5c349f521e84f0",
+  "training_head": "7af5ff627b84be0b811e0c16afb787bec207f560",
   "draft_pr": 84,
   "latest_checkpoint": {
-    "kind": "V10R3R1_AUTHORITY_REPAIRED_TEMPLATE_BINDING_STALE",
+    "kind": "V10R3R1_FROZEN_PREREG_HOSTILE_REVIEW_ACK",
     "staged_status": "PASS_INDEPENDENTLY_VERIFIED",
     "continuous20_status": "FAILED_AFTER_4_OF_20_CUDA_OOM_NO_CANDIDATE",
     "original_v10r3_status": "EXECUTION_HOLD_UNRESOLVED",
@@ -16,10 +16,9 @@
     "failed_process_cleanup": "COMPLETE_GPU_0_MIB",
     "gpu_lease_status": "RELEASED",
     "one_time_panel_status": "HOLD_UNCONSUMED_SINGLE_USE_GUARD_MISSING",
-    "v10r3r1_lane_a_head_reviewed": "6316c6f4a174d1c2b45240e438cf8a95ff5c19c0",
-    "v10r3r1_recipe_projection": "PASS",
-    "v10r3r1_authority_fail_closed": true,
-    "v10r3r1_template_binding": "HOLD_STALE_SPEC_SHA",
+    "v10r3r1_lane_a_head_reviewed": "24e78f4f18918959d53de886cc387e0f9169920e",
+    "v10r3r1_prereg_template_sha256": "94e99e39d280a2cf99194f1a5a9d09b96b4f8c1140d59b4741d3ac2b13d4c660",
+    "v10r3r1_prereg_status": "FROZEN_ACKED_NONEXECUTABLE",
     "v10r3r1_execution_status": "NOT_AUTHORIZED_NOT_STARTED",
     "vera_identity_protocol_status": "ACKED_BY_LANE_A_AND_LANE_B",
     "vera_identity_implementation_status": "NOT_STARTED_RECIPE_EXECUTION_DECISION_AND_PATRICK_ARCHITECTURAL_APPROVAL_REQUIRED"
@@ -29,15 +28,14 @@
     "lane_b_gpu_authorized": false,
     "lane_b_heavy_gpu_work_running": false,
     "lease_released_at_utc": "2026-10-04T15:32:18Z",
-    "r1_authority_hold": "20261004T152757Z_lane-b_v10r3r1-protocol-review-authority-hold.json",
-    "r1_template_binding_hold": "20261004T153300Z_lane-b_v10r3r1-template-binding-stale-hold.json"
+    "r1_prereg_ack": "20261004T153656Z_lane-b_v10r3r1-prereg-frozen-ack-no-execution-authority.json"
   },
   "continuation": {
     "current": "state/continuation/V10_MODEL_TRAINING_LANE_B_CURRENT.md",
-    "versioned": "state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V8.md",
+    "versioned": "state/continuation/V10_MODEL_TRAINING_LANE_B_CONTINUATION_20261004_V9.md",
     "status": "CURRENT"
   },
-  "next_work": "Verify Lane A recomputes and freezes the non-executable R1 template binding with explicit hash semantics. Do not execute R1 without Patrick explicit new authority. Panel remains HOLD until single-use guard implementation is separately approved and verified. Identity-specific training remains HOLD.",
+  "next_work": "Await Patrick explicit decision on V10R3R1 execution versus leaving semantic comparison unresolved with staged as the only demonstrated Runtime-A executable recipe. Separately await Patrick approval/decline of the bounded panel single-use guard implementation. Do not execute GPU work, expose panel, or start identity-specific optimizer work without the relevant authority.",
   "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-04T15:33:19Z"
+  "updated_at_utc": "2026-10-04T15:36:56Z"
 }
