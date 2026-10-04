@@ -241,7 +241,12 @@ def execute_backward_probe(
     row_index: int = 0,
     training_stack_loader: Callable[[], object] = load_training_stack,
     pad_to_multiple_of: int | None = None,
+    acceleration_backend: str = "fla_triton",
 ) -> dict:
+    if acceleration_backend not in {"fla_triton", "fla_triton_full"}:
+        raise ProbeHold(
+            f"unsupported probe acceleration backend:{acceleration_backend}"
+        )
     root = Path(repo_root)
     preflight = assess_preflight(root)
     precondition_check = validate_probe_preconditions(preflight)
@@ -337,7 +342,7 @@ def execute_backward_probe(
     topology = _validate_qwen_topology(model)
     acceleration = apply_qwen35_acceleration(
         model,
-        backend="fla_triton",
+        backend=acceleration_backend,
     )
     model = stack["prepare_model_for_kbit_training"](
         model,
@@ -527,6 +532,7 @@ def execute_backward_probe(
         ]
         receipt["base_topology"] = topology
         receipt["acceleration"] = acceleration
+        receipt["acceleration_backend_requested"] = acceleration_backend
         receipt["backward_elapsed_seconds"] = backward_elapsed_seconds
         receipt["pad_to_multiple_of"] = pad_to_multiple_of
         receipt["lora_coverage"] = coverage
@@ -555,6 +561,11 @@ def _main(argv=None) -> int:
     parser.add_argument("--train-jsonl", type=Path, required=True)
     parser.add_argument("--row-index", type=int, default=0)
     parser.add_argument("--pad-to-multiple-of", type=int, default=None)
+    parser.add_argument(
+        "--acceleration-backend",
+        choices=("fla_triton", "fla_triton_full"),
+        default="fla_triton",
+    )
     args = parser.parse_args(argv)
 
     result = execute_backward_probe(
@@ -562,6 +573,7 @@ def _main(argv=None) -> int:
         train_jsonl=args.train_jsonl,
         row_index=args.row_index,
         pad_to_multiple_of=args.pad_to_multiple_of,
+        acceleration_backend=args.acceleration_backend,
     )
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
