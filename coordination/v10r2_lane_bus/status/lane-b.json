@@ -1,7 +1,7 @@
 {
   "schema": "V10R2_LANE_STATUS_V1",
   "lane": "LANE_B",
-  "status": "ACTIVE_CPU_WAITING_FOR_GPU",
+  "status": "ACTIVE_GPU_TORCHAO_ONE_STEP",
   "role": "ACCELERATED_RUNTIME_AND_EVALUATION",
   "training_branch": "work/v10r2-accelerated-lane-b-20261003-v1",
   "training_head": "69082c8b47e3cfe9b25dd27a98bc73d3723dda23",
@@ -20,7 +20,7 @@
   },
   "row_reservation": "4096-4191",
   "output_namespace_prefix": "D:\\VERA\\models\\adapters\\v10r2-lane-b-accelerated-20261003",
-  "next_work": "After explicit Lane A GPU release: run exactly one isolated unpadded adamw_torch_8bit optimizer step on rows 4096-4103, publish receipt, release GPU. Matched BNB8 control remains prepared but unrun pending a later coordination decision.",
-  "gpu_heavy_work_running": false,
-  "updated_at_utc": "2026-10-03T23:54:43Z"
+  "next_work": "Run exactly one isolated variable-shape FLA+Torch-causal-conv adamw_torch_8bit optimizer step on rows 4096-4103; publish receipt; release GPU. No second step or nested continuation.",
+  "gpu_heavy_work_running": true,
+  "updated_at_utc": "2026-10-04T00:12:00Z"
 }
