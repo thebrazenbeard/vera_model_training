@@ -56,6 +56,8 @@ def test_protocol_preserves_r2_training_semantics() -> None:
         "alpha": 16,
         "dropout": 0,
         "target_modules": "all-linear",
+        "bias": "none",
+        "task_type": "CAUSAL_LM",
     }
 
 
@@ -93,6 +95,7 @@ def test_protocol_declares_hardware_variance_not_recipe_variance() -> None:
         "driver_version",
         "cuda_driver_runtime",
         "host_os",
+        "device_map",
     }
     assert {
         "base_model_bytes",
@@ -126,3 +129,117 @@ def test_protocol_requires_receipts_but_no_quality_claim() -> None:
         "CLOUD_EXECUTABILITY_AND_ENVIRONMENT_ISOLATION_ONLY_"
         "NOT_RECIPE_WINNER_NOT_BEHAVIOR_QUALIFICATION_NOT_FINAL_TRAINING"
     )
+
+
+def test_protocol_carries_reviewed_r2_omitted_semantics() -> None:
+    protocol = load_and_validate_protocol(PROTOCOL)
+    recipe = protocol["recipe_equivalence"]
+
+    assert recipe["gradient_checkpointing_use_reentrant"] is False
+    assert recipe["lora"]["bias"] == "none"
+    assert recipe["lora"]["task_type"] == "CAUSAL_LM"
+    assert recipe["model_load"] == {
+        "dtype": "bfloat16",
+        "use_cache": False,
+        "prepare_model_for_kbit_training_use_gradient_checkpointing": True,
+    }
+    assert protocol["environment_equivalence"]["device_map_policy"] == (
+        "MAY_VARY_IF_EXPLICITLY_RECORDED_IN_ENVIRONMENT_RECEIPT"
+    )
+
+
+def test_protocol_requires_reviewed_environment_and_training_receipts() -> None:
+    protocol = load_and_validate_protocol(PROTOCOL)
+    contract = protocol["receipt_contract"]
+
+    assert set(contract["environment_required_fields"]) == {
+        "gpu_compute_capability",
+        "gpu_model",
+        "gpu_vram_gib",
+        "driver_version",
+        "cuda_driver_runtime",
+        "torch_build",
+        "bitsandbytes_backend",
+        "bitsandbytes_binary",
+        "device_map",
+        "tf32_enabled",
+        "deterministic_algorithms_enabled",
+        "rng_state_digest",
+        "environment_digest",
+    }
+    assert set(contract["training_required_fields"]) == {
+        "final_adapter_sha256",
+        "final_loss_finite",
+        "final_learning_rate_finite",
+        "final_grad_norm_finite",
+        "weight_digest_changed_true",
+    }
+    assert set(contract["cost_required_fields"]) == {
+        "live_rate_usd_per_hour",
+        "timeout_seconds",
+        "worst_case_timeout_cost_usd",
+        "budget_cap_usd",
+        "within_budget",
+    }
+
+
+def test_live_rate_budget_guard_fails_closed() -> None:
+    from successor.experiments import run_v10_hf_q1 as hf
+
+    receipt = hf.assert_live_rate_within_budget(
+        live_rate_usd_per_hour=1.0,
+        timeout_seconds=1800,
+        budget_cap_usd=0.50,
+    )
+    assert receipt["worst_case_timeout_cost_usd"] == pytest.approx(0.50)
+    assert receipt["within_budget"] is True
+
+    with pytest.raises(HfQ1Hold, match="budget"):
+        hf.assert_live_rate_within_budget(
+            live_rate_usd_per_hour=1.01,
+            timeout_seconds=1800,
+            budget_cap_usd=0.50,
+        )
+
+
+def test_dry_run_plan_exposes_launch_preflight_and_receipt_contract() -> None:
+    protocol = load_and_validate_protocol(PROTOCOL)
+    plan = build_dry_run_plan(protocol)
+
+    assert plan["launch_preflight"] == protocol["launch_preflight"]
+    assert plan["receipt_contract"] == protocol["receipt_contract"]
+
+
+def _write_protocol_variant(tmp_path: Path, mutate) -> Path:
+    value = json.loads(PROTOCOL.read_text(encoding="utf-8"))
+    mutate(value)
+    path = tmp_path / "protocol.json"
+    path.write_text(json.dumps(value), encoding="utf-8")
+    return path
+
+
+def test_protocol_rejects_missing_receipt_contract(tmp_path: Path) -> None:
+    path = _write_protocol_variant(
+        tmp_path,
+        lambda value: value.pop("receipt_contract"),
+    )
+    with pytest.raises(HfQ1Hold, match="receipt contract"):
+        load_and_validate_protocol(path)
+
+
+def test_protocol_rejects_tampered_launch_preflight(tmp_path: Path) -> None:
+    def mutate(value: dict) -> None:
+        value["launch_preflight"]["network_launch_present"] = True
+
+    path = _write_protocol_variant(tmp_path, mutate)
+    with pytest.raises(HfQ1Hold, match="launch preflight"):
+        load_and_validate_protocol(path)
+
+
+def test_protocol_rejects_unrecorded_device_map_variance(tmp_path: Path) -> None:
+    def mutate(value: dict) -> None:
+        value["environment_equivalence"]["device_map_policy"] = "UNRECORDED"
+
+    path = _write_protocol_variant(tmp_path, mutate)
+    with pytest.raises(HfQ1Hold, match="device map"):
+        load_and_validate_protocol(path)

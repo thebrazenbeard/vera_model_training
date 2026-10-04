@@ -85,7 +85,15 @@
       "r": 4,
       "alpha": 16,
       "dropout": 0,
-      "target_modules": "all-linear"
+      "target_modules": "all-linear",
+      "bias": "none",
+      "task_type": "CAUSAL_LM"
+    },
+    "gradient_checkpointing_use_reentrant": false,
+    "model_load": {
+      "dtype": "bfloat16",
+      "use_cache": false,
+      "prepare_model_for_kbit_training_use_gradient_checkpointing": true
     }
   },
   "environment_equivalence": {
@@ -94,7 +102,8 @@
       "gpu_vram",
       "driver_version",
       "cuda_driver_runtime",
-      "host_os"
+      "host_os",
+      "device_map"
     ],
     "forbidden_variance": [
       "base_model_bytes",
@@ -119,7 +128,8 @@
       "weight_digest_changed_true",
       "20_optimizer_steps_completed",
       "training_receipt_self_hash_valid"
-    ]
+    ],
+    "device_map_policy": "MAY_VARY_IF_EXPLICITLY_RECORDED_IN_ENVIRONMENT_RECEIPT"
   },
   "hardware": {
     "preferred_flavor": "a10g-small",
@@ -159,5 +169,42 @@
     "artifact_hash_manifest",
     "job_cost_duration_receipt"
   ],
-  "claim_ceiling": "CLOUD_EXECUTABILITY_AND_ENVIRONMENT_ISOLATION_ONLY_NOT_RECIPE_WINNER_NOT_BEHAVIOR_QUALIFICATION_NOT_FINAL_TRAINING"
+  "claim_ceiling": "CLOUD_EXECUTABILITY_AND_ENVIRONMENT_ISOLATION_ONLY_NOT_RECIPE_WINNER_NOT_BEHAVIOR_QUALIFICATION_NOT_FINAL_TRAINING",
+  "launch_preflight": {
+    "live_rate_required": true,
+    "worst_case_cost_formula": "live_rate_usd_per_hour * timeout_seconds / 3600",
+    "hold_if_worst_case_timeout_cost_exceeds_budget_cap": true,
+    "network_launch_present": false
+  },
+  "receipt_contract": {
+    "environment_required_fields": [
+      "gpu_compute_capability",
+      "gpu_model",
+      "gpu_vram_gib",
+      "driver_version",
+      "cuda_driver_runtime",
+      "torch_build",
+      "bitsandbytes_backend",
+      "bitsandbytes_binary",
+      "device_map",
+      "tf32_enabled",
+      "deterministic_algorithms_enabled",
+      "rng_state_digest",
+      "environment_digest"
+    ],
+    "training_required_fields": [
+      "final_adapter_sha256",
+      "final_loss_finite",
+      "final_learning_rate_finite",
+      "final_grad_norm_finite",
+      "weight_digest_changed_true"
+    ],
+    "cost_required_fields": [
+      "live_rate_usd_per_hour",
+      "timeout_seconds",
+      "worst_case_timeout_cost_usd",
+      "budget_cap_usd",
+      "within_budget"
+    ]
+  }
 }

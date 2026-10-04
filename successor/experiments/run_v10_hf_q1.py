@@ -82,6 +82,7 @@ def load_and_validate_protocol(path: Path | str) -> dict:
         "shuffle_dataset": False,
         "train_sampling_strategy": "sequential",
         "gradient_checkpointing": True,
+        "gradient_checkpointing_use_reentrant": False,
         "bf16": True,
         "tf32": True,
         "quantization": {
@@ -95,10 +96,61 @@ def load_and_validate_protocol(path: Path | str) -> dict:
             "alpha": 16,
             "dropout": 0,
             "target_modules": "all-linear",
+            "bias": "none",
+            "task_type": "CAUSAL_LM",
+        },
+        "model_load": {
+            "dtype": "bfloat16",
+            "use_cache": False,
+            "prepare_model_for_kbit_training_use_gradient_checkpointing": True,
         },
     }
     if recipe != expected_recipe:
         raise HfQ1Hold("R2 recipe equivalence mismatch")
+
+    environment = value.get("environment_equivalence")
+    if not isinstance(environment, dict):
+        raise HfQ1Hold("environment equivalence block missing")
+    if environment.get("device_map_policy") != (
+        "MAY_VARY_IF_EXPLICITLY_RECORDED_IN_ENVIRONMENT_RECEIPT"
+    ):
+        raise HfQ1Hold("device map receipt policy mismatch")
+
+    launch_preflight = value.get("launch_preflight")
+    expected_launch_preflight = {
+        "live_rate_required": True,
+        "worst_case_cost_formula": "live_rate_usd_per_hour * timeout_seconds / 3600",
+        "hold_if_worst_case_timeout_cost_exceeds_budget_cap": True,
+        "network_launch_present": False,
+    }
+    if launch_preflight != expected_launch_preflight:
+        raise HfQ1Hold("launch preflight contract mismatch")
+
+    receipt_contract = value.get("receipt_contract")
+    if not isinstance(receipt_contract, dict):
+        raise HfQ1Hold("receipt contract missing")
+    expected_environment_fields = {
+        "gpu_compute_capability", "gpu_model", "gpu_vram_gib",
+        "driver_version", "cuda_driver_runtime", "torch_build",
+        "bitsandbytes_backend", "bitsandbytes_binary", "device_map",
+        "tf32_enabled", "deterministic_algorithms_enabled",
+        "rng_state_digest", "environment_digest",
+    }
+    expected_training_fields = {
+        "final_adapter_sha256", "final_loss_finite",
+        "final_learning_rate_finite", "final_grad_norm_finite",
+        "weight_digest_changed_true",
+    }
+    expected_cost_fields = {
+        "live_rate_usd_per_hour", "timeout_seconds",
+        "worst_case_timeout_cost_usd", "budget_cap_usd", "within_budget",
+    }
+    if set(receipt_contract.get("environment_required_fields", [])) != expected_environment_fields:
+        raise HfQ1Hold("environment receipt contract mismatch")
+    if set(receipt_contract.get("training_required_fields", [])) != expected_training_fields:
+        raise HfQ1Hold("training receipt contract mismatch")
+    if set(receipt_contract.get("cost_required_fields", [])) != expected_cost_fields:
+        raise HfQ1Hold("cost receipt contract mismatch")
 
     hardware = value.get("hardware")
     if not isinstance(hardware, dict):
@@ -149,6 +201,32 @@ def assert_paid_launch_authority(authority: dict | None) -> dict:
     return authority
 
 
+def assert_live_rate_within_budget(
+    *,
+    live_rate_usd_per_hour: float,
+    timeout_seconds: int,
+    budget_cap_usd: float,
+) -> dict:
+    if not isinstance(live_rate_usd_per_hour, (int, float)):
+        raise HfQ1Hold("live rate missing")
+    if live_rate_usd_per_hour < 0:
+        raise HfQ1Hold("live rate invalid")
+    if not isinstance(timeout_seconds, int) or timeout_seconds <= 0:
+        raise HfQ1Hold("timeout invalid")
+    if not isinstance(budget_cap_usd, (int, float)) or budget_cap_usd <= 0:
+        raise HfQ1Hold("budget cap invalid")
+    worst_case = float(live_rate_usd_per_hour) * timeout_seconds / 3600.0
+    if worst_case > float(budget_cap_usd):
+        raise HfQ1Hold("live rate exceeds budget cap at worst-case timeout")
+    return {
+        "live_rate_usd_per_hour": float(live_rate_usd_per_hour),
+        "timeout_seconds": timeout_seconds,
+        "worst_case_timeout_cost_usd": worst_case,
+        "budget_cap_usd": float(budget_cap_usd),
+        "within_budget": True,
+    }
+
+
 def build_dry_run_plan(protocol: dict) -> dict:
     authority = protocol["authority"]
     source = protocol["source_subject"]
@@ -195,6 +273,8 @@ def build_dry_run_plan(protocol: dict) -> dict:
         },
         "input_staging": protocol["input_staging"],
         "evaluation": protocol["evaluation"],
+        "launch_preflight": protocol["launch_preflight"],
+        "receipt_contract": protocol["receipt_contract"],
         "required_receipts": protocol["required_receipts"],
         "claim_ceiling": protocol["claim_ceiling"],
     }
