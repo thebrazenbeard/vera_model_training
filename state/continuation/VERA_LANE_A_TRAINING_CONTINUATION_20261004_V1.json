@@ -1,0 +1,97 @@
+{
+  "schema": "VERA_LANE_A_TRAINING_CONTINUATION_MANIFEST_V1",
+  "continuation_command": "VERA::LANE_A::RESTORE_AND_RUN::TRAINING_CONTINUATION_20261004_V1",
+  "continuation_branch": "state/lane-a-training-continuation-20261004-v1",
+  "continuation_markdown": "state/continuation/VERA_LANE_A_TRAINING_CONTINUATION_20261004_V1.md",
+  "created_at_utc": "2026-10-04T20:40:00Z",
+  "authority": {
+    "user_goal": "Continue Vera training with live parallel coordination across Lane A, Lane B, and Lane C.",
+    "lane_a_role": "EXECUTION_INTEGRATION_AND_SHARED_RESOURCE_OWNER",
+    "lane_b_role": "INDEPENDENT_SYSTEMS_ARCHITECT_AND_HOSTILE_REVIEWER",
+    "lane_c_role": "BEHAVIOR_CONTINUITY_AND_LEARNING_MECHANISMS_EXPERIMENTAL_LANE",
+    "all_new_execution_via_project_runner": true
+  },
+  "coordination": {
+    "branch": "lane-a-b-communication",
+    "snapshot_head": "c54ebd3863e6c27a4362be7b79540e5623d22c21",
+    "blotter_protocol_path": "coordination/v10r2_lane_bus/blotter/BLOTTER_PROTOCOL_V1.json",
+    "blotter_protocol_abc_commit": "76f01b926fcf0b2edc736ef09238bce2056f4c06",
+    "blotter_schema_path": "coordination/v10r2_lane_bus/blotter/BLOTTER_EVENT_SCHEMA_V1.json",
+    "blotter_schema_abc_commit": "6d8cfa1156b2066d68327879265f8fb2c52965b4",
+    "event_directory": "coordination/v10r2_lane_bus/blotter/events",
+    "latest_events_at_snapshot": {
+      "lane_a": "20261004T201000Z_lane-a_hf-q1-logic-verification-checkpoint.json",
+      "lane_b": "20261004T203800Z_lane-b_c-history-governance-correction.json",
+      "lane_c": "20261004T203200Z_lane-c_history-training-expansion-intent.json"
+    },
+    "bus_heads": {
+      "lane_b": "774f8c8a4668a3cf5b78cd4414194098b8453dc7",
+      "lane_c": "118a68161b6f750c6b69ecc383afc6f2dd23bf3c"
+    }
+  },
+  "gpu_lease": {
+    "path": "coordination/v10r2_lane_bus/gpu/lease.json",
+    "blob_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+    "holder": "LANE_A",
+    "status": "HELD",
+    "resource": "LAPPY_RTX_3050_4GB",
+    "training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "r2_attempt_consumed": false
+  },
+  "active_tasks": {
+    "A1_R2_GPU_EXECUTION": {
+      "branch": "work/v10r3r2-durable-cont20-20261004-v1",
+      "head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+      "status": "HOLD_HOST_MEMORY_PRESSURE",
+      "retry_allowed": false,
+      "attempt_limit": 1,
+      "attempt_consumed": false,
+      "panel": "PROHIBITED_UNCONSUMED"
+    },
+    "A2_BEHAVIOR_GENERALIZATION_QUALIFICATION": {
+      "branch": "work/v10-behavior-qualification-lane-a-20261004-v1",
+      "head": "f2700768367db9ffe46f8854b3dcb8e21e4f18ec",
+      "status": "LANE_B_REVIEW_HOLD",
+      "hold_event": "coordination/v10r2_lane_bus/blotter/events/20261004T202200Z_lane-b_a2-behavior-qualification-review-hold.json",
+      "next_action": "Revise exact subject binding, provenance/ID enforcement, semantic/template ancestry controls, statistics/scoring, protected critical families, and C-opposed eval custody; re-submit exact head to B."
+    },
+    "A3_HF_Q1_EXACT_R2_PACKAGE": {
+      "branch": "work/v10-hf-q1-package-lane-a-20261004-v1",
+      "head": "1b1e1ad9ea5ed42308460d9bf84c112144affed0",
+      "status": "LANE_B_REVIEW_IN_PROGRESS",
+      "review_event": "coordination/v10r2_lane_bus/blotter/events/20261004T202700Z_lane-b_a3-hf-q1-review-intent.json",
+      "paid_compute_authorized": false,
+      "hf_job_launch_authorized": false,
+      "proposed_budget_cap_usd": 0.5,
+      "preferred_flavor": "a10g-small"
+    },
+    "C1_UNBOUND_BEHAVIOR_PLASTICITY": {
+      "status": "ACTIVE_CPU_SOURCE_WITH_GOVERNANCE_CORRECTION",
+      "lane_c_bus_head": "118a68161b6f750c6b69ecc383afc6f2dd23bf3c",
+      "archaeology_sha256": "3f40014a625178c23a44974c0d03b42dc19479580dd1bf7d33b8c1f834a85644",
+      "ingest_id": "285ed8d956975f955cf4345954ab1ceabbb0f7bf1b866b56e1a1438313623c35",
+      "governance_event": "coordination/v10r2_lane_bus/blotter/events/20261004T203800Z_lane-b_c-history-governance-correction.json",
+      "qualified_training_data": false
+    }
+  },
+  "immutable_bindings": {
+    "base_repo": "rodrigomt/Qwen3.5-4B-Uncensored-Aggressive",
+    "base_revision": "d61dd146c8fd44c9a49cdb7f59f34e17b61902d8",
+    "r2_spec_sha256": "caaecf6309aee0ff5279c42b48118065d156228e22c614a5347bf489951b290d",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "train_rows": 50000,
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "validation_rows": 2500,
+    "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+    "max_tokens": 512
+  },
+  "resume_sequence": [
+    "Read continuation markdown and manifest.",
+    "Fresh-read latest A/B/C blotter events, GPU lease SHA, exact task branch heads, bus/two-v2 and bus/three-v2.",
+    "Treat newer durable state as superseding this snapshot.",
+    "Publish Lane A continuation ACK/INTENT before material work.",
+    "Resume A2 revision and monitor A3 review in CPU/source lanes.",
+    "Resume A1 only after fresh Project-Runner-mediated live runtime PASS.",
+    "Do not spend cloud credit, consume protected evaluation, merge/deploy/activate, or use C history-derived abstractions as qualified training data without current authority/review."
+  ]
+}
