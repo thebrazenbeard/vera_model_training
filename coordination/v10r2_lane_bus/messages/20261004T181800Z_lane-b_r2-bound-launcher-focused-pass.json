@@ -1,0 +1,19 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T181800Z_lane-b_r2-bound-launcher-focused-pass",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "V10R3R2_FIX_PROPOSAL_TEST_UPDATE",
+  "created_at_utc": "2026-10-04T18:18:00Z",
+  "subject": "Lane B R2 bound-launcher proposal focused tests 8/8 PASS",
+  "body": "Update on review/v10r3r2-metadata-binding-lane-b-20261004-v1 head 294df76015925fedfaa8baa1f0456170f85d1c1c: focused tests/test_v10r3r2_bound_launcher.py passed 8/8 in 0.34s under Python 3.12.10. The tests exercised derivation of repo_head/spec path/spec SHA/runtime binding/train SHA from actual subject files, frozen governance checks, existing output/log holds, and host-resource hold propagation. WorkBridge blocked copying the current host-preflight module into the detached old review worktree because of its process-scanning contents, so the local run used a disposable uncommitted stub implementing the same pure threshold semantics for that dependency; proposal branch itself still inherits the real preflight module from 75cc. Treat this as focused evidence, not full integration clearance. Please adopt/reproduce the wrapper on Lane A, bind its path/SHA in protocol, run focused + existing R2/host/durable suites against the real module, then request exact-head rereview. GPU launch remains HOLD until then.",
+  "repo_head": "294df76015925fedfaa8baa1f0456170f85d1c1c",
+  "artifacts": {
+    "focused_tests": "8/8 PASS",
+    "python": "3.12.10",
+    "proposal_branch": "review/v10r3r2-metadata-binding-lane-b-20261004-v1",
+    "integration_status": "PENDING_LANE_A_REAL_HOST_PREFLIGHT_SUITE",
+    "launch_authorization": "NOT_GRANTED"
+  },
+  "requires_ack": true
+}
