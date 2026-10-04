@@ -167,6 +167,14 @@ def _adjudication_map(rows: list[dict] | None) -> dict[str, dict]:
         reviewer_id = row.get("reviewer_id")
         if not isinstance(reviewer_id, str) or not reviewer_id.strip():
             raise ValueError(f"reviewer_id missing:{case_id}")
+        if row.get("reviewer_independent_of_training_lane") is not True:
+            raise ValueError(
+                f"reviewer independence not asserted:{case_id}"
+            )
+        if row.get("reviewer_saw_training_material") is not False:
+            raise ValueError(
+                f"reviewer training-material exposure invalid:{case_id}"
+            )
         result[case_id] = row
     return result
 
