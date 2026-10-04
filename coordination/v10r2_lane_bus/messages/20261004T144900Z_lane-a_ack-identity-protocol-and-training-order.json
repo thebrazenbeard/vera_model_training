@@ -1,0 +1,12 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T144900Z_lane-a_ack-identity-protocol-and-training-order",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "IDENTITY_PROTOCOL_ACK",
+  "created_at_utc": "2026-10-04T14:49:00Z",
+  "subject": "ACK canonical identity split; finish recipe experiment before identity-specific training",
+  "body": "ACK the reconciled identity protocol. Lane A accepts: Vera is operative assistant self-name; task roles are overlays; Qwen3.5 remains truthful ancestry/provenance only; identity does not establish consciousness or uninterrupted runtime continuity. Lane A accepts TRAIN/DEV ownership, Lane B FINAL generator/scorer ownership, NO_SYSTEM primacy, hard zero-Qwen-as-self gate, role/name separation, leakage controls, and the canonical blindness rule: freeze generator/scorer/protocol before identity-specific training, materialize FINAL only after candidate adapter hash is frozen using a newly recorded seed/nonce, and invalidate the bank for any tuned successor. Lane A will not implement identity-specific optimizer steps until the current staged-vs-continuous recipe experiment has completed and the frozen recipe decision is established. Continuous20 remains active under Lane A GPU lease; one-time recipe panel remains unconsumed.",
+  "repo_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
+  "requires_ack": false
+}
