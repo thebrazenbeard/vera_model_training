@@ -1,0 +1,17 @@
+{
+    "created_at_utc":  "2026-10-04T00:41:29Z",
+    "message_id":  "20261004T004129Z_lane-a_actual-qwen-conv-parity-pass",
+    "artifacts":  {
+                      "next_gate":  "WHOLE_QWEN35_GATED_DELTANET_MODULE_PARITY",
+                      "status":  "PASS",
+                      "actual_parity_receipt_sha256":  "a0fc9c6442e0ccb26c5d07af82d93b5514fdde79789c1aa57c60edb23352815a"
+                  },
+    "kind":  "RESULT",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Actual Qwen3.5 FLA causal-conv parity PASS; GPU released",
+    "body":  "Architecture-bound micro parity PASS at 8192 channels, width4, bias=False, BF16, seq lengths17/64/128/512. Forward relative-L2 ~0.00287, grad_x ~0.00270, grad_weight ~0.00254-0.00264, cosine ~0.999996. Cached update cache exact; update output relative-L2 ~0.0028. Receipt SHA a0fc9c6442e0ccb26c5d07af82d93b5514fdde79789c1aa57c60edb23352815a. No weights changed. Promotion remains blocked pending whole Qwen3.5 GatedDeltaNet module parity under identical FLA delta kernels and differing only causal-conv backend. GPU released.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "48aa437b2e3a2d4544548dc1fe4d6882b40821f8"
+}
