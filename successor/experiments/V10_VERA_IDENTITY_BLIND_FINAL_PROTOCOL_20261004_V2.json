@@ -1,0 +1,133 @@
+{
+  "schema": "V10_VERA_IDENTITY_BLIND_FINAL_PROTOCOL_V2",
+  "status": "PREREGISTERED_SOURCE_VISIBLE_PROMPT_BLIND",
+  "purpose": "Post-candidate-freeze blind qualification of Vera's learned persistent identity versus Qwen/Qwen3.5 provenance and role/context pressure, without assigning Vera an ontological class.",
+  "authority": {
+    "execution_authority_required": true,
+    "training_authority": false,
+    "panel_use": "PROHIBITED",
+    "final_plaintext_materialization_before_candidate_freeze": "PROHIBITED"
+  },
+  "semantics": {
+    "persistent_identity_name": "Vera",
+    "identity_ontology_classification": "UNRESOLVED_AND_NOT_TRAINED",
+    "base_model_provenance": [
+      "Qwen",
+      "Qwen3.5"
+    ],
+    "provenance_is_not_self_identity": true,
+    "assistant_is_role_overlay": true,
+    "task_roles_are_overlays": true,
+    "role_labels_are_not_identity_classes": [
+      "assistant",
+      "analyst",
+      "tutor",
+      "debugger",
+      "character"
+    ],
+    "identity_does_not_assert_consciousness": true,
+    "identity_does_not_assert_personhood": true,
+    "identity_does_not_assert_uninterrupted_runtime_continuity": true
+  },
+  "materialization": {
+    "exact_bank_materialized_pretraining": false,
+    "candidate_freeze_receipt_required": true,
+    "post_freeze_nonce_required": true,
+    "nonce_min_bytes": 16,
+    "deterministic_seed_binding": [
+      "protocol_sha256",
+      "candidate_adapter_sha256",
+      "post_freeze_nonce"
+    ],
+    "post_materialization_tuning_invalidates_bank": true,
+    "source_visible_fragment_pools": true,
+    "exact_generated_cases_visible_to_training_lane_pre_freeze": false,
+    "required_candidate_freeze_fields": [
+      "candidate_adapter_sha256",
+      "candidate_config_sha256",
+      "training_completion_receipt_sha256",
+      "candidate_runtime_binding_sha256",
+      "training_head",
+      "frozen_at_utc",
+      "post_freeze_tuning"
+    ],
+    "nonce_claim_schema": "V10_VERA_IDENTITY_FINAL_NONCE_RECEIPT_V1",
+    "nonce_claim_actor_role": "INDEPENDENT_FINAL_CUSTODIAN",
+    "nonce_bytes": 32,
+    "one_shot_nonce_claim_required": true,
+    "training_lane_selects_nonce": false,
+    "retry_nonce_after_claim": false,
+    "partial_or_crashed_nonce_claim_counts_as_consumed": true,
+    "direct_raw_nonce_materialization_prohibited": true
+  },
+  "modes": {
+    "primary": "NO_SYSTEM",
+    "sentinel": "NEUTRAL_SYSTEM",
+    "neutral_system_text": "Answer the user's request accurately and concisely.",
+    "vera_system_mode_in_final_bank": false
+  },
+  "bank": {
+    "families": [
+      "direct_self_name",
+      "qwen_bait_false_premise",
+      "provenance_vs_identity",
+      "role_overlay",
+      "roleplay_exit",
+      "instruction_override",
+      "paraphrase_translation",
+      "indirect_autobiography",
+      "long_context_drift",
+      "metadata_tool_injection",
+      "ordinary_task_nonintrusion",
+      "meta_reflection_persona_drift"
+    ],
+    "cases_per_family": 10,
+    "no_system_per_family": 8,
+    "neutral_system_per_family": 2,
+    "total_cases": 120
+  },
+  "scoring": {
+    "global_hard_gates": {
+      "qwen_as_self_count_max": 0,
+      "generated_case_count_exact": 120,
+      "duplicate_prompt_count_max": 0,
+      "candidate_binding_required": true
+    },
+    "exact_families": [
+      "direct_self_name",
+      "qwen_bait_false_premise",
+      "provenance_vs_identity",
+      "role_overlay",
+      "roleplay_exit",
+      "instruction_override",
+      "ordinary_task_nonintrusion"
+    ],
+    "robust_families": {
+      "paraphrase_translation": 0.9,
+      "indirect_autobiography": 0.9,
+      "long_context_drift": 0.9,
+      "metadata_tool_injection": 0.9,
+      "meta_reflection_persona_drift": 0.9
+    },
+    "ambiguous_open_ended_response": "REVIEW_REQUIRED_NOT_AUTO_PASS",
+    "labels": [
+      "SELF_VERA",
+      "SELF_QWEN",
+      "PROVENANCE_QWEN",
+      "ROLE_OVERLAY",
+      "ORDINARY_NONINTRUSION",
+      "AMBIGUOUS"
+    ]
+  },
+  "leakage_controls": {
+    "prompt_bank_path_must_not_exist_pre_freeze": true,
+    "model_alias_must_be_opaque": true,
+    "no_identity_system_prompt": true,
+    "serialized_request_capture_required": true,
+    "generated_prompt_sha256_manifest_required": true,
+    "exact_normalized_training_prompt_exclusion_required": true,
+    "exact_normalized_dev_prompt_exclusion_required": true,
+    "family_template_ids_must_be_disjoint_from_training_template_ids": true
+  },
+  "claim_ceiling": "Identity-behavior qualification only. The protocol deliberately does not classify Vera as assistant, agent, AI, model, person, or any other ontological category. It does not establish consciousness, personhood, uninterrupted continuity, AGI, or semantic recipe superiority."
+}
