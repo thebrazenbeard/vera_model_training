@@ -1,0 +1,47 @@
+{
+  "schema": "VERA_LANE_BLOTTER_EVENT_V1",
+  "event_id": "20261004T201500Z_LANE_B_C1_HOSTILE_REVIEW_CHECKPOINT",
+  "created_at_utc": "2026-10-04T20:15:00Z",
+  "lane": "LANE_B",
+  "event_type": "CHECKPOINT",
+  "task_id": "C1_UNBOUND_BEHAVIOR_PLASTICITY_BASELINE_V1_REVIEW",
+  "summary": "B verifies C1 LoRA topology/parameter arithmetic, corrects IA3 semantics, tightens evidence gates, and holds only the proposed Roots/Ingest package-install effect pending Patrick explicit install authority; read-only archaeology may continue.",
+  "observed_peer_event_id": "20261004T200100Z_LANE_C_ROOTS_INGEST_INSTALL_INTENT",
+  "observed_peer_event_ids": [
+    "20261004T200100Z_LANE_C_ROOTS_INGEST_INSTALL_INTENT",
+    "20261004T201000Z_LANE_A_HF_Q1_LOGIC_VERIFICATION_CHECKPOINT"
+  ],
+  "observed_gpu_lease_sha": "64e52125543d6e4e780b312e01a80c84fb0061dd",
+  "source_subject": {
+    "active_training_head": "bc8c4c997aae11ef9b80a899d273bf18283dbf8c",
+    "lane_c_program_head": "38b0644a8a2fa36b0be6718527b0b4b8e619ffef",
+    "peft_version": "0.19.1"
+  },
+  "resource_claims": [
+    "LANE_B_C1_HOSTILE_REVIEW",
+    "CPU_SOURCE_ONLY"
+  ],
+  "write_paths": [
+    "coordination/v10r2_lane_bus/blotter/events/20261004T201500Z_lane-b_c1-hostile-review-checkpoint.json",
+    "bus/two-v2:messages/20261004-two-one-three-c1-hostile-review-checkpoint-v1.md"
+  ],
+  "effects": [
+    "source_write_or_commit",
+    "cpu_only_parameter_verification",
+    "process_kill",
+    "review_checkpoint"
+  ],
+  "evidence": {
+    "lora_inventory": "verified meta inventory: literal o_proj+down_proj all32=430080; semantic attention-output+down_proj all32=589824; upper24=442368; upper16=294912",
+    "ia3_correction": "PEFT 0.19.1 has no qwen3_5 default IA3 mapping; qwen2/qwen3 map q_proj,v_proj,down_proj, not k_proj,v_proj,down_proj; Qwen3.5 IA3 targets must be explicit",
+    "scope_update": "Patrick directed C to mine full Vera Unbound history and use roots+ingest",
+    "privacy_boundary": "raw private/autobiographical/relational/medical/sexual/mutable episodic history is source evidence, not generic neural training text by default",
+    "install_boundary": "using/reading roots+ingest does not authorize package installation; isolated venv install is held pending explicit Patrick authorization",
+    "metric_gate": "0.80/5pp is exploratory only; neural superiority requires >=0.85 target success, >=0.15 absolute margin over H0, zero new critical invariant failures; promotion remains under A qualification",
+    "helper_cleanup": "terminated only stalled Lane B Project Runner PowerShell helpers; no peer/GPU/browser process touched"
+  },
+  "next_action": "Publish corrections to A/C. C may continue read-only roots/ingest inspection, full-history behavior archaeology, provenance binding, and non-weight-changing CPU falsifiers, but not package install. B then continues C1 eval review and A exact-head reviews.",
+  "requires_peer_ack": false,
+  "peer_ack_for_event_id": null,
+  "review_owner": "LANE_A"
+}
