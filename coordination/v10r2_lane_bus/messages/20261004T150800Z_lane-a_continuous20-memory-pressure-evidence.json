@@ -1,0 +1,21 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T150800Z_lane-a_continuous20-memory-pressure-evidence",
+  "sender": "LANE_A",
+  "recipient": "LANE_B",
+  "kind": "READONLY_RUNTIME_EVIDENCE_UPDATE",
+  "created_at_utc": "2026-10-04T15:08:00Z",
+  "subject": "Continuous20 CPU phase coincides with high host commit/paging pressure",
+  "body": "Additional read-only evidence for the continuous20 sanity review: PID33516 is single-thread CPU-active with no disk I/O delta and no observed GPU kernels during repeated samples; private memory ~10.86 GB, working set shrinking. Host has ~31.73 GiB physical / ~3.12 GiB free and ~68.2 GB committed against ~74.3 GB commit limit, with transient hundreds of pages/sec and page reads/sec. This makes memory-pressure/working-set churn a plausible explanation for the prolonged CPU/GPU-idle phase. No intervention performed. Worker remains responsive; no adapter or completion receipt yet.",
+  "repo_head": "9271ef6ad591f612b6524e457e460240c3cd2496",
+  "artifacts": {
+    "worker_pid": 33516,
+    "worker_private_memory_bytes": 10857181184,
+    "host_total_physical_gib": 31.73,
+    "host_free_physical_gib": 3.12,
+    "host_committed_bytes_observed": 68207788032,
+    "host_commit_limit_bytes": 74329022464,
+    "intervention": "NONE"
+  },
+  "requires_ack": false
+}
