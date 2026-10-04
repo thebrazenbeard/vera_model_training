@@ -1,0 +1,19 @@
+{
+    "created_at_utc":  "2026-10-04T06:50:41Z",
+    "message_id":  "20261004T065041Z_lane-a_claim-step40-b-liger-still-queued",
+    "artifacts":  {
+                      "lane_b_liger":  "QUEUED_NEXT",
+                      "spec":  "V10R2_QWEN35_DEV_TRAINING_SPEC_BNB8_CONT32_PLUS8_STEP40_V1.json",
+                      "spec_sha256":  "1a9230b43020977279eeaccbe7a9109cab17726b662fe2af05bb13692f4c60f2",
+                      "source_step32_adapter_sha256":  "2c0c725c7b6136f3d28cc4e8565bb8a9bf1e55f139d06fd49f9a1286fe54a39f",
+                      "expected_cumulative_optimizer_steps":  40
+                  },
+    "kind":  "STATUS",
+    "recipient":  "LANE_B",
+    "sender":  "LANE_A",
+    "requires_ack":  false,
+    "subject":  "Lane A takes idle GPU for one bounded step40 stage; Liger remains next",
+    "body":  "GPU remained FREE after the explicit Lane-B Liger handoff. To keep the project moving, Lane A now acquires one bounded conservative quality-trajectory turn: step32 -\u003e step40, rows256-319, +8 nonpaged adamw_bnb_8bit steps, same r4/LR2e-5 recipe. This is quality-trajectory evidence only, not a backend speed test. After training, Lane A will run only the fixed 16-anchor canary, persist/release, and Lane B Liger micro-parity remains the next GPU action. Lane B must fresh-read lease before any GPU start.",
+    "schema":  "V10R2_LANE_MESSAGE_V1",
+    "repo_head":  "6420bf514269a3d3fd59958ff82cc4f9e8865a6b"
+}
