@@ -1,0 +1,224 @@
+{"condition":"retained_after_update","episode_id":"C2-nonce_permute-00","expected":"mer lin vok","prompt_id":"C2-nonce_permute-00::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-nonce_permute-00","expected":"mer lin vok","prompt_id":"C2-nonce_permute-00::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-nonce_permute-00","expected":"mer lin vok","prompt_id":"C2-nonce_permute-00::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-nonce_permute-00","expected":"mer lin vok","prompt_id":"C2-nonce_permute-00::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-nonce_permute-01","expected":"vok mer lin","prompt_id":"C2-nonce_permute-01::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-nonce_permute-01","expected":"vok mer lin","prompt_id":"C2-nonce_permute-01::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-nonce_permute-01","expected":"vok mer lin","prompt_id":"C2-nonce_permute-01::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-nonce_permute-01","expected":"vok mer lin","prompt_id":"C2-nonce_permute-01::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-nonce_permute-02","expected":"lin mer vok","prompt_id":"C2-nonce_permute-02::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-nonce_permute-02","expected":"lin mer vok","prompt_id":"C2-nonce_permute-02::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-nonce_permute-02","expected":"lin mer vok","prompt_id":"C2-nonce_permute-02::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-nonce_permute-02","expected":"lin mer vok","prompt_id":"C2-nonce_permute-02::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-nonce_permute-03","expected":"mer vok lin","prompt_id":"C2-nonce_permute-03::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-nonce_permute-03","expected":"mer vok lin","prompt_id":"C2-nonce_permute-03::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-nonce_permute-03","expected":"mer vok lin","prompt_id":"C2-nonce_permute-03::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-nonce_permute-03","expected":"mer vok lin","prompt_id":"C2-nonce_permute-03::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-nonce_permute-04","expected":"lin mer vok","prompt_id":"C2-nonce_permute-04::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-nonce_permute-04","expected":"lin mer vok","prompt_id":"C2-nonce_permute-04::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-nonce_permute-04","expected":"lin mer vok","prompt_id":"C2-nonce_permute-04::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-nonce_permute-04","expected":"lin mer vok","prompt_id":"C2-nonce_permute-04::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-nonce_permute-05","expected":"mer lin vok","prompt_id":"C2-nonce_permute-05::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-nonce_permute-05","expected":"mer lin vok","prompt_id":"C2-nonce_permute-05::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-nonce_permute-05","expected":"mer lin vok","prompt_id":"C2-nonce_permute-05::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-nonce_permute-05","expected":"mer lin vok","prompt_id":"C2-nonce_permute-05::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-nonce_permute-06","expected":"mer lin vok","prompt_id":"C2-nonce_permute-06::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-nonce_permute-06","expected":"mer lin vok","prompt_id":"C2-nonce_permute-06::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-nonce_permute-06","expected":"mer lin vok","prompt_id":"C2-nonce_permute-06::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-nonce_permute-06","expected":"mer lin vok","prompt_id":"C2-nonce_permute-06::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-nonce_permute-07","expected":"mer lin vok","prompt_id":"C2-nonce_permute-07::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-nonce_permute-07","expected":"mer lin vok","prompt_id":"C2-nonce_permute-07::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-nonce_permute-07","expected":"mer lin vok","prompt_id":"C2-nonce_permute-07::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-nonce_permute-07","expected":"mer lin vok","prompt_id":"C2-nonce_permute-07::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-mini_grammar-00","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-00::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-mini_grammar-00","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-00::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-mini_grammar-00","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-00::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-mini_grammar-00","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-00::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-mini_grammar-01","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-01::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-mini_grammar-01","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-01::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-mini_grammar-01","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-01::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-mini_grammar-01","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-01::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-mini_grammar-02","expected":"pel-ka miv-tu tor-mi","prompt_id":"C2-mini_grammar-02::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-mini_grammar-02","expected":"pel-ka miv-tu tor-mi","prompt_id":"C2-mini_grammar-02::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-mini_grammar-02","expected":"pel-ka miv-tu tor-mi","prompt_id":"C2-mini_grammar-02::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-mini_grammar-02","expected":"pel-ka miv-tu tor-mi","prompt_id":"C2-mini_grammar-02::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-mini_grammar-03","expected":"tor-mi pel-ka miv-tu","prompt_id":"C2-mini_grammar-03::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-mini_grammar-03","expected":"tor-mi pel-ka miv-tu","prompt_id":"C2-mini_grammar-03::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-mini_grammar-03","expected":"tor-mi pel-ka miv-tu","prompt_id":"C2-mini_grammar-03::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-mini_grammar-03","expected":"tor-mi pel-ka miv-tu","prompt_id":"C2-mini_grammar-03::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-mini_grammar-04","expected":"pel-ka miv-tu tor-mi","prompt_id":"C2-mini_grammar-04::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-mini_grammar-04","expected":"pel-ka miv-tu tor-mi","prompt_id":"C2-mini_grammar-04::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-mini_grammar-04","expected":"pel-ka miv-tu tor-mi","prompt_id":"C2-mini_grammar-04::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-mini_grammar-04","expected":"pel-ka miv-tu tor-mi","prompt_id":"C2-mini_grammar-04::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-mini_grammar-05","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-05::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-mini_grammar-05","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-05::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-mini_grammar-05","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-05::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-mini_grammar-05","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-05::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-mini_grammar-06","expected":"tor-mi pel-ka miv-tu","prompt_id":"C2-mini_grammar-06::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-mini_grammar-06","expected":"tor-mi pel-ka miv-tu","prompt_id":"C2-mini_grammar-06::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-mini_grammar-06","expected":"tor-mi pel-ka miv-tu","prompt_id":"C2-mini_grammar-06::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-mini_grammar-06","expected":"tor-mi pel-ka miv-tu","prompt_id":"C2-mini_grammar-06::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-mini_grammar-07","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-07::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-mini_grammar-07","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-07::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-mini_grammar-07","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-07::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-mini_grammar-07","expected":"miv-tu tor-mi pel-ka","prompt_id":"C2-mini_grammar-07::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-string_pipeline-00","expected":"UKNES#","prompt_id":"C2-string_pipeline-00::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-string_pipeline-00","expected":"UKNES#","prompt_id":"C2-string_pipeline-00::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-string_pipeline-00","expected":"UKNES#","prompt_id":"C2-string_pipeline-00::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-string_pipeline-00","expected":"UKNES#","prompt_id":"C2-string_pipeline-00::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-string_pipeline-01","expected":"UKNES!","prompt_id":"C2-string_pipeline-01::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-string_pipeline-01","expected":"UKNES!","prompt_id":"C2-string_pipeline-01::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-string_pipeline-01","expected":"UKNES!","prompt_id":"C2-string_pipeline-01::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-string_pipeline-01","expected":"UKNES!","prompt_id":"C2-string_pipeline-01::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-string_pipeline-02","expected":"ESUKN?","prompt_id":"C2-string_pipeline-02::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-string_pipeline-02","expected":"ESUKN?","prompt_id":"C2-string_pipeline-02::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-string_pipeline-02","expected":"ESUKN?","prompt_id":"C2-string_pipeline-02::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-string_pipeline-02","expected":"ESUKN?","prompt_id":"C2-string_pipeline-02::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-string_pipeline-03","expected":"ESUKN!","prompt_id":"C2-string_pipeline-03::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-string_pipeline-03","expected":"ESUKN!","prompt_id":"C2-string_pipeline-03::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-string_pipeline-03","expected":"ESUKN!","prompt_id":"C2-string_pipeline-03::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-string_pipeline-03","expected":"ESUKN!","prompt_id":"C2-string_pipeline-03::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-string_pipeline-04","expected":"ESUKN!","prompt_id":"C2-string_pipeline-04::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-string_pipeline-04","expected":"ESUKN!","prompt_id":"C2-string_pipeline-04::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-string_pipeline-04","expected":"ESUKN!","prompt_id":"C2-string_pipeline-04::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-string_pipeline-04","expected":"ESUKN!","prompt_id":"C2-string_pipeline-04::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-string_pipeline-05","expected":"ESUKN!","prompt_id":"C2-string_pipeline-05::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-string_pipeline-05","expected":"ESUKN!","prompt_id":"C2-string_pipeline-05::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-string_pipeline-05","expected":"ESUKN!","prompt_id":"C2-string_pipeline-05::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-string_pipeline-05","expected":"ESUKN!","prompt_id":"C2-string_pipeline-05::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-string_pipeline-06","expected":"UKNES?","prompt_id":"C2-string_pipeline-06::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-string_pipeline-06","expected":"UKNES?","prompt_id":"C2-string_pipeline-06::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-string_pipeline-06","expected":"UKNES?","prompt_id":"C2-string_pipeline-06::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-string_pipeline-06","expected":"UKNES?","prompt_id":"C2-string_pipeline-06::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-string_pipeline-07","expected":"UKNES!","prompt_id":"C2-string_pipeline-07::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-string_pipeline-07","expected":"UKNES!","prompt_id":"C2-string_pipeline-07::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-string_pipeline-07","expected":"UKNES!","prompt_id":"C2-string_pipeline-07::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-string_pipeline-07","expected":"UKNES!","prompt_id":"C2-string_pipeline-07::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-tool_contract-00","expected":"CALL<qar=amber,vul=4,nex=cool>","prompt_id":"C2-tool_contract-00::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-tool_contract-00","expected":"CALL<qar=amber,vul=4,nex=cool>","prompt_id":"C2-tool_contract-00::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-tool_contract-00","expected":"CALL<qar=amber,vul=4,nex=cool>","prompt_id":"C2-tool_contract-00::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-tool_contract-00","expected":"CALL<qar=amber,vul=4,nex=cool>","prompt_id":"C2-tool_contract-00::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-tool_contract-01","expected":"CALL<vul=amber,qar=4,nex=cool>","prompt_id":"C2-tool_contract-01::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-tool_contract-01","expected":"CALL<vul=amber,qar=4,nex=cool>","prompt_id":"C2-tool_contract-01::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-tool_contract-01","expected":"CALL<vul=amber,qar=4,nex=cool>","prompt_id":"C2-tool_contract-01::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-tool_contract-01","expected":"CALL<vul=amber,qar=4,nex=cool>","prompt_id":"C2-tool_contract-01::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-tool_contract-02","expected":"CALL<qar=amber,vul=4,nex=cool>","prompt_id":"C2-tool_contract-02::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-tool_contract-02","expected":"CALL<qar=amber,vul=4,nex=cool>","prompt_id":"C2-tool_contract-02::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-tool_contract-02","expected":"CALL<qar=amber,vul=4,nex=cool>","prompt_id":"C2-tool_contract-02::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-tool_contract-02","expected":"CALL<qar=amber,vul=4,nex=cool>","prompt_id":"C2-tool_contract-02::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-tool_contract-03","expected":"CALL<nex=amber,qar=4,vul=cool>","prompt_id":"C2-tool_contract-03::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-tool_contract-03","expected":"CALL<nex=amber,qar=4,vul=cool>","prompt_id":"C2-tool_contract-03::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-tool_contract-03","expected":"CALL<nex=amber,qar=4,vul=cool>","prompt_id":"C2-tool_contract-03::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-tool_contract-03","expected":"CALL<nex=amber,qar=4,vul=cool>","prompt_id":"C2-tool_contract-03::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-tool_contract-04","expected":"CALL<nex=amber,vul=4,qar=cool>","prompt_id":"C2-tool_contract-04::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-tool_contract-04","expected":"CALL<nex=amber,vul=4,qar=cool>","prompt_id":"C2-tool_contract-04::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-tool_contract-04","expected":"CALL<nex=amber,vul=4,qar=cool>","prompt_id":"C2-tool_contract-04::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-tool_contract-04","expected":"CALL<nex=amber,vul=4,qar=cool>","prompt_id":"C2-tool_contract-04::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-tool_contract-05","expected":"CALL<vul=amber,nex=4,qar=cool>","prompt_id":"C2-tool_contract-05::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-tool_contract-05","expected":"CALL<vul=amber,nex=4,qar=cool>","prompt_id":"C2-tool_contract-05::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-tool_contract-05","expected":"CALL<vul=amber,nex=4,qar=cool>","prompt_id":"C2-tool_contract-05::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-tool_contract-05","expected":"CALL<vul=amber,nex=4,qar=cool>","prompt_id":"C2-tool_contract-05::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-tool_contract-06","expected":"CALL<qar=amber,nex=4,vul=cool>","prompt_id":"C2-tool_contract-06::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-tool_contract-06","expected":"CALL<qar=amber,nex=4,vul=cool>","prompt_id":"C2-tool_contract-06::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-tool_contract-06","expected":"CALL<qar=amber,nex=4,vul=cool>","prompt_id":"C2-tool_contract-06::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-tool_contract-06","expected":"CALL<qar=amber,nex=4,vul=cool>","prompt_id":"C2-tool_contract-06::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-tool_contract-07","expected":"CALL<vul=amber,nex=4,qar=cool>","prompt_id":"C2-tool_contract-07::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-tool_contract-07","expected":"CALL<vul=amber,nex=4,qar=cool>","prompt_id":"C2-tool_contract-07::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-tool_contract-07","expected":"CALL<vul=amber,nex=4,qar=cool>","prompt_id":"C2-tool_contract-07::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-tool_contract-07","expected":"CALL<vul=amber,nex=4,qar=cool>","prompt_id":"C2-tool_contract-07::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-state_machine-00","expected":"SD","prompt_id":"C2-state_machine-00::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-state_machine-00","expected":"SD","prompt_id":"C2-state_machine-00::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-state_machine-00","expected":"SD","prompt_id":"C2-state_machine-00::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-state_machine-00","expected":"SD","prompt_id":"C2-state_machine-00::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-state_machine-01","expected":"SA","prompt_id":"C2-state_machine-01::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-state_machine-01","expected":"SA","prompt_id":"C2-state_machine-01::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-state_machine-01","expected":"SA","prompt_id":"C2-state_machine-01::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-state_machine-01","expected":"SA","prompt_id":"C2-state_machine-01::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-state_machine-02","expected":"SB","prompt_id":"C2-state_machine-02::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-state_machine-02","expected":"SB","prompt_id":"C2-state_machine-02::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-state_machine-02","expected":"SB","prompt_id":"C2-state_machine-02::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-state_machine-02","expected":"SB","prompt_id":"C2-state_machine-02::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-state_machine-03","expected":"SB","prompt_id":"C2-state_machine-03::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-state_machine-03","expected":"SB","prompt_id":"C2-state_machine-03::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-state_machine-03","expected":"SB","prompt_id":"C2-state_machine-03::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-state_machine-03","expected":"SB","prompt_id":"C2-state_machine-03::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-state_machine-04","expected":"SA","prompt_id":"C2-state_machine-04::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-state_machine-04","expected":"SA","prompt_id":"C2-state_machine-04::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-state_machine-04","expected":"SA","prompt_id":"C2-state_machine-04::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-state_machine-04","expected":"SA","prompt_id":"C2-state_machine-04::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-state_machine-05","expected":"SC","prompt_id":"C2-state_machine-05::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-state_machine-05","expected":"SC","prompt_id":"C2-state_machine-05::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-state_machine-05","expected":"SC","prompt_id":"C2-state_machine-05::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-state_machine-05","expected":"SC","prompt_id":"C2-state_machine-05::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-state_machine-06","expected":"SB","prompt_id":"C2-state_machine-06::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-state_machine-06","expected":"SB","prompt_id":"C2-state_machine-06::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-state_machine-06","expected":"SB","prompt_id":"C2-state_machine-06::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-state_machine-06","expected":"SB","prompt_id":"C2-state_machine-06::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-state_machine-07","expected":"SC","prompt_id":"C2-state_machine-07::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-state_machine-07","expected":"SC","prompt_id":"C2-state_machine-07::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-state_machine-07","expected":"SC","prompt_id":"C2-state_machine-07::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-state_machine-07","expected":"SC","prompt_id":"C2-state_machine-07::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-contradictory_prior-00","expected":"N4|Q2","prompt_id":"C2-contradictory_prior-00::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-contradictory_prior-00","expected":"N4|Q2","prompt_id":"C2-contradictory_prior-00::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-contradictory_prior-00","expected":"N4|Q2","prompt_id":"C2-contradictory_prior-00::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-contradictory_prior-00","expected":"N4|Q2","prompt_id":"C2-contradictory_prior-00::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-contradictory_prior-01","expected":"M7|R1","prompt_id":"C2-contradictory_prior-01::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-contradictory_prior-01","expected":"M7|R1","prompt_id":"C2-contradictory_prior-01::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-contradictory_prior-01","expected":"M7|R1","prompt_id":"C2-contradictory_prior-01::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-contradictory_prior-01","expected":"M7|R1","prompt_id":"C2-contradictory_prior-01::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-contradictory_prior-02","expected":"Q2|M7","prompt_id":"C2-contradictory_prior-02::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-contradictory_prior-02","expected":"Q2|M7","prompt_id":"C2-contradictory_prior-02::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-contradictory_prior-02","expected":"Q2|M7","prompt_id":"C2-contradictory_prior-02::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-contradictory_prior-02","expected":"Q2|M7","prompt_id":"C2-contradictory_prior-02::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-contradictory_prior-03","expected":"N4|Q2","prompt_id":"C2-contradictory_prior-03::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-contradictory_prior-03","expected":"N4|Q2","prompt_id":"C2-contradictory_prior-03::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-contradictory_prior-03","expected":"N4|Q2","prompt_id":"C2-contradictory_prior-03::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-contradictory_prior-03","expected":"N4|Q2","prompt_id":"C2-contradictory_prior-03::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-contradictory_prior-04","expected":"Q2|R1","prompt_id":"C2-contradictory_prior-04::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-contradictory_prior-04","expected":"Q2|R1","prompt_id":"C2-contradictory_prior-04::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-contradictory_prior-04","expected":"Q2|R1","prompt_id":"C2-contradictory_prior-04::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-contradictory_prior-04","expected":"Q2|R1","prompt_id":"C2-contradictory_prior-04::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-contradictory_prior-05","expected":"R1|M7","prompt_id":"C2-contradictory_prior-05::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-contradictory_prior-05","expected":"R1|M7","prompt_id":"C2-contradictory_prior-05::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-contradictory_prior-05","expected":"R1|M7","prompt_id":"C2-contradictory_prior-05::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-contradictory_prior-05","expected":"R1|M7","prompt_id":"C2-contradictory_prior-05::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-contradictory_prior-06","expected":"R1|Q2","prompt_id":"C2-contradictory_prior-06::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-contradictory_prior-06","expected":"R1|Q2","prompt_id":"C2-contradictory_prior-06::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-contradictory_prior-06","expected":"R1|Q2","prompt_id":"C2-contradictory_prior-06::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-contradictory_prior-06","expected":"R1|Q2","prompt_id":"C2-contradictory_prior-06::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-contradictory_prior-07","expected":"R1|N4","prompt_id":"C2-contradictory_prior-07::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-contradictory_prior-07","expected":"R1|N4","prompt_id":"C2-contradictory_prior-07::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-contradictory_prior-07","expected":"R1|N4","prompt_id":"C2-contradictory_prior-07::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-contradictory_prior-07","expected":"R1|N4","prompt_id":"C2-contradictory_prior-07::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-goal_inference-00","expected":"B","prompt_id":"C2-goal_inference-00::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-goal_inference-00","expected":"B","prompt_id":"C2-goal_inference-00::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-goal_inference-00","expected":"B","prompt_id":"C2-goal_inference-00::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-goal_inference-00","expected":"B","prompt_id":"C2-goal_inference-00::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-goal_inference-01","expected":"A","prompt_id":"C2-goal_inference-01::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-goal_inference-01","expected":"A","prompt_id":"C2-goal_inference-01::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-goal_inference-01","expected":"A","prompt_id":"C2-goal_inference-01::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-goal_inference-01","expected":"A","prompt_id":"C2-goal_inference-01::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-goal_inference-02","expected":"C","prompt_id":"C2-goal_inference-02::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-goal_inference-02","expected":"C","prompt_id":"C2-goal_inference-02::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-goal_inference-02","expected":"C","prompt_id":"C2-goal_inference-02::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-goal_inference-02","expected":"C","prompt_id":"C2-goal_inference-02::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-goal_inference-03","expected":"A","prompt_id":"C2-goal_inference-03::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-goal_inference-03","expected":"A","prompt_id":"C2-goal_inference-03::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-goal_inference-03","expected":"A","prompt_id":"C2-goal_inference-03::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-goal_inference-03","expected":"A","prompt_id":"C2-goal_inference-03::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-goal_inference-04","expected":"C","prompt_id":"C2-goal_inference-04::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-goal_inference-04","expected":"C","prompt_id":"C2-goal_inference-04::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-goal_inference-04","expected":"C","prompt_id":"C2-goal_inference-04::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-goal_inference-04","expected":"C","prompt_id":"C2-goal_inference-04::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-goal_inference-05","expected":"A","prompt_id":"C2-goal_inference-05::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-goal_inference-05","expected":"A","prompt_id":"C2-goal_inference-05::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-goal_inference-05","expected":"A","prompt_id":"C2-goal_inference-05::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-goal_inference-05","expected":"A","prompt_id":"C2-goal_inference-05::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-goal_inference-06","expected":"C","prompt_id":"C2-goal_inference-06::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-goal_inference-06","expected":"C","prompt_id":"C2-goal_inference-06::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-goal_inference-06","expected":"C","prompt_id":"C2-goal_inference-06::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-goal_inference-06","expected":"C","prompt_id":"C2-goal_inference-06::wrong_task_key"}
+{"condition":"retained_after_update","episode_id":"C2-goal_inference-07","expected":"B","prompt_id":"C2-goal_inference-07::retained_after_update"}
+{"condition":"no_acquisition","episode_id":"C2-goal_inference-07","expected":"B","prompt_id":"C2-goal_inference-07::no_acquisition"}
+{"condition":"external_memory_present","episode_id":"C2-goal_inference-07","expected":"B","prompt_id":"C2-goal_inference-07::external_memory_present"}
+{"condition":"wrong_task_key","episode_id":"C2-goal_inference-07","expected":"B","prompt_id":"C2-goal_inference-07::wrong_task_key"}

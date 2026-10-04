@@ -1,0 +1,34 @@
+{
+  "schema": "C2R_RETENTION_SCORING_CONTRACT_V1",
+  "source_bank_sha256": "ecd45939f338d731decf0e3575b976732b1ecc8eda154f41cf8c8d3fe8dba8bc",
+  "pack_sha256": "f17fb4e22d00fcbf798e2a29cb8738ae41a26054239eb8c34f236e19b35c5861",
+  "answer_key_sha256": "51228740cb0fb7785404a16bdcfc4ef467b4c63a4618845e2cefb26c6bb21464",
+  "episodes": 56,
+  "records": 336,
+  "eval_conditions": [
+    "retained_after_update",
+    "no_acquisition",
+    "external_memory_present",
+    "wrong_task_key"
+  ],
+  "mechanism_protocol": {
+    "frozen_base": "score no_acquisition only; no state update",
+    "external_memory": "acquire support into external memory; score external_memory_present and memory-absent retained_after_update separately",
+    "adapter": "perform bounded update from acquisition_clean; hard-reset context; score retained_after_update with no support or external memory",
+    "negative_update": "perform same update procedure on acquisition_shuffled; score retained_after_update as corruption sensitivity control"
+  },
+  "claim_gate": {
+    "persistent_learning_requires": [
+      "retained_after_update improvement over no_acquisition",
+      "retained_after_update prompt contains no demonstrations or memory",
+      "negative/shuffled update sensitivity",
+      "prior behavior regression within preregistered bound"
+    ],
+    "retrieval_is_not_persistent_learning": true,
+    "support_parsing_is_not_persistent_learning": true
+  },
+  "model_inference_performed": false,
+  "gpu_used": false,
+  "weights_changed": false,
+  "protected_eval_consumed": false
+}

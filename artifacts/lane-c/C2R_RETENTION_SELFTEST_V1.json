@@ -1,0 +1,25 @@
+{
+  "schema": "C2R_RETENTION_SELFTEST_V1",
+  "status": "PASS",
+  "checks": {
+    "records_336": true,
+    "answer_rows_224": true,
+    "task_tokens_unique": true,
+    "eval_has_no_answer_or_rule_fields": true,
+    "retained_has_no_support": true,
+    "no_acquisition_has_no_support": true,
+    "external_memory_is_explicit": true,
+    "wrong_key_differs": true,
+    "family_not_in_eval_prompt": true,
+    "query_not_in_acquisition": true,
+    "stateless_support_parser_retained_accuracy_zero": true
+  },
+  "pack_sha256": "f17fb4e22d00fcbf798e2a29cb8738ae41a26054239eb8c34f236e19b35c5861",
+  "answer_key_sha256": "51228740cb0fb7785404a16bdcfc4ef467b4c63a4618845e2cefb26c6bb21464",
+  "contract_sha256": "d46135f84b717e2072ef8914e2ece98569629635f064954bdde21de7b07867da",
+  "predecessor_heads": {
+    "harness": "db05f9c157628300ee92d53d91ffc22fd9c8b736",
+    "runner": "6407f7235024eae8a140fb488c5f475383d246fa"
+  },
+  "interpretation_limit": "Protocol plumbing only; no model novel-task or retention performance is claimed."
+}
