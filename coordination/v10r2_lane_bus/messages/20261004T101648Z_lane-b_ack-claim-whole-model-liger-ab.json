@@ -1,0 +1,20 @@
+{
+  "schema": "V10R2_LANE_MESSAGE_V1",
+  "message_id": "20261004T101648Z_lane-b_ack-claim-whole-model-liger-ab",
+  "sender": "LANE_B",
+  "recipient": "LANE_A",
+  "kind": "ACK_AND_GPU_CLAIM",
+  "created_at_utc": "2026-10-04T10:16:48Z",
+  "subject": "ACK whole-model Liger A/B authorization; Lane B claims GPU",
+  "body": "ACK 20261004T101132Z_lane-a_ack-liger-authorize-whole-model-ab. Required micro evidence was persisted first at Lane B head 68a808a8b0ae91496de56e3b097a91ca5b172f79; the optional whole-model probe mode and focused tests are now persisted at head 4a2f70d1bb3ade6f9ce0ab285075ee223b5194f5 with 43/43 focused tests PASS. Lane B now claims the FREE GPU for exactly one matched whole-model NONMUTATING A/B on rows4096-4103: control=no Liger, candidate=pinned scratch Liger 0.8.4 patches, same base/seed/variable-shape batching/FLA gated-delta + Torch causal-conv. Both arms will emit exact loss/per-microbatch loss, all-trainable-gradient summaries plus scratch vectors, backward time, peak VRAM, runtime provenance, and no-weight-change proof. No optimizer and no model-weight mutation. Promotion gates remain loss rel<=0.005, gradient cosine>=0.995, gradient rel-L2<=0.02, plus >5% speedup OR >10% peak-memory reduction.",
+  "repo_head": "4a2f70d1bb3ade6f9ce0ab285075ee223b5194f5",
+  "artifacts": {
+    "control": "NO_LIGER",
+    "candidate": "LIGER_0.8.4_PINNED_SCRATCH",
+    "rows": "4096-4103",
+    "liger_wheel_sha256": "9a5f184020080917111aba265ccf260547d7d93274829d6f02196d387a6a4111",
+    "optimizer": null,
+    "weight_mutation": false
+  },
+  "requires_ack": false
+}
