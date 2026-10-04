@@ -1,0 +1,88 @@
+{
+  "schema": "V10R3R1_CONTINUOUS20_EXECUTABILITY_REPLICATION_PROTOCOL_V1",
+  "date": "2026-10-04",
+  "status": "FROZEN_PRE_EXECUTION_PENDING_INDEPENDENT_HOSTILE_REVIEW",
+  "purpose": "REPLICATE_EXACT_CONTINUOUS20_EXECUTABILITY_AFTER_SOURCE_BOUND_CUDA_OOM_WITHOUT_RETROACTIVELY_REPLACING_V10R3",
+  "authority": {
+    "development_training_authorized": true,
+    "authority_scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "current_user_direction": "CONTINUE_LIVE_COORDINATION_WORK",
+    "paid_compute_authorized": false,
+    "merge_deploy_activate_authorized": false
+  },
+  "predecessor": {
+    "original_experiment_status": "EXECUTION_HOLD_UNRESOLVED",
+    "incident_path": "successor/experiments/receipts/V10R3_CONTINUOUS20_EXECUTION_INCIDENT_20261004_V1.json",
+    "incident_git_blob": "1ab922543e61a83e82fd6afc416ea324cbdbfb07",
+    "incident_source_head": "19f911a8bd97f8a6d885d2b12ed7883eb963da04",
+    "failed_namespace": "D:\\VERA\\models\\adapters\\v10r3-lane-b-continuous20-sequential-20261004",
+    "failed_namespace_must_remain_preserved": true,
+    "original_spec_retry_prohibited": true
+  },
+  "replication": {
+    "replication_id": "V10R3R1_CONTINUOUS20_EXECUTABILITY_20261004_V1",
+    "spec_path": "successor/experiments/V10R3R1_CONTINUOUS20_EXECUTABILITY_REPLICATION_SPEC_20261004_V1.json",
+    "spec_sha256": "1336f69b7b013820f7efcc17e4cedb44446e0624e47ad2103e87e1997e9eca8c",
+    "output_namespace": "D:\\VERA\\models\\adapters\\v10r3r1-lane-a-continuous20-sequential-20261004",
+    "attempt_limit": 1,
+    "fresh_process_required": true,
+    "fresh_adapter_required": true,
+    "resume_adapter_forbidden": true,
+    "panel_use": "PROHIBITED",
+    "panel_status": "HOLD_UNCONSUMED"
+  },
+  "exact_semantics": {
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "rows": "0-159",
+    "row_count": 160,
+    "ordered_record_ids_sha256": "904ac73c903a3878f950215d004a7d4a17af45a002d2637cba3b3a7995974142",
+    "order": "NATURAL_SEQUENTIAL",
+    "seed": 20261001,
+    "optimizer": "adamw_bnb_8bit_nonpaged",
+    "optimizer_steps": 20,
+    "warmup_optimizer_steps": 0,
+    "lr_scheduler_type": "cosine",
+    "learning_rate": 0.00002,
+    "microbatch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "gradient_checkpointing": true,
+    "quantization": "NF4_DOUBLE_QUANT_BF16",
+    "lora": "R4_ALPHA16_DROPOUT0_ALL_LINEAR",
+    "expected_initial_trainable_parameter_digest": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224"
+  },
+  "execution_hygiene": {
+    "allowed": "READBACK_AND_PROCESS_FRESHNESS_ONLY",
+    "require_no_competing_training_process": true,
+    "require_output_namespace_absent": true,
+    "require_failed_namespace_preserved": true,
+    "require_runtime_a_reverification": true,
+    "record_gpu_memory_free_before_launch": true,
+    "record_host_memory_and_commit_before_launch": true,
+    "host_memory_threshold": null,
+    "gpu_memory_threshold": null,
+    "qwen_http_process_policy": "OBSERVE_ONLY_DO_NOT_STOP_FOR_REPLICATION",
+    "allocator_policy_change": false,
+    "empty_cache_policy_change": false,
+    "offload_policy_change": false,
+    "trainer_or_recipe_change": false
+  },
+  "immutable_control_context": {
+    "staged_terminal_receipt_sha256": "288cb8bd19b7dcbeb90a8cc77fc96408194f9642b6bca66af7ab984414c237fb",
+    "staged_terminal_adapter_sha256": "b2d6eec7befca3e18cf1fa793a7830197e27bab33bea8e4f42b5a318ee91d116",
+    "role": "CONTEXT_ONLY_NOT_REEVALUATED_NOT_WINNER"
+  },
+  "verification": {
+    "spec_load_validation": "PASS",
+    "focused_protocol_tests": "7/7 PASS",
+    "test_interpreter": "Python 3.12.10"
+  },
+  "disposition": {
+    "on_complete": "CONTINUOUS20_EXECUTABILITY_REPLICATION_COMPLETE_REQUIRES_NEW_COMPARATIVE_DECISION_PROTOCOL",
+    "on_oom_or_failure": "REPLICATION_EXECUTION_HOLD_NO_SECOND_ATTEMPT",
+    "semantic_recipe_question": "REMAINS_UNRESOLVED_UNTIL_SEPARATELY_GOVERNED_COMPARISON",
+    "staged_wins_claim": false
+  },
+  "claim_ceiling": "EXACT_CONTINUOUS20_EXECUTABILITY_REPLICATION_ONLY_NOT_RETROACTIVE_V10R3_REPLACEMENT_NOT_SEMANTIC_WINNER_NOT_FINAL_BANK_NOT_FULL_RUN_AUTHORITY"
+}
