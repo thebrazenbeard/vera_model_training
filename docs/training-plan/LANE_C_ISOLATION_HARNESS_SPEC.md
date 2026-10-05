@@ -1,9 +1,9 @@
-# Lane C Isolation Harness Contract V1
+# Lane C Isolation Harness Contract — Canonical V1
 
-Status: DEVELOPMENT HARNESS / NO TRAINING OR PROTECTED-BANK AUTHORITY
+Status: CANONICAL DEVELOPMENT HARNESS / NO TRAINING OR PROTECTED-BANK AUTHORITY
 Owner: Lane C / Three
 Parent planning head: c06e33d44184904418a4a68f22f78d19a4f46137
-Branch: work/lane-c-isolation-harness-v1
+Branch: work/lane-c-isolation-canonical-v1
 
 ## Purpose
 
@@ -106,4 +106,19 @@ Historical/superseded sibling heads that must not advance:
 Unadmitted post-collision work, also frozen historical:
 - `work/lane-c-isolation-harness-v3@136a5b62bf9fb54a9d28e63e5582364bfe32b08a`
 
-The canonical successor preserves the V1 structured external-channel semantics and explicit V2-required canary coverage, including deterministic outside-root state-file rejection. V3's manifest addition is not silently promoted into the canonical subject.
+The canonical successor preserves the V1 structured external-channel semantics, explicit V2-required canary coverage including deterministic outside-root state-file rejection, and the V3 deterministic manifest receipt through an explicit red-green port.
+
+## Deterministic isolation manifest
+
+`build_isolation_manifest(...)` emits schema `LANE_C_ISOLATION_MANIFEST_V1`.
+
+The digest binds:
+- resolved arm root;
+- expected child environment;
+- observed child environment;
+- observed changed filesystem paths;
+- reported external mutable-state channel identifiers.
+
+Collections are canonicalized before hashing.
+
+The receipt proves only the enumerated observations. Omitted channels remain UNKNOWN and cannot be promoted to ABSENT because a manifest digest is internally consistent.
