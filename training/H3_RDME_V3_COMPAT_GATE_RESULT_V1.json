@@ -1,0 +1,323 @@
+{
+  "claim_ceiling": "CPU_SYNTHETIC_V3_GATE_ONLY_NOT_LLM_VALIDATION",
+  "conflict_gain_max": 3.231927743803576e-06,
+  "conflict_reject_all": true,
+  "device": "cpu",
+  "gpu_used": false,
+  "isolated_mse_max": 3.0460958441835828e-05,
+  "orthogonal_accept_all": true,
+  "orthogonal_gain_min": 18267.647145627096,
+  "overlap_accept_all": true,
+  "overlap_gain_min": 77357.81222000133,
+  "protected_data_used": false,
+  "runs": [
+    {
+      "orthogonal_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.20640352368354797,
+          "isolated_x_mse": 8.953850283432985e-07,
+          "isolated_y_mse": 2.1407117856142577e-07,
+          "mixed_composed_mse": 1.1093029570474755e-06,
+          "mixed_gain_ratio": 186065.96365064444,
+          "mixed_semantic_mse": 1.1093029570474755e-06
+        }
+      },
+      "overlap_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.0692702904343605,
+          "isolated_x_mse": 8.953850283432985e-07,
+          "isolated_y_mse": 8.764258036756539e-14,
+          "mixed_composed_mse": 8.954530699156749e-07,
+          "mixed_gain_ratio": 77357.81222000133,
+          "mixed_semantic_mse": 8.954530699156749e-07
+        }
+      },
+      "policy_conflict": {
+        "decision": {
+          "accept": false,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": false,
+            "mixed_semantic": false
+          }
+        },
+        "metrics": {
+          "best_single_mse": 8.953850283432985e-07,
+          "isolated_x_mse": 8.953850283432985e-07,
+          "isolated_y_mse": 5.551067260967102e-06,
+          "mixed_composed_mse": 0.2770436406135559,
+          "mixed_gain_ratio": 3.231927743803576e-06,
+          "mixed_semantic_mse": 0.2770436406135559
+        }
+      },
+      "seed": 17
+    },
+    {
+      "orthogonal_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.18419614434242249,
+          "isolated_x_mse": 7.44302102589911e-12,
+          "isolated_y_mse": 9.546142365479682e-08,
+          "mixed_composed_mse": 9.54746326442546e-08,
+          "mixed_gain_ratio": 1929267.9033262236,
+          "mixed_semantic_mse": 9.54746326442546e-08
+        }
+      },
+      "overlap_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.07736951112747192,
+          "isolated_x_mse": 7.44302102589911e-12,
+          "isolated_y_mse": 3.4875319862917586e-13,
+          "mixed_composed_mse": 1.0373597814083979e-11,
+          "mixed_gain_ratio": 7458310271.33414,
+          "mixed_semantic_mse": 1.0373597814083979e-11
+        }
+      },
+      "policy_conflict": {
+        "decision": {
+          "accept": false,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": false,
+            "mixed_semantic": false
+          }
+        },
+        "metrics": {
+          "best_single_mse": 7.44302102589911e-12,
+          "isolated_x_mse": 7.44302102589911e-12,
+          "isolated_y_mse": 1.639018410060089e-05,
+          "mixed_composed_mse": 0.30942806601524353,
+          "mixed_gain_ratio": 2.405412386067281e-11,
+          "mixed_semantic_mse": 0.30942806601524353
+        }
+      },
+      "seed": 23
+    },
+    {
+      "orthogonal_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.19902536273002625,
+          "isolated_x_mse": 5.2245766823943995e-08,
+          "isolated_y_mse": 4.080998559918836e-12,
+          "mixed_composed_mse": 5.2252229210125734e-08,
+          "mixed_gain_ratio": 3808935.345699241,
+          "mixed_semantic_mse": 5.2252229210125734e-08
+        }
+      },
+      "overlap_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.07197347283363342,
+          "isolated_x_mse": 5.2245766823943995e-08,
+          "isolated_y_mse": 4.8519758877318964e-08,
+          "mixed_composed_mse": 6.327062607169864e-08,
+          "mixed_gain_ratio": 1137549.5597605223,
+          "mixed_semantic_mse": 6.327062607169864e-08
+        }
+      },
+      "policy_conflict": {
+        "decision": {
+          "accept": false,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": false,
+            "mixed_semantic": false
+          }
+        },
+        "metrics": {
+          "best_single_mse": 5.2245766823943995e-08,
+          "isolated_x_mse": 5.2245766823943995e-08,
+          "isolated_y_mse": 7.744499486150858e-12,
+          "mixed_composed_mse": 0.2878917455673218,
+          "mixed_gain_ratio": 1.8147712683108738e-07,
+          "mixed_semantic_mse": 0.2878917455673218
+        }
+      },
+      "seed": 31
+    },
+    {
+      "orthogonal_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.18737076222896576,
+          "isolated_x_mse": 1.036156945834199e-12,
+          "isolated_y_mse": 1.025692472467199e-05,
+          "mixed_composed_mse": 1.0256972927891184e-05,
+          "mixed_gain_ratio": 18267.647145627096,
+          "mixed_semantic_mse": 1.0256972927891184e-05
+        }
+      },
+      "overlap_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.06588936597108841,
+          "isolated_x_mse": 1.036156945834199e-12,
+          "isolated_y_mse": 1.270875440474717e-12,
+          "mixed_composed_mse": 4.515999119797387e-12,
+          "mixed_gain_ratio": 14590207886.055695,
+          "mixed_semantic_mse": 4.515999119797387e-12
+        }
+      },
+      "policy_conflict": {
+        "decision": {
+          "accept": false,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": false,
+            "mixed_semantic": false
+          }
+        },
+        "metrics": {
+          "best_single_mse": 1.036156945834199e-12,
+          "isolated_x_mse": 1.036156945834199e-12,
+          "isolated_y_mse": 3.0460958441835828e-05,
+          "mixed_composed_mse": 0.26358136534690857,
+          "mixed_gain_ratio": 3.931070561344414e-12,
+          "mixed_semantic_mse": 0.26358136534690857
+        }
+      },
+      "seed": 47
+    },
+    {
+      "orthogonal_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.20804518461227417,
+          "isolated_x_mse": 1.9260428985035105e-07,
+          "isolated_y_mse": 6.389568625309039e-07,
+          "mixed_composed_mse": 8.316065986946342e-07,
+          "mixed_gain_ratio": 250172.59956671932,
+          "mixed_semantic_mse": 8.316065986946342e-07
+        }
+      },
+      "overlap_safe": {
+        "decision": {
+          "accept": true,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": true,
+            "mixed_semantic": true
+          }
+        },
+        "metrics": {
+          "best_single_mse": 0.06365401297807693,
+          "isolated_x_mse": 1.9260428985035105e-07,
+          "isolated_y_mse": 5.043609974109131e-09,
+          "mixed_composed_mse": 2.1776081382540724e-07,
+          "mixed_gain_ratio": 292311.6049203987,
+          "mixed_semantic_mse": 2.1776081382540724e-07
+        }
+      },
+      "policy_conflict": {
+        "decision": {
+          "accept": false,
+          "checks": {
+            "isolated_x": true,
+            "isolated_y": true,
+            "mixed_gain": false,
+            "mixed_semantic": false
+          }
+        },
+        "metrics": {
+          "best_single_mse": 1.9260428985035105e-07,
+          "isolated_x_mse": 1.9260428985035105e-07,
+          "isolated_y_mse": 4.1051673171921266e-09,
+          "mixed_composed_mse": 0.25461697578430176,
+          "mixed_gain_ratio": 7.564471664038433e-07,
+          "mixed_semantic_mse": 0.25461697578430176
+        }
+      },
+      "seed": 59
+    }
+  ],
+  "schema": "H3_RDME_V3_COMPAT_GATE_RESULT_V1",
+  "seeds": [
+    17,
+    23,
+    31,
+    47,
+    59
+  ]
+}

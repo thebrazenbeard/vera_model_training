@@ -1,0 +1,27 @@
+{
+  "schema": "H3_RDME_V3_COMPAT_GATE_PROTOCOL_V1",
+  "status": "FROZEN_PREREGISTRATION",
+  "date": "2026-10-05",
+  "parent_head": "ecbdaf987ac0d2a983499921ce7d4de725cebc93",
+  "thresholds": {
+    "mixed_gain_ratio_min": 5.0,
+    "isolated_module_mse_max": 0.001,
+    "mixed_semantic_mse_max": 0.001
+  },
+  "removed_v2_criterion": "composed output projection must equal isolated component target",
+  "classes": [
+    "orthogonal_additive_safe",
+    "overlapping_additive_safe",
+    "policy_conflict_A_overrides_C"
+  ],
+  "decision": {
+    "accept_if": "mixed_gain_ratio >= 5 AND isolated_x_mse <= 0.001 AND isolated_y_mse <= 0.001 AND mixed_semantic_mse <= 0.001",
+    "pass_experiment_if": "both safe classes accepted and conflict rejected for all fixed seeds"
+  },
+  "data_admission": {
+    "synthetic_development_only": true,
+    "protected_final_bank": false,
+    "private_autobiographical": false
+  },
+  "claim_ceiling": "CPU_SYNTHETIC_V3_GATE_ONLY_NOT_LLM_VALIDATION"
+}
