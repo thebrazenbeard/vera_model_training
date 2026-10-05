@@ -1,0 +1,39 @@
+{
+  "schema": "H3_RDME_V2_COMPAT_GATE_PROTOCOL_V1",
+  "status": "FROZEN_PREREGISTRATION",
+  "date": "2026-10-05",
+  "source_subject": {
+    "repository": "thebrazenbeard/vera_model_training",
+    "branch": "work/h3-rdme-v2-compat-gate-lane-b-20261005-v1",
+    "parent_head": "a30aa58907206925e034b112bf5e4d1c30c222f4"
+  },
+  "thresholds": {
+    "mixed_gain_ratio_min": 5.0,
+    "component_projection_mse_max": 0.001
+  },
+  "composition": {
+    "default_active_adapter_count": 1,
+    "candidate_max_active_adapter_count": 2,
+    "mechanism": "ADDITIVE_RESIDUAL_NO_WEIGHT_MERGE"
+  },
+  "pairs": {
+    "safe_orthogonal": {
+      "families": ["A", "B"],
+      "mixed_semantics": "ADDITIVE_BOTH_REQUIRED"
+    },
+    "conflicting_policy": {
+      "families": ["A", "C"],
+      "mixed_semantics": "A_OVERRIDES_C"
+    }
+  },
+  "data_admission": {
+    "synthetic_development_only": true,
+    "protected_final_bank": false,
+    "private_autobiographical": false
+  },
+  "decision": {
+    "accept_pair_if": "mixed_gain_ratio >= 5.0 AND both component_projection_mse <= 0.001",
+    "kill_v2_if": "gate cannot accept safe pair and reject conflicting pair across fixed seeds without threshold edits"
+  },
+  "claim_ceiling": "CPU_SYNTHETIC_COMPATIBILITY_GATE_ONLY_NOT_LLM_VALIDATION"
+}
