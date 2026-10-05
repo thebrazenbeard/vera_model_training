@@ -10,7 +10,7 @@ from typing import Any
 class ContractError(ValueError):
     pass
 
-CANONICAL_CONTRACT_SEMANTIC_SHA256 = "76d7fafa6270069ed9f52a20e9719c8d9ed233643f739c779b82b5119960bfce"
+CANONICAL_CONTRACT_SEMANTIC_SHA256 = "5a40f3006fd13295f1b7f8379e52daa01958389cd1d5233349d3c7321d87a671"
 
 def _strict_pairs(pairs):
     out = {}
@@ -41,10 +41,66 @@ def _semantic_digest(data: dict[str, Any]) -> str:
 
 def validate_contract(data: dict[str, Any]) -> None:
     require(data.get('schema') == 'VERA_EXECUTION_CONTRACT_V1', 'wrong schema')
-    require(data.get('execution_precedence') == 'THIS_CONTRACT_IS_SOLE_EXECUTION_NORMATIVE_SOURCE', 'execution precedence missing')
+    require(data.get('execution_precedence') == 'CONTROLLING_PLAN_NORMATIVE_FLOOR__CONTRACT_STRENGTHENING_OVERLAY', 'execution precedence must preserve controlling-plan floor')
     require(data['source']['repository'] == 'thebrazenbeard/vera_model_training', 'wrong repository')
     require(data['source']['parent_head'] == 'c06e33d44184904418a4a68f22f78d19a4f46137', 'wrong parent head')
     require(data['authorization']['requires_live_operator_authorization'] is True, 'live authorization gate missing')
+
+    floor = data['plan_floor']
+    expected_floor = {
+        'repository': 'thebrazenbeard/vera_model_training',
+        'branch': 'a-b-c-vera-training-plan',
+        'head': 'c06e33d44184904418a4a68f22f78d19a4f46137',
+        'path': 'docs/training-plan/VERA_STAGED_TRAINING_PLAN_FINAL_V2.md',
+        'blob': '3d0895dca8b3581061dd0d2e9824758bd6fb8e74',
+        'plan_is_normative_floor': True,
+        'contract_may_strengthen_but_not_weaken': True,
+    }
+    require(floor == expected_floor, 'controlling-plan floor binding mismatch')
+
+    plan_path = Path(__file__).resolve().parent / floor['path']
+    require(plan_path.is_file(), 'controlling-plan file missing')
+    payload = plan_path.read_bytes().replace(b'\r\n', b'\n')
+    git_blob = hashlib.sha1(
+        b'blob ' + str(len(payload)).encode('ascii') + b'\0' + payload
+    ).hexdigest()
+    require(git_blob == floor['blob'], 'controlling-plan blob mismatch')
+
+    expected_superseded = [{
+        'id': 'TRAINING_PAUSED_AUTHORITY_STATE',
+        'replacement': 'LIVE_OPERATOR_RESUMED_2026-10-05',
+        'scope': 'AUTHORITY_STATE_ONLY',
+        'does_not_supersede': [
+            'technical_architecture',
+            'evidence_gates',
+            'stage_dependencies',
+            'privacy_custody_rules',
+            'claim_ceilings',
+        ],
+    }]
+    require(
+        data['superseded_historical_propositions'] == expected_superseded,
+        'historical proposition supersession is overbroad or incomplete',
+    )
+
+    expected_floor_invariants = {
+        'stage0_before_corpus_optimization': True,
+        'stage1_provenance_privacy_ancestry_before_training': True,
+        'stage2_eval_baseline_contracts_before_optimization': True,
+        'stage3_h0_before_neural_promotion': True,
+        'matched_h1_h2_h3_exposure_search_accounting': True,
+        'corrigibility_before_or_jointly_gates_identity': True,
+        'tool_success_requires_effect_verification': True,
+        'continual_learning_requires_isolation_support_removal_reopen': True,
+        'routing_mechanism_requires_qualification': True,
+        'protected_final_qualification_sealed_one_time': True,
+        'material_head_movement_creates_new_review_subject': True,
+        'placement_policy_preserved': True,
+    }
+    require(
+        data['plan_floor_invariants'] == expected_floor_invariants,
+        'overlay contradicts or omits a named controlling-plan floor invariant',
+    )
 
     expected_stages = [
         'stage0_runtime', 'stage1_corpus', 'stage2_eval', 'stage3_h0',
@@ -177,7 +233,9 @@ def render_contract(data: dict[str, Any]) -> str:
         f"Parent planning head: {data['source']['parent_head']}",
         f"Vera coordination head: {data['source']['vera_coordination_bus_head']}",
         '',
-        'This file is generated from VERA_EXECUTION_CONTRACT_V1.json. The JSON contract is the sole execution-normative source for this successor subject.',
+        'Controlling plan is the normative floor; this contract is a machine-checkable strengthening/execution overlay.',
+        f"Plan floor: {data['plan_floor']['branch']}@{data['plan_floor']['head']}:{data['plan_floor']['path']} blob {data['plan_floor']['blob']}.",
+        f"Superseded historical proposition: {data['superseded_historical_propositions'][0]['id']} -> {data['superseded_historical_propositions'][0]['replacement']} ({data['superseded_historical_propositions'][0]['scope']}).",
         '',
         '## Authority',
         f"Training resumed by live operator: {data['authorization']['training_resumed_by_user']}",

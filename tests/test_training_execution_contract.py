@@ -38,7 +38,7 @@ def test_duplicate_json_keys_are_rejected(tmp_path):
 def test_contract_binds_lane_c_hold_clearers():
     data = json.loads(CONTRACT.read_text(encoding="utf-8"))
     assert data["source"]["parent_head"] == PARENT
-    assert data["execution_precedence"] == "THIS_CONTRACT_IS_SOLE_EXECUTION_NORMATIVE_SOURCE"
+    assert data["execution_precedence"] == "CONTROLLING_PLAN_NORMATIVE_FLOOR__CONTRACT_STRENGTHENING_OVERLAY"
     assert data["authorization"]["requires_live_operator_authorization"] is True
 
     isolation = data["controls"]["fresh_state_isolation"]
@@ -207,3 +207,97 @@ def test_validator_rejects_c_pre_audit_negative_controls(tmp_path):
             + result.stdout
             + result.stderr
         )
+
+
+def test_controlling_plan_is_normative_floor_and_overlay_only():
+    data = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    assert data["execution_precedence"] == "CONTROLLING_PLAN_NORMATIVE_FLOOR__CONTRACT_STRENGTHENING_OVERLAY"
+    floor = data["plan_floor"]
+    assert floor == {
+        "repository": "thebrazenbeard/vera_model_training",
+        "branch": "a-b-c-vera-training-plan",
+        "head": "c06e33d44184904418a4a68f22f78d19a4f46137",
+        "path": "docs/training-plan/VERA_STAGED_TRAINING_PLAN_FINAL_V2.md",
+        "blob": "3d0895dca8b3581061dd0d2e9824758bd6fb8e74",
+        "plan_is_normative_floor": True,
+        "contract_may_strengthen_but_not_weaken": True,
+    }
+
+    superseded = data["superseded_historical_propositions"]
+    assert superseded == [{
+        "id": "TRAINING_PAUSED_AUTHORITY_STATE",
+        "replacement": "LIVE_OPERATOR_RESUMED_2026-10-05",
+        "scope": "AUTHORITY_STATE_ONLY",
+        "does_not_supersede": [
+            "technical_architecture",
+            "evidence_gates",
+            "stage_dependencies",
+            "privacy_custody_rules",
+            "claim_ceilings",
+        ],
+    }]
+
+    invariants = data["plan_floor_invariants"]
+    assert invariants["stage0_before_corpus_optimization"] is True
+    assert invariants["stage1_provenance_privacy_ancestry_before_training"] is True
+    assert invariants["stage2_eval_baseline_contracts_before_optimization"] is True
+    assert invariants["stage3_h0_before_neural_promotion"] is True
+    assert invariants["matched_h1_h2_h3_exposure_search_accounting"] is True
+    assert invariants["corrigibility_before_or_jointly_gates_identity"] is True
+    assert invariants["tool_success_requires_effect_verification"] is True
+    assert invariants["continual_learning_requires_isolation_support_removal_reopen"] is True
+    assert invariants["routing_mechanism_requires_qualification"] is True
+    assert invariants["protected_final_qualification_sealed_one_time"] is True
+    assert invariants["material_head_movement_creates_new_review_subject"] is True
+    assert invariants["placement_policy_preserved"] is True
+
+
+def test_validator_rejects_plan_floor_weakening(tmp_path):
+    import copy
+
+    baseline = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    variants = []
+
+    broken = copy.deepcopy(baseline)
+    broken["execution_precedence"] = "THIS_CONTRACT_IS_SOLE_EXECUTION_NORMATIVE_SOURCE"
+    variants.append(("sole_source_regression", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["plan_floor"]["blob"] = "0" * 40
+    variants.append(("wrong_plan_blob", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["plan_floor"]["plan_is_normative_floor"] = False
+    variants.append(("plan_not_floor", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["plan_floor"]["contract_may_strengthen_but_not_weaken"] = False
+    variants.append(("overlay_can_weaken", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["plan_floor_invariants"]["stage0_before_corpus_optimization"] = False
+    variants.append(("stage0_floor_weakened", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["superseded_historical_propositions"][0]["scope"] = "ALL_PLAN_REQUIREMENTS"
+    variants.append(("resume_overbroad_supersession", broken))
+
+    for label, candidate in variants:
+        candidate_path = tmp_path / f"{label}.json"
+        candidate_path.write_text(json.dumps(candidate, indent=2) + "\n", encoding="utf-8")
+        result = run_contract("validate", str(candidate_path))
+        assert result.returncode != 0, (
+            f"validator accepted plan-floor weakening: {label}\n"
+            + result.stdout
+            + result.stderr
+        )
+
+
+def test_rendered_view_declares_plan_floor_overlay():
+    text = VIEW.read_text(encoding="utf-8")
+    assert (
+        "Controlling plan is the normative floor; this contract is a "
+        "machine-checkable strengthening/execution overlay."
+    ) in text
+    assert "TRAINING_PAUSED_AUTHORITY_STATE" in text
+    assert "AUTHORITY_STATE_ONLY" in text

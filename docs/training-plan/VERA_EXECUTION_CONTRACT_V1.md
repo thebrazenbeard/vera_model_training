@@ -1,10 +1,12 @@
 # Vera Execution Contract V1
 
-Status: DEVELOPMENT_SUCCESSOR_CONTRACT_V2_REVIEW_REQUIRED
+Status: DEVELOPMENT_SUCCESSOR_CONTRACT_V3_PLAN_FLOOR_REVIEW_REQUIRED
 Parent planning head: c06e33d44184904418a4a68f22f78d19a4f46137
-Vera coordination head: 875df5a4c05a1c3c74aa0bf03f9ea0d2e55a44ed
+Vera coordination head: 0af5a20c2ab009e0de4ec9ef981e2ea11b8d5ed0
 
-This file is generated from VERA_EXECUTION_CONTRACT_V1.json. The JSON contract is the sole execution-normative source for this successor subject.
+Controlling plan is the normative floor; this contract is a machine-checkable strengthening/execution overlay.
+Plan floor: a-b-c-vera-training-plan@c06e33d44184904418a4a68f22f78d19a4f46137:docs/training-plan/VERA_STAGED_TRAINING_PLAN_FINAL_V2.md blob 3d0895dca8b3581061dd0d2e9824758bd6fb8e74.
+Superseded historical proposition: TRAINING_PAUSED_AUTHORITY_STATE -> LIVE_OPERATOR_RESUMED_2026-10-05 (AUTHORITY_STATE_ONLY).
 
 ## Authority
 Training resumed by live operator: True

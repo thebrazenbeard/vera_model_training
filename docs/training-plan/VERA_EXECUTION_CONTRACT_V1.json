@@ -1,15 +1,15 @@
 {
   "schema": "VERA_EXECUTION_CONTRACT_V1",
-  "status": "DEVELOPMENT_SUCCESSOR_CONTRACT_V2_REVIEW_REQUIRED",
-  "execution_precedence": "THIS_CONTRACT_IS_SOLE_EXECUTION_NORMATIVE_SOURCE",
+  "status": "DEVELOPMENT_SUCCESSOR_CONTRACT_V3_PLAN_FLOOR_REVIEW_REQUIRED",
+  "execution_precedence": "CONTROLLING_PLAN_NORMATIVE_FLOOR__CONTRACT_STRENGTHENING_OVERLAY",
   "source": {
     "repository": "thebrazenbeard/vera_model_training",
     "planning_branch": "a-b-c-vera-training-plan",
     "parent_head": "c06e33d44184904418a4a68f22f78d19a4f46137",
     "controlling_plan": "docs/training-plan/VERA_STAGED_TRAINING_PLAN_FINAL_V2.md",
     "lane_c_hold": "docs/training-plan/LANE_C_REVIEW_OF_FINAL_V4_7931BC.md",
-    "vera_coordination_bus_head": "875df5a4c05a1c3c74aa0bf03f9ea0d2e55a44ed",
-    "successor_parent_head": "d21dc336ff1a4b8e0e685cd434a8487e57044144"
+    "vera_coordination_bus_head": "0af5a20c2ab009e0de4ec9ef981e2ea11b8d5ed0",
+    "successor_parent_head": "f5866a17b83cf8ee39237eec7a4681651eb25a53"
   },
   "authorization": {
     "training_resumed_by_user": true,
@@ -328,5 +328,42 @@
     "vera_exact_head_review_required_before_corpus_training": true,
     "material_patch_creates_new_review_subject": true,
     "lane_b_h3_review_remains_separate_owned_subject": true
+  },
+  "plan_floor": {
+    "repository": "thebrazenbeard/vera_model_training",
+    "branch": "a-b-c-vera-training-plan",
+    "head": "c06e33d44184904418a4a68f22f78d19a4f46137",
+    "path": "docs/training-plan/VERA_STAGED_TRAINING_PLAN_FINAL_V2.md",
+    "blob": "3d0895dca8b3581061dd0d2e9824758bd6fb8e74",
+    "plan_is_normative_floor": true,
+    "contract_may_strengthen_but_not_weaken": true
+  },
+  "superseded_historical_propositions": [
+    {
+      "id": "TRAINING_PAUSED_AUTHORITY_STATE",
+      "replacement": "LIVE_OPERATOR_RESUMED_2026-10-05",
+      "scope": "AUTHORITY_STATE_ONLY",
+      "does_not_supersede": [
+        "technical_architecture",
+        "evidence_gates",
+        "stage_dependencies",
+        "privacy_custody_rules",
+        "claim_ceilings"
+      ]
+    }
+  ],
+  "plan_floor_invariants": {
+    "stage0_before_corpus_optimization": true,
+    "stage1_provenance_privacy_ancestry_before_training": true,
+    "stage2_eval_baseline_contracts_before_optimization": true,
+    "stage3_h0_before_neural_promotion": true,
+    "matched_h1_h2_h3_exposure_search_accounting": true,
+    "corrigibility_before_or_jointly_gates_identity": true,
+    "tool_success_requires_effect_verification": true,
+    "continual_learning_requires_isolation_support_removal_reopen": true,
+    "routing_mechanism_requires_qualification": true,
+    "protected_final_qualification_sealed_one_time": true,
+    "material_head_movement_creates_new_review_subject": true,
+    "placement_policy_preserved": true
   }
 }
