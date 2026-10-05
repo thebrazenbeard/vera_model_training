@@ -1,0 +1,34 @@
+{
+  "cause": {
+    "classification": "LAUNCHER_RUNTIME_BINDING_BUG",
+    "detail": "Durable launch metadata bound the runtime SHA but did not enforce the frozen target python executable before creating the execution namespace. The child therefore ran under system Python 3.14, where torch.cuda.is_available() was false."
+  },
+  "claim_ceiling": "R2_ZERO_STEP_EXECUTION_INCIDENT_ONLY_NOT_MODEL_TRAINING_RESULT",
+  "date": "2026-10-05",
+  "disposition": {
+    "r2_attempt_limit_exhausted": true,
+    "r2_retry_prohibited": true,
+    "successor_must_pin_runtime_executable": true,
+    "successor_required": true,
+    "training_math_change_authorized": false
+  },
+  "execution": {
+    "durable_log_namespace": "D:\\VERA\\logs\\training\\v10r3r2-cont20-20261004-v1",
+    "ended_at_utc": "2026-10-05T01:55:39.355674Z",
+    "exit_code": 1,
+    "expected_runtime_executable": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "latest_optimizer_step": null,
+    "started_at_utc": "2026-10-05T01:54:37.209284Z",
+    "stderr_sha256": "869afd426a70ba91e1384226a7e55d6de0ffc2a09c322f58a1ac13462a67c246",
+    "weight_change_observed": false,
+    "wrong_runtime_executable": "C:\\Users\\patri\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe"
+  },
+  "schema": "V10R3R2_EXECUTION_INCIDENT_V1",
+  "status": "FAILED_ZERO_STEP_WRONG_RUNTIME_EXECUTABLE",
+  "subject": {
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "spec_path": "successor/experiments/V10R3R2_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261004_V1.json",
+    "spec_sha256": "caaecf6309aee0ff5279c42b48118065d156228e22c614a5347bf489951b290d",
+    "training_head": "b5f5ee8558abacd2ec7e3dfd0267e268563c92a1"
+  }
+}

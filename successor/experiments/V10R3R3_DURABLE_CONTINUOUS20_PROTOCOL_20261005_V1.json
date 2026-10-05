@@ -1,0 +1,102 @@
+{
+  "authority": {
+    "deploy_activate_authorized": false,
+    "merge_authorized": false,
+    "paid_compute_authorized": false,
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "user_instruction": "Make sure it's fixed at the source level, and continue training"
+  },
+  "claim_ceiling": "DURABLE_CONTINUOUS20_R3_EXECUTION_ONLY_NOT_SEMANTIC_RECIPE_WINNER_NOT_FINAL_BANK_NOT_DEPLOYMENT",
+  "date": "2026-10-05",
+  "execution": {
+    "attempt_limit": 1,
+    "automatic_retry": false,
+    "competing_trainer_forbidden": true,
+    "fresh_adapter_required": true,
+    "fresh_process_required": true,
+    "gpu_lease_required": true,
+    "host_resource_gate": {
+      "competing_trainer_count_required": 0,
+      "gpu_memory_used_mib_required": 0,
+      "min_available_physical_gib": 8,
+      "min_commit_headroom_gib": 8,
+      "required": true
+    },
+    "log_namespace_must_be_absent": true,
+    "output_namespace_must_be_absent": true,
+    "panel_use": "PROHIBITED",
+    "preflight_required": true,
+    "resume_adapter_forbidden": true
+  },
+  "observability": {
+    "launch_metadata_required_fields": [
+      "repo_head",
+      "spec_path",
+      "spec_sha256",
+      "runtime_binding_sha256",
+      "runtime_python_path"
+    ],
+    "log_namespace": "D:\\VERA\\logs\\training\\v10r3r3-cont20-20261005-v1",
+    "overwrite_forbidden": true,
+    "required_files": [
+      "launch.json",
+      "stdout.log",
+      "stderr.log",
+      "watchdog.jsonl",
+      "final.json"
+    ],
+    "watch_seconds": 30,
+    "watchdog_latest_optimizer_step_required": true,
+    "watchdog_must_flush_and_fsync_each_record": true,
+    "wrapper_exit_code_must_equal_child_exit_code": true
+  },
+  "postconditions": {
+    "evaluation_panel": "REMAINS_PROHIBITED_UNTIL_SEPARATE_GATE",
+    "nonzero_exit": "PRESERVE_LOGS_AND_HOLD",
+    "zero_exit_with_training_receipt": "VALIDATE_RECEIPT_BEFORE_ANY_EVALUATION",
+    "zero_exit_without_training_receipt": "HOLD"
+  },
+  "predecessor_incident": {
+    "lf_normalized_sha256": "9d4f341961f9b1c719a5ec600d4740e4cba9212f36051be49b236e25294750e7",
+    "path": "successor/experiments/receipts/V10R3R2_EXECUTION_INCIDENT_20261005_V1.json",
+    "r2_attempt_limit_exhausted": true,
+    "r2_retry_prohibited": true,
+    "status": "FAILED_ZERO_STEP_WRONG_RUNTIME_EXECUTABLE"
+  },
+  "recipe_semantics": {
+    "development_window_change_from_r2": "NONE",
+    "initialization_change_from_r2": "NONE",
+    "lora_change_from_r2": "NONE",
+    "model_load_change_from_r2": "NONE",
+    "only_intended_execution_deltas": [
+      "fresh_output_namespace",
+      "fresh_log_namespace",
+      "distinct_successor_experiment_identity",
+      "runtime_python_executable_pin_before_log_namespace_creation"
+    ],
+    "order_change_from_r2": "NONE",
+    "quantization_change_from_r2": "NONE",
+    "r3_is_distinct_successor_subject": true,
+    "source_subject_change_from_r2": "NONE",
+    "trainer_change_from_r2": "NONE",
+    "training_math_change_from_r2": "NONE"
+  },
+  "schema": "V10R3R3_DURABLE_CONTINUOUS20_PROTOCOL_V1",
+  "source_subject": {
+    "durable_harness_committed_sha256": "6ab2d5be1130dde77ff9564c95197802989bcaf19c5c463675aefd8762bb3bc5",
+    "durable_harness_path": "successor/experiments/run_durable_process_r3.py",
+    "execution_spec_committed_sha256": "5d363847c941c963e86c4abda5eeede630c5e04598e2dcc50bae7da0c94ae5eb",
+    "execution_spec_path": "successor/experiments/V10R3R3_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261005_V1.json",
+    "hash_semantics": "UTF8_TEXT_LF_NORMALIZED_COMMITTED_CONTENT",
+    "host_guard_source_head": "1304f1ce34a11fcd3e5752d7f4a09eb95d66a145",
+    "host_resource_guard_committed_sha256": "34183d868757fd6556c8fdfa440e442a1face7315685ad597ad70b3181bfcbc3",
+    "host_resource_guard_path": "successor/experiments/preflight_v10r3r2_host_resources.py",
+    "launch_guard_binding": "DEDICATED_R3_HARNESS_HASH_PLUS_EXACT_GIT_HEAD_AT_LAUNCH",
+    "observability_source_head": "d64dac5c5b7cc1fb2997c272e432ef61682b10e6",
+    "recipe_source_head": "4197205466f3213c4d3e3c0e3e7557e4569bc276",
+    "runtime_binding_path": "successor/experiments/V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe"
+  },
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING"
+}
