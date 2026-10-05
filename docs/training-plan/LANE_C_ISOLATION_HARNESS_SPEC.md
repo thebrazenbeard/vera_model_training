@@ -89,3 +89,21 @@ The focused negative controls now include:
 A clean arm-scoped retrieval channel and current non-superseded adapter pass the structured sentinel.
 
 These checks do not discover channels automatically. The runner must first produce a complete channel inventory; an omitted channel remains an unclosed threat and therefore cannot support a broad isolation claim.
+
+
+## Canonicalization record
+
+This file is now carried by the canonical C-owned successor branch
+`work/lane-c-isolation-canonical-v1`.
+
+Chosen base:
+- `work/lane-c-isolation-harness-v1@22cb8eec16cb3fa57901e3d75a32dc00e9545151`
+
+Historical/superseded sibling heads that must not advance:
+- `work/lane-c-isolation-harness-v1@22cb8eec16cb3fa57901e3d75a32dc00e9545151`
+- `work/lane-c-isolation-harness-v2@1b9cb9292ad83928adfa4227e88acce50708acde`
+
+Unadmitted post-collision work, also frozen historical:
+- `work/lane-c-isolation-harness-v3@136a5b62bf9fb54a9d28e63e5582364bfe32b08a`
+
+The canonical successor preserves the V1 structured external-channel semantics and explicit V2-required canary coverage, including deterministic outside-root state-file rejection. V3's manifest addition is not silently promoted into the canonical subject.

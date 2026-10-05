@@ -224,3 +224,26 @@ def test_clean_external_channels_pass():
 
     assert result.status == "PASS"
     assert result.violations == ()
+
+
+def test_deterministic_state_file_outside_isolated_root_forces_hold():
+    import isolation_harness
+
+    arm_root = (Path.cwd() / ".isolation-test-arm").resolve()
+    expected = build_isolated_environment(
+        arm_root=arm_root,
+        inherited_env={"PATH": r"C:\Windows\System32"},
+        immutable_env_allowlist=("PATH",),
+    )
+    deterministic_path = Path.cwd().resolve() / "fixed-cache" / "state.json"
+
+    result = isolation_harness.evaluate_isolation(
+        arm_root=arm_root,
+        expected_env=expected,
+        observed_env=expected,
+        changed_paths=(str(deterministic_path),),
+        external_state_channels=(),
+    )
+
+    assert result.status == "HOLD"
+    assert any("OUTSIDE_WRITABLE_ROOT" in item for item in result.violations)
