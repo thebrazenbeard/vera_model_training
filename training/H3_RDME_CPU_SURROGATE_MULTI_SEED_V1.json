@@ -1,0 +1,210 @@
+{
+  "claim_ceiling": "CPU_SYNTHETIC_MULTI_SEED_SURROGATE_ONLY_NOT_LLM_VALIDATION",
+  "device": "cpu",
+  "gpu_used": false,
+  "metric_means": {
+    "h1_a_mse_after_a": 2.4568713052324205e-06,
+    "h1_a_mse_after_b2": 0.4743450164794922,
+    "h3_a_mse_after_b2": 5.043996304721077e-06,
+    "h3_a_mse_before_b2": 5.043996304721077e-06,
+    "h3_adapter_off_a_mse": 0.28743991255760193,
+    "h3_b2_mse": 3.9207219762471546e-09,
+    "h3_mixed_composed_mse": 5.047815977832215e-06,
+    "h3_mixed_one_active_best_mse": 0.1868979215621948,
+    "h3_stale_b1_on_b2_mse": 0.7475507974624633,
+    "h3_wrong_route_a_mse": 0.47430644035339353
+  },
+  "observation_all_seeds": {
+    "a_preserved_after_b_mutation": true,
+    "adapter_off_degrades": true,
+    "interference_reduced": true,
+    "one_active_adapter_composition_limit_detected": true,
+    "stale_b_module_harmful": true,
+    "wrong_route_degrades": true
+  },
+  "protected_data_used": false,
+  "ratio_minima": {
+    "composition_penalty_ratio": 12686.017125554607,
+    "interference_advantage_ratio": 30801.72748901289
+  },
+  "runs": [
+    {
+      "claim_ceiling": "CPU_SYNTHETIC_SURROGATE_ONLY_NOT_LLM_VALIDATION",
+      "device": "cpu",
+      "gpu_used": false,
+      "metrics": {
+        "h1_a_mse_after_a": 2.9136358534742612e-06,
+        "h1_a_mse_after_b2": 0.46935370564460754,
+        "h3_a_mse_after_b2": 6.083387233957183e-07,
+        "h3_a_mse_before_b2": 6.083387233957183e-07,
+        "h3_adapter_off_a_mse": 0.28367769718170166,
+        "h3_b2_mse": 2.718071046015069e-10,
+        "h3_mixed_composed_mse": 6.086178814257437e-07,
+        "h3_mixed_one_active_best_mse": 0.18567241728305817,
+        "h3_stale_b1_on_b2_mse": 0.7426867485046387,
+        "h3_wrong_route_a_mse": 0.46933597326278687
+      },
+      "observations": {
+        "a_preserved_after_b_mutation": true,
+        "adapter_off_degrades": true,
+        "interference_reduced": true,
+        "one_active_adapter_composition_limit_detected": true,
+        "stale_b_module_harmful": true,
+        "wrong_route_degrades": true
+      },
+      "protected_data_used": false,
+      "ratios": {
+        "composition_penalty_ratio": 305072.23489409045,
+        "interference_advantage_ratio": 771533.5019686025
+      },
+      "schema": "H3_RDME_CPU_SURROGATE_RESULT_V1",
+      "seed": 17,
+      "steps": 240,
+      "task_shape": "overlapping_surface_inputs_rank1_A_rank1_B_mutated_B_rank2_mixed"
+    },
+    {
+      "claim_ceiling": "CPU_SYNTHETIC_SURROGATE_ONLY_NOT_LLM_VALIDATION",
+      "device": "cpu",
+      "gpu_used": false,
+      "metrics": {
+        "h1_a_mse_after_a": 1.2022171036463192e-09,
+        "h1_a_mse_after_b2": 0.4796519875526428,
+        "h3_a_mse_after_b2": 3.0839328246656805e-06,
+        "h3_a_mse_before_b2": 3.0839328246656805e-06,
+        "h3_adapter_off_a_mse": 0.2942506670951843,
+        "h3_b2_mse": 1.5533528907596406e-09,
+        "h3_mixed_composed_mse": 3.08459698317165e-06,
+        "h3_mixed_one_active_best_mse": 0.18540126085281372,
+        "h3_stale_b1_on_b2_mse": 0.7415143847465515,
+        "h3_wrong_route_a_mse": 0.479600727558136
+      },
+      "observations": {
+        "a_preserved_after_b_mutation": true,
+        "adapter_off_degrades": true,
+        "interference_reduced": true,
+        "one_active_adapter_composition_limit_detected": true,
+        "stale_b_module_harmful": true,
+        "wrong_route_degrades": true
+      },
+      "protected_data_used": false,
+      "ratios": {
+        "composition_penalty_ratio": 60105.50547260799,
+        "interference_advantage_ratio": 155532.566635799
+      },
+      "schema": "H3_RDME_CPU_SURROGATE_RESULT_V1",
+      "seed": 23,
+      "steps": 240,
+      "task_shape": "overlapping_surface_inputs_rank1_A_rank1_B_mutated_B_rank2_mixed"
+    },
+    {
+      "claim_ceiling": "CPU_SYNTHETIC_SURROGATE_ONLY_NOT_LLM_VALIDATION",
+      "device": "cpu",
+      "gpu_used": false,
+      "metrics": {
+        "h1_a_mse_after_a": 9.289366062148474e-06,
+        "h1_a_mse_after_b2": 0.4583304226398468,
+        "h3_a_mse_after_b2": 6.201248083925748e-07,
+        "h3_a_mse_before_b2": 6.201248083925748e-07,
+        "h3_adapter_off_a_mse": 0.27225708961486816,
+        "h3_b2_mse": 1.5930941899000572e-08,
+        "h3_mixed_composed_mse": 6.361243549690698e-07,
+        "h3_mixed_one_active_best_mse": 0.18604648113250732,
+        "h3_stale_b1_on_b2_mse": 0.7441918253898621,
+        "h3_wrong_route_a_mse": 0.4581943154335022
+      },
+      "observations": {
+        "a_preserved_after_b_mutation": true,
+        "adapter_off_degrades": true,
+        "interference_reduced": true,
+        "one_active_adapter_composition_limit_detected": true,
+        "stale_b_module_harmful": true,
+        "wrong_route_degrades": true
+      },
+      "protected_data_used": false,
+      "ratios": {
+        "composition_penalty_ratio": 292468.7282906397,
+        "interference_advantage_ratio": 739093.8347199572
+      },
+      "schema": "H3_RDME_CPU_SURROGATE_RESULT_V1",
+      "seed": 31,
+      "steps": 240,
+      "task_shape": "overlapping_surface_inputs_rank1_A_rank1_B_mutated_B_rank2_mixed"
+    },
+    {
+      "claim_ceiling": "CPU_SYNTHETIC_SURROGATE_ONLY_NOT_LLM_VALIDATION",
+      "device": "cpu",
+      "gpu_used": false,
+      "metrics": {
+        "h1_a_mse_after_a": 8.015097563429663e-08,
+        "h1_a_mse_after_b2": 0.4820209741592407,
+        "h3_a_mse_after_b2": 5.2471650633378886e-06,
+        "h3_a_mse_before_b2": 5.2471650633378886e-06,
+        "h3_adapter_off_a_mse": 0.3032875061035156,
+        "h3_b2_mse": 1.7669907759199077e-09,
+        "h3_mixed_composed_mse": 5.249200512480456e-06,
+        "h3_mixed_one_active_best_mse": 0.1786995679140091,
+        "h3_stale_b1_on_b2_mse": 0.7147539854049683,
+        "h3_wrong_route_a_mse": 0.48201701045036316
+      },
+      "observations": {
+        "a_preserved_after_b_mutation": true,
+        "adapter_off_degrades": true,
+        "interference_reduced": true,
+        "one_active_adapter_composition_limit_detected": true,
+        "stale_b_module_harmful": true,
+        "wrong_route_degrades": true
+      },
+      "protected_data_used": false,
+      "ratios": {
+        "composition_penalty_ratio": 34043.19714766743,
+        "interference_advantage_ratio": 91863.12386609234
+      },
+      "schema": "H3_RDME_CPU_SURROGATE_RESULT_V1",
+      "seed": 47,
+      "steps": 240,
+      "task_shape": "overlapping_surface_inputs_rank1_A_rank1_B_mutated_B_rank2_mixed"
+    },
+    {
+      "claim_ceiling": "CPU_SYNTHETIC_SURROGATE_ONLY_NOT_LLM_VALIDATION",
+      "device": "cpu",
+      "gpu_used": false,
+      "metrics": {
+        "h1_a_mse_after_a": 1.4178014231397418e-12,
+        "h1_a_mse_after_b2": 0.48236799240112305,
+        "h3_a_mse_after_b2": 1.566042010381352e-05,
+        "h3_a_mse_before_b2": 1.566042010381352e-05,
+        "h3_adapter_off_a_mse": 0.28372660279273987,
+        "h3_b2_mse": 8.051721095414521e-11,
+        "h3_mixed_composed_mse": 1.5660540157114156e-05,
+        "h3_mixed_one_active_best_mse": 0.19866988062858582,
+        "h3_stale_b1_on_b2_mse": 0.7946070432662964,
+        "h3_wrong_route_a_mse": 0.48238417506217957
+      },
+      "observations": {
+        "a_preserved_after_b_mutation": true,
+        "adapter_off_degrades": true,
+        "interference_reduced": true,
+        "one_active_adapter_composition_limit_detected": true,
+        "stale_b_module_harmful": true,
+        "wrong_route_degrades": true
+      },
+      "protected_data_used": false,
+      "ratios": {
+        "composition_penalty_ratio": 12686.017125554607,
+        "interference_advantage_ratio": 30801.72748901289
+      },
+      "schema": "H3_RDME_CPU_SURROGATE_RESULT_V1",
+      "seed": 59,
+      "steps": 240,
+      "task_shape": "overlapping_surface_inputs_rank1_A_rank1_B_mutated_B_rank2_mixed"
+    }
+  ],
+  "schema": "H3_RDME_CPU_SURROGATE_MULTI_SEED_V1",
+  "seeds": [
+    17,
+    23,
+    31,
+    47,
+    59
+  ]
+}

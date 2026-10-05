@@ -1,0 +1,66 @@
+{
+  "schema": "H3_RDME_CPU_SURROGATE_DISPOSITION_V1",
+  "status": "SURVIVES_NARROWED",
+  "date": "2026-10-05",
+  "source_subject": {
+    "repository": "thebrazenbeard/vera_model_training",
+    "branch": "work/h3-rdme-cpu-surrogate-lane-b-20261005-v1",
+    "parent_head": "a8314bc2e8ebd0a50ea25ca39b2802b78a705b46",
+    "preregistration": "training/H3_RDME_MVE_V1.json",
+    "multi_seed_result": "training/H3_RDME_CPU_SURROGATE_MULTI_SEED_V1.json"
+  },
+  "evidence_class": "CPU_SYNTHETIC_SURROGATE",
+  "survives": {
+    "proposition": "Capability-scoped disposable adapters can reduce sequential cross-family interference and preserve unaffected capabilities during mutation better than one continually rewritten rank-constrained adapter.",
+    "observed_all_5_seeds": true,
+    "minimum_interference_advantage_ratio": 30801.72748901289,
+    "mean_h1_a_mse_after_b2": 0.4743450164794922,
+    "mean_h3_a_mse_after_b2": 5.043996304721077e-06
+  },
+  "rejected_or_narrowed": {
+    "proposition": "A hard one-active-adapter inference rule is sufficient for mixed-capability tasks.",
+    "disposition": "REJECTED_AT_TOY_LEVEL",
+    "observed_all_5_seeds": true,
+    "minimum_one_active_composition_penalty_ratio": 12686.017125554607,
+    "mean_one_active_mixed_mse": 0.1868979215621948,
+    "mean_additive_composed_mixed_mse": 5.047815977832215e-06
+  },
+  "other_observations_all_5_seeds": {
+    "adapter_off_degrades": true,
+    "wrong_route_degrades": true,
+    "stale_b_module_harmful_after_b_mutation": true,
+    "a_preserved_when_only_b_module_mutates": true
+  },
+  "successor_hypothesis": {
+    "name": "RDME_V2_BOUNDED_SPARSE_COMPOSITION",
+    "default_active_adapter_count": 1,
+    "maximum_active_adapter_count_initial_test": 2,
+    "composition": "ADDITIVE_RESIDUAL_COMPOSITION_WITHOUT_WEIGHT_MERGE",
+    "activation_rule": "Use one adapter by default. Permit a bounded capability set only when the request requires multiple independently identified capabilities and the exact adapter pair has passed a preregistered compatibility gate.",
+    "compatibility_gate_requires": [
+      "pairwise mixed-task gain over one-active routing",
+      "no critical regression on either component family",
+      "wrong-route and no-route controls",
+      "adapter-off restoration",
+      "stale-version rejection",
+      "full storage and routing accounting"
+    ],
+    "forbidden": [
+      "automatic adapter merging",
+      "unbounded adapter stacking",
+      "post-result compatibility threshold edits",
+      "private or mutable factual state encoded as adapters"
+    ]
+  },
+  "next_cheapest_falsifier": {
+    "experiment": "Add a deliberately conflicting adapter pair where naive additive composition should degrade behavior. Test whether a predeclared compatibility gate rejects the pair while accepting the orthogonal A+B pair.",
+    "kill_condition": "If the compatibility gate cannot distinguish safe composition from conflicting composition without using answer-key-like task labels or post-hoc thresholds, kill RDME_V2 composition and fall back to serial/context decomposition or simpler H1/H2."
+  },
+  "resource_implication": {
+    "lappy_gpu_visible": true,
+    "lappy_active_torch_cuda_available": false,
+    "worklaptop_project_runner_available": false,
+    "llm_scale_gpu_test_ready": false
+  },
+  "claim_ceiling": "SURROGATE_SUPPORTS_SCOPED_MODULARITY_AND_REJECTS_HARD_SINGLE_ADAPTER_COMPOSITION_ASSUMPTION; NOT_LLM_VALIDATION; NOT_MODEL_IMPROVEMENT; NOT_PROTECTED_QUALIFICATION"
+}
