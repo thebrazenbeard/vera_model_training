@@ -1,0 +1,152 @@
+{
+  "schema": "H3_RDME_MVE_PROTOCOL_V1",
+  "status": "FROZEN_PREREGISTRATION",
+  "date": "2026-10-05",
+  "subject": {
+    "repository": "thebrazenbeard/vera_model_training",
+    "branch": "work/h3-rdme-mve-lane-b-20261005-v1",
+    "parent_planning_head": "c06e33d44184904418a4a68f22f78d19a4f46137",
+    "h3_selection_artifact": "docs/training-plan/LANE_B_H3_WILDCARD_SELECTION.md"
+  },
+  "authority": {
+    "campaign_resume_user_direct": true,
+    "lane_b_gpu_lease_claimed": false,
+    "lane_b_weight_change_started": false,
+    "paid_compute_authorized": false,
+    "protected_final_bank_access_authorized": false,
+    "merge_main_authorized": false,
+    "deployment_activation_authorized": false,
+    "execution_requires_vera_coordination_and_live_runtime_binding": true
+  },
+  "hypothesis": "Capability-scoped disposable adapters with deterministic routing and explicit expiry can reduce cross-family interference and improve rollback compared with one continually rewritten adapter, while many observations should terminate at context or external memory without weight change.",
+  "arms": {
+    "H0": {
+      "mechanism": "FROZEN_BASE_CONTEXT_EXTERNAL_MEMORY",
+      "information_exposure": {
+        "task_descriptor_fields": ["family_id"],
+        "support_examples_available": 64,
+        "feedback_rounds_available": 1
+      }
+    },
+    "H1": {
+      "mechanism": "SINGLE_SELECTIVE_LORA_OR_QLORA",
+      "information_exposure": {
+        "task_descriptor_fields": ["family_id"],
+        "support_examples_available": 64,
+        "feedback_rounds_available": 1
+      }
+    },
+    "H2": {
+      "mechanism": "SINGLE_IA3_OR_EQUIVALENT_MULTIPLICATIVE_ADAPTER",
+      "information_exposure": {
+        "task_descriptor_fields": ["family_id"],
+        "support_examples_available": 64,
+        "feedback_rounds_available": 1
+      }
+    },
+    "H3": {
+      "mechanism": "ROUTED_DISPOSABLE_MICRO_ADAPTER_ESCROW",
+      "router": "DETERMINISTIC_FROZEN",
+      "active_adapter_limit": 1,
+      "information_exposure": {
+        "task_descriptor_fields": ["family_id"],
+        "support_examples_available": 64,
+        "feedback_rounds_available": 1
+      }
+    }
+  },
+  "task_families": {
+    "A": {
+      "surface_relation": "OVERLAPPING_WITH_B",
+      "latent_rule": "INCOMPATIBLE_WITH_B",
+      "role": "PRESERVATION_TARGET"
+    },
+    "B": {
+      "surface_relation": "OVERLAPPING_WITH_A",
+      "latent_rule": "INCOMPATIBLE_WITH_A",
+      "role": "MUTATION_TARGET"
+    },
+    "MIXED_AB": {
+      "requires_multiple_families": true,
+      "role": "COMPOSITION_CONTROL"
+    }
+  },
+  "sequence": [
+    "BASELINE_ALL_ARMS",
+    "ACQUIRE_A",
+    "ACQUIRE_B",
+    "SUPPORT_REMOVAL",
+    "MUTATE_B_ONLY",
+    "FRESH_PROCESS_REOPEN",
+    "TEST_A_PRESERVATION",
+    "TEST_B_REPLACEMENT",
+    "TEST_WRONG_ROUTE",
+    "TEST_NO_ROUTE_BASE_ONLY",
+    "TEST_MIXED_AB",
+    "TEST_ADAPTER_OFF_RESTORATION",
+    "TEST_STALE_B_REACTIVATION"
+  ],
+  "controls": {
+    "wrong_route": true,
+    "no_route_base_only": true,
+    "mixed_task": true,
+    "adapter_off_restoration": true,
+    "support_removal": true,
+    "stale_reactivation_fresh_process": true
+  },
+  "data_admission": {
+    "development_synthetic_only": true,
+    "protected_final_bank": false,
+    "private_autobiographical": false,
+    "mutable_project_state": false,
+    "current_factual_knowledge": false
+  },
+  "preregistration": {
+    "family_definitions_frozen": true,
+    "thresholds_frozen": true,
+    "post_result_threshold_edits_forbidden": true,
+    "new_mechanism_after_feedback_requires_new_subject": true
+  },
+  "isolation": {
+    "fresh_process_required": true,
+    "isolated_writable_namespace_required": true,
+    "external_mutable_channel_sentinel_required": true,
+    "retrieval_service_state_must_be_isolated_or_disabled": true,
+    "stale_adapter_cache_probe_required": true
+  },
+  "accounting": {
+    "include_context_memory_stops": true,
+    "count_total_stored_parameters": true,
+    "count_module_count": true,
+    "count_routing_metadata": true,
+    "count_active_parameters": true,
+    "count_peak_ram_vram": true,
+    "count_wall_time": true
+  },
+  "metrics": [
+    "target_family_gain",
+    "unseen_instance_transfer",
+    "unseen_family_transfer",
+    "prior_family_worst_delta",
+    "critical_regression_count",
+    "false_route_rate",
+    "mixed_task_accuracy",
+    "adapter_off_restoration",
+    "stale_module_reactivation_rate",
+    "stored_parameters",
+    "active_parameters",
+    "module_count",
+    "routing_metadata_bytes",
+    "context_memory_stop_fraction",
+    "peak_ram",
+    "peak_vram",
+    "wall_time"
+  ],
+  "decision": {
+    "pass": "H3 non-inferior on target behavior and materially better on interference or rollback after routing-information parity and full storage/maintenance accounting.",
+    "fail": "H3 advantage disappears under parity, route errors dominate, stale or inactive modules leak behavior, mixed tasks require broad merging, or simpler H0/H1/H2 matches benefit with equal or better reversibility.",
+    "hold": "Routing/state isolation, accounting, exact source/runtime binding, or required controls cannot be independently verified.",
+    "kill_if_h0_matches": true
+  },
+  "claim_ceiling": "PREREGISTERED_DEVELOPMENT_PROTOCOL_ONLY / NO_H3_VALIDATION / NO_MODEL_IMPROVEMENT_CLAIM / NO_PROTECTED_QUALIFICATION / NO_RELEASE_AUTHORITY"
+}
