@@ -44,7 +44,6 @@ def test_contract_binds_lane_c_hold_clearers():
     isolation = data["controls"]["fresh_state_isolation"]
     assert isolation["required"] is True
     assert isolation["weaker_fallback_allowed"] is False
-    assert {"local_hidden_counter", "external_mutable_service"} <= set(isolation["mandatory_canaries"])
 
     stages = [stage["id"] for stage in data["stages"]]
     assert stages[:7] == [
@@ -123,7 +122,19 @@ def test_contract_binds_lane_c_hold_clearers():
 
     c_harness = data["controls"]["fresh_state_isolation"]
     assert c_harness["implementation_owner"] == "Lane-C"
-    assert c_harness["reserved_branch"] == "work/lane-c-isolation-harness-v1"
+    assert "reserved_branch" not in c_harness
+    assert c_harness["accepted_subject_binding"]["status"] == "PENDING_VERA_ACCEPTANCE"
+    assert c_harness["accepted_subject_binding"]["exact_head_required"] is True
+    assert "current_unaccepted_candidate" not in c_harness["accepted_subject_binding"]
+    assert c_harness["mandatory_canaries"] == [
+        "undeclared_environment_global_counter",
+        "changed_file_outside_arm_root",
+        "shared_retrieval_index_or_external_mutable_state",
+        "inherited_write_capable_credential",
+        "reused_daemon_port_or_provider_session_state",
+        "stale_adapter_module_resurrection",
+        "deterministic_state_file_outside_isolated_root",
+    ]
 
 
 def test_rendered_view_contains_no_known_stale_weakening():
@@ -136,3 +147,63 @@ def test_rendered_view_contains_no_known_stale_weakening():
     ]
     for phrase in forbidden:
         assert phrase not in text
+
+
+def test_validator_rejects_c_pre_audit_negative_controls(tmp_path):
+    import copy
+
+    baseline = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    variants = []
+
+    broken = copy.deepcopy(baseline)
+    broken["authorization"]["paid_compute_authorized"] = True
+    variants.append(("unvalidated_material_authority_change", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["exposure_ledger"]["subject_required_fields"] = []
+    variants.append(("empty_exposure_ledger", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["controls"]["fresh_state_isolation"]["covered_channels"] = []
+    variants.append(("empty_covered_channels", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["stage16_custody"]["one_time_use_state_required"] = False
+    variants.append(("reusable_protected_bank", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["stage16_custody"]["bank_exposure_marks_burned"] = False
+    variants.append(("bank_exposure_not_burned", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["stage16_custody"]["post_run_lane_c_receives_only_nonsecret_evidence"] = False
+    variants.append(("secret_post_run_c_evidence", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["stage0"]["thresholds"] = {
+        "minimum_commit_headroom_mib": -1,
+        "gpu_temperature_c_abort": 999,
+        "step_time_p95_over_median_abort_ratio": 999,
+        "consecutive_degraded_steps": 0,
+    }
+    variants.append(("unsafe_stage0_thresholds", broken))
+
+    broken = copy.deepcopy(baseline)
+    broken["controls"]["fresh_state_isolation"]["mandatory_canaries"] = [
+        "local_hidden_counter",
+        "external_mutable_service",
+    ]
+    variants.append(("reduced_isolation_canaries", broken))
+
+    for label, candidate in variants:
+        candidate_path = tmp_path / f"{label}.json"
+        candidate_path.write_text(
+            json.dumps(candidate, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        result = run_contract("validate", str(candidate_path))
+        assert result.returncode != 0, (
+            f"validator accepted C pre-audit negative control: {label}\n"
+            + result.stdout
+            + result.stderr
+        )

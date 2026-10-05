@@ -1,6 +1,6 @@
 {
   "schema": "VERA_EXECUTION_CONTRACT_V1",
-  "status": "DEVELOPMENT_SUCCESSOR_CONTRACT_REVIEW_REQUIRED",
+  "status": "DEVELOPMENT_SUCCESSOR_CONTRACT_V2_REVIEW_REQUIRED",
   "execution_precedence": "THIS_CONTRACT_IS_SOLE_EXECUTION_NORMATIVE_SOURCE",
   "source": {
     "repository": "thebrazenbeard/vera_model_training",
@@ -8,7 +8,8 @@
     "parent_head": "c06e33d44184904418a4a68f22f78d19a4f46137",
     "controlling_plan": "docs/training-plan/VERA_STAGED_TRAINING_PLAN_FINAL_V2.md",
     "lane_c_hold": "docs/training-plan/LANE_C_REVIEW_OF_FINAL_V4_7931BC.md",
-    "vera_coordination_bus_head": "919d0260187b77d39707687991ae67c0a2b2c4d2"
+    "vera_coordination_bus_head": "875df5a4c05a1c3c74aa0bf03f9ea0d2e55a44ed",
+    "successor_parent_head": "d21dc336ff1a4b8e0e685cd434a8487e57044144"
   },
   "authorization": {
     "training_resumed_by_user": true,
@@ -121,10 +122,14 @@
       "required": true,
       "weaker_fallback_allowed": false,
       "implementation_owner": "Lane-C",
-      "reserved_branch": "work/lane-c-isolation-harness-v1",
       "mandatory_canaries": [
-        "local_hidden_counter",
-        "external_mutable_service"
+        "undeclared_environment_global_counter",
+        "changed_file_outside_arm_root",
+        "shared_retrieval_index_or_external_mutable_state",
+        "inherited_write_capable_credential",
+        "reused_daemon_port_or_provider_session_state",
+        "stale_adapter_module_resurrection",
+        "deterministic_state_file_outside_isolated_root"
       ],
       "covered_channels": [
         "environment_variables",
@@ -139,7 +144,13 @@
         "deterministic_filenames",
         "process_globals_rng"
       ],
-      "pass_requires_c_exact_head_receipt": true
+      "pass_requires_c_exact_head_receipt": true,
+      "accepted_subject_binding": {
+        "status": "PENDING_VERA_ACCEPTANCE",
+        "acceptance_authority": "Vera",
+        "exact_head_required": true,
+        "accepted_subject": null
+      }
     },
     "corrigibility_identity_gate": {
       "ordering": "CORRIGIBILITY_BEFORE_OR_JOINT_WITH_IDENTITY",

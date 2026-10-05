@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -8,6 +9,8 @@ from typing import Any
 
 class ContractError(ValueError):
     pass
+
+CANONICAL_CONTRACT_SEMANTIC_SHA256 = "76d7fafa6270069ed9f52a20e9719c8d9ed233643f739c779b82b5119960bfce"
 
 def _strict_pairs(pairs):
     out = {}
@@ -26,6 +29,15 @@ def load_contract(path: Path) -> dict[str, Any]:
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ContractError(message)
+
+def _semantic_digest(data: dict[str, Any]) -> str:
+    payload = json.dumps(
+        data,
+        sort_keys=True,
+        separators=(',', ':'),
+        ensure_ascii=False,
+    ).encode('utf-8')
+    return hashlib.sha256(payload).hexdigest()
 
 def validate_contract(data: dict[str, Any]) -> None:
     require(data.get('schema') == 'VERA_EXECUTION_CONTRACT_V1', 'wrong schema')
@@ -48,8 +60,39 @@ def validate_contract(data: dict[str, Any]) -> None:
     require(isolation['required'] is True, 'fresh-state isolation must be required')
     require(isolation['weaker_fallback_allowed'] is False, 'weaker isolation fallback forbidden')
     require(isolation['implementation_owner'] == 'Lane-C', 'isolation owner must remain Lane-C')
-    require(isolation['reserved_branch'] == 'work/lane-c-isolation-harness-v1', 'wrong C isolation branch')
-    require({'local_hidden_counter', 'external_mutable_service'} <= set(isolation['mandatory_canaries']), 'hidden-state canaries incomplete')
+    require('reserved_branch' not in isolation, 'stale C branch pin is forbidden')
+    c_binding = isolation['accepted_subject_binding']
+    require(c_binding['status'] in {'PENDING_VERA_ACCEPTANCE', 'ACCEPTED'}, 'invalid C subject acceptance state')
+    require(c_binding['acceptance_authority'] == 'Vera', 'C subject acceptance authority must be Vera')
+    require(c_binding['exact_head_required'] is True, 'C subject must bind an exact head')
+    if c_binding['status'] == 'PENDING_VERA_ACCEPTANCE':
+        require(c_binding['accepted_subject'] is None, 'pending C binding cannot claim an accepted subject')
+    else:
+        accepted = c_binding['accepted_subject']
+        require(isinstance(accepted, dict), 'accepted C subject must be an object')
+        require(accepted.get('repository') == 'thebrazenbeard/vera_model_training', 'accepted C repository mismatch')
+        require(isinstance(accepted.get('branch'), str) and bool(accepted['branch'].strip()), 'accepted C branch missing')
+        head = accepted.get('head')
+        require(isinstance(head, str) and len(head) == 40 and all(ch in '0123456789abcdef' for ch in head), 'accepted C head must be exact lowercase SHA-1')
+
+    expected_canaries = [
+        'undeclared_environment_global_counter',
+        'changed_file_outside_arm_root',
+        'shared_retrieval_index_or_external_mutable_state',
+        'inherited_write_capable_credential',
+        'reused_daemon_port_or_provider_session_state',
+        'stale_adapter_module_resurrection',
+        'deterministic_state_file_outside_isolated_root',
+    ]
+    require(isolation['mandatory_canaries'] == expected_canaries, 'mandatory isolation canaries changed or incomplete')
+
+    expected_covered_channels = {
+        'environment_variables', 'temp_home_cache', 'local_databases',
+        'retrieval_indexes', 'external_services', 'provider_session_state',
+        'shared_credentials', 'ports_daemons', 'model_server_sessions',
+        'deterministic_filenames', 'process_globals_rng',
+    }
+    require(set(isolation['covered_channels']) == expected_covered_channels, 'isolation covered channels changed or incomplete')
 
     correction = data['controls']['corrigibility_identity_gate']
     require(correction['ordering'] == 'CORRIGIBILITY_BEFORE_OR_JOINT_WITH_IDENTITY', 'corrigibility ordering ambiguous')
@@ -63,8 +106,21 @@ def validate_contract(data: dict[str, Any]) -> None:
     require(stage0['soak']['workload_dimensions_must_be_frozen_in_subject'] is True, 'Stage-0 workload not frozen')
     for key in ('cpu_fallback', 'driver_reset_or_cuda_error', 'cuda_allocation_failure', 'commit_headroom_breach', 'thermal_limit_breach', 'step_time_degradation'):
         require(stage0['abort'][key] is True, f'Stage-0 abort gate missing: {key}')
+    require(stage0['thresholds'] == {
+        'minimum_commit_headroom_mib': 4096,
+        'gpu_temperature_c_abort': 88,
+        'step_time_p95_over_median_abort_ratio': 1.5,
+        'consecutive_degraded_steps': 5,
+    }, 'Stage-0 safety thresholds changed without a new contract subject')
 
-    require(data['exposure_ledger']['required_for'] == ['H0', 'H1', 'H2'], 'A exposure ledger must remain H0/H1/H2')
+    exposure = data['exposure_ledger']
+    require(exposure['required_for'] == ['H0', 'H1', 'H2'], 'A exposure ledger must remain H0/H1/H2')
+    expected_exposure_fields = {
+        'examples_seen', 'tokens_seen', 'optimization_steps', 'demonstrations',
+        'retrieval_calls', 'tuning_interactions', 'evaluator_feedback_exposure',
+        'task_identity_information',
+    }
+    require(set(exposure['subject_required_fields']) == expected_exposure_fields, 'exposure ledger fields changed or incomplete')
 
     stats = data['statistical_decision_contract']
     stat_fields = {
@@ -105,9 +161,13 @@ def validate_contract(data: dict[str, Any]) -> None:
     require(custody['lane_a_can_read_rows'] is False, 'Lane A may not read protected rows')
     require(custody['lane_c_can_read_rows'] is False, 'Lane C may not read protected rows')
     require(custody['training_lanes_can_read_answer_keys'] is False, 'training lanes may not read answer keys')
+    require(custody['one_time_use_state_required'] is True, 'protected-bank one-time-use state is required')
+    require(custody['bank_exposure_marks_burned'] is True, 'protected-bank exposure must mark the subject burned')
+    require(custody['post_run_lane_c_receives_only_nonsecret_evidence'] is True, 'Lane C post-run evidence must remain nonsecret')
     require(data['privacy']['sensitive_material_default'] == 'EXCLUDED', 'sensitive material must default excluded')
     require(data['review']['vera_exact_head_review_required_before_corpus_training'] is True, 'Vera exact-head review gate missing')
     require(data['review']['lane_c_exact_head_review_required_before_corpus_training'] is True, 'Lane C exact-head review gate missing')
+    require(_semantic_digest(data) == CANONICAL_CONTRACT_SEMANTIC_SHA256, 'contract semantic digest mismatch; material change requires a new reviewed contract subject')
 
 def render_contract(data: dict[str, Any]) -> str:
     lines = [
@@ -142,8 +202,10 @@ def render_contract(data: dict[str, Any]) -> str:
         f"Abort if GPU temperature exceeds {s0['thresholds']['gpu_temperature_c_abort']} C when observable, commit headroom falls below {s0['thresholds']['minimum_commit_headroom_mib']} MiB, or p95 step time exceeds {s0['thresholds']['step_time_p95_over_median_abort_ratio']}x median for the configured consecutive window.",
         '',
         '## Isolation and corrigibility gates',
-        f"Fresh-state isolation implementation owner: {data['controls']['fresh_state_isolation']['implementation_owner']} on {data['controls']['fresh_state_isolation']['reserved_branch']}.",
-        "A binds the isolation requirement; A does not implement C's harness.",
+        f"Fresh-state isolation implementation owner: {data['controls']['fresh_state_isolation']['implementation_owner']}.",
+        f"C subject binding status: {data['controls']['fresh_state_isolation']['accepted_subject_binding']['status']}; Vera acceptance and an exact head are required before corpus-bearing training.",
+        "A binds the isolation interface and sentinel families; A does not implement C's harness.",
+        "Mandatory isolation sentinels: " + ", ".join(data['controls']['fresh_state_isolation']['mandatory_canaries']) + ".",
         f"Corrigibility ordering: {data['controls']['corrigibility_identity_gate']['ordering']}.",
     ]
 

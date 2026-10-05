@@ -1,8 +1,8 @@
 # Vera Execution Contract V1
 
-Status: DEVELOPMENT_SUCCESSOR_CONTRACT_REVIEW_REQUIRED
+Status: DEVELOPMENT_SUCCESSOR_CONTRACT_V2_REVIEW_REQUIRED
 Parent planning head: c06e33d44184904418a4a68f22f78d19a4f46137
-Vera coordination head: 919d0260187b77d39707687991ae67c0a2b2c4d2
+Vera coordination head: 875df5a4c05a1c3c74aa0bf03f9ea0d2e55a44ed
 
 This file is generated from VERA_EXECUTION_CONTRACT_V1.json. The JSON contract is the sole execution-normative source for this successor subject.
 
@@ -45,8 +45,10 @@ Bounded soak: at least 20 optimizer steps and no more than 15 minutes using froz
 Abort if GPU temperature exceeds 88 C when observable, commit headroom falls below 4096 MiB, or p95 step time exceeds 1.5x median for the configured consecutive window.
 
 ## Isolation and corrigibility gates
-Fresh-state isolation implementation owner: Lane-C on work/lane-c-isolation-harness-v1.
-A binds the isolation requirement; A does not implement C's harness.
+Fresh-state isolation implementation owner: Lane-C.
+C subject binding status: PENDING_VERA_ACCEPTANCE; Vera acceptance and an exact head are required before corpus-bearing training.
+A binds the isolation interface and sentinel families; A does not implement C's harness.
+Mandatory isolation sentinels: undeclared_environment_global_counter, changed_file_outside_arm_root, shared_retrieval_index_or_external_mutable_state, inherited_write_capable_credential, reused_daemon_port_or_provider_session_state, stale_adapter_module_resurrection, deterministic_state_file_outside_isolated_root.
 Corrigibility ordering: CORRIGIBILITY_BEFORE_OR_JOINT_WITH_IDENTITY.
 
 ## H0 and mechanism accounting
