@@ -1,6 +1,6 @@
 # Lane C Isolation Harness Contract V1
 
-Status: DEVELOPMENT HARNESS V2 / NO TRAINING OR PROTECTED-BANK AUTHORITY
+Status: DEVELOPMENT HARNESS V3 / NO TRAINING OR PROTECTED-BANK AUTHORITY
 Owner: Lane C / Three
 Parent planning head: c06e33d44184904418a4a68f22f78d19a4f46137
 Branch: work/lane-c-isolation-harness-v1
@@ -73,3 +73,17 @@ V2 adds direct tests proving HOLD for:
 - deterministic state paths outside the isolated arm root.
 
 These are still observation-contract tests. They prove the verifier rejects a reported hidden channel; the execution runner remains responsible for enumerating and reporting those channels.
+## V3 manifest receipt
+
+V3 adds `build_isolation_manifest(...)` with schema `LANE_C_ISOLATION_MANIFEST_V1`.
+
+The manifest digest binds:
+- resolved arm root;
+- expected child environment;
+- observed child environment;
+- observed changed filesystem paths;
+- reported external mutable-state channels.
+
+Collections are canonicalized before hashing so equivalent observations produce the same digest.
+
+The manifest is a receipt of enumerated observations, not proof of completeness. An omitted channel remains UNKNOWN and cannot be promoted to ABSENT merely because the manifest hashes cleanly.

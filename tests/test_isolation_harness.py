@@ -181,3 +181,44 @@ def test_deterministic_file_outside_isolated_root_forces_hold():
     assert result.status == "HOLD"
     assert any("OUTSIDE_WRITABLE_ROOT" in item for item in result.violations)
 
+
+
+def test_isolation_manifest_is_deterministic_and_binds_observed_channels():
+    import isolation_harness
+
+    arm_root = (Path.cwd() / ".isolation-test-arm").resolve()
+    expected = build_isolated_environment(
+        arm_root=arm_root,
+        inherited_env={"PATH": r"C:\Windows\System32"},
+        immutable_env_allowlist=("PATH",),
+    )
+    observed = dict(expected)
+
+    first = isolation_harness.build_isolation_manifest(
+        arm_root=arm_root,
+        expected_env=expected,
+        observed_env=observed,
+        changed_paths=(str(arm_root / "output" / "result.json"),),
+        external_state_channels=(),
+    )
+    second = isolation_harness.build_isolation_manifest(
+        arm_root=arm_root,
+        expected_env=expected,
+        observed_env=observed,
+        changed_paths=(str(arm_root / "output" / "result.json"),),
+        external_state_channels=(),
+    )
+    changed = isolation_harness.build_isolation_manifest(
+        arm_root=arm_root,
+        expected_env=expected,
+        observed_env=observed,
+        changed_paths=(str(arm_root / "output" / "result.json"),),
+        external_state_channels=("provider:shared-session-state",),
+    )
+
+    assert first == second
+    assert first["schema"] == "LANE_C_ISOLATION_MANIFEST_V1"
+    assert first["arm_root"] == str(arm_root)
+    assert len(first["manifest_digest"]) == 64
+    assert first["manifest_digest"] != changed["manifest_digest"]
+

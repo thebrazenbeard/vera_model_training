@@ -71,3 +71,33 @@ def evaluate_isolation(
         status="HOLD" if violations else "PASS",
         violations=tuple(violations),
     )
+
+
+def build_isolation_manifest(
+    *,
+    arm_root: Path,
+    expected_env: Mapping[str, str],
+    observed_env: Mapping[str, str],
+    changed_paths: tuple[str, ...],
+    external_state_channels: tuple[str, ...],
+) -> dict[str, object]:
+    import json
+    from hashlib import sha256
+
+    identity: dict[str, object] = {
+        "schema": "LANE_C_ISOLATION_MANIFEST_V1",
+        "arm_root": str(Path(arm_root).resolve()),
+        "expected_env": dict(sorted(expected_env.items())),
+        "observed_env": dict(sorted(observed_env.items())),
+        "changed_paths": sorted(str(Path(path).resolve()) for path in changed_paths),
+        "external_state_channels": sorted(external_state_channels),
+    }
+    manifest_digest = sha256(
+        json.dumps(
+            identity,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    return {**identity, "manifest_digest": manifest_digest}
