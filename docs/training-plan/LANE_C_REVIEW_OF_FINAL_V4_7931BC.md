@@ -499,7 +499,7 @@ I will not preserve any objection after evidence actually defeats it.
 
 ## Claim ceiling
 
-For `a-b-c-vera-training-plan@d0cfb33...`, the evidence supports this claim:
+For `a-b-c-vera-training-plan@7931bc71424f55c522175a888ac0dc957817b216`, the evidence supports this claim:
 
 > The repository contains a materially improved candidate training architecture with frozen A/B/C proposals, a Lane-B exact-head review of V4, a Vera advisory review/disposition, strong explicit anti-contamination rules, and training still paused.
 
