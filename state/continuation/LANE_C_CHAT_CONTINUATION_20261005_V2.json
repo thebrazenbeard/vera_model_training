@@ -1,0 +1,72 @@
+{
+  "schema": "LANE_C_CHAT_CONTINUATION_V2",
+  "logical_id": "LANE_C_CHAT_CONTINUATION_20261005_V2",
+  "created_at_utc": "2026-10-05T01:47:00Z",
+  "repository": "thebrazenbeard/vera_model_training",
+  "continuation_branch": "state/lane-c-chat-continuation-20261005-v2",
+  "parent_continuation_head": "137a5d50a916582bf3edbb115d2368c399bae240",
+  "full_state_files": [
+    "state/continuation/LANE_C_CHAT_CONTINUATION_20261005_V1.md",
+    "state/continuation/LANE_C_CHAT_CONTINUATION_20261005_V1.json",
+    "state/continuation/LANE_C_CHAT_CONTINUATION_20261005_V2.md",
+    "state/continuation/LANE_C_CHAT_CONTINUATION_20261005_V2.json"
+  ],
+  "verified_currentness": {
+    "coordination_branch": "lane-a-b-communication",
+    "coordination_head": "a5259836cc7f0699abb2fde45264bdb4b5059ceb",
+    "bus_one_head": "d4d7c0c9f5895cc5cf18916a4e1865238f7a1d6e",
+    "bus_two_head": "94a002ba4082ff47989e759631d2c9eeeca0625b",
+    "bus_three_head": "4c12f9cf9b9ebc58fa58adb5995c754b05c9457f",
+    "gpu_holder": "LANE_A",
+    "gpu_status": "HELD",
+    "lane_a_training_branch": "work/v10r3r2-restore-integration-20261004-v1",
+    "lane_a_training_head": "b5f5ee8558abacd2ec7e3dfd0267e268563c92a1",
+    "lane_c_current_branch": "work/lane-c-novel-task-mechanism-wrappers-20261005-v1",
+    "lane_c_current_head": "749629514aa44b25ef8694379d8c56e0b952aaed"
+  },
+  "active_blocker": {
+    "lane_b_event": "20261005T004855Z_LANE_B_C2_MECHANISM_REVIEW_HOLD",
+    "issue": "Fresh-state equality trusts dump_state and misses hidden/global/external mutable state.",
+    "required_repair": "fresh process plus isolated storage namespace per arm/episode and adversarial hidden-state rejection"
+  },
+  "next_work_unit": {
+    "name": "C2_MECHANISM_FRESH_PROCESS_ISOLATION_REPAIR_V1",
+    "base_head": "749629514aa44b25ef8694379d8c56e0b952aaed",
+    "new_successor_required": true,
+    "cpu_source_only": true,
+    "no_gpu": true,
+    "no_model_inference": true,
+    "no_protected_eval": true
+  },
+  "active_directives": {
+    "lane_c_role": "EXPERIMENTAL_PLASTICITY_BEHAVIOR_GROUNDED_LEARNING",
+    "vera_unbound_history": "USE_WITH_PROVENANCE_AND_PRIVACY_FIREWALL",
+    "roots_ingest_required": true,
+    "novel_task_learning_first_class": true,
+    "canonical_coordination_only": true,
+    "visible_chat_relay_allowed": false,
+    "project_runner_required": true
+  },
+  "project_runner": {
+    "available_at_v2_closeout": true,
+    "verification_tasks": {
+      "closeout_refresh": "73720de31c264029828d757bba62cce7",
+      "verify_continuation": "cf42cbd2404342de86dcb764eb816079",
+      "capture_heads": "8f59d676b40c4717996dd6bf944fe536",
+      "prepare_v2_branch": "344592dbdd1a43b2810dd799d73c265a"
+    }
+  },
+  "restore_command": "VERA::RESTORE_AND_RUN::LANE_C_CHAT_CONTINUATION_20261005_V2",
+  "resume_rules": [
+    "read V2 and V1 continuation files",
+    "fresh-read A/B/C blotter events",
+    "fresh-read GPU lease",
+    "fresh-read Bus heads",
+    "fresh-read current C2 source head",
+    "confirm Project Runner availability",
+    "announce INTENT",
+    "create new successor from 7496295",
+    "repair fresh-process/state isolation",
+    "publish RESULT/HOLD and exact B review target"
+  ]
+}
