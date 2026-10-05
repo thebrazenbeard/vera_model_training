@@ -1,0 +1,30 @@
+{
+  "schema": "H3_RDME_V2_OVERLAP_STRESS_DISPOSITION_V1",
+  "status": "GATE_DESIGN_REJECTED_SUCCESSOR_REQUIRED",
+  "date": "2026-10-05",
+  "source_result": "training/H3_RDME_V2_OVERLAP_STRESS_RESULT_V1.json",
+  "finding": {
+    "valid_overlap_pair_gate_reject_all": true,
+    "mixed_gain_ratio_min": 15090.139732980178,
+    "isolated_component_mse_max": 4.457179329619976e-06,
+    "component_projection_mse_min": 0.5465761423110962
+  },
+  "rejected_criterion": "Require composed output to remain numerically equal to each isolated component target on its projection.",
+  "reason": "For valid additive overlap, the composed output must differ from each isolated component target because both residuals are intentionally present. Comparing the composition to each isolated target is a category error and creates false negatives.",
+  "successor_gate_v3": {
+    "mixed_gain_ratio_min": 5.0,
+    "isolated_module_mse_max": 0.001,
+    "requirements": [
+      "composition must improve the preregistered mixed task over the best single adapter",
+      "each source adapter must remain accurate when evaluated alone after composition capability is enabled",
+      "mixed-task semantic assertions must pass",
+      "wrong/no-route and stale-version controls remain",
+      "no automatic weight merge"
+    ],
+    "removed": [
+      "component_projection_mse of composed output against isolated component target"
+    ]
+  },
+  "next_cheapest_test": "Freeze V3 and evaluate three classes with unchanged thresholds: orthogonal additive safe pair, overlapping additive safe pair, and A-overrides-C policy conflict. V3 must accept both safe classes and reject the conflict across all fixed seeds.",
+  "claim_ceiling": "CPU_SYNTHETIC_FALSE_NEGATIVE_ESTABLISHED_FOR_V2_GATE_CRITERION / RDME_COMPOSITION_ITSELF_NOT_REJECTED / NOT_LLM_VALIDATION"
+}

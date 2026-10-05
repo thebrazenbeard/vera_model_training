@@ -1,0 +1,20 @@
+{
+  "schema": "H3_RDME_V2_OVERLAP_STRESS_PROTOCOL_V1",
+  "status": "FROZEN_PREREGISTRATION",
+  "date": "2026-10-05",
+  "parent_head": "249cf4651cda478995eb176bff015dce07fe5c1f",
+  "frozen_gate_protocol": "training/H3_RDME_V2_COMPAT_GATE_PROTOCOL_V1.json",
+  "threshold_edits": false,
+  "test_case": {
+    "A": "+1.5 rank1 residual on dimension 0",
+    "D": "+0.75 rank1 residual on dimension 0",
+    "mixed_semantics": "ADDITIVE_BOTH_REQUIRED"
+  },
+  "falsifier": "If additive composition strongly improves mixed-task MSE yet frozen gate rejects because component-projection checks compare the composed output against each isolated component target, reject the component-projection criterion.",
+  "data_admission": {
+    "synthetic_development_only": true,
+    "protected_final_bank": false,
+    "private_autobiographical": false
+  },
+  "claim_ceiling": "CPU_SYNTHETIC_GATE_STRESS_ONLY_NOT_LLM_VALIDATION"
+}

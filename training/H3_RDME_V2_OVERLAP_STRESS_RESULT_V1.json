@@ -1,0 +1,122 @@
+{
+  "claim_ceiling": "CPU_SYNTHETIC_GATE_STRESS_ONLY_NOT_LLM_VALIDATION",
+  "component_projection_mse_min": 0.5465761423110962,
+  "device": "cpu",
+  "gate_accept_all": false,
+  "gate_reject_all": true,
+  "gpu_used": false,
+  "isolated_component_mse_max": 4.457179329619976e-06,
+  "mixed_composed_mse_mean": 9.16966872524077e-07,
+  "mixed_gain_ratio_min": 15090.139732980178,
+  "protected_data_used": false,
+  "runs": [
+    {
+      "decision": {
+        "accept": false,
+        "checks": {
+          "component_x": false,
+          "component_y": false,
+          "mixed_gain": true
+        }
+      },
+      "metrics": {
+        "adapter_a_isolated_mse": 4.457179329619976e-06,
+        "adapter_d_isolated_mse": 5.163224159332458e-08,
+        "best_single_mse": 0.06831469386816025,
+        "component_x_mse": 0.5465761423110962,
+        "component_y_mse": 2.186119556427002,
+        "mixed_composed_mse": 4.527108103502542e-06,
+        "mixed_gain_ratio": 15090.139732980178
+      },
+      "seed": 17
+    },
+    {
+      "decision": {
+        "accept": false,
+        "checks": {
+          "component_x": false,
+          "component_y": false,
+          "mixed_gain": true
+        }
+      },
+      "metrics": {
+        "adapter_a_isolated_mse": 5.3114977305313005e-08,
+        "adapter_d_isolated_mse": 5.641075172084509e-13,
+        "best_single_mse": 0.0775311142206192,
+        "component_x_mse": 0.6203136444091797,
+        "component_y_mse": 2.4811859130859375,
+        "mixed_composed_mse": 5.312982054306303e-08,
+        "mixed_gain_ratio": 1459276.79461628
+      },
+      "seed": 23
+    },
+    {
+      "decision": {
+        "accept": false,
+        "checks": {
+          "component_x": false,
+          "component_y": false,
+          "mixed_gain": true
+        }
+      },
+      "metrics": {
+        "adapter_a_isolated_mse": 4.606443670951421e-09,
+        "adapter_d_isolated_mse": 6.689224911829439e-13,
+        "best_single_mse": 0.07055320590734482,
+        "component_x_mse": 0.5643813610076904,
+        "component_y_mse": 2.257566213607788,
+        "mixed_composed_mse": 4.5952082139422146e-09,
+        "mixed_gain_ratio": 15353647.239156863
+      },
+      "seed": 31
+    },
+    {
+      "decision": {
+        "accept": false,
+        "checks": {
+          "component_x": false,
+          "component_y": false,
+          "mixed_gain": true
+        }
+      },
+      "metrics": {
+        "adapter_a_isolated_mse": 9.22823015919727e-13,
+        "adapter_d_isolated_mse": 1.2495123208680625e-12,
+        "best_single_mse": 0.07382888346910477,
+        "component_x_mse": 0.5906278491020203,
+        "component_y_mse": 2.3625097274780273,
+        "mixed_composed_mse": 1.9304878333924191e-13,
+        "mixed_gain_ratio": 73828883469.10477
+      },
+      "seed": 47
+    },
+    {
+      "decision": {
+        "accept": false,
+        "checks": {
+          "component_x": false,
+          "component_y": false,
+          "mixed_gain": true
+        }
+      },
+      "metrics": {
+        "adapter_a_isolated_mse": 2.051982498849081e-12,
+        "adapter_d_isolated_mse": 3.3847620886651164e-13,
+        "best_single_mse": 0.0708836168050766,
+        "component_x_mse": 0.5670777559280396,
+        "component_y_mse": 2.2683043479919434,
+        "mixed_composed_mse": 1.037312054828765e-12,
+        "mixed_gain_ratio": 68333937193.83485
+      },
+      "seed": 59
+    }
+  ],
+  "schema": "H3_RDME_V2_OVERLAP_STRESS_RESULT_V1",
+  "seeds": [
+    17,
+    23,
+    31,
+    47,
+    59
+  ]
+}
