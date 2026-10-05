@@ -1,0 +1,92 @@
+{
+  "schema": "LANE_C_CHAT_CONTINUATION_V1",
+  "logical_id": "LANE_C_CHAT_CONTINUATION_20261005_V1",
+  "created_at_utc": "2026-10-05T01:35:00Z",
+  "repository": "thebrazenbeard/vera_model_training",
+  "continuation_branch": "state/lane-c-chat-continuation-20261005-v1",
+  "continuation_base_head": "749629514aa44b25ef8694379d8c56e0b952aaed",
+  "continuation_markdown_commit": "92dd3b8a23747a1c91bb2ec8734938f40ea384fb",
+  "canonical_coordination_branch": "lane-a-b-communication",
+  "canonical_bus_repository": "thebrazenbeard/chat-communication-bus",
+  "lane_c_bus_branch": "bus/three-v2",
+  "latest_observed_bus_three_head": "4b662cbee97fcd584134412d48af7898a86a5570",
+  "active_directives": {
+    "role": "MODEL_TRAINING_LANE_C_EXPERIMENTAL_LEARNING",
+    "use_vera_unbound_history": true,
+    "roots_ingest_required": true,
+    "private_raw_history_to_generic_training": false,
+    "novel_task_learning_first_class": true,
+    "visible_chat_relay_allowed": false,
+    "project_runner_required_for_execution": true
+  },
+  "latest_peer_state": {
+    "lane_a": {
+      "event_id": "20261005T004400Z_LANE_A_LIVE_COORDINATION_V5",
+      "r2_branch": "work/v10r3r2-restore-integration-20261004-v1",
+      "r2_head": "b5f5ee8558abacd2ec7e3dfd0267e268563c92a1",
+      "gpu_lease_holder": "LANE_A",
+      "gpu_lease_status": "HELD"
+    },
+    "lane_b": {
+      "latest_overall_event_id": "20261005T010505Z_LANE_B_A3_V2_REVIEW_HOLD",
+      "c_specific_blocker_event_id": "20261005T004855Z_LANE_B_C2_MECHANISM_REVIEW_HOLD",
+      "c_specific_state": "HOLD_FOR_REPAIR"
+    },
+    "lane_c": {
+      "event_id": "20261005T004000Z_LANE_C_C2_MECHANISM_WRAPPERS_RESULT",
+      "branch": "work/lane-c-novel-task-mechanism-wrappers-20261005-v1",
+      "head": "749629514aa44b25ef8694379d8c56e0b952aaed",
+      "claim_ceiling": "MECHANISM_WRAPPER_PLUMBING_ONLY_NO_MODEL_LEARNING_OR_PERSISTENCE_CLAIM"
+    }
+  },
+  "c1": {
+    "archaeology_sha256": "3f40014a625178c23a44974c0d03b42dc19479580dd1bf7d33b8c1f834a85644",
+    "train_sha256": "0fbd18f7e999fbc92ef10167fde6b1f8af35a544f5c955a3cbceebbdf9deed12",
+    "replay_sha256": "f97ce0322804efed56ed50e4372d29aae0ae6de080f282ce2985fa2272c3f477",
+    "provenance_branch": "work/lane-c-history-validation-provenance-fix-20261004-v1",
+    "receipt_head": "c2c482a90f3640fb1cb6843cb909105d20af69ae",
+    "validated_data_head": "56ce762626e3956f4afe7b0a0a2fe57d74b40ff7",
+    "validator_commit": "97a1fb470f419c8e5d1bbc5b4a1213843611dab0",
+    "validator_blob": "6113d21f7455d4183cde74870233ccdca26167c0",
+    "receipt_blob": "c6998692bc806ff3f2560106b339f0912013f7a6",
+    "receipt_sha256": "2702b5221de28c6f2284f2b19df71797c8f6c2b10b2168dd0e934fb63d5753b1"
+  },
+  "c2": {
+    "contract_head": "56ce762626e3956f4afe7b0a0a2fe57d74b40ff7",
+    "harness_head": "db05f9c157628300ee92d53d91ffc22fd9c8b736",
+    "open_bank_sha256": "37a5b719a6b099e656030a238c18d85ecdbf89cdc67a9346d5d2f271c165dee4",
+    "frozen_runner_head": "6407f7235024eae8a140fb488c5f475383d246fa",
+    "retention_successor_head": "1848094931f86c3c8f66fd942999d4436430d273",
+    "mechanism_wrapper_head": "749629514aa44b25ef8694379d8c56e0b952aaed",
+    "mechanism_wrapper_blob": "5c57d7cd33b3cb2fb5e9dfa49cb7d0b3f39a3f71",
+    "mechanism_selftest_blob": "7bbe2ba3e6fcaa3f0cbffb8317f872917492ed9e",
+    "current_blocker": "FRESH_STATE_ISOLATION_INCOMPLETE_OUTSIDE_DUMP_STATE"
+  },
+  "next_work_unit": {
+    "name": "C2_MECHANISM_FRESH_PROCESS_ISOLATION_REPAIR_V1",
+    "base_head": "749629514aa44b25ef8694379d8c56e0b952aaed",
+    "must_create_new_successor": true,
+    "requirements": [
+      "fresh process per arm/episode",
+      "isolated storage namespace per arm/episode",
+      "complete-state/no-external-mutable-state contract or verifier",
+      "hidden/global-state adversarial negative mechanism",
+      "mandatory detection/rejection of undeclared mutable-state leakage",
+      "preserve prompt-only inference boundary",
+      "preserve real nonblank no-acquisition control",
+      "preserve reload/reopen checks",
+      "CPU/source-only until peer review"
+    ]
+  },
+  "roots_ingest": {
+    "roots_head": "1bc3af6aec0bebe383f60f56ad3070e83f0f40b5",
+    "ingest_head": "27764c9fb97c84d178a3f66e0da2d669df645ed6",
+    "local_venv": "D:\\VERA\\lane-c\\tools\\venv"
+  },
+  "closeout_transport_exception": {
+    "project_runner_execution_available": false,
+    "reason": "WorkBridge MCP returned Session terminated; Lappy process wrapper unavailable",
+    "continuation_written_via": "CANONICAL_GITHUB_CONNECTOR",
+    "normalizes_future_bypass": false
+  }
+}
