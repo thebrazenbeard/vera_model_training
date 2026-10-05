@@ -17,43 +17,7 @@ def _load_module():
 
 
 def _valid_protocol():
-    common_info = {
-        "task_descriptor_fields": ["family_id"],
-        "support_examples_available": 64,
-        "feedback_rounds_available": 1,
-    }
-    return {
-        "schema": "H3_RDME_MVE_PROTOCOL_V1",
-        "status": "FROZEN_PREREGISTRATION",
-        "arms": {
-            "H0": {"information_exposure": dict(common_info)},
-            "H1": {"information_exposure": dict(common_info)},
-            "H2": {"information_exposure": dict(common_info)},
-            "H3": {"information_exposure": dict(common_info)},
-        },
-        "controls": {
-            "wrong_route": True,
-            "no_route_base_only": True,
-            "mixed_task": True,
-            "adapter_off_restoration": True,
-            "support_removal": True,
-            "stale_reactivation_fresh_process": True,
-        },
-        "data_admission": {
-            "protected_final_bank": False,
-            "private_autobiographical": False,
-        },
-        "preregistration": {
-            "family_definitions_frozen": True,
-            "thresholds_frozen": True,
-        },
-        "accounting": {
-            "include_context_memory_stops": True,
-            "count_total_stored_parameters": True,
-            "count_module_count": True,
-            "count_routing_metadata": True,
-        },
-    }
+    return json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
 
 
 def test_validator_public_seam_exists():
@@ -116,3 +80,63 @@ def test_frozen_protocol_file_is_valid():
     assert PROTOCOL_PATH.exists(), "frozen RDME preregistration must exist"
     protocol = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
     assert module.validate_protocol(protocol) == []
+
+
+def test_rejects_unsafe_authority_and_nonfrozen_status():
+    module = _load_module()
+    protocol = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
+    protocol["status"] = "DRAFT"
+    protocol["authority"]["protected_final_bank_access_authorized"] = True
+    protocol["authority"]["merge_main_authorized"] = True
+    errors = module.validate_protocol(protocol)
+    assert any("status" in error.lower() for error in errors)
+    assert any("protected_final_bank" in error for error in errors)
+    assert any("merge_main" in error for error in errors)
+
+
+def test_rejects_non_synthetic_mutable_or_current_factual_data():
+    module = _load_module()
+    protocol = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
+    protocol["data_admission"]["development_synthetic_only"] = False
+    protocol["data_admission"]["mutable_project_state"] = True
+    protocol["data_admission"]["current_factual_knowledge"] = True
+    errors = module.validate_protocol(protocol)
+    assert any("development_synthetic_only" in error for error in errors)
+    assert any("mutable_project_state" in error for error in errors)
+    assert any("current_factual_knowledge" in error for error in errors)
+
+
+def test_rejects_incomplete_isolation_and_resource_accounting():
+    module = _load_module()
+    protocol = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
+    protocol["isolation"]["fresh_process_required"] = False
+    protocol["isolation"]["stale_adapter_cache_probe_required"] = False
+    protocol["accounting"]["count_peak_ram_vram"] = False
+    protocol["accounting"]["count_wall_time"] = False
+    errors = module.validate_protocol(protocol)
+    assert any("fresh_process_required" in error for error in errors)
+    assert any("stale_adapter_cache_probe_required" in error for error in errors)
+    assert any("count_peak_ram_vram" in error for error in errors)
+    assert any("count_wall_time" in error for error in errors)
+
+
+def test_rejects_h3_router_or_sequence_drift():
+    module = _load_module()
+    protocol = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
+    protocol["arms"]["H3"]["router"] = "LEARNED_UNFROZEN"
+    protocol["arms"]["H3"]["active_adapter_limit"] = 2
+    protocol["sequence"].remove("TEST_WRONG_ROUTE")
+    errors = module.validate_protocol(protocol)
+    assert any("router" in error.lower() for error in errors)
+    assert any("active_adapter_limit" in error for error in errors)
+    assert any("TEST_WRONG_ROUTE" in error for error in errors)
+
+
+def test_rejects_preregistration_mutation_escape_hatches():
+    module = _load_module()
+    protocol = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
+    protocol["preregistration"]["post_result_threshold_edits_forbidden"] = False
+    protocol["preregistration"]["new_mechanism_after_feedback_requires_new_subject"] = False
+    errors = module.validate_protocol(protocol)
+    assert any("post_result_threshold_edits_forbidden" in error for error in errors)
+    assert any("new_mechanism_after_feedback_requires_new_subject" in error for error in errors)
