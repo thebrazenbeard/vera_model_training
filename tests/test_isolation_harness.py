@@ -129,3 +129,98 @@ def test_clean_arm_scoped_state_passes():
     assert result.status == "PASS"
     assert result.violations == ()
 
+
+
+def test_write_capable_credential_channel_forces_hold():
+    import isolation_harness
+
+    result = isolation_harness.evaluate_external_channels(
+        (
+            isolation_harness.ExternalChannelObservation(
+                channel_id="credential:github-token",
+                kind="credential",
+                mutable=True,
+                write_capable=True,
+                arm_scoped=False,
+            ),
+        )
+    )
+
+    assert result.status == "HOLD"
+    assert "WRITE_CAPABLE_EXTERNAL_CHANNEL:credential:github-token" in result.violations
+
+
+def test_reused_daemon_or_provider_session_forces_hold():
+    import isolation_harness
+
+    result = isolation_harness.evaluate_external_channels(
+        (
+            isolation_harness.ExternalChannelObservation(
+                channel_id="daemon:retrieval-shared",
+                kind="daemon",
+                mutable=True,
+                write_capable=False,
+                arm_scoped=False,
+            ),
+            isolation_harness.ExternalChannelObservation(
+                channel_id="provider:session-shared",
+                kind="provider_session",
+                mutable=True,
+                write_capable=False,
+                arm_scoped=False,
+            ),
+        )
+    )
+
+    assert result.status == "HOLD"
+    assert "SHARED_MUTABLE_EXTERNAL_CHANNEL:daemon:retrieval-shared" in result.violations
+    assert "SHARED_MUTABLE_EXTERNAL_CHANNEL:provider:session-shared" in result.violations
+
+
+def test_stale_adapter_resurrection_forces_hold():
+    import isolation_harness
+
+    result = isolation_harness.evaluate_external_channels(
+        (
+            isolation_harness.ExternalChannelObservation(
+                channel_id="adapter:stale-b",
+                kind="adapter",
+                mutable=True,
+                write_capable=False,
+                arm_scoped=True,
+                superseded=True,
+                observed_active=True,
+            ),
+        )
+    )
+
+    assert result.status == "HOLD"
+    assert "STALE_STATE_RESURRECTED:adapter:stale-b" in result.violations
+
+
+def test_clean_external_channels_pass():
+    import isolation_harness
+
+    result = isolation_harness.evaluate_external_channels(
+        (
+            isolation_harness.ExternalChannelObservation(
+                channel_id="retrieval:arm-17",
+                kind="retrieval",
+                mutable=True,
+                write_capable=True,
+                arm_scoped=True,
+            ),
+            isolation_harness.ExternalChannelObservation(
+                channel_id="adapter:current-a",
+                kind="adapter",
+                mutable=True,
+                write_capable=False,
+                arm_scoped=True,
+                superseded=False,
+                observed_active=True,
+            ),
+        )
+    )
+
+    assert result.status == "PASS"
+    assert result.violations == ()

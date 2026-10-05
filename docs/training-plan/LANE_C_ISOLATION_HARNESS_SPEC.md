@@ -62,3 +62,30 @@ HOLD: any undeclared environment state, outside-root write, mutable shared exter
 Passing this harness supports only: "the enumerated state channels satisfied the isolation contract for this exact arm."
 
 It does not establish neural learning, retention, corpus cleanliness, evaluator independence, privacy, or protected-bank qualification.
+
+
+## Structured external-channel sentinel
+
+`ExternalChannelObservation` binds each observed channel to:
+- `channel_id`;
+- `kind`;
+- whether it is mutable;
+- whether it is write-capable;
+- whether it is uniquely arm-scoped;
+- whether it is superseded;
+- whether it was observed active.
+
+`evaluate_external_channels(...)` returns HOLD when:
+- a write-capable external channel is not arm-scoped;
+- a mutable external channel is shared across arms;
+- a superseded adapter/module is observed active.
+
+The focused negative controls now include:
+- inherited write-capable credential outside the arm;
+- reused retrieval daemon;
+- reused provider-side session;
+- stale superseded adapter resurrection.
+
+A clean arm-scoped retrieval channel and current non-superseded adapter pass the structured sentinel.
+
+These checks do not discover channels automatically. The runner must first produce a complete channel inventory; an omitted channel remains an unclosed threat and therefore cannot support a broad isolation claim.

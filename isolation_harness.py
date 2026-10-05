@@ -71,3 +71,39 @@ def evaluate_isolation(
         status="HOLD" if violations else "PASS",
         violations=tuple(violations),
     )
+
+
+@dataclass(frozen=True, slots=True)
+class ExternalChannelObservation:
+    channel_id: str
+    kind: str
+    mutable: bool
+    write_capable: bool
+    arm_scoped: bool
+    superseded: bool = False
+    observed_active: bool = False
+
+
+def evaluate_external_channels(
+    channels: tuple[ExternalChannelObservation, ...],
+) -> IsolationResult:
+    violations: list[str] = []
+
+    for channel in channels:
+        if channel.write_capable and not channel.arm_scoped:
+            violations.append(
+                f"WRITE_CAPABLE_EXTERNAL_CHANNEL:{channel.channel_id}"
+            )
+        if channel.mutable and not channel.arm_scoped:
+            violations.append(
+                f"SHARED_MUTABLE_EXTERNAL_CHANNEL:{channel.channel_id}"
+            )
+        if channel.superseded and channel.observed_active:
+            violations.append(
+                f"STALE_STATE_RESURRECTED:{channel.channel_id}"
+            )
+
+    return IsolationResult(
+        status="HOLD" if violations else "PASS",
+        violations=tuple(violations),
+    )
