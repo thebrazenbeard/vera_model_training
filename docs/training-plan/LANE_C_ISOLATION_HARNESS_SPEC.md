@@ -117,8 +117,18 @@ The digest binds:
 - expected child environment;
 - observed child environment;
 - observed changed filesystem paths;
-- reported external mutable-state channel identifiers.
+- reported external mutable-state channel identifiers;
+- structured external-channel semantics (kind, mutable/write-capable/arm-scoped/superseded/active);
+- isolation and external-channel PASS/HOLD results plus violations;
+- all seven required sentinel results and failed-sentinel set;
+- exact source head and runtime-binding SHA-256 when supplied.
 
 Collections are canonicalized before hashing.
 
 The receipt proves only the enumerated observations. Omitted channels remain UNKNOWN and cannot be promoted to ABSENT because a manifest digest is internally consistent.
+
+### V2 receipt integrity hardening
+
+validate_isolation_manifest(...) recomputes the canonical manifest digest and rejects digest tampering, schema drift, invalid exact-head/runtime-digest bindings, or a PASS receipt that still carries failed sentinels.
+
+A digest over channel identifiers alone is insufficient because the same channel ID can change from read-only/arm-scoped to mutable/write-capable/shared. V2 binds those decision-relevant fields directly.
