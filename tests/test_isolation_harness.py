@@ -129,3 +129,55 @@ def test_clean_arm_scoped_state_passes():
     assert result.status == "PASS"
     assert result.violations == ()
 
+
+
+def test_required_external_hidden_state_canaries_force_hold():
+    import isolation_harness
+
+    arm_root = (Path.cwd() / ".isolation-test-arm").resolve()
+    expected = build_isolated_environment(
+        arm_root=arm_root,
+        inherited_env={"PATH": r"C:\Windows\System32"},
+        immutable_env_allowlist=("PATH",),
+    )
+    canaries = (
+        "credential:write-capable-external-side-effect",
+        "daemon:reused-port-session",
+        "provider:shared-session-state",
+        "adapter:stale-module-resurrection",
+    )
+
+    for channel in canaries:
+        result = isolation_harness.evaluate_isolation(
+            arm_root=arm_root,
+            expected_env=expected,
+            observed_env=expected,
+            changed_paths=(),
+            external_state_channels=(channel,),
+        )
+        assert result.status == "HOLD"
+        assert f"EXTERNAL_MUTABLE_STATE:{channel}" in result.violations
+
+
+def test_deterministic_file_outside_isolated_root_forces_hold():
+    import isolation_harness
+
+    arm_root = (Path.cwd() / ".isolation-test-arm").resolve()
+    expected = build_isolated_environment(
+        arm_root=arm_root,
+        inherited_env={"PATH": r"C:\Windows\System32"},
+        immutable_env_allowlist=("PATH",),
+    )
+    deterministic_path = Path.cwd().resolve() / "fixed-cache" / "state.json"
+
+    result = isolation_harness.evaluate_isolation(
+        arm_root=arm_root,
+        expected_env=expected,
+        observed_env=expected,
+        changed_paths=(str(deterministic_path),),
+        external_state_channels=(),
+    )
+
+    assert result.status == "HOLD"
+    assert any("OUTSIDE_WRITABLE_ROOT" in item for item in result.violations)
+

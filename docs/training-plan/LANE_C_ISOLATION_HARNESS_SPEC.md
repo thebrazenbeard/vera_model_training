@@ -1,6 +1,6 @@
 # Lane C Isolation Harness Contract V1
 
-Status: DEVELOPMENT HARNESS / NO TRAINING OR PROTECTED-BANK AUTHORITY
+Status: DEVELOPMENT HARNESS V2 / NO TRAINING OR PROTECTED-BANK AUTHORITY
 Owner: Lane C / Three
 Parent planning head: c06e33d44184904418a4a68f22f78d19a4f46137
 Branch: work/lane-c-isolation-harness-v1
@@ -62,3 +62,14 @@ HOLD: any undeclared environment state, outside-root write, mutable shared exter
 Passing this harness supports only: "the enumerated state channels satisfied the isolation contract for this exact arm."
 
 It does not establish neural learning, retention, corpus cleanliness, evaluator independence, privacy, or protected-bank qualification.
+
+## V2 explicit canary coverage
+
+V2 adds direct tests proving HOLD for:
+- inherited/write-capable credential side-effect channels;
+- reused daemon/port session channels;
+- provider-side shared session state;
+- stale adapter/module resurrection;
+- deterministic state paths outside the isolated arm root.
+
+These are still observation-contract tests. They prove the verifier rejects a reported hidden channel; the execution runner remains responsible for enumerating and reporting those channels.
