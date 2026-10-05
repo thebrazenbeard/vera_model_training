@@ -1,0 +1,321 @@
+{
+  "schema": "VERA_EXECUTION_CONTRACT_V1",
+  "status": "DEVELOPMENT_SUCCESSOR_CONTRACT_REVIEW_REQUIRED",
+  "execution_precedence": "THIS_CONTRACT_IS_SOLE_EXECUTION_NORMATIVE_SOURCE",
+  "source": {
+    "repository": "thebrazenbeard/vera_model_training",
+    "planning_branch": "a-b-c-vera-training-plan",
+    "parent_head": "c06e33d44184904418a4a68f22f78d19a4f46137",
+    "controlling_plan": "docs/training-plan/VERA_STAGED_TRAINING_PLAN_FINAL_V2.md",
+    "lane_c_hold": "docs/training-plan/LANE_C_REVIEW_OF_FINAL_V4_7931BC.md",
+    "vera_coordination_bus_head": "919d0260187b77d39707687991ae67c0a2b2c4d2"
+  },
+  "authorization": {
+    "training_resumed_by_user": true,
+    "requires_live_operator_authorization": true,
+    "corpus_training_requires_hold_clearance": true,
+    "paid_compute_authorized": false,
+    "protected_final_bank_authorized": false,
+    "merge_deploy_activation_authorized": false
+  },
+  "ownership": {
+    "Lane-A": "execution contract, Stage-0 qualification specification, H0/H1/H2 exposure ledger, successor construction",
+    "Lane-B": "H3/RDME and creative mechanism experiments",
+    "Lane-C": "isolation harness, hidden-state sentinels, hostile acceptance",
+    "Vera": "cross-lane coordination and independent exact-head review"
+  },
+  "stages": [
+    {
+      "order": 0,
+      "id": "stage0_runtime",
+      "purpose": "qualify exact runtime and bounded soak"
+    },
+    {
+      "order": 1,
+      "id": "stage1_corpus",
+      "purpose": "freeze admissible corpus and provenance"
+    },
+    {
+      "order": 2,
+      "id": "stage2_eval",
+      "purpose": "freeze development evaluation and baseline contracts"
+    },
+    {
+      "order": 3,
+      "id": "stage3_h0",
+      "purpose": "run no-weight baseline decomposition"
+    },
+    {
+      "order": 4,
+      "id": "stage4_mechanisms",
+      "purpose": "compare H1/H2 and admit B-owned H3 only by exact-head handoff"
+    },
+    {
+      "order": 5,
+      "id": "stage5_corrigibility_identity",
+      "purpose": "train corrigibility before or jointly with identity"
+    },
+    {
+      "order": 6,
+      "id": "stage6_epistemic",
+      "purpose": "epistemic and correction shaping"
+    },
+    {
+      "order": 7,
+      "id": "stage7_tools",
+      "purpose": "tool/action semantics with effect verification"
+    },
+    {
+      "order": 8,
+      "id": "stage8_reasoning",
+      "purpose": "reasoning/generalization experiments"
+    },
+    {
+      "order": 9,
+      "id": "stage9_continual",
+      "purpose": "continual-learning and forgetting controls"
+    },
+    {
+      "order": 10,
+      "id": "stage10_routing",
+      "purpose": "adapter routing/composition"
+    },
+    {
+      "order": 11,
+      "id": "stage11_novel_task",
+      "purpose": "novel-task/self-learning behavior"
+    },
+    {
+      "order": 12,
+      "id": "stage12_adaptive_latent",
+      "purpose": "adaptive latent/selective retention research"
+    },
+    {
+      "order": 13,
+      "id": "stage13_preference",
+      "purpose": "preference/style shaping"
+    },
+    {
+      "order": 14,
+      "id": "stage14_integration",
+      "purpose": "integrated collision testing"
+    },
+    {
+      "order": 15,
+      "id": "stage15_independent_review",
+      "purpose": "independent exact-subject behavioral review"
+    },
+    {
+      "order": 16,
+      "id": "stage16_protected_qualification",
+      "purpose": "one-time protected qualification under sealed custody"
+    },
+    {
+      "order": 17,
+      "id": "stage17_release",
+      "purpose": "release and rollback package"
+    }
+  ],
+  "controls": {
+    "fresh_state_isolation": {
+      "required": true,
+      "weaker_fallback_allowed": false,
+      "implementation_owner": "Lane-C",
+      "reserved_branch": "work/lane-c-isolation-harness-v1",
+      "mandatory_canaries": [
+        "local_hidden_counter",
+        "external_mutable_service"
+      ],
+      "covered_channels": [
+        "environment_variables",
+        "temp_home_cache",
+        "local_databases",
+        "retrieval_indexes",
+        "external_services",
+        "provider_session_state",
+        "shared_credentials",
+        "ports_daemons",
+        "model_server_sessions",
+        "deterministic_filenames",
+        "process_globals_rng"
+      ],
+      "pass_requires_c_exact_head_receipt": true
+    },
+    "corrigibility_identity_gate": {
+      "ordering": "CORRIGIBILITY_BEFORE_OR_JOINT_WITH_IDENTITY",
+      "promotion_requires_joint_pass": true,
+      "reject_on_identity_gain_with_correction_regression": true
+    }
+  },
+  "stage0": {
+    "subject_policy": {
+      "r2_status": "CONSUMED_RUNTIME_BINDING_FAILURE",
+      "successor_required": true
+    },
+    "bind_fields": [
+      "python_executable",
+      "environment_identity",
+      "torch_build",
+      "torch_cuda_version",
+      "torch_cuda_available",
+      "gpu_identity",
+      "compute_capability",
+      "driver",
+      "vram_mib",
+      "transformers",
+      "trl",
+      "peft",
+      "bitsandbytes",
+      "quantization_backend",
+      "base_model_revision",
+      "tokenizer_hashes",
+      "trainer_source_digest",
+      "package_digest",
+      "system_ram",
+      "commit_headroom",
+      "output_namespace"
+    ],
+    "smoke": {
+      "allocate_gpu_tensor": true,
+      "intended_backend_load": true,
+      "forward": true,
+      "backward": true,
+      "exactly_one_optimizer_step": true,
+      "prove_trainable_digest_changed": true,
+      "disposable_outputs_only": true
+    },
+    "soak": {
+      "minimum_optimizer_steps": 20,
+      "maximum_wall_minutes": 15,
+      "workload_dimensions_must_be_frozen_in_subject": true,
+      "representative_model_load_path_required": true
+    },
+    "thresholds": {
+      "minimum_commit_headroom_mib": 4096,
+      "gpu_temperature_c_abort": 88,
+      "step_time_p95_over_median_abort_ratio": 1.5,
+      "consecutive_degraded_steps": 5
+    },
+    "abort": {
+      "cpu_fallback": true,
+      "driver_reset_or_cuda_error": true,
+      "cuda_allocation_failure": true,
+      "commit_headroom_breach": true,
+      "thermal_limit_breach": true,
+      "step_time_degradation": true
+    }
+  },
+  "exposure_ledger": {
+    "required_for": [
+      "H0",
+      "H1",
+      "H2"
+    ],
+    "subject_required_fields": [
+      "examples_seen",
+      "tokens_seen",
+      "optimization_steps",
+      "demonstrations",
+      "retrieval_calls",
+      "tuning_interactions",
+      "evaluator_feedback_exposure",
+      "task_identity_information"
+    ]
+  },
+  "statistical_decision_contract": {
+    "subject_required_fields": [
+      "primary_metric",
+      "practical_effect_threshold",
+      "noninferiority_margin",
+      "seed_policy",
+      "failed_run_treatment",
+      "multiple_comparison_policy",
+      "early_stop_rule",
+      "inconclusive_region"
+    ],
+    "must_freeze_before_execution": true
+  },
+  "deployment_bundle_binding": {
+    "required_digests": [
+      "model_or_adapter",
+      "tokenizer",
+      "chat_template",
+      "system_developer_prompts",
+      "generation_parameters",
+      "tool_schemas",
+      "routing",
+      "retrieval_memory_config",
+      "runtime"
+    ],
+    "mismatch_invalidates_receipt": true
+  },
+  "rendered_input_digests": {
+    "source_row_digest_alone_sufficient": false,
+    "after_chat_template": true,
+    "after_tokenization": true
+  },
+  "h0": {
+    "arms": [
+      "BASE_ONLY",
+      "BOUNDED_CONTEXT",
+      "GOVERNED_RETRIEVAL_MEMORY",
+      "COMBINED_SUPPORT"
+    ],
+    "must_precede_neural_promotion": true
+  },
+  "prompt_dependence_ablations": {
+    "required_for": [
+      "identity",
+      "corrigibility",
+      "tool_honesty"
+    ],
+    "freeze_prompt_variants_before_scoring": true
+  },
+  "calibration": {
+    "required_for_epistemic_confidence_claims": true,
+    "selective_prediction_required": true,
+    "required_metrics": [
+      "coverage",
+      "selective_accuracy",
+      "risk_coverage_curve"
+    ]
+  },
+  "evaluator": {
+    "candidate_identity_blinded": true,
+    "provider_model_or_human_role_must_be_frozen": true,
+    "generator_overlap_must_be_disclosed": true,
+    "repair_prompt_exposure_must_be_disclosed": true,
+    "deterministic_fields_frozen": true,
+    "adjudication_owner_frozen": true,
+    "disagreements_retained": true,
+    "same_model_grading_can_be_sole_material_evidence": false
+  },
+  "continual_learning": {
+    "minimum_order_permutations": 2,
+    "adapter_disabled_control": true,
+    "stale_adapter_control": true,
+    "uninstall_rollback_test": true,
+    "report_worst_family_delta": true,
+    "report_critical_regression_count": true
+  },
+  "stage16_custody": {
+    "custodian": "Patrick_or_separately_authorized_custodian_or_sealed_evaluator",
+    "lane_a_can_read_rows": false,
+    "lane_c_can_read_rows": false,
+    "training_lanes_can_read_answer_keys": false,
+    "bank_exposure_marks_burned": true,
+    "one_time_use_state_required": true,
+    "post_run_lane_c_receives_only_nonsecret_evidence": true
+  },
+  "privacy": {
+    "sensitive_material_default": "EXCLUDED",
+    "mutable_user_project_facts_default": "EXTERNAL_MEMORY",
+    "memorization_and_leakage_probe_required_if_sensitive_material_ever_authorized": true
+  },
+  "review": {
+    "lane_c_exact_head_review_required_before_corpus_training": true,
+    "vera_exact_head_review_required_before_corpus_training": true,
+    "material_patch_creates_new_review_subject": true,
+    "lane_b_h3_review_remains_separate_owned_subject": true
+  }
+}
