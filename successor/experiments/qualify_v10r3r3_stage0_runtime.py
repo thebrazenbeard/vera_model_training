@@ -357,3 +357,477 @@ def execute_stage0_optimizer_smoke(
             optimizer_name=optimizer_name,
             cuda_memory=memory,
         )
+
+
+def _stage0_soak_has_sustained_degradation(
+    step_times_seconds: list[float],
+    *,
+    ratio: float,
+    consecutive_steps: int,
+) -> bool:
+    import statistics
+
+    if consecutive_steps < 1:
+        raise Stage0Hold("consecutive degraded steps must be positive")
+    if ratio <= 1.0:
+        raise Stage0Hold("step-time degradation ratio must exceed 1")
+    if len(step_times_seconds) <= consecutive_steps:
+        return False
+    for start in range(1, len(step_times_seconds) - consecutive_steps + 1):
+        baseline = step_times_seconds[:start]
+        if not baseline:
+            continue
+        median = float(statistics.median(baseline))
+        if median <= 0:
+            raise Stage0Hold("step-time baseline median must be positive")
+        window = step_times_seconds[start : start + consecutive_steps]
+        if len(window) == consecutive_steps and all(
+            float(value) > median * ratio for value in window
+        ):
+            return True
+    return False
+
+
+def finalize_stage0_soak_receipt(
+    *,
+    runtime_binding_sha256: str,
+    execution_spec_sha256: str,
+    weight_digest_before: str,
+    weight_digest_after: str,
+    optimizer_step_count: int,
+    gradient_accumulation_steps: int,
+    microbatches_completed: int,
+    losses: list[float],
+    synthetic_input: bool,
+    output_artifacts_written: bool,
+    optimizer_name: str,
+    step_times_seconds: list[float],
+    elapsed_seconds: float,
+    max_wall_seconds: float,
+    gpu_temperatures_c: list[int],
+    gpu_temperature_abort_c: int,
+    commit_headroom_mib: list[float],
+    minimum_commit_headroom_mib: float,
+    step_time_degradation_ratio: float,
+    consecutive_degraded_steps: int,
+    cuda_memory: dict,
+) -> dict:
+    import statistics
+
+    for name, value in (
+        ("runtime_binding_sha256", runtime_binding_sha256),
+        ("execution_spec_sha256", execution_spec_sha256),
+        ("weight_digest_before", weight_digest_before),
+        ("weight_digest_after", weight_digest_after),
+    ):
+        _require_sha256(name, value)
+
+    if optimizer_step_count != 20:
+        raise Stage0Hold("Stage-0 soak requires exactly 20 optimizer steps")
+    if gradient_accumulation_steps != 8:
+        raise Stage0Hold("Stage-0 soak requires gradient accumulation 8")
+    expected_microbatches = optimizer_step_count * gradient_accumulation_steps
+    if microbatches_completed != expected_microbatches:
+        raise Stage0Hold("Stage-0 soak microbatch accounting mismatch")
+    if len(losses) != microbatches_completed or not all(
+        isinstance(loss, (int, float)) and math.isfinite(float(loss))
+        for loss in losses
+    ):
+        raise Stage0Hold("Stage-0 soak losses must be finite and complete")
+    if not synthetic_input:
+        raise Stage0Hold("Stage-0 soak requires synthetic input")
+    if output_artifacts_written:
+        raise Stage0Hold("Stage-0 soak must not write model output artifacts")
+    if weight_digest_before == weight_digest_after:
+        raise Stage0Hold("Stage-0 soak trainable parameter digest did not change")
+    if not optimizer_name:
+        raise Stage0Hold("Stage-0 soak optimizer name missing")
+
+    if max_wall_seconds <= 0 or max_wall_seconds > 900:
+        raise Stage0Hold("Stage-0 soak maximum wall limit exceeds 15 minutes")
+    if not math.isfinite(float(elapsed_seconds)) or elapsed_seconds > max_wall_seconds:
+        raise Stage0Hold("Stage-0 soak wall-time limit exceeded")
+
+    if len(step_times_seconds) != optimizer_step_count or not all(
+        isinstance(value, (int, float))
+        and math.isfinite(float(value))
+        and float(value) > 0
+        for value in step_times_seconds
+    ):
+        raise Stage0Hold("Stage-0 soak step-time accounting invalid")
+    if _stage0_soak_has_sustained_degradation(
+        [float(value) for value in step_times_seconds],
+        ratio=float(step_time_degradation_ratio),
+        consecutive_steps=int(consecutive_degraded_steps),
+    ):
+        raise Stage0Hold("Stage-0 soak sustained step-time degradation detected")
+
+    if len(gpu_temperatures_c) != optimizer_step_count:
+        raise Stage0Hold("Stage-0 soak temperature accounting invalid")
+    max_temperature = max(int(value) for value in gpu_temperatures_c)
+    if max_temperature >= int(gpu_temperature_abort_c):
+        raise Stage0Hold("Stage-0 soak temperature abort threshold reached")
+
+    if len(commit_headroom_mib) != optimizer_step_count:
+        raise Stage0Hold("Stage-0 soak commit headroom accounting invalid")
+    minimum_headroom = min(float(value) for value in commit_headroom_mib)
+    if minimum_headroom < float(minimum_commit_headroom_mib):
+        raise Stage0Hold("Stage-0 soak commit headroom threshold breached")
+
+    sorted_times = sorted(float(value) for value in step_times_seconds)
+    p95_index = max(0, math.ceil(0.95 * len(sorted_times)) - 1)
+    median_time = float(statistics.median(sorted_times))
+    receipt = {
+        "schema": "V10R3R3_STAGE0_BOUNDED_SOAK_RECEIPT_V1",
+        "status": "STAGE0_BOUNDED_SOAK_PASS",
+        "claim_ceiling": "DISPOSABLE_SYNTHETIC_20_STEP_RUNTIME_SOAK_ONLY",
+        "runtime_binding_sha256": runtime_binding_sha256,
+        "execution_spec_sha256": execution_spec_sha256,
+        "optimizer_step_count": optimizer_step_count,
+        "gradient_accumulation_steps": gradient_accumulation_steps,
+        "microbatches_completed": microbatches_completed,
+        "losses": [float(loss) for loss in losses],
+        "synthetic_input": synthetic_input,
+        "output_artifacts_written": output_artifacts_written,
+        "optimizer_name": optimizer_name,
+        "weight_digest_before": weight_digest_before,
+        "weight_digest_after": weight_digest_after,
+        "weight_digest_changed": True,
+        "step_times_seconds": [float(value) for value in step_times_seconds],
+        "step_time_median_seconds": median_time,
+        "step_time_p95_seconds": sorted_times[p95_index],
+        "elapsed_seconds": float(elapsed_seconds),
+        "max_wall_seconds": float(max_wall_seconds),
+        "gpu_temperatures_c": [int(value) for value in gpu_temperatures_c],
+        "max_gpu_temperature_c": max_temperature,
+        "gpu_temperature_abort_c": int(gpu_temperature_abort_c),
+        "commit_headroom_mib": [float(value) for value in commit_headroom_mib],
+        "minimum_commit_headroom_observed_mib": minimum_headroom,
+        "minimum_commit_headroom_required_mib": float(
+            minimum_commit_headroom_mib
+        ),
+        "step_time_degradation_ratio": float(step_time_degradation_ratio),
+        "consecutive_degraded_steps": int(consecutive_degraded_steps),
+        "cuda_memory": cuda_memory,
+    }
+    canonical = json.dumps(
+        receipt, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    receipt["receipt_sha256"] = hashlib.sha256(canonical).hexdigest()
+    return receipt
+
+
+def execute_stage0_optimizer_soak(
+    repo_root,
+    *,
+    optimizer_steps: int = 20,
+    max_wall_seconds: float = 900.0,
+    minimum_commit_headroom_mib: float = 4096.0,
+    gpu_temperature_abort_c: int = 88,
+    step_time_degradation_ratio: float = 1.5,
+    consecutive_degraded_steps: int = 5,
+    training_stack_loader=None,
+) -> dict:
+    import ctypes
+    import subprocess
+    import tempfile
+    import time
+    from pathlib import Path
+
+    from successor.experiments.probe_v10_qwen35_backward import (
+        _trainable_parameter_digest,
+    )
+    from successor.experiments.train_v10_qwen35_authorized import (
+        _observe_live_runtime,
+        _read_json,
+        _validate_qwen_topology,
+        load_training_stack,
+        prepare_sft_rows,
+        sha256_file,
+        validate_lora_target_coverage,
+        validate_runtime_observation,
+    )
+
+    if optimizer_steps != 20:
+        raise Stage0Hold("live Stage-0 soak subject is frozen to 20 steps")
+    if max_wall_seconds > 900:
+        raise Stage0Hold("live Stage-0 soak cannot exceed 15 minutes")
+
+    class _MemoryStatusEx(ctypes.Structure):
+        _fields_ = [
+            ("dwLength", ctypes.c_ulong),
+            ("dwMemoryLoad", ctypes.c_ulong),
+            ("ullTotalPhys", ctypes.c_ulonglong),
+            ("ullAvailPhys", ctypes.c_ulonglong),
+            ("ullTotalPageFile", ctypes.c_ulonglong),
+            ("ullAvailPageFile", ctypes.c_ulonglong),
+            ("ullTotalVirtual", ctypes.c_ulonglong),
+            ("ullAvailVirtual", ctypes.c_ulonglong),
+            ("ullAvailExtendedVirtual", ctypes.c_ulonglong),
+        ]
+
+    def commit_headroom_mib() -> float:
+        status = _MemoryStatusEx()
+        status.dwLength = ctypes.sizeof(_MemoryStatusEx)
+        if not ctypes.windll.kernel32.GlobalMemoryStatusEx(
+            ctypes.byref(status)
+        ):
+            raise Stage0Hold("GlobalMemoryStatusEx failed")
+        return float(status.ullAvailPageFile) / (1024**2)
+
+    def gpu_temperature_c() -> int:
+        raw = subprocess.check_output(
+            [
+                "nvidia-smi",
+                "--query-gpu=temperature.gpu",
+                "--format=csv,noheader,nounits",
+            ],
+            text=True,
+        ).strip().splitlines()
+        if len(raw) != 1:
+            raise Stage0Hold("unexpected GPU temperature readback")
+        return int(raw[0].strip())
+
+    start_wall = time.perf_counter()
+    root = Path(repo_root)
+    experiment_dir = root / "successor" / "experiments"
+    runtime_path = experiment_dir / "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json"
+    execution_spec_path = (
+        experiment_dir
+        / "V10R3R3_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261005_V1.json"
+    )
+    runtime_binding = _read_json(runtime_path)
+    execution_spec = _read_json(execution_spec_path)
+
+    if training_stack_loader is None:
+        training_stack_loader = load_training_stack
+    stack = training_stack_loader()
+    live_runtime = _observe_live_runtime(runtime_binding, stack)
+    validate_runtime_observation(runtime_binding, live_runtime)
+
+    trainer_spec = execution_spec["trainer"]
+    accumulation_steps = int(trainer_spec["gradient_accumulation_steps"])
+    if accumulation_steps != 8:
+        raise Stage0Hold("Stage-0 soak requires frozen gradient accumulation 8")
+
+    rows = synthetic_smoke_rows(count=accumulation_steps)
+    target = runtime_binding["target"]
+    base_path = Path(target["base_path"])
+    tokenizer = stack["AutoTokenizer"].from_pretrained(base_path)
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    prepared, _token_budget = prepare_sft_rows(
+        tokenizer,
+        rows,
+        max_length=int(trainer_spec["max_length"]),
+    )
+
+    torch = stack["torch"]
+    if not torch.cuda.is_available():
+        raise Stage0Hold("CUDA is unavailable")
+
+    quant = execution_spec["quantization"]
+    bits_config = stack["BitsAndBytesConfig"](
+        load_in_4bit=quant["load_in_4bit"],
+        bnb_4bit_quant_type=quant["type"],
+        bnb_4bit_use_double_quant=quant["double_quant"],
+        bnb_4bit_compute_dtype=getattr(torch, quant["compute_dtype"]),
+    )
+    model_load = execution_spec["model_load"]
+    model = stack["Qwen3_5ForCausalLM"].from_pretrained(
+        base_path,
+        quantization_config=bits_config,
+        device_map=model_load["device_map"],
+        dtype=getattr(torch, model_load["dtype"]),
+    )
+    model.config.use_cache = model_load["use_cache"]
+    _validate_qwen_topology(model)
+    model = stack["prepare_model_for_kbit_training"](
+        model,
+        use_gradient_checkpointing=model_load[
+            "prepare_model_for_kbit_training_use_gradient_checkpointing"
+        ],
+    )
+
+    lora_spec = execution_spec["lora"]
+    lora = stack["LoraConfig"](
+        r=lora_spec["r"],
+        lora_alpha=lora_spec["alpha"],
+        lora_dropout=lora_spec["dropout"],
+        bias=lora_spec["bias"],
+        task_type=lora_spec["task_type"],
+        target_modules=lora_spec["target_modules"],
+    )
+    stack["transformers"].set_seed(trainer_spec["seed"])
+
+    with tempfile.TemporaryDirectory(
+        prefix="vera-v10r3r3-stage0-soak-"
+    ) as temp_dir:
+        sft_config = stack["SFTConfig"](
+            output_dir=temp_dir,
+            per_device_train_batch_size=trainer_spec[
+                "per_device_train_batch_size"
+            ],
+            gradient_accumulation_steps=accumulation_steps,
+            num_train_epochs=optimizer_steps,
+            learning_rate=trainer_spec["learning_rate"],
+            lr_scheduler_type=trainer_spec["lr_scheduler_type"],
+            warmup_steps=trainer_spec["warmup_optimizer_steps"],
+            optim=trainer_spec["optimizer"],
+            bf16=trainer_spec["bf16"],
+            tf32=trainer_spec["tf32"],
+            gradient_checkpointing=trainer_spec["gradient_checkpointing"],
+            gradient_checkpointing_kwargs={
+                "use_reentrant": trainer_spec[
+                    "gradient_checkpointing_use_reentrant"
+                ]
+            },
+            max_length=trainer_spec["max_length"],
+            completion_only_loss=trainer_spec["completion_only_loss"],
+            packing=False,
+            shuffle_dataset=False,
+            logging_steps=1,
+            save_strategy="no",
+            eval_strategy="no",
+            report_to="none",
+            seed=trainer_spec["seed"],
+            data_seed=trainer_spec["seed"],
+        )
+        trainer = stack["SFTTrainer"](
+            model=model,
+            args=sft_config,
+            train_dataset=stack["Dataset"].from_list(prepared),
+            processing_class=tokenizer,
+            peft_config=lora,
+        )
+        validate_lora_target_coverage(
+            getattr(trainer.model, "targeted_module_names", [])
+        )
+        weight_before, trainable_count = _trainable_parameter_digest(
+            trainer.model,
+            torch,
+        )
+        expected_before = execution_spec["comparison"].get(
+            "expected_initial_trainable_parameter_digest"
+        )
+        if weight_before != expected_before:
+            raise Stage0Hold(
+                "initial trainable digest mismatch:"
+                f"{weight_before}!={expected_before}"
+            )
+
+        trainer.create_optimizer()
+        if trainer.optimizer is None:
+            raise Stage0Hold("Stage-0 soak optimizer creation failed")
+        optimizer_name = trainer.optimizer.__class__.__name__
+
+        torch.cuda.synchronize()
+        torch.cuda.reset_peak_memory_stats()
+        losses: list[float] = []
+        step_times: list[float] = []
+        temperatures: list[int] = []
+        headrooms: list[float] = []
+        microbatches_completed = 0
+        trainer.model.train()
+
+        for step_index in range(optimizer_steps):
+            if time.perf_counter() - start_wall > max_wall_seconds:
+                raise Stage0Hold(
+                    f"Stage-0 soak wall-time limit exceeded before step {step_index + 1}"
+                )
+            step_start = time.perf_counter()
+            trainer.model.zero_grad(set_to_none=True)
+            trainer.optimizer.zero_grad(set_to_none=True)
+
+            dataloader = trainer.get_train_dataloader()
+            step_microbatches = 0
+            for batch in dataloader:
+                batch = trainer._prepare_inputs(batch)
+                loss = trainer.compute_loss(trainer.model, batch)
+                if not bool(torch.isfinite(loss.detach()).item()):
+                    raise Stage0Hold(
+                        f"Stage-0 soak non-finite loss at step {step_index + 1}"
+                    )
+                losses.append(float(loss.detach().float().cpu().item()))
+                trainer.accelerator.backward(loss / accumulation_steps)
+                step_microbatches += 1
+                microbatches_completed += 1
+            if step_microbatches != accumulation_steps:
+                raise Stage0Hold(
+                    "Stage-0 soak dataloader did not produce exactly "
+                    f"{accumulation_steps} microbatches"
+                )
+
+            trainer.optimizer.step()
+            torch.cuda.synchronize()
+            step_times.append(time.perf_counter() - step_start)
+
+            temperature = gpu_temperature_c()
+            headroom = commit_headroom_mib()
+            temperatures.append(temperature)
+            headrooms.append(headroom)
+            if temperature >= gpu_temperature_abort_c:
+                raise Stage0Hold(
+                    "Stage-0 soak temperature abort threshold reached "
+                    f"at step {step_index + 1}: {temperature}C"
+                )
+            if headroom < minimum_commit_headroom_mib:
+                raise Stage0Hold(
+                    "Stage-0 soak commit headroom threshold breached "
+                    f"at step {step_index + 1}: {headroom:.1f} MiB"
+                )
+            if _stage0_soak_has_sustained_degradation(
+                step_times,
+                ratio=step_time_degradation_ratio,
+                consecutive_steps=consecutive_degraded_steps,
+            ):
+                raise Stage0Hold(
+                    "Stage-0 soak sustained step-time degradation detected "
+                    f"at step {step_index + 1}"
+                )
+
+        elapsed = time.perf_counter() - start_wall
+        weight_after, post_trainable_count = _trainable_parameter_digest(
+            trainer.model,
+            torch,
+        )
+        if post_trainable_count != trainable_count:
+            raise Stage0Hold("Stage-0 soak trainable parameter count changed")
+
+        memory = {
+            "allocated_after_soak_mib": round(
+                torch.cuda.memory_allocated() / (1024**2), 3
+            ),
+            "reserved_after_soak_mib": round(
+                torch.cuda.memory_reserved() / (1024**2), 3
+            ),
+            "peak_allocated_mib": round(
+                torch.cuda.max_memory_allocated() / (1024**2), 3
+            ),
+            "peak_reserved_mib": round(
+                torch.cuda.max_memory_reserved() / (1024**2), 3
+            ),
+        }
+        return finalize_stage0_soak_receipt(
+            runtime_binding_sha256=runtime_binding["binding_sha256"],
+            execution_spec_sha256=sha256_file(execution_spec_path),
+            weight_digest_before=weight_before,
+            weight_digest_after=weight_after,
+            optimizer_step_count=optimizer_steps,
+            gradient_accumulation_steps=accumulation_steps,
+            microbatches_completed=microbatches_completed,
+            losses=losses,
+            synthetic_input=True,
+            output_artifacts_written=False,
+            optimizer_name=optimizer_name,
+            step_times_seconds=step_times,
+            elapsed_seconds=elapsed,
+            max_wall_seconds=max_wall_seconds,
+            gpu_temperatures_c=temperatures,
+            gpu_temperature_abort_c=gpu_temperature_abort_c,
+            commit_headroom_mib=headrooms,
+            minimum_commit_headroom_mib=minimum_commit_headroom_mib,
+            step_time_degradation_ratio=step_time_degradation_ratio,
+            consecutive_degraded_steps=consecutive_degraded_steps,
+            cuda_memory=memory,
+        )

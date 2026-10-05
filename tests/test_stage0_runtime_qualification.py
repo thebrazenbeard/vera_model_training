@@ -83,3 +83,80 @@ def test_stage0_receipt_rejects_non_synthetic_or_persisted_output():
 
 def test_live_stage0_optimizer_smoke_seam_exists():
     assert hasattr(stage0, "execute_stage0_optimizer_smoke")
+
+
+def _valid_soak_kwargs():
+    return {
+        "runtime_binding_sha256": "1" * 64,
+        "execution_spec_sha256": "2" * 64,
+        "weight_digest_before": "a" * 64,
+        "weight_digest_after": "b" * 64,
+        "optimizer_step_count": 20,
+        "gradient_accumulation_steps": 8,
+        "microbatches_completed": 160,
+        "losses": [0.01] * 160,
+        "synthetic_input": True,
+        "output_artifacts_written": False,
+        "optimizer_name": "AdamW",
+        "step_times_seconds": [10.0] * 20,
+        "elapsed_seconds": 240.0,
+        "max_wall_seconds": 900.0,
+        "gpu_temperatures_c": [70] * 20,
+        "gpu_temperature_abort_c": 88,
+        "commit_headroom_mib": [8192.0] * 20,
+        "minimum_commit_headroom_mib": 4096.0,
+        "step_time_degradation_ratio": 1.5,
+        "consecutive_degraded_steps": 5,
+        "cuda_memory": {"peak_allocated_mib": 4300.0},
+    }
+
+
+def test_stage0_soak_receipt_passes_only_bounded_20_step_synthetic_run():
+    receipt = stage0.finalize_stage0_soak_receipt(**_valid_soak_kwargs())
+    assert receipt["status"] == "STAGE0_BOUNDED_SOAK_PASS"
+    assert receipt["optimizer_step_count"] == 20
+    assert receipt["microbatches_completed"] == 160
+    assert receipt["synthetic_input"] is True
+    assert receipt["output_artifacts_written"] is False
+    assert receipt["weight_digest_changed"] is True
+    assert receipt["max_gpu_temperature_c"] == 70
+    assert receipt["minimum_commit_headroom_observed_mib"] == 8192.0
+
+
+def test_stage0_soak_receipt_rejects_short_thermal_low_headroom_and_overrun():
+    import pytest
+
+    cases = []
+
+    short = _valid_soak_kwargs()
+    short["optimizer_step_count"] = 19
+    cases.append(("20 optimizer steps", short))
+
+    hot = _valid_soak_kwargs()
+    hot["gpu_temperatures_c"][-1] = 88
+    cases.append(("temperature", hot))
+
+    low_headroom = _valid_soak_kwargs()
+    low_headroom["commit_headroom_mib"][-1] = 4095.0
+    cases.append(("commit headroom", low_headroom))
+
+    overrun = _valid_soak_kwargs()
+    overrun["elapsed_seconds"] = 901.0
+    cases.append(("wall", overrun))
+
+    for expected, kwargs in cases:
+        with pytest.raises(stage0.Stage0Hold, match=expected):
+            stage0.finalize_stage0_soak_receipt(**kwargs)
+
+
+def test_stage0_soak_receipt_rejects_sustained_step_time_degradation():
+    import pytest
+
+    degraded = _valid_soak_kwargs()
+    degraded["step_times_seconds"] = [10.0] * 15 + [16.0] * 5
+    with pytest.raises(stage0.Stage0Hold, match="step-time degradation"):
+        stage0.finalize_stage0_soak_receipt(**degraded)
+
+
+def test_live_stage0_optimizer_soak_seam_exists():
+    assert hasattr(stage0, "execute_stage0_optimizer_soak")
