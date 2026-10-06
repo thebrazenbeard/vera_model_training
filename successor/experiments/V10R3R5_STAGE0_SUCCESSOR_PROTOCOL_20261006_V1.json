@@ -1,0 +1,98 @@
+{
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "deploy_activate_authorized": false,
+    "instruction": "keep going",
+    "merge_authorized": false,
+    "paid_compute_authorized": false,
+    "scope": "CONTINUE_LOCAL_MODEL_TRAINING_WHEN_GPU_IS_UNLOADED",
+    "source": "CURRENT_CHAT_USER_CONTINUATION"
+  },
+  "changed_host_condition": {
+    "commit_limit_changed_since_r4_preflight": false,
+    "commit_limit_gib": 54.729,
+    "competing_trainers": [],
+    "gpu_memory_used_mib": 0,
+    "headroom_delta_gib": 6.005,
+    "observation_project_runner_launch_id": "e53f84392b734322ba543599e5011db5",
+    "r4_preflight_commit_headroom_gib": 31.809,
+    "r5_observed_available_physical_gib": 22.753,
+    "r5_observed_commit_headroom_gib": 37.814
+  },
+  "claim_ceiling": "STAGE0_HOST_RESOURCE_QUALIFICATION_ONLY_NOT_CORPUS_TRAINING_NOT_DEPLOYMENT",
+  "date": "2026-10-06",
+  "execution": {
+    "attempt_limit": 1,
+    "attempt_status": "UNUSED",
+    "automatic_retry": false,
+    "corpus_bearing_input_prohibited": true,
+    "exact_head_required": true,
+    "exclusive_gpu_lock_required": true,
+    "max_wall_seconds": 900.0,
+    "optimizer_steps": 20,
+    "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "synthetic_input_only": true
+  },
+  "host_resource_gate": {
+    "commit_limit_change_required": false,
+    "competing_trainers_required": [],
+    "fail_closed": true,
+    "gpu_memory_used_mib_required": 0,
+    "in_run_min_commit_headroom_mib": 8192.0,
+    "min_available_physical_gib": 8.0,
+    "min_prelaunch_commit_headroom_gib": 36.0
+  },
+  "predecessor": {
+    "head": "4f2aa26f50ce723bf32774238f6fb55b531dc5ad",
+    "incident_binding_path": "successor/experiments/V10R3R4_STAGE0_EXECUTION_INCIDENT_BINDING_20261006_V1.json",
+    "incident_path": "successor/experiments/receipts/V10R3R4_STAGE0_INCIDENT_20261006_V1.json",
+    "incident_sha256": "96ea8a6dbe436f2b582b0fbf8ddcc5d36387b66233c75bd01417e827bb07e027",
+    "protocol_path": "successor/experiments/V10R3R4_STAGE0_SUCCESSOR_PROTOCOL_20261006_V2.json",
+    "r4_attempt_status": "CONSUMED_FAILED_RESOURCE_HOLD",
+    "r4_commit_headroom_mib_at_hold": 6928.4,
+    "r4_optimizer_steps_completed_before_hold": 5,
+    "retry_r4_in_place": false
+  },
+  "promotion": {
+    "corpus_training_in_r5": false,
+    "evaluation_panel_use": false,
+    "on_execution_failure": "R5_ATTEMPT_CONSUMED_NO_AUTOMATIC_RETRY_CREATE_SUCCESSOR",
+    "on_stage0_pass": "PREPARE_SEPARATE_FRESH_CORPUS_TRAINING_SUBJECT_ONLY",
+    "prelaunch_fail": "HOLD_WITHOUT_CONSUMING_R5_ATTEMPT"
+  },
+  "runtime": {
+    "packages_mutated": false,
+    "qualification_module": "successor.experiments.qualify_v10r3r3_stage0_runtime",
+    "runtime_binding_path": "successor/experiments/V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json",
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe"
+  },
+  "schema": "V10R3R5_STAGE0_SUCCESSOR_PROTOCOL_V1",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_STAGE0_HOST_HEADROOM_GATED",
+  "successor_change": {
+    "host_gate_change": "MIN_PRELAUNCH_COMMIT_HEADROOM_36_GIB",
+    "runtime_package_change": "NONE",
+    "stage0_mechanism_change": "NONE",
+    "training_math_change": "NONE"
+  },
+  "successor_hypothesis": {
+    "causal_status": "HYPOTHESIS_NOT_ESTABLISHED",
+    "falsifier": "If R5 begins at or above 36 GiB commit headroom with an unloaded GPU and still breaches the unchanged 8192 MiB in-run floor or otherwise fails before 20 optimizer steps, elevated prelaunch headroom alone is insufficient.",
+    "proposition": "R4 may have failed because it began with insufficient host commit headroom for this 20-step synthetic soak, rather than because of a training-math or model-quality defect."
+  },
+  "supporting_evidence": {
+    "evidence_ceiling": "SUPPORTS_RESOURCE_VARIABILITY_HYPOTHESIS_ONLY_NOT_CAUSAL_PROOF",
+    "original_v10r3_commit_limit_gib_approx": 69.224,
+    "original_v10r3_host_memory_pressure_observed": true,
+    "pagefile_allocated_base_size_mb_observed": 42073,
+    "pagefile_automatic_managed_observed": true,
+    "r1_cause": "UNRESOLVED",
+    "r1_same_runtime_last_completed_optimizer_step_observed": 13
+  },
+  "system_mutation": {
+    "pagefile_change": false,
+    "preactive_policy_change": false,
+    "reason": "R5 tests the naturally changed idle host headroom without changing Windows paging policy or runtime packages.",
+    "service_termination_required": false
+  }
+}
