@@ -9,6 +9,8 @@ def _valid_kwargs(h0):
         "weight_updates_authorized": False,
         "frozen_base_verified": True,
         "additional_mutable_state_enabled": False,
+        "isolated_writable_namespaces_verified": True,
+        "isolation_receipt_sha256": "a" * 64,
     }
 
 
@@ -19,6 +21,9 @@ def test_h0_control_contract_freezes_base_and_allows_only_context_and_governed_m
     assert contract["weight_updates_authorized"] is False
     assert contract["frozen_base_verified"] is True
     assert contract["additional_mutable_state_enabled"] is False
+    assert contract["isolated_writable_namespaces_verified"] is True
+    assert contract["isolation_receipt_sha256"] == "a" * 64
+    assert "hidden_state_negative_mechanism" in contract["required_controls"]
     assert contract["missing_controls"] == []
     assert contract["unknown_controls"] == []
 
@@ -29,6 +34,8 @@ def test_h0_control_contract_holds_on_weight_mutation_unfrozen_base_or_unknown_s
         ({"weight_updates_authorized": True}, "h0_weight_updates_forbidden"),
         ({"frozen_base_verified": False}, "h0_frozen_base_not_verified"),
         ({"additional_mutable_state_enabled": True}, "h0_unapproved_mutable_state_enabled"),
+        ({"isolated_writable_namespaces_verified": False}, "h0_writable_namespace_isolation_unverified"),
+        ({"isolation_receipt_sha256": None}, "h0_isolation_receipt_missing_or_invalid"),
         ({"controls": list(h0.REQUIRED_H0_CONTROLS) + ["hidden_adapter"]}, "unknown_h0_control"),
     ]
     for override, reason in cases:
