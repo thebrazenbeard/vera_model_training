@@ -1,0 +1,14 @@
+{
+  "corpus_bearing_input_used": false,
+  "gpu_temperature_abort_c": 88,
+  "max_wall_seconds": 900.0,
+  "minimum_commit_headroom_mib": 8192.0,
+  "optimizer_steps_requested": 20,
+  "protocol_sha256": "45f54d580dccd0586886b595ca7bc42f4bc597af331b3bfe1c9942e1407a327b",
+  "repo_head": "119f2dea80bdb366ca98edaf18d1383f196613f5",
+  "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+  "schema": "V103R4_STAGE0_LAUNCH_V1",
+  "started_at_utc": "2026-10-06T19:36:22.908932+00:00",
+  "status": "LAUNCHED",
+  "synthetic_input_only": true
+}

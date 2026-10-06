@@ -1,0 +1,48 @@
+{
+  "artifacts": {
+    "incident_path": "successor/experiments/receipts/V10R3R4_STAGE0_INCIDENT_20261006_V1.json",
+    "incident_sha256": "96ea8a6dbe436f2b582b0fbf8ddcc5d36387b66233c75bd01417e827bb07e027",
+    "launch_receipt_path": "successor/experiments/receipts/V10R3R4_STAGE0_LAUNCH_20261006_V1.json",
+    "launch_receipt_sha256": "c2f086c9b8ce16273e6c3673792530860822eb0f4693541a6dbaa6e838027692",
+    "normalization_note": "The transient incident filename was generated as V103R4_STAGE0_INCIDENT_20261006_V1.json. It was renamed without content modification to the canonical V103R3R4 path before commit."
+  },
+  "claim_ceiling": "R4_RUNTIME_RESOURCE_INCIDENT_ONLY_NOT_MODEL_QUALITY_NOT_TRAINING_RECIPE_FAILURE",
+  "date": "2026-10-06",
+  "disposition": {
+    "leading_hypothesis": "HOST_COMMIT_PRESSURE",
+    "model_quality_failure_established": false,
+    "r5_candidate": "Same training math and in-run 8192 MiB floor, but require materially higher prelaunch commit headroom and bind the changed host condition as the successor hypothesis.",
+    "retry_r4_in_place": false,
+    "successor_required": true,
+    "training_math_failure_established": false
+  },
+  "execution": {
+    "corpus_bearing_input_used": false,
+    "optimizer_steps_completed_before_hold": 5,
+    "optimizer_steps_requested": 20,
+    "preflight_available_physical_gib": 16.07,
+    "preflight_commit_headroom_gib": 31.809,
+    "preflight_commit_limit_gib": 54.729,
+    "preflight_gpu_memory_used_mib": 0,
+    "project_runner_launch_id": "053b8b78a6014867a697d6dd13c491f8",
+    "project_runner_task_id": "ec59727c349242ff88e7de54bfc94f6e",
+    "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "synthetic_input_only": true,
+    "task_name": "vera-training-r4-stage0-soak-live3-20261006"
+  },
+  "incident": {
+    "attempt_consumed": true,
+    "automatic_retry": false,
+    "commit_headroom_mib_observed_at_hold": 6928.4,
+    "exception_type": "Stage0Hold",
+    "hold_reason": "commit_headroom_threshold_breached",
+    "minimum_commit_headroom_mib_required": 8192.0
+  },
+  "schema": "V103R3R4_STAGE0_EXECUTION_INCIDENT_BINDING_V1",
+  "status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+  "subject": {
+    "predecessor_head": "119f2dea80bdb366ca98edaf18d1383f196613f5",
+    "protocol_path": "successor/experiments/V10R3R4_STAGE0_SUCCESSOR_PROTOCOL_20261006_V2.json",
+    "protocol_sha256": "45f54d580dccd0586886d595ca7bc42f4bc597af331b3bfe1c9942e1407a327b"
+  }
+}

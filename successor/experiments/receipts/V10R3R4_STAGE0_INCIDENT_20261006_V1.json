@@ -1,0 +1,11 @@
+{
+  "attempt_consumed": true,
+  "automatic_retry": false,
+  "ended_at_utc": "2026-10-06T19:39:34.954910+00:00",
+  "exception_message": "Stage-0 soak commit headroom threshold breached at step 5: 6928.4 MiB",
+  "exception_type": "Stage0Hold",
+  "protocol_sha256": "45f54d580dccd0586886b595ca7bc42f4bc597af331b3bfe1c9942e1407a327b",
+  "repo_head": "119f2dea80bdb366ca98edaf18d1383f196613f5",
+  "schema": "V10R3R4_STAGE0_INCIDENT_V1",
+  "status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED"
+}
