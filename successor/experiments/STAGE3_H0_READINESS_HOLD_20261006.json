@@ -1,0 +1,43 @@
+{
+  "claim_ceiling": "H0_DEVELOPMENT_READINESS_ONLY_NOT_PROMOTION_OR_FINAL_QUALIFICATION",
+  "development_bank_manifest_sha256": null,
+  "development_bank_materialized": false,
+  "h0_control_isolation_head": "a3ca9b35a27ad3d36e8625c86737ffdb2cbc0603",
+  "h0_falsifier_head": "b9f12e71da2270936c545abc1f1dca1c59075449",
+  "h0_measurement_head": "ee984c1a6307694b9506a69e4fdd822829a0e423",
+  "historical_dev_validation": {
+    "current_path_exists": false,
+    "exact_sha_found_elsewhere_under_d_vera": false,
+    "path": "D:\\VERA\\.scratch\\v10-qwen512-preflight-20261001-v1\\validation.jsonl",
+    "sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+    "use_as_substitute_for_required_12_bank_dev_material": false
+  },
+  "independent_review_complete": false,
+  "minimum_development_cases_per_bank": 20,
+  "next_dependency": "materialize_review_and_freeze_stage2_development_bank",
+  "protected_final_used": false,
+  "readiness_code_head": "bb30597b9bca0870254c160724b9af34b01616b0",
+  "reasons": [
+    "stage2_qualification_packet_not_pass",
+    "stage2_baseline_manifest_sha_invalid",
+    "stage2_bank_manifest_sha_invalid",
+    "development_bank_manifest_not_pass",
+    "development_bank_count_invalid",
+    "development_bank_case_count_below_floor",
+    "development_bank_under_minimum_banks",
+    "development_bank_manifest_sha_invalid",
+    "h0_control_contract_not_pass",
+    "h0_isolation_receipt_missing_or_invalid",
+    "development_bank_not_materialized",
+    "development_bank_independent_review_incomplete"
+  ],
+  "receipt_sha256": "f9e67ded2088a3e06631c88cb3548fab3757415f6db1ab872b60aa479d525f53",
+  "required_bank_count": 12,
+  "schema": "STAGE3_H0_READINESS_V1",
+  "stage0_qualified_subject_head": "8fcb8428a9b6ef20d0052866aac40ea45d1385ce",
+  "stage0_runtime_evidence_head": "1174c758ba6407f6238e3d6f9c012b8870d4c441",
+  "stage2_bank_manifest_sha256": null,
+  "stage2_baseline_manifest_sha256": null,
+  "stage2_source_harness_head": "f93eb5da96c0478da9a0bdb230b31c3358860027",
+  "status": "HOLD"
+}
