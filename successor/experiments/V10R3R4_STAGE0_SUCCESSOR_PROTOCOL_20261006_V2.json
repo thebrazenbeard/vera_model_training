@@ -1,0 +1,128 @@
+{
+  "schema": "V10R3R4_STAGE0_SUCCESSOR_PROTOCOL_V2",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_STAGE0_POLICY_GATED",
+  "date": "2026-10-06",
+  "claim_ceiling": "STAGE0_RUNTIME_QUALIFICATION_ONLY_NOT_CORPUS_TRAINING_NOT_DEPLOYMENT",
+  "authority": {
+    "training_resume": {
+      "source": "USER_DIRECT_CURRENT_CHAT",
+      "observed_utc": "2026-10-06T11:30:20Z",
+      "instruction": "resume vera_model_training; Vera controls all three lanes through P.O.R.T.A.L."
+    },
+    "newer_preactive_window": {
+      "source": "RUNTIME_FILE_DECLARED_USER_AUTHORITY",
+      "authority_text": "Patrick present instruction 2026-10-06",
+      "policy_file_modified_local": "2026-10-06T08:05:00-04:00",
+      "apply_policy_modified_local": "2026-10-06T08:06:00-04:00"
+    },
+    "merge_authorized": false,
+    "deploy_activate_authorized": false,
+    "paid_compute_authorized": false
+  },
+  "supersedes": {
+    "path": "successor/experiments/V10R3R4_STAGE0_SUCCESSOR_PROTOCOL_20261006_V1.json",
+    "frozen_head": "d62a055ab0c808a62419ca7195a78d93e21b4f14",
+    "reason": "NEWER_PREACTIVE_AUTONOMY_WINDOW_INVALIDATED_WATCHDOG_HANDOFF",
+    "v1_execution_consumed": false
+  },
+  "predecessor": {
+    "subject": "lane-a/stage0-runtime-qualification-v6",
+    "head": "8fcb8428a9b6ef20d0052866aac40ea45d1385ce",
+    "status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+    "retry_in_place_forbidden": true,
+    "incident_path": "successor/experiments/STAGE0_SOAK_INCIDENT_V5_20261006.json",
+    "hold_reason": "windows_paging_file_too_small_during_model_load"
+  },
+  "successor": {
+    "branch": "work/stage0-resume-vera-control-20261006-v1",
+    "parent_head": "8fcb8428a9b6ef20d0052866aac40ea45d1385ce",
+    "protocol_v1_head": "d62a055ab0c808a62419ca7195a78d93e21b4f14",
+    "training_math_change": "NONE",
+    "stage0_mechanism_change": "NONE",
+    "identity_change": "DISTINCT_SUCCESSOR_SUBJECT_ONLY",
+    "exact_head_binding": "BIND_AT_LAUNCH_AFTER_V2_PROTOCOL_COMMIT"
+  },
+  "execution": {
+    "attempt_limit": 1,
+    "attempt_status": "UNUSED",
+    "automatic_retry": false,
+    "synthetic_input_only": true,
+    "corpus_bearing_input_prohibited": true,
+    "module": "successor.experiments.qualify_v10r3r3_stage0_runtime",
+    "model_output_artifacts_prohibited": true,
+    "fresh_process_required": true,
+    "gpu_lease_required": true
+  },
+  "runtime": {
+    "python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "cuda_required": true,
+    "observed_torch": "2.14.0+cu130",
+    "observed_torch_cuda": "13.0",
+    "observed_cuda_available": true,
+    "observed_device_count": 1,
+    "min_commit_headroom_gib": 8,
+    "min_available_physical_gib": 8,
+    "gpu_memory_used_mib_required": 0,
+    "competing_trainer_count_required": 0
+  },
+  "preactive_window_policy": {
+    "policy_path": "C:\\ProgramData\\PreActive\\runtime\\LAPPY_AUTONOMY_WINDOW.json",
+    "policy_sha256": "28c7a9e56b3ee785445917cf1b73c32f10aabfd6bd73330fbabd0ed397791fe4",
+    "apply_policy_path": "C:\\ProgramData\\PreActive\\runtime\\apply-window-policy.ps1",
+    "apply_policy_sha256": "94027fdf9ad0635aba9302928e565c6590530c860ea322ac922dfcdedb605fa2",
+    "supervisor_path": "C:\\ProgramData\\PreActive\\runtime\\window-supervisor.ps1",
+    "supervisor_sha256": "0bafb43e77a151a46854422bafc44d9d6585a9240f9011ea0824a042b48609c4",
+    "close_path": "C:\\ProgramData\\PreActive\\runtime\\window-close.ps1",
+    "close_sha256": "a3f2102567f447048c78fd33e609fd5bbef7b8371b12da5404fcf134f25de75f",
+    "authority": "Patrick present instruction 2026-10-06",
+    "timezone_id": "US Eastern Standard Time",
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start_local": "00:00",
+    "end_local": "14:00",
+    "enforcement_cutoff_local": "13:59",
+    "outside_window": "STOP_PRE_ACTIVE_DAEMON_AND_QWEN",
+    "supervisor_behavior": "INSIDE_WINDOW_ENSURE_QWEN_AND_DAEMON_RUNNING_EVERY_5_SECONDS",
+    "window_close_behavior": "STOP_DAEMON_QWEN_AND_WINDOW_SUPERVISOR"
+  },
+  "resource_arbitration": {
+    "current_gate": "HOLD_INSIDE_NEWER_AUTONOMY_WINDOW",
+    "preemption_rule": "NO_PREEMPT_INSIDE_ACTIVE_WINDOW_WITHOUT_NEWER_EXPLICIT_PATRICK_OVERRIDE",
+    "supervisor_task": "PreActive Window Supervisor",
+    "window_close_task": "PreActive Window Close",
+    "qwen_task": "PreActive Qwen Endpoint",
+    "daemon_task": "PreActive Daemon",
+    "outside_window_handoff_required": false,
+    "stop_order_if_newer_override": [
+      "PreActive Window Supervisor",
+      "PreActive Qwen Endpoint"
+    ],
+    "daemon_stop_required_for_gpu_only": false,
+    "restore_order_if_newer_override": [
+      "PreActive Qwen Endpoint",
+      "PreActive Window Supervisor"
+    ],
+    "restore_required_after_override_handoff": true
+  },
+  "last_nonconsuming_preflight": {
+    "status": "HOLD",
+    "attempt_consumed": false,
+    "available_physical_gib": 0.394,
+    "commit_headroom_gib": 9.207,
+    "gpu_memory_used_mib": 0,
+    "competing_trainers": [],
+    "reason": "available physical memory below minimum:0.394<8.0",
+    "note": "Observed only during temporary handoff before newer window-policy currentness was reconciled."
+  },
+  "promotion": {
+    "inside_window": "HOLD_UNLESS_NEWER_EXPLICIT_PATRICK_OVERRIDE",
+    "outside_window_and_preflight_pass": "ALLOW_SINGLE_STAGE0_SYNTHETIC_ATTEMPT",
+    "on_stage0_pass": "ALLOW_SEPARATE_FRESH_CORPUS_TRAINING_SUBJECT_PREPARATION_ONLY",
+    "on_hold_or_failure": "PRESERVE_EVIDENCE_NO_AUTOMATIC_RETRY"
+  }
+}
