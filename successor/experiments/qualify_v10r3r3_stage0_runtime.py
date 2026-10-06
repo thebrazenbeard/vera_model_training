@@ -1066,13 +1066,61 @@ def exclusive_stage0_gpu_lock(lock_path=None):
     return _scope()
 
 
+def stage0_commit_headroom_mib() -> float:
+    import ctypes
+
+    class _MemoryStatusEx(ctypes.Structure):
+        _fields_ = [
+            ("dwLength", ctypes.c_ulong),
+            ("dwMemoryLoad", ctypes.c_ulong),
+            ("ullTotalPhys", ctypes.c_ulonglong),
+            ("ullAvailPhys", ctypes.c_ulonglong),
+            ("ullTotalPageFile", ctypes.c_ulonglong),
+            ("ullAvailPageFile", ctypes.c_ulonglong),
+            ("ullTotalVirtual", ctypes.c_ulonglong),
+            ("ullAvailVirtual", ctypes.c_ulonglong),
+            ("ullAvailExtendedVirtual", ctypes.c_ulonglong),
+        ]
+
+    status = _MemoryStatusEx()
+    status.dwLength = ctypes.sizeof(_MemoryStatusEx)
+    if not ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):
+        raise Stage0Hold("GlobalMemoryStatusEx failed")
+    return float(status.ullAvailPageFile) / (1024**2)
+
+
+def require_stage0_commit_headroom(
+    *,
+    minimum_commit_headroom_mib: float = 4096.0,
+    commit_headroom_provider=None,
+) -> float:
+    if minimum_commit_headroom_mib <= 0:
+        raise Stage0Hold("minimum commit headroom must be positive")
+    provider = commit_headroom_provider or stage0_commit_headroom_mib
+    observed = float(provider())
+    if not math.isfinite(observed):
+        raise Stage0Hold("Stage-0 commit headroom readback is non-finite")
+    if observed < float(minimum_commit_headroom_mib):
+        raise Stage0Hold(
+            "Stage-0 commit headroom below required minimum: "
+            f"{observed:.1f} MiB < {float(minimum_commit_headroom_mib):.1f} MiB"
+        )
+    return observed
+
+
 def execute_stage0_model_load_probe(
     repo_root,
     *,
     training_stack_loader=None,
+    minimum_commit_headroom_mib: float = 4096.0,
+    commit_headroom_provider=None,
     gpu_lock_path=None,
 ) -> dict:
     with exclusive_stage0_gpu_lock(gpu_lock_path):
+        require_stage0_commit_headroom(
+            minimum_commit_headroom_mib=minimum_commit_headroom_mib,
+            commit_headroom_provider=commit_headroom_provider,
+        )
         return _execute_stage0_model_load_probe_unlocked(
             repo_root,
             training_stack_loader=training_stack_loader,
@@ -1083,9 +1131,15 @@ def execute_stage0_optimizer_smoke(
     repo_root,
     *,
     training_stack_loader=None,
+    minimum_commit_headroom_mib: float = 4096.0,
+    commit_headroom_provider=None,
     gpu_lock_path=None,
 ) -> dict:
     with exclusive_stage0_gpu_lock(gpu_lock_path):
+        require_stage0_commit_headroom(
+            minimum_commit_headroom_mib=minimum_commit_headroom_mib,
+            commit_headroom_provider=commit_headroom_provider,
+        )
         return _execute_stage0_optimizer_smoke_unlocked(
             repo_root,
             training_stack_loader=training_stack_loader,
@@ -1102,9 +1156,14 @@ def execute_stage0_optimizer_soak(
     step_time_degradation_ratio: float = 1.5,
     consecutive_degraded_steps: int = 5,
     training_stack_loader=None,
+    commit_headroom_provider=None,
     gpu_lock_path=None,
 ) -> dict:
     with exclusive_stage0_gpu_lock(gpu_lock_path):
+        require_stage0_commit_headroom(
+            minimum_commit_headroom_mib=minimum_commit_headroom_mib,
+            commit_headroom_provider=commit_headroom_provider,
+        )
         return _execute_stage0_optimizer_soak_unlocked(
             repo_root,
             optimizer_steps=optimizer_steps,

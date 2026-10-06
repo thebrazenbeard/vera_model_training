@@ -1,0 +1,18 @@
+{
+  "claim_ceiling": "RUNTIME_HOST_COMMIT_HOLD_ONLY_NOT_MODEL_OR_TRAINING_QUALITY",
+  "corpus_bearing_input_used": false,
+  "hold_reason": "windows_paging_file_too_small_during_model_load",
+  "incident_sha256": "91b07743a13c7dd9265088db00bb10a94720baaca242a45d9ee18d413000fbb0",
+  "model_load_completed": false,
+  "optimizer_step_reached": false,
+  "optimizer_steps_completed_before_hold": 0,
+  "predecessor_head": "0ae41cd4e2da3675ea5f4bbcfd249c4a3c62f071",
+  "project_runner_launch_id": "c14c2f2fa42d421eb9c7eb9795467c96",
+  "project_runner_task_id": "d6d9cc8562254290bb357f0f2555e890",
+  "retry_in_place_forbidden": true,
+  "schema": "V10R3R3_STAGE0_SOAK_INCIDENT_V2",
+  "status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+  "successor_subject": "lane-a/stage0-runtime-qualification-v6",
+  "synthetic_input_only": true,
+  "windows_error": 1455
+}

@@ -324,3 +324,53 @@ def test_stage0_runtime_entrypoints_accept_machine_global_gpu_lock_path():
         stage0.execute_stage0_optimizer_soak,
     ):
         assert "gpu_lock_path" in inspect.signature(fn).parameters
+
+
+def test_stage0_preload_commit_gate_rejects_below_floor():
+    import pytest
+
+    with pytest.raises(stage0.Stage0Hold, match="commit headroom"):
+        stage0.require_stage0_commit_headroom(
+            minimum_commit_headroom_mib=4096.0,
+            commit_headroom_provider=lambda: 1024.0,
+        )
+
+
+def test_stage0_gpu_entrypoints_check_commit_before_training_stack_load(tmp_path):
+    import pytest
+
+    calls = []
+
+    def forbidden_loader():
+        calls.append("loader")
+        raise AssertionError("training stack loader must not run below commit floor")
+
+    entrypoints = (
+        lambda: stage0.execute_stage0_model_load_probe(
+            tmp_path,
+            training_stack_loader=forbidden_loader,
+            minimum_commit_headroom_mib=4096.0,
+            commit_headroom_provider=lambda: 512.0,
+            gpu_lock_path=tmp_path / "probe.lock",
+        ),
+        lambda: stage0.execute_stage0_optimizer_smoke(
+            tmp_path,
+            training_stack_loader=forbidden_loader,
+            minimum_commit_headroom_mib=4096.0,
+            commit_headroom_provider=lambda: 512.0,
+            gpu_lock_path=tmp_path / "smoke.lock",
+        ),
+        lambda: stage0.execute_stage0_optimizer_soak(
+            tmp_path,
+            training_stack_loader=forbidden_loader,
+            minimum_commit_headroom_mib=4096.0,
+            commit_headroom_provider=lambda: 512.0,
+            gpu_lock_path=tmp_path / "soak.lock",
+        ),
+    )
+
+    for invoke in entrypoints:
+        with pytest.raises(stage0.Stage0Hold, match="commit headroom"):
+            invoke()
+
+    assert calls == []
