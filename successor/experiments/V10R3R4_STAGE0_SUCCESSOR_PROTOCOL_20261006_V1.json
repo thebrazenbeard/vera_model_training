@@ -1,0 +1,74 @@
+{
+  "schema": "V10R3R4_STAGE0_SUCCESSOR_PROTOCOL_V1",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_STAGE0",
+  "date": "2026-10-06",
+  "claim_ceiling": "STAGE0_RUNTIME_QUALIFICATION_ONLY_NOT_CORPUS_TRAINING_NOT_DEPLOYMENT",
+  "authority": {
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "user_instruction": "Resume training; Vera controls all three lanes through P.O.R.T.A.L.",
+    "merge_authorized": false,
+    "deploy_activate_authorized": false,
+    "paid_compute_authorized": false
+  },
+  "predecessor": {
+    "subject": "lane-a/stage0-runtime-qualification-v6",
+    "head": "8fcb8428a9b6ef20d0052866aac40ea45d1385ce",
+    "status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+    "retry_in_place_forbidden": true,
+    "incident_path": "successor/experiments/STAGE0_SOAK_INCIDENT_V5_20261006.json",
+    "hold_reason": "windows_paging_file_too_small_during_model_load"
+  },
+  "successor": {
+    "branch": "work/stage0-resume-vera-control-20261006-v1",
+    "parent_head": "8fcb8428a9b6ef20d0052866aac40ea45d1385ce",
+    "training_math_change": "NONE",
+    "stage0_mechanism_change": "NONE",
+    "identity_change": "DISTINCT_SUCCESSOR_SUBJECT_ONLY",
+    "exact_head_binding": "BIND_AT_LAUNCH_AFTER_PROTOCOL_COMMIT"
+  },
+  "execution": {
+    "attempt_limit": 1,
+    "automatic_retry": false,
+    "synthetic_input_only": true,
+    "corpus_bearing_input_prohibited": true,
+    "module": "successor.experiments.qualify_v10r3r3_stage0_runtime",
+    "model_output_artifacts_prohibited": true,
+    "fresh_process_required": true,
+    "gpu_lease_required": true
+  },
+  "runtime": {
+    "python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "cuda_required": true,
+    "min_commit_headroom_gib": 8,
+    "min_available_physical_gib": 8,
+    "gpu_memory_used_mib_required": 0,
+    "competing_trainer_count_required": 0
+  },
+  "preactive_handoff": {
+    "watchdog_task": "PreActive Watchdog",
+    "qwen_task": "PreActive Qwen Endpoint",
+    "daemon_task": "PreActive Daemon",
+    "daemon_stop_required": false,
+    "stop_order": [
+      "PreActive Watchdog",
+      "PreActive Qwen Endpoint"
+    ],
+    "verify_after_stop": [
+      "qwen_task_not_running",
+      "qwen_http_process_absent",
+      "nvidia_smi_compute_empty",
+      "gpu_memory_used_mib_zero",
+      "host_resource_gate_pass"
+    ],
+    "restore_order": [
+      "PreActive Qwen Endpoint",
+      "PreActive Watchdog"
+    ],
+    "restore_required_after_terminal_state": true,
+    "child_pid_kill_forbidden_as_normal_handoff": true
+  },
+  "promotion": {
+    "on_stage0_pass": "ALLOW_SEPARATE_FRESH_CORPUS_TRAINING_SUBJECT_PREPARATION_ONLY",
+    "on_hold_or_failure": "PRESERVE_EVIDENCE_RESTORE_PREACTIVE_NO_AUTOMATIC_RETRY"
+  }
+}
