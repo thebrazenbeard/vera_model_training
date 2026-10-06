@@ -160,3 +160,118 @@ def test_stage0_soak_receipt_rejects_sustained_step_time_degradation():
 
 def test_live_stage0_optimizer_soak_seam_exists():
     assert hasattr(stage0, "execute_stage0_optimizer_soak")
+
+
+def test_transformers_517_allocator_warmup_bypass_is_scoped_and_restored():
+    class FakeModelingUtils:
+        pass
+
+    class FakeTransformers:
+        __version__ = "5.17.0"
+
+    modeling_utils = FakeModelingUtils()
+    original_calls = []
+
+    def original(*args, **kwargs):
+        original_calls.append((args, kwargs))
+
+    modeling_utils.caching_allocator_warmup = original
+
+    with stage0.temporary_transformers_allocator_warmup_bypass(
+        FakeTransformers(),
+        modeling_utils_module=modeling_utils,
+    ) as receipt:
+        assert modeling_utils.caching_allocator_warmup is not original
+        assert modeling_utils.caching_allocator_warmup("ignored") is None
+        assert receipt["transformers_version"] == "5.17.0"
+        assert receipt["bypass_active"] is True
+
+    assert modeling_utils.caching_allocator_warmup is original
+    assert original_calls == []
+
+
+def test_stage0_qwen_loader_bypasses_only_allocator_warmup_during_from_pretrained():
+    class FakeModelingUtils:
+        pass
+
+    class FakeTransformers:
+        __version__ = "5.17.0"
+
+    modeling_utils = FakeModelingUtils()
+    original_called = []
+
+    def original(*args, **kwargs):
+        original_called.append(True)
+        raise AssertionError("original allocator warmup should be bypassed")
+
+    modeling_utils.caching_allocator_warmup = original
+
+    class FakeQwen:
+        @classmethod
+        def from_pretrained(cls, *args, **kwargs):
+            modeling_utils.caching_allocator_warmup("model", {"x": 0}, None)
+            return {"args": args, "kwargs": kwargs}
+
+    stack = {
+        "transformers": FakeTransformers(),
+        "Qwen3_5ForCausalLM": FakeQwen,
+    }
+    model, receipt = stage0.load_stage0_qwen_model(
+        stack,
+        "C:/fake/base",
+        quantization_config="quant",
+        device_map={"": 0},
+        dtype="bfloat16",
+        modeling_utils_module=modeling_utils,
+    )
+    assert model["kwargs"]["quantization_config"] == "quant"
+    assert receipt["allocator_warmup_bypassed"] is True
+    assert modeling_utils.caching_allocator_warmup is original
+    assert original_called == []
+
+
+def test_stage0_model_load_probe_seam_exists_before_optimizer_execution():
+    assert hasattr(stage0, "execute_stage0_model_load_probe")
+
+
+def test_transformers_warmup_bypass_restores_original_on_exception():
+    import pytest
+
+    class FakeModelingUtils:
+        pass
+
+    class FakeTransformers:
+        __version__ = "5.17.0"
+
+    modeling_utils = FakeModelingUtils()
+
+    def original(*args, **kwargs):
+        return "original"
+
+    modeling_utils.caching_allocator_warmup = original
+    with pytest.raises(RuntimeError, match="boom"):
+        with stage0.temporary_transformers_allocator_warmup_bypass(
+            FakeTransformers(),
+            modeling_utils_module=modeling_utils,
+        ):
+            raise RuntimeError("boom")
+    assert modeling_utils.caching_allocator_warmup is original
+
+
+def test_transformers_warmup_bypass_rejects_unfrozen_version():
+    import pytest
+
+    class FakeModelingUtils:
+        pass
+
+    class FakeTransformers:
+        __version__ = "5.18.0"
+
+    modeling_utils = FakeModelingUtils()
+    modeling_utils.caching_allocator_warmup = lambda *args, **kwargs: None
+    with pytest.raises(stage0.Stage0Hold, match="frozen to transformers 5.17.0"):
+        with stage0.temporary_transformers_allocator_warmup_bypass(
+            FakeTransformers(),
+            modeling_utils_module=modeling_utils,
+        ):
+            pass

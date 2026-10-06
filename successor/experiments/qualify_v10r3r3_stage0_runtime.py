@@ -23,6 +23,68 @@ class Stage0Hold(RuntimeError):
     pass
 
 
+def temporary_transformers_allocator_warmup_bypass(
+    transformers_module,
+    *,
+    modeling_utils_module=None,
+):
+    from contextlib import contextmanager
+    import importlib
+
+    @contextmanager
+    def _scope():
+        version = getattr(transformers_module, "__version__", None)
+        if version != "5.17.0":
+            raise Stage0Hold(
+                "allocator warmup bypass is frozen to transformers 5.17.0"
+            )
+        module = modeling_utils_module
+        if module is None:
+            module = importlib.import_module("transformers.modeling_utils")
+        original = getattr(module, "caching_allocator_warmup", None)
+        if not callable(original):
+            raise Stage0Hold("transformers allocator warmup seam is unavailable")
+
+        def _bypass(*_args, **_kwargs):
+            return None
+
+        module.caching_allocator_warmup = _bypass
+        try:
+            yield {
+                "transformers_version": version,
+                "bypass_active": True,
+            }
+        finally:
+            module.caching_allocator_warmup = original
+
+    return _scope()
+
+
+def load_stage0_qwen_model(
+    stack: dict,
+    base_path,
+    *,
+    quantization_config,
+    device_map,
+    dtype,
+    modeling_utils_module=None,
+):
+    with temporary_transformers_allocator_warmup_bypass(
+        stack["transformers"],
+        modeling_utils_module=modeling_utils_module,
+    ) as bypass_receipt:
+        model = stack["Qwen3_5ForCausalLM"].from_pretrained(
+            base_path,
+            quantization_config=quantization_config,
+            device_map=device_map,
+            dtype=dtype,
+        )
+    return model, {
+        **bypass_receipt,
+        "allocator_warmup_bypassed": True,
+    }
+
+
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -104,6 +166,96 @@ def finalize_stage0_smoke_receipt(
     return receipt
 
 
+def execute_stage0_model_load_probe(
+    repo_root,
+    *,
+    training_stack_loader=None,
+) -> dict:
+    from pathlib import Path
+
+    from successor.experiments.train_v10_qwen35_authorized import (
+        _observe_live_runtime,
+        _read_json,
+        _validate_qwen_topology,
+        load_training_stack,
+        sha256_file,
+        validate_runtime_observation,
+    )
+
+    root = Path(repo_root)
+    experiment_dir = root / "successor" / "experiments"
+    runtime_path = experiment_dir / "V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json"
+    execution_spec_path = (
+        experiment_dir
+        / "V10R3R3_CONTINUOUS20_DURABLE_EXECUTION_SPEC_20261005_V1.json"
+    )
+    runtime_binding = _read_json(runtime_path)
+    execution_spec = _read_json(execution_spec_path)
+
+    if training_stack_loader is None:
+        training_stack_loader = load_training_stack
+    stack = training_stack_loader()
+    if not isinstance(stack, dict):
+        raise Stage0Hold("training stack loader returned invalid object")
+
+    live_runtime = _observe_live_runtime(runtime_binding, stack)
+    validate_runtime_observation(runtime_binding, live_runtime)
+
+    torch = stack["torch"]
+    if not torch.cuda.is_available():
+        raise Stage0Hold("CUDA is unavailable")
+
+    quant = execution_spec["quantization"]
+    bits_config = stack["BitsAndBytesConfig"](
+        load_in_4bit=quant["load_in_4bit"],
+        bnb_4bit_quant_type=quant["type"],
+        bnb_4bit_use_double_quant=quant["double_quant"],
+        bnb_4bit_compute_dtype=getattr(torch, quant["compute_dtype"]),
+    )
+    model_load = execution_spec["model_load"]
+    target = runtime_binding["target"]
+    model, load_receipt = load_stage0_qwen_model(
+        stack,
+        Path(target["base_path"]),
+        quantization_config=bits_config,
+        device_map=model_load["device_map"],
+        dtype=getattr(torch, model_load["dtype"]),
+    )
+    model.config.use_cache = model_load["use_cache"]
+    _validate_qwen_topology(model)
+    torch.cuda.synchronize()
+    memory = {
+        "allocated_after_load_mib": round(
+            torch.cuda.memory_allocated() / (1024**2), 3
+        ),
+        "reserved_after_load_mib": round(
+            torch.cuda.memory_reserved() / (1024**2), 3
+        ),
+    }
+    model_class = model.__class__.__name__
+    del model
+    torch.cuda.empty_cache()
+    torch.cuda.synchronize()
+
+    return {
+        "schema": "V10R3R3_STAGE0_MODEL_LOAD_PROBE_RECEIPT_V1",
+        "status": "STAGE0_MODEL_LOAD_PROBE_PASS",
+        "claim_ceiling": "EXACT_MODEL_LOAD_ONLY_NO_OPTIMIZER",
+        "runtime_binding_sha256": runtime_binding["binding_sha256"],
+        "execution_spec_sha256": sha256_file(execution_spec_path),
+        "transformers_version": load_receipt["transformers_version"],
+        "allocator_warmup_bypassed": load_receipt[
+            "allocator_warmup_bypassed"
+        ],
+        "topology_validated": True,
+        "model_class": model_class,
+        "cuda_available": True,
+        "optimizer_created": False,
+        "output_artifacts_written": False,
+        "cuda_memory": memory,
+    }
+
+
 def execute_stage0_optimizer_smoke(
     repo_root,
     *,
@@ -179,7 +331,8 @@ def execute_stage0_optimizer_smoke(
         bnb_4bit_compute_dtype=getattr(torch, quant["compute_dtype"]),
     )
     model_load = execution_spec["model_load"]
-    model = stack["Qwen3_5ForCausalLM"].from_pretrained(
+    model, _model_load_receipt = load_stage0_qwen_model(
+        stack,
         base_path,
         quantization_config=bits_config,
         device_map=model_load["device_map"],
@@ -634,7 +787,8 @@ def execute_stage0_optimizer_soak(
         bnb_4bit_compute_dtype=getattr(torch, quant["compute_dtype"]),
     )
     model_load = execution_spec["model_load"]
-    model = stack["Qwen3_5ForCausalLM"].from_pretrained(
+    model, _model_load_receipt = load_stage0_qwen_model(
+        stack,
         base_path,
         quantization_config=bits_config,
         device_map=model_load["device_map"],
