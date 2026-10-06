@@ -53,6 +53,16 @@
     "r4_optimizer_steps_completed_before_hold": 5,
     "retry_r4_in_place": false
   },
+  "predecessor_binding_documentary_correction": {
+    "canonical_incident_path": "successor/experiments/receipts/V10R3R4_STAGE0_INCIDENT_20261006_V1.json",
+    "canonical_schema_label": "V10R3R4_STAGE0_EXECUTION_INCIDENT_BINDING_V1",
+    "correction_scope": "DOCUMENTARY_LABELS_ONLY; R4 committed bytes and incident hash remain authoritative.",
+    "incident_bytes_rewritten": false,
+    "incident_sha256": "96ea8a6dbe436f2b582b0fbf8ddcc5d36387b66233c75bd01417e827bb07e027",
+    "observed_normalization_path_label": "successor/experiments/receipts/V103R3R4_STAGE0_INCIDENT_20261006_V1.json",
+    "observed_schema_label": "V103R3R4_STAGE0_EXECUTION_INCIDENT_BINDING_V1",
+    "r4_binding_file_rewritten": false
+  },
   "promotion": {
     "corpus_training_in_r5": false,
     "evaluation_panel_use": false,
