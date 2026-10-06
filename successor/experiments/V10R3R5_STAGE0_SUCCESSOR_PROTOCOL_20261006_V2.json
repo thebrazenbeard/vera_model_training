@@ -1,0 +1,62 @@
+{
+  "schema": "V10R3R5_STAGE0_SUCCESSOR_PROTOCOL_V2",
+  "date": "2026-10-06",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_STAGE0_POLICY_GATED",
+  "claim_ceiling": "STAGE0_SYNTHETIC_RUNTIME_QUALIFICATION_ONLY_NOT_CORPUS_TRAINING_NOT_MODEL_QUALITY_NOT_DEPLOYMENT",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "scope": "RESUME_LOCAL_MODEL_TRAINING_WITH_32_GIB_PRELAUNCH_COMMIT_GATE",
+    "supersedes_threshold_from_v1_gib": 40.0,
+    "selected_prelaunch_commit_headroom_gib": 32.0,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false,
+    "paid_compute_authorized": false
+  },
+  "predecessor": {
+    "r5_v1_path": "successor/experiments/V10R3R5_STAGE0_SUCCESSOR_PROTOCOL_20261006_V1.json",
+    "current_evidence_head": "95f4ace1158e9bde2b83cef12088969cb4ee22fd",
+    "r4_optimizer_steps_completed_before_hold": 5,
+    "r4_preflight_commit_headroom_gib": 31.809,
+    "r4_hold_commit_headroom_mib": 6928.4
+  },
+  "hypothesis": {
+    "leading": "HOST_COMMIT_PRESSURE",
+    "training_math_failure_established": false,
+    "training_math_change": "NONE",
+    "stage0_mechanism_change": "TELEMETRY_ONLY"
+  },
+  "resource_gate": {
+    "gpu_memory_used_mib_required": 0,
+    "competing_trainers_required": 0,
+    "min_available_physical_gib": 8.0,
+    "min_prelaunch_commit_headroom_gib": 32.0,
+    "in_run_min_commit_headroom_mib": 8192.0,
+    "r4_observed_commit_pressure_gib_through_step5": 25.043,
+    "same_pressure_minimum_prelaunch_gib": 33.043,
+    "selected_gate_delta_vs_same_pressure_minimum_gib": -1.043,
+    "selected_gate_below_same_pressure_estimate": true,
+    "risk_basis": "Explicit Patrick override; preserve fail-closed 8 GiB in-run floor and durable per-step telemetry.",
+    "threshold_is_completion_guarantee": false
+  },
+  "execution": {
+    "attempt_limit": 1,
+    "attempt_status": "UNUSED",
+    "automatic_retry": false,
+    "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "module": "successor.experiments.qualify_v10r3r3_stage0_runtime",
+    "optimizer_steps": 20,
+    "max_wall_seconds": 900.0,
+    "gpu_temperature_abort_c": 88,
+    "synthetic_input_only": true,
+    "corpus_bearing_input_prohibited": true,
+    "output_artifacts_written": false,
+    "telemetry_path": "successor/experiments/receipts/V10R3R5_STAGE0_STEP_TELEMETRY_20261006_V1.jsonl"
+  },
+  "promotion": {
+    "preflight_fail": "HOLD_NO_ATTEMPT_CONSUMED",
+    "preflight_pass": "RUN_EXACTLY_ONE_SYNTHETIC_STAGE0_R5_ATTEMPT",
+    "stage0_fail": "FREEZE_INCIDENT_AND_REQUIRE_FRESH_SUCCESSOR",
+    "stage0_pass": "PREPARE_SEPARATE_FRESH_CORPUS_TRAINING_SUBJECT"
+  }
+}
