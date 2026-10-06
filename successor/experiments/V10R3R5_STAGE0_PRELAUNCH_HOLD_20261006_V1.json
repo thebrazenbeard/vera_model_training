@@ -1,0 +1,39 @@
+{
+  "schema": "V10R3R5_STAGE0_PRELAUNCH_HOLD_V1",
+  "date": "2026-10-06",
+  "status": "HOLD_PRELAUNCH_RESOURCE_GATE",
+  "attempt_consumed": false,
+  "subject": {
+    "protocol_path": "successor/experiments/V10R3R5_STAGE0_SUCCESSOR_PROTOCOL_20261006_V1.json",
+    "predecessor_evidence_head": "4f2aa26f50ce723bf32774238f6fb55b531dc5ad"
+  },
+  "observed": {
+    "available_physical_gib": 0.322,
+    "commit_headroom_gib": 1.582,
+    "commit_limit_gib": 77.519,
+    "committed_percent": 97.959,
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "competing_trainers": []
+  },
+  "required": {
+    "min_available_physical_gib": 8.0,
+    "min_prelaunch_commit_headroom_gib": 40.0,
+    "gpu_memory_used_mib": 0,
+    "competing_trainers": 0
+  },
+  "classification": {
+    "gpu_gate": "PASS",
+    "physical_memory_gate": "HOLD",
+    "commit_headroom_gate": "HOLD",
+    "leading_external_pressure": "FIREFOX_MEMORY_CONSUMPTION",
+    "user_application_termination_authorized": false
+  },
+  "disposition": {
+    "run_r5_now": false,
+    "retry_consumes_attempt": false,
+    "automatic_retry": false,
+    "next_action": "CONTINUE_CPU_SOURCE_AND_REVIEW_WORK_UNTIL_HOST_GATE_PASSES"
+  },
+  "claim_ceiling": "HOST_RESOURCE_HOLD_ONLY_NOT_TRAINING_RESULT_NOT_MODEL_QUALITY"
+}

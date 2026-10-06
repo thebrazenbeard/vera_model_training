@@ -689,6 +689,20 @@ def finalize_stage0_soak_receipt(
     return receipt
 
 
+def append_stage0_step_telemetry(telemetry_path, record: dict) -> None:
+    import os
+    from pathlib import Path
+
+    path = Path(telemetry_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8", newline="\n") as handle:
+        handle.write(
+            json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
+        )
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
 def _execute_stage0_optimizer_soak_unlocked(
     repo_root,
     *,
@@ -699,6 +713,7 @@ def _execute_stage0_optimizer_soak_unlocked(
     step_time_degradation_ratio: float = 1.5,
     consecutive_degraded_steps: int = 5,
     training_stack_loader=None,
+    telemetry_path=None,
 ) -> dict:
     import ctypes
     import subprocess
@@ -943,6 +958,18 @@ def _execute_stage0_optimizer_soak_unlocked(
             headroom = commit_headroom_mib()
             temperatures.append(temperature)
             headrooms.append(headroom)
+            if telemetry_path is not None:
+                append_stage0_step_telemetry(
+                    telemetry_path,
+                    {
+                        "step": step_index + 1,
+                        "elapsed_seconds": time.perf_counter() - start_wall,
+                        "step_time_seconds": step_times[-1],
+                        "gpu_temperature_c": temperature,
+                        "commit_headroom_mib": headroom,
+                        "microbatches_completed": microbatches_completed,
+                    },
+                )
             if temperature >= gpu_temperature_abort_c:
                 raise Stage0Hold(
                     "Stage-0 soak temperature abort threshold reached "
@@ -1158,6 +1185,7 @@ def execute_stage0_optimizer_soak(
     training_stack_loader=None,
     commit_headroom_provider=None,
     gpu_lock_path=None,
+    telemetry_path=None,
 ) -> dict:
     with exclusive_stage0_gpu_lock(gpu_lock_path):
         require_stage0_commit_headroom(
@@ -1173,4 +1201,5 @@ def execute_stage0_optimizer_soak(
             step_time_degradation_ratio=step_time_degradation_ratio,
             consecutive_degraded_steps=consecutive_degraded_steps,
             training_stack_loader=training_stack_loader,
+            telemetry_path=telemetry_path,
         )
