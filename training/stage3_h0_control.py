@@ -8,6 +8,7 @@ REQUIRED_H0_CONTROLS = (
     "retrieval_disabled",
     "support_removed_fresh_process",
     "prior_behavior_regression",
+    "hidden_state_negative_mechanism",
 )
 
 
@@ -19,6 +20,8 @@ def build_h0_control_contract(
     weight_updates_authorized: bool,
     frozen_base_verified: bool,
     additional_mutable_state_enabled: bool,
+    isolated_writable_namespaces_verified: bool,
+    isolation_receipt_sha256: str | None,
 ) -> dict:
     present = {str(item) for item in controls}
     required = set(REQUIRED_H0_CONTROLS)
@@ -40,9 +43,14 @@ def build_h0_control_contract(
         reasons.append("h0_governed_external_memory_disabled")
     if additional_mutable_state_enabled:
         reasons.append("h0_unapproved_mutable_state_enabled")
+    if not isolated_writable_namespaces_verified:
+        reasons.append("h0_writable_namespace_isolation_unverified")
+    digest = str(isolation_receipt_sha256 or "")
+    if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
+        reasons.append("h0_isolation_receipt_missing_or_invalid")
 
     return {
-        "schema": "STAGE3_H0_CONTROL_CONTRACT_V2",
+        "schema": "STAGE3_H0_CONTROL_CONTRACT_V3",
         "status": "PASS" if not reasons else "HOLD",
         "required_controls": list(REQUIRED_H0_CONTROLS),
         "present_controls": sorted(present),
@@ -57,6 +65,10 @@ def build_h0_control_contract(
         "additional_mutable_state_enabled": bool(
             additional_mutable_state_enabled
         ),
+        "isolated_writable_namespaces_verified": bool(
+            isolated_writable_namespaces_verified
+        ),
+        "isolation_receipt_sha256": isolation_receipt_sha256,
         "claim_ceiling": "FROZEN_BASE_CONTEXT_GOVERNED_MEMORY_CONTROL_ONLY",
         "reasons": reasons,
     }
