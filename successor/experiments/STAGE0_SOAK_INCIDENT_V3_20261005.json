@@ -1,0 +1,19 @@
+{
+  "claim_ceiling": "RUNTIME_RESOURCE_HOLD_ONLY_NOT_MODEL_OR_TRAINING_QUALITY",
+  "commit_headroom_mib_observed": 472.4,
+  "corpus_bearing_input_used": false,
+  "hold_reason": "commit_headroom_threshold_breached",
+  "incident_sha256": "e090ab3426b6a3c33e255c093232e916e3e4ee2721ee5dcadccea6ab9019ca85",
+  "minimum_commit_headroom_mib_required": 4096.0,
+  "model_load_completed": true,
+  "optimizer_step_reached": true,
+  "optimizer_steps_completed_before_hold": 1,
+  "predecessor_head": "7c625ae2df5d81b2941b98b35c8f482d9806538a",
+  "project_runner_launch_id": "aa3e3731a5f148d195663943c5d4cdb3",
+  "project_runner_task_id": "8fded30ff71941edad9e3c1481fa0e33",
+  "retry_in_place_forbidden": true,
+  "schema": "V10R3R3_STAGE0_SOAK_INCIDENT_V1",
+  "status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+  "successor_subject": "lane-a/stage0-runtime-qualification-v4",
+  "synthetic_input_only": true
+}

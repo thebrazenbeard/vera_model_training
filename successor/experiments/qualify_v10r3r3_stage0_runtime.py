@@ -256,6 +256,21 @@ def execute_stage0_model_load_probe(
     }
 
 
+def prepare_stage0_kbit_model(
+    stack: dict,
+    model,
+    *,
+    use_gradient_checkpointing: bool,
+    use_reentrant: bool,
+):
+    return stack["prepare_model_for_kbit_training"](
+        model,
+        use_gradient_checkpointing=use_gradient_checkpointing,
+        gradient_checkpointing_kwargs={"use_reentrant": use_reentrant},
+        auto_clear_cache=True,
+    )
+
+
 def execute_stage0_optimizer_smoke(
     repo_root,
     *,
@@ -340,10 +355,14 @@ def execute_stage0_optimizer_smoke(
     )
     model.config.use_cache = model_load["use_cache"]
     _validate_qwen_topology(model)
-    model = stack["prepare_model_for_kbit_training"](
+    model = prepare_stage0_kbit_model(
+        stack,
         model,
         use_gradient_checkpointing=model_load[
             "prepare_model_for_kbit_training_use_gradient_checkpointing"
+        ],
+        use_reentrant=trainer_spec[
+            "gradient_checkpointing_use_reentrant"
         ],
     )
 
@@ -796,10 +815,14 @@ def execute_stage0_optimizer_soak(
     )
     model.config.use_cache = model_load["use_cache"]
     _validate_qwen_topology(model)
-    model = stack["prepare_model_for_kbit_training"](
+    model = prepare_stage0_kbit_model(
+        stack,
         model,
         use_gradient_checkpointing=model_load[
             "prepare_model_for_kbit_training_use_gradient_checkpointing"
+        ],
+        use_reentrant=trainer_spec[
+            "gradient_checkpointing_use_reentrant"
         ],
     )
 

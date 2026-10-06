@@ -275,3 +275,28 @@ def test_transformers_warmup_bypass_rejects_unfrozen_version():
             modeling_utils_module=modeling_utils,
         ):
             pass
+
+
+def test_stage0_kbit_preparation_passes_frozen_nonreentrant_checkpointing():
+    calls = []
+
+    def fake_prepare(model, **kwargs):
+        calls.append((model, kwargs))
+        return "prepared"
+
+    stack = {"prepare_model_for_kbit_training": fake_prepare}
+    prepared = stage0.prepare_stage0_kbit_model(
+        stack,
+        "model",
+        use_gradient_checkpointing=True,
+        use_reentrant=False,
+    )
+    assert prepared == "prepared"
+    assert calls == [(
+        "model",
+        {
+            "use_gradient_checkpointing": True,
+            "gradient_checkpointing_kwargs": {"use_reentrant": False},
+            "auto_clear_cache": True,
+        },
+    )]

@@ -1,0 +1,18 @@
+{
+  "allocator_warmup_bypassed": true,
+  "claim_ceiling": "EXACT_MODEL_LOAD_ONLY_NO_OPTIMIZER",
+  "cuda_available": true,
+  "cuda_memory": {
+    "allocated_after_load_mib": 3016.062,
+    "reserved_after_load_mib": 3200.0
+  },
+  "execution_spec_sha256": "5d363847c941c963e86c4abda5eeede630c5e04598e2dcc50bae7da0c94ae5eb",
+  "model_class": "Qwen3_5ForCausalLM",
+  "optimizer_created": false,
+  "output_artifacts_written": false,
+  "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+  "schema": "V10R3R3_STAGE0_MODEL_LOAD_PROBE_RECEIPT_V1",
+  "status": "STAGE0_MODEL_LOAD_PROBE_PASS",
+  "topology_validated": true,
+  "transformers_version": "5.17.0"
+}
