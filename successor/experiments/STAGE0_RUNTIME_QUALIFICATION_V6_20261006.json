@@ -1,0 +1,43 @@
+{
+  "bounded_soak": {
+    "elapsed_seconds": 490.1780770999994,
+    "max_gpu_temperature_c": 72,
+    "microbatches": 160,
+    "minimum_commit_headroom_observed_mib": 30996.0078125,
+    "optimizer_steps": 20,
+    "output_artifacts_written": false,
+    "project_runner_task_id": "d40cc76cbe7743b7ab4cc13964a612fc",
+    "receipt_sha256": "c4e12d500642f98e37be2e10fab490bd9e53a63d97610eb8c8a0f70086aa5e22",
+    "status": "STAGE0_BOUNDED_SOAK_PASS",
+    "synthetic_input": true
+  },
+  "claim_ceiling": "RUNTIME_QUALIFICATION_ONLY_NOT_MODEL_QUALITY_NOT_TRAINING_EFFECTIVENESS",
+  "execution_spec_sha256": "5d363847c941c963e86c4abda5eeede630c5e04598e2dcc50bae7da0c94ae5eb",
+  "one_step_smoke": {
+    "microbatches": 8,
+    "optimizer_steps": 1,
+    "output_artifacts_written": false,
+    "project_runner_task_id": "3d880b6148994a6e8bcbaf3bf1bd28bd",
+    "receipt_sha256": "6ffa589028ddb0eca883e5ebde51e42ad96802b684efd7ea7d241540379c1e4d",
+    "status": "STAGE0_OPTIMIZER_SMOKE_PASS",
+    "synthetic_input": true
+  },
+  "preactive_restored_after_smoke": true,
+  "preactive_restored_after_soak": true,
+  "prior_consumed_incidents": [
+    "V4 orchestration collision",
+    "V5 paging-file/host-commit hold"
+  ],
+  "qualified_branch": "lane-a/stage0-runtime-qualification-v6",
+  "qualified_subject_head": "8fcb8428a9b6ef20d0052866aac40ea45d1385ce",
+  "receipt_sha256": "3510ee78e68f17b6779f766d001c8a6e92d15a8f25e6f719f7ab9352127a0c7a",
+  "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+  "schema": "V10R3R3_STAGE0_RUNTIME_QUALIFICATION_V6_RECEIPT_V1",
+  "source_verification": {
+    "focused_tests": "20/20",
+    "fresh_lf_checkout": true,
+    "full_tests": "745/745",
+    "project_runner_task_id": "9ee0e64b199b4311820ebd4bcdb4372a"
+  },
+  "status": "STAGE0_RUNTIME_QUALIFIED"
+}
