@@ -1,0 +1,26 @@
+{
+  "claim_ceiling": "ORCHESTRATION_COLLISION_ONLY_NOT_RUNTIME_OR_MODEL_QUALITY",
+  "cleanup_gpu_free_mib": 3962,
+  "cleanup_task_id": "951b9512fb6e457b98acec0ea4d2204b",
+  "commit_headroom_samples_valid_for_qualification": false,
+  "duplicate_python_pids": [
+    24256,
+    25400
+  ],
+  "duplicate_task_ids": [
+    "5a0a3d7f896f4ac7954d40ae7fde73f0",
+    "905c3aab64eb410486046c1c3e97c040"
+  ],
+  "duplicate_task_terminal_reason": "duplicate_orchestration_collision_aborted",
+  "gpu_overlap_observed": true,
+  "incident_sha256": "8420d4f13fd8c2331ca4c7a78228516c532a692c86d3599421e1d493acf3beca",
+  "primary_optimizer_step_completed": true,
+  "primary_smoke_receipt_sha256": "6ffa589028ddb0eca883e5ebde51e42ad96802b684efd7ea7d241540379c1e4d",
+  "primary_smoke_valid_for_qualification": false,
+  "primary_task_id": "2552f11fe8fe4002ae47ad1314e9ac5c",
+  "retry_in_place_forbidden": true,
+  "schema": "V10R3R3_STAGE0_V4_ORCHESTRATION_INCIDENT_V1",
+  "status": "FAILED_CONTAMINATED_ONE_ATTEMPT_EXHAUSTED",
+  "subject_head": "5613966a700e7e218baa5a5f55c05394d0c34a93",
+  "successor_subject": "lane-a/stage0-runtime-qualification-v5"
+}

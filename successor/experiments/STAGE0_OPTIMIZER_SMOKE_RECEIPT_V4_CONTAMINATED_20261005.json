@@ -1,0 +1,37 @@
+{
+  "claim_ceiling": "DISPOSABLE_SYNTHETIC_ONE_STEP_RUNTIME_QUALIFICATION_ONLY",
+  "cuda_memory": {
+    "allocated_after_step_mib": 4295.238,
+    "allocated_before_backward_mib": 4246.879,
+    "peak_allocated_mib": 4395.216,
+    "peak_reserved_mib": 5654.0,
+    "reserved_after_step_mib": 5654.0,
+    "reserved_before_backward_mib": 5618.0
+  },
+  "execution_spec_sha256": "5d363847c941c963e86c4abda5eeede630c5e04598e2dcc50bae7da0c94ae5eb",
+  "gradients_present": true,
+  "losses": [
+    0.006734113674610853,
+    0.0037229773588478565,
+    0.006196961738169193,
+    0.006431635469198227,
+    0.00803517084568739,
+    0.006013461854308844,
+    0.003687941934913397,
+    0.006961674429476261
+  ],
+  "microbatches_completed": 8,
+  "nonzero_gradient_parameter_count": 248,
+  "optimizer_created": true,
+  "optimizer_name": "AdamW",
+  "optimizer_step_count": 1,
+  "output_artifacts_written": false,
+  "receipt_sha256": "6ffa589028ddb0eca883e5ebde51e42ad96802b684efd7ea7d241540379c1e4d",
+  "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+  "schema": "V10R3R3_STAGE0_RUNTIME_SMOKE_RECEIPT_V1",
+  "status": "STAGE0_OPTIMIZER_SMOKE_PASS",
+  "synthetic_input": true,
+  "weight_digest_after": "43b79979fc3db142c0f8cea97be8493b0dd25aae8bebf79c1832be237adac546",
+  "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+  "weight_digest_changed": true
+}
