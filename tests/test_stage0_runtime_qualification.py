@@ -300,3 +300,27 @@ def test_stage0_kbit_preparation_passes_frozen_nonreentrant_checkpointing():
             "auto_clear_cache": True,
         },
     )]
+
+
+def test_stage0_gpu_lock_rejects_concurrent_holder_and_releases(tmp_path):
+    import pytest
+
+    lock_path = tmp_path / "stage0-gpu.lock"
+    with stage0.exclusive_stage0_gpu_lock(lock_path):
+        with pytest.raises(stage0.Stage0Hold, match="exclusive Stage-0 GPU lock"):
+            with stage0.exclusive_stage0_gpu_lock(lock_path):
+                pass
+
+    with stage0.exclusive_stage0_gpu_lock(lock_path):
+        pass
+
+
+def test_stage0_runtime_entrypoints_accept_machine_global_gpu_lock_path():
+    import inspect
+
+    for fn in (
+        stage0.execute_stage0_model_load_probe,
+        stage0.execute_stage0_optimizer_smoke,
+        stage0.execute_stage0_optimizer_soak,
+    ):
+        assert "gpu_lock_path" in inspect.signature(fn).parameters

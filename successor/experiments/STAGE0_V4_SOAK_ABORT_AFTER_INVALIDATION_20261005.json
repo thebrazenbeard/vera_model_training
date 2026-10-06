@@ -1,0 +1,15 @@
+{
+  "aborted_project_runner_launch_id": "4bf93492e711418c92e7ddb078793c6d",
+  "aborted_project_runner_task_id": "c113bc21582840519d9c8f96912d136d",
+  "claim_ceiling": "ORCHESTRATION_INVALIDATION_ONLY_NOT_RUNTIME_OR_MODEL_QUALITY",
+  "collision_incident_sha256": "8420d4f13fd8c2331ca4c7a78228516c532a692c86d3599421e1d493acf3beca",
+  "corpus_bearing_input_used": false,
+  "incident_sha256": "359b45de6ed96a865c4304d8d5256218f4e6e2f21ff40a822d216f8bdc886438",
+  "invalidated_subject_head": "5613966a700e7e218baa5a5f55c05394d0c34a93",
+  "reason": "V4 subject was formally consumed by orchestration-collision incident; retry_in_place_forbidden",
+  "runtime_result_valid": false,
+  "schema": "V10R3R3_STAGE0_V4_SOAK_ABORT_AFTER_INVALIDATION_V1",
+  "status": "ABORTED_AFTER_SUBJECT_INVALIDATION",
+  "successor_head_before_abort_evidence": "76e55d5b37ed18a8fa4e582d8686993bebd2fd7a",
+  "training_quality_claim_allowed": false
+}

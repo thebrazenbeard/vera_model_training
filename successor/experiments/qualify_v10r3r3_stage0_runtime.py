@@ -166,7 +166,7 @@ def finalize_stage0_smoke_receipt(
     return receipt
 
 
-def execute_stage0_model_load_probe(
+def _execute_stage0_model_load_probe_unlocked(
     repo_root,
     *,
     training_stack_loader=None,
@@ -271,7 +271,7 @@ def prepare_stage0_kbit_model(
     )
 
 
-def execute_stage0_optimizer_smoke(
+def _execute_stage0_optimizer_smoke_unlocked(
     repo_root,
     *,
     training_stack_loader=None,
@@ -689,7 +689,7 @@ def finalize_stage0_soak_receipt(
     return receipt
 
 
-def execute_stage0_optimizer_soak(
+def _execute_stage0_optimizer_soak_unlocked(
     repo_root,
     *,
     optimizer_steps: int = 20,
@@ -1007,4 +1007,111 @@ def execute_stage0_optimizer_soak(
             step_time_degradation_ratio=step_time_degradation_ratio,
             consecutive_degraded_steps=consecutive_degraded_steps,
             cuda_memory=memory,
+        )
+
+
+_ACTIVE_STAGE0_GPU_LOCKS: set[str] = set()
+
+
+def _default_stage0_gpu_lock_path():
+    import os
+    from pathlib import Path
+
+    base = os.environ.get("LOCALAPPDATA")
+    if not base:
+        raise Stage0Hold("LOCALAPPDATA unavailable for Stage-0 GPU lock")
+    return Path(base) / "ProjectRunner" / "locks" / "stage0-gpu-qualification.lock"
+
+
+def exclusive_stage0_gpu_lock(lock_path=None):
+    from contextlib import contextmanager
+    from pathlib import Path
+    import msvcrt
+
+    @contextmanager
+    def _scope():
+        path = Path(lock_path) if lock_path is not None else _default_stage0_gpu_lock_path()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        key = str(path.resolve()).casefold()
+        if key in _ACTIVE_STAGE0_GPU_LOCKS:
+            raise Stage0Hold("exclusive Stage-0 GPU lock is already held")
+
+        handle = path.open("a+b")
+        try:
+            handle.seek(0, 2)
+            if handle.tell() == 0:
+                handle.write(b"\0")
+                handle.flush()
+            handle.seek(0)
+            try:
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            except OSError as exc:
+                raise Stage0Hold(
+                    "exclusive Stage-0 GPU lock is already held"
+                ) from exc
+
+            _ACTIVE_STAGE0_GPU_LOCKS.add(key)
+            try:
+                yield {"lock_path": str(path.resolve())}
+            finally:
+                _ACTIVE_STAGE0_GPU_LOCKS.discard(key)
+                handle.seek(0)
+                try:
+                    msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+                except OSError:
+                    pass
+        finally:
+            handle.close()
+
+    return _scope()
+
+
+def execute_stage0_model_load_probe(
+    repo_root,
+    *,
+    training_stack_loader=None,
+    gpu_lock_path=None,
+) -> dict:
+    with exclusive_stage0_gpu_lock(gpu_lock_path):
+        return _execute_stage0_model_load_probe_unlocked(
+            repo_root,
+            training_stack_loader=training_stack_loader,
+        )
+
+
+def execute_stage0_optimizer_smoke(
+    repo_root,
+    *,
+    training_stack_loader=None,
+    gpu_lock_path=None,
+) -> dict:
+    with exclusive_stage0_gpu_lock(gpu_lock_path):
+        return _execute_stage0_optimizer_smoke_unlocked(
+            repo_root,
+            training_stack_loader=training_stack_loader,
+        )
+
+
+def execute_stage0_optimizer_soak(
+    repo_root,
+    *,
+    optimizer_steps: int = 20,
+    max_wall_seconds: float = 900.0,
+    minimum_commit_headroom_mib: float = 4096.0,
+    gpu_temperature_abort_c: int = 88,
+    step_time_degradation_ratio: float = 1.5,
+    consecutive_degraded_steps: int = 5,
+    training_stack_loader=None,
+    gpu_lock_path=None,
+) -> dict:
+    with exclusive_stage0_gpu_lock(gpu_lock_path):
+        return _execute_stage0_optimizer_soak_unlocked(
+            repo_root,
+            optimizer_steps=optimizer_steps,
+            max_wall_seconds=max_wall_seconds,
+            minimum_commit_headroom_mib=minimum_commit_headroom_mib,
+            gpu_temperature_abort_c=gpu_temperature_abort_c,
+            step_time_degradation_ratio=step_time_degradation_ratio,
+            consecutive_degraded_steps=consecutive_degraded_steps,
+            training_stack_loader=training_stack_loader,
         )
