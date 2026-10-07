@@ -1,0 +1,21 @@
+{
+  "attempt_consumed": true,
+  "automatic_retry": false,
+  "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED",
+  "completion_receipt_path": "D:\\VERA\\models\\adapters\\v10r3r8-lane-a-continuous20-sequential-20261007\\DEV_TRAINING_COMPLETE.json",
+  "completion_receipt_sha256": "9bfabb205f3900760a6ffeded92deac9aca269a5480fb524b4c261ec59c2f133",
+  "corpus_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+  "deployment_status": "NOT_DEPLOYED",
+  "elapsed_seconds": 7228.030999999988,
+  "ended_at_utc": "2026-10-07T15:24:09.507879+00:00",
+  "optimizer_steps": 20,
+  "output_namespace": "D:\\VERA\\models\\adapters\\v10r3r8-lane-a-continuous20-sequential-20261007",
+  "qualification_status": "NOT_EXTERNALLY_EVALUATED",
+  "repo_head": "494bb1ec81944dc215a7adbdd575c700200450d4",
+  "schema": "V10R3R8_DEVELOPMENT_RESULT_V1",
+  "spec_sha256": "7f64429473bd6a23aa0b86117a4402939fe40db8ac7a63a896968ebb1b9e4005",
+  "status": "DEVELOPMENT_TRAINING_PASS",
+  "weight_digest_after": "5fbd6cb245f1d2baaee01331ee93fde8dff9709fed04d407933e5af910003a03",
+  "weight_digest_before": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+  "weight_digest_changed": true
+}
