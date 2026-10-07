@@ -1,0 +1,98 @@
+{
+  "schema": "V10R3R7_CONTINUOUS20_DEVELOPMENT_PROTOCOL_V1",
+  "date": "2026-10-07",
+  "status": "PREPARED_R6_PASS_BOUND_PENDING_CORPUS_REBIND",
+  "claim_ceiling": "PREPARED_LOCAL_DEVELOPMENT_SUCCESSOR_ONLY_NOT_EXECUTED_NOT_EXTERNALLY_QUALIFIED_NOT_DEPLOYED",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "instruction": "Change the headroom limit to 25GB, and then continue running all training lanes in parallel and training our model located in the vera\\models directory",
+    "scope": "CONTINUE_LOCAL_V10_DEVELOPMENT_MODEL_TRAINING",
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false
+  },
+  "predecessor_gate": {
+    "required_stage0_subject": "V10R3R6_STAGE0_SUCCESSOR_PROTOCOL_20261007_V2",
+    "required_stage0_status": "STAGE0_BOUNDED_SOAK_PASS",
+    "r6_result_path": "successor/experiments/receipts/V10R3R6_STAGE0_RESULT_20261007_V2.json",
+    "r6_pass_not_yet_bound": false,
+    "r6_evidence_head": "21a72bf0f834b1e2555393e82bc74440df2e29ef",
+    "r6_receipt_sha256": "2b30e33d27415139768508bf59866489c1a69b1a5bb06cc0562be9113f90bb4d"
+  },
+  "resource_gate": {
+    "min_prelaunch_commit_headroom_gib": 25.0,
+    "min_available_physical_gib": 8.0,
+    "in_run_safety_floor_target_mib": 8192.0,
+    "gpu_utilization_percent_required": 0,
+    "competing_compute_apps_required": 0,
+    "wddm_noncompute_memory_is_informational": true,
+    "single_gpu_mutating_lane": "lane-a"
+  },
+  "parallel_lanes": {
+    "lane_a": "GPU_WEIGHT_MUTATION",
+    "lane_b": "CORPUS_RUNTIME_AND_TRAINING_PATH_VERIFICATION",
+    "lane_c": "GOVERNANCE_EVIDENCE_AND_ADMISSIBILITY_REVIEW",
+    "all_lanes_may_run_concurrently": true,
+    "concurrent_gpu_optimizer_jobs": false
+  },
+  "training_subject": {
+    "model_root": "D:\\VERA\\models",
+    "base_path": "D:\\VERA\\models\\latest-trained\\base",
+    "legacy_h07_parent_used": false,
+    "fresh_adapter": true,
+    "output_namespace": "D:\\VERA\\models\\adapters\\v10r3r7-lane-a-continuous20-sequential-20261007",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_rows": 50000,
+    "window": {
+      "start_row": 0,
+      "row_count": 160
+    },
+    "optimizer_steps": 20,
+    "optimizer": "adamw_bnb_8bit",
+    "learning_rate": 0.00002,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 0,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "completion_only_loss": true,
+    "shuffle_dataset": false,
+    "train_sampling_strategy": "sequential",
+    "gradient_checkpointing": true,
+    "bf16": true,
+    "tf32": true,
+    "quantization": "NF4_DOUBLE_QUANT_BF16",
+    "lora": "R4_ALPHA16_ALL_LINEAR"
+  },
+  "corpus_rebind": {
+    "previous_path": "D:\\VERA\\.scratch\\v10-qwen512-preflight-20261001-v1\\train.jsonl",
+    "previous_path_currently_missing": true,
+    "acceptance_rule": "MATERIALIZED_BYTES_MUST_MATCH_FROZEN_TRAIN_SHA256_AND_50000_ROWS_EXACTLY",
+    "mismatch_disposition": "HOLD_NO_WEIGHT_CHANGE"
+  },
+  "execution": {
+    "attempt_limit": 1,
+    "attempt_status": "UNUSED",
+    "automatic_retry": false,
+    "executable_now": false,
+    "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "runner": "successor/experiments/train_v10r2_dev.py",
+    "fresh_output_namespace_required": true,
+    "overwrite_forbidden": true,
+    "final_bank_used_as_training_data": false,
+    "retention_candidate_used_as_training_data": false
+  },
+  "promotion": {
+    "requires": [
+      "R6_STAGE0_PASS_BOUND",
+      "EXACT_50K_CORPUS_REBOUND",
+      "FRESH_OUTPUT_NAMESPACE_CONFIRMED",
+      "CURRENT_EXACT_HEAD_BOUND",
+      "PRELAUNCH_RESOURCE_GATE_PASS"
+    ],
+    "on_all_pass": "MATERIALIZE_DISTINCT_EXECUTABLE_R7_SPEC_AND_RUN_ONCE",
+    "on_any_fail": "HOLD_NO_WEIGHT_CHANGE"
+  }
+}
