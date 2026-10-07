@@ -1,0 +1,14 @@
+{
+  "abort_reason": null,
+  "attempt_consumed": true,
+  "automatic_retry": false,
+  "child_returncode": 1,
+  "elapsed_seconds": 10.094000000011874,
+  "ended_at_utc": "2026-10-07T13:05:04.653978+00:00",
+  "repo_head": "bd9bb175a332cdf41f656113fca9310c96d33ad1",
+  "schema": "V10R3R7_DEVELOPMENT_INCIDENT_V1",
+  "spec_sha256": "caef158a21af42e563f2aac6be1bb6874e2bfb8394f2b4ca174fc379b9547c66",
+  "status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+  "stderr_tail": "Traceback (most recent call last):\r\n  File \"D:\\VERA\\worktrees\\vera-training-lane-a-resume-20261006\\successor\\experiments\\train_v10r2_dev.py\", line 12, in <module>\r\n    from successor.experiments.train_v10_qwen35_authorized import (\r\nModuleNotFoundError: No module named 'successor'\r\n",
+  "stdout_tail": ""
+}

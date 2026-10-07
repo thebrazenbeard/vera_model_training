@@ -1,0 +1,40 @@
+{
+  "attempt_consumed": true,
+  "automatic_retry": false,
+  "corpus": {
+    "bytes": 84483827,
+    "path": "D:\\VERA\\.scratch\\v10-qwen512-r7-20261007-datasets411\\train.jsonl",
+    "rows": 50000,
+    "sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "status": "EXACT_CORPUS_VERIFIED"
+  },
+  "gpu_temperature_abort_c": 88,
+  "in_run_min_commit_headroom_gib": 8.0,
+  "log_dir": "D:\\VERA\\.scratch\\v10r3r7-development-20261007-v1\\logs",
+  "output_namespace": "D:\\VERA\\models\\adapters\\v10r3r7-lane-a-continuous20-sequential-20261007",
+  "prelaunch_gate": {
+    "available_physical_gib": 13.506946563720703,
+    "commit_headroom_gib": 26.4842529296875,
+    "compute_apps": [],
+    "gpu_memory_used_mib": 1129,
+    "gpu_temperature_c": 45,
+    "gpu_utilization_percent": 0,
+    "prelaunch": true,
+    "status": "PASS",
+    "wddm_memory_is_informational": true
+  },
+  "prelaunch_observation": {
+    "available_physical_gib": 13.506946563720703,
+    "commit_headroom_gib": 26.4842529296875,
+    "compute_apps": [],
+    "gpu_memory_used_mib": 1129,
+    "gpu_temperature_c": 45,
+    "gpu_utilization_percent": 0
+  },
+  "repo_head": "bd9bb175a332cdf41f656113fca9310c96d33ad1",
+  "schema": "V10R3R7_DEVELOPMENT_LAUNCH_V1",
+  "spec_path": "successor/experiments/V10R3R7_CONTINUOUS20_EXECUTION_SPEC_20261007_V1.json",
+  "spec_sha256": "caef158a21af42e563f2aac6be1bb6874e2bfb8394f2b4ca174fc379b9547c66",
+  "started_at_utc": "2026-10-07T13:04:54.558410+00:00",
+  "status": "LAUNCHED"
+}
