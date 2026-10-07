@@ -189,13 +189,14 @@ def build_candidate_from_training_receipt(
             "identity_authority": False,
             "canonical_memory_write_authority": False,
             "protected_effect_authority": False,
+            "browser_authority": False,
         },
         "admission": {
             "status": admission_status,
             "route_class": "COGNITION_ONLY",
             "selector_owner": "thebrazenbeard/portal",
             "identity_runtime_owner": "thebrazenbeard/vera-mono",
-            "effect_executor_owner": "thebrazenbeard/fuckup",
+            "integration": "OPTIONAL_PROVIDER",
         },
         "claim_ceiling": (
             "QUALIFIED_OPTIONAL_LOCAL_MODEL_PROVIDER_CANDIDATE_ONLY_"
@@ -284,7 +285,9 @@ def validate_candidate(candidate: Mapping[str, Any]) -> None:
     if authority.get("canonical_memory_write_authority") is not False:
         raise ValueError("cognition engine cannot hold canonical memory write authority")
     if authority.get("protected_effect_authority") is not False:
-        raise ValueError("cognition engine cannot hold protected effect authority")
+        raise ValueError("local model provider cannot hold protected effect authority")
+    if authority.get("browser_authority") is not False:
+        raise ValueError("local model provider cannot hold browser authority")
 
     admission = _require_mapping(data.get("admission"), "admission")
     admission_status = _require_text(
@@ -299,8 +302,8 @@ def validate_candidate(candidate: Mapping[str, Any]) -> None:
         raise ValueError("P.O.R.T.A.L. must own model route selection")
     if admission.get("identity_runtime_owner") != "thebrazenbeard/vera-mono":
         raise ValueError("Vera Mono must own identity/runtime")
-    if admission.get("effect_executor_owner") != "thebrazenbeard/fuckup":
-        raise ValueError("F.U.C.K.U.P. must own protected effect execution")
+    if admission.get("integration") != "OPTIONAL_PROVIDER":
+        raise ValueError("trained Vera model must remain an optional provider")
 
     expected = "VERAOS_ROUTE_ELIGIBLE" if status == "PASS" else "HELD"
     if admission_status != expected:

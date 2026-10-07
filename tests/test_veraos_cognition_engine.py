@@ -74,8 +74,11 @@ def test_candidate_is_cognition_only_and_never_identity_authority() -> None:
         "identity_authority": False,
         "canonical_memory_write_authority": False,
         "protected_effect_authority": False,
+        "browser_authority": False,
     }
     assert candidate["admission"]["route_class"] == "COGNITION_ONLY"
+    assert candidate["admission"]["integration"] == "OPTIONAL_PROVIDER"
+    assert "effect_executor_owner" not in candidate["admission"]
     assert route_eligible(candidate) is True
 
 
@@ -101,11 +104,28 @@ def test_unqualified_training_receipt_cannot_become_route_eligible() -> None:
     assert route_eligible(candidate) is False
 
 
-def test_authority_inflation_is_rejected() -> None:
+@pytest.mark.parametrize(
+    "authority_key",
+    [
+        "identity_authority",
+        "canonical_memory_write_authority",
+        "protected_effect_authority",
+        "browser_authority",
+    ],
+)
+def test_authority_inflation_is_rejected(authority_key: str) -> None:
     candidate = qualified_candidate()
-    candidate["authority"]["identity_authority"] = True
+    candidate["authority"][authority_key] = True
 
-    with pytest.raises(ValueError, match="identity authority"):
+    with pytest.raises(ValueError, match="authority"):
+        validate_candidate(candidate)
+
+
+def test_required_provider_disposition_is_rejected() -> None:
+    candidate = qualified_candidate()
+    candidate["admission"]["integration"] = "REQUIRED_PROVIDER"
+
+    with pytest.raises(ValueError, match="optional provider"):
         validate_candidate(candidate)
 
 
