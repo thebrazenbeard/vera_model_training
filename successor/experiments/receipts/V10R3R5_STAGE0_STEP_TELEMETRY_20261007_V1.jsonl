@@ -1,0 +1,17 @@
+{"commit_headroom_mib":24245.85546875,"elapsed_seconds":104.29332510000677,"gpu_temperature_c":59,"microbatches_completed":8,"step":1,"step_time_seconds":50.579463999994914}
+{"commit_headroom_mib":24252.08203125,"elapsed_seconds":156.39268980000634,"gpu_temperature_c":63,"microbatches_completed":16,"step":2,"step_time_seconds":51.92495499999495}
+{"commit_headroom_mib":24292.265625,"elapsed_seconds":208.1275719999976,"gpu_temperature_c":64,"microbatches_completed":24,"step":3,"step_time_seconds":51.69787460000953}
+{"commit_headroom_mib":24063.3125,"elapsed_seconds":260.51689149999584,"gpu_temperature_c":66,"microbatches_completed":32,"step":4,"step_time_seconds":52.21912850000081}
+{"commit_headroom_mib":23986.44140625,"elapsed_seconds":310.86354789999314,"gpu_temperature_c":67,"microbatches_completed":40,"step":5,"step_time_seconds":50.156653600002755}
+{"commit_headroom_mib":19860.13671875,"elapsed_seconds":361.5364083000022,"gpu_temperature_c":69,"microbatches_completed":48,"step":6,"step_time_seconds":50.48912129999371}
+{"commit_headroom_mib":19895.6640625,"elapsed_seconds":410.4091618999955,"gpu_temperature_c":68,"microbatches_completed":56,"step":7,"step_time_seconds":48.8232938000001}
+{"commit_headroom_mib":19726.3203125,"elapsed_seconds":458.9962951000052,"gpu_temperature_c":68,"microbatches_completed":64,"step":8,"step_time_seconds":48.41209430000163}
+{"commit_headroom_mib":19859.140625,"elapsed_seconds":507.79612270000507,"gpu_temperature_c":67,"microbatches_completed":72,"step":9,"step_time_seconds":48.62258830000064}
+{"commit_headroom_mib":19695.53125,"elapsed_seconds":558.308030500004,"gpu_temperature_c":68,"microbatches_completed":80,"step":10,"step_time_seconds":50.338125199996284}
+{"commit_headroom_mib":19328.62109375,"elapsed_seconds":607.4820061000064,"gpu_temperature_c":69,"microbatches_completed":88,"step":11,"step_time_seconds":49.12864159999299}
+{"commit_headroom_mib":19267.87890625,"elapsed_seconds":657.256077900005,"gpu_temperature_c":69,"microbatches_completed":96,"step":12,"step_time_seconds":49.71854339999845}
+{"commit_headroom_mib":19343.578125,"elapsed_seconds":706.5119221000059,"gpu_temperature_c":71,"microbatches_completed":104,"step":13,"step_time_seconds":49.2068891999952}
+{"commit_headroom_mib":19154.96875,"elapsed_seconds":755.6659534000064,"gpu_temperature_c":70,"microbatches_completed":112,"step":14,"step_time_seconds":49.10457729999325}
+{"commit_headroom_mib":18655.77734375,"elapsed_seconds":804.2569615999964,"gpu_temperature_c":73,"microbatches_completed":120,"step":15,"step_time_seconds":48.54248409999127}
+{"commit_headroom_mib":19193.5703125,"elapsed_seconds":853.1738121999952,"gpu_temperature_c":70,"microbatches_completed":128,"step":16,"step_time_seconds":48.87374880000425}
+{"commit_headroom_mib":19030.8828125,"elapsed_seconds":901.7010917000007,"gpu_temperature_c":70,"microbatches_completed":136,"step":17,"step_time_seconds":48.484557699994184}

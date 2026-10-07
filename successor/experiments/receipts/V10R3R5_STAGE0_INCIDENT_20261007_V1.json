@@ -1,0 +1,13 @@
+{
+  "attempt_consumed": true,
+  "automatic_retry": false,
+  "ended_at_utc": "2026-10-07T10:02:38.147551+00:00",
+  "exception_message": "Stage-0 soak wall-time limit exceeded before step 18",
+  "exception_type": "Stage0Hold",
+  "protocol_sha256": "d3601d0cc1c7e1dbbaa2fe6373f20721c2ec22698bd25f330edfc50e15dbe4f4",
+  "repo_head": "3bdae0df00176898c5740534651b64141f5371bc",
+  "schema": "V10R3R5_STAGE0_INCIDENT_V1",
+  "status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+  "telemetry_path": "successor/experiments/receipts/V10R3R5_STAGE0_STEP_TELEMETRY_20261007_V1.jsonl",
+  "traceback": "Traceback (most recent call last):\n  File \"D:\\VERA\\worktrees\\vera-training-lane-a-resume-20261006\\.r5_stage0_execute.py\", line 138, in main\n    receipt = execute_stage0_optimizer_soak(\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\VERA\\worktrees\\vera-training-lane-a-resume-20261006\\successor\\experiments\\qualify_v10r3r3_stage0_runtime.py\", line 1195, in execute_stage0_optimizer_soak\n    return _execute_stage0_optimizer_soak_unlocked(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\VERA\\worktrees\\vera-training-lane-a-resume-20261006\\successor\\experiments\\qualify_v10r3r3_stage0_runtime.py\", line 927, in _execute_stage0_optimizer_soak_unlocked\n    raise Stage0Hold(\nsuccessor.experiments.qualify_v10r3r3_stage0_runtime.Stage0Hold: Stage-0 soak wall-time limit exceeded before step 18\n"
+}
