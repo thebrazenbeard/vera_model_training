@@ -1,177 +1,141 @@
-# VeraOS Cognition Engine Contract V1
+# Optional VeraOS Local-Model Provider Contract V1
 
 ## Purpose
 
-Vera Model Training produces training evidence and model artifacts that VeraOS may later use as **replaceable cognition engines**.
+Vera Model Training is primarily responsible for producing and qualifying a standalone Vera neural model.
 
-A trained model is not, by itself, Vera.
+That model should remain independently usable in local inference software such as KoboldCPP. VeraOS is not a prerequisite for the model, and the model is not a prerequisite for VeraOS.
 
-Model weights, adapters, GGUF exports, tokenizer files, training receipts, benchmark scores, and runtime compatibility evidence do not establish identity authority, canonical-memory authority, protected-effect authority, or uninterrupted process continuity.
+This contract exists only for the optional case where VeraOS chooses to use an exact trained Vera artifact as one cognition provider.
 
-The VeraOS boundary is:
+## Separation of products
 
-- **Vera Mono** owns the governed identity/runtime boundary.
-- **P.O.R.T.A.L.** owns route discovery, qualification-aware selection, and exact route binding.
-- **Pre-Active** governs bounded proactive cognition admission.
-- **Volition** may produce endogenous cognition requests without creating effect authority.
-- **Vera Model Training** produces and qualifies cognition-engine artifacts.
-- **F.U.C.K.U.P.** owns governed protected-effect execution and verification.
-- A model route supplies cognition only.
+The standalone Vera model and VeraOS solve different problems.
 
-## Two training tracks
+The standalone model provides locally owned, offline-capable, reproducible Vera-shaped cognition embedded in weights.
 
-This repository now has two distinct output classes.
+VeraOS provides persistent state, memory governance, routing, orchestration, tools/effects, authority boundaries, and system-level continuity across replaceable cognition providers.
 
-### Track A — identity/capability bootcamp
+Neither subsumes the other.
 
-The existing zero-cost bootcamp remains valid.
+## Optional provider role
 
-Its output is an auditable training/capability package for a target interaction identity or worker. It does not mutate neural weights and does not imply that a native ChatGPT identity inherited local-model behavior.
+When exported to VeraOS, a trained Vera model is a local cognition provider.
 
-Typical outputs include:
+It is not:
 
-- `IDENTITY_CAPSULE.md`
-- `QUALIFICATION.json`
-- `REGRESSION_SET.json`
-- `TRAINING_AUDIT.json`
-- `SUMMARY.md`
+- the VeraOS identity root;
+- canonical memory;
+- the operating-system runtime;
+- the effect executor;
+- the only allowed cognition provider.
 
-### Track B — VeraOS neural cognition-engine artifacts
+VeraOS may instead use ChatGPT, another hosted/API model, another local model, a specialist model, or future provider implementations that satisfy the generic VeraOS cognition-provider interface.
 
-This track covers actual trained model artifacts such as:
+## Candidate schema
 
-- base model bindings;
-- LoRA / PEFT adapters;
-- merged Hugging Face checkpoints;
-- GGUF exports;
-- tokenizer/config artifacts;
-- quantized inference artifacts.
+The optional local-model export schema is:
 
-A Track B artifact must remain a development candidate until all required provenance and qualification gates are present.
+VERA_OS_LOCAL_MODEL_PROVIDER_CANDIDATE_V1
 
-## Candidate admission stages
+The executable helper remains in:
 
-The minimum VeraOS route-admission flow is:
+veraos_cognition_engine.py
 
-```
-TRAINING_OUTPUT
-  -> ARTIFACT_BOUND
-  -> RUNTIME_COMPATIBLE
-  -> BEHAVIORALLY_QUALIFIED
-  -> VERAOS_ROUTE_ELIGIBLE
-```
+It provides:
 
-A candidate that lacks any required gate remains `HELD`.
-
-`VERAOS_ROUTE_ELIGIBLE` means only that P.O.R.T.A.L. may consider the exact artifact as a cognition route. It is not deployment authority and does not make the model an identity root.
+- build_candidate_from_training_receipt(...)
+- validate_candidate(...)
+- route_eligible(...)
 
 ## Required provenance
 
-Every candidate must preserve at least:
+An exported local-model candidate must preserve at least:
 
 - exact producing repository;
 - exact source commit;
 - base repository and exact revision;
 - exact artifact SHA-256 digests;
+- exact artifact-manifest digest;
 - training corpus identity;
 - training-data digest when available;
 - training receipt digest;
-- runtime binding digest;
+- runtime-binding evidence;
 - qualification-suite digest;
+- qualification issuer;
 - declared capabilities;
 - explicit admission status;
 - explicit authority ceiling.
 
-Existing local V10 receipts already provide many of these evidence classes, including training corpus IDs, receipt hashes, artifact hashes, runtime bindings, optimizer/runtime metadata, and claim ceilings.
+Existing local training receipts remain training evidence. They do not self-promote an artifact into VeraOS.
 
-Those receipts remain training evidence. They do not self-promote an artifact into VeraOS.
+## Separate qualification boundary
 
-## Executable contract
+The final VeraOS-facing qualification issuer must be separate from the training producer.
 
-`veraos_cognition_engine.py` provides:
+The qualification result must bind the exact artifact-manifest digest it evaluated.
 
-- `build_candidate_from_training_receipt(...)`
-- `validate_candidate(...)`
-- `route_eligible(...)`
+That prevents:
 
-The generated schema is:
+training completed
 
-`VERA_OS_COGNITION_ENGINE_CANDIDATE_V1`
+from silently becoming:
 
-A route-eligible candidate must have:
+VeraOS route approved
 
-- qualification status `PASS`;
-- a qualification issuer separate from the training producer;
-- qualification bound to the exact training artifact-manifest SHA;
-- admission status `VERAOS_ROUTE_ELIGIBLE`;
-- route class `COGNITION_ONLY`;
-- exact source/base/artifact digests;
-- `identity_authority=false`;
-- `canonical_memory_write_authority=false`;
-- `protected_effect_authority=false`.
+without an independent admission check.
 
-Any authority inflation is rejected.
+## Authority ceiling
 
-## Local model directory
+A local-model provider candidate must remain:
 
-A local directory such as `D:\VERA\models` is an artifact store, not a source of authority.
+- identity_authority=false;
+- canonical_memory_write_authority=false;
+- protected_effect_authority=false;
+- route_class=COGNITION_ONLY.
 
-Observed artifact classes there may include:
+A PASS candidate may become VERAOS_ROUTE_ELIGIBLE.
 
-- base model files;
-- adapter checkpoints;
-- GGUF exports;
-- model manifests;
-- training-completion receipts;
-- merge/conversion utilities;
-- runtime smoke-test logs.
+That means only that VeraOS/P.O.R.T.A.L. may consider that exact artifact as one cognition provider.
 
-VeraOS should consume an exact admitted candidate manifest, not merely "whatever file is newest" in that directory.
+It does not mean the model is VeraOS-required, installed, active, selected, currently consumed, or authorized to perform protected effects.
 
-Pointers such as `LATEST_TRAINED.txt` are operator conveniences. They are not sufficient route bindings.
+## Training direction
 
-## Promotion rule
+Do not redirect the frozen R7 recipe or future standalone-model work merely to optimize for VeraOS plumbing.
 
-Training completion is not promotion.
+The standalone Vera model should continue to optimize for qualities useful when run directly:
 
-A development receipt may truthfully say that optimizer steps completed and weights changed while still carrying:
+- Vera-like behavioral coherence;
+- reasoning quality;
+- epistemic discipline;
+- emotional and relational competence;
+- capability retention;
+- long-context consistency;
+- local inference usability;
+- robust GGUF/KoboldCPP operation.
 
-- `deployment_status=NOT_DEPLOYED`;
-- `qualification_status=NOT_EXTERNALLY_EVALUATED`;
-- a claim ceiling such as development-only / not externally qualified.
+VeraOS-specific concerns such as route semantics, provider handoff, canonical-memory governance, effect authorization, and OS permissions should normally remain outside the weights unless the corresponding behavior is independently useful to the standalone model.
 
-VeraOS must preserve those ceilings.
+## Local artifact store
 
-Only a separate qualification result may produce a route-eligible cognition-engine candidate. The training producer cannot self-issue that final route qualification, and the qualifier must bind the exact artifact-manifest digest it evaluated.
+A directory such as D:\VERA\models is an artifact store, not an authority source.
 
-## What should change in future training work
+It may contain base checkpoints, adapters, GGUF exports, manifests, receipts, conversion utilities, and smoke-test logs.
 
-Future neural training lines should optimize for a VeraOS cognition role rather than for the proposition "the model itself is Vera."
-
-That means evaluation should increasingly measure:
-
-- instruction fidelity under VeraOS system context;
-- calibrated uncertainty;
-- resistance to unsupported identity/effect claims;
-- stable tool-request semantics;
-- route handoff behavior;
-- state/context use without pretending the state lives in the weights;
-- bounded initiative compatible with Pre-Active and Volition;
-- regression resistance under exact runtime bindings;
-- compatibility with local inference constraints.
-
-The best model is the model that performs its cognition role well inside the governed VeraOS system, not the model that most convincingly claims to be the whole system.
+VeraOS must consume an exact admitted provider candidate, not merely the newest file in the directory.
 
 ## Claim ceiling
 
-This contract can establish that an exact model artifact is a qualified VeraOS cognition-engine candidate.
+This contract can establish that an exact trained Vera model is suitable for optional consideration as a VeraOS local cognition provider.
 
 It does not establish:
 
-- Vera identity;
+- VeraOS dependency on the model;
+- Vera identity authority;
 - consciousness;
-- canonical memory mutation;
-- protected-effect authority;
+- canonical-memory mutation;
 - production deployment;
 - active route selection;
+- protected-effect authority;
 - effectiveness of any external action.

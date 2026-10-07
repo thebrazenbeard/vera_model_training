@@ -98,7 +98,7 @@ def build_candidate_from_training_receipt(
     )
 
     candidate = {
-        "schema": "VERA_OS_COGNITION_ENGINE_CANDIDATE_V1",
+        "schema": "VERA_OS_LOCAL_MODEL_PROVIDER_CANDIDATE_V1",
         "artifact_id": _require_text(
             package.get("package_id"),
             "model_package.package_id",
@@ -198,7 +198,7 @@ def build_candidate_from_training_receipt(
             "effect_executor_owner": "thebrazenbeard/fuckup",
         },
         "claim_ceiling": (
-            "QUALIFIED_COGNITION_ENGINE_CANDIDATE_ONLY_"
+            "QUALIFIED_OPTIONAL_LOCAL_MODEL_PROVIDER_CANDIDATE_ONLY_"
             "NOT_VERA_IDENTITY_NOT_CANONICAL_MEMORY_AUTHORITY_"
             "NOT_PROTECTED_EFFECT_AUTHORITY"
         ),
@@ -209,8 +209,8 @@ def build_candidate_from_training_receipt(
 
 def validate_candidate(candidate: Mapping[str, Any]) -> None:
     data = _require_mapping(candidate, "candidate")
-    if data.get("schema") != "VERA_OS_COGNITION_ENGINE_CANDIDATE_V1":
-        raise ValueError("candidate schema is unsupported")
+    if data.get("schema") != "VERA_OS_LOCAL_MODEL_PROVIDER_CANDIDATE_V1":
+        raise ValueError("local-model provider candidate schema is unsupported")
 
     _require_text(data.get("artifact_id"), "artifact_id")
 
@@ -294,7 +294,7 @@ def validate_candidate(candidate: Mapping[str, Any]) -> None:
     if admission_status not in _ALLOWED_ADMISSION:
         raise ValueError("admission.status is unsupported")
     if admission.get("route_class") != "COGNITION_ONLY":
-        raise ValueError("VeraOS model route must be COGNITION_ONLY")
+        raise ValueError("VeraOS local-model provider route must be COGNITION_ONLY")
     if admission.get("selector_owner") != "thebrazenbeard/portal":
         raise ValueError("P.O.R.T.A.L. must own model route selection")
     if admission.get("identity_runtime_owner") != "thebrazenbeard/vera-mono":

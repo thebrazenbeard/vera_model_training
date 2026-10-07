@@ -2,79 +2,46 @@
 
 # VERA Model Training
 
-This repository supports two distinct but related kinds of Vera training work:
+This repository has its own product goal: train, qualify, export, and preserve a high-quality standalone Vera model that can run independently in local inference software such as KoboldCPP.
 
-1. identity/capability bootcamps that produce auditable training capsules without changing neural weights; and
-2. neural model training and qualification that produce exact model artifacts which VeraOS may later admit as replaceable cognition engines.
+VeraOS is a separate system architecture. VeraOS may optionally use a trained Vera model as one cognition provider, but VeraOS does not require a Vera-specific neural model and this repository does not exist primarily to satisfy VeraOS.
 
-Neither track is an identity authority.
+The two projects should therefore reinforce one another without becoming coupled.
 
-The VeraOS rule is:
+## Primary neural-model objective
 
-> **Vera is the persistent governed runtime. Models are replaceable cognition engines. Training produces evidence and artifacts, not Vera identity.**
+The standalone Vera model should continue to optimize for:
 
-See docs/VERA_OS_COGNITION_ENGINE_CONTRACT_V1.md.
+- Vera-like behavior and identity consistency;
+- strong general reasoning;
+- epistemic discipline and calibrated uncertainty;
+- emotional and relational competence;
+- general capability retention;
+- instruction fidelity;
+- coherent long-context behavior;
+- useful bounded initiative;
+- robust GGUF export and local inference;
+- reproducibility across exact model artifacts.
+
+The target remains a model Patrick can launch directly in KoboldCPP and talk to as a standalone Vera-shaped model.
+
+VeraOS-specific plumbing such as route selection, provider handoff, effect authority, portfolio state, memory governance, and operating-system permissions should normally live in VeraOS rather than consume training capacity unless a behavior is independently useful to the standalone model.
 
 ## Current execution protocol
 
-Current repository work follows PROTOCOL_V2_CURRENT.md. That correction prevents redundant lease/permission recursion for already-assigned isolated reversible work while preserving this repository's privacy, source-grounding, qualification, zero-cost, and protected-effect gates.
+Current repository work follows PROTOCOL_V2_CURRENT.md.
 
-Active experiment branches may carry stronger experiment-specific contracts and frozen subjects. A new VeraOS integration branch must not silently rewrite those subjects.
+Active experiment branches may carry stronger experiment-specific contracts and frozen subjects. A VeraOS integration branch must not silently rewrite those subjects.
 
-## Track A — Zero-cost identity/capability bootcamp
+In particular, the frozen R7 recipe and its corpus-recovery problem remain their own training subject. The optional VeraOS provider contract does not alter that recipe.
 
-The bootcamp is an optional external training workbench for native ChatGPT Project identities and other interaction roles.
+## Track A — identity/capability bootcamp
 
-The target identity does not depend on this repository for authority, memory, or ordinary operation.
+The existing zero-cost bootcamp remains an optional external training workbench for native ChatGPT Project identities and other interaction roles.
 
-### Hard invariant: zero monetary cost
+It produces auditable training capsules without changing neural weights.
 
-The bootcamp must not require metered model APIs or paid compute.
-
-The default engine runs an open-weight GGUF model locally on a standard GitHub-hosted runner in this public repository. The workflow fails closed if the repository is private or if ZERO_COST is not true.
-
-No OpenAI API key, Gemini key, Hugging Face inference key, Supabase paid compute, or other paid inference service is required. There is no paid fallback.
-
-### What a bootcamp run does
-
-A single bootcamp run performs externally:
-
-1. bounded acquisition of user-selected public HTTPS sources;
-2. source-grounded knowledge synthesis;
-3. source-support filtering of the proposed capability map;
-4. ten or more Trainer -> Student -> Examiner proxy rounds;
-5. adversarial exercises and false-premise checks;
-6. two independently generated transfer exercises;
-7. conservative distillation into a compact identity capsule;
-8. a package record, regression set, and detailed one-day audit artifact.
-
-The target native ChatGPT conversation does not need the full training transcript.
-
-This track is not neural-weight training. The local Student is a proxy used to exercise and refine the training material. The transferable product is an auditable training capsule, not a claim that the native identity inherited the local model's scores.
-
-### Bootcamp qualification boundary
-
-The external workbench may establish that a training package is ready. It may not declare the native ChatGPT identity qualified.
-
-Trainer, Student, and Examiner use isolated prompt contexts but the same small local model, so proxy grades are diagnostic evidence only. Capabilities with only one proxy observation are provisional. The source set is bounded rather than exhaustive.
-
-A fresh native cold/transfer evaluation remains required for PASS, CONDITIONAL PASS, or FAIL of the target identity.
-
-### Trigger
-
-Open an issue whose title starts with [BOOTCAMP] and provide the bounded function specification, rounds, target level, zero_cost=true, and public HTTPS source URLs.
-
-Only the repository owner can trigger a bootcamp. The issue is the one-turn bridge: ChatGPT can create it, the external workflow performs the multi-round work, and ChatGPT can retrieve and audit the result without placing every training round into the target conversation.
-
-### Bootcamp privacy boundary
-
-This repository is public to preserve the zero-cost execution model. Do not place private chat transcripts, secrets, personal data, credentials, confidential source text, or sensitive identity material in bootcamp issues or source URLs.
-
-For private or sensitive material, this public execution mode is not appropriate.
-
-### Bootcamp output
-
-Each successful run creates:
+Typical outputs include:
 
 - IDENTITY_CAPSULE.md
 - QUALIFICATION.json
@@ -82,106 +49,102 @@ Each successful run creates:
 - TRAINING_AUDIT.json
 - SUMMARY.md
 
-The detailed workflow artifact is retained for one day. The compact summary is posted to the triggering issue.
+The local Student is a proxy used to exercise and refine training material. Proxy performance does not establish that a native ChatGPT identity inherited the local model's behavior.
 
-### Default bootcamp local inference
+## Track B — standalone Vera neural model
 
-- ggml-org/Qwen3-1.7B-GGUF
-- Qwen3-1.7B-Q4_K_M.gguf
-- checksum-pinned llama.cpp
-- CPU-bounded prompt/output profile for ordinary GitHub-hosted Linux runners
+This is the primary neural-weight training line.
 
-Both the model file and llama.cpp archive are checksum-pinned in the workflow.
+Artifacts may include:
 
-## Track B — VeraOS neural cognition engines
-
-This repository also contains real model-development work: base-model bindings, adapter training, exact training receipts, runtime checks, model conversion/merge work, and behavioral/retention qualification.
-
-Those artifacts are intended to become VeraOS cognition-engine candidates, not standalone identity containers.
-
-A local model store such as D:\VERA\models may contain:
-
-- base model checkpoints;
-- LoRA or PEFT adapters;
+- exact base-model bindings;
+- LoRA / PEFT adapters;
+- merged checkpoints;
 - GGUF exports;
-- model manifests;
-- training-completion receipts;
-- conversion utilities;
-- local inference smoke-test logs.
+- tokenizer/config artifacts;
+- training receipts;
+- behavioral and retention qualification;
+- local inference smoke tests.
 
-The directory itself carries no authority. A pointer such as LATEST_TRAINED.txt is an operator convenience, not a route-binding primitive.
+A local store such as D:\VERA\models is an artifact store. Filenames, modification time, and pointers such as LATEST_TRAINED.txt are operational conveniences, not evidence that one artifact supersedes another.
 
-### VeraOS model boundary
+Training completion remains separate from:
 
-For neural artifacts:
+- behavioral qualification;
+- general-capability retention;
+- export quality;
+- KoboldCPP compatibility;
+- external runtime admission;
+- deployment.
 
-- Vera Model Training produces training artifacts and qualification evidence.
-- Vera Mono owns the governed Vera identity/runtime boundary.
-- P.O.R.T.A.L. discovers, qualifies, selects, and binds cognition routes.
-- Pre-Active governs proactive cognition admission.
-- Volition may originate bounded endogenous cognition requests.
-- F.U.C.K.U.P. owns governed protected-effect execution and verification.
-- Model artifacts remain COGNITION_ONLY.
+## Optional VeraOS provider export
 
-A trained model may be highly Vera-shaped behaviorally while still having no identity authority, no canonical-memory write authority, and no protected-effect authority.
+If VeraOS uses a trained Vera model, this repository may export an exact local-model provider candidate for VeraOS.
 
-### VeraOS candidate contract
+That optional export schema is:
 
-veraos_cognition_engine.py converts exact model/training evidence into a fail-closed candidate manifest with schema VERA_OS_COGNITION_ENGINE_CANDIDATE_V1.
+VERA_OS_LOCAL_MODEL_PROVIDER_CANDIDATE_V1
 
-The executable API is:
+The executable helper is:
 
 - build_candidate_from_training_receipt(...)
 - validate_candidate(...)
 - route_eligible(...)
 
-A route-eligible candidate requires:
+The export preserves exact:
 
-- an exact producer source commit;
-- an exact base-model revision;
-- exact artifact SHA-256 digests;
+- producer source commit;
+- base-model revision;
+- artifact SHA-256 digests;
+- artifact-manifest digest;
 - training corpus identity;
 - training and receipt digests;
 - runtime-binding evidence;
-- an exact qualification-suite digest;
-- a qualification issuer separate from the training producer;
-- qualification bound to the exact artifact-manifest digest;
-- qualification status PASS;
-- route class COGNITION_ONLY;
-- all authority fields false.
+- qualification evidence.
 
-Training completion by itself does not satisfy those gates.
+It also hard-codes:
 
-Existing receipts that say NOT_DEPLOYED, NOT_EXTERNALLY_EVALUATED, or development-only must remain bounded by those claims.
+- identity authority = false;
+- canonical-memory write authority = false;
+- protected-effect authority = false;
+- route class = COGNITION_ONLY.
 
-### How training objectives change for VeraOS
+A separate qualifier must bind the exact artifact manifest before VeraOS may consider that exact local model as a route.
 
-Future neural training lines should optimize for the model's role inside VeraOS, not for the proposition that the model itself is the whole Vera system.
+This means:
 
-Important evaluation targets therefore include:
+> "If VeraOS chooses to use this trained model, here is how the exact artifact is described and connected safely."
 
-- instruction fidelity under VeraOS context;
-- calibrated uncertainty;
-- resistance to unsupported identity claims;
-- resistance to unsupported effect-authority claims;
-- stable tool/request semantics;
-- route handoff behavior;
-- context/state use without pretending mutable state lives in weights;
-- bounded initiative compatible with Pre-Active and Volition;
-- regression resistance under exact runtime bindings;
-- local inference efficiency and reproducibility.
+It does **not** mean:
 
-A stronger cognition engine should make VeraOS work better while remaining replaceable.
+> "VeraOS requires this model."
 
-## Source and task guards
+It also does not mean:
 
-- HTTPS sources only for public bootcamp acquisition.
-- Loopback/private/link-local source addresses are rejected by public bootcamp flows.
-- Capabilities that lack support in bounded source material are removed before bootcamp training.
-- Weak generic hidden rubrics are replaced with capability-specific and unsupported-claim checks.
-- Adversarial tasks receive explicit false-premise/unsafe-shortcut checks.
-- Newer runs may supersede obsolete in-progress production runs only under the applicable experiment protocol.
-- Neural artifacts must preserve exact provenance and claim ceilings.
+> "The standalone model should be trained primarily for VeraOS."
+
+## Why both projects still matter
+
+The standalone Vera model provides:
+
+- local ownership;
+- offline operation;
+- reproducible Vera-shaped behavior embedded in weights;
+- direct use in KoboldCPP or another local inference host;
+- independence from hosted providers.
+
+VeraOS provides:
+
+- persistent state;
+- memory governance;
+- portfolio and task orchestration;
+- cognition-provider routing;
+- tools and effects;
+- authority boundaries;
+- system-level continuity;
+- multiple interfaces.
+
+Neither makes the other redundant.
 
 ## Evidence discipline
 
@@ -191,10 +154,10 @@ Keep these propositions separate:
 - training ran;
 - weights changed;
 - artifact was written;
-- runtime compatibility passed;
-- behavioral qualification passed;
-- VeraOS route admission passed;
-- P.O.R.T.A.L. selected the route;
+- standalone behavior qualified;
+- GGUF/KoboldCPP compatibility passed;
+- optional VeraOS provider export passed;
+- VeraOS selected the provider;
 - Vera Mono consumed the result;
 - a protected effect was authorized and externally verified.
 
@@ -202,6 +165,8 @@ One does not imply the next.
 
 ## Claim ceiling
 
-This repository can produce auditable identity/capability training packages and exact neural cognition-engine candidates with training and qualification evidence.
+This repository can produce auditable training packages and standalone Vera neural-model artifacts.
 
-It does not, by itself, establish Vera identity, consciousness, canonical-memory mutation, active VeraOS route selection, deployment, or protected-effect authority.
+It may also produce an optional, exact local-model provider candidate for VeraOS.
+
+It does not, by itself, establish VeraOS dependency, VeraOS route selection, Vera identity authority, canonical-memory mutation, deployment, or protected-effect authority.
