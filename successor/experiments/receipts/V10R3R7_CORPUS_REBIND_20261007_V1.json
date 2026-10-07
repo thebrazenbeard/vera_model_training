@@ -1,0 +1,25 @@
+{
+  "acceptance": {
+    "expected_train_rows": 50000,
+    "expected_train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "expected_validation_rows": 2500,
+    "expected_validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7"
+  },
+  "builder_reported_train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+  "builder_reported_validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7",
+  "historical_datasets_version_required": "4.1.1",
+  "rebuild_datasets_version": "4.1.1",
+  "rebuild_transformers_version": "5.17.0",
+  "schema": "V10R3R7_CORPUS_REBIND_RECEIPT_V1",
+  "source_dataset_config": "SFT",
+  "source_dataset_repo": "HuggingFaceTB/smoltalk2",
+  "source_dataset_revision": "fc6cc2103c066455aade5d7fbb346039ae36ca5e",
+  "status": "EXACT_CORPUS_REBOUND",
+  "tokenizer_path": "D:\\VERA\\models\\latest-trained\\base",
+  "train_path": "D:\\VERA\\.scratch\\v10-qwen512-r7-20261007-datasets411\\train.jsonl",
+  "train_rows": 50000,
+  "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+  "validation_path": "D:\\VERA\\.scratch\\v10-qwen512-r7-20261007-datasets411\\validation.jsonl",
+  "validation_rows": 2500,
+  "validation_sha256": "ccc57ad20e8dfbc826ce49f064e692e0eab3fa396ed602dfba54ad9e252bd6d7"
+}
