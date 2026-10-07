@@ -1,0 +1,93 @@
+{
+  "schema": "V10R3R6_STAGE0_SUCCESSOR_PROTOCOL_V2",
+  "date": "2026-10-07",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_STAGE0_POLICY_GATED",
+  "claim_ceiling": "STAGE0_SYNTHETIC_RUNTIME_QUALIFICATION_ONLY_NOT_CORPUS_TRAINING_NOT_MODEL_QUALITY_NOT_DEPLOYMENT",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "scope": "CONTINUE_LOCAL_MODEL_TRAINING_WITH_25_GIB_PRELAUNCH_COMMIT_GATE_AND_PARALLEL_VERA_TRAINING_LANES",
+    "supersedes_threshold_from_v1_gib": 32.0,
+    "selected_prelaunch_commit_headroom_gib": 25.0,
+    "wddm_noncompute_gpu_memory_override_authorized": true,
+    "parallel_training_lanes_authorized": true,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false,
+    "paid_compute_authorized": false
+  },
+  "predecessor": {
+    "r6_v1_head": "2c635a58b5f94cbcc2d5f6ed78104efa0b86612b",
+    "r6_v1_path": "successor/experiments/V10R3R6_STAGE0_SUCCESSOR_PROTOCOL_20261007_V1.json",
+    "r5_evidence_head": "bd83999f9bec0520184c7467143222b90f2b3839",
+    "r5_status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+    "r5_optimizer_steps_completed": 17,
+    "r5_failure_classification": "WALL_TIME_LIMIT_ONLY"
+  },
+  "hypothesis": {
+    "leading": "WALL_BUDGET_TOO_SHORT_FOR_MEASURED_REFERENCE_KERNEL_RUNTIME",
+    "host_commit_pressure_failure_reproduced": false,
+    "thermal_failure_reproduced": false,
+    "training_math_failure_established": false,
+    "training_math_change": "NONE",
+    "stage0_mechanism_change": "WALL_BUDGET_ONLY"
+  },
+  "r5_timing_evidence": {
+    "steps_observed": 17,
+    "initialization_and_nonstep_overhead_seconds": 55.378,
+    "median_step_seconds": 49.207,
+    "slowest_step_seconds": 52.219,
+    "elapsed_after_step17_seconds": 901.701,
+    "projected_20_step_elapsed_at_median_seconds": 1039.516,
+    "projected_20_step_elapsed_at_slowest_observed_seconds": 1099.761,
+    "selected_r6_max_wall_seconds": 1200.0,
+    "r6_wall_margin_seconds": 100.239,
+    "r5_max_gpu_temperature_c": 73,
+    "r5_min_commit_headroom_observed_mib": 18655.777
+  },
+  "resource_gate": {
+    "min_available_physical_gib": 8.0,
+    "min_prelaunch_commit_headroom_gib": 25.0,
+    "in_run_min_commit_headroom_mib": 8192.0,
+    "competing_trainers_required": 0,
+    "gpu_utilization_percent_required": 0,
+    "wddm_reported_memory_used_is_informational": true,
+    "selected_gate_margin_above_r5_min_observed_gib": 6.781,
+    "wddm_basis": "R5 launched with reported WDDM memory, zero utilization and no compute apps, then reached sustained training utilization without collision.",
+    "threshold_is_completion_guarantee": false
+  },
+  "model_target": {
+    "root": "D:\\VERA\\models",
+    "active_base": "D:\\VERA\\models\\latest-trained\\base",
+    "active_adapter": "D:\\VERA\\models\\latest-trained\\adapter",
+    "runtime_binding_path": "successor/experiments/V10_QWEN35_TRAINING_RUNTIME_BINDING_V1.json"
+  },
+  "execution": {
+    "attempt_limit": 1,
+    "attempt_status": "UNUSED",
+    "automatic_retry": false,
+    "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "module": "successor.experiments.qualify_v10r3r3_stage0_runtime",
+    "optimizer_steps": 20,
+    "max_wall_seconds": 1200.0,
+    "gpu_temperature_abort_c": 88,
+    "step_time_degradation_ratio": 1.5,
+    "consecutive_degraded_steps": 5,
+    "synthetic_input_only": true,
+    "corpus_bearing_input_prohibited": true,
+    "output_artifacts_written": false,
+    "telemetry_path": "successor/experiments/receipts/V10R3R6_STAGE0_STEP_TELEMETRY_20261007_V2.jsonl"
+  },
+  "parallel_lane_policy": {
+    "lane_a": "GPU_STAGE0_EXECUTION_AND_WEIGHT_MUTATING_WORK",
+    "lane_b": "CPU_REGRESSION_RUNTIME_AND_TRAINING_PATH_VERIFICATION",
+    "lane_c": "CPU_ADMISSIBILITY_GOVERNANCE_AND_EVIDENCE_REVIEW",
+    "single_gpu_mutating_lane_at_a_time": true,
+    "reason": "Single RTX 3050 4GiB device; concurrent optimizer jobs would contend for the same accelerator and invalidate qualification evidence."
+  },
+  "promotion": {
+    "preflight_fail": "HOLD_NO_ATTEMPT_CONSUMED",
+    "preflight_pass": "RUN_EXACTLY_ONE_SYNTHETIC_STAGE0_R6_ATTEMPT",
+    "stage0_fail": "FREEZE_INCIDENT_AND_REQUIRE_FRESH_SUCCESSOR",
+    "stage0_pass": "PREPARE_AND_EXECUTE_SEPARATE_CORPUS_TRAINING_SUBJECT_ONLY_IF_ITS_OWN_GATES_AND_CURRENT_USER_AUTHORITY_PASS"
+  }
+}
