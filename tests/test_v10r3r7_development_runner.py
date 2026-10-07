@@ -66,3 +66,20 @@ def test_r7_runner_requires_fresh_output_namespace(tmp_path):
     fresh.mkdir()
     with pytest.raises(runner.R7Hold, match="already exists"):
         runner.require_fresh_output_namespace(fresh)
+
+
+def test_r8_runner_uses_module_safe_child_invocation(tmp_path):
+    from successor.experiments import run_v10r3r7_development as runner
+
+    command = runner.build_training_command(
+        repo_root=tmp_path,
+        train_jsonl=tmp_path / "train.jsonl",
+        spec_path=tmp_path / "spec.json",
+    )
+
+    assert command[:3] == [
+        runner.sys.executable,
+        "-m",
+        "successor.experiments.train_v10r2_dev",
+    ]
+    assert str(tmp_path) in command

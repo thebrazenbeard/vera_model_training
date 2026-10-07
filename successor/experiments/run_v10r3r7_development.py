@@ -254,6 +254,22 @@ def _load_json(path: Path) -> dict:
     return value
 
 
+def build_training_command(
+    *, repo_root: Path, train_jsonl: Path, spec_path: Path
+) -> list[str]:
+    return [
+        sys.executable,
+        "-m",
+        "successor.experiments.train_v10r2_dev",
+        "--repo-root",
+        str(repo_root),
+        "--train-jsonl",
+        str(train_jsonl),
+        "--spec",
+        str(spec_path),
+    ]
+
+
 def _validate_spec(
     root: Path,
     spec_path: Path,
@@ -304,7 +320,10 @@ def execute(
     log_dir: Path,
     receipt_dir: Path,
     watchdog_seconds: float = 10.0,
+    run_id: str = "V10R3R7",
 ) -> int:
+    if run_id not in {"V10R3R7", "V10R3R8"}:
+        raise R7Hold(f"unsupported run id:{run_id}")
     if _git_head(repo_root) != expected_head:
         raise R7Hold(f"repo HEAD mismatch:{_git_head(repo_root)}!={expected_head}")
 
@@ -321,15 +340,15 @@ def execute(
         expected_rows=expected_train_rows,
     )
 
-    launch_path = receipt_dir / "V10R3R7_DEVELOPMENT_LAUNCH_20261007_V1.json"
-    watchdog_path = receipt_dir / "V10R3R7_DEVELOPMENT_WATCHDOG_20261007_V1.jsonl"
-    result_path = receipt_dir / "V10R3R7_DEVELOPMENT_RESULT_20261007_V1.json"
-    incident_path = receipt_dir / "V10R3R7_DEVELOPMENT_INCIDENT_20261007_V1.json"
+    launch_path = receipt_dir / f"{run_id}_DEVELOPMENT_LAUNCH_20261007_V1.json"
+    watchdog_path = receipt_dir / f"{run_id}_DEVELOPMENT_WATCHDOG_20261007_V1.jsonl"
+    result_path = receipt_dir / f"{run_id}_DEVELOPMENT_RESULT_20261007_V1.json"
+    incident_path = receipt_dir / f"{run_id}_DEVELOPMENT_INCIDENT_20261007_V1.json"
     for path in (launch_path, watchdog_path, result_path, incident_path):
         if path.exists():
-            raise R7Hold(f"refusing to reuse R7 execution artifact:{path}")
+            raise R7Hold(f"refusing to reuse {run_id} execution artifact:{path}")
     if log_dir.exists():
-        raise R7Hold(f"refusing to reuse R7 log namespace:{log_dir}")
+        raise R7Hold(f"refusing to reuse {run_id} log namespace:{log_dir}")
 
     observed = observe_resources()
     gate = evaluate_resource_sample(**observed, prelaunch=True)
@@ -337,7 +356,7 @@ def execute(
         print(
             json.dumps(
                 {
-                    "schema": "V10R3R7_PRELAUNCH_HOLD_V1",
+                    "schema": f"{run_id}_PRELAUNCH_HOLD_V1",
                     "status": "HOLD_NO_ATTEMPT_CONSUMED",
                     "reason": gate["reason"],
                     "observation": observed,
@@ -353,7 +372,7 @@ def execute(
     stderr_path = log_dir / "stderr.log"
 
     launch = {
-        "schema": "V10R3R7_DEVELOPMENT_LAUNCH_V1",
+        "schema": f"{run_id}_DEVELOPMENT_LAUNCH_V1",
         "status": "LAUNCHED",
         "started_at_utc": _utc_now(),
         "attempt_consumed": True,
@@ -371,16 +390,11 @@ def execute(
     }
     _write_json(launch_path, launch)
 
-    command = [
-        sys.executable,
-        str(repo_root / "successor" / "experiments" / "train_v10r2_dev.py"),
-        "--repo-root",
-        str(repo_root),
-        "--train-jsonl",
-        str(train_jsonl),
-        "--spec",
-        str(spec_path),
-    ]
+    command = build_training_command(
+        repo_root=repo_root,
+        train_jsonl=train_jsonl,
+        spec_path=spec_path,
+    )
     started = time.monotonic()
     abort_reason = None
 
@@ -420,7 +434,7 @@ def execute(
     elapsed = time.monotonic() - started
     if abort_reason is not None or returncode != 0:
         incident = {
-            "schema": "V10R3R7_DEVELOPMENT_INCIDENT_V1",
+            "schema": f"{run_id}_DEVELOPMENT_INCIDENT_V1",
             "status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
             "ended_at_utc": _utc_now(),
             "elapsed_seconds": elapsed,
@@ -447,7 +461,7 @@ def execute(
         raise R7Hold("development completion optimizer step count mismatch")
 
     result = {
-        "schema": "V10R3R7_DEVELOPMENT_RESULT_V1",
+        "schema": f"{run_id}_DEVELOPMENT_RESULT_V1",
         "status": "DEVELOPMENT_TRAINING_PASS",
         "ended_at_utc": _utc_now(),
         "elapsed_seconds": elapsed,
@@ -484,6 +498,11 @@ def main(argv=None) -> int:
     parser.add_argument("--log-dir", type=Path, required=True)
     parser.add_argument("--receipt-dir", type=Path, required=True)
     parser.add_argument("--watchdog-seconds", type=float, default=10.0)
+    parser.add_argument(
+        "--run-id",
+        choices=("V10R3R7", "V10R3R8"),
+        default="V10R3R7",
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -498,12 +517,13 @@ def main(argv=None) -> int:
             log_dir=args.log_dir.resolve(),
             receipt_dir=args.receipt_dir.resolve(),
             watchdog_seconds=args.watchdog_seconds,
+            run_id=args.run_id,
         )
     except R7Hold as exc:
         print(
             json.dumps(
                 {
-                    "schema": "V10R3R7_DEVELOPMENT_RUNNER_HOLD_V1",
+                    "schema": f"{args.run_id}_DEVELOPMENT_RUNNER_HOLD_V1",
                     "status": "HOLD_NO_ATTEMPT_CONSUMED",
                     "reason": str(exc),
                 },

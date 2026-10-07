@@ -1,0 +1,92 @@
+{
+  "schema": "V10R2_QWEN35_DEV_TRAINING_SPEC_V1",
+  "date": "2026-10-07",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_TRAINING",
+  "experiment_class": "CONTINUOUS_STATE_RECIPE_SEMANTICS",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "scope": "CHANGE_TRAINING_METHOD_AND_CONTINUE_LOCAL_MODEL_TRAINING",
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false
+  },
+  "comparison": {
+    "replication_id": "V10R3R8_CONTINUOUS20_DEVELOPMENT_20261007_V1",
+    "role": "R8_MODULE_SAFE_CONTINUOUS20_SUCCESSOR",
+    "claim_ceiling": "LOCAL_DEVELOPMENT_CONTINUOUS20_ONLY_NOT_EXTERNALLY_QUALIFIED",
+    "expected_initial_trainable_parameter_digest": "134dc5a9fdbdff2a6edc7c1bae6e999fed112b81048ae9af6fd7298338079bfd",
+    "order_manifest_path": "successor/experiments/V10R3_RECIPE_SEMANTICS_ORDER_ROWS0_159_20261004_V2.json",
+    "order_manifest_sha256": "687a790035f791dc8826edcb70a329474504f02a108e31f4f95adef70e66b595",
+    "predecessor_incident_path": "successor/experiments/receipts/V10R3R7_DEVELOPMENT_INCIDENT_20261007_V1.json",
+    "corpus_rebind_receipt_path": "successor/experiments/receipts/V10R3R7_CORPUS_REBIND_20261007_V1.json"
+  },
+  "source_subject": {
+    "parent_revision": "f2b2820",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_rows": 50000,
+    "runtime_binding_sha256": "44b01efc6c2d0e1716208e04e7132433561b5562430adae821fd29e6a1493224",
+    "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe"
+  },
+  "development_window": {
+    "start_row": 0,
+    "row_count": 160
+  },
+  "trainer": {
+    "method": "QLORA_SFT_DEVELOPMENT",
+    "optimizer": "adamw_bnb_8bit",
+    "learning_rate": 0.00002,
+    "lr_scheduler_type": "cosine",
+    "warmup_optimizer_steps": 0,
+    "max_optimizer_steps": 20,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "completion_only_loss": true,
+    "gradient_checkpointing": true,
+    "gradient_checkpointing_use_reentrant": false,
+    "bf16": true,
+    "tf32": true,
+    "packing": false,
+    "shuffle_dataset": false,
+    "train_sampling_strategy": "sequential",
+    "eval_strategy": "no",
+    "save_strategy": "no",
+    "logging_steps": 1,
+    "report_to": "none",
+    "seed": 20261001
+  },
+  "quantization": {
+    "load_in_4bit": true,
+    "type": "nf4",
+    "double_quant": true,
+    "compute_dtype": "bfloat16"
+  },
+  "lora": {
+    "r": 4,
+    "alpha": 16,
+    "dropout": 0,
+    "target_modules": "all-linear",
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "model_load": {
+    "device_map": {
+      "": 0
+    },
+    "dtype": "bfloat16",
+    "prepare_model_for_kbit_training_use_gradient_checkpointing": true,
+    "use_cache": false
+  },
+  "output": {
+    "namespace": "D:\\VERA\\models\\adapters\\v10r3r8-lane-a-continuous20-sequential-20261007",
+    "overwrite_forbidden": true,
+    "save_final_adapter": true
+  },
+  "qualification": {
+    "claim_ceiling": "LOCAL_DEVELOPMENT_ADAPTER_ONLY_NOT_EXTERNALLY_QUALIFIED",
+    "development_training_may_precede_external_qualification": true,
+    "external_final_bank_required_for_qualification": true
+  }
+}

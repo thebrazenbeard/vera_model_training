@@ -1,0 +1,78 @@
+{
+  "schema": "V10R3R8_CONTINUOUS20_DEVELOPMENT_PROTOCOL_V1",
+  "date": "2026-10-07",
+  "status": "AUTHORIZED_LOCAL_DEVELOPMENT_SUCCESSOR",
+  "claim_ceiling": "LOCAL_DEVELOPMENT_SUCCESSOR_ONLY_NOT_EXTERNALLY_QUALIFIED_NOT_DEPLOYED",
+  "authority": {
+    "actor_id": "PATRICK_USER_AUTHORITY",
+    "source": "EXPLICIT_CURRENT_USER_INSTRUCTION",
+    "instruction": "Resume model training",
+    "scope": "CONTINUE_LOCAL_V10_DEVELOPMENT_MODEL_TRAINING",
+    "paid_compute_authorized": false,
+    "merge_authorized": false,
+    "deploy_activate_authorized": false
+  },
+  "predecessor": {
+    "r7_incident_head": "f2b2820",
+    "r7_incident_path": "successor/experiments/receipts/V10R3R7_DEVELOPMENT_INCIDENT_20261007_V1.json",
+    "r7_status": "FAILED_INCOMPLETE_ONE_ATTEMPT_EXHAUSTED",
+    "r7_failure_class": "ZERO_STEP_CHILD_IMPORT_PATH_FAILURE",
+    "r7_child_returncode": 1,
+    "r7_weight_change_established": false,
+    "r7_output_namespace_created": false
+  },
+  "mechanism_change": {
+    "training_math_change": "NONE",
+    "corpus_change": "NONE",
+    "model_change": "NONE",
+    "optimizer_change": "NONE",
+    "invocation_change": "SCRIPT_PATH_TO_PACKAGE_MODULE",
+    "child_module": "successor.experiments.train_v10r2_dev",
+    "reason": "Preserve repository package root on sys.path for successor imports."
+  },
+  "resource_gate": {
+    "min_prelaunch_commit_headroom_gib": 25.0,
+    "min_available_physical_gib": 8.0,
+    "in_run_min_commit_headroom_gib": 8.0,
+    "gpu_utilization_percent_required": 0,
+    "competing_compute_apps_required": 0,
+    "wddm_noncompute_memory_is_informational": true
+  },
+  "training_subject": {
+    "model_root": "D:\\VERA\\models",
+    "base_path": "D:\\VERA\\models\\latest-trained\\base",
+    "fresh_adapter": true,
+    "output_namespace": "D:\\VERA\\models\\adapters\\v10r3r8-lane-a-continuous20-sequential-20261007",
+    "training_corpus_id": "VERA_SUCCESSOR_V10_QWEN512_50K_20261001_V1",
+    "corpus_rebind_receipt": "successor/experiments/receipts/V10R3R7_CORPUS_REBIND_20261007_V1.json",
+    "train_sha256": "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300",
+    "train_rows": 50000,
+    "window": {
+      "start_row": 0,
+      "row_count": 160
+    },
+    "optimizer_steps": 20,
+    "optimizer": "adamw_bnb_8bit",
+    "learning_rate": 0.00002,
+    "gradient_accumulation_steps": 8,
+    "max_length": 512,
+    "completion_only_loss": true,
+    "shuffle_dataset": false,
+    "train_sampling_strategy": "sequential"
+  },
+  "execution": {
+    "attempt_limit": 1,
+    "attempt_status": "UNUSED",
+    "automatic_retry": false,
+    "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+    "runner": "successor/experiments/run_v10r3r7_development.py",
+    "run_id": "V10R3R8",
+    "fresh_output_namespace_required": true,
+    "overwrite_forbidden": true
+  },
+  "promotion": {
+    "preflight_fail": "HOLD_NO_ATTEMPT_CONSUMED",
+    "execution_fail": "FREEZE_INCIDENT_AND_REQUIRE_FRESH_SUCCESSOR",
+    "execution_pass": "PERSIST_DEVELOPMENT_ADAPTER_AND_RESULT_EVIDENCE"
+  }
+}
