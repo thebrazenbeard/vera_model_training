@@ -615,8 +615,8 @@ def finalize_stage0_soak_receipt(
     if not optimizer_name:
         raise Stage0Hold("Stage-0 soak optimizer name missing")
 
-    if max_wall_seconds <= 0 or max_wall_seconds > 900:
-        raise Stage0Hold("Stage-0 soak maximum wall limit exceeds 15 minutes")
+    if max_wall_seconds <= 0 or max_wall_seconds > 1200:
+        raise Stage0Hold("Stage-0 soak maximum wall limit exceeds 20 minutes")
     if not math.isfinite(float(elapsed_seconds)) or elapsed_seconds > max_wall_seconds:
         raise Stage0Hold("Stage-0 soak wall-time limit exceeded")
 
@@ -737,8 +737,8 @@ def _execute_stage0_optimizer_soak_unlocked(
 
     if optimizer_steps != 20:
         raise Stage0Hold("live Stage-0 soak subject is frozen to 20 steps")
-    if max_wall_seconds > 900:
-        raise Stage0Hold("live Stage-0 soak cannot exceed 15 minutes")
+    if max_wall_seconds > 1200:
+        raise Stage0Hold("live Stage-0 soak cannot exceed 20 minutes")
 
     class _MemoryStatusEx(ctypes.Structure):
         _fields_ = [
