@@ -1,0 +1,30 @@
+{
+  "attempt_consumed": true,
+  "automatic_retry": false,
+  "consecutive_degraded_steps": 5,
+  "corpus_bearing_input_used": false,
+  "gpu_temperature_abort_c": 88,
+  "max_wall_seconds": 1200.0,
+  "minimum_in_run_commit_headroom_mib": 8192.0,
+  "optimizer_steps_requested": 20,
+  "prelaunch_observation": {
+    "available_physical_gib": 15.331,
+    "commit_headroom_gib": 30.26,
+    "commit_limit_gib": 54.729,
+    "compute_apps": [],
+    "gpu_memory_used_mib": 1135,
+    "gpu_temperature_c": 40,
+    "gpu_utilization_percent": 0
+  },
+  "protocol_path": "successor/experiments/V10R3R6_STAGE0_SUCCESSOR_PROTOCOL_20261007_V2.json",
+  "protocol_sha256": "a72e70fc5f35e00e569284763794ab2b85ccf1987999df9f73fd4f59cf556b62",
+  "repo_head": "cafc78023048a936df88d7acf1dadb9c24d262f9",
+  "runtime_python_path": "C:\\ProgramData\\ProRun\\model-env\\Scripts\\python.exe",
+  "schema": "V10R3R6_STAGE0_LAUNCH_V2",
+  "started_at_utc": "2026-10-07T11:33:16.303760+00:00",
+  "status": "LAUNCHED",
+  "step_time_degradation_ratio": 1.5,
+  "synthetic_input_only": true,
+  "telemetry_path": "successor/experiments/receipts/V10R3R6_STAGE0_STEP_TELEMETRY_20261007_V2.jsonl",
+  "wddm_reported_memory_used_is_informational": true
+}
