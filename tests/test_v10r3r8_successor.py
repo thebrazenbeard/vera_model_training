@@ -1,3 +1,4 @@
+import hashlib
 import json
 from pathlib import Path
 
@@ -42,3 +43,24 @@ def test_r8_successor_keeps_training_math_and_repairs_invocation_only(tmp_path):
         "-m",
         "successor.experiments.train_v10r2_dev",
     ]
+
+
+def test_r8_watchdog_accepts_r8_fresh_namespace():
+    root = Path(".").resolve()
+    spec_path = root / (
+        "successor/experiments/"
+        "V10R3R8_CONTINUOUS20_EXECUTION_SPEC_20261007_V1.json"
+    )
+    spec_sha = hashlib.sha256(spec_path.read_bytes()).hexdigest()
+
+    info = runner._validate_spec(
+        root,
+        spec_path,
+        expected_spec_sha256=spec_sha,
+        expected_train_sha256=(
+            "a232732a7db1f22c7edabb984fb16a3fe5350022e0a152576d80877eb9430300"
+        ),
+        expected_train_rows=50000,
+    )
+
+    assert "v10r3r8" in info["output_namespace"].lower()

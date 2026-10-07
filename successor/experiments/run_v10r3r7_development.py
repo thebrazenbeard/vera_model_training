@@ -302,8 +302,12 @@ def _validate_spec(
         raise R7Hold("R7 execution spec optimizer mismatch")
     output = spec.get("output", {})
     namespace = output.get("namespace")
-    if not isinstance(namespace, str) or "v10r3r7" not in namespace.casefold():
-        raise R7Hold("R7 fresh output namespace missing")
+    allowed_namespace_tags = ("v10r3r7", "v10r3r8")
+    if (
+        not isinstance(namespace, str)
+        or not any(tag in namespace.casefold() for tag in allowed_namespace_tags)
+    ):
+        raise R7Hold("R7/R8 fresh output namespace missing")
     require_fresh_output_namespace(namespace)
     return {"sha256": actual_sha, "spec": spec, "output_namespace": namespace}
 
