@@ -1,0 +1,4 @@
+# Local Python test outputs; never part of source admission.
+__pycache__/
+*.py[cod]
+.pytest_cache/
