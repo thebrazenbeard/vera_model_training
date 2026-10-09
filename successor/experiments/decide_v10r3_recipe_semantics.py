@@ -395,8 +395,6 @@ def _main(argv=None) -> int:
             staged_name=args.staged_name,
             continuous_name=args.continuous_name,
         )
-        if args.output.exists():
-            raise RecipeEvalHold(f"decision output already exists:{args.output}")
     except (RecipeEvalHold, ValueError, json.JSONDecodeError) as exc:
         print(
             json.dumps(
@@ -411,11 +409,18 @@ def _main(argv=None) -> int:
         return 2
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        json.dumps(result, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-        newline="\n",
-    )
+    try:
+        # Create exclusively: another process may publish this path after
+        # decision evaluation. Never overwrite an existing custody result.
+        with args.output.open("x", encoding="utf-8", newline="\n") as handle:
+            handle.write(json.dumps(result, indent=2, sort_keys=True) + "\n")
+    except FileExistsError:
+        print(json.dumps({
+            "schema": "V10R3_RECIPE_SEMANTICS_DECISION_V1",
+            "status": "HOLD",
+            "reason": f"decision output already exists:{args.output}",
+        }, sort_keys=True))
+        return 2
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
 
