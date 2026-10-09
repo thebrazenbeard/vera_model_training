@@ -513,3 +513,33 @@ def test_recipe_semantics_validator_rejects_broken_stage_weight_continuity(
             expected_runtime_sha="runtime-a",
             expected_initial_digest="init-a",
         )
+
+
+def test_cli_does_not_overwrite_concurrent_decision_output(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    from successor.experiments import decide_v10r3_recipe_semantics as module
+
+    output = tmp_path / "decision.json"
+    output.write_text("independent writer", encoding="utf-8")
+    monkeypatch.setattr(
+        module, "run_recipe_semantics_decision", lambda **_kwargs: {"status": "PASS"}
+    )
+    # Simulate the old optimistic existence check observing a stale absence.
+    original_exists = Path.exists
+    monkeypatch.setattr(
+        Path, "exists",
+        lambda self: False if self == output else original_exists(self),
+    )
+    result = module._main([
+        "--evaluation", str(tmp_path / "evaluation.json"),
+        "--protocol", str(tmp_path / "protocol.json"),
+        "--staged-receipt", str(tmp_path / "staged.json"),
+        "--continuous-receipt", str(tmp_path / "continuous.json"),
+        "--output", str(output),
+    ])
+    assert result == 2
+    assert output.read_text(encoding="utf-8") == "independent writer"
+    reported = json.loads(capsys.readouterr().out)
+    assert reported["status"] == "HOLD"
+    assert "already exists" in reported["reason"]
