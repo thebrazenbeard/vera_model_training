@@ -1,0 +1,26 @@
+name: BT2 local-model budget gate
+
+on:
+  pull_request:
+    paths:
+      - "fast_bootcamp.py"
+      - "tests/test_bounded_llm_invalid_budget.py"
+      - ".github/workflows/bt2-budget-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  budget-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install bounded source dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+      - name: Verify no invalid budget reaches a model request
+        run: python -m pytest -q tests/test_bounded_llm_invalid_budget.py
