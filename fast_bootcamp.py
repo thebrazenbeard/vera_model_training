@@ -67,6 +67,8 @@ def _initial_token_budget(system: str, requested: int) -> int:
 
 
 def bounded_llm(system: str, user: str, max_tokens: int = 500, temperature: float = 0.2) -> str:
+    if type(max_tokens) is not int or max_tokens <= 0:
+        raise ValueError("max_tokens must be a positive integer")
     json_mode = _expects_json(system)
     base_max = _initial_token_budget(system, max_tokens)
     last = None
