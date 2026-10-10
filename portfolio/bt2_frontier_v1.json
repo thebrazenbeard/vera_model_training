@@ -1,0 +1,19 @@
+{
+  "schema": "BT2_CROSS_REPO_FRONTIER_V1",
+  "repository": "thebrazenbeard/vera_model_training",
+  "source_baseline": {
+    "observed_sha": "987a98ee1e12c7775779affcb02efafff348d392",
+    "source_only": true
+  },
+  "lane": "training-workbench",
+  "objective": "Qualify fail-closed exclusive output writes and reproducible training candidate provenance.",
+  "acceptance_invariant": "Proxy evaluation does not constitute installation, neural-weight training, or native identity qualification.",
+  "release_gates": {
+    "source_test": "REQUIRED",
+    "exact_head_review": "REQUIRED",
+    "installed_runtime": "NOT_CLAIMED",
+    "protected_effect_authority": false
+  },
+  "kind": "ADVISORY_SOURCE_ONLY",
+  "observed_at": "2026-10-09"
+}
